@@ -1,0 +1,202 @@
+/* Компоненты концепта «Расклад». Системный iOS-хром — в kernel/base.css.
+   Все свои имена с префиксом rk-, чтобы не столкнуться с ядром: класс,
+   объявленный с нуля в обоих местах, молча ломает страницу.
+   Шорткаты background и margin здесь не используются намеренно —
+   background сбрасывает background-image у .ph, margin глушит утилиты .mt*. */
+
+/* —— общие утилиты экранов —— */
+.rk-pad { padding:4px var(--margin) 20px; }
+/* Экраны БЕЗ таб-бара: вьюпорт прокрутки кончается выше home indicator.
+   Именно margin, а не padding: padding убирает перекрытие только в самом
+   конце прокрутки, а на середине строка всё равно проезжает под индикатором
+   и читается как перечёркнутая. margin уменьшает сам вьюпорт — перекрытия
+   нет ни при каком положении прокрутки. Пишем margin-bottom, не margin:
+   шорткат глушит утилиты .mt* из ядра. */
+.rk-safe { margin-bottom:var(--safe-bottom); }
+/* Колонка с прижатым к низу CTA. flex:none обязателен: без него дети колонки
+   сжимаются под высоту устройства и последняя строка текста режется краем
+   карточки — вместо того, чтобы экран прокрутился. */
+.rk-col { display:flex; flex-direction:column; }
+.rk-col > * { flex:none; }
+.rk-eyebrow {
+  font:500 11px/1.3 var(--face); letter-spacing:.06em; text-transform:uppercase;
+  color:rgba(60,60,67,.55);
+}
+.rk-quiet { padding:0 4px; }
+
+/* —— «Сегодня»: приглашение к вечерней практике —— */
+.rk-hero {
+  background-color:#fff; border-radius:16px; padding:18px 16px 16px;
+  box-shadow:0 0 0 .5px rgba(60,60,67,.1);
+}
+.rk-hero-title { font:700 24px/30px var(--face); letter-spacing:-.02em; color:#000; margin-top:6px; }
+.rk-hero-sub { font:400 15px/20px var(--face); color:rgba(60,60,67,.62); margin:6px 0 0; }
+/* Вторичное действие рядом с filled: plain accent во всю ширину, а не серая кнопка */
+.rk-second { justify-content:center; width:100%; min-height:44px; font-size:15px; font-weight:500; }
+
+/* —— панель с данными, нарисованными кодом —— */
+.rk-panel {
+  background-color:#fff; border-radius:14px; padding:14px;
+  box-shadow:0 0 0 .5px rgba(60,60,67,.1);
+}
+.rk-series { display:block; width:100%; max-width:308px; height:auto; margin:0 auto; }
+.rk-stats { display:flex; align-items:flex-start; gap:10px; margin-top:14px; padding-top:12px; border-top:.5px solid rgba(60,60,67,.14); }
+/* Тот же стрип без сетки вечеров над ним: отделять его нечем и не от чего */
+.rk-stats.rk-solo { margin-top:0; padding-top:0; border-top:0; }
+.rk-stat { flex:1; min-width:0; }
+.rk-stat b {
+  display:block; font:600 22px/1.1 var(--mono); letter-spacing:-.03em;
+  color:#000; font-variant-numeric:tabular-nums;
+}
+.rk-stat span { display:block; font:400 11px/14px var(--face); color:rgba(60,60,67,.55); margin-top:4px; }
+
+/* —— номер карты: опознавательный знак вместо картинки —— */
+.rk-num {
+  width:32px; height:32px; flex:none; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  background-color:color-mix(in srgb, var(--accent-fill) 14%, transparent);
+  color:var(--accent-fill); font:500 13px/1 var(--mono); font-variant-numeric:tabular-nums;
+}
+.rk-num.is-new { background-color:rgba(120,120,128,.14); color:rgba(60,60,67,.5); }
+.rk-num.lg { width:52px; height:52px; border-radius:12px; font-size:20px; }
+.rk-dur {
+  flex:none; font:500 13px/1 var(--mono); color:rgba(60,60,67,.5);
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em;
+}
+
+/* —— карта: аверс — плейсхолдер, опознают её имя и номер —— */
+.rk-cardtop { display:flex; align-items:flex-start; gap:16px; margin-top:6px; }
+.rk-face { width:126px; height:176px; flex:none; border-radius:12px; }
+.rk-cardmeta { min-width:0; padding-top:4px; }
+.rk-cardmeta .rk-num { margin-bottom:10px; }
+.rk-cardhead { display:flex; align-items:center; gap:14px; margin-top:14px; }
+.rk-q { font:400 17px/22px var(--face); color:#000; }
+.rk-cardname { font:700 26px/30px var(--face); letter-spacing:-.03em; color:#000; }
+.rk-qn {
+  width:24px; height:24px; flex:none; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; align-self:flex-start; margin-top:1px;
+  background-color:rgba(120,120,128,.16); color:rgba(60,60,67,.7);
+  font:600 12px/1 var(--face);
+}
+
+/* —— скан карты —— */
+.rk-scanhint {
+  position:absolute; left:24px; right:24px; top:calc(var(--safe-top) + 66px); z-index:3;
+  text-align:center; font:400 13px/18px var(--face); color:rgba(255,255,255,.78);
+}
+/* Окно скана держим по центру кадра: там же лежит иконка плейсхолдера
+   превью, и карта её закрывает — иначе она читается как посторонний значок. */
+.rk-scanwin { position:absolute; left:34px; right:34px; top:50%; transform:translateY(-50%); z-index:2; }
+.rk-scanwin img { width:100%; display:block; border-radius:10px; box-shadow:0 0 0 1px rgba(255,255,255,.2); }
+.rk-scanread {
+  margin-top:18px;
+  display:flex; align-items:center; justify-content:center; gap:8px; min-height:38px; padding:0 14px;
+  border-radius:999px; background-color:rgba(58,90,140,.9);
+  color:#fff; font:600 13px/1.2 var(--face); text-align:center;
+}
+.rk-scanread .ico-svg { width:16px; height:16px; flex:none; }
+
+/* —— плеер размышления —— */
+.rk-pl {
+  flex:1; min-height:0; display:flex; flex-direction:column;
+  padding:6px 20px 0; color:#fff; overflow:hidden;
+}
+.rk-pl-card { display:flex; align-items:center; gap:14px; margin-top:6px; }
+.rk-pl-face { width:62px; height:86px; flex:none; border-radius:10px; }
+.rk-pl-num { font:500 12px/1 var(--mono); letter-spacing:.02em; color:rgba(255,255,255,.55); }
+.rk-pl-title { font:700 26px/30px var(--face); letter-spacing:-.03em; margin-top:6px; }
+.rk-pl-sub { font:400 13px/18px var(--face); color:rgba(255,255,255,.6); margin-top:4px; }
+.rk-wave { display:block; width:100%; height:78px; margin-top:26px; }
+.rk-pl-time {
+  display:flex; justify-content:space-between; margin-top:8px;
+  font:500 12px/1 var(--mono); color:rgba(255,255,255,.5); font-variant-numeric:tabular-nums;
+}
+.rk-pl-controls { display:flex; align-items:center; justify-content:center; gap:34px; margin-top:26px; }
+.rk-pl-btn {
+  width:52px; height:52px; border-radius:50%; flex:none;
+  display:flex; align-items:center; justify-content:center; color:#fff;
+}
+.rk-pl-btn .ico-svg { width:24px; height:24px; }
+.rk-pl-btn.main { background-color:rgba(255,255,255,.16); }
+.rk-pl-btn.main .ico-svg { width:28px; height:28px; }
+.rk-pl-hint {
+  text-align:center; margin-top:18px;
+  font:400 13px/18px var(--face); color:rgba(255,255,255,.45);
+}
+/* Метки вопросов дорожки: данные, а не украшение — по ним видно, что внутри */
+.rk-cues { margin-top:22px; }
+.rk-cue {
+  display:flex; gap:12px; align-items:baseline; padding:9px 0;
+  border-top:.5px solid rgba(255,255,255,.12);
+  font:400 14px/19px var(--face); color:rgba(255,255,255,.5);
+}
+.rk-cue span {
+  flex:none; width:42px; font:500 12px/1 var(--mono);
+  color:rgba(255,255,255,.38); font-variant-numeric:tabular-nums;
+}
+.rk-cue.is-on { color:#fff; }
+.rk-cue.is-on span { color:var(--accent); }
+
+/* —— локскрин: Now Playing —— */
+.rk-np {
+  margin-top:auto; border-radius:22px; padding:16px;
+  background-color:rgba(38,44,58,.58); backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px);
+}
+.rk-np-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.rk-np-app { font:600 12px/1 var(--face); opacity:.72; }
+.rk-np-state { font:500 11px/1 var(--face); opacity:.45; }
+.rk-np-body { display:flex; gap:12px; align-items:center; }
+.rk-np-face { width:58px; height:58px; flex:none; border-radius:12px; }
+.rk-np-title { font:600 16px/1.2 var(--face); }
+.rk-np-sub { font:400 13px/1.2 var(--face); opacity:.65; margin-top:3px; }
+.rk-np-bar { height:4px; border-radius:2px; margin-top:14px; background-color:rgba(255,255,255,.22); overflow:hidden; }
+.rk-np-bar i { display:block; height:100%; border-radius:2px; background-color:#fff; }
+.rk-np-time {
+  display:flex; justify-content:space-between; margin-top:6px;
+  font:500 11px/1 var(--mono); opacity:.5; font-variant-numeric:tabular-nums;
+}
+.rk-np-controls { display:flex; justify-content:center; gap:36px; align-items:center; margin-top:14px; color:#fff; }
+.rk-np-note { text-align:center; margin-top:14px; font:500 12px/1.4 var(--face); opacity:.55; }
+
+/* —— прогресс по колоде —— */
+.rk-deckhead { display:flex; align-items:flex-start; gap:14px; }
+.rk-deckcount {
+  flex:none; font:600 30px/1 var(--mono); letter-spacing:-.03em; color:#000;
+  font-variant-numeric:tabular-nums;
+}
+.rk-deckcount small { display:block; font:500 12px/1 var(--face); color:rgba(60,60,67,.5); margin-top:6px; letter-spacing:0; }
+.rk-deckbar { display:block; width:100%; height:auto; margin-top:14px; }
+.rk-legend { display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:10px; font:400 11px/16px var(--face); color:rgba(60,60,67,.6); }
+.rk-legend span { display:inline-flex; align-items:center; gap:6px; }
+.rk-dot { width:9px; height:9px; border-radius:3px; flex:none; background-color:var(--accent-fill); }
+.rk-dot.is-next { background-color:#fff; box-shadow:inset 0 0 0 1.6px var(--accent-fill); }
+.rk-dot.is-idle { background-color:#c6cfdd; }
+
+/* —— дневник практики —— */
+.rk-snip {
+  font:400 13px/18px var(--face); color:rgba(60,60,67,.6); margin-top:3px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.rk-thumb { width:40px; height:40px; flex:none; border-radius:8px; }
+.rk-note { font:400 15px/21px var(--face); color:#111; }
+.rk-shot { padding:0; }
+.rk-shot-img { height:118px; border-radius:12px; }
+
+/* —— подсказка «где искать метку» на экране ручного ввода —— */
+.rk-hintpanel { display:flex; align-items:center; gap:14px; margin-top:16px; }
+.rk-markerhint { width:118px; height:auto; flex:none; display:block; border-radius:8px; }
+
+/* Профиль: вместо аватарки — знак приложения. Своего лица у практики нет,
+   а градиентный кружок из ядра спорит с акцентом концепта. */
+.auth-mark.sm { width:44px; height:44px; border-radius:12px; }
+
+/* —— системный PHPicker —— */
+.rk-pgrid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:2px; }
+.rk-pgrid > .ph { aspect-ratio:1; }
+.ph.is-picked { box-shadow:inset 0 0 0 3px var(--accent-fill); }
+.rk-pick {
+  position:absolute; top:6px; right:6px; z-index:2;
+  width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background-color:var(--accent-fill); color:#fff;
+}
+.rk-pick .ico-svg { width:13px; height:13px; stroke-width:3; }

@@ -1,0 +1,15 @@
+# Единственный конфиг деплоя. Собирается ВСЁ: галерея в корне + каждый концепт
+# по своему подпути (/petlya/, /shellac/, ...). Сборка живёт в platform/.
+[build]
+  base = "platform"
+  publish = "dist"
+  command = "npm run build:all"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Доки концептов отдаём как текст, чтобы браузер их показывал, а не скачивал.
+[[headers]]
+  for = "/*/docs/*.md"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"

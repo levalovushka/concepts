@@ -1,0 +1,65 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">«Праймер» — мастерская для тех, кто красит миниатюры и сборные модели. Два ограничения задают весь продукт: {{INSIGHT}}.</p>
+  <div class="utp-box">
+    <strong>УТП.</strong> {{TAGLINE}}: курс звучит в наушниках и не обрывается при погасшем экране, штрихкод баночки открывает карточку с аналогами трёх других брендов и рецептом замеса, а пипетка снимает оттенки с вашего референса прямо в палитру проекта.
+  </div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение. 4 ключа, ни одного лишнего.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Мастерклассы</span></div>
+  <div class="flow"><span class="chip">Мастеркласс</span><span class="arr">→</span><span class="chip">Background audio</span><span class="arr">→</span><span class="chip">Локскрин Now Playing</span></div>
+  <div class="flow"><span class="chip">Мастеркласс</span><span class="arr">→</span><span class="chip">Шаги и краски</span><span class="arr">→</span><span class="chip">Палитра шага</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Штрихкод баночки</span><span class="arr">→</span><span class="chip">Аналоги и замес</span></div>
+  <div class="flow"><span class="chip">Скан</span><span class="arr">→</span><span class="chip">не прочитался</span><span class="arr">→</span><span class="chip">Код краски вручную</span><span class="arr">→</span><span class="chip">та же карточка</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Пипетка по референсу</span><span class="arr">→</span><span class="chip">Свотчи в палитру</span></div>
+  <div class="flow"><span class="chip">Пипетка</span><span class="arr">→</span><span class="chip">оттенка нет в красках</span><span class="arr">→</span><span class="chip">Свой оттенок вручную</span></div>
+  <div class="flow"><span class="chip">Профиль</span><span class="arr">→</span><span class="chip">aps-environment</span><span class="arr">→</span><span class="chip">Бродкаст студии</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Course · Step · PlaybackSession · Project · Palette · Swatch · Paint · PaintPack · MixRecipe · Note</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Playback (AVAudioSession, MPNowPlayingInfoCenter, MPRemoteCommandCenter) · BarcodeScanner (DataScannerViewController) · MediaPicker (PHPicker) · PixelSampler (CGImage) · PaintMatcher (ΔE по Lab, замес) · Push (SDK провайдера) · PhoneAuth (SDK провайдера)</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — проекты, палитры, свотчи, заметки к шагам, прогресс курса. Keychain — токен входа. FileManager — скачанные дорожки. Контент-пак и пак красок — статические <code>lessons.json</code> / <code>paints.json</code>, только чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака · APNs через SDK провайдера · SDK входа по номеру. Больше ничего: подбор аналога, ΔE и пропорции замеса считаются на устройстве.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+      <p><strong>Ключ <code>com.apple.developer.associated-domains</code> из пресета не заявлен.</strong> Диплинков в концепте нет вообще: ни Universal Links, ни приёма чужих ссылок, ни экранов-превью. Заявлять ключ без видимой фичи нельзя, поэтому он остаётся неотработанным — решение принимает человек.</p>
+      <p><strong>Микрофон в наборе отсутствует и не добавлен.</strong> Курс здесь только слушают: записи звука, голосовых команд и заметок голосом в сборке нет, значит и <code>NSMicrophoneUsageDescription</code> нет.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Приложение однопользовательское: ни аккаунтов, ни ленты чужого контента, ни модерации. Всё, что раньше требовало сервера, заменено клиентским решением или статикой. Пак красок — самая «серверная» часть продукта, и она лежит в сборке.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
+
+  <section class="section" id="tokens">
+    <h2>Дизайн-токены</h2>
+    <p class="deck">Акцент холодный намеренно: на экране всегда есть свотчи красок, и тёплый акцент начал бы с ними спорить. Иммерсивные поверхности — плеер, камера, пипетка; светлые grouped — палитры и настройки. Данные (hex, ΔE, таймкоды, номера шагов) всегда моно.</p>
+    <div class="feat-grid">
+      <div class="feat"><b>Accent</b><span>#2b6b8f · #6ac6ee в тёмной теме и на иммерсивных экранах <code>--pm-tint</code></span></div>
+      <div class="feat"><b>Device</b><span>375×812 · radius 32 · safe areas 47 / 34</span></div>
+      <div class="feat"><b>Type</b><span>Geist 400–700 · Geist Mono для hex, ΔE и таймкодов</span></div>
+      <div class="feat"><b>Медиа</b><span>Фотографий нет — плейсхолдер <code>.ph</code>. Кодом рисуются только данные: <code>media.mjs</code></span></div>
+    </div>
+  </section>

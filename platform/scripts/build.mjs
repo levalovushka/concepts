@@ -1,0 +1,277 @@
+#!/usr/bin/env node
+/**
+ * Сборка одного концепта: спека + экраны + ядро → самодостаточный index.html.
+ *
+ *   node scripts/build.mjs petlya
+ *
+ * Артефакт монолитный намеренно: открывается по file://, отдаётся
+ * разработчикам как есть, деплоится копированием.
+ */
+import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync, rmSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { join } from 'node:path';
+import { KERNEL, DIST, conceptDir, readSpec, readMarkup, engineData, fill, esc, RISK_LABEL, listConcepts } from './lib.mjs';
+import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
+
+const read = (f) => readFileSync(f, 'utf8');
+
+/* ——— генерируемые из спеки блоки страницы ——— */
+
+const permMatrix = (spec) => `<div class="table-wrap">
+  <table class="doc-table">
+    <thead><tr><th>Ключ</th><th>Жест пользователя</th><th>Экран</th><th>Если отказ</th><th>Риск Review</th></tr></thead>
+    <tbody>
+${spec.permissions.map((p) => {
+  const risk = p.conditional
+    ? `<strong>Условный</strong> — ${esc(p.requires)}`
+    : RISK_LABEL[p.risk] || p.risk;
+  return `      <tr><td><code>${esc(p.plist)}</code></td><td>${esc(p.gesture)}</td><td>${esc(titleOf(spec, p.screen))}</td><td>${esc(p.fallback)}</td><td>${risk}</td></tr>`;
+}).join('\n')}
+    </tbody>
+  </table>
+</div>`;
+
+const backendlessTable = (spec) => `<div class="table-wrap">
+  <table class="doc-table">
+    <thead><tr><th>Нужно было бы серверу</th><th>Решение без сервера</th></tr></thead>
+    <tbody>
+${spec.backendless.map((b) => `      <tr><td>${b.needs}</td><td>${b.solution}</td></tr>`).join('\n')}
+    </tbody>
+  </table>
+</div>`;
+
+const screenTable = (spec) => `<div class="table-wrap">
+  <table class="doc-table">
+    <thead><tr><th>Экран</th><th>Тип</th><th>Доступы</th></tr></thead>
+    <tbody>
+${spec.screens.map((s) => {
+  const on = spec.permissions.filter((p) => p.screen === s.id)
+    .map((p) => p.key + (p.activate ? ' (activate)' : '')).join(', ') || '—';
+  return `      <tr><td>${s.id}</td><td>${esc(s.type)}</td><td>${esc(on)}</td></tr>`;
+}).join('\n')}
+    </tbody>
+  </table>
+</div>`;
+
+const featGrid = (spec) => `<div class="feat-grid">
+${spec.permissions.map((p) =>
+  `  <div class="feat"><b>${esc(p.feature)}</b><span>${esc(p.grounding || '')}<code> ${esc(p.plist)}</code></span></div>`
+).join('\n')}
+</div>`;
+
+const docsLinks = (spec) =>
+  (spec.docs || []).map((d) => `<a href="docs/${d.file}">${esc(d.label)}</a>`).join('\n      ') +
+  `\n      <a class="zip" href="docs/${spec.slug}-docs.zip" download>Скачать все (ZIP)</a>`;
+
+const titleOf = (spec, id) => spec.screens.find((s) => s.id === id)?.title || id;
+
+/** «Скачать все (ZIP)» должен содержать те же документы, что лежат рядом. */
+function packDocs(slug, dir) {
+  const docs = join(dir, 'docs');
+  if (!existsSync(docs)) return;
+  const zip = `${slug}-docs.zip`;
+  try {
+    rmSync(join(docs, zip), { force: true });
+    execFileSync('zip', ['-q', zip, ...readdirSync(docs).filter((f) => f.endsWith('.md'))], { cwd: docs });
+  } catch {
+    console.warn(`внимание: не удалось пересобрать ${zip} — нужен CLI zip`);
+  }
+}
+
+/** Бренд-переопределения поверх нейтральных дефолтов ядра. */
+const brandCss = (b) => `
+/* —— бренд концепта —— */
+:root { --accent:${b.accent}; --accent-fill:${b.accent}; }
+@media (prefers-color-scheme: dark) { :root { --accent:${b.accentDark}; --accent-fill:${b.accent}; } }
+:root[data-theme="dark"] { --accent:${b.accentDark}; --accent-fill:${b.accent}; }
+:root[data-theme="light"] { --accent:${b.accent}; --accent-fill:${b.accent}; }`;
+
+/* ——— прототипы ——— */
+
+/**
+ * Разметка экрана, привязанная к конкретному прототипу: ids уникальны на странице.
+ * В сценарном срезе вкладки чужих разделов гасятся — они показывают, где мы,
+ * но никуда не ведут. Любая другая утечка за границы сценария — ошибка сборки.
+ */
+function screenFor(proto, id, markup, own, isStop) {
+  let out = markup.replace(/id="scr-([a-z]+)"/, `id="pr-${proto}-$1" data-screen="$1"`);
+  if (isStop) return asStop(out);
+  if (!own) return out;
+  return out.replace(/<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, (bar) =>
+    bar.replace(/<div class="([^"]*)"([^>]*?)\sdata-go="([a-z]+)"([^>]*)>/g, (m, cls, mid, target, tail) =>
+      own.has(target) ? m : `<div class="${cls} is-off"${mid}${tail}>`));
+}
+
+/** Вкладки таб-бара, отключённые в срезе, не считаются переходами. */
+const stripTabbar = (markup) => markup.replace(/<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, '');
+
+/**
+ * Тупиковый экран сценария: показываем, куда ведёт строка, но дальше не пускаем.
+ * Так срез остаётся замкнутым, не втягивая всё приложение.
+ */
+const asStop = (markup) => markup
+  .replace(/ data-(?:go|jump|back|ask|activate|toast)="[^"]*"/g, '')
+  .replace(/ class="([^"]*)\btap\b([^"]*)"/g, ' class="$1$2"');
+
+/** Все цели переходов, встречающиеся в разметке экрана. */
+function targetsIn(markup) {
+  const out = [];
+  const push = (v) => { if (v) out.push(v); };
+  for (const m of markup.matchAll(/data-(?:go|jump)="([a-z]+)"/g)) push(m[1]);
+  for (const m of markup.matchAll(/data-ask="[^"]*?\|([a-z]*)\|?([a-z]*)"/g)) { push(m[1]); push(m[2]); }
+  for (const m of markup.matchAll(/data-activate="[^"|]*\|([a-z]+)"/g)) push(m[1]);
+  for (const m of markup.matchAll(/data-toast="[^"|]*\|([a-z]+)"/g)) push(m[1]);
+  return out;
+}
+
+const deviceShell = (proto, screensHtml, ledgerId) => `<div class="device" id="pr-${proto.id}" data-proto="${proto.id}" data-start="${proto.start}"${ledgerId ? ` data-ledger="${ledgerId}"` : ''}>
+          <div class="status">
+            <span>9:41</span>
+            <span class="status-right" aria-hidden="true">
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg>
+            </span>
+          </div>
+          <div class="screens">
+${screensHtml}
+          </div>
+          <div class="sysask">
+            <div class="sysask-card" role="alertdialog" aria-modal="true">
+              <div class="sysask-body">
+                <div class="sysask-title"></div>
+                <div class="sysask-text"></div>
+              </div>
+              <div class="sysask-actions">
+                <button type="button" data-answer="deny">Запретить</button>
+                <button type="button" data-answer="grant">Разрешить</button>
+              </div>
+            </div>
+          </div>
+          <div class="snackbar" role="status" aria-live="polite">
+            <span class="snackbar-ok" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+            </span>
+            <div class="snackbar-text"></div>
+            <div class="snackbar-action">Настройки</div>
+          </div>
+        </div>`;
+
+const controls = `<div class="controls">
+          <button class="ctl" type="button" data-act="hints" aria-pressed="false">Показать, что нажимается</button>
+          <button class="ctl" type="button" data-act="reset">Начать заново</button>
+        </div>`;
+
+/* ——— сборка ——— */
+
+export function build(slug, { outDir } = {}) {
+  const spec = readSpec(slug);
+  const dir = conceptDir(slug);
+
+  const markup = readMarkup(slug, spec);
+
+  /* Карта экранов — из тех же байтов, что прототип. Экран, в который не ведёт
+     ни один переход, в собранном файле выглядит полноценным: увидеть его можно
+     только через раздел «Экраны», а пройти — никак. Это ошибка сборки. */
+  const graph = screenGraph(spec, markup);
+  if (graph.problems.length) {
+    throw new Error(`${slug}: карта экранов не сходится —\n  · ` + graph.problems.join('\n  · '));
+  }
+
+  const protos = spec.prototypes || [];
+  const hero = protos.find((p) => p.hero) || protos[0];
+  if (!hero) throw new Error(`${slug}: в спеке нет ни одного прототипа`);
+
+  /* Сценарный прототип обязан быть замкнут: переход в отсутствующий экран —
+     это тупик, который в собранном файле уже не виден. */
+  for (const p of protos) {
+    const own = new Set(p.screens);
+    const stops = new Set(p.stops || []);
+    if (!own.has(p.start)) throw new Error(`${slug}/${p.id}: стартовый экран ${p.start} не входит в сценарий`);
+    for (const s of stops) if (!own.has(s)) throw new Error(`${slug}/${p.id}: тупик ${s} не входит в сценарий`);
+    if (stops.has(p.start)) throw new Error(`${slug}/${p.id}: стартовый экран не может быть тупиком`);
+    const dangling = new Set();
+    for (const id of p.screens) {
+      if (!markup[id]) throw new Error(`${slug}/${p.id}: экрана ${id} нет в спеке`);
+      if (stops.has(id)) continue;
+      const body = p.hero ? markup[id] : stripTabbar(markup[id]);
+      for (const t of targetsIn(body)) if (!own.has(t)) dangling.add(`${id}→${t}`);
+    }
+    if (dangling.size) throw new Error(`${slug}/${p.id}: переходы за пределы сценария — ${[...dangling].join(', ')}`);
+  }
+
+  const heroDevice = deviceShell(hero, hero.screens.map((id) => screenFor(hero.id, id, markup[id])).join('\n\n'), 'perms')
+    + '\n        ' + controls;
+
+  const protoCards = protos.filter((p) => p !== hero).map((p) => `<div class="proto-card">
+        <div class="proto-head">
+          <div class="proto-label">${esc(p.label)}</div>
+          <div class="proto-note">${esc(p.note || '')}</div>
+        </div>
+        ${deviceShell(p, p.screens.map((id) => screenFor(p.id, id, markup[id], new Set(p.screens), (p.stops || []).includes(id))).join('\n\n'))}
+        <div class="proto-count is-zero">Доступы пока не запрашивались</div>
+        ${controls}
+      </div>`).join('\n      ');
+
+  const styles = existsSync(join(dir, 'styles.css')) ? read(join(dir, 'styles.css')) : '';
+  const rawSections = existsSync(join(dir, 'sections.html')) ? read(join(dir, 'sections.html')) : '';
+  const grab = (name) => {
+    const m = rawSections.match(new RegExp(`<!-- @overview:${name} -->([\\s\\S]*?)<!-- @end -->`));
+    return m ? m[1].trim() : '';
+  };
+  const sections = rawSections.replace(/<!-- @overview:[a-z]+ -->[\s\S]*?<!-- @end -->/g, '').trim();
+
+  const html = fill(read(join(KERNEL, 'page.html')), {
+    NAME: esc(spec.name),
+    SLUG: spec.slug,
+    HERO_TITLE: esc(spec.heroTitle || spec.name),
+    TAGLINE_SENTENCE: esc(spec.heroDeck || spec.tagline),
+    EYEBROW: esc(spec.eyebrow || spec.name),
+    DECK: esc(spec.deck || spec.tagline),
+    FONT_QUERY: spec.brand.fonts,
+    CSS: [read(join(KERNEL, 'base.css')), brandCss(spec.brand), styles].join('\n'),
+    ICON_SPRITE: read(join(KERNEL, 'icons.svg')).trim(),
+    HERO_DEVICE: heroDevice,
+    PROTO_CARDS: protoCards,
+    VISION_BODY: grab('vision'),
+    ARCH_BODY: grab('arch'),
+    DOCS_LINKS: docsLinks(spec),
+    LEDGER_INTRO: `${spec.permissions.length} ключей. Каждый запрашивается в момент действия и стоит за фичей, которую видно в интерфейсе. Домен ссылок — только <code style="font-family:var(--mono);font-size:12px">${esc(spec.domain)}</code>.`,
+    SECTIONS: sections,
+    PERM_MATRIX: permMatrix(spec),
+    BACKENDLESS: backendlessTable(spec),
+    SCREEN_TABLE: screenTable(spec),
+    IA_MAP: iaTree(graph),
+    TRANSITIONS: transitionTable(graph),
+    FEAT_GRID: featGrid(spec),
+    TAGLINE: esc(spec.tagline),
+    INSIGHT: esc(spec.insight),
+    CONCEPT_DATA: JSON.stringify(engineData(spec)),
+    ENGINE: read(join(KERNEL, 'engine.js')),
+  });
+
+  const left = html.match(/\{\{[A-Z_]+\}\}/g);
+  if (left) throw new Error(`${slug}: незаполненные слоты — ${[...new Set(left)].join(', ')}`);
+
+  packDocs(slug, dir);
+
+  const out = outDir || join(DIST, slug);
+  rmSync(out, { recursive: true, force: true });
+  mkdirSync(out, { recursive: true });
+  writeFileSync(join(out, 'index.html'), html);
+  for (const sub of ['assets', 'docs']) {
+    if (existsSync(join(dir, sub))) cpSync(join(dir, sub), join(out, sub), { recursive: true });
+  }
+  return { spec, out, bytes: html.length };
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const slug = process.argv[2];
+  if (!slug) {
+    console.error('нужен slug. доступны:', listConcepts().join(', '));
+    process.exit(1);
+  }
+  const r = build(slug);
+  console.log(`собран ${slug}: ${r.out} · ${(r.bytes / 1024).toFixed(0)} КБ · ${r.spec.screens.length} экранов · `
+    + `${(r.spec.prototypes || []).length} прототипов · ${r.spec.permissions.length} доступов`);
+}

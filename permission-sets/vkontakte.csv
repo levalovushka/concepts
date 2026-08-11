@@ -1,0 +1,69 @@
+❇️,Must have
+♿️,Nice to Have (50\50)
+❌,не делаем
+,
+,[В итоге пытаемся занести]
+,
+❇️,aps-environment
+♿️,com.apple.developer.associated-domains
+❇️,com.apple.security.application-groups
+❇️,keychain-access-groups
+,
+❇️,NSCameraUsageDescription
+❇️,NSPhotoLibraryUsageDescription
+❇️,NSMicrophoneUsageDescription
+❇️,NSLocationWhenInUseUsageDescription
+,
+❇️,UIBackgroundModes/fetch
+❇️,UIBackgroundModes/remote-notification
+❇️,BGTaskSchedulerPermittedIdentifiers
+,
+♿️,NSUserTrackingUsageDescription (ads)
+,
+♿️,NSContactsUsageDescription
+♿️,NSSpeechRecognitionUsageDescription
+❇️,com.apple.developer.authentication-services.autofill-credential-provider
+♿️,NSFaceIDUsageDescription + Biometry
+,
+♿️,UIBackgroundModes/voip
+♿️,NSCalendarsFullAccessUsageDescription
+♿️,UIBackgroundModes/audio
+❇️,com.apple.developer.usernotifications.communication
+,
+[No problem capability ???],
+,
+❇️,com.apple.developer.networking.wifi-info
+♿️,com.apple.developer.networking.HotspotConfiguration
+,
+,
+,[В итоге пытаемся убрать]
+,
+❌,com.apple.developer.healthkit
+❌,com.apple.developer.healthkit.access
+❌,com.apple.developer.healthkit.background-delivery
+,
+"[Не хотелось бы нести, если нет подводных камней]",
+,
+❌,com.apple.developer.applesignin
+,
+[Убираем так как не делаем extension],
+,
+❌,com.apple.developer.siri
+❌,NSSiriUsageDescription
+,
+"[Убираем, так как письменно запрашивается или требует реального описания]",
+,
+❌,com.apple.developer.networking.multicast
+❌,NSLocalNetworkUsageDescription
+❌,com.apple.developer.carplay-audio
+❌,in-app purchase
+,
+,"[Убираем, так как не нашли использование]"
+,
+❌,NSBluetoothAlwaysUsageDescription
+,
+,
+,
+,Дополнительно к capabilities продумать:
+,
+,ShareExtension (поделиться из вне приложения)

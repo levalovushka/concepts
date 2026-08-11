@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="236" viewBox="0 0 300 236">
+  <text x="21" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">ПН</text>
+  <text x="64" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">ВТ</text>
+  <text x="107" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">СР</text>
+  <text x="150" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">ЧТ</text>
+  <text x="193" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">ПТ</text>
+  <text x="236" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">СБ</text>
+  <text x="279" y="14" font-family="Geist, system-ui, sans-serif" font-size="11" font-weight="500" fill="#8d97a8" text-anchor="middle">ВС</text>
+  <rect x="4" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="47" y="26" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="90" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="133" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="176" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="219" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="262" y="26" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="4" y="69" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="47" y="69" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="90" y="69" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="133" y="69" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="176" y="69" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="219" y="69" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="262" y="69" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="4" y="112" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="47" y="112" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="90" y="112" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="133" y="112" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="176" y="112" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="219" y="112" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="262" y="112" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="4" y="155" width="34" height="34" rx="9" fill="#dfe4ed"/>
+  <rect x="47" y="155" width="34" height="34" rx="9" fill="#a0b0c8"/>
+  <rect x="90" y="155" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="133" y="155" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="176" y="155" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="219" y="155" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="262" y="155" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="4" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="47" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="90" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="133" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="176" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="219" y="198" width="34" height="34" rx="9" fill="#3a5a8c"/>
+  <rect x="262" y="198" width="34" height="34" rx="9" fill="#3a5a8c" stroke="#1b2330" stroke-width="2"/>
+</svg>

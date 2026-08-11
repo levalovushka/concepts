@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NAME}} — концепт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{FONT_QUERY}}&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light dark">
+<style>
+{{CSS}}
+</style>
+
+{{ICON_SPRITE}}
+
+<header class="topbar">
+  <div class="topbar-brand">{{NAME}}</div>
+  <nav class="topnav" aria-label="Разделы">
+    <button type="button" class="is-on" data-tab="overview">Overview</button>
+    <button type="button" data-tab="prototypes">Прототипы</button>
+    <button type="button" data-tab="screens">Экраны</button>
+    <button type="button" data-tab="docs">Документы</button>
+  </nav>
+  <a class="topbar-dl" href="docs/{{SLUG}}-docs.zip" download>Скачать файлы</a>
+</header>
+
+<main class="doc">
+
+  <!-- ══ OVERVIEW ══ -->
+  <section class="tabview is-on" id="tab-overview">
+    <div class="panel overview-hero">
+      <div class="hero-device">{{HERO_DEVICE}}</div>
+      <div class="hero-text">
+        <h1>{{HERO_TITLE}}</h1>
+        <p class="deck">{{TAGLINE_SENTENCE}}</p>
+        <div class="ledger" id="perms"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title">Продуктовый вижен</h2>
+      {{VISION_BODY}}
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title">Информационная архитектура</h2>
+      <p class="ia-lead">Где лежит каждый экран, чем он открывается и какие доступы спрашивает. Дерево собрано из разметки прототипа и спеки, поэтому разойтись с ними не может. Полная карта переходов — в разделе «Документы».</p>
+      {{IA_MAP}}
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-title">Архитектура и ключевые сценарии</h2>
+      {{ARCH_BODY}}
+    </div>
+  </section>
+
+  <!-- ══ ПРОТОТИПЫ ══ -->
+  <section class="tabview" id="tab-prototypes">
+    <p class="tab-lead">Каждый сценарий — отдельный кликабельный прототип со своим журналом доступов. Нажмите «Начать заново», чтобы пройти путь с чистого листа.</p>
+    <div class="proto-grid">{{PROTO_CARDS}}</div>
+  </section>
+
+  <!-- ══ ЭКРАНЫ ══ -->
+  <section class="tabview" id="tab-screens">
+    <p class="tab-lead">Все экраны концепта, включая состояния отказа и ошибок. Нажмите — откроется в прототипе на Overview.</p>
+    <div class="shot-grid" id="shot-grid"><!-- заполняется скриптом --></div>
+  </section>
+
+  <!-- ══ ДОКУМЕНТЫ ══ -->
+  <section class="tabview" id="tab-docs">
+    <p class="tab-lead">Спека концепта: вижен, архитектура, дизайн-система, референсы, визуальный аудит и карточка App Store.</p>
+    <nav class="docs-links" aria-label="Документы концепта">{{DOCS_LINKS}}</nav>
+
+    <section class="section" id="ia-transitions">
+      <h2>Карта экранов и переходов</h2>
+      <p class="deck">Откуда куда попадаем и что можно сделать: каждая строка — реальный элемент прототипа. Таблица выведена из разметки, поэтому действия, которого в сборке нет, здесь не будет.</p>
+      {{TRANSITIONS}}
+    </section>
+
+    {{SECTIONS}}
+  </section>
+
+</main>
+
+<script>
+window.__CONCEPT__ = {{CONCEPT_DATA}};
+</script>
+<script>
+{{ENGINE}}
+</script>
+</html>

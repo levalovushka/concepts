@@ -1,0 +1,61 @@
+<div class="screen ios-surface" id="scr-scanfail" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading"><div class="btn-plain tap" data-back>Отмена</div></div>
+              <div class="title">Код краски</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll" style="display:flex;flex-direction:column;padding:8px var(--margin) 0">
+              <div class="errbox" data-hide-denied="camera">
+                <div class="errbox-ico" aria-hidden="true">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                </div>
+                <div class="grow">
+                  <div class="t-headline">Штрихкод не прочитался</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Наклейка залита краской, смята или закрыта пальцем. Чтение идёт на устройстве — в интернет ничего не уходило.</p>
+                </div>
+              </div>
+              <div class="errbox perm-hidden" data-show-denied="camera">
+                <div class="errbox-ico" aria-hidden="true">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                </div>
+                <div class="grow">
+                  <div class="t-headline">Камера недоступна</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Доступ к камере отклонён — сканировать нечем. Впишите код с баночки сами или включите камеру в Настройках.</p>
+                </div>
+              </div>
+              <div class="pm-retry" data-hide-denied="camera">
+                <div class="btn-tinted block tap" data-back>Сканировать ещё раз</div>
+              </div>
+
+              <div class="group-head">Код с баночки</div>
+              <div class="ios-list pm-gap">
+                <div class="row">
+                  <div class="field-label">Бренд</div>
+                  <input class="field-input" type="text" value="Ferrum Colors" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Код</div>
+                  <input class="field-input" type="text" placeholder="FC-4127" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Название</div>
+                  <input class="field-input" type="text" placeholder="Rust Brown" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Объём</div>
+                  <input class="field-input" type="text" placeholder="17 ml" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Финиш</div>
+                  <input class="field-input" type="text" placeholder="матовый" readonly>
+                </div>
+              </div>
+              <p class="t-footnote pm-tail">Код и бренд — то, ради чего это всё: по ним пак красок находит аналоги в других линейках. Без кода останется только оттенок на глаз.</p>
+
+              <div class="push"></div>
+              <div class="cta-col" style="padding-left:0;padding-right:0">
+                <div class="btn-filled block" data-jump="paint">Найти краску</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

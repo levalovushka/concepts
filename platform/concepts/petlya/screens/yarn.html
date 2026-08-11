@@ -1,0 +1,63 @@
+<div class="screen ios-surface" id="scr-yarn" style="background:#fff">
+            <div class="navbar">
+              <div class="nav-leading"><div class="btn-plain tap" data-back>Закрыть</div></div>
+              <div class="title">Магазины пряжи</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll" style="padding:0;display:flex;flex-direction:column;background:#fff">
+              <div class="map-fake">
+                <div class="map-pin" style="left:22%;top:26%"></div>
+                <div class="map-pin" style="left:38%;top:34%"></div>
+                <div class="map-pin" style="left:62%;top:22%"></div>
+                <div class="map-pin" style="left:80%;top:44%"></div>
+                <div class="map-pin me" style="left:47%;top:52%" data-hide-denied="location"></div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;padding:4px 16px 0">
+                <div class="searchfield">
+                  <svg class="ico-svg" style="width:16px;height:16px"><use href="#i-search"/></svg>
+                  <span class="sf-text">Магазины пряжи</span>
+                </div>
+
+                <div data-hide-denied="location">
+                  <div class="sheet-title" style="font-size:24px;line-height:30px">4 магазина рядом</div>
+                  <div class="t-subhead" style="margin:0 0 16px">Поиск по картам Apple — по вашей геопозиции</div>
+                </div>
+                <div class="perm-hidden" data-show-denied="location">
+                  <div class="sheet-title" style="font-size:24px;line-height:30px">4 магазина в городе</div>
+                  <div class="t-subhead" style="margin:0 0 16px">Поиск по картам Apple. Город указан вручную — расстояний не покажем</div>
+                  <div class="ios-list" style="background:#f2f2f7;margin-bottom:16px">
+                    <div class="row" style="background:#f2f2f7">
+                      <div class="field-label">Город</div>
+                      <input class="field-input" type="text" value="Санкт-Петербург" readonly>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ios-list" style="background:#f2f2f7;margin-bottom:14px">
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow"><div class="t-body">Клубок и спицы</div><div class="t-caption">ул. Садовая, 12 · открыто до 20:00</div></div>
+                    <div class="dist" data-hide-denied="location">450 м</div>
+                  </div>
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow"><div class="t-body">Дом пряжи</div><div class="t-caption">пр. Мира, 8 · открыто до 21:00</div></div>
+                    <div class="dist" data-hide-denied="location">1,2 км</div>
+                  </div>
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow"><div class="t-body">Иголка и нитка</div><div class="t-caption">ул. Гоголя, 41 · открыто до 19:00</div></div>
+                    <div class="dist" data-hide-denied="location">2,1 км</div>
+                  </div>
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow"><div class="t-body">Шерсть &amp; Хлопок</div><div class="t-caption">ул. Лесная, 3 · закрыто</div></div>
+                    <div class="dist is-off" data-hide-denied="location">2,8 км</div>
+                  </div>
+                </div>
+                <p class="t-footnote" style="margin:0">Показываем сами магазины, а не наличие товара: что лежит на полке, знает только магазин — уточните по телефону.</p>
+                <p class="t-footnote perm-hidden" style="color:var(--accent-fill);margin:10px 0 0" data-show-denied="location">Без геопозиции сортируем по названию, а не по близости.</p>
+                <div class="push"></div>
+              </div>
+              <div class="cta-col">
+                <div class="btn-filled block" data-back>Готово</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300">
+  <defs>
+    <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbf8f2"/><stop offset="100%" stop-color="#eee7db"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="300" rx="10" fill="url(#pg)"/>
+  <rect x="10" y="10" width="500" height="280" rx="6" fill="none" stroke="#0d8a7a" stroke-width="2.5"/>
+  <text x="36" y="66" font-family="Outfit, sans-serif" font-weight="700" font-size="30" fill="#14181a">MERINO SOFT</text>
+  <text x="36" y="94" font-family="Outfit, sans-serif" font-size="15" fill="#667078">100% меринос · extrafine</text>
+  <path d="M36 112 H484" stroke="#cfd6d8" stroke-width="1.5"/>
+  <text x="36" y="146" font-family="Outfit, sans-serif" font-weight="600" font-size="17" fill="#14181a">100 г · 320 м</text>
+  <text x="36" y="174" font-family="Outfit, sans-serif" font-size="15" fill="#667078">Спицы 3,5 – 4,0 мм · 22 п. × 30 р. = 10 см</text>
+  <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="14" fill="#14181a">
+    <text x="36" y="214">ЦВЕТ 4127</text>
+    <text x="176" y="214">ПАРТИЯ 23-А</text>
+  </g>
+  <text x="36" y="262" font-family="Outfit, sans-serif" font-size="13" fill="#8b959a">Ручная стирка 30° · сушить горизонтально</text>
+  <g fill="#14181a">
+    <rect x="330" y="196" width="1.6" height="46"/><rect x="335" y="196" width="3" height="46"/><rect x="340" y="196" width="2" height="46"/><rect x="345" y="196" width="4.4" height="46"/><rect x="350" y="196" width="1.6" height="46"/><rect x="355" y="196" width="3" height="46"/><rect x="360" y="196" width="2" height="46"/><rect x="365" y="196" width="4.4" height="46"/><rect x="370" y="196" width="1.6" height="46"/><rect x="375" y="196" width="3" height="46"/><rect x="380" y="196" width="2" height="46"/><rect x="385" y="196" width="4.4" height="46"/><rect x="390" y="196" width="1.6" height="46"/><rect x="395" y="196" width="3" height="46"/><rect x="400" y="196" width="2" height="46"/><rect x="405" y="196" width="4.4" height="46"/><rect x="410" y="196" width="1.6" height="46"/><rect x="415" y="196" width="3" height="46"/><rect x="420" y="196" width="2" height="46"/><rect x="425" y="196" width="4.4" height="46"/><rect x="430" y="196" width="1.6" height="46"/><rect x="435" y="196" width="3" height="46"/><rect x="440" y="196" width="2" height="46"/><rect x="445" y="196" width="4.4" height="46"/><rect x="450" y="196" width="1.6" height="46"/><rect x="455" y="196" width="3" height="46"/><rect x="460" y="196" width="2" height="46"/><rect x="465" y="196" width="4.4" height="46"/><rect x="470" y="196" width="1.6" height="46"/><rect x="475" y="196" width="3" height="46"/><rect x="480" y="196" width="2" height="46"/><rect x="485" y="196" width="4.4" height="46"/><rect x="490" y="196" width="1.6" height="46"/><rect x="495" y="196" width="3" height="46"/>
+  </g>
+  <text x="330" y="262" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="11" fill="#8b959a">4 607 128 004 127</text>
+</svg>

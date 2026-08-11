@@ -1,0 +1,234 @@
+{
+  "slug": "shellac",
+  "name": "Шеллак",
+  "eyebrow": "Шеллак · Архив шеллачных пластинок · iOS",
+  "targetSet": "vk-music",
+  "domain": "shellac.app",
+  "heroTitle": "Шеллак — архив шеллачных пластинок",
+  "heroDeck": "Наведите камеру на этикетку пластинки, которую держите в руках, — запись найдётся в архиве и доиграет сторону до конца, даже когда экран погас.",
+  "tagline": "Наведите камеру на этикетку пластинки — и она заиграет",
+  "insight": "пластинка на руках есть, а проигрывателя нет — при том что сама запись давно лежит в открытом архиве",
+  "deck": "Архив шеллачных пластинок общественного достояния: этикетка распознаётся камерой на устройстве, сторона играет целиком при погасшем экране, а ненайденное уходит в «Розыск». Клиентское приложение — своего бэкенда нет. Все 5 доступов запрашиваются в момент действия.",
+  "brand": {
+    "accent": "#a8631d",
+    "accentDark": "#e8a75e",
+    "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
+  },
+  "start": "archive",
+  "tabs": [
+    { "id": "archive", "label": "Архив" },
+    { "id": "shelf", "label": "Полка" },
+    { "id": "settings", "label": "Профиль" }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Шеллак» запрашивает доступ к камере",
+        "text": "Чтобы прочитать этикетку пластинки и найти эту запись в архиве."
+      },
+      "feature": "Пластинка по этикетке: навёл — заиграла",
+      "gesture": "«Найти пластинку» на экране «Архив»",
+      "screen": "archive",
+      "target": "scan",
+      "fallback": "Поиск по названию, лейблу и матричному номеру остаётся — вводится руками",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation + DataScannerViewController: текст этикетки распознаётся на устройстве, кадр никуда не уходит",
+      "reviewNote": "Это главная функция приложения и первая кнопка на стартовом экране. Распознавание идёт on-device, снимок не сохраняется и не отправляется. Совпадение ищется в локальном каталоге контент-пака."
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Шеллак» запрашивает доступ к «Фото»",
+        "text": "Чтобы распознать пластинку по снимку и приложить фото конверта к экземпляру на полке."
+      },
+      "feature": "Распознавание по снимку из галереи и фото конверта в карточке экземпляра",
+      "gesture": "«Из галереи» на экране «Этикетка» / «Добавить фото конверта» в экземпляре",
+      "screen": "scan",
+      "target": "pick",
+      "fallback": "Съёмка камерой на месте; состояние конверта записывается текстом",
+      "snack": "Нет доступа к «Фото»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker — приложение видит только выбранный снимок; распознавание тем же on-device VNRecognizeTextRequest"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Сторона доигрывает до конца при погасшем экране и в других приложениях."
+      },
+      "activate": true,
+      "feature": "Сторона доигрывает до конца при погасшем экране",
+      "gesture": "«Слушать при погасшем экране» в плеере / свитч «Звук в фоне»",
+      "screen": "player",
+      "target": "background",
+      "fallback": "Без entitlement звук обрывается на блокировке — фича неотделима от него, не ship",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Реальный playback на AVPlayer, заполненный MPNowPlayingInfoCenter (обложка, сторона, лейбл) и обработанные remote-команды play / pause / следующая сторона",
+      "grounding": "AVAudioSession категории .playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter",
+      "reviewNote": "Сценарий: сторона шеллачной пластинки играет около трёх минут и её не листают — телефон убирают в карман, а сторона доигрывает. Приложить видео с локскрином и работающими remote-командами."
+    },
+    {
+      "key": "domains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Universal Links",
+        "text": "Ссылки shellac.app открывают запись в приложении и кладут матричный номер в «Розыск»."
+      },
+      "activate": true,
+      "feature": "Запись по ссылке и «Розыск» — матричный номер со стороннего форума",
+      "gesture": "«Ссылки Шеллака» / «Розыск» в профиле",
+      "screen": "settings",
+      "target": "deeplink",
+      "fallback": "Ссылка открывается в Safari, номер в «Розыск» вводится вручную",
+      "risk": "high",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Статический apple-app-site-association на shellac.app: /rec/* и /want",
+      "reviewNote": "Только applinks:shellac.app, два пути. /rec/<матрица> открывает запись каталога. /want?m=<матрица> кладёт в «Розыск» матричный номер и заголовок из query — чужая страница не читается и ничего с неё не скачивается. webcredentials не заявляем: логина нет."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Шеллак» запрашивает разрешение на отправку уведомлений",
+        "text": "Уведомления могут включать оповещения, звуки и значки. Настроить их можно в Настройках."
+      },
+      "feature": "Пластинка из «Розыска» оцифрована и появилась в архиве",
+      "gesture": "Свитч «Розыск оцифрован» в профиле / в «Розыске»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Фича выключена в UI, «Розыск» сверяется с архивом вручную",
+      "snack": "Уведомления выключены в настройках",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Настоящая регистрация в APNs и хотя бы один живой пуш о пополнении архива",
+      "grounding": "SDK провайдера (OneSignal / FCM), отправка из дашборда архива — своего сервера нет"
+    }
+  ],
+  "screens": [
+    { "id": "archive", "title": "Архив", "type": "tab (root, старт)", "light": true, "meta": "Каталог оцифрованного" },
+    { "id": "record", "title": "Пластинка", "type": "push", "light": true, "parent": "archive", "meta": "Стороны A и B · матрица" },
+    { "id": "player", "title": "Сторона A", "type": "fullscreen", "light": false, "parent": "record", "meta": "Background audio" },
+    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "player", "meta": "Now Playing" },
+    { "id": "scan", "title": "Этикетка", "type": "fullscreen", "light": false, "parent": "archive", "meta": "Camera · on-device" },
+    { "id": "scanfound", "title": "Совпадение в архиве", "type": "modal", "light": true, "parent": "scan", "meta": "Распознано с этикетки" },
+    { "id": "scanfail", "title": "Этикетка не читается", "type": "modal (ошибка)", "light": true, "parent": "scan", "meta": "OCR не справился · ввод вручную" },
+    { "id": "notfound", "title": "Нет в архиве", "type": "modal (ошибка)", "light": true, "parent": "scanfail", "meta": "Не оцифровано · в «Розыск»" },
+    { "id": "pick", "title": "Галерея", "type": "system picker", "light": true, "parent": "scan", "meta": "Photo Library · PHPicker" },
+    { "id": "shelf", "title": "Полка", "type": "tab (root)", "light": true, "meta": "Свои пластинки и «Розыск»" },
+    { "id": "copy", "title": "Экземпляр", "type": "push", "light": true, "parent": "shelf", "meta": "Состояние · фото конверта" },
+    { "id": "want", "title": "Розыск", "type": "push", "light": true, "parent": "shelf", "meta": "Матрицы, которых нет в архиве" },
+    { "id": "settings", "title": "Профиль", "type": "tab (root)", "light": true, "meta": "Push · ссылки · фон" },
+    { "id": "deeplink", "title": "Universal Link", "type": "modal", "light": true, "parent": "settings", "meta": "shellac.app/rec/…" },
+    { "id": "web", "title": "Форум в Safari", "type": "чужое приложение", "light": true, "parent": "want", "meta": "Момент тапа по ссылке" }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все пятнадцать экранов и все пять доступов",
+      "start": "archive",
+      "screens": [
+        "archive", "record", "player", "background", "scan", "scanfound", "scanfail",
+        "notfound", "pick", "shelf", "copy", "want", "settings", "deeplink", "web"
+      ]
+    },
+    {
+      "id": "find",
+      "label": "Навёл камеру — заиграла",
+      "note": "Главный путь: этикетка в кадре, совпадение в архиве, сторона в фоне",
+      "start": "archive",
+      "screens": ["archive", "scan", "scanfound", "record", "player", "background", "pick", "scanfail"],
+      "stops": ["pick", "scanfail"]
+    },
+    {
+      "id": "side",
+      "label": "Сторона до конца",
+      "note": "Три минуты стороны при погасшем экране — доступ audio целиком",
+      "start": "record",
+      "screens": ["record", "player", "background"]
+    },
+    {
+      "id": "miss",
+      "label": "Не распозналось и нет в архиве",
+      "note": "Стёртая этикетка, ручной ввод матрицы, «Розыск» и ссылка с форума",
+      "start": "scan",
+      "screens": ["scan", "scanfail", "notfound", "want", "web", "scanfound", "pick"],
+      "stops": ["scanfound", "pick"]
+    },
+    {
+      "id": "shelfp",
+      "label": "Полка: экземпляр и конверт",
+      "note": "Фото конверта из галереи — второй путь доступа к «Фото»",
+      "start": "shelf",
+      "screens": ["shelf", "copy", "pick", "scanfound", "want", "player"],
+      "stops": ["scanfound", "want", "player"]
+    },
+    {
+      "id": "links",
+      "label": "Профиль: ссылки, пуш, фон",
+      "note": "Четыре доступа из одного раздела — каждая строка ведёт к своей фиче",
+      "start": "settings",
+      "screens": ["settings", "deeplink", "want", "web", "record", "player", "background"]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Каталог записей и сами аудиофайлы",
+      "solution": "Контент-пак: <code>archive.json</code> + m4a статикой на CDN. Только чтение. Записи — общественное достояние (шеллак до 1929 года), права чистые"
+    },
+    {
+      "needs": "Аккаунты, подписки, чужие коллекции",
+      "solution": "Вырезаны. Нет логина — нет UGC, нет модерации и чужих данных"
+    },
+    {
+      "needs": "Распознавание этикетки",
+      "solution": "<code>DataScannerViewController</code> + <code>VNRecognizeTextRequest</code> на устройстве; совпадение ищется в локальном индексе контент-пака по матричному номеру и названию"
+    },
+    {
+      "needs": "Своя полка и состояние экземпляров",
+      "solution": "CoreData на устройстве; фото конверта — файлом в контейнере приложения"
+    },
+    {
+      "needs": "«Розыск» — чего в архиве нет",
+      "solution": "Локальный список матричных номеров в CoreData. Пополняется сканером или ссылкой <code>/want?m=</code>. Сверяется с индексом контент-пака при обновлении пака"
+    },
+    {
+      "needs": "Push о пополнении архива",
+      "solution": "SDK провайдера (OneSignal / FCM), отправка из дашборда архива"
+    },
+    {
+      "needs": "Universal Links",
+      "solution": "Статический <code>apple-app-site-association</code> на shellac.app: <code>/rec/*</code> и <code>/want</code>"
+    },
+    {
+      "needs": "Обмен находками между коллекционерами",
+      "solution": "Системный share sheet: наружу уходит ссылка вида <code>shellac.app/rec/2213-А</code>. Внутри приложения ленты и переписки нет"
+    },
+    {
+      "needs": "Реставрация звука (снятие шума иглы)",
+      "solution": "Оффлайн, до сборки пака. В приложении — только переключатель «шум пластинки» между двумя дорожками из пака"
+    }
+  ],
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" },
+    { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" }
+  ]
+}

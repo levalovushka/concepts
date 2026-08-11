@@ -1,0 +1,95 @@
+<div class="screen ios-surface" id="scr-project" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading">
+                <div class="btn-plain tap" data-back aria-label="Назад к проектам">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Проекты</span>
+                </div>
+              </div>
+              <div class="title">Тяжёлая пехота</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll" style="padding:8px var(--margin) 0">
+              <div class="pm-phero">
+                <div class="ph pm-fill" aria-hidden="true"></div>
+                <div class="pm-phero-meta">
+                  <div class="pm-phero-label">Шаг 4 из 9 · тени в углублениях</div>
+                  <div class="prog pm-phero-prog"><i style="width:44%"></i></div>
+                </div>
+              </div>
+
+              <div class="group-head">Палитра проекта · 9 красок</div>
+              <div class="ios-list pm-gap">
+                <div class="row tap has-lead" data-go="paint" aria-label="Rust Brown 4127">
+                  <span class="pm-sw" style="background-color:#6b3f2a"></span>
+                  <div class="grow">
+                    <div class="t-body">Rust Brown 4127</div>
+                    <div class="t-caption">Ferrum Colors · база корпуса</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap has-lead" data-go="paint" aria-label="Deep Shade">
+                  <span class="pm-sw" style="background-color:#2b1d16"></span>
+                  <div class="grow">
+                    <div class="t-body">Deep Shade</div>
+                    <div class="t-caption">Vellum · смывка и тени</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap has-lead" data-go="paint" aria-label="Bone 22">
+                  <span class="pm-sw" style="background-color:#c9a06a"></span>
+                  <div class="grow">
+                    <div class="t-body">Bone 22</div>
+                    <div class="t-caption">Vellum · высветление рёбер</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap has-lead" data-hide-denied="camera" data-ask="camera|scan|scanfail">
+                  <span class="pm-lead-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-scan-line"/></svg></span>
+                  <div class="grow">
+                    <div class="t-body">Сканировать баночку</div>
+                    <div class="t-caption">Штрихкод → аналоги других брендов и рецепт замеса</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap has-lead perm-hidden" data-show-denied="camera" data-go="scanfail">
+                  <span class="pm-lead-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-plus"/></svg></span>
+                  <div class="grow">
+                    <div class="t-body">Ввести код краски</div>
+                    <div class="t-caption">Скана нет — код с баночки открывает ту же карточку</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap has-lead" data-hide-denied="photo" data-ask="photo|gallery|project">
+                  <span class="pm-lead-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-image"/></svg></span>
+                  <div class="grow">
+                    <div class="t-body">Снять цвет с фото</div>
+                    <div class="t-caption">Пипетка по референсу → свотчи в палитру</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+              <p class="t-footnote pm-fb perm-hidden" data-show-denied="camera">Нет доступа к камере — штрихкод прочитать нечем, строка скана убрана. Код с баночки вводится вручную.</p>
+              <p class="t-footnote pm-fb perm-hidden" data-show-denied="photo">Нет доступа к «Фото» — пипетки в палитре больше нет. Оттенки добавляются сканом баночки или кодом краски.</p>
+
+              <div class="group-head">Заметки к шагам мастеркласса</div>
+              <div class="ios-list pm-notes">
+                <div class="pm-note">
+                  <div class="pm-ts">Шаг 4</div>
+                  <div class="grow">
+                    <div class="pm-note-body">Смывка ушла в холод — домешала каплю Terra, стало теплее</div>
+                  </div>
+                </div>
+                <div class="pm-note">
+                  <div class="pm-ts">Шаг 2</div>
+                  <div class="grow">
+                    <div class="pm-note-body">Новая партия Rust Brown темнее прежней — сверить по карточке</div>
+                  </div>
+                </div>
+                <div class="composer">
+                  <input type="text" placeholder="Заметка к шагу 4…" readonly aria-label="Заметка к шагу">
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

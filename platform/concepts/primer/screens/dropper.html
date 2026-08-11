@@ -1,0 +1,71 @@
+<div class="screen" id="scr-dropper" style="background:#15171a">
+            <div class="navbar on-dark">
+              <div class="nav-leading">
+                <div class="btn-plain on-dark tap" data-back aria-label="Назад к проекту">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Проект</span>
+                </div>
+              </div>
+              <div class="title">Пипетка</div>
+              <div class="nav-trailing"><div class="btn-plain on-dark semibold tap" data-toast="4 оттенка легли в палитру проекта|project">Готово</div></div>
+            </div>
+            <div class="body-scroll pm-drop">
+              <div class="pm-canvas ph on-dark">
+                <span class="pm-loupe" style="background-color:#7a4a2e"></span>
+              </div>
+
+              <div class="pm-eyebrow mt16">Снято 4 оттенка · тап по фото добавляет ещё</div>
+              <div class="pm-picked mt8">
+                <span class="pm-pick"><i style="background-color:#7a4a2e"></i><b>#7A4A2E</b></span>
+                <span class="pm-pick"><i style="background-color:#b8925f"></i><b>#B8925F</b></span>
+                <span class="pm-pick"><i style="background-color:#4c5b4a"></i><b>#4C5B4A</b></span>
+                <span class="pm-pick"><i style="background-color:#2d2622"></i><b>#2D2622</b></span>
+              </div>
+
+              <div class="pm-eyebrow mt16">Чем это красить из ваших паков</div>
+              <div class="pm-mlist mt8">
+                <div class="pm-mrow">
+                  <span class="pm-sw sm" style="background-color:#7a4a2e"></span>
+                  <span class="pm-mhex">#7A4A2E</span>
+                  <span class="grow">Rust Brown 4127 · Ferrum</span>
+                  <span class="pm-de">ΔE 2,3</span>
+                </div>
+                <div class="pm-mrow">
+                  <span class="pm-sw sm" style="background-color:#b8925f"></span>
+                  <span class="pm-mhex">#B8925F</span>
+                  <span class="grow">Bone 22 · Vellum</span>
+                  <span class="pm-de">ΔE 1,8</span>
+                </div>
+                <div class="pm-mrow">
+                  <span class="pm-sw sm" style="background-color:#4c5b4a"></span>
+                  <span class="pm-mhex">#4C5B4A</span>
+                  <span class="grow">Olive 41 · Kolos</span>
+                  <span class="pm-de">ΔE 3,1</span>
+                </div>
+                <div class="pm-mrow">
+                  <span class="pm-sw sm" style="background-color:#2d2622"></span>
+                  <span class="pm-mhex">#2D2622</span>
+                  <span class="grow">точной краски нет — замес</span>
+                  <span class="pm-de pm-far">ΔE 6,4</span>
+                </div>
+              </div>
+
+              <p class="pm-fb-dark perm-hidden" data-show-denied="photo">Нет доступа к «Фото» — другое фото выбрать нечем, кнопка убрана. Снятые оттенки остались в палитре.</p>
+
+              <p class="pm-note-dim mt12">Снимок читается локально ради значений пикселей и в приложение не копируется. Свотчи уходят в палитру проекта.</p>
+
+
+              <div class="push"></div>
+              <div class="pm-chips">
+                <div class="pm-chip tap" data-hide-denied="photo" data-ask="photo|gallery|dropper">
+                  <svg class="ico-svg"><use href="#i-images"/></svg>
+                  Выбрать другое фото
+                </div>
+                <div class="pm-chip tap" data-go="dropfail">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                  Оттенка нет в красках
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

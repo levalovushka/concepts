@@ -1,0 +1,62 @@
+<div class="screen ios-surface" id="scr-lesson" style="background:#f2f2f7">
+            <div class="lesson-video">
+              <div class="scene ph-lesson"></div>
+              <div class="lv-top">
+                <div class="btn-plain on-dark tap" data-back aria-label="Назад к урокам">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Уроки</span>
+                </div>
+                <div class="lv-title">Раппорт ажура по схеме</div>
+                <div class="icon-btn on-dark tap" data-activate="audio|pip" aria-label="Picture in Picture">
+                  <svg class="ico-svg"><use href="#i-picture-in-picture-2"/></svg>
+                </div>
+              </div>
+              <div class="lv-play" aria-hidden="true">
+                <svg class="ico-svg"><use href="#i-pause"/></svg>
+              </div>
+            </div>
+
+            <div class="lv-chips light">
+              <div class="chip-act tap" data-ask="localnet|cast|lesson">
+                <svg class="ico-svg"><use href="#i-tv-minimal"/></svg>
+                Смотреть на ТВ
+              </div>
+              <div class="chip-act tap" data-activate="audio|background">
+                <svg class="ico-svg"><use href="#i-volume-2"/></svg>
+                Слушать в фоне
+              </div>
+            </div>
+
+            <div class="rowstrip light">
+              <div>
+                <div class="eyebrow">Текущий ряд · проект «Ажурный шарф»</div>
+                <div class="num">48<small>из 96</small></div>
+              </div>
+              <div class="grow"></div>
+              <div class="btn-tinted tap" style="background:rgba(13,138,122,.14);color:var(--accent-fill)" data-hide-denied="speech,mic" data-ask="speech+mic|counter|lesson">
+                <svg class="ico-svg" style="width:17px;height:17px"><use href="#i-mic"/></svg>
+                Считать голосом
+              </div>
+              <div class="perm-hidden" data-show-denied="speech,mic">
+                <div class="ios-stepper" aria-label="Ряд">
+                  <button type="button" aria-label="Меньше"><svg class="ico-svg"><use href="#i-minus"/></svg></button>
+                  <button type="button" aria-label="Больше"><svg class="ico-svg"><use href="#i-plus"/></svg></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="body-scroll chart-scroll light">
+              <div class="chart-card">
+                <img src="assets/media/chart.svg" alt="Схема ажурного раппорта, выделен 4-й ряд">
+              </div>
+              <div class="legend">
+                <span><b>▫</b>лицевая</span>
+                <span><b>•</b>изнаночная</span>
+                <span><b>○</b>накид</span>
+                <span><b>/</b>убавка вправо</span>
+                <span><b>\</b>убавка влево</span>
+              </div>
+              <div class="t-footnote perm-hidden" style="color:var(--accent-fill);margin-top:14px" data-show-denied="localnet">Cast недоступен — нет доступа к локальной сети</div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

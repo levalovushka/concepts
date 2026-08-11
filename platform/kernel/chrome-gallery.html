@@ -1,0 +1,273 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iOS Chrome — стенд ядра</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./base.css">
+<style>
+  /* Стенд: страница вокруг образцов. Хром внутри .device — из base.css. */
+  :root { --accent:#0d8a7a; --accent-fill:#0d8a7a; }
+  body { margin:0; background:#e8eef0; color:#14181a; font:400 15px/1.5 var(--face); }
+  .wrap { max-width:1100px; margin:0 auto; padding:32px 20px 80px; }
+  .wrap h1 { font:700 32px/1.15 var(--face); letter-spacing:-.02em; margin:0 0 8px; }
+  .wrap .lede { color:#667078; margin:0 0 28px; max-width:62ch; }
+  .wrap .lede code { font:500 12px/1.4 var(--mono); color:#0d8a7a; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(375px, 1fr)); gap:28px; }
+  .specimen { display:flex; flex-direction:column; gap:10px; }
+  .specimen h2 { margin:0; font:600 13px/1.3 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:#667078; }
+  .specimen p { margin:0; font-size:13px; color:#667078; }
+  .device.mini #screens, .device.mini .screen { position:relative; display:flex; inset:auto; }
+  .chip { display:inline-block; padding:2px 8px; border-radius:999px; background:#e8eef0; font:500 11px/1.4 var(--mono); color:#0d8a7a; }
+  .ruler { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .ruler span { font:500 11px/1.4 var(--mono); color:#667078; background:#fff; border:1px solid #d8e0e2; border-radius:6px; padding:3px 8px; }
+  .note { margin-top:40px; padding:16px 18px; border-left:3px solid #0d8a7a; background:#fff; border-radius:12px; font-size:14px; }
+  .note a { color:#0d8a7a; font-weight:600; }
+</style>
+
+<div class="wrap">
+  <h1>iOS Chrome — стенд ядра</h1>
+  <p class="lede">
+    Образцы системного хрома из <code>base.css</code>. Фрейм 375×812, safe-top 47, safe-bottom 34.
+    Спека: <a href="./ios-chrome.md">ios-chrome.md</a>. Менять хром — только здесь в ядре, не в концептах.
+  </p>
+
+  <div class="grid">
+
+    <!-- Status + Large title -->
+    <div class="specimen">
+      <h2>Status + Large title</h2>
+      <p>Root tab. Статус светлый (dark-ink). Large title 34 Bold слева.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000">
+        <div class="status dark-ink">
+          <span>9:41</span>
+          <span class="status-right" aria-hidden="true">
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg>
+          </span>
+        </div>
+        <div class="navbar is-large">
+          <div class="title large" style="color:#000">Проекты</div>
+          <div class="btn-plain" style="color:var(--accent-fill);font-weight:600">Снять</div>
+        </div>
+        <div style="padding:8px 16px 20px">
+          <div class="group-head">В работе</div>
+          <div class="ios-list">
+            <div class="row"><div class="grow"><div class="t-headline" style="color:#000">Ажурный шарф</div><div class="t-caption">Ряд 48 из 96</div></div><div class="chev">›</div></div>
+            <div class="row"><div class="grow"><div class="t-headline" style="color:#000">Носки в резинку</div><div class="t-caption">Ряд 12 из 140</div></div><div class="chev">›</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ruler"><span>safe-top 47</span><span>large 34/700</span><span>margin 16</span></div>
+    </div>
+
+    <!-- Inline nav + back -->
+    <div class="specimen">
+      <h2>Inline nav + Back</h2>
+      <p>Push. Title 17 center. Back = ‹ + имя родителя.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000">
+        <div class="status dark-ink">
+          <span>9:41</span>
+          <span class="status-right" aria-hidden="true">
+            <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg>
+          </span>
+        </div>
+        <div class="navbar">
+          <div class="btn-plain">‹ Проекты</div>
+          <div class="title" style="color:#000">Ажурный шарф</div>
+          <div class="nav-spacer"></div>
+        </div>
+        <div style="padding:8px 16px 20px">
+          <div class="ios-list">
+            <div class="row"><div class="grow"><div class="t-body">Сканировать этикетку</div><div class="t-caption">Состав и партия с мотка</div></div><div class="chev">›</div></div>
+            <div class="row"><div class="grow"><div class="t-body">Пряжа рядом</div><div class="t-caption">Магазины по геопозиции</div></div><div class="chev">›</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ruler"><span>nav row 44</span><span>title 17/600</span><span>back = parent name</span></div>
+    </div>
+
+    <!-- Tab bar light -->
+    <div class="specimen">
+      <h2>Tab bar (light)</h2>
+      <p>49 + 34 home indicator. Selected = accent.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000;min-height:200px;display:flex;flex-direction:column">
+        <div class="status dark-ink">
+          <span>9:41</span>
+          <span class="status-right" aria-hidden="true"><svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg></span>
+        </div>
+        <div style="flex:1;padding:60px 16px 0;color:#667078;font-size:13px">Контент вкладки</div>
+        <div class="tabbar light">
+          <div><div class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5v-13zM13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13V4z"/></svg></div>Уроки</div>
+          <div class="is-on"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8"/><path d="M8.5 8.5c2.5 2 4.5 4 7 7M15.5 8.5c-2.5 2-4.5 4-7 7"/></svg></div>Проекты</div>
+          <div><div class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5z"/></svg></div>Профиль</div>
+        </div>
+      </div>
+      <div class="ruler"><span>tab 49</span><span>+home 34</span><span>label 10/500</span></div>
+    </div>
+
+    <!-- Sheet -->
+    <div class="specimen">
+      <h2>Sheet</h2>
+      <p>Grabber 36×5. Закрытие → data-back к презентеру.</p>
+      <div class="device mini" style="background:#1a1512;min-height:360px;display:flex;flex-direction:column">
+        <div class="status"><span>9:41</span><span class="status-right" aria-hidden="true"><svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg></span></div>
+        <div style="flex:1"></div>
+        <div class="sheet light" style="padding:6px 16px 34px">
+          <div class="grabber"></div>
+          <div style="font:700 22px/28px var(--face);margin:0 0 6px;color:#000">Устройства рядом</div>
+          <p style="margin:0 0 16px;font:400 13px/18px var(--face);color:rgba(60,60,67,.6)">Телефон и ТВ в одной сети Wi-Fi.</p>
+          <div class="btn-filled" style="width:100%">Готово</div>
+        </div>
+      </div>
+      <div class="ruler"><span>grabber 36×5</span><span>radius 14</span><span>pad-bottom 34</span></div>
+    </div>
+
+    <!-- Alert -->
+    <div class="specimen">
+      <h2>System alert</h2>
+      <p>Permission prompt. Не брендировать.</p>
+      <div class="device mini" style="background:#c8d0d4;min-height:320px;position:relative">
+        <div class="status dark-ink"><span>9:41</span></div>
+        <div class="sysask is-on" style="display:flex">
+          <div class="sysask-card">
+            <div class="sysask-body">
+              <div class="sysask-title">«Петля» запрашивает доступ к микрофону</div>
+              <div class="sysask-text">Чтобы слышать команды счётчика и записывать звук в ваших видео.</div>
+            </div>
+            <div class="sysask-actions">
+              <button type="button">Запретить</button>
+              <button type="button" style="font-weight:600">Разрешить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ruler"><span>title 17/600</span><span>text 13</span><span>actions 17</span></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="specimen">
+      <h2>Controls</h2>
+      <p>Switch 51×31 · buttons · snackbar.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000;min-height:340px;position:relative">
+        <div class="status dark-ink"><span>9:41</span></div>
+        <div class="navbar">
+          <div class="title large" style="color:#000;position:static;transform:none;text-align:left;font:700 34px/41px var(--face)">Профиль</div>
+        </div>
+        <div style="padding:4px 16px">
+          <div class="ios-list" style="margin-bottom:16px">
+            <div class="row">
+              <div class="grow"><div class="t-body">Новые уроки</div><div class="t-caption">Пуш о новом уроке в курсе</div></div>
+              <div class="switch is-on"></div>
+            </div>
+            <div class="row">
+              <div class="grow"><div class="t-body">Отслеживание</div><div class="t-caption">Реклама по интересам</div></div>
+              <div class="switch"></div>
+            </div>
+          </div>
+          <div class="btn-filled" style="width:100%;margin-bottom:10px">Продолжить</div>
+          <div class="btn-plain" style="display:block;text-align:center">Не сейчас</div>
+        </div>
+        <div class="snackbar is-on" style="display:flex;bottom:24px">
+          <div class="snackbar-text">Камера недоступна</div>
+          <div class="snackbar-action">Настройки</div>
+        </div>
+      </div>
+      <div class="ruler"><span>switch 51×31</span><span>filled h50</span><span>hit ≥44</span></div>
+    </div>
+
+    <!-- Placeholder -->
+    <div class="specimen">
+      <h2>Картинка = плейсхолдер</h2>
+      <p>Фотографии в концептах не делаются. Везде, где по макету изображение, — <code>.ph</code>: серое поле с иконкой камеры. На тёмном — <code>.ph.on-dark</code>.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000;min-height:300px">
+        <div class="status dark-ink"><span>9:41</span></div>
+        <div class="navbar"><div class="nav-leading"><div class="btn-plain">Закрыть</div></div><div class="title">Урок</div><div class="nav-spacer"></div></div>
+        <div style="padding:8px 16px 20px">
+          <div class="ph" style="height:150px;border-radius:12px"></div>
+          <div class="ios-list mt16">
+            <div class="row has-thumb"><div class="lrow-thumb ph"></div><div class="grow"><div class="t-headline">Ажурный шарф</div><div class="t-caption">Урок 4 из 9</div></div><span class="ios-disclosure"></span></div>
+            <div class="row has-thumb"><div class="lrow-thumb ph"></div><div class="grow"><div class="t-headline">Косы и араны</div><div class="t-caption">Урок 1 из 9</div></div><span class="ios-disclosure"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ruler"><span>.ph</span><span>.ph.on-dark</span><span>иконка 26%</span></div>
+    </div>
+
+    <!-- Error + form -->
+    <div class="specimen">
+      <h2>Ошибка + ручной ввод</h2>
+      <p>Баннер ошибки над формой и строки «лейбл — значение». Ошибка объясняет причину и всегда даёт путь дальше.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000;min-height:340px">
+        <div class="status dark-ink"><span>9:41</span></div>
+        <div class="navbar">
+          <div class="btn-plain">Отмена</div>
+          <div class="title" style="color:#000">Данные мотка</div>
+          <div class="nav-spacer"></div>
+        </div>
+        <div style="padding:8px 16px 20px">
+          <div class="errbox">
+            <div class="errbox-ico" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 7.5v6M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+            </div>
+            <div class="grow">
+              <div class="t-headline" style="color:#000">Этикетку не удалось прочитать</div>
+              <p class="t-footnote" style="margin:4px 0 0">Причина — одной строкой, без кодов ошибок.</p>
+            </div>
+          </div>
+          <div class="btn-tinted" style="width:100%;background:rgba(13,138,122,.14);color:var(--accent-fill);margin-bottom:16px">Попробовать ещё раз</div>
+          <div class="ios-list">
+            <div class="row"><div class="field-label">Пряжа</div><input class="field-input" type="text" value="Merino Soft" readonly></div>
+            <div class="row"><div class="field-label">Партия</div><input class="field-input" type="text" placeholder="23-А" readonly></div>
+          </div>
+        </div>
+      </div>
+      <div class="ruler"><span>errbox r12</span><span>field-label 88</span><span>value → right</span></div>
+    </div>
+
+    <!-- Full-screen state -->
+    <div class="specimen">
+      <h2>Экран целиком: загрузка и ошибка</h2>
+      <p>Один макет на два состояния — меняются иконка и текст, кнопки всегда внизу. Плюс тост подтверждения.</p>
+      <div class="device mini ios-surface" style="background:#f2f2f7;color:#000;min-height:420px;display:flex;flex-direction:column">
+        <div class="status dark-ink"><span>9:41</span></div>
+        <div class="navbar">
+          <div class="btn-plain">Закрыть</div>
+          <div class="title" style="color:#000">Отложить</div>
+          <div class="nav-spacer"></div>
+        </div>
+        <div class="state">
+          <div class="state-ico" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M10 13.5a4 4 0 0 0 5.7.3l3-3a4 4 0 0 0-5.7-5.7l-1.3 1.3M14 10.5a4 4 0 0 0-5.7-.3l-3 3a4 4 0 0 0 5.7 5.7l1.3-1.3"/></svg>
+          </div>
+          <div class="t-title">Не удалось прочитать страницу</div>
+          <p class="t-subhead">Причина одной фразой. Дальше — один основной путь и один запасной.</p>
+        </div>
+        <div style="flex:none;padding:0 16px 20px">
+          <div class="state-actions">
+            <div class="btn-filled" style="width:100%">Отложить одной ссылкой</div>
+            <div class="btn-tinted" style="width:100%;background:rgba(13,138,122,.14);color:var(--accent-fill)">Повторить</div>
+          </div>
+        </div>
+        <div class="snackbar is-on is-ok" style="display:flex;bottom:20px">
+          <span class="snackbar-ok" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          </span>
+          <div class="snackbar-text">Отложено · «Ажурный шарф»</div>
+          <div class="snackbar-action">Настройки</div>
+        </div>
+      </div>
+      <div class="ruler"><span>state-ico 60</span><span>текст ≤28ch</span><span>тост 2,6 с</span></div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <strong>Как пользоваться.</strong> Перед правкой отступов/хедера/таб-бара открой этот стенд и
+    <a href="./ios-chrome.md">ios-chrome.md</a>. Если образец и экран концепта расходятся — правь экран под ядро,
+    либо осознанно обновляй ядро и пересобирай все концепты.
+  </div>
+</div>

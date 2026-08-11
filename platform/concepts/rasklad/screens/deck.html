@@ -1,0 +1,80 @@
+<div class="screen ios-surface" id="scr-deck" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading">
+                <div class="btn-plain tap" data-back aria-label="Назад на сегодня">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Сегодня</span>
+                </div>
+              </div>
+              <div class="title">Колода</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll rk-safe" style="padding:4px var(--margin) 0">
+              <div class="rk-panel">
+                <div class="rk-deckhead">
+                  <div class="rk-deckcount">12<small>из 44</small></div>
+                  <div class="grow"><div class="t-footnote">Базовая колода · 44 карты, 44 разных вопроса. Пройденной считается карта, под которую вы дослушали размышление.</div></div>
+                </div>
+                <img class="rk-deckbar" src="assets/media/deck.svg" alt="Полоса из 44 карт: первые двенадцать пройдены, тринадцатая обведена пунктиром">
+                <div class="rk-legend">
+                  <span><i class="rk-dot"></i>пройдена</span>
+                  <span><i class="rk-dot is-next"></i>следующая</span>
+                  <span><i class="rk-dot is-idle"></i>ещё не выпадала</span>
+                </div>
+              </div>
+
+              <div class="group-head mt24">Новая карта</div>
+              <div class="ios-list">
+                <div class="row has-lead tap" data-ask="camera|scan|cards" data-hide-denied="camera">
+                  <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-scan-line"/></svg></div>
+                  <div class="row-text grow">
+                    <div class="t-body">Сканировать карту</div>
+                    <div class="t-footnote">Номер и метка читаются на устройстве</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-go="cards">
+                  <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-layout-grid"/></svg></div>
+                  <div class="row-text grow">
+                    <div class="t-body">Выбрать из списка</div>
+                    <div class="t-footnote">По номеру, напечатанному на карте</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+              <div class="group-foot wide perm-hidden" data-show-denied="camera" style="color:var(--accent-fill)">Камера недоступна — скан убран, карта выбирается из списка.</div>
+
+              <div class="group-head mt24">Уведомления</div>
+              <div class="ios-list">
+                <div class="row has-lead tap" data-ask="push|deck|deck">
+                  <div class="lead-ico red"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+                  <div class="row-text grow">
+                    <div class="t-body">Новые паки и серии</div>
+                    <div class="t-footnote">Сообщим, когда выйдет новый пак карт</div>
+                  </div>
+                  <div class="switch" data-switch="push"></div>
+                </div>
+              </div>
+              <div class="group-foot wide">Только о контенте: новый пак или новая серия размышлений. Личных напоминаний не присылаем.</div>
+
+              <div class="group-head mt24">Последние пройденные</div>
+              <div class="ios-list">
+                <div class="row has-lead tap" data-go="card" aria-label="Карта 07 Мост">
+                  <div class="rk-num">07</div>
+                  <div class="grow"><div class="t-headline">Мост</div><div class="t-caption" style="margin-top:2px">Вчера · «Переход», дослушано</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-go="card" aria-label="Карта 41 Ветер">
+                  <div class="rk-num">41</div>
+                  <div class="grow"><div class="t-headline">Ветер</div><div class="t-caption" style="margin-top:2px">7 августа · «Что несёт», дослушано</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-go="card" aria-label="Карта 28 Гнездо">
+                  <div class="rk-num">28</div>
+                  <div class="grow"><div class="t-headline">Гнездо</div><div class="t-caption" style="margin-top:2px">5 августа · «Где тепло», дослушано</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

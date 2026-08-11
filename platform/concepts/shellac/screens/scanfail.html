@@ -1,0 +1,49 @@
+<div class="screen ios-surface" id="scr-scanfail" style="background:#f2f2f7">
+            <div class="navbar bar-blur">
+              <div class="nav-leading"><div class="btn-plain tap" data-back>Отмена</div></div>
+              <div class="title">Не читается</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll pad-screen">
+              <div class="errbox">
+                <div class="errbox-ico">
+                  <svg class="ico-svg" style="width:22px;height:22px"><use href="#i-triangle-alert"/></svg>
+                </div>
+                <div>
+                  <div class="t-headline" style="font-size:15px;line-height:20px">Надписи на этикетке не разобрать</div>
+                  <div class="t-footnote mt4">Бумага стёрта или засвечена вспышкой. Матричный номер выдавлен на самом шеллаке, в гладком кольце у центра — его видно под наклоном к свету.</div>
+                </div>
+              </div>
+
+              <div class="sec-label">Ввести вручную</div>
+              <div class="ios-list">
+                <div class="row">
+                  <div class="field-label">Матрица</div>
+                  <input class="field-input" value="2213-А" aria-label="Матричный номер">
+                </div>
+                <div class="row">
+                  <div class="field-label">Лейбл</div>
+                  <input class="field-input" placeholder="если разобрали" aria-label="Лейбл">
+                </div>
+                <div class="row">
+                  <div class="field-label">Год</div>
+                  <input class="field-input" placeholder="необязательно" aria-label="Год записи">
+                </div>
+              </div>
+              <div class="group-foot wide">Достаточно матрицы: по ней сторона опознаётся однозначно, название и лейбл подтянутся из пака.</div>
+
+              <div class="btn-filled block mt24 tap" data-go="notfound">Искать в архиве</div>
+              <div class="btn-quiet tap" data-back>Снять этикетку ещё раз</div>
+
+              <div class="sec-label mt24">Как выглядит номер</div>
+              <div class="read-list">
+                <div class="read-row"><b>Формат</b><span>4 цифры + буква стороны</span></div>
+                <div class="read-row"><b>Пример</b><span>2213-А, 0918-Б</span></div>
+                <div class="read-row"><b>Где искать</b><span>кольцо у центра</span></div>
+              </div>
+              <p class="t-footnote mt12">
+                Буква после дефиса — сторона: А и Б выдавлены на разных сторонах одного диска.
+              </p>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

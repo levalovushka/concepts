@@ -1,0 +1,58 @@
+<div class="screen" id="scr-player" style="background:
+            radial-gradient(78% 46% at 50% 6%, rgba(168,99,29,.34), transparent 58%),
+            linear-gradient(168deg,#2a1c12 0%, #1a1310 46%, #0d0908 100%)">
+            <div class="navbar on-dark">
+              <div class="nav-leading">
+                <div class="icon-btn tap" data-back aria-label="Свернуть плеер">
+                  <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 9l7 7 7-7"/></svg>
+                </div>
+              </div>
+              <div class="title" style="color:rgba(255,255,255,.62);font:600 12px/1.2 var(--face);letter-spacing:.1em">СТОРОНА A</div>
+              <div class="nav-spacer"></div>
+            </div>
+
+            <div class="pl-wrap">
+              <div class="pl-art">
+                <img src="assets/media/turntable.svg" alt="Пластинка «Чёрные глаза» на вертушке, игла на первой трети стороны">
+              </div>
+
+              <div style="margin-top:18px">
+                <div class="pl-title">Чёрные глаза</div>
+                <div class="pl-artist">А. Вертинскій · ЛИРА, 1927</div>
+              </div>
+
+              <div class="pl-scrub">
+                <div class="bar"><i></i></div>
+                <div class="lv-time"><span>1:06</span><span>−1:58</span></div>
+                <div class="pl-remain">Сторона доиграет до конца — перемотки нет</div>
+              </div>
+
+              <div class="pl-controls">
+                <div class="pl-btn tap" aria-label="Предыдущая сторона">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M7 5h2.4v14H7zM19 5l-8 7 8 7z"/></svg>
+                </div>
+                <div class="pl-btn main tap" aria-label="Пауза">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+                </div>
+                <div class="pl-btn tap" aria-label="Следующая сторона">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M14.6 5H17v14h-2.4zM5 5l8 7-8 7z"/></svg>
+                </div>
+              </div>
+
+              <div class="pl-chips">
+                <div class="pl-chip tap" data-activate="audio|background">
+                  <svg class="ico-svg"><use href="#i-lock"/></svg>
+                  Слушать при погасшем экране
+                </div>
+                <div class="pl-chip is-on tap" data-toast="Шум иглы включён — играет нереставрированная дорожка">
+                  <svg class="ico-svg"><use href="#i-volume-2"/></svg>
+                  Шум иглы
+                </div>
+              </div>
+
+              <p class="t-footnote" style="text-align:center;color:rgba(255,255,255,.42);margin:14px 0 18px">
+                Now Playing заполнен: кнопки на локскрине и в наушниках управляют этим же воспроизведением.
+              </p>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

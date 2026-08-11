@@ -1,0 +1,741 @@
+/* ==========================================================================
+   «Двор» — визуальная система концепта.
+
+   Язык взят из Base Kit (VK-типа) и отстроен: индиго вместо VK-синего,
+   Manrope вместо SF Pro, радиус контрола 8 вместо 10. Системный iOS-хром
+   (статус-бар, permission-алерт, снекбар, home indicator) остаётся из ядра —
+   его в концепте не переопределяем.
+
+   Все свои классы с префиксом d-: в base.css такого префикса нет,
+   поэтому коллизия имён (первая из трёх ловушек CSS) исключена по построению.
+   Шорткаты background и margin здесь не используются — только background-color
+   и margin-bottom/-top, иначе гасятся утилиты ядра.
+   ========================================================================== */
+
+:root {
+  --face: 'Manrope', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --d-page: #ECEDF1;      /* серая страница — под белыми карточками */
+  --d-card: #FFFFFF;
+  --d-ink: #0B0B0C;
+  --d-sub: #6D7885;       /* второстепенный текст, 4.5:1 на белом */
+  --d-mute: #6E7887;      /* третичный текст: 3.2:1 на серой странице.
+                             Исходный #99A2AD из набора давал 2.2:1 — через него
+                             шли заголовки секций, мета постов, неактивные чипы
+                             и шевроны, то есть почти вся третичная типографика. */
+  --d-dim: #99A2AD;       /* выключенное: только там, где нажать нельзя */
+  --d-quiet: #E8EAF0;     /* тихая поверхность: на серой странице должна читаться
+                             как кнопка, а не совпадать с фоном */
+  --d-quiet-in: #EFF1F5;  /* та же тихая поверхность внутри белой карточки */
+  --d-line: #E1E3E6;
+  --d-red: #FF3347;
+  --d-green: #4BB34B;
+  --d-orange: #F8A01C;    /* только заливка плашек */
+  --d-orange-ink: #A8690A;/* тот же смысл текстом: 4.6:1 на белом */
+  --d-dark: #0A0A0A;      /* страница тёмных системных поверхностей */
+  --d-surf: #19191A;      /* карточка на тёмном */
+  --d-r-card: 16px;
+  --d-r-ctl: 8px;
+  --d-r-tile: 12px;
+  --d-gap: 7px;           /* зазор между белыми карточками */
+  --d-ins: 12px;          /* инсет контента — на шаг плотнее Apple */
+}
+
+/* ——— страница и её фоны ———————————————————————————————————————————
+   Страховка: styles.css подключается ПОСЛЕ base.css, поэтому любой свой класс
+   с display:flex, попавший на корень экрана, перебил бы `.screen{display:none}`
+   и экран был бы виден всегда, поверх всех прототипов. Это уже случилось один
+   раз (d-safari на корне fill.html). Правило ниже гасит невыбранный экран при
+   любом наборе классов — и остаётся вне «голых» селекторов, чтобы линтер не
+   счёл его коллизией имени с ядром. */
+
+.screen:not(.is-on) { display: none; }
+
+.d-page { background-color: var(--d-page); color: var(--d-ink); }
+.d-night { background-color: var(--d-dark); color: #E1E3E6; }
+.d-scroll { padding-bottom: 12px; }
+
+/* ——— брендовая капсула вверху экрана ————————————————————————————————
+   Приём Base Kit: цветная пилюля с маркой в самой верхней строке. У нас
+   статус-бар рисует ядро, поэтому капсула — первый ряд самого экрана. */
+
+.d-caprow {
+  display: flex; align-items: center; justify-content: center;
+  padding: 6px 0 2px;
+}
+.d-cap {
+  display: flex; align-items: center; gap: 7px;
+  height: 30px; padding: 0 13px 0 8px;
+  border-radius: 15px;
+  background-color: var(--accent-fill); color: #fff;
+}
+.d-cap-mark {
+  width: 20px; height: 20px; border-radius: 6px;
+  background-color: rgba(255, 255, 255, .22);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; flex: none;
+}
+.d-cap-mark svg { width: 13px; height: 13px; }
+.d-cap-word { font-size: 15px; font-weight: 700; letter-spacing: -.2px; }
+
+/* ——— шапка экрана ——————————————————————————————————————————————————
+   Заголовок 22/800 слева с шевроном-дропдауном, акцентные аутлайн-иконки
+   справа. Ни large title, ни центрированного 17 — это и есть отстройка. */
+
+.d-top {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 16px 8px;
+}
+.d-top-title {
+  font-size: 22px; line-height: 28px; font-weight: 800;
+  letter-spacing: -.5px; color: var(--d-ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.d-top-title.sm { font-size: 17px; line-height: 22px; font-weight: 700; letter-spacing: -.3px; }
+.d-top-caret { width: 12px; height: 12px; color: var(--d-ink); flex: none; }
+.d-top-caret svg { width: 12px; height: 12px; stroke-width: 2.6; }
+.d-top-acts { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.d-icon {
+  width: 22px; height: 22px; color: var(--accent-fill);
+  display: flex; align-items: center; justify-content: center; flex: none;
+}
+.d-icon svg { width: 22px; height: 22px; stroke-width: 1.9; }
+.d-icon.mute { color: var(--d-mute); }
+.d-icon.sm { width: 18px; height: 18px; }
+.d-icon.sm svg { width: 18px; height: 18px; }
+
+/* Шеврон «назад» со счётчиком непрочитанных — приём Base Kit. */
+.d-back {
+  display: flex; align-items: center; gap: 1px;
+  color: var(--accent-fill); flex: none;
+}
+.d-back svg { width: 22px; height: 22px; stroke-width: 2.2; }
+.d-back-n { font-size: 15px; font-weight: 600; }
+
+.d-topline { height: 1px; background-color: var(--d-line); }
+
+/* ——— белые карточки на серой странице —————————————————————————————
+   Карточка почти во всю ширину, скругления только по краям блока,
+   внутри строки НЕ разделены хайрлайнами — в этом вся плотность. */
+
+.d-card {
+  background-color: var(--d-card);
+  border-radius: var(--d-r-card);
+  margin-bottom: var(--d-gap);
+  margin-left: 4px; margin-right: 4px;
+  overflow: hidden;
+}
+.d-card.pad { padding: var(--d-ins); }
+.d-card.night { background-color: var(--d-surf); color: #E1E3E6; }
+
+.d-sec {
+  font-size: 13px; line-height: 16px; font-weight: 700;
+  letter-spacing: .2px; text-transform: uppercase; color: var(--d-mute);
+  padding: 14px 16px 6px;
+}
+.d-lead {
+  font-size: 14px; line-height: 19px; color: var(--d-sub);
+  padding: 0 var(--d-ins) 10px;
+}
+
+/* ——— строка списка —————————————————————————————————————————————— */
+
+.d-row {
+  display: flex; align-items: center; gap: var(--d-ins);
+  padding: 10px var(--d-ins);
+  min-height: 48px;
+}
+.d-row.top { align-items: flex-start; }
+.d-row-main { flex: 1; min-width: 0; }
+.d-row-title {
+  font-size: 15px; line-height: 20px; font-weight: 600; color: var(--d-ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.d-row-title.wrap { white-space: normal; }
+.d-row-sub {
+  font-size: 14px; line-height: 18px; color: var(--d-sub);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.d-row-sub.wrap { white-space: normal; }
+.d-row-val { font-size: 15px; color: var(--d-sub); flex: none; }
+.d-row-val.accent { color: var(--accent-fill); font-weight: 600; }
+.d-row-val.warn { color: var(--d-orange-ink); font-weight: 600; }
+.d-caret { width: 8px; height: 14px; color: var(--d-mute); flex: none; }
+.d-caret svg { width: 8px; height: 14px; stroke-width: 2.6; }
+
+/* Кружок-иконка в начале строки: цветная плашка, белый глиф. */
+.d-bul {
+  width: 36px; height: 36px; border-radius: 10px; flex: none;
+  display: flex; align-items: center; justify-content: center; color: #fff;
+}
+.d-bul svg { width: 19px; height: 19px; stroke-width: 2; }
+.d-bul.accent { background-color: var(--accent-fill); }
+.d-bul.green { background-color: var(--d-green); }
+.d-bul.orange { background-color: var(--d-orange); }
+.d-bul.mute { background-color: var(--d-mute); }
+
+/* ——— аватары ——————————————————————————————————————————————————— */
+
+.d-ava {
+  width: 44px; height: 44px; border-radius: 50%; flex: none;
+  overflow: hidden;
+}
+.d-ava.lg { width: 52px; height: 52px; }
+.d-ava.sm { width: 32px; height: 32px; }
+.d-ava.xl { width: 72px; height: 72px; box-shadow: 0 0 0 3px #fff; }
+/* Плейсхолдер ядра внутри круглых и полноширинных носителей медиа.
+   Хайрлайн по кругу нужен потому, что серый плейсхолдер на белой карточке
+   и на светлой обложке иначе не имеет границы вовсе. */
+.d-ava .ph, .d-story-in .ph { width: 100%; height: 100%; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
+.d-media .ph { width: 100%; height: 190px; border-radius: 0; }
+.d-media { margin-top: 2px; }
+.d-stack { display: flex; flex: none; }
+.d-stack .d-ava { width: 24px; height: 24px; box-shadow: 0 0 0 2px #fff; }
+/* В кластере 24px иконка камеры превращается в серую мазню — глиф убираем,
+   остаются читаемые круги. */
+.d-stack .ph::after { display: none; }
+.d-stack .d-ava + .d-ava { margin-left: -7px; }
+
+/* ——— чипы-фильтры ————————————————————————————————————————————————
+   Активный — белая поднятая пилюля, неактивные — просто серый текст.
+   Никакого segmented control. */
+
+.d-chips {
+  display: flex; align-items: center; gap: 12px;
+  padding: 4px var(--d-ins) 10px;
+  overflow-x: auto;
+}
+/* Неактивный чип — нажимаемый, поэтому не бледнее 3:1 и с собственной
+   поверхностью: голым серым текстом он читался как выключенный. */
+.d-chip {
+  display: flex; align-items: center; gap: 6px; flex: none;
+  height: 26px; padding: 0 11px; border-radius: 13px;
+  background-color: #E3E5EC;
+  font-size: 15px; font-weight: 500; color: var(--d-mute);
+}
+.d-card .d-chip { background-color: var(--d-quiet-in); }
+.d-chip.is-on {
+  background-color: #fff; color: var(--accent-fill); font-weight: 600;
+  padding: 0 13px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .07), 0 0 0 .5px rgba(0, 0, 0, .04);
+}
+.d-chip-n {
+  min-width: 17px; height: 17px; border-radius: 9px; padding: 0 4px;
+  background-color: var(--d-mute); color: #fff;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ——— табы с подчёркиванием во всю ширину таба ————————————————————— */
+
+.d-tabs { display: flex; }
+.d-tab {
+  flex: 1; text-align: center; padding: 8px 0 0;
+  font-size: 15px; color: var(--d-mute);
+}
+.d-tab.is-on { color: var(--d-ink); font-weight: 700; }
+.d-tab-bar { height: 2px; border-radius: 1px; margin-top: 7px; background-color: transparent; }
+.d-tab.is-on .d-tab-bar { background-color: var(--accent-fill); }
+
+/* ——— плитки-иконки меню ——————————————————————————————————————————
+   Squircle 52 с двухтоновой композицией из наложенных фигур и плоским
+   белым глифом. Самый узнаваемый приём языка после капсулы. */
+
+.d-tiles {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px 4px; padding: 12px var(--d-ins) 16px;
+}
+.d-tileitem { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.d-tile {
+  width: 52px; height: 52px; border-radius: var(--d-r-tile);
+  position: relative; overflow: hidden; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.d-tile svg { width: 26px; height: 26px; stroke-width: 2.1; position: relative; z-index: 2; }
+.d-tile-fig { position: absolute; inset: 0; z-index: 1; }
+/* Высота подписи фиксирована: «Гостевая сеть» переносится в две строки и без
+   этого сдвигала базовую линию всего второго ряда плиток. */
+.d-tile-label {
+  font-size: 12px; line-height: 15px; text-align: center; color: var(--d-ink);
+  max-width: 74px; min-height: 30px;
+}
+/* Вторая фигура плитки притемнена относительно исходных тонов набора: белый
+   глиф центрирован и всегда заезжает на неё, а на светлой заливке он выцветал
+   до 1.6:1. Держим обе половины плитки достаточно тёмными для белого глифа. */
+.d-tile.c-azure { background-color: #3D5AF0; }
+.d-tile.c-azure .d-tile-fig { background-color: #6A3CF5; clip-path: polygon(0 62%, 100% 30%, 100% 100%, 0 100%); }
+.d-tile.c-fire { background-color: #F0431A; }
+.d-tile.c-fire .d-tile-fig { background-color: #FF7A45; clip-path: polygon(100% 0, 100% 100%, 22% 100%); }
+.d-tile.c-magenta { background-color: #7B2EE0; }
+.d-tile.c-magenta .d-tile-fig { background-color: #D93FE8; clip-path: circle(46% at 100% 100%); }
+.d-tile.c-teal { background-color: #0B8577; }
+.d-tile.c-teal .d-tile-fig { background-color: #14B39C; clip-path: polygon(0 0, 100% 0, 100% 44%, 0 78%); }
+.d-tile.c-amber { background-color: #C97600; }
+.d-tile.c-amber .d-tile-fig { background-color: #EE9E1F; clip-path: circle(40% at 18% 18%); }
+.d-tile.c-red { background-color: #D62840; }
+.d-tile.c-red .d-tile-fig { background-color: #F2536B; clip-path: polygon(0 30%, 100% 62%, 100% 100%, 0 100%); }
+.d-tile.c-slate { background-color: #3F4A59; }
+.d-tile.c-slate .d-tile-fig { background-color: #66768C; clip-path: polygon(0 0, 46% 0, 100% 100%, 0 100%); }
+.d-tile.c-violet { background-color: #5B4CE0; }
+.d-tile.c-violet .d-tile-fig { background-color: #8B7BF5; clip-path: circle(44% at 84% 22%); }
+.d-tile svg { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .22)); }
+
+/* ——— «сторис» дома: круги с акцентным кольцом ————————————————————— */
+
+.d-stories { display: flex; gap: 10px; padding: 8px var(--d-ins) 12px; overflow-x: auto; }
+.d-story { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: none; width: 66px; }
+.d-story-ring {
+  width: 66px; height: 66px; border-radius: 50%; padding: 3px;
+  background-color: var(--accent-fill);
+}
+.d-story-ring.seen { background-color: var(--d-line); }
+.d-story-in {
+  width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+  box-shadow: 0 0 0 2px #fff inset;
+}
+.d-story-label {
+  font-size: 12px; line-height: 15px; font-weight: 500; text-align: center;
+  color: var(--d-ink); max-width: 66px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.d-story-add {
+  position: relative; width: 66px; height: 66px; border-radius: 50%;
+  background-color: var(--d-quiet);
+}
+.d-story-plus {
+  position: absolute; right: -1px; bottom: -1px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background-color: var(--accent-fill); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 2px #fff;
+}
+.d-story-plus svg { width: 13px; height: 13px; stroke-width: 3; }
+
+/* ——— пост в ленте дома ——————————————————————————————————————————— */
+
+.d-post { padding: var(--d-ins); }
+.d-post-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.d-post-name { font-size: 15px; line-height: 19px; font-weight: 600; }
+.d-post-meta { font-size: 13px; line-height: 16px; color: var(--d-mute); }
+.d-post-body { font-size: 15px; line-height: 21px; color: var(--d-ink); }
+.d-post-body.dim { color: var(--d-sub); }
+.d-tagrow { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.d-tag {
+  font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 7px;
+  background-color: rgba(91, 76, 224, .1); color: var(--accent-fill);
+}
+.d-tag.warn { background-color: rgba(248, 160, 28, .14); color: #A8690A; }
+.d-tag.mute { background-color: var(--d-quiet); color: var(--d-sub); }
+.d-acts { display: flex; align-items: center; gap: 18px; padding: 10px var(--d-ins) 12px; }
+.d-act { display: flex; align-items: center; gap: 6px; color: var(--d-sub); font-size: 14px; font-weight: 600; }
+.d-act svg { width: 19px; height: 19px; stroke-width: 1.9; }
+.d-act.is-on { color: var(--accent-fill); }
+.d-act.last { margin-left: auto; }
+
+/* ——— кнопки ————————————————————————————————————————————————————
+   Радиус 8 и высота 48: узнаваемо не Apple (там капсула h50). */
+
+.d-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; border-radius: var(--d-r-ctl);
+  background-color: var(--accent-fill); color: #fff;
+  font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+  padding: 0 16px;
+}
+.d-btn svg { width: 19px; height: 19px; stroke-width: 2.2; }
+.d-btn.quiet { background-color: var(--d-quiet); color: var(--d-ink); box-shadow: inset 0 0 0 1px #D9DCE4; }
+.d-card .d-btn.quiet { background-color: var(--d-quiet-in); }
+.d-btn.sm { height: 38px; font-size: 15px; }
+.d-btn.night { background-color: rgba(255, 255, 255, .16); color: #fff; }
+.d-btnrow { display: flex; gap: 8px; padding: 0 16px 12px; }
+.d-btnrow > .d-btn { flex: 1; }
+/* Инсет 16 = 4 карточки + 12 внутренних: так левый край кнопок и заголовков
+   секций совпадает с текстом внутри карточки, а не уезжает на 8px. */
+.d-cta { padding: 4px 16px 8px; }
+.d-cta > .d-btn { width: 100%; }
+/* Кнопка последним блоком экрана обязана учесть home indicator: без этого
+   её срезает нижняя кромка (поймано на code.html). */
+.body-scroll > .d-cta:last-child, .screen > .d-cta:last-child { padding-bottom: calc(8px + var(--safe-bottom)); }
+
+/* Тихий чип-кнопка «Подписаться» из Base Kit: h22, r5, текст 12.
+   На белой карточке серая заливка давала 1.09:1 — берём тинт акцента. */
+.d-mini {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 24px; padding: 0 12px; border-radius: 5px;
+  background-color: rgba(91, 76, 224, .1); color: var(--accent-fill);
+  font-size: 12px; font-weight: 700; flex: none;
+}
+.d-mini.on { background-color: var(--accent-fill); color: #fff; }
+
+/* ——— поле поиска и ввод ————————————————————————————————————————— */
+
+/* Поле поиска: заливка не может совпадать с цветом страницы — иначе поля
+   просто нет. На странице берём белое с хайрлайном, в карточке — серое. */
+.d-search {
+  display: flex; align-items: center; gap: 9px;
+  height: 36px; padding: 0 12px; border-radius: 18px;
+  background-color: #fff; color: var(--d-mute);
+  box-shadow: inset 0 0 0 1px #DCDFE6;
+  margin-left: 16px; margin-right: 16px; margin-bottom: 10px;
+}
+.d-card .d-search { background-color: var(--d-quiet-in); box-shadow: none; }
+.d-search svg { width: 17px; height: 17px; stroke-width: 2; flex: none; }
+.d-search-ph { font-size: 15px; color: var(--d-mute); }
+.d-field {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 46px; padding: 8px 12px; border-radius: var(--d-r-ctl);
+  background-color: var(--d-quiet);
+}
+.d-field-lab { font-size: 13px; color: var(--d-mute); }
+.d-field-val { font-size: 16px; font-weight: 600; color: var(--d-ink); }
+.d-fieldrow { display: flex; gap: 8px; padding: 0 var(--d-ins) 10px; }
+.d-fieldrow > .d-field { flex: 1; }
+.d-fieldrow > .d-field.cc { flex: none; width: 74px; justify-content: center; }
+
+/* ——— нижний док ————————————————————————————————————————————————
+   Шесть слотов без подписей — приём Base Kit; у нас четыре раздела,
+   поэтому иконки крупнее. Стили висят на прямых детях, а не на .tab:
+   сборщик при гашении вкладки в сценарном срезе заменяет класс на is-off,
+   и раскладка не должна от этого разъезжаться. */
+
+.d-dock {
+  background-color: rgba(255, 255, 255, .94);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: .5px solid rgba(0, 0, 0, .12);
+  color: var(--d-mute);
+  display: flex; align-items: flex-start;
+  height: calc(52px + var(--safe-bottom));
+  padding: 8px 0 var(--safe-bottom);
+  flex: none;
+}
+.d-dock > div {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  position: relative; height: 36px;
+}
+.d-dock .ico { width: 27px; height: 27px; display: flex; align-items: center; justify-content: center; }
+.d-dock .ico svg { width: 26px; height: 26px; stroke-width: 1.9; }
+.d-dock .is-off { opacity: .35; pointer-events: none; }
+/* Ядро красит активную вкладку в белый и заливает глиф (.tabbar > .tab.is-on,
+   .tabbar .tab.is-on .ico svg — 0,3,0 и 0,4,0). На светлом доке это невидимка,
+   поэтому перебиваем равной специфичностью: styles.css идёт позже. */
+.d-dock > .tab.is-on { color: var(--accent-fill); }
+.d-dock > .tab.is-on .ico svg { fill: none; stroke-width: 2.4; }
+.d-badge {
+  position: absolute; top: -3px; left: 50%; margin-left: 5px;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  background-color: var(--d-red); color: #fff;
+  font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* ——— чат ————————————————————————————————————————————————————— */
+
+.d-chatbg { background-color: #E9ECF7; }
+/* Переписка прижата к низу: иначе между последним бабблом и композером
+   остаётся полоса пустой подложки, и лента «висит» посередине. */
+.d-msgs { display: flex; flex-direction: column; gap: 8px; padding: 12px var(--d-ins); margin-top: auto; }
+.d-msg { display: flex; gap: 8px; align-items: flex-end; }
+.d-msg.out { justify-content: flex-end; }
+.d-bub {
+  max-width: 76%; border-radius: 18px; padding: 8px 12px;
+  background-color: #fff; color: var(--d-ink);
+  font-size: 15px; line-height: 20px;
+}
+.d-bub.out { background-color: #E4E0FF; }
+.d-bub-name { font-size: 13px; line-height: 16px; font-weight: 700; color: var(--accent-fill); margin-bottom: 2px; }
+.d-bub-foot { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 2px; }
+.d-bub-time { font-size: 11px; color: #6B7280; }
+.d-bub.out .d-bub-time { color: #5C5A7A; }
+.d-checks { width: 14px; height: 14px; color: var(--accent-fill); }
+.d-checks svg { width: 14px; height: 14px; stroke-width: 2.6; }
+.d-voice { display: flex; align-items: center; gap: 10px; min-width: 168px; }
+.d-wave { display: flex; align-items: center; gap: 2px; height: 22px; flex: 1; }
+.d-wave i { display: block; width: 2px; border-radius: 1px; background-color: var(--accent-fill); opacity: .55; }
+.d-vplay {
+  width: 32px; height: 32px; border-radius: 50%; flex: none;
+  background-color: var(--accent-fill); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.d-vplay svg { width: 14px; height: 14px; }
+.d-script {
+  font-size: 14px; line-height: 19px; color: var(--d-sub);
+  border-top: 1px solid rgba(0, 0, 0, .07); margin-top: 8px; padding-top: 7px;
+}
+.d-pinned {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px var(--d-ins); background-color: #fff;
+}
+.d-pin-x {
+  width: 24px; height: 24px; border-radius: 50%; flex: none;
+  background-color: #F0F1F3; color: var(--d-sub);
+  display: flex; align-items: center; justify-content: center;
+}
+.d-pin-x svg { width: 12px; height: 12px; stroke-width: 2.4; }
+.d-composer {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px var(--d-ins) calc(8px + var(--safe-bottom));
+  background-color: rgba(255, 255, 255, .96);
+  border-top: .5px solid rgba(0, 0, 0, .1);
+  flex: none;
+}
+.d-composer-field {
+  flex: 1; min-height: 36px; border-radius: 18px;
+  background-color: #fff; color: var(--d-mute);
+  box-shadow: inset 0 0 0 1px #DCDFE6;
+  font-size: 15px; padding: 8px 14px;
+}
+
+/* ——— медиа-грид: 3 колонки, гаттер 1px, радиус 0 ————————————————— */
+
+/* Гаттеры белые, поэтому сетка обязана лежать на белом — на серой странице
+   она сливалась в одну серую плиту без границ. Плитки на полтона темнее
+   страницы, чтобы сетка читалась как сетка. */
+.d-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background-color: #fff; }
+.d-gridcell { position: relative; aspect-ratio: 1; }
+.d-gridcell .ph { width: 100%; height: 100%; border-radius: 0; background-color: #DCDDE3; }
+.d-gridmark {
+  position: absolute; top: 6px; right: 6px; color: #fff; z-index: 2;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .45));
+}
+.d-gridmark svg { width: 17px; height: 17px; stroke-width: 2.2; }
+.d-gridsel {
+  position: absolute; top: 6px; left: 6px; z-index: 2;
+  width: 20px; height: 20px; border-radius: 50%;
+  background-color: var(--accent-fill); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 0 1.5px #fff;
+}
+.d-gridsel svg { width: 12px; height: 12px; stroke-width: 3; }
+
+/* ——— данные, нарисованные кодом ————————————————————————————————
+   Схема двора, этикетка счётчика и поэтажный план — это содержимое
+   экрана, без которого фича непонятна, а не «визуал». */
+
+.d-plan {
+  position: relative; height: 208px; border-radius: 12px; overflow: hidden;
+  background-color: #DFE6DC;
+  margin: 0 var(--d-ins) 12px;
+}
+.d-plan-road { position: absolute; background-color: #CFD6DE; }
+.d-plan-bld {
+  position: absolute; background-color: #B9C2CE; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: #4A5462;
+}
+.d-plan-bld.mine { background-color: var(--accent-fill); color: #fff; }
+.d-plan-zone {
+  position: absolute; border-radius: 6px;
+  background-color: rgba(75, 179, 75, .3);
+  border: 1px dashed rgba(30, 110, 30, .5);
+  display: flex; align-items: flex-end; padding: 3px;
+  font-size: 9px; font-weight: 700; color: #2C6B2C;
+}
+.d-plan-me {
+  position: absolute; width: 14px; height: 14px; border-radius: 50%;
+  background-color: #2688EB; box-shadow: 0 0 0 3px rgba(38, 136, 235, .28), 0 0 0 1.5px #fff inset;
+}
+.d-plan-pin { position: absolute; color: var(--d-red); }
+.d-plan-pin svg { width: 20px; height: 20px; stroke-width: 2.2; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .3)); }
+.d-plan-cap {
+  position: absolute; left: 8px; bottom: 8px;
+  font-size: 11px; font-weight: 700; color: #3C4653;
+  background-color: rgba(255, 255, 255, .8); border-radius: 5px; padding: 3px 7px;
+}
+
+.d-tape {
+  border-radius: 10px; background-color: #F7F5EE;
+  border: 1px solid #E4DFCE; padding: 10px 12px;
+  margin: 0 var(--d-ins) 10px;
+}
+/* В шапке этикетки нужна иерархия: тип счётчика — главное, серийник — мета.
+   Одним тоном они звучали одинаково громко. */
+.d-tape-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .4px;
+  text-transform: uppercase; color: #6B6244; margin-bottom: 6px;
+}
+.d-tape-top .d-icon { color: #6B6244; }
+.d-digits { display: flex; gap: 3px; }
+.d-digit {
+  width: 26px; height: 34px; border-radius: 4px;
+  background-color: #23252B; color: #fff;
+  font-family: var(--mono); font-size: 19px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+}
+.d-digit.frac { background-color: #B5121B; }
+.d-tape-foot { font-size: 12px; color: #8A7F5F; margin-top: 6px; font-family: var(--mono); }
+
+.d-floors { display: flex; flex-direction: column-reverse; gap: 2px; padding: 0 var(--d-ins) 12px; }
+.d-floor { display: flex; align-items: center; gap: 4px; }
+.d-floor-n {
+  width: 20px; font-family: var(--mono); font-size: 11px; color: var(--d-mute);
+  text-align: right; flex: none;
+}
+.d-flat {
+  flex: 1; height: 22px; border-radius: 3px;
+  background-color: #E7EAF0;
+  font-family: var(--mono); font-size: 10px; color: var(--d-sub);
+  display: flex; align-items: center; justify-content: center;
+}
+.d-flat.here { background-color: var(--accent-fill); color: #fff; font-weight: 600; }
+.d-flat.joined { background-color: rgba(91, 76, 224, .22); color: #3B2FB0; }
+
+/* ——— служебные блоки ———————————————————————————————————————————— */
+
+.d-note {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 13px; line-height: 18px; color: var(--accent-fill);
+  padding: 8px var(--d-ins) 10px;
+}
+.d-note svg { width: 15px; height: 15px; stroke-width: 2.2; flex: none; margin-top: 2px; }
+.d-note.warn { color: #A8690A; }
+.d-note.mute { color: var(--d-sub); }
+.d-note.center { justify-content: center; text-align: center; }
+
+.d-kv { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px var(--d-ins); }
+.d-kv-k { font-size: 14px; color: var(--d-sub); }
+.d-kv-v { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--d-ink); text-align: right; }
+
+.d-stat { display: flex; }
+.d-stat-col { flex: 1; padding: 12px var(--d-ins); display: flex; align-items: center; gap: 10px; }
+.d-stat-col + .d-stat-col { border-left: 1px solid var(--d-line); }
+.d-stat-n { font-size: 17px; font-weight: 800; color: var(--d-ink); }
+.d-stat-l { font-size: 12px; line-height: 15px; color: var(--d-mute); }
+
+/* Экран входа берёт марку и ячейки кода из ядра (.auth-mark, .otp, .otp-cell):
+   вход по номеру — общий для всех концептов, его компоненты живут там. */
+.d-hero { padding: 20px var(--d-ins) 14px; text-align: center; }
+.d-hero-t { font-size: 22px; line-height: 28px; font-weight: 800; letter-spacing: -.5px; }
+.d-hero-d { font-size: 15px; line-height: 21px; color: var(--d-sub); margin-top: 8px; }
+
+/* ——— тёмные системные поверхности ————————————————————————————————
+   Текстовые классы разрешаются в тёмный ink, поэтому на d-night и на карточке
+   d-card.night им нужен светлый вариант — иначе текст читается на 2.5:1. */
+
+.d-night .d-row-title, .d-card.night .d-row-title,
+.d-night .d-hero-t, .d-night .d-stat-n { color: #F2F3F5; }
+.d-night .d-row-sub, .d-card.night .d-row-sub,
+.d-night .d-hero-d, .d-night .d-lead, .d-night .d-stat-l { color: #9AA3B2; }
+.d-night .d-kv-k, .d-card.night .d-kv-k { color: #8B93A5; }
+.d-night .d-kv-v, .d-card.night .d-kv-v { color: #E1E3E6; }
+.d-night .d-sec, .d-card.night .d-sec { color: #7A828F; }
+.d-night .d-note.mute, .d-card.night .d-note.mute { color: #8B93A5; }
+.d-night .d-top-title { color: #F2F3F5; }
+/* Значения-проза в паре ключ/значение: моно рвёт русский текст провалами. */
+.d-kv-v.text { font-family: var(--face); font-weight: 400; }
+
+/* ——— тёмные поверхности: компоненты —————————————————————————————— */
+
+.d-shot { position: relative; flex: 1; display: flex; flex-direction: column; background-color: #000; }
+.d-shot-view { flex: 1; position: relative; overflow: hidden; }
+.d-shot-hint {
+  position: absolute; left: 0; right: 0; bottom: 18px; text-align: center;
+  font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, .85);
+}
+.d-shot-bar { display: flex; align-items: center; justify-content: space-between; padding: 18px 26px 26px; background-color: #000; }
+.d-shutter {
+  width: 68px; height: 68px; border-radius: 50%;
+  background-color: #fff; box-shadow: 0 0 0 4px rgba(255, 255, 255, .28);
+}
+.d-shot-slot { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #fff; }
+.d-shot-slot svg { width: 24px; height: 24px; stroke-width: 1.9; }
+.d-frame {
+  position: absolute; left: 50%; top: 50%; width: 208px; height: 208px;
+  margin: -104px 0 0 -104px; border-radius: 20px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 0 0 2000px rgba(0, 0, 0, .45);
+}
+/* Имитация QR: тёмные модули на белой площадке с полем, без зазоров между
+   модулями и с тремя якорными квадратами по углам — иначе сетка 7×7 белым
+   по чёрному читается как россыпь квадратиков, а не как код. */
+.d-frame-code {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: grid; grid-template-columns: repeat(21, 6px); gap: 0;
+  padding: 8px; background-color: #fff; border-radius: 3px;
+}
+.d-frame-code i { display: block; width: 6px; height: 6px; background-color: #0B0B0C; }
+.d-frame-code i.off { background-color: #fff; }
+
+.d-lock { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 var(--d-ins); background-color: #0A0A0A; }
+.d-lock-time { font-size: 74px; line-height: 80px; font-weight: 300; color: #fff; margin-top: 52px; letter-spacing: -2px; }
+.d-lock-date { font-size: 15px; font-weight: 600; color: rgba(255, 255, 255, .75); }
+.d-notif {
+  width: 100%; border-radius: 18px; padding: 11px 13px; margin-top: 24px;
+  background-color: rgba(255, 255, 255, .13);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  color: #fff;
+}
+.d-notif-head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+.d-notif-app { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, .7); letter-spacing: .2px; }
+.d-notif-time { margin-left: auto; font-size: 12px; color: rgba(255, 255, 255, .6); }
+.d-notif-name { font-size: 15px; font-weight: 700; }
+.d-notif-text { font-size: 14px; line-height: 19px; color: rgba(255, 255, 255, .9); }
+.d-notif.plain { background-color: rgba(255, 255, 255, .1); }
+
+.d-springboard {
+  flex: 1; display: flex; flex-direction: column; padding: 24px 20px 0;
+  background-color: #14161C;
+}
+.d-widget {
+  border-radius: 22px; padding: 14px; background-color: #fff; color: var(--d-ink);
+  width: 158px;
+}
+.d-widget-top { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+.d-widget-name { font-size: 11px; font-weight: 800; letter-spacing: .3px; color: var(--d-mute); text-transform: uppercase; }
+.d-widget-big { font-size: 15px; line-height: 19px; font-weight: 700; }
+.d-widget-sub { font-size: 12px; line-height: 16px; color: var(--d-sub); margin-top: 4px; }
+.d-widget-tag { display: inline-flex; margin-top: 9px; font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 6px; background-color: rgba(248, 160, 28, .16); color: #A8690A; }
+.d-apps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 14px; margin-top: 24px; }
+.d-appicon { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.d-appicon-sq { width: 56px; height: 56px; border-radius: 14px; background-color: #2A2E38; }
+.d-appicon-sq.mine { background-color: var(--accent-fill); color: #fff; display: flex; align-items: center; justify-content: center; }
+.d-appicon-sq.mine svg { width: 28px; height: 28px; stroke-width: 2; }
+.d-appicon-l { font-size: 11px; color: rgba(255, 255, 255, .9); }
+
+.d-log { border-radius: 12px; background-color: var(--d-surf); padding: 12px; }
+.d-log-line { display: flex; gap: 8px; font-family: var(--mono); font-size: 11px; line-height: 17px; color: #9AA3B2; }
+.d-log-line b { color: #E1E3E6; font-weight: 500; }
+.d-log-line.ok b { color: #6FDB8F; }
+
+.d-fillbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px var(--d-ins); border-radius: 12px;
+  background-color: rgba(118, 118, 128, .16); margin: 0 var(--d-ins) 10px;
+}
+.d-fillbar-key { flex: 1; }
+.d-safari {
+  flex: 1; display: flex; flex-direction: column;
+  background-color: #F2F2F7;
+}
+.d-safari-bar {
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+  padding: 10px var(--d-ins); background-color: rgba(249, 249, 249, .94);
+  border-bottom: .5px solid rgba(0, 0, 0, .12);
+}
+.d-safari-url {
+  flex: 1; height: 36px; border-radius: 10px; background-color: rgba(118, 118, 128, .12);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 15px; color: var(--d-ink);
+}
+.d-safari-form { padding: 16px var(--d-ins); }
+.d-safari-input {
+  height: 44px; border-radius: 8px; background-color: #fff;
+  border: 1px solid #D1D1D6; display: flex; align-items: center; padding: 0 12px;
+  font-size: 16px; color: var(--d-ink); margin-bottom: 10px;
+}
+.d-safari-input.focus { border-color: var(--accent-fill); box-shadow: 0 0 0 3px rgba(91, 76, 224, .16); }
+.d-safari-input.dots { letter-spacing: 3px; color: var(--d-sub); }
+.d-keybar {
+  margin-top: auto; display: flex; align-items: center; gap: 8px;
+  padding: 8px var(--d-ins) calc(8px + var(--safe-bottom));
+  background-color: #D1D5DB; border-top: .5px solid rgba(0, 0, 0, .12);
+}
+.d-keysug {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; border-radius: 8px; background-color: #fff;
+  font-size: 14px; font-weight: 600; color: var(--d-ink);
+}
+.d-keysug svg { width: 16px; height: 16px; stroke-width: 2; color: var(--accent-fill); }

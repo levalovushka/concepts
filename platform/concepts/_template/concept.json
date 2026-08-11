@@ -1,0 +1,117 @@
+{
+  "slug": "__SLUG__",
+  "name": "__NAME__",
+  "eyebrow": "__NAME__ · iOS",
+  "targetSet": "__TARGET_SET__",
+  "domain": "__SLUG__.app",
+
+  "heroTitle": "__NAME__",
+  "heroDeck": "Одна фраза о продукте — та, что стоит под заголовком в Overview.",
+  "tagline": "Одна фраза УТП — узкая, явная, отличимая от больших игроков",
+  "insight": "ядровое ограничение, из которого вытекают якорные доступы",
+  "deck": "Абзац под заголовком: что это, для кого, и почему бэкенда нет.",
+
+  "brand": {
+    "accent": "#0d8a7a",
+    "accentDark": "#3dd6c0",
+    "fonts": "Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
+  },
+
+  "start": "phone",
+  "tabs": [{ "id": "home", "label": "Главная" }],
+
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«__NAME__» запрашивает доступ к камере",
+        "text": "Зачем именно здесь — одной фразой, без общих слов."
+      },
+      "feature": "Фича, которую видно в интерфейсе",
+      "gesture": "«Точное название кнопки»",
+      "screen": "home",
+      "target": "home",
+      "fallback": "Что остаётся работать при отказе",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Чем заземлено без бэкенда"
+    }
+  ],
+
+  "screens": [
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "" }
+  ],
+
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все экраны и все доступы набора",
+      "start": "phone",
+      "screens": ["phone", "code", "home"]
+    },
+    {
+      "id": "signin",
+      "label": "Вход по номеру",
+      "note": "Первые два экрана: номер и код из SMS",
+      "start": "phone",
+      "screens": ["phone", "code", "home"],
+      "stops": ["home"]
+    }
+  ],
+
+  "backendless": [
+    { "needs": "Что потребовало бы сервера", "solution": "Клиентская или статическая замена" }
+  ],
+
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" },
+    { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
+    { "file": "06-app-store.md", "label": "Карточка App Store" }
+  ],
+
+  "appStore": {
+    "name": "__NAME__",
+    "subtitle": "Три-четыре слова о пользе",
+    "promo": "До 170 символов: что нового и зачем скачивать. Текст можно менять без релиза, поэтому здесь живёт самое свежее.",
+    "keywords": "первое,второе,третье,четвёртое,пятое",
+    "category": { "primary": "Utilities", "secondary": "Lifestyle" },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://__SLUG__.app/support",
+      "marketing": "https://__SLUG__.app",
+      "privacy": "https://__SLUG__.app/privacy"
+    },
+    "description": [
+      "Первый абзац: что это и для кого. Без маркетингового шума — ревьюер читает его как описание функциональности.",
+      "ЗАГОЛОВОК БЛОКА\nОдна фича — один блок. Ровно те фичи, которыми заслужены доступы из набора."
+    ],
+    "whatsNew": "Первая версия: перечислить ключевые фичи одной строкой.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется."
+    }
+  }
+}

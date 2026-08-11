@@ -1,0 +1,53 @@
+<div class="screen" id="scr-scan" style="background:#000">
+            <div class="cam">
+              <div class="cam-preview scene art-scene" style="filter:brightness(.66)"></div>
+              <div class="cam-top">
+                <div class="icon-btn tap" data-back aria-label="Закрыть камеру">
+                  <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 5l12 12M17 5L5 17"/></svg>
+                </div>
+                <div class="cam-mid" style="font:600 15px/1 var(--face)">Этикетка пластинки</div>
+                <div class="cam-side" aria-hidden="true"></div>
+              </div>
+
+              <div class="scan-hint">
+                Наведите на этикетку. Лейбл, название и матричный номер распознаются на устройстве — кадр никуда не отправляется.
+              </div>
+
+              <div class="scanwin">
+                <img src="assets/media/label.svg" alt="Этикетка пластинки в кадре">
+                <span class="scan-corner" style="left:-10px;top:-10px;border-right:0;border-bottom:0;border-radius:6px 0 0 0"></span>
+                <span class="scan-corner" style="right:-10px;top:-10px;border-left:0;border-bottom:0;border-radius:0 6px 0 0"></span>
+                <span class="scan-corner" style="left:-10px;bottom:-10px;border-right:0;border-top:0;border-radius:0 0 0 6px"></span>
+                <span class="scan-corner" style="right:-10px;bottom:-10px;border-left:0;border-top:0;border-radius:0 0 6px 0"></span>
+              </div>
+
+              <div class="scan-read">
+                <div class="scan-read-head">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8a75e" stroke-width="2.6"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                  <span>Прочитано с этикетки</span>
+                </div>
+                <div class="scan-fields">
+                  <b>Лейбл</b><span>ЛИРА</span>
+                  <b>Название</b><span>Чёрные глаза</span>
+                  <b>Матрица</b><span class="mv">2213-А · 1927</span>
+                </div>
+              </div>
+
+              <div class="cam-bottom">
+                <div class="shutter-row">
+                  <div class="shutter-side art-d2 tap" data-ask="photo|pick|scan" aria-label="Распознать со снимка из галереи"></div>
+                  <div class="shutter tap" data-go="scanfound" aria-label="Распознать этикетку"></div>
+                  <div class="shutter-side tap" data-go="scanfail" aria-label="Ввести матричный номер вручную">
+                    <svg class="ico-svg" style="width:22px;height:22px"><use href="#i-search-x"/></svg>
+                  </div>
+                </div>
+                <div class="t-footnote" style="color:rgba(255,255,255,.66);text-align:center">
+                  Слева — снимок из галереи, справа — ввод номера, если этикетка стёрта
+                </div>
+                <div class="t-footnote perm-hidden" style="color:#e8a75e;text-align:center" data-show-denied="photo">
+                  Нет доступа к «Фото» — снимайте этикетку камерой здесь же.
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

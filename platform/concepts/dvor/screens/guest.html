@@ -1,0 +1,74 @@
+<div class="screen d-page" id="scr-guest">
+            <div class="body-scroll d-scroll" style="display:flex;flex-direction:column;padding-top:calc(var(--safe-top) + 4px)">
+              <div class="d-top">
+                <div class="d-back tap" data-back aria-label="Назад во двор">
+                  <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
+                </div>
+                <div class="d-top-title sm">Гостевая сеть</div>
+              </div>
+
+              <div class="d-card">
+                <div class="d-kv">
+                  <span class="d-kv-k">Сеть</span>
+                  <span class="d-kv-v">Dvor-Guest</span>
+                </div>
+                <div class="d-kv">
+                  <span class="d-kv-k">Шифрование</span>
+                  <span class="d-kv-v">WPA2</span>
+                </div>
+                <div class="d-kv">
+                  <span class="d-kv-k">Действует</span>
+                  <span class="d-kv-v">до 30 апреля</span>
+                </div>
+              </div>
+
+              <div class="d-card">
+                <div class="d-row" data-ask="camera|scan|guest" aria-label="Сканировать QR с лавочки">
+                  <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-qr-code"/></svg></span>
+                  <div class="d-row-main">
+                    <div class="d-row-title wrap">Сканировать QR с лавочки</div>
+                    <div class="d-row-sub wrap">Код обновляется раз в месяц</div>
+                  </div>
+                  <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+                </div>
+                <div class="d-note perm-hidden" data-show-denied="camera">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                  <span>Камера закрыта — сканировать нечем. Имя сети и пароль показаны ниже текстом, их же печатают на табличке под QR.</span>
+                </div>
+              </div>
+
+              <div class="d-cta">
+                <div class="d-btn" data-ask="hotspot|guest|guest" aria-label="Подключиться к Dvor-Guest">Подключиться к Dvor-Guest</div>
+              </div>
+
+              <div class="d-note" data-hide-denied="hotspot">
+                <svg class="ico-svg"><use href="#i-check"/></svg>
+                <span>Подключение настроит приложение, пароль вводить не нужно.</span>
+              </div>
+
+              <div class="d-note warn perm-hidden" data-show-denied="hotspot">
+                <svg class="ico-svg"><use href="#i-triangle-alert"/></svg>
+                <span>Не удалось настроить подключение автоматически — сеть придётся выбрать руками.</span>
+              </div>
+
+              <div class="d-card perm-hidden" data-show-denied="camera,hotspot">
+                <div class="d-kv">
+                  <span class="d-kv-k">Сеть</span>
+                  <span class="d-kv-v">Dvor-Guest</span>
+                </div>
+                <div class="d-kv">
+                  <span class="d-kv-k">Пароль</span>
+                  <span class="d-kv-v">dvor-2026</span>
+                </div>
+                <div class="d-note mute">
+                  <span>Настройки → Wi-Fi → Dvor-Guest, пароль ввести вручную.</span>
+                </div>
+              </div>
+
+              <div class="push"></div>
+              <div class="d-note mute">
+                <span>Параметры сети приходят из QR-кода на лавочке, сервер не участвует: приложение только передаёт их системе.</span>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

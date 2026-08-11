@@ -1,0 +1,54 @@
+<div class="screen" id="scr-counter" style="background:#000">
+            <div class="scene scene-teal is-backdrop" style="pointer-events:none"></div>
+            <div style="flex:1;position:relative;z-index:1" class="tap" data-back></div>
+            <div class="sheet light">
+              <div class="grabber tap" data-back aria-label="Закрыть счётчик"></div>
+              <div class="sheet-body">
+                <div class="counter-head">
+                  <div class="eyebrow">Ряд</div>
+                  <div class="counter-num">48</div>
+                  <div class="t-subhead" style="margin-top:-2px">из 96 · раппорт 4 из 8</div>
+                </div>
+                <div class="counter-controls">
+                  <div class="listen" data-hide-denied="speech,mic">
+                    <span class="wave" aria-hidden="true">
+                      <i style="height:6px"></i><i style="height:13px"></i><i style="height:9px"></i><i style="height:15px"></i><i style="height:7px"></i>
+                    </span>
+                    Слушаю
+                  </div>
+                  <div class="listen is-off perm-hidden" data-show-denied="speech,mic">Голос выключен</div>
+                  <div class="ios-stepper" aria-label="Ряд">
+                    <button type="button" aria-label="Меньше"><svg class="ico-svg"><use href="#i-minus"/></svg></button>
+                    <button type="button" aria-label="Больше"><svg class="ico-svg"><use href="#i-plus"/></svg></button>
+                  </div>
+                </div>
+                <div class="ios-list" style="background:#f2f2f7;margin-bottom:8px" data-hide-denied="speech,mic">
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow">
+                      <div class="t-body">Скажите «ряд»</div>
+                      <div class="t-caption">Счётчик прибавит — не выпуская спиц из рук</div>
+                    </div>
+                  </div>
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow">
+                      <div class="t-body">«Сколько» — назовёт номер вслух</div>
+                      <div class="t-caption">Распознавание идёт на устройстве</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ios-list perm-hidden" style="background:#f2f2f7;margin-bottom:8px" data-show-denied="speech,mic">
+                  <div class="row" style="background:#f2f2f7">
+                    <div class="grow">
+                      <div class="t-body">Считайте кнопками − и +</div>
+                      <div class="t-caption">Счётчик работает и без голоса — просто спицы придётся отложить</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="t-footnote perm-hidden" style="color:var(--accent-fill);margin:0 0 8px;text-align:center" data-show-denied="speech">Доступ к распознаванию речи отклонён</div>
+              </div>
+              <div class="sheet-footer">
+                <div class="btn-filled block" data-back>Готово</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

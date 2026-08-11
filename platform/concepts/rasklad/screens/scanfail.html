@@ -1,0 +1,58 @@
+<div class="screen ios-surface" id="scr-scanfail" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading"><div class="btn-plain tap" data-back>Отмена</div></div>
+              <div class="title">Номер карты</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll rk-col" style="padding:8px var(--margin) 0">
+              <div class="errbox" data-hide-denied="camera">
+                <div class="errbox-ico" aria-hidden="true">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                </div>
+                <div class="grow">
+                  <div class="t-headline">Метку не удалось прочитать</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Вечером света мало, а карта лежит под углом. Чтение идёт на устройстве — кадры никуда не отправлялись.</p>
+                </div>
+              </div>
+              <div class="errbox perm-hidden" data-show-denied="camera">
+                <div class="errbox-ico" aria-hidden="true">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                </div>
+                <div class="grow">
+                  <div class="t-headline">Камера недоступна</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Доступ к камере отклонён — сканировать нечем. Впишите номер с карты сами или включите камеру в Настройках.</p>
+                </div>
+              </div>
+              <div style="margin-bottom:22px" data-hide-denied="camera">
+                <div class="btn-tinted block tap" data-back>Сканировать ещё раз</div>
+              </div>
+
+              <div class="group-head">Впишите номер с карты</div>
+              <div class="ios-list">
+                <div class="row">
+                  <div class="field-label">Номер</div>
+                  <input class="field-input" type="text" value="07" readonly aria-label="Номер карты">
+                </div>
+                <div class="row">
+                  <div class="field-label">Колода</div>
+                  <input class="field-input" type="text" value="Базовая · 44 карты" readonly aria-label="Колода">
+                </div>
+              </div>
+              <p class="t-footnote" style="margin:8px 4px 0">Ручной ввод даёт то же, что скан: карту и размышления под неё.</p>
+
+              <div class="rk-panel rk-hintpanel">
+                <img class="rk-markerhint" src="assets/media/marker.svg" alt="Угол карты с номером 07 и точечной меткой">
+                <div class="grow">
+                  <div class="t-headline">Где искать номер</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Номер и точечная метка напечатаны в левом верхнем углу карты. Со следующего раза: больше света, карта ровно на столе.</p>
+                </div>
+              </div>
+
+              <div class="push"></div>
+              <div class="cta-col" style="padding-left:0;padding-right:0">
+                <div class="btn-filled block" data-jump="card">Открыть размышление</div>
+                <div class="btn-plain tap rk-second" data-jump="cards">Или выбрать карту из списка</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

@@ -1,0 +1,35 @@
+<div class="screen ios-surface" id="scr-pick" style="background:#fff">
+            <div class="pick-bar">
+              <div class="pb-act tap" data-back>Отмена</div>
+              <div class="pick-title">Фото</div>
+              <div class="pb-act is-strong tap" data-go="scanfound">Готово</div>
+            </div>
+            <div class="body-scroll">
+              <div style="padding:12px var(--margin) 10px">
+                <div class="ios-segmented" role="tablist">
+                  <button type="button" class="seg is-on" role="tab" aria-selected="true">Все фото</button>
+                  <button type="button" class="seg" role="tab" aria-selected="false">Альбомы</button>
+                  <button type="button" class="seg" role="tab" aria-selected="false">Недавние</button>
+                </div>
+              </div>
+              <div class="pick-grid">
+                <div class="photo art-d1 is-on"><span class="check" aria-hidden="true">✓</span></div>
+                <div class="photo art-s1"></div>
+                <div class="photo art-d3"></div>
+                <div class="photo art-s2"></div>
+                <div class="photo art-d4"></div>
+                <div class="photo art-d2"></div>
+                <div class="photo art-s3"></div>
+                <div class="photo art-d5"></div>
+                <div class="photo art-d6"></div>
+              </div>
+              <div style="padding:16px var(--margin) 28px">
+                <p class="t-footnote" style="margin:0 0 16px">
+                  Системный выбор <span class="mono-chip">PHPicker</span> — приложение получает только отмеченный снимок и не видит остальную медиатеку.
+                </p>
+                <div class="btn-filled block tap" data-go="scanfound">Распознать пластинку</div>
+                <div class="btn-tinted block mt12 tap" data-toast="Фото конверта добавлено к экземпляру|copy">Приложить как фото конверта</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="260" viewBox="0 0 420 260">
+  <rect width="420" height="260" rx="14" fill="#f4f2ec"/>
+  <rect x="9" y="9" width="402" height="242" rx="9" fill="none" stroke="#3a5a8c" stroke-width="2"/>
+  <text x="34" y="86" font-family="Geist Mono, ui-monospace, monospace" font-size="64" font-weight="500" fill="#1b2330">07</text>
+  <text x="34" y="122" font-family="Geist, system-ui, sans-serif" font-size="19" font-weight="600" fill="#1b2330">МОСТ</text>
+  <text x="34" y="152" font-family="Geist, system-ui, sans-serif" font-size="14" fill="#8d97a8">Базовая колода · 44 карты</text>
+  <path d="M34 176 H386" stroke="#d7dce6" stroke-width="1.5"/>
+  <text x="34" y="204" font-family="Geist Mono, ui-monospace, monospace" font-size="13" fill="#8d97a8">RSK-BASE-07</text>
+  <rect x="244" y="74" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="274" y="74" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="74" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="334" y="74" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="259" y="89" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="274" y="89" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="89" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="244" y="104" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="104" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="334" y="104" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="259" y="119" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="274" y="119" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="289" y="119" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="119" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="319" y="119" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="244" y="134" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="274" y="134" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="134" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="319" y="134" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="334" y="134" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="149" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="319" y="149" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="244" y="164" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="274" y="164" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="304" y="164" width="13" height="13" rx="2" fill="#1b2330"/>
+  <rect x="334" y="164" width="13" height="13" rx="2" fill="#1b2330"/>
+</svg>

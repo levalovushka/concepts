@@ -1,0 +1,45 @@
+<div class="screen" id="scr-cast" style="background:#000">
+            <div class="scene scene-teal is-backdrop" style="pointer-events:none"></div>
+            <div style="flex:1;position:relative;z-index:1" class="tap" data-back></div>
+            <div class="sheet light">
+              <div class="grabber tap" data-back aria-label="Закрыть"></div>
+              <div class="sheet-body">
+                <div class="sheet-title">Устройства рядом</div>
+                <p class="sheet-lead">Телефон и телевизор в одной сети Wi-Fi. Урок пойдёт на большом экране — телефон останется под рукой как пульт.</p>
+                <div data-hide-denied="localnet">
+                  <div class="ios-list" style="background:#f2f2f7">
+                    <div class="row tap" data-jump="lesson" style="background:#f2f2f7">
+                      <svg class="ico-svg" style="width:22px;height:22px;flex:none;color:#111"><use href="#i-tv-minimal"/></svg>
+                      <div class="grow"><div class="t-body">Гостиная</div><div class="t-caption">Chromecast</div></div>
+                      <div class="row-value accent">Подключено</div>
+                    </div>
+                    <div class="row" style="background:#f2f2f7">
+                      <svg class="ico-svg" style="width:22px;height:22px;flex:none;color:#111"><use href="#i-tv-minimal"/></svg>
+                      <div class="grow"><div class="t-body">Кухня</div><div class="t-caption">Chromecast Ultra</div></div>
+                      <div class="row-count">Подключить</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="perm-hidden" data-show-denied="localnet">
+                  <div class="errbox">
+                    <div class="errbox-ico" aria-hidden="true">
+                      <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                    </div>
+                    <div class="grow">
+                      <div class="t-headline">Список устройств пуст</div>
+                      <p class="t-footnote" style="margin:4px 0 0">Без доступа к локальной сети телевизор не найти — приложение не видит, что есть в вашей сети.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sheet-footer">
+                <div data-hide-denied="localnet">
+                  <div class="btn-filled block" data-jump="lesson">Смотреть на ТВ</div>
+                </div>
+                <div class="perm-hidden" data-show-denied="localnet">
+                  <div class="btn-tinted" style="width:100%;background:rgba(13,138,122,.14);color:var(--accent-fill)">Открыть Настройки</div>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

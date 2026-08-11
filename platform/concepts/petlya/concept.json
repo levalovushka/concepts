@@ -1,0 +1,584 @@
+{
+  "slug": "petlya",
+  "name": "Петля",
+  "eyebrow": "Петля · Уроки вязания · iOS",
+  "targetSet": "vk-video",
+  "domain": "petlya.app",
+  "heroTitle": "Петля — приложение школы вязания",
+  "heroDeck": "Для тех, у кого руки заняты спицами: урок на телевизоре, звук в фоне, голосовой счётчик рядов и схема под видео.",
+  "tagline": "Уроки вязания, которые можно смотреть, когда руки заняты спицами",
+  "insight": "во время вязания руки заняты, и телефон в них не держат",
+  "deck": "Приложение школы вязания для тех, у кого руки заняты спицами: урок на телевизоре, звук в фоне, голосовой счётчик рядов и схема под видео. Клиентское приложение — своего бэкенда нет. Все 9 доступов запрашиваются в момент действия.",
+  "brand": {
+    "accent": "#0d8a7a",
+    "accentDark": "#3dd6c0",
+    "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "lessons",
+      "label": "Уроки"
+    },
+    {
+      "id": "projects",
+      "label": "Проекты"
+    },
+    {
+      "id": "settings",
+      "label": "Профиль"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Петля» запрашивает доступ к распознаванию речи",
+        "text": "Чтобы считать ряды по голосовой команде — не выпуская спиц из рук."
+      },
+      "feature": "Голосовой счётчик рядов",
+      "gesture": "«Считать голосом»",
+      "screen": "lesson",
+      "target": "counter",
+      "fallback": "Счёт кнопками ±, голосовая кнопка скрывается",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true",
+      "reviewNote": "Распознавание идёт на устройстве, словарь ограничен командами счётчика, аудио никуда не отправляется."
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Петля» запрашивает доступ к микрофону",
+        "text": "Чтобы слышать команды счётчика и записывать звук в ваших видео."
+      },
+      "feature": "Звук команд счётчика и своих записей",
+      "gesture": "«Считать голосом» / «Сохранить со звуком»",
+      "screen": "counter",
+      "target": "counter",
+      "fallback": "Кнопки ± / запись сохраняется без звука",
+      "snack": "Нет доступа к микрофону",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Запись в файл локально, вход для on-device распознавания"
+    },
+    {
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription",
+      "alert": {
+        "title": "Локальная сеть",
+        "text": "Чтобы найти телевизор и Chromecast и показать урок на большом экране."
+      },
+      "feature": "Урок на телевизоре",
+      "gesture": "«Смотреть на ТВ»",
+      "screen": "lesson",
+      "target": "cast",
+      "fallback": "Пустой список устройств + «Открыть Настройки»",
+      "snack": "Нет доступа к локальной сети",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Bonjour-дискавери _googlecast._tcp, Cast SDK на клиенте",
+      "reviewNote": "Ищется _googlecast._tcp для показа урока на телевизоре; приложить демо с реальным устройством."
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио и Picture in Picture",
+        "text": "Урок продолжает играть при погасшем экране и в плавающем окне."
+      },
+      "activate": true,
+      "feature": "Голос урока в фоне и PiP",
+      "gesture": "«Слушать в фоне» / PiP",
+      "screen": "lesson",
+      "target": "background",
+      "fallback": "Без entitlement звук обрывается — не ship",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Реальный playback, заполненный MPNowPlayingInfoCenter и remote-команды",
+      "grounding": "AVAudioSession + MPNowPlayingInfoCenter",
+      "reviewNote": "Сценарий: пользователь вяжет, экран гаснет, голос урока продолжает вести. Приложить видео с локскрином."
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Петля» запрашивает доступ к камере",
+        "text": "Чтобы снимать свои приёмы и сканировать этикетку мотка."
+      },
+      "feature": "Свой ракурс и скан этикетки мотка",
+      "gesture": "«Снять свой ракурс» / «Сканировать этикетку»",
+      "screen": "project",
+      "target": "record",
+      "fallback": "Пустое состояние + «Открыть Настройки»; данные мотка вводятся вручную",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVFoundation + DataScannerViewController, распознавание на устройстве"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Петля» запрашивает доступ к «Фото»",
+        "text": "Чтобы добавить фото прогресса и схему в проект."
+      },
+      "feature": "Фото прогресса в заметку к таймкоду",
+      "gesture": "«Прикрепить фото прогресса»",
+      "screen": "project",
+      "target": "gallery",
+      "fallback": "Заметка сохраняется текстом",
+      "snack": "Нет доступа к «Фото»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker — выбор без полного доступа к медиатеке"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Петля» запрашивает доступ к геопозиции",
+        "text": "Чтобы показать магазины пряжи рядом с вами."
+      },
+      "feature": "Магазины пряжи рядом",
+      "gesture": "«Магазины пряжи рядом»",
+      "screen": "project",
+      "target": "yarn",
+      "fallback": "Ручной ввод города, поиск без геопривязки",
+      "snack": "Нет доступа к геопозиции",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Экран должен реально искать через MKLocalSearch",
+      "grounding": "MKLocalSearch с запросом «магазины пряжи» — категория, а не конкретный артикул",
+      "reviewNote": "Ищется категория магазинов, не товар: приложение не знает ассортимент и ничего не обещает про наличие."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Петля» запрашивает разрешение на отправку уведомлений",
+        "text": "Уведомления могут включать оповещения, звуки и значки. Настроить их можно в Настройках."
+      },
+      "feature": "Новый урок в курсе",
+      "gesture": "Свитч «Новые уроки»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Фича выключена в UI",
+      "snack": "Уведомления выключены в настройках",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Настоящая регистрация в APNs и хотя бы один живой пуш",
+      "grounding": "SDK провайдера (OneSignal / FCM), отправка из дашборда школы"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Петле» отслеживать ваши действия в приложениях и на сайтах других компаний?",
+        "text": "Данные будут использоваться для показа релевантной рекламы.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
+      "feature": "Бесплатно с рекламой по интересам",
+      "gesture": "«Продолжить» в блоке о рекламе",
+      "screen": "ads",
+      "target": "lessons",
+      "fallback": "Неперсонализированная реклама",
+      "snack": "Трекинг отклонён",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Ad SDK реально в сборке и IDFA действительно уходит в SDK",
+      "grounding": "Ad SDK с медиацией",
+      "reviewNote": "ATT показывать только после экрана с объяснением, никогда на старте."
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP · автоподстановка"
+    },
+    {
+      "id": "lessons",
+      "title": "Уроки",
+      "type": "tab (root, старт)",
+      "light": true,
+      "meta": "Каталог курсов"
+    },
+    {
+      "id": "lesson",
+      "title": "Урок",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "lessons",
+      "meta": "Видео · схема · счётчик"
+    },
+    {
+      "id": "counter",
+      "title": "Счётчик рядов",
+      "type": "sheet",
+      "light": false,
+      "parent": "lesson",
+      "meta": "Speech · Microphone"
+    },
+    {
+      "id": "cast",
+      "title": "Устройства",
+      "type": "sheet",
+      "light": false,
+      "parent": "lesson",
+      "meta": "Local Network · Bonjour"
+    },
+    {
+      "id": "pip",
+      "title": "Picture in Picture",
+      "type": "system",
+      "light": false,
+      "parent": "lesson",
+      "meta": "Background audio"
+    },
+    {
+      "id": "background",
+      "title": "Фон / блокировка",
+      "type": "system",
+      "light": false,
+      "parent": "lesson",
+      "meta": "Now Playing"
+    },
+    {
+      "id": "projects",
+      "title": "Проекты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Дневник по курсам"
+    },
+    {
+      "id": "project",
+      "title": "Проект",
+      "type": "push",
+      "light": true,
+      "parent": "projects",
+      "meta": "Заметки · материалы"
+    },
+    {
+      "id": "record",
+      "title": "Свой ракурс",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "project",
+      "meta": "Camera · Microphone"
+    },
+    {
+      "id": "scan",
+      "title": "Этикетка",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "project",
+      "meta": "Camera · on-device"
+    },
+    {
+      "id": "scanfail",
+      "title": "Ввод вручную",
+      "type": "modal (ошибка)",
+      "light": true,
+      "parent": "scan",
+      "meta": "Скан не удался · fallback"
+    },
+    {
+      "id": "gallery",
+      "title": "Галерея",
+      "type": "system picker",
+      "light": true,
+      "parent": "project",
+      "meta": "Photo Library"
+    },
+    {
+      "id": "yarn",
+      "title": "Магазины пряжи",
+      "type": "modal",
+      "light": true,
+      "parent": "project",
+      "meta": "Location When In Use"
+    },
+    {
+      "id": "ads",
+      "title": "Реклама",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT / IDFA"
+    },
+    {
+      "id": "settings",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Push · Cast · Links"
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все экраны и все десять доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "lessons",
+        "lesson",
+        "counter",
+        "cast",
+        "pip",
+        "background",
+        "projects",
+        "project",
+        "record",
+        "scan",
+        "scanfail",
+        "gallery",
+        "yarn",
+        "ads",
+        "settings"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход по номеру",
+      "note": "Первые два экрана: номер и код из SMS",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "lessons",
+        "lesson",
+        "counter",
+        "cast",
+        "pip",
+        "background"
+      ],
+      "stops": [
+        "lesson",
+        "counter",
+        "cast",
+        "pip",
+        "background"
+      ]
+    },
+    {
+      "id": "evening",
+      "label": "Вечер с вязанием",
+      "note": "Урок на ТВ, голос в фоне, счёт рядов без рук",
+      "start": "lessons",
+      "screens": [
+        "lessons",
+        "lesson",
+        "cast",
+        "counter",
+        "pip",
+        "background"
+      ]
+    },
+    {
+      "id": "materials",
+      "label": "Проект и материалы",
+      "note": "Скан этикетки, фото прогресса, магазины пряжи",
+      "start": "projects",
+      "screens": [
+        "projects",
+        "project",
+        "scan",
+        "scanfail",
+        "gallery",
+        "yarn",
+        "record"
+      ]
+    },
+    {
+      "id": "profile",
+      "label": "Профиль: пуш, ATT, ссылки",
+      "note": "Пять доступов из одного раздела — каждая строка ведёт к своей фиче",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "ads",
+        "lessons",
+        "cast",
+        "background"
+      ],
+      "stops": [
+        "lessons",
+        "cast",
+        "background"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Каталог уроков и видео",
+      "solution": "Контент-пак: <code>lessons.json</code> + mp4 статикой на CDN. Только чтение"
+    },
+    {
+      "needs": "Вход по номеру телефона и SMS-код",
+      "solution": "SDK провайдера аутентификации (VK ID / Firebase Phone Auth). Свой сервер не поднимаем; на устройстве — только токен в Keychain"
+    },
+    {
+      "needs": "Профили, подписки, лайки",
+      "solution": "Вырезаны. Вход только опознаёт устройство — ни ленты, ни UGC, ни модерации"
+    },
+    {
+      "needs": "Комментарии",
+      "solution": "Заметки к таймкоду, локально в CoreData"
+    },
+    {
+      "needs": "Прямые эфиры",
+      "solution": "Вырезаны. Вместо них — локальная запись своего ракурса"
+    },
+    {
+      "needs": "Push через APNs",
+      "solution": "SDK провайдера (OneSignal / FCM), отправка из дашборда школы"
+    },
+    {
+      "needs": "Публикация в облако",
+      "solution": "Экспорт файла через системный share sheet"
+    },
+    {
+      "needs": "Магазины пряжи",
+      "solution": "<code>MKLocalSearch</code> с запросом «магазины пряжи» — карты Apple, категория, а не товар"
+    },
+    {
+      "needs": "Распознавание речи и этикетки",
+      "solution": "<code>SFSpeechRecognizer</code> on-device + <code>DataScannerViewController</code>; не распозналось — форма ручного ввода"
+    },
+    {
+      "needs": "Реклама",
+      "solution": "Ad SDK с медиацией"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Петля: уроки вязания",
+    "subtitle": "Курс, схема и счёт рядов",
+    "promo": "Урок уходит на телевизор, голос ведёт при погасшем экране, а ряды считаются по команде «ряд» — спицы из рук не выпускаются.",
+    "keywords": "вязание,спицы,петли,пряжа,рукоделие,вязать,мастер-класс,шарф,носки,ряды",
+    "category": {
+      "primary": "Education",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://petlya.app/support",
+      "marketing": "https://petlya.app",
+      "privacy": "https://petlya.app/privacy"
+    },
+    "description": [
+      "«Петля» — приложение школы вязания для тех, у кого во время работы заняты руки. Телефон не держат в руках, в него не тыкают и в него не вглядываются. Из этого выросли все решения продукта.",
+      "УРОК НА ТЕЛЕВИЗОРЕ\nОдин тап — и урок идёт на большом экране через Chromecast. Телефон остаётся под рукой как пульт и счётчик.",
+      "ГОЛОС ВЕДЁТ ПРИ ПОГАСШЕМ ЭКРАНЕ\nЭкран можно погасить: инструкция продолжает звучать, перемотка ±15 секунд — с наушников. Вышли в другое приложение — урок уходит в плавающее окно и не прерывается.",
+      "СЧЁТ РЯДОВ ГОЛОСОМ\nСкажите «ряд» — счётчик прибавит. Спросите «сколько» — назовёт номер вслух. Распознавание идёт на устройстве: без сети и без отправки звука куда-либо.",
+      "СХЕМА ПОД ВИДЕО\nНе распечатка и не отдельное приложение: схема лежит вторым слоем того же экрана, текущий ряд подсвечен.",
+      "ДНЕВНИК ПРОЕКТА\nЗаметки привязаны к таймкоду урока — «на 4:12 убавка не сошлась». Фото прогресса, состав и номер партии пряжи со скана этикетки, магазины пряжи поблизости.",
+      "БЕЗ АККАУНТОВ И ЛЕНТЫ\nВход по номеру телефона — только чтобы курс и дневник остались за вами при смене устройства. Ни ленты чужого контента, ни подписок, ни комментариев."
+    ],
+    "whatsNew": "Первая версия: уроки на телевизоре, голос в фоне, голосовой счётчик рядов, схема под видео и дневник проекта.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа к курсу. Обрабатывается SDK провайдера аутентификации"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Push-токен для уведомлений о новых уроках"
+      },
+      {
+        "type": "Рекламный идентификатор",
+        "apple": "Identifiers → Advertising Data",
+        "purpose": "Реклама третьих лиц",
+        "linked": false,
+        "tracking": true,
+        "why": "IDFA уходит в Ad SDK только после разрешения ATT"
+      },
+      {
+        "type": "Геопозиция (приблизительная)",
+        "apple": "Location → Coarse Location",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Поиск магазинов пряжи через MKLocalSearch. Не сохраняется и не передаётся нам"
+      },
+      {
+        "type": "Аудио, фото и видео",
+        "apple": "User Content",
+        "purpose": "Не собирается",
+        "linked": false,
+        "tracking": false,
+        "why": "Записи, фото прогресса и звук команд остаются на устройстве. Распознавание речи и этикетки — on-device"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется."
+    }
+  }
+}

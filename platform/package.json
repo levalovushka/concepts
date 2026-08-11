@@ -1,0 +1,20 @@
+{
+  "name": "camo-platform",
+  "version": "1.0.0",
+  "description": "Тренажёр для дизайнеров и продактов: ядро + концепты + инструменты",
+  "type": "module",
+  "scripts": {
+    "new": "node scripts/new-concept.mjs",
+    "build": "node scripts/build.mjs",
+    "build:all": "node scripts/build-all.mjs",
+    "docs": "node scripts/gen-docs.mjs",
+    "shots": "node scripts/capture.mjs",
+    "test": "node scripts/test-flows.mjs",
+    "lint": "node scripts/lint-concept.mjs"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "lucide-static": "^0.525.0",
+    "playwright": "^1.49.0"
+  }
+}

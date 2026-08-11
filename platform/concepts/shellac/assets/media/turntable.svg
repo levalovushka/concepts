@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="390" viewBox="0 0 390 390">
+  <defs>
+    <radialGradient id="mat" cx="46%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#4a3a2c"/>
+      <stop offset="100%" stop-color="#241a12"/>
+    </radialGradient>
+    <radialGradient id="dg" cx="38%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#3b3331"/>
+      <stop offset="60%" stop-color="#1b1210"/>
+      <stop offset="100%" stop-color="#100a09"/>
+    </radialGradient>
+    <linearGradient id="arm" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e6e2da"/>
+      <stop offset="45%" stop-color="#b9b2a6"/>
+      <stop offset="100%" stop-color="#8d8579"/>
+    </linearGradient>
+    <linearGradient id="sh" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".14"/>
+      <stop offset="42%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="72%" stop-color="#fff" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="dc"><circle cx="195" cy="195" r="168"/></clipPath>
+    <filter id="ds" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+  </defs>
+  <circle cx="195" cy="195" r="184" fill="url(#mat)"/>
+  <circle cx="195" cy="195" r="182" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="174" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="166" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="158" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="150" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="142" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="134" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="126" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="118" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="110" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="102" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="94" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="86" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="78" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="70" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="62" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="54" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="46" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="38" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="30" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="22" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/><circle cx="195" cy="195" r="14" fill="none" stroke="#000" stroke-opacity=".16" stroke-width="1"/>
+  <g filter="url(#ds)">
+    <circle cx="195" cy="195" r="168" fill="url(#dg)"/>
+  </g>
+  <g clip-path="url(#dc)">
+    <circle cx="195" cy="195" r="70.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.060" stroke-width="1"/><circle cx="195" cy="195" r="72.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.054" stroke-width="1"/><circle cx="195" cy="195" r="74.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.146" stroke-width="1"/><circle cx="195" cy="195" r="76.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.121" stroke-width="1"/><circle cx="195" cy="195" r="79" fill="none" stroke="#c9b7a6" stroke-opacity="0.078" stroke-width="1"/><circle cx="195" cy="195" r="81.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.142" stroke-width="1"/><circle cx="195" cy="195" r="83.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.076" stroke-width="1"/><circle cx="195" cy="195" r="85.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.147" stroke-width="1"/><circle cx="195" cy="195" r="87.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.078" stroke-width="1"/><circle cx="195" cy="195" r="89.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.060" stroke-width="1"/><circle cx="195" cy="195" r="91.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.066" stroke-width="1"/><circle cx="195" cy="195" r="93.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.144" stroke-width="1"/><circle cx="195" cy="195" r="95.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.051" stroke-width="1"/><circle cx="195" cy="195" r="97.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.050" stroke-width="1"/><circle cx="195" cy="195" r="100" fill="none" stroke="#c9b7a6" stroke-opacity="0.096" stroke-width="1"/><circle cx="195" cy="195" r="102.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.130" stroke-width="1"/><circle cx="195" cy="195" r="104.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.108" stroke-width="1"/><circle cx="195" cy="195" r="106.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.103" stroke-width="1"/><circle cx="195" cy="195" r="108.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.138" stroke-width="1"/><circle cx="195" cy="195" r="110.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.056" stroke-width="1"/><circle cx="195" cy="195" r="112.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.141" stroke-width="1"/><circle cx="195" cy="195" r="114.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.141" stroke-width="1"/><circle cx="195" cy="195" r="116.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.090" stroke-width="1"/><circle cx="195" cy="195" r="118.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.075" stroke-width="1"/><circle cx="195" cy="195" r="121" fill="none" stroke="#c9b7a6" stroke-opacity="0.147" stroke-width="1"/><circle cx="195" cy="195" r="123.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.150" stroke-width="1"/><circle cx="195" cy="195" r="125.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.085" stroke-width="1"/><circle cx="195" cy="195" r="127.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.066" stroke-width="1"/><circle cx="195" cy="195" r="129.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.067" stroke-width="1"/><circle cx="195" cy="195" r="131.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.074" stroke-width="1"/><circle cx="195" cy="195" r="133.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.120" stroke-width="1"/><circle cx="195" cy="195" r="135.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.113" stroke-width="1"/><circle cx="195" cy="195" r="137.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.064" stroke-width="1"/><circle cx="195" cy="195" r="139.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.149" stroke-width="1"/><circle cx="195" cy="195" r="142" fill="none" stroke="#c9b7a6" stroke-opacity="0.065" stroke-width="1"/><circle cx="195" cy="195" r="144.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.059" stroke-width="1"/><circle cx="195" cy="195" r="146.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.140" stroke-width="1"/><circle cx="195" cy="195" r="148.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.101" stroke-width="1"/><circle cx="195" cy="195" r="150.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.053" stroke-width="1"/><circle cx="195" cy="195" r="152.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.064" stroke-width="1"/><circle cx="195" cy="195" r="154.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.103" stroke-width="1"/><circle cx="195" cy="195" r="156.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.148" stroke-width="1"/><circle cx="195" cy="195" r="158.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.084" stroke-width="1"/><circle cx="195" cy="195" r="160.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.088" stroke-width="1"/><circle cx="195" cy="195" r="163" fill="none" stroke="#c9b7a6" stroke-opacity="0.130" stroke-width="1"/><circle cx="195" cy="195" r="92.7" fill="none" stroke="#d9c9b8" stroke-opacity=".26" stroke-width="2.6"/><circle cx="195" cy="195" r="128.8" fill="none" stroke="#d9c9b8" stroke-opacity=".26" stroke-width="2.6"/>
+    <rect width="390" height="390" fill="url(#sh)"/>
+  </g>
+  <circle cx="195" cy="195" r="168" fill="none" stroke="#524b49" stroke-width="2" stroke-opacity=".75"/>
+  
+  <defs>
+    <radialGradient id="lp" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#a44e50"/>
+      <stop offset="72%" stop-color="#932c2f"/>
+      <stop offset="100%" stop-color="#7b2527"/>
+    </radialGradient>
+    <path id="at" d="M141.91199999999998 195 A53.08800000000001 53.08800000000001 0 0 1 248.08800000000002 195" fill="none"/>
+    <path id="ab" d="M140.56799999999998 195 A54.43200000000001 54.43200000000001 0 0 0 249.43200000000002 195" fill="none"/>
+  </defs>
+  <circle cx="195" cy="195" r="67.2" fill="url(#lp)"/>
+  <circle cx="195" cy="195" r="61.2" fill="none" stroke="#300b0c" stroke-width="0.9" stroke-opacity=".5"/>
+  <circle cx="195" cy="195" r="58.5" fill="none" stroke="#300b0c" stroke-width="0.4" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="9" font-weight="700" fill="#300b0c"
+    letter-spacing=".2em"><textPath href="#at" startOffset="50%" text-anchor="middle">ЛИРА</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="6.5" font-weight="600" fill="#3e1011"
+    letter-spacing=".14em"><textPath href="#ab" startOffset="50%" text-anchor="middle">2213-А · 1927</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#300b0c">
+    <text x="195" y="178.9" font-size="10.3" font-weight="700" letter-spacing="-.01em">Чёрные глаза</text>
+    <text x="195" y="217.8" font-size="7.3" font-weight="500" letter-spacing=".01em"
+      fill="#3c0f10">А. Вертинскій</text>
+    <text x="195" y="230.6" font-size="5.6" font-weight="600"
+      letter-spacing=".1em" fill="#4e1517">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M172.2 186.3 H217.8" stroke="#300b0c" stroke-width="0.5" stroke-opacity=".28"/>
+  <path d="M176.2 224.6 H213.8" stroke="#300b0c" stroke-width="0.4" stroke-opacity=".2"/>
+  <circle cx="195" cy="195" r="3.7" fill="#160e0d"/>
+  <circle cx="195" cy="195" r="3.7" fill="none" stroke="#671f21" stroke-width="0.5"/>
+  <g filter="url(#ds)">
+    <path d="M356 54 L296 128" stroke="url(#arm)" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="356" cy="54" r="20" fill="#2a2521"/>
+    <circle cx="356" cy="54" r="20" fill="none" stroke="#6e6660" stroke-width="2"/>
+    <circle cx="356" cy="54" r="7.5" fill="#8d8579"/>
+    <g transform="rotate(51 296 128)">
+      <rect x="281" y="119" width="30" height="19" rx="4" fill="#1f1c19"/>
+      <rect x="281" y="119" width="30" height="19" rx="4" fill="none" stroke="#7d7570" stroke-width="1.4"/>
+      <rect x="286" y="123" width="16" height="5" rx="2" fill="#c0392b" opacity=".9"/>
+      <path d="M284 138 L282 145" stroke="#e6e2da" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <circle cx="280" cy="142" r="10" fill="#ffd9a0" opacity=".16"/></svg>

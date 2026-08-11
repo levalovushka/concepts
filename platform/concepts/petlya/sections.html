@@ -1,0 +1,61 @@
+  <!-- @overview:vision -->
+  <p class="deck">«Петля» — приложение школы вязания. Одно ограничение задаёт весь продукт: {{INSIGHT}}.</p>
+  <div class="utp-box">
+    <strong>УТП.</strong> {{TAGLINE}}: урок уходит на телевизор, голос ведёт при погасшем экране, схема лежит под видео, а ряды считаются по голосовой команде. Плюс свой дневник проекта — с заметками к таймкоду урока и фото прогресса.
+  </div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Уроки</span></div>
+  <div class="flow"><span class="chip">Уроки</span><span class="arr">→</span><span class="chip">Урок</span><span class="arr">→</span><span class="chip">Speech + Mic</span><span class="arr">→</span><span class="chip">Голосовой счётчик</span></div>
+  <div class="flow"><span class="chip">Урок</span><span class="arr">→</span><span class="chip">Local Network</span><span class="arr">→</span><span class="chip">Устройства</span><span class="arr">→</span><span class="chip">ТВ</span></div>
+  <div class="flow"><span class="chip">Урок</span><span class="arr">→</span><span class="chip">Background audio</span><span class="arr">→</span><span class="chip">Локскрин / PiP</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Скан этикетки</span><span class="arr">→</span><span class="chip">Партия в проект</span></div>
+  <div class="flow"><span class="chip">Скан</span><span class="arr">→</span><span class="chip">не распозналось</span><span class="arr">→</span><span class="chip">Ввод вручную</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Camera + Mic</span><span class="arr">→</span><span class="chip">Свой ракурс</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Фото в заметку</span></div>
+  <div class="flow"><span class="chip">Проект</span><span class="arr">→</span><span class="chip">Location</span><span class="arr">→</span><span class="chip">Магазины пряжи рядом</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Course · Lesson · Chart · RowCounter · Project · Note · YarnLot · PlaybackSession · CastSession · AdConsent</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Playback (AVPlayer, PiP, BG audio, Now Playing) · Cast (Bonjour / Chromecast) · SpeechCounter (SFSpeechRecognizer, on-device) · Capture · LabelScanner (DataScanner) · MediaPicker (PHPicker) · YarnShops (MKLocalSearch) · Push (SDK) · PhoneAuth (SDK провайдера) · AdsAttribution (ATT)</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — проекты, заметки, счётчик рядов. Keychain — токен входа. FileManager — свои записи. Контент-пак — статический <code>lessons.json</code> + mp4 с CDN, только чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака · APNs через SDK провайдера · Cast SDK · Ad SDK · MapKit · SDK входа по номеру</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+      <p>Пустой <code>webcredentials</code> убран намеренно: логина нет, а неиспользуемый кусок entitlement — ровно то, что ищут при проверке.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Приложение однопользовательское: ни аккаунтов, ни ленты чужого контента, ни модерации. Всё, что раньше требовало сервера, заменено клиентским решением или статикой.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
+
+  <section class="section" id="tokens">
+    <h2>Дизайн-токены</h2>
+    <p class="deck">Тёплая мастерская: дерево и пряжа в медиа, teal как единственный акцент, iOS-хром без самодеятельности. Outfit / IBM Plex Mono.</p>
+    <div class="feat-grid">
+      <div class="feat"><b>Accent</b><span>#0d8a7a · #3dd6c0 в тёмной теме</span></div>
+      <div class="feat"><b>Device</b><span>375×812 · radius 32 · safe areas 47 / 34</span></div>
+      <div class="feat"><b>Type</b><span>Outfit 400–700 · mono для ключей и таймкодов</span></div>
+      <div class="feat"><b>Медиа</b><span>Всё рисуется кодом: <code>media.mjs</code></span></div>
+    </div>
+  </section>

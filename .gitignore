@@ -1,0 +1,16 @@
+# Зависимости
+platform/node_modules/
+
+# Сборка: перезаписывается `npm run build:all`, на Netlify собирается из исходников
+platform/dist/
+
+# Артефакт сборки: ZIP доков складывает build-all рядом с доками концепта
+platform/concepts/*/docs/*-docs.zip
+
+# Служебное
+platform/_sheet.html
+.DS_Store
+
+# ВНИМАНИЕ: platform/concepts/*/assets/screenshots/ намеренно НЕ игнорируются.
+# Это входные данные сборки, а не артефакт: раздел «Экраны» в index.html
+# ссылается на эти PNG, и без них падает проверка «консоль чистая».

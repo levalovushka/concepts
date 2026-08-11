@@ -1,0 +1,71 @@
+<div class="screen ios-surface" id="scr-project" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading">
+                <div class="btn-plain tap" data-back aria-label="Назад к проектам">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Проекты</span>
+                </div>
+              </div>
+              <div class="title">Ажурный шарф</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll" style="padding:8px var(--margin) 0">
+              <div class="project-hero">
+                <div class="ph-progress" style="position:absolute;inset:0"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.6))"></div>
+                <div class="project-hero-meta">
+                  <div class="label">Ряд 48 из 96</div>
+                  <div class="prog" style="background:rgba(255,255,255,.3)"><i style="width:50%;background:#fff"></i></div>
+                </div>
+              </div>
+
+              <div class="group-head">Материалы</div>
+              <div class="ios-list list-gap">
+                <div class="row">
+                  <div class="pthumb xs ph-yarn"></div>
+                  <div class="grow"><div class="t-body">Merino Soft · цвет 4127</div><div class="t-caption">Партия 23-А · осталось 1,5 мотка</div></div>
+                </div>
+                <div class="row tap" data-ask="camera|scan|scanfail">
+                  <svg class="ico-svg" style="width:21px;height:21px;flex:none;color:var(--accent-fill)"><use href="#i-scan-line"/></svg>
+                  <div class="grow"><div class="t-body">Сканировать этикетку</div><div class="t-caption">Состав, метраж и номер партии — с мотка</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row tap" data-ask="location|yarn|yarn">
+                  <svg class="ico-svg" style="width:21px;height:21px;flex:none;color:var(--accent-fill)"><use href="#i-map-pin"/></svg>
+                  <div class="grow"><div class="t-body">Магазины пряжи рядом</div><div class="t-caption">Куда сходить за пряжей и спицами</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <div class="group-head">Заметки к курсу «Ажурный шарф»</div>
+              <div class="ios-list" style="padding:2px 16px 10px;margin-bottom:20px">
+                <div class="note">
+                  <div class="ts">4:12</div>
+                  <div class="grow">
+                    <div class="note-body">Тут убавка не сошлась — распустила два ряда и перевязала</div>
+                    <div class="note-photo ph-swatch"></div>
+                  </div>
+                </div>
+                <div class="note">
+                  <div class="ts">7:30</div>
+                  <div class="grow">
+                    <div class="note-body">Раппорт считать от кромочной, а не от края</div>
+                  </div>
+                </div>
+                <div class="composer">
+                  <input type="text" placeholder="Заметка к 12:04…" readonly>
+                  <div class="icon-btn tap" style="color:var(--accent-fill)" data-ask="photo|gallery|project" aria-label="Прикрепить фото прогресса">
+                    <svg class="ico-svg"><use href="#i-image"/></svg>
+                  </div>
+                </div>
+                <div class="t-footnote perm-hidden" style="color:var(--accent-fill)" data-show-denied="photo">Нет доступа к «Фото» — заметка сохранится текстом</div>
+              </div>
+
+              <div class="cta-col" style="padding-left:0;padding-right:0">
+                <div class="btn-filled block" data-ask="camera|record|project">Снять свой ракурс</div>
+                <p class="t-caption" style="text-align:center;margin:0">Телефон на штативе над руками — приём останется в проекте</p>
+                <div class="t-footnote perm-hidden" style="color:var(--accent-fill)" data-show-denied="camera">Нет доступа к камере — съёмка и скан этикетки недоступны, данные мотка можно ввести вручную</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

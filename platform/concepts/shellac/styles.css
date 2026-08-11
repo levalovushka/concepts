@@ -1,0 +1,236 @@
+/* ══ «Шеллак» — только своё. Имена не должны совпадать с kernel/base.css ══ */
+
+/* —— медиа: носители фонов, всё сгенерировано media.mjs —— */
+.art-d1 { background-image:url(assets/media/d1.svg); }
+.art-d2 { background-image:url(assets/media/d2.svg); }
+.art-d3 { background-image:url(assets/media/d3.svg); }
+.art-d4 { background-image:url(assets/media/d4.svg); }
+.art-d5 { background-image:url(assets/media/d5.svg); }
+.art-d6 { background-image:url(assets/media/d6.svg); }
+.art-s1 { background-image:url(assets/media/s1.svg); }
+.art-s2 { background-image:url(assets/media/s2.svg); }
+.art-s3 { background-image:url(assets/media/s3.svg); }
+.art-crate { background-image:url(assets/media/wide-shelf.svg); }
+.art-table { background-image:url(assets/media/wide-table.svg); }
+.art-scene { background-image:url(assets/media/scene-table.svg); }
+
+/* —— утилиты экранов —— */
+.pad-screen { padding:8px var(--margin) 28px; }
+.pad-screen-tight { padding:4px var(--margin) 20px; }
+.pad-x { padding:0 var(--margin); }
+/* margin-bottom, а не шорткат margin: шорткат сбрасывал margin-top и глушил
+   утилиты .mt* из ядра — заголовки секций слипались с предыдущим блоком. */
+.sec-label {
+  font:600 13px/18px var(--face); letter-spacing:-.01em;
+  color:rgba(60,60,67,.55); margin-bottom:8px;
+}
+.list-gap { margin-bottom:22px; }
+.btn-quiet {
+  text-align:center; margin-top:14px; width:100%;
+  color:rgba(60,60,67,.55); font:400 15px/20px var(--face);
+}
+/* Матричный номер — «данные», поэтому моноширинный везде, где он появляется */
+.matrix {
+  font:500 12px/16px var(--mono); letter-spacing:-.01em;
+  color:var(--accent-fill); font-variant-numeric:tabular-nums;
+}
+.matrix.is-dim { color:rgba(60,60,67,.5); }
+.mono-chip {
+  display:inline-block; padding:3px 8px; border-radius:6px;
+  background:rgba(120,120,128,.14); font:500 12px/16px var(--mono);
+  color:rgba(60,60,67,.72); letter-spacing:-.01em;
+}
+
+/* —— «Архив»: ящик с пластинками как карточка продолжения —— */
+.crate {
+  position:relative; margin:0 var(--margin) 20px; height:216px;
+  border-radius:var(--r-card); overflow:hidden; color:#fff;
+}
+.crate .scene { position:absolute; inset:0; }
+.crate::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.12) 0%,transparent 26%,rgba(0,0,0,.88) 100%);
+}
+.crate-meta { position:absolute; left:16px; right:16px; bottom:16px; z-index:2; }
+.crate-meta .pill { margin-bottom:10px; }
+.crate-title { font:700 22px/28px var(--face); letter-spacing:-.02em; }
+.crate-sub { font:400 13px/18px var(--face); color:rgba(255,255,255,.78); margin-top:4px; }
+
+/* Главное действие продукта: камера стоит первой строкой на стартовом экране */
+.find-card {
+  display:flex; align-items:center; gap:14px; margin:0 var(--margin) 20px;
+  padding:16px; border-radius:16px; background:#fff;
+  box-shadow:0 0 0 .5px rgba(60,60,67,.12);
+}
+.find-ico {
+  width:46px; height:46px; border-radius:14px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--accent-fill) 14%, transparent); color:var(--accent-fill);
+}
+.find-ico svg { width:24px; height:24px; }
+
+/* —— карточка пластинки —— */
+.rec-cover {
+  width:214px; height:214px; margin:2px auto 18px; border-radius:50%;
+  background-size:cover; background-position:center;
+  box-shadow:0 14px 34px rgba(40,24,12,.32);
+}
+.side-badge {
+  width:26px; height:26px; border-radius:50%; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(120,120,128,.16); color:rgba(60,60,67,.7);
+  font:600 13px/1 var(--face);
+}
+.side-badge.is-on { background:var(--accent-fill); color:var(--on-accent); }
+
+/* —— плеер: вертушка и шкала стороны —— */
+.pl-wrap { flex:1; min-height:0; display:flex; flex-direction:column; padding:0 24px; }
+.pl-art { margin:6px auto 0; width:296px; max-width:100%; }
+.pl-art img { width:100%; display:block; }
+.pl-title { font:700 24px/30px var(--face); letter-spacing:-.02em; color:#fff; }
+.pl-artist { font:400 15px/20px var(--face); color:rgba(255,255,255,.62); margin-top:4px; }
+.pl-scrub { margin-top:18px; }
+.pl-scrub .bar { height:5px; border-radius:3px; background:rgba(255,255,255,.22); overflow:hidden; }
+.pl-scrub .bar i { display:block; height:100%; width:36%; background:#fff; border-radius:3px; }
+/* Осталось до конца стороны — то самое ограничение, из которого растёт продукт */
+.pl-remain {
+  margin-top:10px; text-align:center; font:500 12px/16px var(--face);
+  color:rgba(255,255,255,.5);
+}
+.pl-controls { display:flex; align-items:center; justify-content:center; gap:34px; margin-top:16px; }
+.pl-btn { width:52px; height:52px; display:flex; align-items:center; justify-content:center; color:#fff; }
+.pl-btn.main {
+  width:66px; height:66px; border-radius:50%;
+  background:rgba(255,255,255,.14); backdrop-filter:blur(10px);
+}
+.pl-chips { display:flex; gap:8px; margin-top:20px; }
+.pl-chip {
+  flex:1; min-height:56px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:5px; padding:8px 6px; border-radius:14px; text-align:center;
+  background:rgba(255,255,255,.1); color:#fff; font:600 11px/1.15 var(--face);
+}
+.pl-chip svg { width:21px; height:21px; }
+.pl-chip.is-on { background:color-mix(in srgb, var(--accent) 26%, transparent); color:#fff; }
+
+/* —— локскрин: карточка Now Playing —— */
+.np-card {
+  margin-top:auto; border-radius:22px; padding:16px;
+  background:rgba(38,32,28,.55); backdrop-filter:blur(28px);
+}
+.np-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.np-app { font:600 12px/1 var(--face); opacity:.72; }
+.np-state { font:500 11px/1 var(--face); opacity:.45; }
+.np-body { display:flex; gap:12px; align-items:center; }
+.np-art { width:58px; height:58px; flex:none; border-radius:8px; background-size:cover; background-position:center; }
+.np-title { font:600 16px/1.2 var(--face); }
+.np-sub { font:400 13px/1.2 var(--face); opacity:.65; margin-top:3px; }
+.np-controls { display:flex; justify-content:center; gap:36px; align-items:center; margin-top:16px; }
+.np-note { text-align:center; margin-top:14px; font:500 12px/1.4 var(--face); opacity:.55; }
+
+/* —— сканер этикетки —— */
+.scanwin { position:absolute; left:44px; right:44px; top:216px; z-index:2; }
+.scanwin img { width:100%; display:block; border-radius:6px; box-shadow:0 16px 38px rgba(0,0,0,.55); }
+/* Светлый вариант акцента: на тёмном кадре камеры сам --accent-fill не читается. */
+.scan-corner { position:absolute; width:30px; height:30px; border:3px solid #e8a75e; z-index:3; }
+.scan-hint {
+  position:absolute; left:24px; right:24px; top:140px; z-index:3; text-align:center;
+  font:400 13px/18px var(--face); color:rgba(255,255,255,.82);
+}
+/* Что именно прочитано с этикетки — видно до нажатия, это и есть доказательство */
+.scan-read {
+  position:absolute; left:20px; right:20px; bottom:150px; z-index:3;
+  border-radius:16px; background:rgba(28,24,22,.84); backdrop-filter:blur(24px); padding:14px 16px;
+}
+.scan-read-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.scan-read-head span { font:600 13px/1 var(--face); color:#e8a75e; }
+.scan-fields {
+  display:grid; grid-template-columns:auto 1fr; gap:6px 14px;
+  font:400 13px/1.35 var(--face); color:#fff;
+}
+.scan-fields b { font:400 13px/1.35 var(--face); opacity:.55; }
+.scan-fields .mv { font:500 12px/1.4 var(--mono); letter-spacing:-.01em; }
+.shutter {
+  width:66px; height:66px; border-radius:50%; flex:none;
+  background:#fff; box-shadow:0 0 0 4px rgba(255,255,255,.32);
+}
+.shutter-row { display:flex; align-items:center; justify-content:space-between; width:100%; }
+/* background-color, а не шорткат background: иначе он сбрасывает картинку,
+   которую подставляет класс .art-* (миниатюра последнего снимка). */
+.shutter-side {
+  width:52px; height:52px; border-radius:12px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  background-color:rgba(255,255,255,.16); color:#fff;
+  background-size:cover; background-position:center;
+}
+
+/* —— совпадение / ошибки —— */
+.found-card {
+  display:flex; gap:14px; align-items:center; padding:14px;
+  border-radius:16px; background:#fff; box-shadow:0 0 0 .5px rgba(60,60,67,.12);
+}
+.found-art { width:74px; height:74px; border-radius:50%; flex:none; background-size:cover; background-position:center; }
+.read-list { border-radius:12px; background:#fff; overflow:hidden; }
+.read-row { display:flex; align-items:baseline; gap:12px; padding:11px 16px; position:relative; }
+.read-row + .read-row::before {
+  content:""; position:absolute; left:16px; right:0; top:0; height:.5px; background:var(--ios-quaternary);
+}
+.read-row b { width:96px; flex:none; font:400 15px/20px var(--face); color:rgba(60,60,67,.6); }
+.read-row span { font:500 15px/20px var(--mono); color:#000; letter-spacing:-.01em; }
+
+/* —— полка и экземпляр —— */
+.shelf-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.shelf-cell { display:block; }
+.shelf-art {
+  aspect-ratio:1; border-radius:12px; background-size:cover; background-position:center;
+  box-shadow:0 0 0 .5px rgba(60,60,67,.14);
+}
+.shelf-name { font:600 15px/19px var(--face); color:#000; margin-top:8px; }
+.shelf-meta { font:400 12px/16px var(--face); color:rgba(60,60,67,.6); margin-top:2px; }
+.copy-hero {
+  height:190px; border-radius:16px; overflow:hidden; position:relative;
+  background-size:cover; background-position:center; margin-bottom:18px;
+}
+.copy-hero::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 46%,rgba(0,0,0,.5));
+}
+.copy-hero-meta { position:absolute; left:14px; right:14px; bottom:12px; color:#fff; z-index:2; }
+.cond-note { display:flex; gap:12px; padding:12px 0; }
+.cond-note + .cond-note { border-top:.5px solid rgba(60,60,67,.16); }
+.cond-note .cw { flex:none; width:26px; color:var(--accent-fill); padding-top:2px; }
+.cond-note .cw svg { width:20px; height:20px; }
+.cond-body { font:400 15px/20px var(--face); color:#111; }
+.cond-when { font:400 12px/16px var(--face); color:rgba(60,60,67,.55); margin-top:2px; }
+
+/* —— системный PHPicker —— */
+.pick-bar {
+  flex:none; display:flex; align-items:center; justify-content:space-between;
+  padding:calc(var(--safe-top) + 6px) 16px 10px; background:#f9f9f9;
+  border-bottom:.33px solid rgba(0,0,0,.14);
+}
+.pick-bar .pb-act { font:400 17px/22px var(--face); color:#0a84ff; }
+.pick-bar .pb-act.is-strong { font-weight:600; }
+.pick-title { font:600 17px/22px var(--face); color:#000; }
+.pick-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+
+/* —— форум в Safari —— */
+.forum-post { padding:2px 0 0; }
+.forum-who { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.forum-ava { width:34px; height:34px; border-radius:50%; flex:none; background:#c9b393; }
+.forum-body { font:400 15px/22px var(--face); color:#1c1c1e; }
+.forum-body p { margin:0 0 12px; }
+.forum-link { color:#0a84ff; text-decoration:underline; }
+.forum-quote {
+  margin:0 0 14px; padding:10px 14px; border-left:3px solid rgba(60,60,67,.2);
+  background:rgba(120,120,128,.08); border-radius:0 8px 8px 0;
+  font:400 14px/20px var(--face); color:rgba(60,60,67,.75);
+}
+
+/* —— приложение, открытое по ссылке —— */
+.app-mark {
+  width:64px; height:64px; border-radius:16px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--accent-fill); color:var(--on-accent);
+  box-shadow:0 8px 22px color-mix(in srgb, var(--accent-fill) 32%, transparent);
+}
+.link-url { font:500 13px/18px var(--mono); color:rgba(60,60,67,.55); margin:0 0 12px; word-break:break-all; }

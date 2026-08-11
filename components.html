@@ -1,0 +1,4495 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camo — System Components</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.525.0/dist/umd/lucide.min.js"></script>
+<style>
+  /* ── Tokens: iOS system (HIG) + storybook chrome ── */
+  :root {
+    --face: "Inter", system-ui, sans-serif;
+    --device-w: 375px;
+    --device-h: 812px;
+    --safe-top: 47px;
+    --safe-bottom: 34px;
+    --nav-h: 44px;
+    --tab-h: 49px;
+    --row-h: 44px;
+    --margin: 16px;
+
+    --ios-blue: #007aff;
+    --ios-green: #34c759;
+    --ios-red: #ff3b30;
+    --ios-orange: #ff9500;
+    --ios-label: #000;
+    --ios-secondary: rgba(60, 60, 67, 0.6);
+    --ios-tertiary: rgba(60, 60, 67, 0.3);
+    --ios-quaternary: rgba(60, 60, 67, 0.18);
+    --ios-separator: #c6c6c8;
+    --ios-fill: rgba(120, 120, 128, 0.2);
+    --ios-grouped: #f2f2f7;
+    --ios-bar: rgba(255, 255, 255, 0.72);
+    --ios-bar-dark: rgba(28, 28, 30, 0.72);
+
+    --page-bg: #eceff1;
+    --page-ink: #111417;
+    --page-dim: #5c6670;
+    --page-card: #fff;
+    --page-line: #d5dde2;
+    --accent: #007aff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-ink);
+    font: 400 15px/1.5 var(--face);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  button { font: inherit; cursor: pointer; }
+
+  /* ── Storybook shell ── */
+  .sb {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    min-height: 100vh;
+  }
+  @media (max-width: 900px) {
+    .sb { grid-template-columns: 1fr; }
+    .sb-nav {
+      position: relative;
+      height: auto;
+      max-height: none;
+      border-right: 0; border-bottom: 1px solid var(--page-line);
+      padding: 16px 14px 14px;
+    }
+    .sb-nav .nav-list { display: flex; flex-wrap: wrap; gap: 4px; }
+    .sb-nav a { padding: 6px 10px; }
+    .sb-nav .nav-note { display: none; }
+    .sb-sub { margin-bottom: 12px; }
+    .sb-brand, .sb-title, .sb-sub { display: none; }
+  }
+  .sb-nav {
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow: auto;
+    padding: 28px 18px 40px;
+    background: #f7f9fa;
+    border-right: 1px solid var(--page-line);
+  }
+  .sb-brand {
+    font: 700 13px/1.2 var(--face);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--page-dim);
+    margin: 0 0 6px;
+  }
+  .sb-title {
+    font: 700 22px/1.15 var(--face);
+    letter-spacing: -.02em;
+    margin: 0 0 4px;
+  }
+  .sb-sub {
+    margin: 0 0 22px;
+    font-size: 12.5px;
+    color: var(--page-dim);
+    line-height: 1.4;
+  }
+  .nav-list { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+  .nav-list a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--page-ink);
+    font: 500 13.5px/1.3 var(--face);
+    text-decoration: none;
+  }
+  .nav-list a:hover { background: rgba(0,0,0,.05); text-decoration: none; }
+  .nav-list a.is-active { background: rgba(0,122,255,.1); color: var(--accent); }
+  .nav-note {
+    margin-top: 24px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--page-line);
+    font-size: 12px;
+    color: var(--page-dim);
+    line-height: 1.45;
+  }
+  .nav-note code { font-size: 11px; color: var(--accent); }
+
+  .sb-main { padding: 36px 28px 96px; max-width: 1080px; }
+  .hero h1 {
+    margin: 0 0 8px;
+    font: 700 clamp(28px, 4vw, 40px)/1.1 var(--face);
+    letter-spacing: -.03em;
+  }
+  .hero p {
+    margin: 0 0 36px;
+    max-width: 64ch;
+    color: var(--page-dim);
+  }
+
+  /* ── Specimens ── */
+  .section { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .section-head { margin-bottom: 18px; }
+  .section-head h2 {
+    margin: 0 0 6px;
+    font: 700 22px/1.2 var(--face);
+    letter-spacing: -.02em;
+  }
+  .section-head p { margin: 0; color: var(--page-dim); font-size: 14px; max-width: 68ch; }
+  .section-head .meta {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 10px;
+  }
+  .chip {
+    display: inline-flex; align-items: center;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--page-line);
+    font: 500 11px/1.4 var(--face);
+    color: var(--page-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .chip.ref { border-color: rgba(0,122,255,.35); color: var(--accent); background: rgba(0,122,255,.06); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(375px, 1fr)); gap: 28px; }
+  .grid-wide { grid-template-columns: 1fr; }
+  .specimen { display: flex; flex-direction: column; gap: 10px; }
+  .specimen h3 {
+    margin: 0;
+    font: 600 12px/1.3 var(--face);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--page-dim);
+  }
+  .specimen .desc { margin: 0; font-size: 13px; color: var(--page-dim); }
+
+  /* Device frame — always exactly 375×812 */
+  .phone {
+    width: var(--device-w);
+    height: var(--device-h);
+    flex-shrink: 0;
+    border-radius: 36px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    color: #000;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.08);
+    font-family: var(--face);
+  }
+  .phone .btn-demo { flex: 1; }
+  .phone.grouped { background: var(--ios-grouped); }
+  .phone.white { background: #fff; }
+  .phone.dark { background: #000; color: #fff; }
+  .phone.scene { background: #1c1814; }
+
+  /* ════════════════════════════════════════
+     1. STATUS BAR — iPhone 13/14 safe-top
+     Spec: ios-chrome.md §1 · HIG Status bars
+     ════════════════════════════════════════ */
+  .sb-status {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 30;
+    height: var(--safe-top);
+    padding: 16px 27px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.45);
+  }
+  .sb-status.dark-ink {
+    color: #000;
+    text-shadow: none;
+  }
+  .sb-status .time {
+    font: 600 15px/1 var(--face);
+    font-feature-settings: "tnum" 1;
+    letter-spacing: -.01em;
+    padding-top: 1px; /* optical align with icons */
+  }
+  .sb-status .icons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 12px;
+    margin-top: 1px;
+  }
+  .sb-status .icons svg { display: block; flex: none; }
+
+  .home-ind {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    border-radius: 999px;
+    background: #000;
+    opacity: .9;
+    z-index: 40;
+    pointer-events: none;
+  }
+  .phone.dark .home-ind { background: #fff; opacity: .35; }
+
+  /* Side-by-side compare strip */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+  .compare-card {
+    background: var(--page-card);
+    border: 1px solid var(--page-line);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .compare-card h4 {
+    margin: 0 0 10px;
+    font: 600 12px/1.3 var(--face);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--page-dim);
+  }
+  .crop {
+    height: 54px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--ios-grouped);
+  }
+  .crop.dark { background: #1a1a1a; }
+  .crop .sb-status { position: absolute; }
+  .ruler-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 4px;
+  }
+
+  /* Placeholder content under status */
+  .fill-area {
+    padding: calc(var(--safe-top) + 12px) var(--margin) 24px;
+  }
+  .fake-title {
+    font: 700 34px/41px var(--face);
+    letter-spacing: -.03em;
+    margin: 0 0 8px;
+  }
+  .fake-line {
+    height: 12px;
+    border-radius: 6px;
+    background: rgba(60,60,67,.12);
+    margin-bottom: 8px;
+  }
+  .fake-line.w60 { width: 60%; }
+  .fake-line.w80 { width: 80%; }
+
+  /* ════════════════════════════════════════
+     2. BUTTONS — iOS HIG + ios-chrome.md §7
+     ════════════════════════════════════════ */
+  .btn-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-row.center { justify-content: center; }
+  .btn-demo {
+    padding: calc(var(--safe-top) + 20px) var(--margin) 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .btn-demo .label-cap {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    margin: 0;
+  }
+
+  /* Filled — primary CTA, capsule, min 50 */
+  .btn-filled {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--ios-blue);
+    color: #fff;
+    font: 600 17px/1 var(--face);
+    letter-spacing: -.01em;
+    -webkit-tap-highlight-color: transparent;
+    transition: opacity 140ms ease-out;
+  }
+  .btn-filled:active { opacity: .55; }
+  .btn-filled:disabled,
+  .btn-filled.is-disabled {
+    opacity: .35;
+    pointer-events: none;
+  }
+  .btn-filled.block { width: 100%; }
+  .btn-filled.destructive { background: var(--ios-red); }
+  .btn-filled svg { width: 20px; height: 20px; flex: none; }
+  .btn-filled.sm { min-height: 34px; padding: 0 14px; font-size: 15px; }
+  .btn-filled.sm svg { width: 16px; height: 16px; }
+  .btn-filled.mini { min-height: 28px; padding: 0 12px; font-size: 13px; }
+  .btn-filled.mini svg { width: 14px; height: 14px; }
+
+  /* Tinted — secondary emphasis, min 44 */
+  .btn-tinted {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 9999px;
+    background: rgba(0, 122, 255, 0.15);
+    color: var(--ios-blue);
+    font: 600 15px/1 var(--face);
+    letter-spacing: -.01em;
+    transition: opacity 140ms ease-out;
+  }
+  .btn-tinted:active { opacity: .55; }
+  .btn-tinted.block { width: 100%; }
+  .btn-tinted.destructive {
+    background: rgba(255, 59, 48, 0.15);
+    color: var(--ios-red);
+  }
+  .btn-tinted.on-dark {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+  }
+  .btn-tinted svg { width: 18px; height: 18px; flex: none; }
+  .btn-tinted.sm { min-height: 34px; padding: 0 12px; font-size: 13px; }
+  .btn-tinted.sm svg { width: 15px; height: 15px; }
+  .btn-tinted.mini { min-height: 28px; padding: 0 10px; font-size: 12px; }
+  .btn-tinted.mini svg { width: 13px; height: 13px; }
+
+  /* Gray — iOS secondary filled (Cancel / Nevermind) */
+  .btn-gray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 9999px;
+    background: rgba(120, 120, 128, 0.16);
+    color: #000;
+    font: 600 17px/1 var(--face);
+    letter-spacing: -.01em;
+    transition: opacity 140ms ease-out;
+  }
+  .btn-gray:active { opacity: .55; }
+  .btn-gray.block { width: 100%; }
+  .btn-gray svg { width: 20px; height: 20px; flex: none; }
+  .btn-gray.sm { min-height: 34px; padding: 0 14px; font-size: 15px; }
+  .btn-gray.mini { min-height: 28px; padding: 0 12px; font-size: 13px; }
+
+  /* Plain — nav / text action */
+  .btn-plain {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ios-blue);
+    font: 400 17px/22px var(--face);
+    transition: opacity 140ms ease-out;
+  }
+  .btn-plain:active { opacity: .55; }
+  .btn-plain.semibold { font-weight: 600; }
+  .btn-plain.destructive { color: var(--ios-red); }
+  .btn-plain.on-dark { color: #fff; }
+  .btn-plain.sm { font-size: 15px; line-height: 20px; }
+  .btn-plain > svg:not(.ios-back),
+  .btn-plain .chev-back {
+    width: 21px;
+    height: 21px;
+    flex: none;
+    flex-shrink: 0;
+  }
+  .btn-plain .chev-back { margin-left: -6px; }
+  .btn-plain.sm .chev-back {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* iOS-like back chevron (SF chevron.backward geometry, not Lucide) */
+  .ios-back {
+    width: 12px;
+    height: 20px;
+    flex: none;
+    display: block;
+    margin: 0 3px 0 -1px;
+  }
+  .ios-disclosure {
+    width: 7px;
+    height: 12px;
+    flex: none;
+    margin-left: 6px;
+    background: rgba(60, 60, 67, .3);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 13'%3E%3Cpath d='M1.5 1.5l5 5-5 5' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 13'%3E%3Cpath d='M1.5 1.5l5 5-5 5' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  svg.ios-disclosure {
+    background: none;
+    -webkit-mask: none;
+    mask: none;
+    color: rgba(60, 60, 67, .3);
+  }
+
+  /* Icon button — 44×44 hit */
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: var(--ios-blue);
+    border-radius: 9999px;
+    flex: none;
+    transition: opacity 140ms ease-out;
+  }
+  .icon-btn:active { opacity: .55; }
+  .icon-btn svg { width: 22px; height: 22px; }
+  .icon-btn.filled {
+    background: rgba(120, 120, 128, 0.16);
+    color: #000;
+  }
+  .icon-btn.filled.svg-blue { color: var(--ios-blue); }
+  .icon-btn.on-dark { color: #fff; }
+  .icon-btn.on-dark.filled {
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+  }
+  .icon-btn.circle-blur {
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* ════════════════════════════════════════
+     5. CELLS / LISTS — Inset Grouped
+     Ref: Settings · ios-chrome.md §4
+     ════════════════════════════════════════ */
+  .ios-list {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .list-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+  .list-stack.tight { gap: 24px; }
+  .list-group { display: flex; flex-direction: column; }
+  .row {
+    min-height: var(--row-h);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    position: relative;
+    background: #fff;
+  }
+  .row.has-lead { padding-top: 7px; padding-bottom: 7px; }
+  .row.tall { padding-top: 12px; padding-bottom: 12px; }
+  .row.multi { padding-top: 12px; padding-bottom: 12px; align-items: center; }
+  .row.has-avatar { padding-top: 10px; padding-bottom: 10px; }
+  .row.has-thumb { padding-top: 8px; padding-bottom: 8px; }
+  .row.has-media { align-items: center; padding: 8px 16px; }
+  .row.has-media::after { left: 102px; }
+  .row.has-media .t-headline {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: unset;
+  }
+  .lrow-thumb {
+    width: 74px;
+    height: 56px;
+    border-radius: 10px;
+    flex: none;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    background-color: #e5e5ea;
+  }
+  .lrow-thumb .dur {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, .55);
+    font: 600 10px/1.4 var(--face);
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .lrow-thumb.is-blank {
+    background: #e9e9ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(60, 60, 67, .45);
+  }
+  .lrow-thumb.is-gone { color: rgba(215, 0, 21, .5); }
+  .t-headline.is-dim { color: rgba(60, 60, 67, .5); }
+  .row.center { justify-content: center; text-align: center; }
+  .row.center .grow { flex: none; }
+  .row::after {
+    content: "";
+    position: absolute;
+    left: 16px; right: 0; bottom: 0;
+    height: .5px;
+    background: rgba(60, 60, 67, .18);
+  }
+  .row:last-child::after { display: none; }
+  .row.has-lead::after { left: 60px; }
+  .row.has-line::after { left: 52px; }
+  .row.has-avatar::after { left: 72px; }
+  .row.has-avatar:has(.row-avatar.lg)::after { left: 92px; }
+  .row.has-thumb::after { left: 86px; }
+  .row:active { background: #d1d1d6; }
+  .row:active::after { opacity: 0; }
+  .grow { flex: 1; min-width: 0; }
+  .grow > .t-body,
+  .grow > .t-headline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .t-body { font: 400 17px/22px var(--face); color: #000; }
+  .t-body.accent { color: var(--ios-blue); }
+  .t-headline { font: 600 17px/22px var(--face); color: #000; }
+  .t-caption { font: 400 12px/16px var(--face); color: var(--ios-secondary); }
+  .t-footnote { font: 400 13px/18px var(--face); color: var(--ios-secondary); }
+  .t-subhead { font: 400 15px/20px var(--face); color: var(--ios-secondary); }
+  .row-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .row-text .t-footnote { margin-top: 1px; }
+  .row-value {
+    flex: 0 1 auto;
+    font: 400 17px/22px var(--face);
+    color: var(--ios-secondary);
+    max-width: 46%;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .row-value.accent { color: var(--ios-blue); }
+  .row-value.link { color: var(--ios-blue); }
+  .row .t-body.destructive,
+  .row .t-headline.destructive,
+  .row.center .t-body.destructive { color: var(--ios-red); }
+  .row.center .t-body.accent { color: var(--ios-blue); }
+  .group-head {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    letter-spacing: -.01em;
+    padding: 0 4px 7px;
+  }
+  .group-head.caps {
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    padding-left: 16px;
+  }
+  .group-foot {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    letter-spacing: -.01em;
+    padding: 8px 4px 0;
+  }
+  .group-foot.wide { padding-left: 16px; padding-right: 16px; }
+
+  .lead-ico {
+    width: 29px;
+    height: 29px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex: none;
+  }
+  .lead-ico i,
+  .lead-ico svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+  }
+  .lead-ico.gray { background: #8e8e93; }
+  .lead-ico.blue { background: var(--ios-blue); }
+  .lead-ico.green { background: var(--ios-green); }
+  .lead-ico.orange { background: var(--ios-orange); }
+  .lead-ico.red { background: var(--ios-red); }
+  .lead-ico.purple { background: #af52de; }
+  .lead-ico.teal { background: #30b0c7; }
+  .lead-ico.indigo { background: #5856d6; }
+  .lead-ico.pink { background: #ff2d55; }
+
+  /* Plain outline lead (no squircle) — Fixtured-like */
+  .lead-line {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    flex: none;
+  }
+  .lead-line svg { width: 22px; height: 22px; stroke-width: 1.7; }
+
+  .row-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex: none;
+    background: linear-gradient(135deg, #5ac8fa, #007aff);
+    box-shadow: inset 0 0 0 .5px rgba(0,0,0,.08);
+  }
+  .row-avatar.lg {
+    width: 60px;
+    height: 60px;
+  }
+  .pthumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    flex: none;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.2), transparent),
+      linear-gradient(160deg, #c7b8a8, #8a7a6a);
+    box-shadow: inset 0 0 0 .5px rgba(0,0,0,.1);
+  }
+  .pthumb.xs { width: 29px; height: 29px; border-radius: 6px; }
+
+  .row-check {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    color: var(--ios-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .row-check svg { width: 20px; height: 20px; stroke-width: 2.4; }
+  .row-check.is-empty { visibility: hidden; }
+
+  .row-info {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    color: var(--ios-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2px;
+  }
+  .row-info svg { width: 22px; height: 22px; stroke-width: 1.7; }
+
+  .row-ext {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    color: var(--ios-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .row-ext svg { width: 16px; height: 16px; stroke-width: 1.8; }
+
+  .row-count {
+    flex: none;
+    font: 400 17px/22px var(--face);
+    color: var(--ios-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .row-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ios-red);
+    flex: none;
+    margin-right: 2px;
+  }
+  .row-radio {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px rgba(60, 60, 67, .29);
+    flex: none;
+    position: relative;
+  }
+  .row-radio.is-on {
+    box-shadow: inset 0 0 0 1.5px var(--ios-green);
+    background: var(--ios-green);
+  }
+  .row-radio.is-on::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .learn-more {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    margin-top: 2px;
+  }
+
+  .field-label {
+    width: 88px;
+    flex: none;
+    font: 400 17px/22px var(--face);
+    color: #000;
+  }
+  .field-input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    padding: 0;
+    font: 400 17px/22px var(--face);
+    color: #000;
+    outline: none;
+    text-align: right;
+  }
+  .field-input::placeholder { color: var(--ios-tertiary); }
+
+  .switch {
+    width: 51px;
+    height: 31px;
+    border-radius: 999px;
+    background: rgba(120, 120, 128, .32);
+    position: relative;
+    flex: none;
+    align-self: center;
+    transition: background 180ms ease;
+  }
+  .switch.is-on { background: var(--ios-green); }
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.25), 0 1px 3px rgba(0,0,0,.12);
+    transition: left 180ms ease;
+  }
+  .switch.is-on::after { left: 22px; }
+
+  /* ════════════════════════════════════════
+     6. CONTROLS — UISwitch · UISegmentedControl · UIStepper
+     Ref: HIG Toggles / Segmented controls · timespent / Settings
+     ════════════════════════════════════════ */
+  .ctrl-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 16px;
+  }
+  .ctrl-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ctrl-card .ctrl-label {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+  }
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
+  }
+  .ctrl-row .t-body { flex: 1; min-width: 0; }
+
+  /* UISegmentedControl — h 32, pad 2, selected white */
+  .ios-segmented {
+    display: flex;
+    align-items: stretch;
+    height: 32px;
+    padding: 2px;
+    border-radius: 9px;
+    background: rgba(118, 118, 128, 0.12);
+    overflow: hidden;
+    flex: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .ios-segmented.compact { width: auto; min-width: 0; }
+  .ios-segmented .seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+    font: 500 13px/18px var(--face);
+    color: #000;
+    border-radius: 7px;
+    white-space: nowrap;
+    cursor: default;
+    letter-spacing: -.01em;
+  }
+  .ios-segmented .seg.is-on {
+    background: #fff;
+    box-shadow:
+      0 3px 8px rgba(0, 0, 0, .12),
+      0 1px 1px rgba(0, 0, 0, .04),
+      0 0 0 .5px rgba(0, 0, 0, .04);
+  }
+  .ios-segmented.sm { height: 28px; border-radius: 8px; }
+  .ios-segmented.sm .seg { font-size: 12px; border-radius: 6px; padding: 0 8px; }
+
+  /* UIStepper — ~94×32, blue ± */
+  .ios-stepper {
+    display: flex;
+    align-items: stretch;
+    width: 94px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(118, 118, 128, 0.12);
+    overflow: hidden;
+    flex: none;
+    position: relative;
+  }
+  .ios-stepper::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 50%;
+    width: .5px;
+    background: rgba(60, 60, 67, .29);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .ios-stepper button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: var(--ios-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: default;
+  }
+  .ios-stepper button:disabled { color: var(--ios-tertiary); }
+  .ios-stepper button svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.4;
+  }
+  .stepper-value {
+    font: 400 17px/22px var(--face);
+    color: var(--ios-secondary);
+    font-variant-numeric: tabular-nums;
+    margin-right: 8px;
+    flex: none;
+  }
+
+  /* Switch scale showcase */
+  .switch-board {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .switch-board .pair {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .switch-board .pair span {
+    font: 400 12px/16px var(--face);
+    color: var(--ios-secondary);
+  }
+
+  /* ════════════════════════════════════════
+     7. DIALOGS — UIAlertController system
+     Ref: HIG Alerts · width 270 · r14
+     ════════════════════════════════════════ */
+  .sysask {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: rgba(0, 0, 0, .28);
+  }
+  .sysask-card {
+    /* 270 / 375 — keeps alert ratio when .phone scales */
+    width: calc(270 / 375 * 100%);
+    max-width: 270px;
+    border-radius: 14px;
+    overflow: hidden;
+    text-align: center;
+    background: rgba(242, 242, 242, 0.82);
+    backdrop-filter: blur(50px) saturate(180%);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
+    color: #000;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .18);
+  }
+  .sysask-body {
+    padding: 19px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sysask-title {
+    font: 600 17px/22px var(--face);
+    letter-spacing: -.02em;
+    text-wrap: balance;
+  }
+  .sysask-text {
+    font: 400 13px/18px var(--face);
+    color: #000;
+    letter-spacing: -.01em;
+  }
+  .sysask-actions {
+    display: flex;
+    border-top: .5px solid rgba(60, 60, 67, .29);
+  }
+  .sysask-actions.stack { flex-direction: column; }
+  .sysask-actions button {
+    flex: 1;
+    min-height: 44px;
+    padding: 11px 8px;
+    font: 400 17px/22px var(--face);
+    color: var(--ios-blue);
+    background: none;
+    border: 0;
+    cursor: default;
+    letter-spacing: -.02em;
+  }
+  .sysask-actions:not(.stack) button + button {
+    border-left: .5px solid rgba(60, 60, 67, .29);
+  }
+  .sysask-actions.stack button + button {
+    border-top: .5px solid rgba(60, 60, 67, .29);
+    border-left: 0;
+  }
+  .sysask-actions button.emph { font-weight: 600; }
+  .sysask-actions button.destructive { color: var(--ios-red); font-weight: 600; }
+  .sysask-scene {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, #e8eef5 0%, #d5dde8 100%);
+    pointer-events: none;
+  }
+  .sysask-scene .fake-ui {
+    padding: calc(var(--safe-top) + 56px) 24px 0;
+    opacity: .55;
+  }
+  .sysask-scene .fake-ui .h {
+    font: 700 28px/34px var(--face);
+    color: #111;
+    margin: 0 0 8px;
+  }
+  .sysask-scene .fake-ui .p {
+    font: 400 15px/21px var(--face);
+    color: rgba(60, 60, 67, .6);
+    margin: 0;
+    max-width: 28ch;
+  }
+  .phone.alert-frame {
+    background: #c8d0d4;
+  }
+
+  /* ════════════════════════════════════════
+     8. SHEETS — UISheetPresentationController
+     Ref: ios-chrome.md · grabber 36×5 · r14
+     ════════════════════════════════════════ */
+  .sheet-under {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--ios-grouped);
+    z-index: 1;
+  }
+  .sheet-under.is-dark {
+    background: #1c1c1e;
+    color: #fff;
+  }
+  .sheet-under .under-body {
+    flex: 1;
+    padding: 12px 16px 0;
+  }
+  .sheet-under .under-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .sheet-under.is-dark .under-card {
+    background: #2c2c2e;
+  }
+  .sheet-under .under-h {
+    font: 600 17px/22px var(--face);
+    margin: 0 0 4px;
+  }
+  .sheet-under .under-p {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    margin: 0;
+  }
+  .sheet-under.is-dark .under-p { color: rgba(235, 235, 245, .6); }
+  .sheet-dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .28);
+    z-index: 20;
+  }
+  .ios-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, .12);
+    overflow: hidden;
+  }
+  .ios-sheet.is-grouped { background: var(--ios-grouped); }
+  .ios-sheet.is-dark {
+    background: #1c1c1e;
+    color: #fff;
+    box-shadow: 0 -8px 40px rgba(0, 0, 0, .45);
+  }
+  .ios-sheet.detent-mid { height: 58%; }
+  .ios-sheet.detent-large { height: 92%; }
+  .ios-sheet.detent-auto { height: auto; max-height: 72%; }
+  .grabber {
+    width: 36px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(60, 60, 67, .18);
+    margin: 6px auto 10px;
+    flex: none;
+  }
+  .ios-sheet.is-dark .grabber {
+    background: rgba(235, 235, 245, .3);
+  }
+  .sheet-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: 6px 16px 16px;
+  }
+  .sheet-body.tight-top { padding-top: 0; }
+  .sheet-body.has-safe {
+    padding-bottom: var(--safe-bottom);
+  }
+  /* CTA всегда: низ кнопки = safe-bottom 34 от края экрана */
+  .sheet-footer {
+    flex: none;
+    padding: 0 16px var(--safe-bottom);
+  }
+  .sheet-footer .btn-filled { margin: 0; }
+  .sheet-title {
+    font: 700 22px/28px var(--face);
+    letter-spacing: -.02em;
+    color: #000;
+    margin: 0 0 6px;
+  }
+  .ios-sheet.is-dark .sheet-title { color: #fff; }
+  .sheet-text {
+    font: 400 13px/18px var(--face);
+    color: var(--ios-secondary);
+    margin: 0 0 16px;
+  }
+  .ios-sheet.is-dark .sheet-text { color: rgba(235, 235, 245, .6); }
+  .sheet-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    min-height: 44px;
+    padding: 0 8px;
+    flex: none;
+  }
+  .sheet-nav .nav-leading { justify-self: start; }
+  .sheet-nav .nav-trailing { justify-self: end; }
+  .sheet-nav .title {
+    grid-column: 2;
+    font: 600 17px/22px var(--face);
+    color: #000;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .ios-sheet.is-dark .sheet-nav .title { color: #fff; }
+  .sheet-nav .btn-plain { color: var(--ios-blue); }
+  .sheet-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 8px;
+    flex: none;
+  }
+  .sheet-head .sheet-title {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .sheet-head.center {
+    justify-content: center;
+    padding-bottom: 12px;
+  }
+  .sheet-head.center .sheet-title {
+    font: 600 17px/22px var(--face);
+    text-align: center;
+  }
+  .ios-sheet .btn-filled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--ios-blue);
+    color: #fff;
+    font: 600 17px/1 var(--face);
+  }
+  .ios-sheet .ios-list {
+    background: #fff;
+  }
+  .ios-sheet.is-grouped .ios-list {
+    box-shadow: none;
+  }
+  .ios-sheet.is-dark .ios-list {
+    background: #2c2c2e;
+  }
+  .ios-sheet.is-dark .row { background: #2c2c2e; }
+  .ios-sheet.is-dark .row::after { background: rgba(84, 84, 88, .65); }
+  .ios-sheet.is-dark .t-body { color: #fff; }
+  .swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    flex: none;
+    box-shadow: inset 0 0 0 .5px rgba(0, 0, 0, .12);
+  }
+  .row.has-swatch::after { left: 50px; }
+
+  /* ════════════════════════════════════════
+     3. NAVIGATION BAR — UIKit geometry
+     Ref: HIG Nav bars · Settings / Reminders
+     ════════════════════════════════════════ */
+  .sb-navbar {
+    position: relative;
+    z-index: 20;
+    box-sizing: border-box;
+    min-height: calc(var(--safe-top) + var(--nav-h));
+    padding: var(--safe-top) 8px 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 42%) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 2px;
+    flex: none;
+    background: transparent;
+  }
+  .sb-navbar .nav-leading {
+    grid-column: 1;
+    justify-self: start;
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+  }
+  .sb-navbar .nav-trailing {
+    grid-column: 3;
+    justify-self: end;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    z-index: 2;
+    margin-right: 0;
+  }
+  .sb-navbar .nav-spacer {
+    grid-column: 3;
+    justify-self: end;
+    width: 100%;
+    max-width: 72px;
+    height: 1px;
+    pointer-events: none;
+  }
+  .sb-navbar .title {
+    grid-column: 2;
+    justify-self: center;
+    width: 100%;
+    position: static;
+    transform: none;
+    text-align: center;
+    font: 600 17px/22px var(--face);
+    letter-spacing: -.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    color: #000;
+    z-index: 1;
+  }
+  .sb-navbar .nav-leading .btn-plain {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0 2px 0 8px;
+  }
+  .sb-navbar .nav-leading .back-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .sb-navbar .nav-trailing .btn-plain {
+    padding: 0 8px;
+  }
+  .sb-navbar .nav-trailing .icon-btn {
+    width: 40px;
+    margin-right: -2px;
+  }
+  .sb-navbar.bar-blur {
+    background: rgba(249, 249, 249, .94);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: .33px solid rgba(0, 0, 0, .18);
+  }
+  .sb-navbar.on-dark .title { color: #fff; }
+  .sb-navbar.on-dark.bar-blur {
+    background: rgba(28, 28, 30, .94);
+    border-bottom-color: rgba(255, 255, 255, .16);
+  }
+
+  /* Large title — root tabs only */
+  .sb-navbar.is-large {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    padding: var(--safe-top) var(--margin) 6px;
+    min-height: 0;
+  }
+  .sb-navbar.is-large .nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: var(--nav-h);
+    flex: none;
+    margin: 0 -8px 0 0;
+  }
+  .sb-navbar.is-large .nav-top .btn-plain {
+    padding: 0 8px;
+    font: 400 17px/22px var(--face);
+  }
+  .sb-navbar.is-large .title.large {
+    position: static;
+    transform: none;
+    max-width: none;
+    flex: none;
+    width: 100%;
+    text-align: left;
+    font: 700 34px/41px var(--face);
+    letter-spacing: -.03em;
+    pointer-events: auto;
+    overflow: visible;
+    padding: 0;
+    margin: -2px 0 0;
+    white-space: nowrap;
+  }
+
+  .nav-content {
+    padding: 4px var(--margin) 24px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .sb-navbar.is-large + .nav-content { padding-top: 6px; }
+
+  /* ════════════════════════════════════════
+     4. TAB BAR — classic UITabBar (not Liquid Glass)
+     Ref: App Store · Outlook · ios-chrome.md §3
+     ════════════════════════════════════════ */
+  .sb-tabbar {
+    position: relative;
+    z-index: 20;
+    height: calc(var(--tab-h) + var(--safe-bottom));
+    padding: 7px 0 var(--safe-bottom);
+    display: flex;
+    align-items: flex-start;
+    border-top: .33px solid rgba(255, 255, 255, .18);
+    background: rgba(22, 22, 24, .82);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    flex: none;
+    color: rgba(235, 235, 245, .55);
+  }
+  .sb-tabbar > .tab {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1px;
+    min-width: 0;
+    min-height: 49px;
+    padding: 0 2px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: 500 10px/12px var(--face);
+    letter-spacing: .01em;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    user-select: none;
+  }
+  .sb-tabbar > .tab.is-on { color: #fff; }
+  .sb-tabbar .ico {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+  .sb-tabbar .ico svg {
+    width: 25px;
+    height: 25px;
+    stroke-width: 1.65;
+  }
+  /* Selected ≈ SF Symbol .fill */
+  .sb-tabbar .tab.is-on .ico svg {
+    fill: currentColor;
+    stroke-width: 1.4;
+  }
+  .sb-tabbar .tab-label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .sb-tabbar .badge {
+    position: absolute;
+    top: -1px;
+    left: calc(50% + 6px);
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--ios-red);
+    color: #fff;
+    font: 600 11px/16px var(--face);
+    letter-spacing: -.02em;
+    text-align: center;
+    box-shadow: 0 0 0 2px rgba(249, 249, 249, .95);
+  }
+  .sb-tabbar:not(.light) .badge {
+    box-shadow: 0 0 0 2px rgba(22, 22, 24, .95);
+  }
+  .sb-tabbar.light {
+    background: rgba(249, 249, 249, .92);
+    border-top-color: rgba(0, 0, 0, .18);
+    color: rgba(60, 60, 67, .55);
+  }
+  .sb-tabbar.light > .tab.is-on { color: var(--ios-blue); }
+
+  .phone.with-tab .nav-content { flex: 1; min-height: 0; }
+  .phone.with-tab .home-ind {
+    bottom: 8px;
+    z-index: 50;
+  }
+  .phone.with-tab.dark .home-ind {
+    background: #fff;
+    opacity: .35;
+  }
+
+  /* Crop strip — только таббар для сверки */
+  .tab-crop {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--page-line);
+    background: var(--ios-grouped);
+  }
+  .tab-crop .sb-tabbar { position: relative; }
+  .tab-crop .home-ind { position: absolute; }
+
+  /* ════════════════════════════════════════
+     9. SNACKBAR — адаптивный bar над tab
+     Light = светлый материал · Dark = elevated gray
+     Spec: ios-chrome.md §7a
+     ════════════════════════════════════════ */
+  .snackbar {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 99px; /* tab 83 + gap 16 */
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .92);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    color: #000;
+    box-shadow:
+      0 0 0 .5px rgba(0, 0, 0, .08),
+      0 4px 16px rgba(0, 0, 0, .1);
+  }
+  .phone.dark .snackbar,
+  .snackbar.on-dark {
+    background: #3a3a3c;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    color: #fff;
+    box-shadow: 0 0 0 .5px rgba(255, 255, 255, .28);
+  }
+  .snackbar-text {
+    flex: 1;
+    min-width: 0;
+    font: 400 15px/20px var(--face);
+    letter-spacing: -.01em;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .snackbar-action {
+    flex: none;
+    color: var(--ios-blue);
+    font: 600 15px/20px var(--face);
+    white-space: nowrap;
+  }
+  .snackbar.on-dark .snackbar-action,
+  .phone.dark .snackbar .snackbar-action { color: #0a84ff; }
+  .snackbar-ok {
+    display: none;
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--ios-green);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+  }
+  .snackbar.is-ok .snackbar-ok { display: flex; }
+  .snackbar.is-ok .snackbar-action { display: none; }
+  .snackbar-ok svg { display: block; width: 12px; height: 12px; }
+
+  /* ════════════════════════════════════════
+     10. STATE — fullscreen loading / error
+     Spec: ios-chrome.md §7a
+     ════════════════════════════════════════ */
+  .t-title {
+    font: 700 22px/28px var(--face);
+    letter-spacing: -.02em;
+    color: #000;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .phone.dark .t-title { color: #fff; }
+  .spinner {
+    box-sizing: border-box;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 3px solid rgba(60, 60, 67, .16);
+    border-top-color: var(--ios-blue);
+    animation: spin 800ms linear infinite;
+    flex: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ios-state {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 32px;
+    gap: 14px;
+  }
+  .ios-state .t-title { font: 700 22px/28px var(--face); }
+  .ios-state .t-subhead { margin: 0; max-width: 28ch; }
+  .state-ico {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 149, 0, .12);
+    color: #c76a00;
+    margin-bottom: 2px;
+    flex: none;
+  }
+  .state-ico.is-hard {
+    background: rgba(255, 59, 48, .1);
+    color: #d70015;
+  }
+  .state-ico svg { width: 26px; height: 26px; }
+  .state-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .state-foot {
+    flex: none;
+    padding: 0 16px var(--safe-bottom);
+  }
+  .btn-quiet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    background: none;
+    color: rgba(60, 60, 67, .55);
+    font: 400 15px/20px var(--face);
+    padding: 0;
+  }
+
+  /* ════════════════════════════════════════
+     11. ERRBOX — inline soft/hard banner
+     Spec: ios-chrome.md §7a
+     ════════════════════════════════════════ */
+  .errbox {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    margin: 0 0 14px;
+    border-radius: 12px;
+    background: rgba(255, 149, 0, .1);
+    box-shadow: inset 0 0 0 .5px rgba(255, 149, 0, .35);
+  }
+  .errbox-ico {
+    width: 26px;
+    height: 26px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c76a00;
+  }
+  .errbox-ico svg { width: 20px; height: 20px; }
+  .errbox.is-hard {
+    background: rgba(255, 59, 48, .09);
+    box-shadow: inset 0 0 0 .5px rgba(255, 59, 48, .3);
+  }
+  .errbox.is-hard .errbox-ico { color: #d70015; }
+  .errbox .t-footnote { margin: 4px 0 0; }
+  .errbox .t-headline {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  /* ════════════════════════════════════════
+     12. CAMERA — capture chrome (structure)
+     Layers: preview · top slots · bottom slot
+     Ref: HIG · Camera / WeChat · Pinterest · Outlook
+     ════════════════════════════════════════ */
+  .cam {
+    flex: 1;
+    position: relative;
+    background: #000;
+    color: #fff;
+    min-height: 0;
+  }
+  .cam .icon-btn { color: #fff; }
+  .cam-preview {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 45% 40%, #3a3a42 0%, transparent 55%),
+      linear-gradient(180deg, #1a1a1e 0%, #0a0a0a 100%);
+  }
+  /* Top: leading · mid · trailing — все слоты 44 */
+  .cam-top {
+    position: absolute;
+    top: var(--safe-top);
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    min-height: 60px;
+    box-sizing: border-box;
+  }
+  .cam-top > .icon-btn,
+  .cam-top > .cam-side {
+    width: 44px;
+    height: 44px;
+    flex: none;
+    position: relative;
+    z-index: 1;
+  }
+  .cam-top > .cam-trailing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+    margin-left: auto;
+  }
+  .cam-top > .cam-mid {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    font: 600 15px/1 var(--face);
+    color: #fff;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .cam-mid.is-rec {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 15px/1 var(--face);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Bottom: либо controls (shutter), либо actions (колонка) */
+  .cam-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 16px 24px var(--safe-bottom);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .cam-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 72px;
+  }
+  .cam-controls > .cam-slot {
+    width: 48px;
+    height: 48px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cam-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #3a3a3c;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2);
+    overflow: hidden;
+  }
+  .cam-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cam-shutter {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    padding: 0;
+    border: 4px solid #fff;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    cursor: pointer;
+  }
+  .cam-shutter::after {
+    content: "";
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .cam-shutter.is-video::after { background: var(--ios-red); }
+  .cam-shutter.is-rec {
+    border-color: rgba(255, 255, 255, .85);
+  }
+  .cam-shutter.is-rec::after {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--ios-red);
+  }
+  .cam-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .cam-actions .btn-filled,
+  .cam-actions .btn-plain { width: 100%; }
+  .cam-mode {
+    text-align: center;
+    font: 600 13px/1 var(--face);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #ffd60a;
+  }
+  .progress-rec {
+    position: absolute;
+    top: calc(var(--safe-top) + 52px);
+    left: 16px;
+    right: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, .2);
+    z-index: 2;
+    overflow: hidden;
+  }
+  .progress-rec i {
+    display: block;
+    height: 100%;
+    width: 42%;
+    background: var(--ios-red);
+  }
+  .rec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ios-red);
+    box-shadow: 0 0 0 4px rgba(255, 59, 48, .25);
+    flex: none;
+  }
+  .cam-hint {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 42%;
+    z-index: 2;
+    text-align: center;
+    font: 400 15px/20px var(--face);
+    color: rgba(255, 255, 255, .78);
+    pointer-events: none;
+  }
+
+  /* ════════════════════════════════════════
+     13. SEARCH — UISearchBar-like
+     ════════════════════════════════════════ */
+  .searchfield {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 12px;
+    margin: 0 0 16px;
+    border-radius: 10px;
+    background: rgba(120, 120, 128, .12);
+    color: rgba(60, 60, 67, .6);
+    font: 400 15px/1 var(--face);
+  }
+  .searchfield svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: rgba(60, 60, 67, .5);
+  }
+  .searchfield .sf-text {
+    color: #000;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .searchfield .sf-placeholder { color: rgba(60, 60, 67, .6); }
+  .dist {
+    font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--ios-blue);
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .dist.is-off { color: var(--ios-tertiary); }
+
+  /* ════════════════════════════════════════
+     14. CTA COLUMN — filled + secondary + footnote
+     ════════════════════════════════════════ */
+  .cta-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 0 16px var(--safe-bottom);
+    box-sizing: border-box;
+  }
+  .cta-col .btn-filled,
+  .cta-col .btn-tinted,
+  .cta-col .btn-quiet { width: 100%; }
+  .cta-col .t-footnote {
+    margin: 4px 0 0;
+    text-align: center;
+  }
+
+  /* Placeholder for next components */
+  .wip {
+    padding: 20px;
+    border: 1.5px dashed var(--page-line);
+    border-radius: 14px;
+    background: rgba(255,255,255,.5);
+    color: var(--page-dim);
+    font-size: 13.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="sb">
+  <aside class="sb-nav">
+    <div class="sb-brand">Camo</div>
+    <div class="sb-title">Components</div>
+    <p class="sb-sub">Системный сторибук · Inter Variable · Lucide · сверка с iOS</p>
+    <ul class="nav-list">
+      <li><a href="#status" class="is-active">Status Bar</a></li>
+      <li><a href="#buttons">Buttons</a></li>
+      <li><a href="#nav">Navigation Bar</a></li>
+      <li><a href="#tabbar">Tab Bar</a></li>
+      <li><a href="#cells">Cells &amp; Lists</a></li>
+      <li><a href="#controls">Controls</a></li>
+      <li><a href="#dialogs">Dialogs</a></li>
+      <li><a href="#sheets">Sheets</a></li>
+      <li><a href="#snackbar">Snackbar</a></li>
+      <li><a href="#state">State</a></li>
+      <li><a href="#errbox">Error Banner</a></li>
+      <li><a href="#camera">Camera</a></li>
+      <li><a href="#search">Search</a></li>
+      <li><a href="#cta">CTA Column</a></li>
+    </ul>
+    <div class="nav-note">
+      <code>375×812</code> · safe 47/34 ·
+      <a href="platform/kernel/ios-chrome.md">ios-chrome.md</a><br>
+      Status SVG · UI Lucide · Inter
+    </div>
+  </aside>
+
+  <main class="sb-main">
+    <header class="hero">
+      <h1>System Components</h1>
+      <p>iOS-хром для концептов. Inter + Lucide. Сверка с системой.</p>
+    </header>
+
+    <!-- ════════════ STATUS BAR ════════════ -->
+    <section class="section" id="status">
+      <div class="section-head">
+        <h2>1. Status Bar</h2>
+        <p>Прозрачный. Светлый фон → <code>.dark-ink</code>.</p>
+        <div class="meta">
+          <span class="chip">h 47</span>
+          <span class="chip">15/600</span>
+          <span class="chip">pad 16·27</span>
+          <span class="chip">gap 6</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/status-bars" target="_blank" rel="noopener">HIG</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Light</h3>
+          <div class="phone short grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="fill-area">
+              <div class="fake-title">Настройки</div>
+              <div class="fake-line w80"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Dark</h3>
+          <div class="phone short dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="fill-area">
+              <div class="fake-title" style="color:#fff">Урок</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Low battery</h3>
+          <div class="phone short white">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5" fill="currentColor"/><rect x="2.2" y="3" width="5" height="6" rx="1" fill="#ff3b30"/></svg>
+              </span>
+            </div>
+            <div class="fill-area"><div class="fake-line w60"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════ BUTTONS ════════════ -->
+    <section class="section" id="buttons">
+      <div class="section-head">
+        <h2>2. Buttons</h2>
+        <p>Filled · tinted · gray · plain · icon. Размеры: default / <code>.sm</code> / <code>.mini</code>.</p>
+        <div class="meta">
+          <span class="chip">filled 50</span>
+          <span class="chip">tinted 44</span>
+          <span class="chip">sm 34</span>
+          <span class="chip">mini 28</span>
+          <span class="chip">icon 44</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/buttons" target="_blank" rel="noopener">HIG</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Stack</h3>
+          <div class="phone mid white">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="btn-demo" style="padding-top:calc(var(--safe-top) + 64px);justify-content:flex-end">
+              <div style="font:700 22px/28px var(--face);text-align:center;letter-spacing:-.02em;margin-bottom:20px">Продолжить?</div>
+              <div class="btn-stack">
+                <button type="button" class="btn-filled block">Продолжить</button>
+                <button type="button" class="btn-gray block">Не сейчас</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Tinted · plain</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="btn-demo" style="padding-top:calc(var(--safe-top) + 40px)">
+              <div class="btn-stack">
+                <button type="button" class="btn-tinted block"><i data-lucide="rotate-ccw"></i>Повторить</button>
+                <button type="button" class="btn-tinted destructive block"><i data-lucide="trash-2"></i>Удалить</button>
+                <button type="button" class="btn-plain" style="justify-content:center;min-height:44px">Отмена</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Plain · nav</h3>
+          <div class="phone short white">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div style="position:relative;padding:calc(var(--safe-top) + 0px) 8px 0;display:flex;align-items:center;justify-content:space-between;min-height:44px">
+              <button type="button" class="btn-plain" style="padding:0 8px">
+                <i data-lucide="chevron-left" class="chev-back"></i>
+                Проекты
+              </button>
+              <div style="font:600 17px/22px var(--face);position:absolute;left:50%;transform:translateX(-50%);pointer-events:none">Детали</div>
+              <button type="button" class="btn-plain semibold" style="padding:0 8px">Добавить</button>
+            </div>
+            <div style="padding:20px 16px 24px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+              <button type="button" class="btn-plain">Закрыть</button>
+              <button type="button" class="btn-plain destructive">Удалить проект</button>
+              <button type="button" class="btn-plain" style="opacity:.35;pointer-events:none">Недоступно</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Icons</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="btn-demo">
+              <div class="btn-row">
+                <button type="button" class="icon-btn" aria-label="Назад"><i data-lucide="chevron-left"></i></button>
+                <button type="button" class="icon-btn" aria-label="Закрыть"><i data-lucide="x"></i></button>
+                <button type="button" class="icon-btn filled" aria-label="Ещё"><i data-lucide="ellipsis"></i></button>
+                <button type="button" class="icon-btn filled" aria-label="Добавить"><i data-lucide="plus"></i></button>
+              </div>
+              <div style="background:#1c1c1e;border-radius:16px;padding:14px;display:flex;gap:8px;align-items:center">
+                <button type="button" class="icon-btn on-dark" aria-label="Закрыть"><i data-lucide="x"></i></button>
+                <button type="button" class="icon-btn on-dark filled" aria-label="Cast"><i data-lucide="cast"></i></button>
+                <button type="button" class="btn-tinted on-dark sm" style="margin-left:auto"><i data-lucide="play"></i>Смотреть</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Sizes</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div>
+                <div style="font:600 11px/1.3 var(--face);letter-spacing:.05em;text-transform:uppercase;color:var(--page-dim);margin-bottom:8px">Default · 50 / 44</div>
+                <div class="btn-row">
+                  <button type="button" class="btn-filled">Продолжить</button>
+                  <button type="button" class="btn-tinted">Изменить</button>
+                  <button type="button" class="btn-gray">Отмена</button>
+                </div>
+              </div>
+              <div>
+                <div style="font:600 11px/1.3 var(--face);letter-spacing:.05em;text-transform:uppercase;color:var(--page-dim);margin-bottom:8px">.sm · 34</div>
+                <div class="btn-row">
+                  <button type="button" class="btn-filled sm">Готово</button>
+                  <button type="button" class="btn-tinted sm"><i data-lucide="camera"></i>Снять</button>
+                  <button type="button" class="btn-gray sm">Отмена</button>
+                  <button type="button" class="btn-plain sm"><i data-lucide="chevron-left" class="chev-back"></i>Назад</button>
+                </div>
+              </div>
+              <div>
+                <div style="font:600 11px/1.3 var(--face);letter-spacing:.05em;text-transform:uppercase;color:var(--page-dim);margin-bottom:8px">.mini · 28</div>
+                <div class="btn-row">
+                  <button type="button" class="btn-filled mini">OK</button>
+                  <button type="button" class="btn-tinted mini">Фильтр</button>
+                  <button type="button" class="btn-tinted mini destructive">Сброс</button>
+                  <button type="button" class="btn-gray mini">Позже</button>
+                </div>
+              </div>
+              <div>
+                <div style="font:600 11px/1.3 var(--face);letter-spacing:.05em;text-transform:uppercase;color:var(--page-dim);margin-bottom:8px">Plain</div>
+                <div class="btn-row">
+                  <button type="button" class="btn-plain"><i data-lucide="chevron-left" class="chev-back"></i>Проекты</button>
+                  <button type="button" class="btn-plain semibold">Сохранить</button>
+                  <button type="button" class="btn-plain destructive">Удалить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Destructive</h3>
+          <div class="phone mid white">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="btn-demo" style="padding-top:calc(var(--safe-top) + 72px);justify-content:flex-end">
+              <div style="font:700 22px/28px var(--face);text-align:center;letter-spacing:-.02em;margin-bottom:20px">Отменить приглашение?</div>
+              <div class="btn-stack">
+                <button type="button" class="btn-filled destructive block">Отменить</button>
+                <button type="button" class="btn-gray block">Оставить</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="nav">
+      <div class="section-head">
+        <h2>3. Navigation Bar</h2>
+        <p>Inline · large · back = chevron + имя родителя. Row 44 поверх safe-top.</p>
+        <div class="meta">
+          <span class="chip">row 44</span>
+          <span class="chip">title 17/600</span>
+          <span class="chip">large 34/700</span>
+          <span class="chip">spacer 72</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/toolbars" target="_blank" rel="noopener">HIG</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Large title</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top">
+                <button type="button" class="btn-plain">Снять</button>
+              </div>
+              <div class="title large">Проекты</div>
+            </div>
+            <div class="nav-content">
+              <div class="group-head">В работе</div>
+              <div class="ios-list">
+                <div class="row"><div class="grow"><div class="t-headline">Ажурный шарф</div><div class="t-caption">Ряд 48 из 96</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="row"><div class="grow"><div class="t-headline">Носки в резинку</div><div class="t-caption">Ряд 12 из 140</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Inline + Back</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Проекты</span>
+                </button>
+              </div>
+              <div class="title">Ажурный шарф</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:10px">
+              <div class="ios-list">
+                <div class="row"><div class="grow"><div class="t-body">Сканировать этикетку</div><div class="t-caption">Состав и партия с мотка</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="row"><div class="grow"><div class="t-body">Пряжа рядом</div><div class="t-caption">Магазины по геопозиции</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Modal</h3>
+          <div class="phone mid white">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar bar-blur">
+              <div class="nav-leading"><button type="button" class="btn-plain">Отмена</button></div>
+              <div class="title">Новый проект</div>
+              <div class="nav-trailing"><button type="button" class="btn-plain semibold">Готово</button></div>
+            </div>
+            <div class="nav-content" style="padding-top:20px">
+              <div class="fake-line w80"></div>
+              <div class="fake-line w60"></div>
+              <div class="fake-line"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Trailing icons</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Уроки</span>
+                </button>
+              </div>
+              <div class="title">Урок 12</div>
+              <div class="nav-trailing">
+                <button type="button" class="icon-btn" aria-label="Поделиться"><i data-lucide="share"></i></button>
+                <button type="button" class="icon-btn" aria-label="Ещё"><i data-lucide="ellipsis"></i></button>
+              </div>
+            </div>
+            <div class="nav-content" style="padding-top:10px">
+              <div class="fake-line w80"></div>
+              <div class="fake-line w60"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Close · dark</h3>
+          <div class="phone mid dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar on-dark">
+              <div class="nav-leading"><button type="button" class="btn-plain on-dark">Закрыть</button></div>
+              <div class="title">Превью</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:10px">
+              <div class="fake-line" style="background:rgba(255,255,255,.12)"></div>
+              <div class="fake-line w60" style="background:rgba(255,255,255,.12)"></div>
+            </div>
+            <div class="home-ind"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Back · tight</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain" aria-label="Назад">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+              <div class="title">Очень длинный заголовок экрана</div>
+              <div class="nav-trailing"><button type="button" class="btn-plain semibold">Правка</button></div>
+            </div>
+            <div class="nav-content" style="padding-top:10px">
+              <div class="t-footnote">Когда места мало — только chevron, title с ellipsis.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tabbar">
+      <div class="section-head">
+        <h2>4. Tab Bar</h2>
+        <p>Classic edge-to-edge · 49+34 · selected = filled · label 10 Medium.</p>
+        <div class="meta">
+          <span class="chip">h 49</span>
+          <span class="chip">+home 34</span>
+          <span class="chip">ico 25</span>
+          <span class="chip">label 10/500</span>
+          <span class="chip">2–5 tabs</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/tab-bars" target="_blank" rel="noopener">HIG</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Light · 3 tabs</h3>
+          <div class="phone with-tab grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top">
+                <button type="button" class="btn-plain">Снять</button>
+              </div>
+              <div class="title large">Проекты</div>
+            </div>
+            <div class="nav-content">
+              <div class="group-head">В работе</div>
+              <div class="ios-list">
+                <div class="row"><div class="grow"><div class="t-headline">Ажурный шарф</div><div class="t-caption">Ряд 48 из 96</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="row"><div class="grow"><div class="t-headline">Носки в резинку</div><div class="t-caption">Ряд 12 из 140</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="row"><div class="grow"><div class="t-headline">Шапка с косами</div><div class="t-caption">Ряд 3 из 80</div></div><svg class="ios-disclosure" viewBox="0 0 8 13" fill="none" aria-hidden="true"><path d="M1.5 1.5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              </div>
+            </div>
+            <nav class="sb-tabbar light" aria-label="Вкладки">
+              <div class="tab"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></div>
+              <div class="tab is-on"><span class="ico"><i data-lucide="folder"></i></span><span class="tab-label">Проекты</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></div>
+            </nav>
+            <div class="home-ind"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Dark · immersive</h3>
+          <div class="phone with-tab dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar on-dark is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Уроки</div>
+            </div>
+            <div class="nav-content">
+              <div class="fake-line" style="background:rgba(255,255,255,.12)"></div>
+              <div class="fake-line w80" style="background:rgba(255,255,255,.12)"></div>
+              <div class="fake-line w60" style="background:rgba(255,255,255,.12)"></div>
+              <div class="fake-line w80" style="background:rgba(255,255,255,.12);margin-top:16px"></div>
+            </div>
+            <nav class="sb-tabbar" aria-label="Вкладки">
+              <div class="tab is-on"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="folder"></i></span><span class="tab-label">Проекты</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></div>
+            </nav>
+            <div class="home-ind"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>5 tabs · App Store–like</h3>
+          <div class="phone with-tab grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar bar-blur">
+              <div class="nav-leading"></div>
+              <div class="title">Игры</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="ios-list">
+                <div class="row"><div class="grow"><div class="t-body" style="color:var(--ios-blue)">Redeem</div></div></div>
+                <div class="row"><div class="grow"><div class="t-body" style="color:var(--ios-blue)">Send Gift</div></div></div>
+              </div>
+            </div>
+            <nav class="sb-tabbar light" aria-label="Вкладки">
+              <div class="tab"><span class="ico"><i data-lucide="newspaper"></i></span><span class="tab-label">Today</span></div>
+              <div class="tab is-on"><span class="ico"><i data-lucide="rocket"></i></span><span class="tab-label">Games</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="layout-grid"></i></span><span class="tab-label">Apps</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="gamepad-2"></i></span><span class="tab-label">Arcade</span></div>
+              <div class="tab"><span class="ico"><i data-lucide="search"></i></span><span class="tab-label">Search</span></div>
+            </nav>
+            <div class="home-ind"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Badge</h3>
+          <div class="phone with-tab grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div style="flex:1;padding:calc(var(--safe-top) + 28px) 16px 0">
+              <div class="t-footnote">Badge на иконке · не на label.</div>
+            </div>
+            <nav class="sb-tabbar light" aria-label="Вкладки">
+              <div class="tab is-on"><span class="ico"><i data-lucide="house"></i></span><span class="tab-label">Главная</span></div>
+              <div class="tab">
+                <span class="badge">3</span>
+                <span class="ico"><i data-lucide="bell"></i></span>
+                <span class="tab-label">Алерты</span>
+              </div>
+              <div class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></div>
+            </nav>
+            <div class="home-ind"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Crop</h3>
+          <div class="compare-card" style="padding:0;overflow:hidden">
+            <div class="tab-crop">
+              <div style="height:28px;background:linear-gradient(to bottom, transparent, rgba(0,0,0,.04))"></div>
+              <nav class="sb-tabbar light" aria-label="Вкладки">
+                <div class="tab"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></div>
+                <div class="tab is-on"><span class="ico"><i data-lucide="folder"></i></span><span class="tab-label">Проекты</span></div>
+                <div class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></div>
+              </nav>
+            </div>
+            <div class="ruler-row" style="padding:10px 12px 12px">
+              <span class="chip">49 + 34</span>
+              <span class="chip">blur 40</span>
+              <span class="chip">hairline .33</span>
+              <span class="chip">fill when on</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cells">
+      <div class="section-head">
+        <h2>5. Cells &amp; Lists</h2>
+        <p>Inset Grouped · UITableViewCell styles · stacks 35.</p>
+        <div class="meta">
+          <span class="chip">card r12</span>
+          <span class="chip">row ≥44</span>
+          <span class="chip">sep .5</span>
+          <span class="chip">switch 51×31</span>
+          <span class="chip">lead 29</span>
+          <span class="chip">media 74×56</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/lists-and-tables" target="_blank" rel="noopener">HIG</a>
+          <a class="chip ref" href="https://mobbin.com/screens/bbf7938d-3a6d-4621-966b-7f7d7e1fc6b8" target="_blank" rel="noopener">Apple Store</a>
+          <a class="chip ref" href="https://mobbin.com/screens/e24598ca-0d49-4134-a430-063723bd4c16" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 1. Full Settings catalog -->
+        <div class="specimen">
+          <h3>Settings stack · lead</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.2c2.2 0 4.1 1 5.4 2.5l-1.3 1.3A5.6 5.6 0 0 0 8 4.4c-1.5 0-2.9.6-3.9 1.6L2.8 4.7A7.5 7.5 0 0 1 8 2.2Zm0 3.2c1.3 0 2.5.5 3.3 1.4L9.9 8.2A2.7 2.7 0 0 0 8 7.4c-.8 0-1.5.3-2 .8L4.7 6.8A4.5 4.5 0 0 1 8 5.4Zm0 3.2c.5 0 .9.2 1.2.5L8 10.3 6.8 9.1c.3-.3.7-.5 1.2-.5Z"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Настройки</div>
+            </div>
+            <div class="nav-content">
+              <div class="list-stack">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row has-lead">
+                      <div class="lead-ico gray"><i data-lucide="settings"></i></div>
+                      <div class="grow"><div class="t-body">Основные</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-lead">
+                      <div class="lead-ico blue"><i data-lucide="cloud"></i></div>
+                      <div class="grow"><div class="t-body">iCloud Sync</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-lead">
+                      <div class="lead-ico green"><i data-lucide="layout-grid"></i></div>
+                      <div class="grow"><div class="t-body">Иконка приложения</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-lead">
+                      <div class="lead-ico purple"><i data-lucide="palette"></i></div>
+                      <div class="grow"><div class="t-body">Оформление</div></div>
+                      <div class="row-value">Авто</div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head caps">Уведомления</div>
+                  <div class="ios-list">
+                    <div class="row has-lead">
+                      <div class="lead-ico red"><i data-lucide="bell"></i></div>
+                      <div class="grow"><div class="t-body">Пуши</div></div>
+                      <div class="row-value">Вкл.</div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-lead">
+                      <div class="lead-ico orange"><i data-lucide="mail"></i></div>
+                      <div class="grow"><div class="t-body">Рассылка</div></div>
+                      <div class="switch"></div>
+                    </div>
+                    <div class="row has-lead">
+                      <div class="lead-ico teal"><i data-lucide="megaphone"></i></div>
+                      <div class="grow"><div class="t-body">Новости</div></div>
+                      <span class="row-dot" aria-label="новое"></span>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row center">
+                      <div class="t-body accent">Выйти</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Subtitle + switch (Apple Store / Wispr) -->
+        <div class="specimen">
+          <h3>Subtitle + switch</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Назад</span>
+                </button>
+              </div>
+              <div class="title">Settings</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:8px">
+              <div class="list-stack">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Notifications</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">Enable or disable notifications from the app.</div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">Personalization</div>
+                  <div class="ios-list">
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Your Devices</div>
+                        <div class="t-footnote">Allow access to devices linked to your Apple ID for personalized recommendations.</div>
+                      </div>
+                      <div class="switch is-on"></div>
+                    </div>
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Your Services</div>
+                        <div class="t-footnote">Share services you use so we can tailor offers and tips.</div>
+                      </div>
+                      <div class="switch is-on"></div>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">These settings unlock more app features and personalized content.</div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">Information Access</div>
+                  <div class="ios-list">
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Memoji Access</div>
+                        <div class="t-footnote">Use Memoji in the app experience.</div>
+                      </div>
+                      <div class="switch"></div>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">Memoji stays on device and is never shared.</div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">Audio</div>
+                  <div class="ios-list">
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Interaction sounds</div>
+                        <div class="t-footnote">Play sounds for actions like sending and deleting.</div>
+                        <div class="learn-more">Learn more →</div>
+                      </div>
+                      <div class="switch"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Value1 / check / detail / external -->
+        <div class="specimen">
+          <h3>Value · check · detail · external</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+              <div class="title">Единицы</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="list-stack tight">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Метрическая</div>
+                        <div class="t-footnote">Килограммы, граммы, литры</div>
+                      </div>
+                      <div class="row-radio is-on" aria-hidden="true"></div>
+                    </div>
+                    <div class="row multi">
+                      <div class="grow row-text">
+                        <div class="t-headline">Имперская</div>
+                        <div class="t-footnote">Фунты, унции, пинты</div>
+                      </div>
+                      <div class="row-radio" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Язык</div></div>
+                      <div class="row-value">Русский</div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Тема</div></div>
+                      <div class="row-value accent">Системная</div>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">О проекте</div></div>
+                      <div class="row-info" aria-label="info"><i data-lucide="info"></i></div>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Системные настройки</div></div>
+                      <div class="row-ext" aria-hidden="true"><i data-lucide="external-link"></i></div>
+                    </div>
+                  </div>
+                  <div class="group-foot">Откроет Настройки iOS.</div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">Сортировка</div>
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">По дате</div></div>
+                      <div class="row-check"><i data-lucide="check"></i></div>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">По имени</div></div>
+                      <div class="row-check is-empty"><i data-lucide="check"></i></div>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Вручную</div></div>
+                      <div class="row-check is-empty"><i data-lucide="check"></i></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Media + subtitle rows -->
+        <div class="specimen">
+          <h3>Avatar · thumb · subtitle</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Проекты</div>
+            </div>
+            <div class="nav-content">
+              <div class="list-stack tight">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row has-avatar tall" style="padding-top:14px;padding-bottom:14px">
+                      <div class="row-avatar lg" aria-hidden="true"></div>
+                      <div class="grow row-text">
+                        <div class="t-headline">Анна К.</div>
+                        <div class="t-caption">anna@example.com</div>
+                      </div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">В работе</div>
+                  <div class="ios-list">
+                    <div class="row has-thumb tall">
+                      <div class="pthumb" aria-hidden="true"></div>
+                      <div class="grow row-text">
+                        <div class="t-headline">Ажурный шарф</div>
+                        <div class="t-caption">Ряд 48 из 96</div>
+                      </div>
+                      <div class="row-count">3</div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-thumb tall">
+                      <div class="pthumb" style="background:linear-gradient(160deg,#a8c7b8,#6a8a7a)" aria-hidden="true"></div>
+                      <div class="grow row-text">
+                        <div class="t-headline">Носки в резинку</div>
+                        <div class="t-caption">Ряд 12 из 140</div>
+                      </div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-thumb tall">
+                      <div class="pthumb" style="background:linear-gradient(160deg,#c8b8d8,#7a6a8a)" aria-hidden="true"></div>
+                      <div class="grow row-text">
+                        <div class="t-headline">Шапка с косами</div>
+                        <div class="t-caption">Ряд 3 из 80</div>
+                      </div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row has-line">
+                      <div class="lead-line"><i data-lucide="scan-line"></i></div>
+                      <div class="grow row-text">
+                        <div class="t-body">Сканировать этикетку</div>
+                        <div class="t-caption">Состав и партия с мотка</div>
+                      </div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row has-line">
+                      <div class="lead-line"><i data-lucide="map-pin"></i></div>
+                      <div class="grow row-text">
+                        <div class="t-body">Пряжа рядом</div>
+                        <div class="t-caption">Магазины по геопозиции</div>
+                      </div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Media content rows (catalog / saved) -->
+        <div class="specimen">
+          <h3>Media · content</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Профиль</span>
+                </button>
+              </div>
+              <div class="title">Отложенные</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content">
+              <div class="ios-list">
+                <div class="row has-media">
+                  <div class="lrow-thumb" style="background:linear-gradient(145deg,#c4a882 0%,#8a6a4a 55%,#3d2e22)"><span class="dur">18:42</span></div>
+                  <div class="grow row-text">
+                    <div class="t-headline">Японская убавка</div>
+                    <div class="t-caption" style="margin-top:3px">youtube.com · Вяжем с Ниной</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-media">
+                  <div class="lrow-thumb" style="background:linear-gradient(145deg,#d8b8c4,#8a5a6a)"><span class="dur">6:05</span></div>
+                  <div class="grow row-text">
+                    <div class="t-headline">Итальянский набор петель</div>
+                    <div class="t-caption" style="margin-top:3px">vkvideo.ru · Петельки</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-media">
+                  <div class="lrow-thumb" style="background:linear-gradient(145deg,#8ab8a8,#3a6a5a)"><span class="dur">статья</span></div>
+                  <div class="grow row-text">
+                    <div class="t-headline">Раппорт по японской схеме</div>
+                    <div class="t-caption" style="margin-top:3px">knitpro.blog · разбор со схемами</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-media">
+                  <div class="lrow-thumb is-blank" aria-hidden="true"><i data-lucide="link-2"></i></div>
+                  <div class="grow row-text">
+                    <div class="t-headline">tricot-atelier.fr/tuto-jacquard</div>
+                    <div class="t-caption" style="margin-top:3px">Без превью — страница не отдала разметку</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-media">
+                  <div class="lrow-thumb is-blank is-gone" aria-hidden="true"><i data-lucide="circle-off"></i></div>
+                  <div class="grow row-text">
+                    <div class="t-headline is-dim">Косичка по краю резинки</div>
+                    <div class="t-caption" style="margin-top:3px">vkvideo.ru · страница не отвечает</div>
+                  </div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Fields + single-cell footers -->
+        <div class="specimen">
+          <h3>Fields · single + footer</h3>
+          <div class="phone mid grouped cells-tall">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">Отмена</button>
+              </div>
+              <div class="title">Пряжа</div>
+              <div class="nav-trailing">
+                <button type="button" class="btn-plain" style="font-weight:600">Сохранить</button>
+              </div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="list-stack">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="field-label">Пряжа</div>
+                      <input class="field-input" type="text" value="Merino Soft" readonly>
+                    </div>
+                    <div class="row">
+                      <div class="field-label">Партия</div>
+                      <input class="field-input" type="text" placeholder="23-А" readonly>
+                    </div>
+                    <div class="row">
+                      <div class="field-label">Метраж</div>
+                      <input class="field-input" type="text" value="400 м" readonly>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">В наличии</div></div>
+                      <div class="switch is-on"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Новые уроки</div></div>
+                      <div class="switch is-on"></div>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">Пуш о новом уроке в курсе.</div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Отслеживание</div></div>
+                      <div class="switch"></div>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">Реклама по интересам. Можно отключить в любой момент.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Destructive / actions -->
+        <div class="specimen">
+          <h3>Actions · destructive</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Проекты</span>
+                </button>
+              </div>
+              <div class="title">Ажурный шарф</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="list-stack tight">
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Дублировать</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Экспорт PDF</div></div>
+                      <span class="ios-disclosure" aria-hidden="true"></span>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Поделиться</div></div>
+                      <div class="row-ext"><i data-lucide="share"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body destructive">Удалить проект</div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row center">
+                      <div class="t-body destructive">Выйти из аккаунта</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">default</span> — label · disclosure</div>
+              <div><span style="color:var(--page-ink);font-weight:600">subtitle</span> — headline + caption / footnote</div>
+              <div><span style="color:var(--page-ink);font-weight:600">value1</span> — label · secondary value · ›</div>
+              <div><span style="color:var(--page-ink);font-weight:600">switch</span> — 51×31 · multi: switch по центру блока</div>
+              <div><span style="color:var(--page-ink);font-weight:600">check / radio</span> — selection trailing</div>
+              <div><span style="color:var(--page-ink);font-weight:600">detail / external</span> — info · ↗</div>
+              <div><span style="color:var(--page-ink);font-weight:600">lead</span> — squircle 29 · line 24 · avatar 40 · thumb 40</div>
+              <div><span style="color:var(--page-ink);font-weight:600">field</span> — label 88 · value right</div>
+              <div><span style="color:var(--page-ink);font-weight:600">stack</span> — gap 35 · head/foot 13 · single-cell OK</div>
+              <div><span style="color:var(--page-ink);font-weight:600">sep</span> — .5 · left 16 / 60 / 72 / 86</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="controls">
+      <div class="section-head">
+        <h2>6. Controls</h2>
+        <p>UISwitch · UISegmentedControl · UIStepper.</p>
+        <div class="meta">
+          <span class="chip">switch 51×31</span>
+          <span class="chip">segmented h32</span>
+          <span class="chip">stepper 94×32</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/toggles" target="_blank" rel="noopener">HIG</a>
+          <a class="chip ref" href="https://mobbin.com/screens/d9f5b077-f37f-46da-9366-d34ba0ed7877" target="_blank" rel="noopener">timespent</a>
+          <a class="chip ref" href="https://mobbin.com/screens/2ff45f47-5a5e-4606-8878-791251a976ab" target="_blank" rel="noopener">DailyArt</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Switch</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Уведомления</div>
+            </div>
+            <div class="nav-content">
+              <div class="ctrl-stage" style="padding-top:8px">
+                <div class="ctrl-card">
+                  <div class="switch-board">
+                    <div class="pair"><div class="switch is-on"></div><span>On · green</span></div>
+                    <div class="pair"><div class="switch"></div><span>Off · fill</span></div>
+                  </div>
+                </div>
+                <div class="ios-list">
+                  <div class="row multi">
+                    <div class="grow row-text">
+                      <div class="t-body">Новые уроки</div>
+                      <div class="t-caption">Пуш о новом уроке в курсе</div>
+                    </div>
+                    <div class="switch is-on"></div>
+                  </div>
+                  <div class="row multi">
+                    <div class="grow row-text">
+                      <div class="t-body">Отслеживание</div>
+                      <div class="t-caption">Реклама по интересам</div>
+                    </div>
+                    <div class="switch"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Segmented · full</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Назад</span>
+                </button>
+              </div>
+              <div class="title">Оформление</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="list-stack tight">
+                <div class="list-group">
+                  <div class="group-head">Тема</div>
+                  <div class="ios-list">
+                    <div class="row" style="padding-top:14px;padding-bottom:14px;flex-direction:column;align-items:stretch;gap:10px">
+                      <div class="t-body">Внешний вид</div>
+                      <div class="ios-segmented" role="tablist" aria-label="Тема">
+                        <button type="button" class="seg">Светлая</button>
+                        <button type="button" class="seg is-on">Тёмная</button>
+                        <button type="button" class="seg">Авто</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="group-head">Размер текста</div>
+                  <div class="ios-list">
+                    <div class="row" style="padding-top:14px;padding-bottom:14px">
+                      <div class="ios-segmented" role="tablist" aria-label="Размер">
+                        <button type="button" class="seg">A</button>
+                        <button type="button" class="seg is-on">A</button>
+                        <button type="button" class="seg" style="font-size:16px">A</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Segmented · trailing</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Настройки</div>
+            </div>
+            <div class="nav-content">
+              <div class="ios-list">
+                <div class="row">
+                  <div class="grow"><div class="t-body">Единицы</div></div>
+                  <div class="ios-segmented compact sm" style="width:168px">
+                    <button type="button" class="seg is-on">см</button>
+                    <button type="button" class="seg">in</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="grow"><div class="t-body">Тема</div></div>
+                  <div class="ios-segmented compact sm" style="width:196px">
+                    <button type="button" class="seg">Свет</button>
+                    <button type="button" class="seg is-on">Тёмн</button>
+                    <button type="button" class="seg">Авто</button>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="grow"><div class="t-body">Язык</div></div>
+                  <div class="row-value">Русский</div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Stepper</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">Отмена</button>
+              </div>
+              <div class="title">Цель</div>
+              <div class="nav-trailing">
+                <button type="button" class="btn-plain" style="font-weight:600">Готово</button>
+              </div>
+            </div>
+            <div class="nav-content" style="padding-top:12px">
+              <div class="list-stack tight">
+                <div class="list-group">
+                  <div class="group-head">Неделя</div>
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Дни</div></div>
+                      <div class="stepper-value">5</div>
+                      <div class="ios-stepper" aria-label="Дни">
+                        <button type="button" aria-label="Меньше"><i data-lucide="minus"></i></button>
+                        <button type="button" aria-label="Больше"><i data-lucide="plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Ряды</div></div>
+                      <div class="stepper-value">12</div>
+                      <div class="ios-stepper" aria-label="Ряды">
+                        <button type="button" aria-label="Меньше" disabled><i data-lucide="minus"></i></button>
+                        <button type="button" aria-label="Больше"><i data-lucide="plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group">
+                  <div class="ios-list">
+                    <div class="row">
+                      <div class="grow"><div class="t-body">Метраж, м</div></div>
+                      <div class="stepper-value">7.00</div>
+                      <div class="ios-stepper" aria-label="Метраж">
+                        <button type="button" aria-label="Меньше"><i data-lucide="minus"></i></button>
+                        <button type="button" aria-label="Больше"><i data-lucide="plus"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="group-foot wide">Как UIStepper в Settings / timespent.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Switch</span> — 51×31 · knob 27 · on #34C759 · off fill</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Segmented</span> — h 32 · pad 2 · fill 12% · selected #fff + shadow · 13/500</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Stepper</span> — 94×32 · r8 · ± blue · divider .5</div>
+              <div><span style="color:var(--page-ink);font-weight:600">In row</span> — trailing, vertically centered · value left of control</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dialogs">
+      <div class="section-head">
+        <h2>7. Dialogs</h2>
+        <p>UIAlertController · width 270 · r14 · hairline actions.</p>
+        <div class="meta">
+          <span class="chip">w 270</span>
+          <span class="chip">r 14</span>
+          <span class="chip">title 17/600</span>
+          <span class="chip">text 13</span>
+          <span class="chip">action 44</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/alerts" target="_blank" rel="noopener">HIG</a>
+          <a class="chip ref" href="https://mobbin.com/screens/55005607-a590-4857-aa82-8f1f0f51b047" target="_blank" rel="noopener">Square Go</a>
+          <a class="chip ref" href="https://mobbin.com/screens/acd12bae-61fe-45ce-a339-2b50f218bbc1" target="_blank" rel="noopener">Amie</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Permission · mic</h3>
+          <div class="phone mid alert-frame">
+            <div class="sysask-scene">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="fake-ui">
+                <div class="h">Счётчик рядов</div>
+                <p class="p">Голосовые команды и запись звука в видео.</p>
+              </div>
+            </div>
+            <div class="sysask">
+              <div class="sysask-card">
+                <div class="sysask-body">
+                  <div class="sysask-title">«Петля» запрашивает доступ к микрофону</div>
+                  <div class="sysask-text">Чтобы слышать команды счётчика и записывать звук в ваших видео.</div>
+                </div>
+                <div class="sysask-actions">
+                  <button type="button">Запретить</button>
+                  <button type="button" class="emph">Разрешить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Notifications</h3>
+          <div class="phone mid alert-frame" style="background:#b8c0c8">
+            <div class="sysask-scene" style="background:linear-gradient(180deg,#f4f0ff,#e8e0f8)">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="fake-ui">
+                <div class="h">Пуш-уведомления</div>
+                <p class="p">О новых уроках и напоминаниях по проектам.</p>
+              </div>
+            </div>
+            <div class="sysask">
+              <div class="sysask-card">
+                <div class="sysask-body">
+                  <div class="sysask-title">«Петля» хочет отправлять вам уведомления</div>
+                  <div class="sysask-text">Уведомления могут включать предупреждения, звуки и значки. Это можно настроить в Настройках.</div>
+                </div>
+                <div class="sysask-actions">
+                  <button type="button">Не разрешать</button>
+                  <button type="button" class="emph">Разрешить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Destructive</h3>
+          <div class="phone mid alert-frame">
+            <div class="sysask-scene">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="fake-ui">
+                <div class="h">Ажурный шарф</div>
+                <p class="p">Ряд 48 из 96</p>
+              </div>
+            </div>
+            <div class="sysask">
+              <div class="sysask-card">
+                <div class="sysask-body">
+                  <div class="sysask-title">Удалить проект?</div>
+                  <div class="sysask-text">«Ажурный шарф» будет удалён безвозвратно.</div>
+                </div>
+                <div class="sysask-actions">
+                  <button type="button">Отменить</button>
+                  <button type="button" class="destructive">Удалить</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>ATT · stack</h3>
+          <div class="phone mid alert-frame">
+            <div class="sysask-scene">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="fake-ui">
+                <div class="h">Петля</div>
+                <p class="p">Персонализация и аналитика.</p>
+              </div>
+            </div>
+            <div class="sysask">
+              <div class="sysask-card">
+                <div class="sysask-body">
+                  <div class="sysask-title">Allow “Петля” to track your activity across other companies’ apps and websites?</div>
+                  <div class="sysask-text">Your data will be used to deliver personalized ads to you.</div>
+                </div>
+                <div class="sysask-actions stack">
+                  <button type="button">Ask App Not to Track</button>
+                  <button type="button">Allow</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Single action</h3>
+          <div class="phone mid alert-frame">
+            <div class="sysask-scene">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="sysask">
+              <div class="sysask-card">
+                <div class="sysask-body">
+                  <div class="sysask-title">Нет сети</div>
+                  <div class="sysask-text">Проверьте соединение и попробуйте снова.</div>
+                </div>
+                <div class="sysask-actions">
+                  <button type="button" class="emph">OK</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Card</span> — 270 · r14 · material blur · dim 28%</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Body</span> — pad 19×16×16 · title 17/600 · text 13</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Actions</span> — h 44 · blue · emph 600 · destructive red</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Layout</span> — 2 = horizontal · 3+ / ATT = stack</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Sep</span> — .5 · rgba(60,60,67,.29)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sheets">
+      <div class="section-head">
+        <h2>8. Sheets</h2>
+        <p>UISheetPresentation · grabber 36×5 · r14 · dimmed parent.</p>
+        <div class="meta">
+          <span class="chip">grabber 36×5</span>
+          <span class="chip">r 14</span>
+          <span class="chip">title 22/28</span>
+          <span class="chip">CTA · safe 34</span>
+          <a class="chip ref" href="https://developer.apple.com/design/human-interface-guidelines/sheets" target="_blank" rel="noopener">HIG</a>
+          <a class="chip ref" href="https://mobbin.com/screens/33d0f6ed-5ad2-4466-b7cb-db6093093241" target="_blank" rel="noopener">Fabric</a>
+          <a class="chip ref" href="https://mobbin.com/screens/7e1fda1e-b5df-4801-9a04-676cbead7612" target="_blank" rel="noopener">Notion</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 1. Classic content sheet -->
+        <div class="specimen">
+          <h3>Classic · content</h3>
+          <div class="phone mid sheet-frame">
+            <div class="sheet-under">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="sb-navbar is-large">
+                <div class="nav-top"></div>
+                <div class="title large">Проекты</div>
+              </div>
+              <div class="under-body">
+                <div class="under-card">
+                  <div class="under-h">Ажурный шарф</div>
+                  <p class="under-p">Ряд 48 из 96</p>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-dim" aria-hidden="true"></div>
+            <div class="ios-sheet detent-auto">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-body">
+                <div class="sheet-title">Устройства рядом</div>
+                <p class="sheet-text">Телефон и ТВ в одной сети Wi-Fi.</p>
+              </div>
+              <div class="sheet-footer">
+                <button type="button" class="btn-filled">Готово</button>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 2. List picker (Fabric-like) -->
+        <div class="specimen">
+          <h3>List · medium</h3>
+          <div class="phone mid sheet-frame">
+            <div class="sheet-under">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="sb-navbar">
+                <div class="nav-leading">
+                  <button type="button" class="btn-plain">
+                    <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="back-label">Назад</span>
+                  </button>
+                </div>
+                <div class="title">Запись</div>
+                <div class="nav-spacer"></div>
+              </div>
+              <div class="under-body">
+                <div class="under-card">
+                  <div class="under-h">Тип сессии</div>
+                  <p class="under-p">Выберите шаблон для новой записи.</p>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-dim" aria-hidden="true"></div>
+            <div class="ios-sheet is-grouped detent-mid">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-body has-safe">
+                <div class="ios-list">
+                  <div class="row"><div class="grow"><div class="t-body">Авто</div></div></div>
+                  <div class="row"><div class="grow"><div class="t-body">Встреча команды</div></div></div>
+                  <div class="row">
+                    <div class="grow"><div class="t-body">Stand-up</div></div>
+                    <div class="row-check"><i data-lucide="check"></i></div>
+                  </div>
+                  <div class="row"><div class="grow"><div class="t-body">Интервью</div></div></div>
+                  <div class="row"><div class="grow"><div class="t-body">Личный дневник</div></div></div>
+                  <div class="row"><div class="grow"><div class="t-body">1:1</div></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 3. Selection + centered title (Notion-like) -->
+        <div class="specimen">
+          <h3>Select · title</h3>
+          <div class="phone mid sheet-frame">
+            <div class="sheet-under">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="sb-navbar is-large">
+                <div class="nav-top"></div>
+                <div class="title large">Страница</div>
+              </div>
+              <div class="under-body">
+                <div class="under-card">
+                  <div class="under-h">Фон</div>
+                  <p class="under-p">Цвет карточки проекта.</p>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-dim" aria-hidden="true"></div>
+            <div class="ios-sheet is-grouped detent-large">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-head center">
+                <div class="sheet-title">Выберите цвет</div>
+              </div>
+              <div class="sheet-body tight-top has-safe">
+                <div class="ios-list">
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#fff"></div>
+                    <div class="grow"><div class="t-body">По умолчанию</div></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#e5e5ea"></div>
+                    <div class="grow"><div class="t-body">Серый</div></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#d6c4b0"></div>
+                    <div class="grow"><div class="t-body">Коричневый</div></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#c6e5c1"></div>
+                    <div class="grow"><div class="t-body">Зелёный</div></div>
+                    <div class="row-check"><i data-lucide="check"></i></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#b8d4f0"></div>
+                    <div class="grow"><div class="t-body">Синий</div></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#e0c6f0"></div>
+                    <div class="grow"><div class="t-body">Фиолетовый</div></div>
+                  </div>
+                  <div class="row has-swatch">
+                    <div class="swatch" style="background:#f5c6c6"></div>
+                    <div class="grow"><div class="t-body">Красный</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 4. Form modal sheet -->
+        <div class="specimen">
+          <h3>Form · Cancel/Done</h3>
+          <div class="phone mid sheet-frame">
+            <div class="sheet-under">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="sb-navbar is-large">
+                <div class="nav-top"></div>
+                <div class="title large">Пряжа</div>
+              </div>
+              <div class="under-body">
+                <div class="under-card">
+                  <div class="under-h">Merino Soft</div>
+                  <p class="under-p">Партия не указана</p>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-dim" aria-hidden="true"></div>
+            <div class="ios-sheet is-grouped detent-large">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-nav">
+                <div class="nav-leading">
+                  <button type="button" class="btn-plain">Отмена</button>
+                </div>
+                <div class="title">Новая пряжа</div>
+                <div class="nav-trailing">
+                  <button type="button" class="btn-plain" style="font-weight:600">Готово</button>
+                </div>
+              </div>
+              <div class="sheet-body has-safe">
+                <div class="ios-list" style="margin-top:8px">
+                  <div class="row">
+                    <div class="field-label">Пряжа</div>
+                    <input class="field-input" type="text" value="Merino Soft" readonly>
+                  </div>
+                  <div class="row">
+                    <div class="field-label">Партия</div>
+                    <input class="field-input" type="text" placeholder="23-А" readonly>
+                  </div>
+                  <div class="row">
+                    <div class="field-label">Метраж</div>
+                    <input class="field-input" type="text" value="400 м" readonly>
+                  </div>
+                </div>
+                <div class="group-foot wide" style="padding-left:4px">Данные с этикетки можно править вручную.</div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 5. Title + CTA (footer на safe-bottom 34) -->
+        <div class="specimen">
+          <h3>Actions · CTA</h3>
+          <div class="phone mid sheet-frame">
+            <div class="sheet-under" style="background:linear-gradient(160deg,#c8d8c4,#8aa896)">
+              <div class="sb-status dark-ink">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="sheet-dim" aria-hidden="true"></div>
+            <div class="ios-sheet detent-mid">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-head">
+                <div class="sheet-title" style="font:700 22px/28px var(--face)">Пряжа рядом</div>
+              </div>
+              <div class="sheet-body tight-top">
+                <p class="sheet-text" style="margin-top:0">Магазины и точки обмена в радиусе 2 км.</p>
+                <div class="ios-list" style="background:var(--ios-grouped)">
+                  <div class="row tall">
+                    <div class="grow row-text">
+                      <div class="t-headline">Wool &amp; Co</div>
+                      <div class="t-caption">450 м · до 19:00</div>
+                    </div>
+                    <span class="ios-disclosure" aria-hidden="true"></span>
+                  </div>
+                  <div class="row tall">
+                    <div class="grow row-text">
+                      <div class="t-headline">Петля Studio</div>
+                      <div class="t-caption">1,2 км · до 21:00</div>
+                    </div>
+                    <span class="ios-disclosure" aria-hidden="true"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="sheet-footer">
+                <button type="button" class="btn-filled">Построить маршрут</button>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 6. Dark sheet -->
+        <div class="specimen">
+          <h3>Dark</h3>
+          <div class="phone mid sheet-frame dark">
+            <div class="sheet-under is-dark">
+              <div class="sb-status">
+                <span class="time">9:41</span>
+                <span class="icons" aria-hidden="true">
+                  <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="sb-navbar">
+                <div class="nav-leading">
+                  <button type="button" class="btn-plain" style="color:#fff">
+                    <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+                <div class="title" style="color:#fff">Категория</div>
+                <div class="nav-spacer"></div>
+              </div>
+              <div class="under-body">
+                <div class="under-card">
+                  <div class="under-h" style="color:#fff">Добавить</div>
+                  <p class="under-p">Выберите категорию записи.</p>
+                </div>
+              </div>
+            </div>
+            <div class="sheet-dim" style="background:rgba(0,0,0,.45)" aria-hidden="true"></div>
+            <div class="ios-sheet is-dark detent-auto">
+              <div class="grabber" aria-hidden="true"></div>
+              <div class="sheet-head center">
+                <div class="sheet-title">Категория</div>
+              </div>
+              <div class="sheet-body tight-top">
+                <div class="ios-list">
+                  <div class="row"><div class="grow"><div class="t-body">Мнения</div></div></div>
+                  <div class="row"><div class="grow"><div class="t-body">Характер</div></div></div>
+                  <div class="row">
+                    <div class="grow"><div class="t-body">Другое</div></div>
+                    <div class="row-check"><i data-lucide="check"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="sheet-footer">
+                <button type="button" class="btn-filled" style="background:#fff;color:#000">Готово</button>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 7. Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Grabber</span> — 36×5 · pill · rgba(60,60,67,.18) · margin 6·auto·10</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Sheet</span> — r14 top · #fff / grouped #f2f2f7 · full width</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Title</span> — 22/28 Bold · не large title 34</div>
+              <div><span style="color:var(--page-ink);font-weight:600">CTA footer</span> — pad-bottom = safe 34 · низ кнопки фиксирован от края</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Dim</span> — rgba(0,0,0,.28) поверх parent · не пустой фон</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Detents</span> — mid ~58% · large ~92% · auto по контенту</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Dismiss</span> — grabber / «Готово» / «Отмена» · без circle ×</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="snackbar">
+      <div class="section-head">
+        <h2>9. Snackbar</h2>
+        <p>Light = светлый blur · dark = elevated gray · одна строка · gap 16.</p>
+        <div class="meta">
+          <span class="chip">r 12</span>
+          <span class="chip">h ≥48</span>
+          <span class="chip">inset 16</span>
+          <span class="chip">gap 16</span>
+          <span class="chip">adaptive</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 1. Denied + Settings -->
+        <div class="specimen">
+          <h3>Denied · action</h3>
+          <div class="phone mid with-tab grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Профиль</div>
+            </div>
+            <div class="nav-content">
+              <div class="ios-list">
+                <div class="row">
+                  <div class="grow"><div class="t-body">Камера</div></div>
+                  <div class="t-caption">Выкл.</div>
+                </div>
+                <div class="row">
+                  <div class="grow"><div class="t-body">Микрофон</div></div>
+                  <div class="t-caption">Выкл.</div>
+                </div>
+              </div>
+            </div>
+            <div class="snackbar" role="status">
+              <div class="snackbar-text">Камера недоступна</div>
+              <div class="snackbar-action">Настройки</div>
+            </div>
+            <div class="sb-tabbar light">
+              <button type="button" class="tab"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="folders"></i></span><span class="tab-label">Проекты</span></button>
+              <button type="button" class="tab is-on"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 2. Success toast -->
+        <div class="specimen">
+          <h3>OK · confirm</h3>
+          <div class="phone mid with-tab grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">Закрыть</button>
+              </div>
+              <div class="title">Отложить</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content">
+              <div class="ios-list">
+                <div class="row">
+                  <div class="grow"><div class="t-body">Ажурный шарф</div></div>
+                  <div class="t-caption">превью</div>
+                </div>
+                <div class="row">
+                  <div class="grow"><div class="t-body">Японская убавка</div></div>
+                  <div class="t-caption">18:42</div>
+                </div>
+              </div>
+            </div>
+            <div class="snackbar is-ok" role="status">
+              <span class="snackbar-ok" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>
+              </span>
+              <div class="snackbar-text">Отложено · «Ажурный шарф»</div>
+              <div class="snackbar-action">Настройки</div>
+            </div>
+            <div class="sb-tabbar light">
+              <button type="button" class="tab is-on"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="folders"></i></span><span class="tab-label">Проекты</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 3. Dark surface -->
+        <div class="specimen">
+          <h3>Dark · over scene</h3>
+          <div class="phone mid with-tab dark" style="background:#1c1814">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain" style="color:#fff">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+              <div class="title" style="color:#fff">Запись</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="flex:1"></div>
+            <div class="snackbar on-dark" role="status">
+              <div class="snackbar-text">Микрофон недоступен</div>
+              <div class="snackbar-action">Настройки</div>
+            </div>
+            <div class="sb-tabbar">
+              <button type="button" class="tab"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Уроки</span></button>
+              <button type="button" class="tab is-on"><span class="ico"><i data-lucide="mic"></i></span><span class="tab-label">Запись</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="user"></i></span><span class="tab-label">Профиль</span></button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 4. Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Light</span> — rgba(255,255,255,.92) · blur 24 · hairline + soft shadow · ink black</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Dark</span> — #3a3a3c · hairline .5 · без blur/тени · ink white</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Place</span> — r12 · min-h 48 · inset 16 · bottom 99 (tab 83 + gap 16)</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Row</span> — одна строка · text 15 · action «Настройки» 15/600 accent</div>
+              <div><span style="color:var(--page-ink);font-weight:600">OK</span> — green 22 ✓ · без action · 2,6 с</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Dismiss</span> — тап / таймер · без ×</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="state">
+      <div class="section-head">
+        <h2>10. State</h2>
+        <p>Fullscreen loading · soft/hard error · actions внизу.</p>
+        <div class="meta">
+          <span class="chip">ico 60</span>
+          <span class="chip">title 22/28</span>
+          <span class="chip">≤28ch</span>
+          <span class="chip">spinner 34</span>
+          <span class="chip">CTA · safe 34</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Loading -->
+        <div class="specimen">
+          <h3>Loading</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="ios-state">
+              <div class="spinner" aria-hidden="true"></div>
+              <div class="t-title">Читаем страницу</div>
+              <p class="t-subhead">Заголовок и обложку берём из разметки на устройстве.</p>
+            </div>
+            <div class="state-foot">
+              <div class="t-caption" style="text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ios-secondary)">knitpro.blog/yaponskaya-ubavka</div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Soft error -->
+        <div class="specimen">
+          <h3>Soft · retry</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"><button type="button" class="btn-plain">Закрыть</button></div>
+              <div class="title">Отложить</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="ios-state">
+              <div class="state-ico" aria-hidden="true"><i data-lucide="link-2-off"></i></div>
+              <div class="t-title">Не удалось прочитать страницу</div>
+              <p class="t-subhead">Страница не отдала ни заголовка, ни обложки. Отложить всё равно можно — без превью.</p>
+            </div>
+            <div class="state-foot">
+              <div class="state-actions">
+                <button type="button" class="btn-filled block">Отложить одной ссылкой</button>
+                <button type="button" class="btn-tinted block">Повторить</button>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Hard error -->
+        <div class="specimen">
+          <h3>Hard · gone</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"><button type="button" class="btn-plain">Закрыть</button></div>
+              <div class="title">Отложенный</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="ios-state">
+              <div class="state-ico is-hard" aria-hidden="true"><i data-lucide="circle-off"></i></div>
+              <div class="t-title">Страница больше не отвечает</div>
+              <p class="t-subhead">Автор удалил разбор или закрыл доступ. Карточка осталась — видео вернуть нельзя.</p>
+            </div>
+            <div class="state-foot">
+              <div class="state-actions">
+                <button type="button" class="btn-filled block">Понятно</button>
+                <button type="button" class="btn-quiet">Убрать из списка</button>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Layout</span> — один макет: loading / soft / hard · меняются ico + текст</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Icon</span> — круг 60 · soft orange · hard red</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Copy</span> — title 22/28 · subhead ≤28ch · без кодов</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Actions</span> — колонка внизу · pad-bottom = safe 34 · не в центре</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Paths</span> — ровно один primary + один обходной</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="errbox">
+      <div class="section-head">
+        <h2>11. Error Banner</h2>
+        <p>Inline soft/hard · над формой · один retry + обход.</p>
+        <div class="meta">
+          <span class="chip">r 12</span>
+          <span class="chip">ico 26</span>
+          <span class="chip">17 + 13</span>
+          <span class="chip">field 88</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Soft + form -->
+        <div class="specimen">
+          <h3>Soft · form</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"><button type="button" class="btn-plain">Отмена</button></div>
+              <div class="title">Данные мотка</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="display:flex;flex-direction:column;padding-bottom:34px">
+              <div class="errbox">
+                <div class="errbox-ico" aria-hidden="true"><i data-lucide="circle-alert"></i></div>
+                <div class="grow">
+                  <div class="t-headline">Этикетку не удалось прочитать</div>
+                  <p class="t-footnote">Текст мелкий, бликует или этикетка помята. Распознавание на устройстве.</p>
+                </div>
+              </div>
+              <button type="button" class="btn-tinted block" style="margin-bottom:22px">Сканировать ещё раз</button>
+              <div class="ios-list">
+                <div class="row">
+                  <div class="field-label">Пряжа</div>
+                  <input class="field-input" type="text" value="Merino Soft" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Партия</div>
+                  <input class="field-input" type="text" placeholder="23-А" readonly>
+                </div>
+                <div class="row">
+                  <div class="field-label">Метраж</div>
+                  <input class="field-input" type="text" placeholder="100 г · 320 м" readonly>
+                </div>
+              </div>
+              <button type="button" class="btn-filled block" style="margin-top:auto">Добавить в проект</button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Hard -->
+        <div class="specimen">
+          <h3>Hard · denied</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Назад</span>
+                </button>
+              </div>
+              <div class="title">Устройства</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="padding-bottom:34px">
+              <div class="errbox is-hard">
+                <div class="errbox-ico" aria-hidden="true"><i data-lucide="circle-alert"></i></div>
+                <div class="grow">
+                  <div class="t-headline">Список устройств пуст</div>
+                  <p class="t-footnote">Без доступа к локальной сети телевизор не найти.</p>
+                </div>
+              </div>
+              <button type="button" class="btn-tinted block">Открыть Настройки</button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Banner</span> — r12 · pad 14×16 · gap 12 · inset hairline .5</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Soft</span> — orange fill 10% · ico #c76a00</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Hard</span> — red fill 9% · ico #d70015</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Copy</span> — headline 17/22 · footnote 13/18 · без кодов</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Form</span> — field-label 88 · value right · тот же набор полей, что даёт автомат</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="camera">
+      <div class="section-head">
+        <h2>12. Camera</h2>
+        <p>Структура capture: preview · top slots · bottom (controls | actions).</p>
+        <div class="meta">
+          <span class="chip">top 60</span>
+          <span class="chip">hit 44</span>
+          <span class="chip">shutter 72</span>
+          <span class="chip">safe 34</span>
+          <a class="chip ref" href="https://mobbin.com/screens/1a43eea7-4e0d-4b11-b10c-7cbf9a51b597" target="_blank" rel="noopener">WeChat</a>
+          <a class="chip ref" href="https://mobbin.com/screens/4b852259-42ec-4b2c-9bdd-bb6d70f9d169" target="_blank" rel="noopener">Pinterest</a>
+          <a class="chip ref" href="https://mobbin.com/screens/f580805b-6c71-4df2-a2e4-444cfb774627" target="_blank" rel="noopener">Outlook</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- 1. Photo — classic shutter -->
+        <div class="specimen">
+          <h3>Photo · shutter</h3>
+          <div class="phone mid dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="cam">
+              <div class="cam-preview" aria-hidden="true"></div>
+              <div class="cam-top">
+                <button type="button" class="icon-btn" aria-label="Закрыть"><i data-lucide="x"></i></button>
+                <div class="cam-trailing">
+                  <button type="button" class="icon-btn" aria-label="Вспышка"><i data-lucide="zap-off"></i></button>
+                </div>
+              </div>
+              <div class="cam-bottom">
+                <div class="cam-mode">Photo</div>
+                <div class="cam-controls">
+                  <div class="cam-slot"><div class="cam-thumb" aria-label="Галерея"></div></div>
+                  <button type="button" class="cam-shutter" aria-label="Снять"></button>
+                  <div class="cam-slot">
+                    <button type="button" class="icon-btn" aria-label="Камера"><i data-lucide="switch-camera"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 2. Video — recording -->
+        <div class="specimen">
+          <h3>Video · recording</h3>
+          <div class="phone mid dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="cam">
+              <div class="cam-preview" aria-hidden="true"></div>
+              <div class="progress-rec"><i></i></div>
+              <div class="cam-top">
+                <button type="button" class="icon-btn" aria-label="Закрыть"><i data-lucide="x"></i></button>
+                <div class="cam-mid is-rec"><span class="rec-dot"></span>0:24</div>
+                <div class="cam-trailing">
+                  <button type="button" class="icon-btn" aria-label="Вспышка"><i data-lucide="zap-off"></i></button>
+                </div>
+              </div>
+              <div class="cam-bottom">
+                <div class="cam-mode" style="color:#ff453a">Video</div>
+                <div class="cam-controls">
+                  <div class="cam-slot"></div>
+                  <button type="button" class="cam-shutter is-rec" aria-label="Стоп"></button>
+                  <div class="cam-slot">
+                    <button type="button" class="icon-btn" aria-label="Камера"><i data-lucide="switch-camera"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 3. Bottom actions slot (product fills) -->
+        <div class="specimen">
+          <h3>Bottom · actions</h3>
+          <div class="phone mid dark">
+            <div class="sb-status">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="cam">
+              <div class="cam-preview" aria-hidden="true"></div>
+              <div class="cam-top">
+                <button type="button" class="icon-btn" aria-label="Закрыть"><i data-lucide="x"></i></button>
+                <div class="cam-mid">Title slot</div>
+                <div class="cam-side" aria-hidden="true"></div>
+              </div>
+              <p class="cam-hint">Hint / overlay slot — продукт кладёт сюда рамку, подсказку, найденный объект</p>
+              <div class="cam-bottom">
+                <div class="cam-actions">
+                  <button type="button" class="btn-filled">Primary action</button>
+                  <button type="button" class="btn-plain on-dark" style="font-size:15px;opacity:.8">Secondary</button>
+                </div>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- 4. Anatomy -->
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Preview</span> — full-bleed · чёрный · продукт рисует кадр</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Top</span> — от safe-top · min-h 60 · leading / mid / trailing · hit 44</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Dismiss</span> — × или Cancel · в capture нормально (не sheet)</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Bottom · controls</span> — thumb 48 · shutter 72 · flip 44 · pad-bottom safe 34</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Bottom · actions</span> — колонка CTA · тот же pad · продукт подставляет кнопки</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Overlays</span> — progress-rec · hint · mid timer — опциональные слоты</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Не хром</span> — scan-corners, found-card, brand pills</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="search">
+      <div class="section-head">
+        <h2>13. Search</h2>
+        <p>UISearchBar-like · h36 · r10 · над списком.</p>
+        <div class="meta">
+          <span class="chip">h 36</span>
+          <span class="chip">r 10</span>
+          <span class="chip">15 Regular</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Filled query</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Назад</span>
+                </button>
+              </div>
+              <div class="title">Пряжа рядом</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content">
+              <div class="searchfield">
+                <i data-lucide="search"></i>
+                <span class="sf-text">Магазины пряжи</span>
+              </div>
+              <div class="ios-list">
+                <div class="row">
+                  <div class="grow row-text">
+                    <div class="t-body">Wool &amp; Co</div>
+                    <div class="t-caption">ул. Мастерская, 12</div>
+                  </div>
+                  <div class="dist">450 м</div>
+                </div>
+                <div class="row">
+                  <div class="grow row-text">
+                    <div class="t-body">Петля Studio</div>
+                    <div class="t-caption">наб. Прядильная, 4</div>
+                  </div>
+                  <div class="dist">1,2 км</div>
+                </div>
+                <div class="row">
+                  <div class="grow row-text">
+                    <div class="t-body">Closed Yarn</div>
+                    <div class="t-caption">закрыто до пн</div>
+                  </div>
+                  <div class="dist is-off">2,1 км</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Placeholder</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar is-large">
+              <div class="nav-top"></div>
+              <div class="title large">Поиск</div>
+            </div>
+            <div class="nav-content">
+              <div class="searchfield">
+                <i data-lucide="search"></i>
+                <span class="sf-placeholder">Название или адрес</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Field</span> — h36 · r10 · fill 12% · pad 0 12 · gap 7</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Icon</span> — 16 search · tertiary</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Type</span> — 15 Regular · query black / placeholder secondary</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Margin</span> — bottom 16 до списка</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cta">
+      <div class="section-head">
+        <h2>14. CTA Column</h2>
+        <p>Композиция: primary · secondary · quiet · footnote · safe 34.</p>
+        <div class="meta">
+          <span class="chip">gap 10</span>
+          <span class="chip">inset 16</span>
+          <span class="chip">safe 34</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Filled · tinted</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"><button type="button" class="btn-plain">Закрыть</button></div>
+              <div class="title">Реклама</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 32px;text-align:center;gap:10px">
+              <div class="t-title">Курсы остаются бесплатными</div>
+              <p class="t-subhead" style="margin:0;max-width:28ch">Реклама помогает оплачивать разборы. Данные не продаём.</p>
+            </div>
+            <div class="cta-col">
+              <button type="button" class="btn-filled">Продолжить</button>
+              <button type="button" class="btn-tinted">Не сейчас</button>
+              <p class="t-footnote">Можно изменить в Настройках → Конфиденциальность</p>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Filled · quiet</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="ios-state">
+              <div class="state-ico is-hard" aria-hidden="true"><i data-lucide="circle-off"></i></div>
+              <div class="t-title">Страница больше не отвечает</div>
+              <p class="t-subhead">Карточка осталась — видео вернуть нельзя.</p>
+            </div>
+            <div class="cta-col">
+              <button type="button" class="btn-filled">Понятно</button>
+              <button type="button" class="btn-quiet">Убрать из списка</button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Stack</span> — column · gap 10 · sides 16 · bottom safe 34</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Primary</span> — filled 50 · один</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Secondary</span> — tinted 44 или quiet 15</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Footnote</span> — 13 secondary · center · опционально</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Rule</span> — ровно один основной путь + один обходной</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  lucide.createIcons({ attrs: { 'stroke-width': 1.75 } });
+
+  // Active nav highlight on scroll
+  const links = [...document.querySelectorAll('.nav-list a')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>

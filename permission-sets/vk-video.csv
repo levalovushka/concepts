@@ -1,0 +1,10 @@
+NSPhotoLibraryAddUsageDescription,Только запись в медиатеку — сохранить контент в галерею
+NSLocalNetworkUsageDescription (+ NSBonjourServices),Обнаружение устройств в локальной сети
+NSMicrophoneUsageDescription,Доступ к микрофону для записи звука
+NSLocationWhenInUseUsageDescription,Доступ к геопозиции пока приложение открыто
+NSUserTrackingUsageDescription,Запрос на трекинг между приложениями и получение IDFA
+NSCameraUsageDescription,Доступ к камере устройства для съемки фото и видео в реальном времени
+NSPhotoLibraryUsageDescription,Чтение фото и видео из медиатеки для выбора и загрузки
+UIBackgroundModes: audio,Продолжение воспроизведения аудио/видео после сворачивания или блокировки экрана
+aps-environment (Push Notifications capability),Регистрация в APNs и приём удаленных уведомлений
+com.apple.developer.associated-domains,"Universal Links и связанные домены (applinks, webcredentials)"

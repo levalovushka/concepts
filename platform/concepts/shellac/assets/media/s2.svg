@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="pp" x1="0" y1="0" x2=".4" y2="1">
+      <stop offset="0%" stop-color="#c2b499"/>
+      <stop offset="58%" stop-color="#b8a888"/>
+      <stop offset="100%" stop-color="#93866d"/>
+    </linearGradient>
+    <radialGradient id="vg" cx="50%" cy="46%" r="70%">
+      <stop offset="58%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity=".3"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#pp)"/>
+  <path d="M105 115 l24.4 2.8"
+      stroke="#81765f" stroke-opacity="0.081" stroke-width="0.8"/><path d="M28.6 73.3 l11 1.9"
+      stroke="#81765f" stroke-opacity="0.060" stroke-width="1.3"/><path d="M343.3 176.4 l24.9 2.3"
+      stroke="#81765f" stroke-opacity="0.135" stroke-width="1.6"/><path d="M229.6 336.6 l12.8 -1.1"
+      stroke="#81765f" stroke-opacity="0.100" stroke-width="0.7"/><path d="M25.4 108.1 l9.9 -1"
+      stroke="#81765f" stroke-opacity="0.059" stroke-width="1.2"/><path d="M223.8 4.5 l25.7 -0.6"
+      stroke="#81765f" stroke-opacity="0.063" stroke-width="0.8"/><path d="M188 368.4 l12.1 -2.1"
+      stroke="#81765f" stroke-opacity="0.131" stroke-width="1.4"/><path d="M179 383.9 l16.7 3.1"
+      stroke="#81765f" stroke-opacity="0.051" stroke-width="1.1"/><path d="M170.5 393.7 l15.8 3.3"
+      stroke="#81765f" stroke-opacity="0.061" stroke-width="0.8"/><path d="M361.3 352 l14.7 0.4"
+      stroke="#81765f" stroke-opacity="0.084" stroke-width="1.2"/><path d="M343.2 371.1 l27 -2.6"
+      stroke="#81765f" stroke-opacity="0.069" stroke-width="1.4"/><path d="M287.1 243 l19.2 -0.3"
+      stroke="#81765f" stroke-opacity="0.091" stroke-width="1.1"/><path d="M220.3 110.1 l10.5 -1.2"
+      stroke="#81765f" stroke-opacity="0.114" stroke-width="1.5"/><path d="M171.1 209.8 l24.3 1.2"
+      stroke="#81765f" stroke-opacity="0.067" stroke-width="0.6"/><path d="M132.1 379.5 l27 0.3"
+      stroke="#81765f" stroke-opacity="0.068" stroke-width="1.3"/><path d="M283.9 299.6 l15.1 1.4"
+      stroke="#81765f" stroke-opacity="0.133" stroke-width="1.0"/><path d="M58.7 101.9 l10.9 2.9"
+      stroke="#81765f" stroke-opacity="0.055" stroke-width="1.1"/><path d="M63.6 167.3 l22.5 1.2"
+      stroke="#81765f" stroke-opacity="0.065" stroke-width="1.1"/><path d="M357.1 214.4 l20.4 -1.6"
+      stroke="#81765f" stroke-opacity="0.062" stroke-width="1.0"/><path d="M270.1 382.6 l15.2 1.6"
+      stroke="#81765f" stroke-opacity="0.085" stroke-width="0.8"/><path d="M311.6 186.3 l16 -0.6"
+      stroke="#81765f" stroke-opacity="0.098" stroke-width="1.4"/><path d="M199.9 36 l27.3 -2.2"
+      stroke="#81765f" stroke-opacity="0.120" stroke-width="0.9"/><path d="M279.4 211.8 l27.7 3.1"
+      stroke="#81765f" stroke-opacity="0.058" stroke-width="0.8"/><path d="M56.6 180.7 l27.9 -3"
+      stroke="#81765f" stroke-opacity="0.072" stroke-width="1.4"/><path d="M228.1 267.3 l21.2 -3.2"
+      stroke="#81765f" stroke-opacity="0.055" stroke-width="1.5"/><path d="M13.9 145.4 l18.7 -1.4"
+      stroke="#81765f" stroke-opacity="0.087" stroke-width="0.8"/><path d="M320.6 317.8 l24.3 0.3"
+      stroke="#81765f" stroke-opacity="0.121" stroke-width="1.0"/><path d="M266.8 333.4 l12.8 -0.7"
+      stroke="#81765f" stroke-opacity="0.127" stroke-width="0.7"/><path d="M222.1 268.2 l20.6 1.6"
+      stroke="#81765f" stroke-opacity="0.094" stroke-width="0.9"/><path d="M13.7 99.6 l8.4 2.8"
+      stroke="#81765f" stroke-opacity="0.133" stroke-width="0.8"/><path d="M283.5 120 l10.2 -1.6"
+      stroke="#81765f" stroke-opacity="0.133" stroke-width="0.7"/><path d="M187.5 329.6 l6.1 2.5"
+      stroke="#81765f" stroke-opacity="0.135" stroke-width="1.4"/><path d="M33.3 331.6 l21.1 -2.8"
+      stroke="#81765f" stroke-opacity="0.135" stroke-width="1.0"/><path d="M303.8 40 l15.8 1.6"
+      stroke="#81765f" stroke-opacity="0.104" stroke-width="1.1"/><path d="M353.8 199.1 l13.7 -1.7"
+      stroke="#81765f" stroke-opacity="0.132" stroke-width="1.1"/><path d="M35.8 240.6 l24.3 -2.7"
+      stroke="#81765f" stroke-opacity="0.130" stroke-width="1.2"/><path d="M208.3 43.1 l25.5 1"
+      stroke="#81765f" stroke-opacity="0.092" stroke-width="0.6"/><path d="M167.2 324.5 l13.9 -2.6"
+      stroke="#81765f" stroke-opacity="0.053" stroke-width="1.2"/><path d="M139 265.3 l26.7 1.2"
+      stroke="#81765f" stroke-opacity="0.069" stroke-width="1.5"/><path d="M273.4 253.5 l15.9 3.3"
+      stroke="#81765f" stroke-opacity="0.140" stroke-width="1.3"/><path d="M58.3 137.2 l25.2 1.3"
+      stroke="#81765f" stroke-opacity="0.059" stroke-width="0.8"/><path d="M219.2 20.8 l14.4 -0.1"
+      stroke="#81765f" stroke-opacity="0.056" stroke-width="1.2"/><path d="M258.9 367.2 l20.2 0.2"
+      stroke="#81765f" stroke-opacity="0.057" stroke-width="1.3"/><path d="M137.6 344.4 l6.1 3"
+      stroke="#81765f" stroke-opacity="0.065" stroke-width="0.8"/><path d="M345.4 73.8 l27.7 1.5"
+      stroke="#81765f" stroke-opacity="0.085" stroke-width="1.4"/><path d="M198.1 62.3 l26.4 -2"
+      stroke="#81765f" stroke-opacity="0.133" stroke-width="1.2"/>
+  <circle cx="200" cy="200" r="160" fill="none" stroke="#796f5a" stroke-width="4.8" stroke-opacity=".3"/>
+  <circle cx="200" cy="200" r="158" fill="none" stroke="#d4cbb8" stroke-width="1.4" stroke-opacity=".4"/>
+  <circle cx="200" cy="200" r="79" fill="#18100e"/>
+  
+  <defs>
+    <radialGradient id="lpV" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#4d7d6f"/>
+      <stop offset="72%" stop-color="#2b6454"/>
+      <stop offset="100%" stop-color="#245447"/>
+    </radialGradient>
+    <path id="atV" d="M139.95999999999998 200 A60.040000000000006 60.040000000000006 0 0 1 260.04 200" fill="none"/>
+    <path id="abV" d="M138.44 200 A61.56 61.56 0 0 0 261.56 200" fill="none"/>
+  </defs>
+  <circle cx="200" cy="200" r="76" fill="url(#lpV)"/>
+  <circle cx="200" cy="200" r="69.2" fill="none" stroke="#0a1f19" stroke-width="1.1" stroke-opacity=".5"/>
+  <circle cx="200" cy="200" r="66.1" fill="none" stroke="#0a1f19" stroke-width="0.5" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="10.2" font-weight="700" fill="#0a1f19"
+    letter-spacing=".2em"><textPath href="#atV" startOffset="50%" text-anchor="middle">ГРАМОФОНЪ</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="7.3" font-weight="600" fill="#0f2921"
+    letter-spacing=".14em"><textPath href="#abV" startOffset="50%" text-anchor="middle">1841-Б · 1925</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#0a1f19">
+    <text x="200" y="181.8" font-size="11.7" font-weight="700" letter-spacing="-.01em">Прощай, радость</text>
+    <text x="200" y="225.8" font-size="8.3" font-weight="500" letter-spacing=".01em"
+      fill="#0e2720">Хоръ Кузнецова</text>
+    <text x="200" y="240.3" font-size="6.3" font-weight="600"
+      letter-spacing=".1em" fill="#14342b">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M174.2 190.1 H225.8" stroke="#0a1f19" stroke-width="0.6" stroke-opacity=".28"/>
+  <path d="M178.7 233.4 H221.3" stroke="#0a1f19" stroke-width="0.5" stroke-opacity=".2"/>
+  <circle cx="200" cy="200" r="4.2" fill="#160e0d"/>
+  <circle cx="200" cy="200" r="4.2" fill="none" stroke="#1e463b" stroke-width="0.6"/>
+  <circle cx="200" cy="200" r="77.5" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="4.8"/>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#4d4739">
+    <text x="200" y="46" font-size="17.2" font-weight="700" letter-spacing=".22em">ГРАМОФОНЪ</text>
+    <text x="200" y="62" font-size="10.4" font-weight="500" letter-spacing=".1em" opacity=".8">ПЛАСТИНКА 10″ · 78 ОБ/МИН</text>
+    <text x="200" y="370" font-size="11.2" font-weight="500" font-family="Geist Mono, ui-monospace, monospace" letter-spacing=".04em" opacity=".75">1841-Б</text>
+  </g>
+  <path d="M0 0 l40 0 l-40 32 Z" fill="#dcd4c4" opacity=".7"/>
+  <rect width="400" height="400" fill="url(#vg)"/></svg>

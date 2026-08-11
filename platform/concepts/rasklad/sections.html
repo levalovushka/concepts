@@ -1,0 +1,68 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">«Расклад» — приложение к бумажной колоде метафорических карт для вечерней рефлексии. Одно ограничение задаёт всё остальное: {{INSIGHT}}.</p>
+  <div class="utp-box">
+    <strong>УТП.</strong> {{TAGLINE}}: вытянули карту, навели камеру на её номер — и слушаете дорожку на 5–15 минут. Экран гаснет через несколько секунд, потому что глаза закрыты, и с этого места фоновое аудио перестаёт быть удобством и становится условием практики. Утром остаётся запись в дневнике — с фото расклада, если хочется.
+  </div>
+  <div class="note-box">
+    <p><strong>Это не гадание.</strong> Карта не предсказывает будущее и не толкуется: она задаёт вопрос, размышление помогает подумать, ответ пишет человек. Поэтому рейтинг 4+, категория Health&nbsp;&amp;&nbsp;Fitness, и ни в интерфейсе, ни в карточке стора нет обещаний про будущее — иначе концепт уезжает в насыщенную категорию гаданий и попадает под 4.3.</p>
+    <p><strong>Ключ <code>com.apple.developer.associated-domains</code> из пресета не заявлен.</strong> Диплинков проект не делает вообще, а заявлять ключ без достижимой фичи нельзя. Ключ остаётся неотработанным — это осознанная дыра в наборе, а не забытая строка.</p>
+  </div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Сегодня</span></div>
+  <div class="flow"><span class="chip">Сегодня</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Скан карты</span><span class="arr">→</span><span class="chip">Карта 07 «Мост»</span></div>
+  <div class="flow"><span class="chip">Скан</span><span class="arr">→</span><span class="chip">метка не прочиталась</span><span class="arr">→</span><span class="chip">Номер вручную</span></div>
+  <div class="flow"><span class="chip">Отказ камеры</span><span class="arr">→</span><span class="chip">Карты колоды</span><span class="arr">→</span><span class="chip">выбор по номеру</span></div>
+  <div class="flow"><span class="chip">Карта</span><span class="arr">→</span><span class="chip">Размышление</span><span class="arr">→</span><span class="chip">Background audio</span><span class="arr">→</span><span class="chip">Локскрин · Now Playing</span></div>
+  <div class="flow"><span class="chip">Размышление</span><span class="arr">→</span><span class="chip">Запись практики</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Фото расклада</span></div>
+  <div class="flow"><span class="chip">Профиль / Колода</span><span class="arr">→</span><span class="chip">Push</span><span class="arr">→</span><span class="chip">новый пак карт</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Deck · Card · Reflection · PlaybackSession · PracticeEntry · Streak · DeckProgress · ContentPack</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Playback (AVAudioSession .playback, MPNowPlayingInfoCenter, MPRemoteCommandCenter) · CardScanner (DataScannerViewController, on-device) · MediaPicker (PHPicker) · Push (SDK провайдера) · PhoneAuth (SDK провайдера) · ProgressCalc (серия и прогресс считаются на устройстве)</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — записи практики, прогресс по колоде, серия вечеров. Keychain — токен входа. FileManager — копия выбранного фото расклада. Контент-пак — статический <code>cards.json</code> + m4a с CDN, только чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака · APNs через SDK провайдера · SDK входа по номеру. Больше ничего: ни аналитики с трекингом, ни ad SDK, ни карт.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">4 ключа набора, и ни одного лишнего. Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+      <p><strong>Якорь набора — фоновое аудио.</strong> Практика устроена так, что экран гаснет по определению: глаза закрыты. Отними у продукта фоновое воспроизведение — останется приложение, в котором нужно держать экран включённым и смотреть на волновую форму с закрытыми глазами, то есть не останется ничего.</p>
+      <p><strong>Микрофона в наборе нет.</strong> Голосовых заметок и диктовки в дневнике сознательно не делаем: доступ, за которым нет фичи ради самой фичи, — это и есть пустой доступ. Дневник печатают руками.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Приложение однопользовательское: ни аккаунтов, ни ленты чужих записей, ни модерации. Колода продаётся отдельно на бумаге, контент к ней — статический пак только на чтение.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
+
+  <section class="section" id="tokens">
+    <h2>Дизайн-токены</h2>
+    <p class="deck">Вечер: светлые grouped-поверхности для списков и дневника, тёмная иммерсивная для плеера и локскрина. Один акцент — глубокий синий. Картинок нет: там, где по макету фотография, стоит плейсхолдер, а данные (волновая форма, серия вечеров, прогресс по колоде, метка карты) рисуются кодом.</p>
+    <div class="feat-grid">
+      <div class="feat"><b>Accent</b><span>#3a5a8c · #93b4e6 в тёмной теме</span></div>
+      <div class="feat"><b>Device</b><span>375×812 · radius 32 · safe areas 47 / 34</span></div>
+      <div class="feat"><b>Type</b><span>Geist 400–700 · Geist Mono для номеров карт и таймкодов</span></div>
+      <div class="feat"><b>Картинки</b><span>Плейсхолдер <code>.ph</code>; данные — <code>media.mjs</code></span></div>
+    </div>
+  </section>

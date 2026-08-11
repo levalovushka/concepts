@@ -1,0 +1,235 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="260" viewBox="0 0 390 260">
+  <defs>
+  <linearGradient id="wd" x1="0" y1="0" x2=".28" y2="1">
+    <stop offset="0%" stop-color="#866b55"/>
+    <stop offset="56%" stop-color="#6b4a30"/>
+    <stop offset="100%" stop-color="#473120"/>
+  </linearGradient>
+  <radialGradient id="key" cx="46%" cy="26%" r="64%">
+    <stop offset="0%" stop-color="#ffe7c4" stop-opacity=".3"/>
+    <stop offset="100%" stop-color="#ffe7c4" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="vg" cx="50%" cy="46%" r="70%">
+    <stop offset="56%" stop-color="#000" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#000" stop-opacity=".46"/>
+  </radialGradient>
+  <filter id="dsh" x="-40%" y="-40%" width="180%" height="180%">
+    <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".45"/>
+  </filter></defs>
+  <rect width="390" height="260" fill="url(#wd)"/>
+  <path d="M-20 147.6 Q 195 154.8 410 154.3"
+      fill="none" stroke="#362518" stroke-opacity="0.114" stroke-width="3.1"/><path d="M-20 116.9 Q 195 123 410 108.8"
+      fill="none" stroke="#362518" stroke-opacity="0.099" stroke-width="2.5"/><path d="M-20 246.5 Q 195 244.8 410 252"
+      fill="none" stroke="#362518" stroke-opacity="0.109" stroke-width="2.6"/><path d="M-20 68 Q 195 66.9 410 61.1"
+      fill="none" stroke="#362518" stroke-opacity="0.092" stroke-width="1.7"/><path d="M-20 117.6 Q 195 121.8 410 122.5"
+      fill="none" stroke="#362518" stroke-opacity="0.117" stroke-width="2.1"/><path d="M-20 9.7 Q 195 19.3 410 1.2"
+      fill="none" stroke="#362518" stroke-opacity="0.109" stroke-width="1.8"/><path d="M-20 204.2 Q 195 212.9 410 206.7"
+      fill="none" stroke="#362518" stroke-opacity="0.064" stroke-width="3.2"/><path d="M-20 10.3 Q 195 -0.3 410 8.5"
+      fill="none" stroke="#362518" stroke-opacity="0.066" stroke-width="1.3"/><path d="M-20 194 Q 195 203.4 410 194.1"
+      fill="none" stroke="#362518" stroke-opacity="0.066" stroke-width="1.7"/><path d="M-20 226.6 Q 195 229.1 410 225.2"
+      fill="none" stroke="#362518" stroke-opacity="0.070" stroke-width="2.4"/><path d="M-20 0.8 Q 195 -7.7 410 -4.5"
+      fill="none" stroke="#362518" stroke-opacity="0.079" stroke-width="3.1"/>
+  <g transform="rotate(3 61 194)">
+      <rect x="-14" y="44" width="150" height="150" rx="3" fill="#a98d6a" filter="url(#dsh)"/>
+      <path d="M29.5 93.3 l16.3 2.5"
+        stroke="#76634a" stroke-opacity="0.099" stroke-width="1"/><path d="M84.1 49.6 l18.5 -0.9"
+        stroke="#76634a" stroke-opacity="0.075" stroke-width="1"/><path d="M132 161.8 l8 1.1"
+        stroke="#76634a" stroke-opacity="0.134" stroke-width="1"/><path d="M0.3 76.5 l11.3 -0.8"
+        stroke="#76634a" stroke-opacity="0.082" stroke-width="1"/><path d="M-9.4 172.2 l7 2.3"
+        stroke="#76634a" stroke-opacity="0.136" stroke-width="1"/><path d="M48 164 l10.3 -1.4"
+        stroke="#76634a" stroke-opacity="0.105" stroke-width="1"/><path d="M28.7 130.2 l13.5 -0.7"
+        stroke="#76634a" stroke-opacity="0.119" stroke-width="1"/><path d="M36.4 85.2 l14.2 -1.5"
+        stroke="#76634a" stroke-opacity="0.089" stroke-width="1"/><path d="M47.8 131.5 l6.4 1.1"
+        stroke="#76634a" stroke-opacity="0.080" stroke-width="1"/><path d="M79.4 161.5 l5.2 3"
+        stroke="#76634a" stroke-opacity="0.065" stroke-width="1"/><path d="M132.6 163 l5.4 -2.3"
+        stroke="#76634a" stroke-opacity="0.111" stroke-width="1"/><path d="M-13 48.3 l8.5 -2.8"
+        stroke="#76634a" stroke-opacity="0.118" stroke-width="1"/>
+      <rect x="-14" y="44" width="150" height="150" rx="3" fill="none" stroke="#705d46" stroke-width="1.2"/>
+      <circle cx="61" cy="119" r="60" fill="none" stroke="#736048" stroke-width="2.4" stroke-opacity=".3"/>
+      <circle cx="61" cy="119" r="31.5" fill="#18100e"/>
+      
+  <defs>
+    <radialGradient id="lpH0" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#967044"/>
+      <stop offset="72%" stop-color="#825520"/>
+      <stop offset="100%" stop-color="#6d471b"/>
+    </radialGradient>
+    <path id="atH0" d="M37.3 119 A23.700000000000003 23.700000000000003 0 0 1 84.7 119" fill="none"/>
+    <path id="abH0" d="M36.7 119 A24.3 24.3 0 0 0 85.3 119" fill="none"/>
+  </defs>
+  <circle cx="61" cy="119" r="30" fill="url(#lpH0)"/>
+  <circle cx="61" cy="119" r="27.3" fill="none" stroke="#291906" stroke-width="0.4" stroke-opacity=".5"/>
+  <circle cx="61" cy="119" r="26.1" fill="none" stroke="#291906" stroke-width="0.2" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="4" font-weight="700" fill="#291906"
+    letter-spacing=".2em"><textPath href="#atH0" startOffset="50%" text-anchor="middle">ЭХО</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="2.9" font-weight="600" fill="#35210a"
+    letter-spacing=".14em"><textPath href="#abH0" startOffset="50%" text-anchor="middle">0642-А · 1922</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#291906">
+    <text x="61" y="111.8" font-size="4.6" font-weight="700" letter-spacing="-.01em">Гай-да тройка</text>
+    <text x="61" y="129.2" font-size="3.3" font-weight="500" letter-spacing=".01em"
+      fill="#342009">Н. Плевицкая</text>
+    <text x="61" y="134.9" font-size="2.5" font-weight="600"
+      letter-spacing=".1em" fill="#442b0e">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M50.8 115.1 H71.2" stroke="#291906" stroke-width="0.2" stroke-opacity=".28"/>
+  <path d="M52.6 132.2 H69.4" stroke="#291906" stroke-width="0.2" stroke-opacity=".2"/>
+  <circle cx="61" cy="119" r="1.6" fill="#160e0d"/>
+  <circle cx="61" cy="119" r="1.6" fill="none" stroke="#5b3c16" stroke-width="0.2"/>
+      <circle cx="61" cy="119" r="30.6" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="2.4"/>
+      <rect x="-14" y="44" width="12" height="150" fill="#000" opacity=".13"/>
+    </g><g transform="rotate(-2 151 194)">
+      <rect x="76" y="44" width="150" height="150" rx="3" fill="#c6b18e" filter="url(#dsh)"/>
+      <path d="M81 165.6 l11.4 2.7"
+        stroke="#8b7c63" stroke-opacity="0.100" stroke-width="1"/><path d="M97.7 123.6 l6.7 2.3"
+        stroke="#8b7c63" stroke-opacity="0.079" stroke-width="1"/><path d="M211.7 168.6 l8.7 1.6"
+        stroke="#8b7c63" stroke-opacity="0.104" stroke-width="1"/><path d="M88.8 193.3 l13.8 2.2"
+        stroke="#8b7c63" stroke-opacity="0.078" stroke-width="1"/><path d="M184.8 130.7 l9 0.3"
+        stroke="#8b7c63" stroke-opacity="0.112" stroke-width="1"/><path d="M153.9 128.4 l8.6 -2.6"
+        stroke="#8b7c63" stroke-opacity="0.113" stroke-width="1"/><path d="M219.1 147.9 l19.2 1.5"
+        stroke="#8b7c63" stroke-opacity="0.091" stroke-width="1"/><path d="M164.3 56.1 l12.6 -2.1"
+        stroke="#8b7c63" stroke-opacity="0.100" stroke-width="1"/><path d="M177.3 100.1 l9 0.9"
+        stroke="#8b7c63" stroke-opacity="0.104" stroke-width="1"/><path d="M180.7 177.2 l20.5 -2.7"
+        stroke="#8b7c63" stroke-opacity="0.113" stroke-width="1"/><path d="M164.3 70 l17.6 -2.3"
+        stroke="#8b7c63" stroke-opacity="0.097" stroke-width="1"/><path d="M168.1 107.5 l18.5 1.4"
+        stroke="#8b7c63" stroke-opacity="0.094" stroke-width="1"/>
+      <rect x="76" y="44" width="150" height="150" rx="3" fill="none" stroke="#83755e" stroke-width="1.2"/>
+      <circle cx="151" cy="119" r="60" fill="none" stroke="#877861" stroke-width="2.4" stroke-opacity=".3"/>
+      <circle cx="151" cy="119" r="31.5" fill="#18100e"/>
+      
+  <defs>
+    <radialGradient id="lpH1" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#68704e"/>
+      <stop offset="72%" stop-color="#4b552c"/>
+      <stop offset="100%" stop-color="#3f4725"/>
+    </radialGradient>
+    <path id="atH1" d="M127.3 119 A23.700000000000003 23.700000000000003 0 0 1 174.7 119" fill="none"/>
+    <path id="abH1" d="M126.7 119 A24.3 24.3 0 0 0 175.3 119" fill="none"/>
+  </defs>
+  <circle cx="151" cy="119" r="30" fill="url(#lpH1)"/>
+  <circle cx="151" cy="119" r="27.3" fill="none" stroke="#15190a" stroke-width="0.4" stroke-opacity=".5"/>
+  <circle cx="151" cy="119" r="26.1" fill="none" stroke="#15190a" stroke-width="0.2" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="4" font-weight="700" fill="#15190a"
+    letter-spacing=".2em"><textPath href="#atH1" startOffset="50%" text-anchor="middle">ЗВУКОЗАПИСЬ</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="2.9" font-weight="600" fill="#1d210f"
+    letter-spacing=".14em"><textPath href="#abH1" startOffset="50%" text-anchor="middle">1509-А · 1924</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#15190a">
+    <text x="151" y="111.8" font-size="4.6" font-weight="700" letter-spacing="-.01em">Ямщикъ, не гони</text>
+    <text x="151" y="129.2" font-size="3.3" font-weight="500" letter-spacing=".01em"
+      fill="#1b200e">М. Сокольскій</text>
+    <text x="151" y="134.9" font-size="2.5" font-weight="600"
+      letter-spacing=".1em" fill="#252b14">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M140.8 115.1 H161.2" stroke="#15190a" stroke-width="0.2" stroke-opacity=".28"/>
+  <path d="M142.6 132.2 H159.4" stroke="#15190a" stroke-width="0.2" stroke-opacity=".2"/>
+  <circle cx="151" cy="119" r="1.6" fill="#160e0d"/>
+  <circle cx="151" cy="119" r="1.6" fill="none" stroke="#353c1f" stroke-width="0.2"/>
+      <circle cx="151" cy="119" r="30.6" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="2.4"/>
+      <rect x="76" y="44" width="12" height="150" fill="#000" opacity=".13"/>
+    </g><g transform="rotate(2 241 194)">
+      <rect x="166" y="44" width="150" height="150" rx="3" fill="#9c8763" filter="url(#dsh)"/>
+      <path d="M271.2 188.1 l17.2 1.5"
+        stroke="#6d5f45" stroke-opacity="0.105" stroke-width="1"/><path d="M181.6 104.4 l9 2.2"
+        stroke="#6d5f45" stroke-opacity="0.067" stroke-width="1"/><path d="M173.7 126 l8.3 1.7"
+        stroke="#6d5f45" stroke-opacity="0.097" stroke-width="1"/><path d="M293.8 152.5 l14.1 0.6"
+        stroke="#6d5f45" stroke-opacity="0.073" stroke-width="1"/><path d="M233.8 178.9 l15.5 -1.6"
+        stroke="#6d5f45" stroke-opacity="0.118" stroke-width="1"/><path d="M217.4 142.3 l13.9 -0.5"
+        stroke="#6d5f45" stroke-opacity="0.087" stroke-width="1"/><path d="M176.3 87.9 l6.5 -2.8"
+        stroke="#6d5f45" stroke-opacity="0.109" stroke-width="1"/><path d="M281.8 70.3 l18.5 -1.2"
+        stroke="#6d5f45" stroke-opacity="0.104" stroke-width="1"/><path d="M195.5 175.4 l14.4 -0.7"
+        stroke="#6d5f45" stroke-opacity="0.109" stroke-width="1"/><path d="M291.1 114.2 l16.2 1.5"
+        stroke="#6d5f45" stroke-opacity="0.075" stroke-width="1"/><path d="M217.6 86.2 l8.4 -0.9"
+        stroke="#6d5f45" stroke-opacity="0.115" stroke-width="1"/><path d="M182.6 176.4 l10.3 -2.7"
+        stroke="#6d5f45" stroke-opacity="0.083" stroke-width="1"/>
+      <rect x="166" y="44" width="150" height="150" rx="3" fill="none" stroke="#675941" stroke-width="1.2"/>
+      <circle cx="241" cy="119" r="60" fill="none" stroke="#6a5c43" stroke-width="2.4" stroke-opacity=".3"/>
+      <circle cx="241" cy="119" r="31.5" fill="#18100e"/>
+      
+  <defs>
+    <radialGradient id="lpH2" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#587196"/>
+      <stop offset="72%" stop-color="#385682"/>
+      <stop offset="100%" stop-color="#2f486d"/>
+    </radialGradient>
+    <path id="atH2" d="M217.3 119 A23.700000000000003 23.700000000000003 0 0 1 264.7 119" fill="none"/>
+    <path id="abH2" d="M216.7 119 A24.3 24.3 0 0 0 265.3 119" fill="none"/>
+  </defs>
+  <circle cx="241" cy="119" r="30" fill="url(#lpH2)"/>
+  <circle cx="241" cy="119" r="27.3" fill="none" stroke="#0f1a29" stroke-width="0.4" stroke-opacity=".5"/>
+  <circle cx="241" cy="119" r="26.1" fill="none" stroke="#0f1a29" stroke-width="0.2" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="4" font-weight="700" fill="#0f1a29"
+    letter-spacing=".2em"><textPath href="#atH2" startOffset="50%" text-anchor="middle">АРТЕЛЬ ЗВУКЪ</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="2.9" font-weight="600" fill="#152235"
+    letter-spacing=".14em"><textPath href="#abH2" startOffset="50%" text-anchor="middle">3097-А · 1928</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#0f1a29">
+    <text x="241" y="111.8" font-size="4.6" font-weight="700" letter-spacing="-.01em">Полька-мазурка</text>
+    <text x="241" y="129.2" font-size="3.3" font-weight="500" letter-spacing=".01em"
+      fill="#142134">Оркестръ Гольдберга</text>
+    <text x="241" y="134.9" font-size="2.5" font-weight="600"
+      letter-spacing=".1em" fill="#1b2c44">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M230.8 115.1 H251.2" stroke="#0f1a29" stroke-width="0.2" stroke-opacity=".28"/>
+  <path d="M232.6 132.2 H249.4" stroke="#0f1a29" stroke-width="0.2" stroke-opacity=".2"/>
+  <circle cx="241" cy="119" r="1.6" fill="#160e0d"/>
+  <circle cx="241" cy="119" r="1.6" fill="none" stroke="#273c5b" stroke-width="0.2"/>
+      <circle cx="241" cy="119" r="30.6" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="2.4"/>
+      <rect x="166" y="44" width="12" height="150" fill="#000" opacity=".13"/>
+    </g><g transform="rotate(-3 331 194)">
+      <rect x="256" y="44" width="150" height="150" rx="3" fill="#d5c3a4" filter="url(#dsh)"/>
+      <path d="M267 116.5 l12.1 -2.8"
+        stroke="#958973" stroke-opacity="0.133" stroke-width="1"/><path d="M397 105 l17.9 1"
+        stroke="#958973" stroke-opacity="0.079" stroke-width="1"/><path d="M394.2 184.6 l20.6 -2.5"
+        stroke="#958973" stroke-opacity="0.084" stroke-width="1"/><path d="M390.8 68.2 l16.6 -1.1"
+        stroke="#958973" stroke-opacity="0.093" stroke-width="1"/><path d="M322.2 124.6 l19.7 -0.1"
+        stroke="#958973" stroke-opacity="0.105" stroke-width="1"/><path d="M262.7 177.1 l13.1 1.1"
+        stroke="#958973" stroke-opacity="0.126" stroke-width="1"/><path d="M361 81.3 l12.1 -2.8"
+        stroke="#958973" stroke-opacity="0.087" stroke-width="1"/><path d="M376.4 175.9 l16.8 1.5"
+        stroke="#958973" stroke-opacity="0.091" stroke-width="1"/><path d="M280.3 97.5 l12.9 1.8"
+        stroke="#958973" stroke-opacity="0.126" stroke-width="1"/><path d="M359.9 76.4 l7.9 -0.7"
+        stroke="#958973" stroke-opacity="0.094" stroke-width="1"/><path d="M302 50.4 l10.3 -1.3"
+        stroke="#958973" stroke-opacity="0.110" stroke-width="1"/><path d="M354.1 81.3 l10.3 3"
+        stroke="#958973" stroke-opacity="0.132" stroke-width="1"/>
+      <rect x="256" y="44" width="150" height="150" rx="3" fill="none" stroke="#8d816c" stroke-width="1.2"/>
+      <circle cx="331" cy="119" r="60" fill="none" stroke="#918570" stroke-width="2.4" stroke-opacity=".3"/>
+      <circle cx="331" cy="119" r="31.5" fill="#18100e"/>
+      
+  <defs>
+    <radialGradient id="lpH3" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#4d7d6f"/>
+      <stop offset="72%" stop-color="#2b6454"/>
+      <stop offset="100%" stop-color="#245447"/>
+    </radialGradient>
+    <path id="atH3" d="M307.3 119 A23.700000000000003 23.700000000000003 0 0 1 354.7 119" fill="none"/>
+    <path id="abH3" d="M306.7 119 A24.3 24.3 0 0 0 355.3 119" fill="none"/>
+  </defs>
+  <circle cx="331" cy="119" r="30" fill="url(#lpH3)"/>
+  <circle cx="331" cy="119" r="27.3" fill="none" stroke="#0a1f19" stroke-width="0.4" stroke-opacity=".5"/>
+  <circle cx="331" cy="119" r="26.1" fill="none" stroke="#0a1f19" stroke-width="0.2" stroke-opacity=".3"/>
+  <text font-family="Geist, system-ui, sans-serif" font-size="4" font-weight="700" fill="#0a1f19"
+    letter-spacing=".2em"><textPath href="#atH3" startOffset="50%" text-anchor="middle">ГРАМОФОНЪ</textPath></text>
+  <text font-family="Geist, system-ui, sans-serif" font-size="2.9" font-weight="600" fill="#0f2921"
+    letter-spacing=".14em"><textPath href="#abH3" startOffset="50%" text-anchor="middle">1841-Б · 1925</textPath></text>
+  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#0a1f19">
+    <text x="331" y="111.8" font-size="4.6" font-weight="700" letter-spacing="-.01em">Прощай, радость</text>
+    <text x="331" y="129.2" font-size="3.3" font-weight="500" letter-spacing=".01em"
+      fill="#0e2720">Хоръ Кузнецова</text>
+    <text x="331" y="134.9" font-size="2.5" font-weight="600"
+      letter-spacing=".1em" fill="#14342b">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <path d="M320.8 115.1 H341.2" stroke="#0a1f19" stroke-width="0.2" stroke-opacity=".28"/>
+  <path d="M322.6 132.2 H339.4" stroke="#0a1f19" stroke-width="0.2" stroke-opacity=".2"/>
+  <circle cx="331" cy="119" r="1.6" fill="#160e0d"/>
+  <circle cx="331" cy="119" r="1.6" fill="none" stroke="#1e463b" stroke-width="0.2"/>
+      <circle cx="331" cy="119" r="30.6" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="2.4"/>
+      <rect x="256" y="44" width="12" height="150" fill="#000" opacity=".13"/>
+    </g>
+  <rect x="-4" y="196" width="398" height="64" rx="3" fill="#4b3422"/>
+  <rect x="-4" y="196" width="398" height="4" fill="#8c725e" opacity=".7"/>
+  <g transform="translate(0 196)"><path d="M-20 48.7 Q 195 34.6 410 54.9"
+      fill="none" stroke="#362518" stroke-opacity="0.128" stroke-width="2.4"/><path d="M-20 25.1 Q 195 24 410 25.9"
+      fill="none" stroke="#362518" stroke-opacity="0.107" stroke-width="1.3"/><path d="M-20 8.7 Q 195 9.9 410 1.1"
+      fill="none" stroke="#362518" stroke-opacity="0.126" stroke-width="3.4"/><path d="M-20 53.1 Q 195 46.2 410 61.8"
+      fill="none" stroke="#362518" stroke-opacity="0.138" stroke-width="2.0"/><path d="M-20 42.8 Q 195 50.3 410 41.1"
+      fill="none" stroke="#362518" stroke-opacity="0.097" stroke-width="3.5"/><path d="M-20 1.8 Q 195 12.6 410 2.1"
+      fill="none" stroke="#362518" stroke-opacity="0.106" stroke-width="2.3"/></g>
+  <rect width="390" height="260" fill="url(#key)" opacity=".5"/>
+  <rect width="390" height="260" fill="url(#vg)"/></svg>

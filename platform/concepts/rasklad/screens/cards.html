@@ -1,0 +1,75 @@
+<div class="screen ios-surface" id="scr-cards" style="background:#f2f2f7">
+            <div class="navbar">
+              <div class="nav-leading"><div class="btn-plain tap" data-back>Закрыть</div></div>
+              <div class="title">Карты колоды</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="body-scroll" style="padding:8px var(--margin) 0">
+              <div class="searchfield">
+                <svg class="ico-svg" style="width:16px;height:16px"><use href="#i-search"/></svg>
+                <span class="sf-text sf-placeholder">Номер или название карты</span>
+              </div>
+
+              <div style="margin-bottom:18px" data-hide-denied="camera">
+                <div class="btn-tinted block tap" data-ask="camera|scan|cards">
+                  <svg class="ico-svg"><use href="#i-scan-line"/></svg>
+                  Сканировать карту вместо списка
+                </div>
+              </div>
+              <div class="errbox perm-hidden" data-show-denied="camera">
+                <div class="errbox-ico" aria-hidden="true">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                </div>
+                <div class="grow">
+                  <div class="t-headline">Камера недоступна</div>
+                  <p class="t-footnote" style="margin:4px 0 0">Доступ отклонён, скан убран. Номер напечатан в углу карты — найдите его в списке, дальше всё то же.</p>
+                </div>
+              </div>
+
+              <div class="group-head">44 карты · 12 уже выпадали</div>
+              <div class="ios-list" style="margin-bottom:16px">
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 07 Мост">
+                  <div class="rk-num">07</div>
+                  <div class="grow"><div class="t-headline">Мост</div><div class="t-caption" style="margin-top:2px">3 размышления · 5–11 мин</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 11 Порог">
+                  <div class="rk-num">11</div>
+                  <div class="grow"><div class="t-headline">Порог</div><div class="t-caption" style="margin-top:2px">2 размышления · 7–14 мин</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 14 Окно">
+                  <div class="rk-num">14</div>
+                  <div class="grow"><div class="t-headline">Окно</div><div class="t-caption" style="margin-top:2px">2 размышления · 6–12 мин</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 19 Корни">
+                  <div class="rk-num is-new">19</div>
+                  <div class="grow"><div class="t-headline">Корни</div><div class="t-caption" style="margin-top:2px">Ещё не выпадала · 3 размышления</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 23 Компас">
+                  <div class="rk-num is-new">23</div>
+                  <div class="grow"><div class="t-headline">Компас</div><div class="t-caption" style="margin-top:2px">Ещё не выпадала · 2 размышления</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 28 Гнездо">
+                  <div class="rk-num">28</div>
+                  <div class="grow"><div class="t-headline">Гнездо</div><div class="t-caption" style="margin-top:2px">2 размышления · 8–15 мин</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 34 Маяк">
+                  <div class="rk-num is-new">34</div>
+                  <div class="grow"><div class="t-headline">Маяк</div><div class="t-caption" style="margin-top:2px">Ещё не выпадала · 2 размышления</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+                <div class="row has-lead tap" data-jump="card" aria-label="Карта 41 Ветер">
+                  <div class="rk-num">41</div>
+                  <div class="grow"><div class="t-headline">Ветер</div><div class="t-caption" style="margin-top:2px">2 размышления · 5–9 мин</div></div>
+                  <span class="ios-disclosure" aria-hidden="true"></span>
+                </div>
+              </div>
+              <p class="t-footnote" style="margin:0 4px 16px">Список — та же колода, что у вас на столе: порядок и номера совпадают с картами. Выбор вручную ничем не хуже скана, он просто дольше.</p>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

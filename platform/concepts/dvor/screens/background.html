@@ -1,0 +1,66 @@
+<div class="screen d-night" id="scr-background">
+            <div class="body-scroll d-scroll" style="padding-top:calc(var(--safe-top) + 4px)">
+              <div class="d-top">
+                <div class="d-back tap" data-back aria-label="Назад к счётчикам">
+                  <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
+                </div>
+                <div class="d-top-title sm" style="color:#fff">Обновление в фоне</div>
+              </div>
+
+              <div class="d-card night">
+                <div class="d-kv">
+                  <span class="d-kv-k" style="color:#9AA3B2">Задача</span>
+                  <span class="d-kv-v" style="color:#fff">app.dvor.refresh</span>
+                </div>
+                <div class="d-kv">
+                  <span class="d-kv-k" style="color:#9AA3B2">Режим</span>
+                  <span class="d-kv-v" style="color:#fff">fetch + remote-notification</span>
+                </div>
+                <div class="d-kv">
+                  <span class="d-kv-k" style="color:#9AA3B2">Последний запуск</span>
+                  <span class="d-kv-v" style="color:#fff">04:12</span>
+                </div>
+              </div>
+
+              <div class="d-sec">Журнал задачи</div>
+
+              <div class="d-log" style="margin:0 4px 7px">
+                <div class="d-log-line">
+                  <span>04:12</span>
+                  <span><b>BGAppRefreshTask</b> запущен системой</span>
+                </div>
+                <div class="d-log-line ok">
+                  <span>04:12</span>
+                  <span>объявления дома: <b>+2</b></span>
+                </div>
+                <div class="d-log-line ok">
+                  <span>04:13</span>
+                  <span>срок показаний пересчитан: <b>25 апреля</b></span>
+                </div>
+                <div class="d-log-line">
+                  <span>04:13</span>
+                  <span>снапшот виджета перезаписан</span>
+                </div>
+                <div class="d-log-line">
+                  <span>09:41</span>
+                  <span>silent push: <b>содержимое темы 4417-Б</b></span>
+                </div>
+              </div>
+
+              <div class="d-card night">
+                <div class="d-row" data-activate="bgtask|meters" aria-label="Проверить фоновую задачу">
+                  <div class="d-row-main">
+                    <div class="d-row-title" style="color:#fff">Проверить задачу</div>
+                    <div class="d-row-sub wrap" style="color:#9AA3B2">Идентификатор в Info.plist совпадает с регистрацией в коде</div>
+                  </div>
+                  <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+                </div>
+              </div>
+
+              <div class="d-note mute" style="color:#9AA3B2;padding-bottom:14px">
+                <svg class="ico-svg"><use href="#i-info"/></svg>
+                <span>Без зарегистрированного идентификатора задача не запустится вообще: строка в Info.plist и вызов BGTaskScheduler.register должны совпасть до символа.</span>
+              </div>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>

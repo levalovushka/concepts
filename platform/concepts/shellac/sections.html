@@ -1,0 +1,60 @@
+  <!-- @overview:vision -->
+  <p class="deck">«Шеллак» — архив шеллачных пластинок общественного достояния. Одно ограничение задаёт весь продукт: {{INSIGHT}}.</p>
+  <div class="utp-box">
+    <strong>УТП.</strong> {{TAGLINE}}. Камера читает лейбл, название и матричный номер на устройстве и находит эту сторону в архиве. Сторона на 78 оборотов играет около трёх минут, её нельзя листать — поэтому телефон убирают, а звук продолжается. Чего в архиве нет, уходит в «Розыск» — со сканера или по ссылке с форума коллекционеров.
+  </div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Архив</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Этикетка в кадре</span><span class="arr">→</span><span class="chip">Совпадение</span><span class="arr">→</span><span class="chip">Сторона играет</span></div>
+  <div class="flow"><span class="chip">Плеер</span><span class="arr">→</span><span class="chip">Background audio</span><span class="arr">→</span><span class="chip">Локскрин · Now Playing</span></div>
+  <div class="flow"><span class="chip">Этикетка</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Снимок из галереи</span><span class="arr">→</span><span class="chip">Совпадение</span></div>
+  <div class="flow"><span class="chip">Экземпляр</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Фото конверта</span></div>
+  <div class="flow"><span class="chip">Этикетка стёрта</span><span class="arr">→</span><span class="chip">Ввод матрицы</span><span class="arr">→</span><span class="chip">Нет в архиве</span><span class="arr">→</span><span class="chip">Розыск</span></div>
+  <div class="flow"><span class="chip">Розыск</span><span class="arr">→</span><span class="chip">Push</span><span class="arr">→</span><span class="chip">«Оцифровали» </span></div>
+  <div class="flow"><span class="chip">shellac.app/rec/…</span><span class="arr">→</span><span class="chip">Universal Link</span><span class="arr">→</span><span class="chip">Запись</span><span class="arr">→</span><span class="chip">Сторона A</span></div>
+  <div class="flow"><span class="chip">Форум в Safari</span><span class="arr">→</span><span class="chip">shellac.app/want?m=</span><span class="arr">→</span><span class="chip">Номер в «Розыск»</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Record · Side · Matrix · Label · ArchiveIndex · ShelfCopy · Condition · SleevePhoto · WantEntry · PlaybackSession</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Playback (AVPlayer, BG audio, Now Playing, remote-команды) · LabelScanner (DataScanner + VNRecognizeTextRequest, on-device) · MatrixMatcher (индекс пака) · MediaPicker (PHPicker) · Push (SDK) · DeepLinkRouter</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — полка, состояние экземпляров, заметки, «Розыск». FileManager — фото конвертов и кэш обложек. Контент-пак — статический <code>archive.json</code> + m4a с CDN, только чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака · APNs через SDK провайдера · <code>apple-app-site-association</code> на shellac.app (<code>/rec/*</code>, <code>/want</code>) · системный share sheet для исходящих ссылок</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Здесь главная фича — первая строка стартового экрана: «Найти пластинку» открывает камеру одним тапом.</p>
+      <p>Пустой <code>webcredentials</code> не заявлен намеренно: логина нет, а неиспользуемый кусок entitlement — ровно то, что ищут при проверке. По той же причине в наборе нет ни ATT, ни геопозиции: под них в этом продукте нет фичи.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Приложение однопользовательское: ни аккаунтов, ни ленты чужого контента, ни модерации. Всё, что раньше требовало сервера, заменено клиентским решением или статикой. Записи — общественное достояние, поэтому вопрос прав закрыт до сборки пака, а не в рантайме.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
+
+  <section class="section" id="tokens">
+    <h2>Дизайн-токены</h2>
+    <p class="deck">Шеллак и бумага: тёмно-коричневый диск, выгоревшие этикетки, дерево стола. Жжёная амбра как единственный акцент, iOS-хром без самодеятельности. Geist / Geist Mono для матричных номеров и таймкодов.</p>
+    <div class="feat-grid">
+      <div class="feat"><b>Accent</b><span>#a8631d · #e8a75e в тёмной теме</span></div>
+      <div class="feat"><b>Device</b><span>390×844 · radius 40 · safe areas 47 / 34</span></div>
+      <div class="feat"><b>Type</b><span>Geist 400–700 · Geist Mono для матриц и времени</span></div>
+      <div class="feat"><b>Медиа</b><span>Всё рисуется кодом: <code>media.mjs</code></span></div>
+    </div>
+  </section>
