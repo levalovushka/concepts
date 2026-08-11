@@ -10,6 +10,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync, rmSync, readdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { KERNEL, DIST, conceptDir, readSpec, readMarkup, engineData, fill, esc, RISK_LABEL, listConcepts } from './lib.mjs';
 import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
 
@@ -265,7 +266,7 @@ export function build(slug, { outDir } = {}) {
   return { spec, out, bytes: html.length };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const slug = process.argv[2];
   if (!slug) {
     console.error('нужен slug. доступны:', listConcepts().join(', '));

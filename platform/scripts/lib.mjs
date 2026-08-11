@@ -1,8 +1,9 @@
 /** Общее для всех инструментов платформы: пути, чтение спеки, производные данные. */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const ROOT = new URL('..', import.meta.url).pathname;
+export const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const KERNEL = join(ROOT, 'kernel');
 export const CONCEPTS = join(ROOT, 'concepts');
 export const DIST = join(ROOT, 'dist');

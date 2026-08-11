@@ -1,0 +1,97 @@
+{
+  "slug": "rehearsal",
+  "name": "Репетиция",
+  "eyebrow": "Репетиция · Локальный тренер выступлений · iOS",
+  "targetSet": "vk-music",
+  "domain": "rehearsal.app",
+  "heroTitle": "Репетиция — прогон до выступления",
+  "heroDeck": "Разложите выступление на тайминги, проверьте кадр и повторите только слабый момент.",
+  "tagline": "Тайминг, композиция кадра и локальные подсказки перед выступлением",
+  "insight": "повторять выступление целиком утомительно, а перетянутый момент трудно заметить без временной шкалы",
+  "deck": "Линейный инструмент: вход по номеру, настройка, кадр, таймер, временная шкала и повтор фрагмента. Без собственного API.",
+  "brand": { "accent": "#ff6b5e", "accentDark": "#ff7c70", "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600" },
+  "start": "phone",
+  "tabs": [],
+  "permissions": [
+    {
+      "key": "camera", "plist": "NSCameraUsageDescription",
+      "alert": { "title": "«Репетиция» запрашивает доступ к камере", "text": "Чтобы показать композицию кадра перед беззвучным видеопрогоном." },
+      "feature": "Проверка кадра", "gesture": "«Проверить кадр»", "screen": "setup", "target": "frame",
+      "fallback": "Прогон по таймеру запускается без видео", "snack": "Камера недоступна — остаётся таймер", "risk": "low", "anchor": true, "conditional": false,
+      "grounding": "AVCaptureSession + Vision для сетки кадра; без записи звука"
+    },
+    {
+      "key": "photo", "plist": "NSPhotoLibraryUsageDescription",
+      "alert": { "title": "«Репетиция» запрашивает доступ к «Фото»", "text": "Чтобы выбрать один ранее записанный видеопрогон для локального разбора." },
+      "feature": "Импорт одного прогона", "gesture": "«Импортировать видео» в истории", "screen": "history", "target": "analysis",
+      "fallback": "Можно начать новый прогон или открыть локальную историю", "snack": "Нет доступа к «Фото» — история остаётся доступна", "risk": "low", "anchor": true, "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранный файл; анализ идёт на устройстве"
+    },
+    {
+      "key": "audio", "plist": "UIBackgroundModes: audio", "alert": { "title": "Фоновое аудио", "text": "Локальная дорожка прогона и голосовые подсказки продолжат звучать при блокировке." },
+      "activate": true, "feature": "Повтор фрагмента с погашенным экраном", "gesture": "«Слушать с погашенным экраном»", "screen": "moment", "target": "session",
+      "fallback": "Дорожка и подсказки играют только пока приложение открыто", "risk": "high", "anchor": true, "conditional": true,
+      "requires": "AVPlayer реально играет локальный файл; Now Playing и play/pause доступны на экране блокировки", "grounding": "AVAudioSession .playback + MPNowPlayingInfoCenter; никакого стриминга"
+    },
+    {
+      "key": "push", "plist": "aps-environment",
+      "alert": { "title": "«Репетиция» запрашивает уведомления", "text": "Чтобы напомнить о запланированном прогоне на этом устройстве." },
+      "feature": "Напоминание о запланированном прогоне", "gesture": "Свитч «Напомнить вечером»", "screen": "settings", "target": "settings",
+      "fallback": "План на сегодня остаётся на главном экране", "snack": "Уведомления выключены — план виден в приложении", "snackOnce": true, "risk": "low", "anchor": false, "conditional": true,
+      "requires": "Регистрация в APNs и запланированный push через панель провайдера", "grounding": "APNs через SDK провайдера; собственного API нет"
+    }
+  ],
+  "screens": [
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
+    { "id": "today", "title": "Сегодня", "type": "корневая рабочая поверхность", "light": false, "parent": "code", "meta": "Старт без запросов доступов" },
+    { "id": "setup", "title": "Настройка", "type": "push", "light": false, "parent": "today", "meta": "Цель и длительность" },
+    { "id": "frame", "title": "Проверка кадра", "type": "полноэкранная камера", "light": false, "parent": "setup", "meta": "Camera · без фото" },
+    { "id": "recording", "title": "Прогон", "type": "рабочий таймер", "light": false, "parent": "setup", "meta": "Беззвучный таймер и метки" },
+    { "id": "paused", "title": "Пауза", "type": "состояние записи", "light": false, "parent": "recording", "meta": "Продолжить или завершить" },
+    { "id": "analysis", "title": "Разбор", "type": "временная шкала", "light": false, "parent": "recording", "meta": "Темп · паузы · структура" },
+    { "id": "moment", "title": "Момент выступления", "type": "push фрагмента", "light": false, "parent": "analysis", "meta": "Повтор слабого места" },
+    { "id": "history", "title": "История", "type": "push из navigation bar", "light": false, "parent": "today", "meta": "Локальные прогоны · Photo" },
+    { "id": "session", "title": "Прошлый прогон", "type": "push", "light": false, "parent": "history", "meta": "Сравнение двух попыток" },
+    { "id": "settings", "title": "Настройки", "type": "sheet из navigation bar", "light": false, "parent": "today", "meta": "Приватность и данные" }
+  ],
+  "prototypes": [
+    { "id": "all", "hero": true, "label": "Весь продукт", "note": "12 экранов и 4 системные возможности", "start": "phone", "screens": ["phone", "code", "today", "setup", "frame", "recording", "paused", "analysis", "moment", "history", "session", "settings"] },
+    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к плану", "start": "phone", "screens": ["phone", "code", "today"], "stops": ["today"] },
+    { "id": "run", "label": "Новый прогон", "note": "Настройка → кадр → таймер → разбор", "start": "setup", "screens": ["setup", "frame", "recording", "paused", "analysis", "moment"], "stops": ["moment"] },
+    { "id": "review", "label": "Разбор момента", "note": "Временная шкала и точечный повтор", "start": "analysis", "screens": ["analysis", "moment", "setup", "frame", "recording", "session"], "stops": ["recording"] },
+    { "id": "archive", "label": "История и импорт", "note": "Локальные прогоны и один файл из «Фото»", "start": "history", "screens": ["history", "session", "analysis", "moment", "setup", "frame", "recording"], "stops": ["moment", "recording"] },
+    { "id": "privacy", "label": "Настройки", "note": "Локальное хранение и внешние возможности", "start": "settings", "screens": ["settings", "setup", "frame", "recording"], "stops": ["recording"] }
+  ],
+  "backendless": [
+    { "needs": "Учёт прогонов", "solution": "SwiftData на устройстве" },
+    { "needs": "Аудио и видео", "solution": "Локальные файлы в Application Support; никакого стриминга" },
+    { "needs": "Разбор прогона", "solution": "Vision и метки по таймкодам на устройстве" },
+    { "needs": "Напоминания", "solution": "SDK push-провайдера без своего API" },
+    { "needs": "Вход по номеру", "solution": "SDK провайдера аутентификации; токен хранится в Keychain" },
+    { "needs": "Перенос данных", "solution": "Явный экспорт одного архива через Share Sheet" }
+  ],
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" }, { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-система" }, { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" }, { "file": "06-app-store.md", "label": "Карточка App Store" }
+  ],
+  "appStore": {
+    "name": "Репетиция: тренер речи", "subtitle": "Найдите слабое место", "promo": "Запишите выступление, увидьте темп и паузы, а затем повторите только слабый фрагмент. Всё остаётся на устройстве.",
+    "keywords": "оратор,презентация,дикция,темп,пауза,голос,запись",
+    "category": { "primary": "Productivity", "secondary": "Education" }, "ageRating": "4+", "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только системные APNs и HTTPS для статики",
+    "urls": { "support": "страница поддержки в App Store", "marketing": "не используется", "privacy": "политика в App Store" },
+    "description": [
+      "«Репетиция» помогает уложить структуру выступления во время и увидеть композицию кадра.",
+      "Прогон по плану\nЗадайте целевую длительность и пройдите одну попытку по таймеру.",
+      "Разбор по моментам\nВременная шкала покажет, где блок затянулся и где нужен повтор.",
+      "Приватно по умолчанию\nПланы, видео и метки хранятся на вашем iPhone."
+    ],
+    "whatsNew": "Первая версия: запись, локальный разбор, история и импорт одного видео.",
+    "privacy": [
+      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход и восстановление доступа через SDK провайдера аутентификации" }
+    ],
+    "reviewAccount": { "phone": "+7 900 000-00-00", "code": "0000", "note": "Тестовый номер принимает код 0000; SMS не отправляется." }
+  }
+}
