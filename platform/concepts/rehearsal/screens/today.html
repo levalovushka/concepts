@@ -1,11 +1,85 @@
 <div class="screen rh-screen" id="scr-today">
-  <div class="rh-top"><div><div class="rh-date">Понедельник, 10 августа</div><h1>Сегодня</h1></div><div class="rh-top-actions"><button class="rh-icon tap" data-go="history" aria-label="История"><svg class="ico-svg"><use href="#i-rotate-ccw"/></svg></button><button class="rh-icon tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></button></div></div>
-  <div class="rh-today-body">
-    <div class="ph on-dark" style="height:230px;border-radius:28px" aria-label="Место для иллюстрации выступления"></div>
-    <div class="rh-plan-row"><span>План на сегодня</span><b>7 минут</b></div>
-    <h2>Презентация продукта</h2>
-    <p class="rh-muted">Контекст → решение → следующий шаг</p>
-    <button class="rh-primary tap" data-go="setup">Начать репетицию</button>
-    <div class="rh-footnote"><svg class="ico-svg"><use href="#i-lock"/></svg><span>План и видео хранятся на этом iPhone</span></div>
-  </div><div class="home-ind"></div>
+  <div class="rh-top">
+    <div>
+      <div class="rh-date">Понедельник, 10 августа</div>
+      <h1>Сегодня</h1>
+    </div>
+    <div class="rh-top-actions">
+      <button class="rh-icon tap" data-go="history" aria-label="История"><svg class="ico-svg"><use href="#i-rotate-ccw"/></svg></button>
+      <button class="rh-icon tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></button>
+    </div>
+  </div>
+
+  <div class="rh-scroll has-dock">
+    <div class="rh-next">
+      <div class="rh-next-head">
+        <div class="rh-grow">
+          <h2>Презентация продукта</h2>
+          <p class="rh-next-goal">Питч-сессия в четверг · четыре блока</p>
+        </div>
+        <div class="rh-budget"><b>7:00</b><span>план</span></div>
+      </div>
+      <div class="rh-plan">
+        <div class="rh-plan-row"><span>Контекст</span><div class="rh-plan-bar"><i style="width:50%"></i></div><em>1:20</em></div>
+        <div class="rh-plan-row"><span>Проблема</span><div class="rh-plan-bar"><i style="width:63%"></i></div><em>1:40</em></div>
+        <div class="rh-plan-row"><span>Решение</span><div class="rh-plan-bar"><i style="width:100%"></i></div><em>2:40</em></div>
+        <div class="rh-plan-row"><span>Следующий шаг</span><div class="rh-plan-bar"><i style="width:50%"></i></div><em>1:20</em></div>
+      </div>
+    </div>
+
+    <div class="rh-sec">Прошлая попытка</div>
+    <div class="rh-card">
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark over"><b>+24</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Пятница, 7:24</div>
+          <div class="rh-ft">«Решение» затянулось на 38 секунд · 3 метки</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row tap" data-go="history">
+        <div class="rh-grow">
+          <div class="rh-bd">Все прогоны</div>
+        </div>
+        <span class="rh-val">14</span><span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Последние 7 дней <b>6 прогонов · 47 минут</b></div>
+    <div class="rh-card pad">
+      <div class="rh-week" aria-label="Прогоны по дням">
+        <i style="height:38%"></i><i class="none"></i><i style="height:22%"></i><i style="height:64%"></i><i style="height:100%"></i><i class="none"></i><i style="height:16%"></i>
+      </div>
+      <div class="rh-week-days"><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span><span>ПН</span></div>
+    </div>
+
+    <div class="rh-sec">Другие выступления</div>
+    <div class="rh-card">
+      <button class="rh-row inset-lead tap" data-go="setup">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-users"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-hd">Демо для команды</div>
+          <div class="rh-ft">12:00 · 6 блоков · последний прогон 28 июля</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-lead tap" data-go="setup">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-book-open"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-hd">Защита диплома</div>
+          <div class="rh-ft">10:00 · 5 блоков · прогонов ещё не было</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-lead tap" data-go="setup">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-plus"/></svg></span>
+        <div class="rh-grow"><div class="rh-bd rh-hot">Новое выступление</div></div>
+      </button>
+    </div>
+  </div>
+
+  <div class="rh-dock">
+    <button class="rh-primary tap" data-go="setup">Начать прогон</button>
+  </div>
+  <div class="home-ind"></div>
 </div>

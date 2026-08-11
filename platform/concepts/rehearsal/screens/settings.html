@@ -1,6 +1,94 @@
-<div class="screen rh-screen" id="scr-settings"><div class="rh-nav"><button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-x"/></svg></button><b>Настройки</b><span></span></div><div class="rh-scroll">
-  <div class="rh-settings-hero"><svg class="ico-svg"><use href="#i-shield"/></svg><div><b>Локальное хранение</b><span>Планы, метки и импортированные файлы хранятся на iPhone.</span></div></div>
-  <div class="rh-sec-label">План</div><div class="rh-settings-list"><button class="tap" data-ask="push|settings|settings"><div><b>Напомнить вечером</b><span>О запланированной репетиции</span></div><div class="switch" data-switch="push"></div></button></div>
-  <div class="rh-deny perm-hidden" data-show-denied="push">Уведомления выключены. План всегда виден на экране «Сегодня».</div>
-  <div class="rh-sec-label">Данные</div><div class="rh-settings-list"><button><div><b>Хранилище</b><span>182 мегабайта на этом iPhone</span></div><span>182 мегабайта</span></button><button class="tap" data-toast="Архив подготовлен"><div><b>Экспортировать архив</b><span>Один локальный файл</span></div><svg class="ico-svg"><use href="#i-share"/></svg></button></div>
-  <p class="rh-settings-foot">«Репетиция» не загружает планы и видео на сервер.</p></div><div class="home-ind"></div></div>
+<div class="screen rh-screen" id="scr-settings">
+  <div class="rh-nav">
+    <button class="rh-back tap" data-back aria-label="Закрыть"><svg class="ico-svg"><use href="#i-x"/></svg></button>
+    <b>Настройки</b>
+    <span></span>
+  </div>
+
+  <div class="rh-scroll">
+    <div class="rh-sec">Прогон</div>
+    <div class="rh-card">
+      <div class="rh-row inset-lead">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-video"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Снимать видео</div>
+          <div class="rh-ft">Без звука · 1080p</div>
+        </div>
+        <div class="switch is-on" aria-label="Съёмка включена"></div>
+      </div>
+      <button class="rh-row inset-lead tap">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-clock"/></svg></span>
+        <div class="rh-grow"><div class="rh-bd">Сигнал блока</div></div>
+        <span class="rh-val">За 15 секунд</span><span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-lead tap">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-trash-2"/></svg></span>
+        <div class="rh-grow"><div class="rh-bd">Удалять видео</div></div>
+        <span class="rh-val">Через 30 дней</span><span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Напоминания</div>
+    <div class="rh-card">
+      <button class="rh-row inset-lead tap" data-ask="push|settings|settings">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-bell"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Напомнить вечером</div>
+          <div class="rh-ft">В 20:30, если прогона за день не было</div>
+        </div>
+        <div class="switch" data-switch="push" aria-label="Напоминание"></div>
+      </button>
+      <button class="rh-row inset-lead tap">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-calendar"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">За день до выступления</div>
+          <div class="rh-ft">Презентация продукта — четверг, 13 августа</div>
+        </div>
+        <div class="switch" aria-label="Напоминание за день"></div>
+      </button>
+    </div>
+    <div class="rh-deny perm-hidden" data-show-denied="push">Уведомления выключены. План на сегодня остаётся на главном экране.</div>
+
+    <div class="rh-sec">На этом iPhone <b>182 МБ</b></div>
+    <div class="rh-card pad">
+      <div class="rh-store" aria-label="Что занимает место">
+        <i class="va" style="width:64%;height:100%"></i>
+        <i class="vb" style="width:21%;height:100%"></i>
+        <i class="vc" style="width:15%;height:100%"></i>
+      </div>
+      <div class="rh-legend">
+        <span><i class="va" style="background:#ff6b5e"></i>Видео прогонов · 117 МБ</span>
+        <span><i class="vb" style="background:#6b6f7a"></i>Дорожки блоков · 38 МБ</span>
+        <span><i class="vc" style="background:#25272e"></i>Планы и метки · 27 МБ</span>
+      </div>
+    </div>
+    <div class="rh-card mt12">
+      <button class="rh-row inset-lead tap" data-toast="Архив подготовлен">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-share"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Экспортировать архив</div>
+          <div class="rh-ft">Планы, метки и разборы</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-lead tap">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-trash-2"/></svg></span>
+        <div class="rh-grow"><div class="rh-bd">Очистить сейчас</div></div>
+        <span class="rh-val">9 файлов</span><span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Аккаунт</div>
+    <div class="rh-card">
+      <div class="rh-row">
+        <div class="rh-grow"><div class="rh-bd">Номер</div></div>
+        <span class="rh-val rh-num">+7 900 123-45-67</span>
+      </div>
+      <button class="rh-row tap">
+        <div class="rh-grow"><div class="rh-bd">Версия</div></div>
+        <span class="rh-val">1.0 (14)</span>
+      </button>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+</div>

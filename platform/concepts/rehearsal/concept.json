@@ -52,7 +52,7 @@
     { "id": "analysis", "title": "Разбор", "type": "временная шкала", "light": false, "parent": "recording", "meta": "Темп · паузы · структура" },
     { "id": "moment", "title": "Момент выступления", "type": "push фрагмента", "light": false, "parent": "analysis", "meta": "Повтор слабого места" },
     { "id": "history", "title": "История", "type": "push из navigation bar", "light": false, "parent": "today", "meta": "Локальные прогоны · Photo" },
-    { "id": "session", "title": "Прошлый прогон", "type": "push", "light": false, "parent": "history", "meta": "Сравнение двух попыток" },
+    { "id": "session", "title": "Экран блокировки", "type": "системная поверхность", "light": false, "parent": "history", "meta": "Now Playing · фоновая дорожка блока" },
     { "id": "settings", "title": "Настройки", "type": "sheet из navigation bar", "light": false, "parent": "today", "meta": "Приватность и данные" }
   ],
   "prototypes": [

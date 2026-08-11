@@ -1,10 +1,98 @@
 <div class="screen rh-screen" id="scr-analysis">
-  <div class="rh-nav"><button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Репетиция</span></button><b>Разбор</b><span></span></div>
-  <div class="rh-scroll"><div class="rh-score"><div><span>Время</span><b>07:24</b><small>+24 сек</small></div><div class="rh-ring"><b>84</b><span>из 100</span></div></div>
-    <div class="rh-sec-label">Временная шкала</div>
-    <div class="rh-timeline"><div class="rh-time-head"><span>0:00</span><span>7:24</span></div><div class="rh-track"><i class="calm"></i><i class="late"></i><i class="calm"></i><i class="mark"></i></div><div class="rh-time-labels"><span>Проблема</span><span>Решение</span><span>Шаг</span></div></div>
-    <button class="rh-finding tap" data-go="moment"><span class="rh-alert-dot"></span><div><b>Блок «Решение» длиннее плана</b><small>3:00 по плану · 3:38 фактически</small></div><svg class="ico-svg"><use href="#i-chevron-right"/></svg></button>
-    <div class="rh-metrics"><div><span>3</span><b>метки</b></div><div><span>2</span><b>перехода</b></div><div><span>1</span><b>повтор</b></div></div>
-    <button class="rh-secondary tap" data-go="setup">Повторить репетицию</button>
-  </div><div class="home-ind"></div>
+  <div class="rh-nav">
+    <button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Прогон</span></button>
+    <b>Разбор</b>
+    <button class="rh-act tap" data-toast="Разбор сохранён">Готово</button>
+  </div>
+
+  <div class="rh-scroll has-dock">
+    <div class="rh-verdict">
+      <div class="rh-verdict-top">
+        <b>7:24</b>
+        <span class="rh-delta">+0:24</span>
+      </div>
+      <p class="rh-sub mt4">План 7:00 · три блока в регламенте, один вышел за него</p>
+
+      <div class="rh-tl" aria-label="Блоки: план и факт">
+        <div class="rh-tl-row">
+          <span>Контекст</span>
+          <div class="rh-tl-bar"><i style="width:36%"></i><b style="left:40%"></b></div>
+          <em>1:12</em>
+        </div>
+        <div class="rh-tl-row">
+          <span>Проблема</span>
+          <div class="rh-tl-bar"><i style="width:53%"></i><b style="left:51%"></b></div>
+          <em>1:44</em>
+        </div>
+        <div class="rh-tl-row">
+          <span>Решение</span>
+          <div class="rh-tl-bar"><i class="over" style="width:100%"></i><b style="left:81%"></b></div>
+          <em class="over">3:18</em>
+        </div>
+        <div class="rh-tl-row">
+          <span>Следующий шаг</span>
+          <div class="rh-tl-bar"><i style="width:35%"></i><b style="left:40%"></b></div>
+          <em>1:10</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="rh-sec">Что смотреть</div>
+    <div class="rh-card">
+      <button class="rh-row multi inset-lead tap" data-go="moment">
+        <span class="rh-lead hot"><svg class="ico-svg"><use href="#i-triangle-alert"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-hd">«Решение» длиннее плана на 38 секунд</div>
+          <div class="rh-ft">02:06–05:24 · дольше, чем в трёх прошлых прогонах</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row multi inset-lead tap" data-go="moment">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-pin"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-hd">Три метки внутри одного блока</div>
+          <div class="rh-ft">00:36 · 01:53 · 02:41 — все в «Решении»</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row multi inset-lead tap" data-go="moment">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-clock"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-hd">«Следующий шаг» короче плана на 10 секунд</div>
+          <div class="rh-ft">06:14–07:24 · четвёртый прогон подряд</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Прогон</div>
+    <div class="rh-facts">
+      <div class="rh-fact"><b>14</b><span>прогон по теме</span></div>
+      <div class="rh-fact"><b>3</b><span>метки</span></div>
+      <div class="rh-fact"><b>−0:48</b><span>к первому</span></div>
+    </div>
+
+    <div class="rh-sec">Рядом</div>
+    <div class="rh-card">
+      <div class="rh-row inset-mark">
+        <div class="rh-mark over"><b>+72</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Воскресенье, 8:12</div>
+          <div class="rh-ft">«Решение» 4:02 · 5 меток</div>
+        </div>
+      </div>
+      <div class="rh-row inset-mark">
+        <div class="rh-mark under"><b>−12</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Четверг, 6:48</div>
+          <div class="rh-ft">«Контекст» скомкан · 1 метка</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rh-dock">
+    <button class="rh-primary tap" data-go="setup">Повторить прогон</button>
+  </div>
+  <div class="home-ind"></div>
 </div>
