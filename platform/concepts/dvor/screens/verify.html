@@ -1,13 +1,11 @@
 <div class="screen d-page" id="scr-verify">
-            <div class="body-scroll d-scroll" style="display:flex;flex-direction:column;padding:calc(var(--safe-top) + 4px) 0 0">
+            <div class="body-scroll d-scroll d-safe d-col">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад к выбору дома">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
                 </div>
                 <div class="d-top-title sm">Проверка сети</div>
               </div>
-
-              <div class="d-lead">Имя текущей сети сверили с тем, что записано в профиле дома.</div>
 
               <div class="d-card">
                 <div class="d-row">
@@ -34,13 +32,13 @@
               <div class="d-card">
                 <div class="d-row">
                   <div class="d-row-main">
-                    <div class="d-row-title">Радиус двора</div>
+                    <div class="d-row-title">Граница двора</div>
                   </div>
                   <span class="d-row-val">150 м</span>
                 </div>
                 <div class="d-row">
                   <div class="d-row-main">
-                    <div class="d-row-title">Расстояние до дома</div>
+                    <div class="d-row-title">До дома</div>
                   </div>
                   <span class="d-row-val">38 м</span>
                 </div>
@@ -49,10 +47,6 @@
               <div class="push"></div>
               <div class="d-cta">
                 <div class="d-btn" data-activate="wifiinfo|home">Подтвердить дом</div>
-              </div>
-              <div class="d-note mute" style="padding-bottom:14px">
-                <svg class="ico-svg"><use href="#i-info"/></svg>
-                <span>Имя сети сверяется на устройстве и никуда не отправляется: в дом уходит только отметка «подтверждён».</span>
               </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>

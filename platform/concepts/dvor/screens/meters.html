@@ -1,5 +1,5 @@
 <div class="screen d-page" id="scr-meters">
-            <div class="body-scroll d-scroll" style="display:flex;flex-direction:column;padding-top:calc(var(--safe-top) + 4px)">
+            <div class="body-scroll d-scroll d-safe d-col">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад к двору">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
@@ -11,10 +11,10 @@
                 <div class="d-row">
                   <span class="d-bul orange" aria-hidden="true"><svg class="ico-svg"><use href="#i-clock"/></svg></span>
                   <div class="d-row-main">
-                    <div class="d-row-title">Передать до 25 апреля</div>
-                    <div class="d-row-sub">осталось 6 дней</div>
+                    <div class="d-row-title">Срок показаний</div>
+                    <div class="d-row-sub">до 25 апреля</div>
                   </div>
-                  <span class="d-row-val warn">6 дн</span>
+                  <span class="d-row-val warn">6 дней</span>
                 </div>
               </div>
 
@@ -63,8 +63,8 @@
                 <div class="d-row" data-activate="remotenotif|background" aria-label="Обновлять показания и срок в фоне">
                   <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-rotate-cw"/></svg></span>
                   <div class="d-row-main">
-                    <div class="d-row-title">Обновлять в фоне</div>
-                    <div class="d-row-sub wrap">Тихий пуш обновит срок и виджет, пока приложение закрыто</div>
+                    <div class="d-row-title">Обновление в фоне</div>
+                    <div class="d-row-sub wrap">последний запуск 04:12</div>
                   </div>
                   <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
                 </div>
@@ -75,10 +75,6 @@
               </div>
 
               <div class="push"></div>
-              <div class="d-note mute" style="padding-bottom:14px">
-                <svg class="ico-svg"><use href="#i-info"/></svg>
-                <span>Показания хранятся на устройстве, срок до 25 апреля приложение считает само. Отправка в УК — через системный share sheet, ничего не уходит в обход вас.</span>
-              </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>
           </div>

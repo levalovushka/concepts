@@ -1,5 +1,5 @@
 <div class="screen d-night" id="scr-background">
-            <div class="body-scroll d-scroll" style="padding-top:calc(var(--safe-top) + 4px)">
+            <div class="body-scroll d-scroll d-safe">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад к счётчикам">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
@@ -51,7 +51,7 @@
                 <div class="d-row" data-activate="bgtask|meters" aria-label="Проверить фоновую задачу">
                   <div class="d-row-main">
                     <div class="d-row-title" style="color:#fff">Проверить задачу</div>
-                    <div class="d-row-sub wrap" style="color:#9AA3B2">Идентификатор в Info.plist совпадает с регистрацией в коде</div>
+                    <div class="d-row-sub wrap" style="color:#9AA3B2">зарегистрирована</div>
                   </div>
                   <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
                 </div>
@@ -59,7 +59,7 @@
 
               <div class="d-note mute" style="color:#9AA3B2;padding-bottom:14px">
                 <svg class="ico-svg"><use href="#i-info"/></svg>
-                <span>Без зарегистрированного идентификатора задача не запустится вообще: строка в Info.plist и вызов BGTaskScheduler.register должны совпасть до символа.</span>
+                <span>Info.plist · app.dvor.refresh</span>
               </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>

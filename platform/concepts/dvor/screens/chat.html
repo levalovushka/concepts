@@ -1,5 +1,5 @@
 <div class="screen d-chatbg" id="scr-chat">
-            <div style="padding-top:calc(var(--safe-top) + 4px);background-color:#fff;flex:none">
+            <div class="d-head">
               <div class="d-top" style="padding-bottom:6px">
                 <div class="d-back tap" data-back aria-label="Назад к чатам">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
@@ -19,14 +19,29 @@
                 <span class="d-icon sm mute" aria-hidden="true"><svg class="ico-svg"><use href="#i-pin"/></svg></span>
                 <div class="d-row-main">
                   <div class="d-bub-name" style="margin-bottom:0">Старший по подъезду</div>
-                  <div class="d-row-sub">Код от новой калитки — 4417, поменяли 3 апреля</div>
+                  <div class="d-row-sub">Код калитки 4417</div>
                 </div>
                 <span class="d-pin-x" aria-hidden="true"><svg class="ico-svg"><use href="#i-x"/></svg></span>
               </div>
               <div class="d-topline"></div>
             </div>
 
-            <div class="body-scroll">
+            <div class="body-scroll d-col">
+              <div class="d-card" style="margin-top:4px;max-width:86%;margin-left:auto;margin-right:auto">
+                <div class="d-row" data-activate="commnotif|lockscreen" aria-label="Показывать как сообщение">
+                  <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-badge-check"/></svg></span>
+                  <div class="d-row-main">
+                    <div class="d-row-title">Показывать как сообщение</div>
+                    <div class="d-row-sub wrap">С аватаром соседа</div>
+                  </div>
+                  <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+                </div>
+                <div class="d-note perm-hidden" data-show-denied="mic,speech">
+                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+                  <span>Без микрофона — только текст</span>
+                </div>
+              </div>
+
               <div class="d-msgs">
                 <div class="d-msg">
                   <div class="d-ava sm" aria-hidden="true"><div class="ph"></div></div>
@@ -59,21 +74,6 @@
                     <div class="d-script" data-hide-denied="speech">Мастер приедет в четверг после двух, я его встречу, ключ от щитовой у меня.</div>
                     <div class="d-bub-foot"><span class="d-bub-time">08:26</span></div>
                   </div>
-                </div>
-              </div>
-
-              <div class="d-card" style="margin-top:4px;max-width:86%;margin-left:auto;margin-right:auto">
-                <div class="d-row" data-activate="commnotif|lockscreen" aria-label="Показывать как сообщение">
-                  <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-badge-check"/></svg></span>
-                  <div class="d-row-main">
-                    <div class="d-row-title">Показывать как сообщение</div>
-                    <div class="d-row-sub wrap">С аватаром соседа и в сводке Focus, а не обычным уведомлением</div>
-                  </div>
-                  <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
-                </div>
-                <div class="d-note perm-hidden" data-show-denied="mic,speech">
-                  <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
-                  <span>Микрофон или распознавание речи закрыты — кнопка записи убрана, остаётся текстовое сообщение.</span>
                 </div>
               </div>
             </div>

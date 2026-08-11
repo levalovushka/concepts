@@ -55,29 +55,25 @@
 .d-page { background-color: var(--d-page); color: var(--d-ink); }
 .d-night { background-color: var(--d-dark); color: #E1E3E6; }
 .d-scroll { padding-bottom: 12px; }
+/* Отступ под статус-бар и вертикальная колонка: до этого их прописывали
+   инлайном на каждом экране — 19 и 9 раз соответственно, и каждый раз
+   немного по-своему. */
+.d-safe { padding-top: calc(var(--safe-top) + 10px); }
+.d-col { display: flex; flex-direction: column; }
+/* Белая шапка, прижатая к верху экрана: chat, post, problem, chronicle и voice
+   изобрели её инлайном каждый по-своему. */
+.d-head { padding-top: calc(var(--safe-top) + 10px); background-color: #fff; flex: none; }
 
-/* ——— брендовая капсула вверху экрана ————————————————————————————————
-   Приём Base Kit: цветная пилюля с маркой в самой верхней строке. У нас
-   статус-бар рисует ядро, поэтому капсула — первый ряд самого экрана. */
+/* Марка приложения в виджете. Раньше это была часть брендовой капсулы вверху
+   экрана — капсулу убрали: в референсе она живёт в строке статус-бара, обнимая
+   Dynamic Island, а отдельным рядом под статус-баром такого элемента не бывает. */
 
-.d-caprow {
-  display: flex; align-items: center; justify-content: center;
-  padding: 6px 0 2px;
-}
-.d-cap {
-  display: flex; align-items: center; gap: 7px;
-  height: 30px; padding: 0 13px 0 8px;
-  border-radius: 15px;
-  background-color: var(--accent-fill); color: #fff;
-}
-.d-cap-mark {
+.d-widget-ico {
   width: 20px; height: 20px; border-radius: 6px;
-  background-color: rgba(255, 255, 255, .22);
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; flex: none;
+  background-color: var(--accent-fill); color: #fff;
+  display: flex; align-items: center; justify-content: center; flex: none;
 }
-.d-cap-mark svg { width: 13px; height: 13px; }
-.d-cap-word { font-size: 15px; font-weight: 700; letter-spacing: -.2px; }
+.d-widget-ico svg { width: 13px; height: 13px; }
 
 /* ——— шапка экрана ——————————————————————————————————————————————————
    Заголовок 22/800 слева с шевроном-дропдауном, акцентные аутлайн-иконки
@@ -170,10 +166,13 @@
   display: flex; align-items: center; justify-content: center; color: #fff;
 }
 .d-bul svg { width: 19px; height: 19px; stroke-width: 2; }
-.d-bul.accent { background-color: var(--accent-fill); }
-.d-bul.green { background-color: var(--d-green); }
-.d-bul.orange { background-color: var(--d-orange); }
-.d-bul.mute { background-color: var(--d-mute); }
+/* Цвет плашки означает ровно одно: насыщенная заливка — строка запрашивает
+   доступ, тинт — обычная строка, зелёная и оранжевая — статус. Пока акцентом
+   красили всё подряд, цвет не различал ничего. */
+.d-bul { background-color: rgba(91, 76, 224, .1); color: var(--accent-fill); }
+.d-bul.accent { background-color: var(--accent-fill); color: #fff; }
+.d-bul.green { background-color: var(--d-green); color: #fff; }
+.d-bul.orange { background-color: var(--d-orange); color: #fff; }
 
 /* ——— аватары ——————————————————————————————————————————————————— */
 

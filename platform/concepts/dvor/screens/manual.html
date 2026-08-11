@@ -1,5 +1,5 @@
 <div class="screen d-page" id="scr-manual">
-            <div class="body-scroll d-scroll" style="display:flex;flex-direction:column;padding:calc(var(--safe-top) + 4px) 0 0">
+            <div class="body-scroll d-scroll d-safe d-col">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад к выбору дома">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
@@ -9,10 +9,10 @@
 
               <div class="d-note perm-hidden" data-show-denied="location">
                 <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
-                <span>Без геопозиции автопроверка «я дома» недоступна: заявку на адрес смотрит старший по подъезду.</span>
+                <span>Без геопозиции адрес проверит старший по подъезду</span>
               </div>
 
-              <div class="d-lead">Укажите квартиру — заявка уйдёт старшему по подъезду.</div>
+              <div class="d-lead">Заявку смотрит старший по подъезду.</div>
 
               <div class="d-card pad">
                 <div class="d-fieldrow" style="padding:0 0 8px">
@@ -43,7 +43,7 @@
               </div>
               <div class="d-note mute" style="padding-bottom:14px">
                 <svg class="ico-svg"><use href="#i-info"/></svg>
-                <span>Проверка занимает до суток. До неё ветка дома открыта в режиме чтения: объявления видны, писать нельзя.</span>
+                <span>Проверка до суток. До неё ветка дома — только чтение.</span>
               </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>

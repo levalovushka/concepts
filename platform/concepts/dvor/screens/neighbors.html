@@ -1,13 +1,11 @@
 <div class="screen d-page" id="scr-neighbors">
-            <div class="body-scroll d-scroll" style="padding-top:calc(var(--safe-top) + 4px)">
+            <div class="body-scroll d-scroll d-safe">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад в меню">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
                 </div>
                 <div class="d-top-title sm">Соседи</div>
               </div>
-
-              <div class="d-lead">Сверяем ваши контакты со списком жильцов дома — локально, на устройстве.</div>
 
               <div class="d-card" data-hide-denied="contacts">
                 <div class="d-sec">3 совпадения</div>
@@ -39,7 +37,7 @@
 
               <div class="d-note perm-hidden" data-show-denied="contacts">
                 <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
-                <span>Контакты закрыты — совпадений не покажем. Остаётся поиск по номеру квартиры и по подъезду: план третьего подъезда ниже.</span>
+                <span>Без контактов — поиск по квартире ниже</span>
               </div>
 
               <div class="d-card">
@@ -70,11 +68,6 @@
                     <span class="d-flat joined">77</span><span class="d-flat">78</span><span class="d-flat">79</span><span class="d-flat">80</span>
                   </div>
                 </div>
-              </div>
-
-              <div class="d-note mute">
-                <svg class="ico-svg"><use href="#i-lock"/></svg>
-                <span>Адресная книга не покидает устройство: номера сверяются с уже загруженным списком жильцов, совпадения живут в памяти до выхода с экрана.</span>
               </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>
