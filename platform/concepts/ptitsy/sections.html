@@ -1,0 +1,16 @@
+<!-- @overview:vision -->
+<p class="deck">«Птицы» помогает узнать вид в тот момент, когда связь хуже всего: {{INSIGHT}}.</p>
+<div class="utp-box"><strong>Ценность.</strong> {{TAGLINE}}. Колода подсказывает, кого искать сейчас, распознавание работает локально, а голос остаётся слышен с погасшим экраном.</div>
+{{FEAT_GRID}}
+<!-- @end -->
+<!-- @overview:arch -->
+<p class="deck">После входа по номеру приложение открывает сезонную подборку. Собственного API и синхронизации нет; контент читается из установленного пакета.</p>
+<div class="flow"><span class="chip">Сезонная колода</span><span class="arr">→</span><span class="chip">Определить</span><span class="arr">→</span><span class="chip">Камера / снимок / признаки</span></div>
+<div class="flow"><span class="chip">Карточка вида</span><span class="arr">→</span><span class="chip">Голос</span><span class="arr">→</span><span class="chip">Now Playing</span></div>
+<div class="flow"><span class="chip">Справочник</span><span class="arr">→</span><span class="chip">Алфавит</span><span class="arr">→</span><span class="chip">Локальная карточка</span></div>
+<div class="arch" style="margin-top:var(--s-lg)"><div class="arch-layer"><h3>UI</h3><p>Сезонная подборка · режим определения · карточка вида · полноэкранное аудио · библиотека.</p></div><div class="arch-layer"><h3>Domain</h3><p>Bird · SeasonPack · FieldMark · Voice · Observation · Release</p></div><div class="arch-layer"><h3>Services</h3><p>PhoneAuth · Permissions · VisionClassifier · MediaPicker · Playback · ReleaseNotification</p></div><div class="arch-layer"><h3>Data</h3><p>Bundle — справочник и аудио. SwiftData — локальные наблюдения. <strong>Своего API нет.</strong></p></div><div class="arch-layer"><h3>Внешнее</h3><p>SDK входа по номеру · APNs-провайдер сезонного выпуска.</p></div></div>
+<!-- @end -->
+<section class="section" id="perm-matrix"><h2>Матрица доступов</h2><p class="deck">Четыре возможности возникают только после понятного действия. На входе системных запросов нет.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Почему продукт работает без своего бэкенда</h2><p class="deck">Основной сценарий замкнут на устройстве; сеть не участвует в распознавании, справочнике и воспроизведении.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и доступы</h2><p class="deck">IA строится вокруг сезонной колоды и определения, а не вокруг стандартного трёхвкладочного tab bar.</p>{{SCREEN_TABLE}}</section>
+<section class="section" id="tokens"><h2>Дизайн-токены</h2><div class="feat-grid"><div class="feat"><b>Палитра</b><span>Мох, шалфей, бумажный крем и небесный голубой</span></div><div class="feat"><b>Структура</b><span>Сезонная подборка, bottom sheet, редакционная карточка и отдельная библиотека</span></div><div class="feat"><b>Визуалы</b><span>Контентные изображения обозначены системным плейсхолдером .ph</span></div><div class="feat"><b>Текст</b><span>Обычный регистр, без принудительного uppercase</span></div></div></section>
