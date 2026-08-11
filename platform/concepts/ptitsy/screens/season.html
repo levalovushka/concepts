@@ -1,19 +1,87 @@
 <div class="screen ios-surface" id="scr-season" style="background:#f6f3e8">
   <div class="pt-season-head">
-    <div><div class="pt-kicker">Август · степной парк</div><h1>Сейчас рядом</h1></div>
+    <div>
+      <div class="pt-kicker">18 августа · степной парк</div>
+      <h1>Сейчас рядом</h1>
+    </div>
     <div class="icon-btn tap" data-go="releases" aria-label="Сезонные выпуски"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
   </div>
+
   <div class="body-scroll pt-season-body">
-    <div class="pt-seg" aria-label="Разделы"><button class="is-on">Сезон</button><button data-go="library">Справочник</button></div>
-    <div class="pt-deck">
-      <div class="pt-bird-card pt-card-main tap" data-go="bird">
-        <div class="ph" style="position:absolute;inset:0 0 132px" aria-label="Место для изображения зяблика"></div>
-        <div class="pt-card-copy"><span>Чаще всего слышно утром</span><h2>Зяблик</h2><p>Короткая звонкая фраза с росчерком в конце</p></div>
-      </div>
-      <div class="pt-bird-card pt-card-back"><div class="ph" style="position:absolute;inset:0" aria-label="Место для следующего вида"></div></div>
+    <div class="pt-seg" aria-label="Разделы">
+      <button class="is-on">Сезон</button><button class="tap" data-go="library">Справочник</button>
     </div>
-    <div class="pt-season-note"><span>6 видов в сезонном выпуске</span><span>Работает без связи</span></div>
+
+    <button class="pt-idcard tap" data-go="identify">
+      <svg class="ico-svg"><use href="#i-scan-line"/></svg>
+      <div>
+        <b>Определить птицу</b>
+        <span>По кадру или по снимку из «Фото»</span>
+      </div>
+      <span class="ios-disclosure" style="background:rgba(255,255,255,.6)"></span>
+    </button>
+
+    <div class="pt-sec">Поют сейчас <b>утро, тихо</b></div>
+    <div class="pt-list">
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения зяблика"></div>
+        <div class="pt-species-main">
+          <b>Зяблик</b>
+          <span class="pt-seen"><svg class="ico-svg"><use href="#i-check"/></svg>Слышали здесь 6 раз</span>
+        </div>
+        <span class="pt-play quiet" aria-label="Послушать"><svg class="ico-svg"><use href="#i-play"/></svg></span>
+      </button>
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения пеночки"></div>
+        <div class="pt-species-main"><b>Пеночка-весничка</b><span>Как зяблик, но без росчерка</span></div>
+        <span class="pt-play quiet" aria-label="Послушать"><svg class="ico-svg"><use href="#i-play"/></svg></span>
+      </button>
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения черноголовки"></div>
+        <div class="pt-species-main"><b>Славка-черноголовка</b><span>Второй день на одном кусте</span></div>
+        <span class="pt-play quiet" aria-label="Послушать"><svg class="ico-svg"><use href="#i-play"/></svg></span>
+      </button>
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения жаворонка"></div>
+        <div class="pt-species-main"><b>Полевой жаворонок</b><span>Поёт в воздухе, высоко</span></div>
+        <span class="pt-new">Новый</span>
+      </button>
+    </div>
+
+    <div class="pt-sec">Дождаться сумерек</div>
+    <div class="pt-list">
+      <button class="pt-species is-quiet tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения дрозда"></div>
+        <div class="pt-species-main"><b>Певчий дрозд</b><span>Повторяет фразу дважды</span></div>
+        <span class="pt-species-when">с 19:20</span>
+      </button>
+      <button class="pt-species is-quiet tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения козодоя"></div>
+        <div class="pt-species-main"><b>Козодой</b><span>Стрекочет с просек</span></div>
+        <span class="pt-species-when">с 21:05</span>
+      </button>
+    </div>
+
+    <div class="pt-sec">Вы определили <b>12 за август</b></div>
+    <div class="pt-list">
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения зимородка"></div>
+        <div class="pt-species-main"><b>Зимородок</b><span>16 августа, старица за мостом</span></div>
+        <span class="pt-species-when">92%</span>
+      </button>
+      <button class="pt-species tap" data-go="bird">
+        <div class="pt-species-art ph" aria-label="Место для изображения жулана"></div>
+        <div class="pt-species-main"><b>Жулан</b><span>14 августа, терновник у дороги</span></div>
+        <span class="pt-species-when">78%</span>
+      </button>
+    </div>
+
+    <div class="pt-note">Выпуск «Позднее лето» — 48 видов, 61 голос</div>
   </div>
-  <div class="pt-dock"><div class="btn-filled block" data-go="identify"><svg class="ico-svg"><use href="#i-scan-line"/></svg>Определить птицу</div></div>
+
+  <div class="tabbar pt-tabbar" aria-label="Основная навигация">
+    <div class="tab is-on tap" aria-current="page"><span class="ico"><svg class="ico-svg"><use href="#i-map-pin"/></svg></span><span class="tab-label">Сезон</span></div>
+    <div class="tab tap" data-go="library"><span class="ico"><svg class="ico-svg"><use href="#i-book-open"/></svg></span><span class="tab-label">Справочник</span></div>
+  </div>
   <div class="home-ind"></div>
 </div>

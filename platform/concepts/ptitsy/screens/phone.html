@@ -1,10 +1,15 @@
 <div class="screen ios-surface" id="scr-phone" style="background:#fff">
-  <div class="body-scroll" style="display:flex;flex-direction:column;padding:calc(var(--safe-top) + 24px) var(--margin) 0">
-    <div class="auth-mark" aria-hidden="true"><svg class="ico-svg" style="width:32px;height:32px"><use href="#i-lock"/></svg></div>
-    <h1 class="t-title mt24" style="font-size:28px;line-height:34px">Вход в «Птицы»</h1>
-    <p class="t-subhead mt8">Номер сохраняет доступ к установленным сезонным выпускам при повторном входе.</p>
-    <div class="ios-list mt24"><div class="row"><div class="auth-cc">+7</div><input class="field-input auth-num" type="text" value="900 123-45-67" readonly aria-label="Номер телефона"></div></div>
-    <div class="group-foot wide">Оператор может взять плату за SMS.</div>
-    <div class="push"></div><div class="cta-col" style="padding-left:0;padding-right:0"><div class="btn-filled block" data-go="code">Получить код</div><p class="t-footnote" style="text-align:center;margin:0">Продолжая, вы принимаете условия и политику конфиденциальности.</p></div>
-  </div><div class="home-ind" aria-hidden="true"></div>
+  <div class="body-scroll auth">
+    <div class="auth-mark" aria-hidden="true"></div>
+    <h1 class="auth-title">Вход</h1>
+    <p class="auth-lede">Пришлём код в SMS. Номер нужен, чтобы определения и загруженные выпуски остались с вами при смене телефона.</p>
+    <div class="auth-field">
+      <input class="auth-num" type="text" value="+7 900 123-45-67" readonly aria-label="Номер телефона">
+    </div>
+    <div class="auth-actions">
+      <div class="btn-filled block tap" data-go="code">Получить код</div>
+      <p class="auth-legal">Продолжая, вы принимаете условия использования и политику конфиденциальности</p>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
 </div>

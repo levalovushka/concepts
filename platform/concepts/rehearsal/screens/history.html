@@ -1,6 +1,88 @@
-<div class="screen rh-screen" id="scr-history"><div class="rh-nav"><button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Сегодня</span></button><b>История</b><span></span></div>
-  <div class="rh-scroll"><div class="rh-history-head"><div><b>6</b><span>репетиций за неделю</span></div><div class="rh-mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-    <button class="rh-import tap" data-ask="photo|analysis|history"><svg class="ico-svg"><use href="#i-images"/></svg><div><b>Импортировать видео</b><span>Один файл из «Фото»</span></div><svg class="ico-svg"><use href="#i-chevron-right"/></svg></button>
-    <div class="rh-deny perm-hidden" data-show-denied="photo">Доступ к «Фото» не дан. Сохранённые репетиции по-прежнему доступны.</div>
-    <div class="rh-sec-label">Эта неделя</div><button class="rh-session-row tap" data-go="session"><div class="rh-session-mark">84</div><div><b>Презентация продукта</b><span>Сегодня · 7:24 · 3 метки</span></div><svg class="ico-svg"><use href="#i-chevron-right"/></svg></button><button class="rh-session-row"><div class="rh-session-mark muted">76</div><div><b>Презентация продукта</b><span>Вчера · 8:12 · 5 меток</span></div></button>
-  </div><div class="home-ind"></div></div>
+<div class="screen rh-screen" id="scr-history">
+  <div class="rh-nav">
+    <button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Сегодня</span></button>
+    <b>История</b>
+    <span></span>
+  </div>
+
+  <div class="rh-scroll">
+    <div class="rh-hist-head">
+      <b class="rh-num">14</b>
+      <p>прогонов «Презентации продукта» с 21 июля</p>
+      <div class="rh-week" aria-label="Длительность прогонов">
+        <i style="height:64%"></i><i style="height:100%"></i><i style="height:82%"></i><i style="height:58%"></i><i style="height:76%"></i><i style="height:44%"></i><i style="height:62%"></i>
+      </div>
+      <p class="rh-ft mt8">Первый — 8:41, сегодняшний — 7:24</p>
+    </div>
+
+    <div class="rh-sec">Эта неделя</div>
+    <div class="rh-card">
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark over"><b>+24</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Сегодня, 09:12</div>
+          <div class="rh-ft rh-hot">Не разобран · 7:24 · 3 метки</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark over"><b>+72</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Воскресенье, 21:40</div>
+          <div class="rh-ft">8:12 · 5 меток · с видео</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark under"><b>−12</b><span>сек</span></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Четверг, 08:05</div>
+          <div class="rh-ft">6:48 · 1 метка · «Контекст» скомкан</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark"><b>7:31</b></div>
+        <div class="rh-grow">
+          <div class="rh-hd">Вторник, 19:26</div>
+          <div class="rh-ft">Прерван на «Решении» · без разбора</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Июль</div>
+    <div class="rh-card">
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark"><b>7:58</b></div>
+        <div class="rh-grow">
+          <div class="rh-hd">30 июля, 22:03</div>
+          <div class="rh-ft">Тогда в плане было 3 блока</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <button class="rh-row inset-mark tap" data-go="analysis">
+        <div class="rh-mark"><b>8:41</b></div>
+        <div class="rh-grow">
+          <div class="rh-hd">21 июля, 18:47</div>
+          <div class="rh-ft">Первый прогон · без плана</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Со стороны</div>
+    <div class="rh-card">
+      <button class="rh-row inset-lead tap" data-ask="photo|analysis|history">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-images"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Импортировать видео</div>
+          <div class="rh-ft">Разберём по блокам этого плана</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+    </div>
+    <div class="rh-deny perm-hidden" data-show-denied="photo">Нет доступа к «Фото». В истории остаются прогоны, снятые в приложении.</div>
+  </div>
+  <div class="home-ind"></div>
+</div>

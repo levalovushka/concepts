@@ -1,7 +1,33 @@
 <div class="screen rh-screen" id="scr-recording">
-  <div class="rh-record-top"><span class="rh-live"><i></i>Идёт запись</span><button class="rh-text tap" data-go="analysis">Завершить</button></div>
-  <div class="rh-record-body"><div class="rh-clock">02:18</div><div class="rh-target">из 07:00</div><div class="rh-pulse"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="rh-current"><span>Сейчас</span><b>Решение</b><div><i style="width:10%"></i></div><small>До следующего блока 2:42</small></div>
-    <button class="rh-marker tap" data-toast="Момент отмечен"><svg class="ico-svg"><use href="#i-plus"/></svg>Отметить момент</button>
-  </div><button class="rh-pause tap" data-go="paused"><svg class="ico-svg"><use href="#i-pause"/></svg></button><div class="home-ind"></div>
+  <div class="rh-run-top">
+    <span class="rh-live"><i></i>Идёт прогон</span>
+    <button class="rh-text tap" data-go="analysis">Завершить</button>
+  </div>
+
+  <div class="rh-run-body">
+    <div class="rh-clock">03:12</div>
+    <div class="rh-target">из 07:00 · осталось 3:48</div>
+
+    <div class="rh-segbar" aria-label="Блоки прогона">
+      <i class="done" style="flex:19"></i><i class="done" style="flex:24"></i><i class="now" style="flex:38"></i><i style="flex:19"></i>
+    </div>
+
+    <div class="rh-now-block">
+      <b>Решение</b>
+      <span class="rh-val rh-num">1:08 / 2:40</span>
+    </div>
+    <div class="rh-now-next">Дальше — «Следующий шаг», 1:20</div>
+
+    <div class="rh-marks" aria-label="Отмеченные моменты">
+      <div><time>02:41</time><span>Потерял мысль на примере</span></div>
+      <div><time>01:53</time><span>Долгая пауза</span></div>
+      <div><time>00:36</time><span>Сбился на цифрах</span></div>
+    </div>
+  </div>
+
+  <div class="rh-run-foot">
+    <button class="rh-marker tap" data-toast="Момент отмечен · 03:12"><svg class="ico-svg"><use href="#i-pin"/></svg>Отметить</button>
+    <button class="rh-round tap" data-go="paused" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></button>
+  </div>
+  <div class="home-ind"></div>
 </div>

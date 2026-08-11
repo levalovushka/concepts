@@ -1,10 +1,10 @@
 <div class="screen d-page" id="scr-settings">
-            <div class="body-scroll d-scroll" style="padding-top:calc(var(--safe-top) + 4px)">
+            <div class="body-scroll d-scroll d-safe">
               <div class="d-top">
                 <div class="d-back tap" data-back aria-label="Назад в меню">
                   <svg class="ico-svg"><use href="#i-chevron-left"/></svg>
                 </div>
-                <div class="d-top-title sm">Настройки и доступы</div>
+                <div class="d-top-title sm">Настройки</div>
               </div>
 
               <div class="d-sec">Мой дом</div>
@@ -13,14 +13,14 @@
                   <span class="d-bul green" aria-hidden="true"><svg class="ico-svg"><use href="#i-badge-check"/></svg></span>
                   <div class="d-row-main">
                     <div class="d-row-title">Полевая, 12, кв. 74</div>
-                    <div class="d-row-sub wrap">дом подтверждён по сети Polevaya-12</div>
+                    <div class="d-row-sub wrap">3 подъезд · дом подтверждён</div>
                   </div>
                 </div>
                 <div class="d-row" data-go="verify" aria-label="Проверить домашнюю сеть заново">
-                  <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
+                  <span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
                   <div class="d-row-main">
-                    <div class="d-row-title">Проверить сеть заново</div>
-                    <div class="d-row-sub wrap">если сменили роутер</div>
+                    <div class="d-row-title">Домашняя сеть</div>
+                    <div class="d-row-sub wrap">Polevaya-12</div>
                   </div>
                   <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
                 </div>
@@ -29,7 +29,7 @@
               <div class="d-sec">Уведомления</div>
               <div class="d-card">
                 <div class="d-row">
-                  <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-bell"/></svg></span>
+                  <span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-bell"/></svg></span>
                   <div class="d-row-main">
                     <div class="d-row-title">Уведомления о темах</div>
                   </div>
@@ -39,15 +39,15 @@
                   <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-rotate-cw"/></svg></span>
                   <div class="d-row-main">
                     <div class="d-row-title">Обновление в фоне</div>
-                    <div class="d-row-sub wrap">объявления и срок показаний готовы к первому открытию</div>
+                    <div class="d-row-sub wrap">раз в сутки</div>
                   </div>
                   <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
                 </div>
                 <div class="d-row" data-activate="appgroups|widget" aria-label="Виджет на экран «Домой»">
                   <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-layout-grid"/></svg></span>
                   <div class="d-row-main">
-                    <div class="d-row-title">Виджет на экран «Домой»</div>
-                    <div class="d-row-sub wrap">ближайший срок и отключения</div>
+                    <div class="d-row-title">Виджет на экране «Домой»</div>
+                    <div class="d-row-sub wrap">не добавлен</div>
                   </div>
                   <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
                 </div>
@@ -59,7 +59,7 @@
                   <span class="d-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-scan-face"/></svg></span>
                   <div class="d-row-main">
                     <div class="d-row-title">Замок Face ID</div>
-                    <div class="d-row-sub wrap">в приложении адрес, номера квартир и коды</div>
+                    <div class="d-row-sub wrap">выключено</div>
                   </div>
                   <div class="switch" data-switch="faceid"></div>
                 </div>
@@ -67,31 +67,26 @@
                   <span class="d-bul orange" aria-hidden="true"><svg class="ico-svg"><use href="#i-megaphone"/></svg></span>
                   <div class="d-row-main">
                     <div class="d-row-title">Реклама и отслеживание</div>
-                    <div class="d-row-sub wrap">бесплатно за счёт местной рекламы</div>
+                    <div class="d-row-sub wrap">выключено</div>
                   </div>
                   <div class="switch" data-switch="tracking"></div>
                 </div>
               </div>
 
-              <div class="d-sec">Данные</div>
+              <div class="d-sec">Дом сейчас</div>
               <div class="d-card">
                 <div class="d-kv">
-                  <span class="d-kv-k">Своего сервера</span>
-                  <span class="d-kv-v">нет</span>
+                  <span class="d-kv-k">Жильцов в подъезде</span>
+                  <span class="d-kv-v">18</span>
                 </div>
                 <div class="d-kv">
-                  <span class="d-kv-k">База и чат</span>
-                  <span class="d-kv-v text">Firestore, SDK</span>
+                  <span class="d-kv-k">Показания</span>
+                  <span class="d-kv-v text">до 25 апреля</span>
                 </div>
                 <div class="d-kv">
-                  <span class="d-kv-k">Показания и хроника</span>
-                  <span class="d-kv-v text">на устройстве</span>
+                  <span class="d-kv-k">Горячая вода</span>
+                  <span class="d-kv-v text">14–17 апреля</span>
                 </div>
-              </div>
-
-              <div class="d-note mute">
-                <svg class="ico-svg"><use href="#i-info"/></svg>
-                <span>Все доступы запрашиваются в момент действия, а не на старте. Отказ ничего не ломает — у каждого есть путь без доступа.</span>
               </div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>

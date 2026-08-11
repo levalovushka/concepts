@@ -14,11 +14,20 @@
     "accentDark": "#e8a75e",
     "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
   },
-  "start": "archive",
+  "start": "phone",
   "tabs": [
-    { "id": "archive", "label": "Архив" },
-    { "id": "shelf", "label": "Полка" },
-    { "id": "settings", "label": "Профиль" }
+    {
+      "id": "archive",
+      "label": "Архив"
+    },
+    {
+      "id": "shelf",
+      "label": "Полка"
+    },
+    {
+      "id": "settings",
+      "label": "Профиль"
+    }
   ],
   "permissions": [
     {
@@ -119,21 +128,139 @@
     }
   ],
   "screens": [
-    { "id": "archive", "title": "Архив", "type": "tab (root, старт)", "light": true, "meta": "Каталог оцифрованного" },
-    { "id": "record", "title": "Пластинка", "type": "push", "light": true, "parent": "archive", "meta": "Стороны A и B · матрица" },
-    { "id": "player", "title": "Сторона A", "type": "fullscreen", "light": false, "parent": "record", "meta": "Background audio" },
-    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "player", "meta": "Now Playing" },
-    { "id": "scan", "title": "Этикетка", "type": "fullscreen", "light": false, "parent": "archive", "meta": "Camera · on-device" },
-    { "id": "scanfound", "title": "Совпадение в архиве", "type": "modal", "light": true, "parent": "scan", "meta": "Распознано с этикетки" },
-    { "id": "scanfail", "title": "Этикетка не читается", "type": "modal (ошибка)", "light": true, "parent": "scan", "meta": "OCR не справился · ввод вручную" },
-    { "id": "notfound", "title": "Нет в архиве", "type": "modal (ошибка)", "light": true, "parent": "scanfail", "meta": "Не оцифровано · в «Розыск»" },
-    { "id": "pick", "title": "Галерея", "type": "system picker", "light": true, "parent": "scan", "meta": "Photo Library · PHPicker" },
-    { "id": "shelf", "title": "Полка", "type": "tab (root)", "light": true, "meta": "Свои пластинки и «Розыск»" },
-    { "id": "copy", "title": "Экземпляр", "type": "push", "light": true, "parent": "shelf", "meta": "Состояние · фото конверта" },
-    { "id": "want", "title": "Розыск", "type": "push", "light": true, "parent": "shelf", "meta": "Матрицы, которых нет в архиве" },
-    { "id": "settings", "title": "Профиль", "type": "tab (root)", "light": true, "meta": "Push · ссылки · фон" },
-    { "id": "deeplink", "title": "Universal Link", "type": "modal", "light": true, "parent": "settings", "meta": "shellac.app/rec/…" },
-    { "id": "web", "title": "Форум в Safari", "type": "чужое приложение", "light": true, "parent": "want", "meta": "Момент тапа по ссылке" }
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP · автоподстановка"
+    },
+    {
+      "id": "archive",
+      "title": "Архив",
+      "type": "tab (root, старт)",
+      "light": true,
+      "meta": "Каталог оцифрованного",
+      "parent": "code"
+    },
+    {
+      "id": "record",
+      "title": "Пластинка",
+      "type": "push",
+      "light": true,
+      "parent": "archive",
+      "meta": "Стороны A и B · матрица"
+    },
+    {
+      "id": "player",
+      "title": "Сторона A",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "record",
+      "meta": "Background audio"
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "parent": "player",
+      "meta": "Now Playing"
+    },
+    {
+      "id": "scan",
+      "title": "Этикетка",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "archive",
+      "meta": "Camera · on-device"
+    },
+    {
+      "id": "scanfound",
+      "title": "Совпадение в архиве",
+      "type": "modal",
+      "light": true,
+      "parent": "scan",
+      "meta": "Распознано с этикетки"
+    },
+    {
+      "id": "scanfail",
+      "title": "Этикетка не читается",
+      "type": "modal (ошибка)",
+      "light": true,
+      "parent": "scan",
+      "meta": "OCR не справился · ввод вручную"
+    },
+    {
+      "id": "notfound",
+      "title": "Нет в архиве",
+      "type": "modal (ошибка)",
+      "light": true,
+      "parent": "scanfail",
+      "meta": "Не оцифровано · в «Розыск»"
+    },
+    {
+      "id": "pick",
+      "title": "Галерея",
+      "type": "system picker",
+      "light": true,
+      "parent": "scan",
+      "meta": "Photo Library · PHPicker"
+    },
+    {
+      "id": "shelf",
+      "title": "Полка",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Свои пластинки и «Розыск»"
+    },
+    {
+      "id": "copy",
+      "title": "Экземпляр",
+      "type": "push",
+      "light": true,
+      "parent": "shelf",
+      "meta": "Состояние · фото конверта"
+    },
+    {
+      "id": "want",
+      "title": "Розыск",
+      "type": "push",
+      "light": true,
+      "parent": "shelf",
+      "meta": "Матрицы, которых нет в архиве"
+    },
+    {
+      "id": "settings",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Push · ссылки · фон"
+    },
+    {
+      "id": "deeplink",
+      "title": "Universal Link",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "shellac.app/rec/…"
+    },
+    {
+      "id": "web",
+      "title": "Форум в Safari",
+      "type": "чужое приложение",
+      "light": true,
+      "parent": "want",
+      "meta": "Момент тапа по ссылке"
+    }
   ],
   "prototypes": [
     {
@@ -141,10 +268,39 @@
       "hero": true,
       "label": "Весь продукт",
       "note": "Все пятнадцать экранов и все пять доступов",
-      "start": "archive",
+      "start": "phone",
       "screens": [
-        "archive", "record", "player", "background", "scan", "scanfound", "scanfail",
-        "notfound", "pick", "shelf", "copy", "want", "settings", "deeplink", "web"
+        "phone",
+        "code",
+        "archive",
+        "record",
+        "player",
+        "background",
+        "scan",
+        "scanfound",
+        "scanfail",
+        "notfound",
+        "pick",
+        "shelf",
+        "copy",
+        "want",
+        "settings",
+        "deeplink",
+        "web"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход по номеру",
+      "note": "Номер, SMS-код и переход в архив",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "archive"
+      ],
+      "stops": [
+        "archive"
       ]
     },
     {
@@ -152,38 +308,84 @@
       "label": "Навёл камеру — заиграла",
       "note": "Главный путь: этикетка в кадре, совпадение в архиве, сторона в фоне",
       "start": "archive",
-      "screens": ["archive", "scan", "scanfound", "record", "player", "background", "pick", "scanfail"],
-      "stops": ["pick", "scanfail"]
+      "screens": [
+        "archive",
+        "scan",
+        "scanfound",
+        "record",
+        "player",
+        "background",
+        "pick",
+        "scanfail"
+      ],
+      "stops": [
+        "pick",
+        "scanfail"
+      ]
     },
     {
       "id": "side",
       "label": "Сторона до конца",
       "note": "Три минуты стороны при погасшем экране — доступ audio целиком",
       "start": "record",
-      "screens": ["record", "player", "background"]
+      "screens": [
+        "record",
+        "player",
+        "background"
+      ]
     },
     {
       "id": "miss",
       "label": "Не распозналось и нет в архиве",
       "note": "Стёртая этикетка, ручной ввод матрицы, «Розыск» и ссылка с форума",
       "start": "scan",
-      "screens": ["scan", "scanfail", "notfound", "want", "web", "scanfound", "pick"],
-      "stops": ["scanfound", "pick"]
+      "screens": [
+        "scan",
+        "scanfail",
+        "notfound",
+        "want",
+        "web",
+        "scanfound",
+        "pick"
+      ],
+      "stops": [
+        "scanfound",
+        "pick"
+      ]
     },
     {
       "id": "shelfp",
       "label": "Полка: экземпляр и конверт",
       "note": "Фото конверта из галереи — второй путь доступа к «Фото»",
       "start": "shelf",
-      "screens": ["shelf", "copy", "pick", "scanfound", "want", "player"],
-      "stops": ["scanfound", "want", "player"]
+      "screens": [
+        "shelf",
+        "copy",
+        "pick",
+        "scanfound",
+        "want",
+        "player"
+      ],
+      "stops": [
+        "scanfound",
+        "want",
+        "player"
+      ]
     },
     {
       "id": "links",
       "label": "Профиль: ссылки, пуш, фон",
       "note": "Четыре доступа из одного раздела — каждая строка ведёт к своей фиче",
       "start": "settings",
-      "screens": ["settings", "deeplink", "want", "web", "record", "player", "background"]
+      "screens": [
+        "settings",
+        "deeplink",
+        "want",
+        "web",
+        "record",
+        "player",
+        "background"
+      ]
     }
   ],
   "backendless": [
@@ -225,10 +427,86 @@
     }
   ],
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" }
-  ]
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Шеллак: архив пластинок",
+    "subtitle": "Наведите камеру на этикетку",
+    "promo": "Наведите камеру на этикетку — и сторона заиграет целиком. 2 418 сторон шеллачных пластинок до 1929 года, все в общественном достоянии.",
+    "keywords": "пластинки,граммофон,патефон,78,матрица,оцифровка,старинн,романс,коллекция,этикетка",
+    "category": {
+      "primary": "Music",
+      "secondary": "Reference"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка пака и системные APNs",
+    "urls": {
+      "support": "https://shellac.app/support",
+      "marketing": "https://shellac.app",
+      "privacy": "https://shellac.app/privacy"
+    },
+    "description": [
+      "«Шеллак» — архив шеллачных пластинок для тех, у кого пластинка на руках есть, а проигрывателя нет.",
+      "ПЛАСТИНКА ПО ЭТИКЕТКЕ\nНаведите камеру на этикетку: лейбл, название и матричный номер распознаются на устройстве, сторона находится в архиве и играет целиком.",
+      "СТОРОНА ЦЕЛИКОМ\nНикаких дорожек и перемотки вперёд: сторона играет от иглы до выхода, как на патефоне. Две дорожки — реставрированная и с сохранённым шумом иглы.",
+      "ПОЛКА И РОЗЫСК\nЧто есть на руках — с состоянием экземпляра, фото конверта и заметкой. Чего в архиве нет — попадает в «Розыск» и сверяется при каждом обновлении пака.",
+      "БЕЗ УЧЁТНОЙ ЗАПИСИ\nВход по номеру нужен, чтобы полка и розыск остались за вами при смене телефона. Ни ленты, ни подписок, ни комментариев."
+    ],
+    "whatsNew": "Первая версия: архив на 2 418 сторон, распознавание этикетки, полка и розыск.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление полки через SDK провайдера аутентификации"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Push-токен: сообщение о том, что номер из «Розыска» оцифрован"
+      },
+      {
+        "type": "Фото",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Снимок этикетки и фото конверта остаются на устройстве; распознавание — on-device"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Тестовый номер принимает код 0000; SMS не отправляется."
+    }
+  }
 }

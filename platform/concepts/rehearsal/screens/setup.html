@@ -1,10 +1,102 @@
 <div class="screen rh-screen" id="scr-setup">
-  <div class="rh-nav"><button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Сегодня</span></button><b>Настройка</b><span></span></div>
-  <div class="rh-scroll"><div class="rh-sec-label">Цель</div><div class="rh-field"><span>Презентация продукта</span><svg class="ico-svg"><use href="#i-chevron-right"/></svg></div>
-    <div class="rh-sec-label">Длительность</div><div class="rh-duration"><button>5</button><button class="is-on">7 мин</button><button>10</button></div>
-    <div class="rh-sec-label">План</div><div class="rh-blocks"><div><i style="--w:29%"></i><b>Проблема</b><span>2:00</span></div><div><i style="--w:44%"></i><b>Решение</b><span>3:00</span></div><div><i style="--w:27%"></i><b>Шаг</b><span>2:00</span></div></div>
-    <button class="rh-secondary tap" data-ask="camera|frame|setup"><svg class="ico-svg"><use href="#i-video"/></svg>Проверить кадр</button>
-    <div class="rh-deny perm-hidden" data-show-denied="camera">Камера недоступна. Можно продолжить только с таймером.</div>
+  <div class="rh-nav">
+    <button class="rh-back tap" data-back><svg class="ico-svg"><use href="#i-chevron-left"/></svg><span>Сегодня</span></button>
+    <b>Настройка</b>
+    <button class="rh-act strong tap" data-toast="План сохранён">Готово</button>
   </div>
-  <div class="rh-bottom"><button class="rh-primary tap" data-go="recording">Начать по таймеру</button></div><div class="home-ind"></div>
+
+  <div class="rh-scroll has-dock">
+    <div class="rh-card">
+      <button class="rh-row tap">
+        <div class="rh-grow"><div class="rh-bd">Тема</div></div>
+        <span class="rh-val">Презентация продукта</span><span class="rh-chev"></span>
+      </button>
+      <button class="rh-row tap">
+        <div class="rh-grow"><div class="rh-bd">Дата</div></div>
+        <span class="rh-val">Чт, 13 августа</span><span class="rh-chev"></span>
+      </button>
+    </div>
+
+    <div class="rh-sec">Регламент <b>сумма блоков 7:00</b></div>
+    <div class="rh-seg" role="group" aria-label="Регламент">
+      <button>5 мин</button><button class="is-on">7 мин</button><button>10 мин</button><button>15 мин</button>
+    </div>
+
+    <div class="rh-sec">План <b>4 блока</b></div>
+    <div class="rh-card">
+      <div class="rh-block">
+        <span class="rh-block-n">1</span>
+        <div class="rh-grow">
+          <div class="rh-bd">Контекст</div>
+          <span class="rh-block-hint">В прошлый раз 1:12</span>
+        </div>
+        <span class="rh-val rh-num">1:20</span>
+        <span class="rh-grip"><svg class="ico-svg"><use href="#i-menu"/></svg></span>
+      </div>
+      <div class="rh-block">
+        <span class="rh-block-n">2</span>
+        <div class="rh-grow">
+          <div class="rh-bd">Проблема</div>
+          <span class="rh-block-hint">В прошлый раз 1:44</span>
+        </div>
+        <span class="rh-val rh-num">1:40</span>
+        <span class="rh-grip"><svg class="ico-svg"><use href="#i-menu"/></svg></span>
+      </div>
+      <div class="rh-block">
+        <span class="rh-block-n">3</span>
+        <div class="rh-grow">
+          <div class="rh-bd">Решение</div>
+          <span class="rh-block-hint warn">В прошлый раз 3:38 — на 38 секунд дольше</span>
+        </div>
+        <span class="rh-val rh-num">2:40</span>
+        <span class="rh-grip"><svg class="ico-svg"><use href="#i-menu"/></svg></span>
+      </div>
+      <div class="rh-block">
+        <span class="rh-block-n">4</span>
+        <div class="rh-grow">
+          <div class="rh-bd">Следующий шаг</div>
+          <span class="rh-block-hint">В прошлый раз 0:50</span>
+        </div>
+        <span class="rh-val rh-num">1:20</span>
+        <span class="rh-grip"><svg class="ico-svg"><use href="#i-menu"/></svg></span>
+      </div>
+      <button class="rh-row tap">
+        <div class="rh-grow"><div class="rh-bd rh-hot">Добавить блок</div></div>
+      </button>
+    </div>
+
+    <div class="rh-sec">Прогон</div>
+    <div class="rh-card">
+      <button class="rh-row inset-lead tap" data-ask="camera|frame|setup">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-video"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Проверить кадр</div>
+          <div class="rh-ft">Высота, горизонт и свет</div>
+        </div>
+        <span class="rh-chev"></span>
+      </button>
+      <div class="rh-row inset-lead">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-clock"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Сигнал блока</div>
+          <div class="rh-ft">Вибрация за 15 секунд до границы</div>
+        </div>
+        <div class="switch is-on" aria-label="Сигнал включён"></div>
+      </div>
+      <div class="rh-row inset-lead">
+        <span class="rh-lead"><svg class="ico-svg"><use href="#i-eye"/></svg></span>
+        <div class="rh-grow">
+          <div class="rh-bd">Скрыть таймер</div>
+          <div class="rh-ft">Секунды появятся только на границе</div>
+        </div>
+        <div class="switch" aria-label="Таймер виден"></div>
+      </div>
+    </div>
+    <div class="rh-deny perm-hidden" data-show-denied="camera">Нет доступа к камере. Прогон пойдёт по таймеру, без кадра.</div>
+  </div>
+
+  <div class="rh-dock">
+    <button class="rh-primary tap" data-go="recording"><svg class="ico-svg"><use href="#i-play"/></svg>Начать прогон</button>
+  </div>
+  <div class="home-ind"></div>
 </div>
