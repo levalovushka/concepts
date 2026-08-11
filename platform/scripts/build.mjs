@@ -66,7 +66,13 @@ const docsLinks = (spec) =>
 
 const titleOf = (spec, id) => spec.screens.find((s) => s.id === id)?.title || id;
 
-/** «Скачать все (ZIP)» должен содержать те же документы, что лежат рядом. */
+/**
+ * «Скачать все (ZIP)» должен содержать те же документы, что лежат рядом, плюс
+ * скриншоты экранов папкой `screenshots/`: экраны в index.html живут разметкой,
+ * а не картинками, поэтому унести кадр в презентацию или в тикет можно только
+ * из архива. Пути внутри архива берутся от cwd, поэтому zip запускается из
+ * каталога, содержимое которого попадёт в архив.
+ */
 function packDocs(slug, dir) {
   const docs = join(dir, 'docs');
   if (!existsSync(docs)) return;
@@ -74,6 +80,10 @@ function packDocs(slug, dir) {
   try {
     rmSync(join(docs, zip), { force: true });
     execFileSync('zip', ['-q', zip, ...readdirSync(docs).filter((f) => f.endsWith('.md'))], { cwd: docs });
+    const assets = join(dir, 'assets');
+    if (existsSync(join(assets, 'screenshots'))) {
+      execFileSync('zip', ['-r', '-q', join(docs, zip), 'screenshots'], { cwd: assets });
+    }
   } catch {
     console.warn(`внимание: не удалось пересобрать ${zip} — нужен CLI zip`);
   }

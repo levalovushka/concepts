@@ -13,16 +13,21 @@ import { join } from 'node:path';
 import { DIST, ROOT, conceptDir, readSpec, listConcepts, esc } from './lib.mjs';
 import { build } from './build.mjs';
 
-/* Архив доков пересобираем на каждой сборке — иначе он тихо устаревает. */
-function packDocs(slug) {
-  const docs = join(conceptDir(slug), 'docs');
+/**
+ * Состав архива только считаем для лога — собирает его `packDocs` внутри
+ * build.mjs. Раньше сборка архива была продублирована здесь, и дубль затирал
+ * работу оригинала: build() вызывается после, поэтому в архив попадали только
+ * доки, сколько бы файлов ни насчитал этот код.
+ */
+function countKit(slug) {
+  const dir = conceptDir(slug);
+  const docs = join(dir, 'docs');
   if (!existsSync(docs)) return null;
-  const zip = join(docs, `${slug}-docs.zip`);
-  rmSync(zip, { force: true });
-  const mds = readdirSync(docs).filter((f) => f.endsWith('.md')).sort();
-  if (!mds.length) return null;
-  execFileSync('zip', ['-j', '-q', zip, ...mds.map((f) => join(docs, f))]);
-  return mds.length;
+  const shotsDir = join(dir, 'assets', 'screenshots');
+  return {
+    docs: readdirSync(docs).filter((f) => f.endsWith('.md')).length,
+    shots: existsSync(shotsDir) ? readdirSync(shotsDir).filter((f) => f.endsWith('.png')).length : 0,
+  };
 }
 
 const gallery = (items) => `<!doctype html>
@@ -85,13 +90,14 @@ mkdirSync(DIST, { recursive: true });
 
 const items = [];
 for (const slug of slugs) {
-  const n = packDocs(slug);
   const { spec, bytes } = build(slug);
+  const n = countKit(slug);
   items.push({
     slug, name: spec.name, tagline: spec.tagline, start: spec.start,
     perms: spec.permissions.length, screens: spec.screens.length, targetSet: spec.targetSet || '—',
   });
-  console.log(`  ${slug}: ${(bytes / 1024).toFixed(0)} КБ · ${spec.screens.length} экранов · ${spec.permissions.length} доступов${n ? ` · доки ${n}` : ''}`);
+  const archive = n ? ` · архив: доки ${n.docs}, скриншоты ${n.shots}` : '';
+  console.log(`  ${slug}: ${(bytes / 1024).toFixed(0)} КБ · ${spec.screens.length} экранов · ${spec.permissions.length} доступов${archive}`);
 }
 
 writeFileSync(join(DIST, 'index.html'), gallery(items));
