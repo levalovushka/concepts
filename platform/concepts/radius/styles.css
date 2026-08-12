@@ -3816,6 +3816,74 @@
 .screen[data-screen="phone"] .rd-auth-copy,
 .screen[data-screen="code"] .rd-auth-copy { margin-top: 52px !important; }
 
+/* Final optical pass: subscriptions use product chips, not story rings. */
+.screen[data-screen="subscriptions"] .rd-storyrail {
+  gap: 14px !important;
+  padding: 10px 16px 12px !important;
+}
+.screen[data-screen="subscriptions"] .rd-story {
+  width: 58px !important;
+  min-width: 58px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #f2f3f5 !important;
+  font-size: 11px !important;
+  line-height: 14px !important;
+  font-weight: 510 !important;
+  text-align: center !important;
+}
+.screen[data-screen="subscriptions"] .rd-story-ring {
+  width: 50px !important;
+  height: 50px !important;
+  margin: 0 auto 6px !important;
+  padding: 2px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: linear-gradient(145deg, #ff5c4d, #ff8a70) !important;
+}
+.screen[data-screen="subscriptions"] .rd-story-ring > div {
+  width: 46px !important;
+  height: 46px !important;
+  border: 2px solid #0a0a0a !important;
+  border-radius: 50% !important;
+  background: #303033 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+.screen[data-screen="subscriptions"] .rd-notify {
+  min-height: 62px !important;
+  margin: 8px 16px 10px !important;
+  padding: 0 12px !important;
+  border-radius: 14px !important;
+  background: #202020 !important;
+}
+.screen[data-screen="subscriptions"] .rd-notify-copy {
+  gap: 0 !important;
+}
+.screen[data-screen="subscriptions"] .rd-notify-copy strong {
+  line-height: 16px !important;
+}
+.screen[data-screen="subscriptions"] .rd-notify-copy span {
+  margin-top: 0 !important;
+  line-height: 14px !important;
+}
+
+/* Clip controls share one optical baseline around the content block. */
+.screen[data-screen="clips"] .rd-clips-switch {
+  font-size: 18px !important;
+  line-height: 22px !important;
+  font-weight: 650 !important;
+}
+.screen[data-screen="clips"] .rd-clip-copy {
+  bottom: 104px !important;
+}
+.screen[data-screen="clips"] .rd-clip-actions {
+  bottom: 96px !important;
+}
+
 .screen[data-screen="deeplink"] .rd-nav {
   height: 52px !important;
   min-height: 52px !important;
