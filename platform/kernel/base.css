@@ -717,6 +717,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
    Лента уходит под края экрана: отрицательные margin гасятся паддингом. */
 .sec-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:0 2px 8px; }
 .sec-more { flex:none; font:400 15px/20px var(--face); color:var(--accent-fill); white-space:nowrap; }
+/* Значение, а не переход: акцентным остаётся только то, что нажимается. */
+.sec-more.is-plain { color:var(--ios-secondary); }
 .hscroll {
   display:flex; gap:12px; overflow-x:auto; scrollbar-width:none;
   margin-left:calc(-1 * var(--margin)); margin-right:calc(-1 * var(--margin));

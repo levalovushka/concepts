@@ -40,11 +40,10 @@
 .st-pad { padding: 0 16px 24px; }
 .screen:not(:has(.tabbar)) .st-pad { padding-bottom: calc(var(--safe-bottom) + 20px); }
 
-.st-sec {
-  margin-top: 26px; margin-bottom: 7px; padding: 0 2px;
-  font: 500 13px/18px var(--face); letter-spacing: -.01em; color: var(--st-sub);
-}
-.st-foot { padding: 9px 2px 0; font: 400 13px/18px var(--face); color: var(--st-mute); }
+/* Секция: заголовок из ядра (.sec-head) плюс отбивка. Второго стиля
+   заголовка нет — мелкий серый и крупный чёрный на одном экране читались
+   как две разные системы. */
+.st-group { margin-top: 26px; }
 .st-meta {
   font: 400 13px/17px var(--face); letter-spacing: -.01em; color: var(--st-mute);
   font-variant-numeric: tabular-nums;
@@ -54,6 +53,12 @@
 /* —— список: белая страница, разделитель во всю ширину —— */
 .st-list { margin-left: -16px; margin-right: -16px; }
 .st-list .row::after { background: var(--st-line); left: 16px; right: 0; height: .5px; }
+/* Инсет разделителя = левый край текста, а не значение ядра для иконки 29 */
+.st-list .row:has(.st-idx)::after { left: 46px; }
+.st-list .row:has(.st-key)::after, .st-list .row:has(.st-let)::after { left: 58px; }
+.st-list .row:has(.st-date)::after { left: 62px; }
+/* Полоса загрузки заканчивается там же, где текст, а не под значением справа */
+.st-list .dl-bar { margin-right: 12px; }
 /* Плотность первоисточника: Headline 16/20 против ячейки iOS 17/22 */
 .st-list .t-headline { font: 500 16px/20px var(--face); letter-spacing: -.02em; }
 /* Строка — контент, а не пункт настроек: текст переносится, а не режется. */
@@ -63,11 +68,6 @@
 /* —— шапка раздела и номера —— */
 
 
-.st-num {
-  width: 28px; flex: none; text-align: right;
-  font: 400 13px/20px var(--mono); color: var(--st-mute); font-variant-numeric: tabular-nums;
-}
-.st-num.is-on { color: var(--accent-fill); font-weight: 500; }
 .st-date {
   width: 34px; flex: none; text-align: right;
   font: 500 12px/20px var(--mono); color: var(--st-mute);
@@ -96,7 +96,6 @@
   font: 500 12px/17px var(--face); letter-spacing: -.01em; white-space: nowrap;
 }
 .st-flag.is-soft { background-color: var(--st-warn-bg); color: var(--st-warn); }
-.st-flag.is-cut { background-color: rgba(120,120,128,.13); color: #2C2D2E; }
 .st-flag.is-new {
   background-color: color-mix(in srgb, var(--accent-fill) 12%, transparent); color: var(--accent-fill);
 }
@@ -214,28 +213,24 @@
 .st-loop-ico .ico-svg { width: 18px; height: 18px; }
 .st-loop-n { flex: none; font: 400 12px/16px var(--mono); color: rgba(255,255,255,.5); }
 
-.st-cues { margin-top: 14px; }
-.st-cue {
-  display: flex; align-items: baseline; gap: 10px; padding: 8px 0;
-  border-bottom: .5px solid rgba(255,255,255,.10);
-  font: 400 14px/19px var(--face); color: rgba(255,255,255,.62);
-}
-.st-cue:last-child { border-bottom: 0; }
-.st-cue span {
-  flex: none; width: 34px; font: 400 12px/19px var(--mono); color: rgba(255,255,255,.42);
-  font-variant-numeric: tabular-nums;
-}
-.st-cue b { flex: none; width: 13px; font: 500 12px/19px var(--mono); color: rgba(255,255,255,.7); }
-.st-cue.is-on { color: #fff; }
-.st-cue.is-on span, .st-cue.is-on b { color: var(--st-rose); }
-.st-pl-foot {
-  margin: 0; text-align: center; font: 400 12px/17px var(--face); color: rgba(255,255,255,.45);
-}
 
 .st-pl-pages { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
 .st-pl-page { width: 46px; height: 61px; border-radius: 6px; flex: none; }
 .st-pl-pages-txt { flex: 1; min-width: 0; font: 400 12px/16px var(--face); color: rgba(255,255,255,.55); }
 .st-pl-pages-txt b { display: block; font: 500 13px/18px var(--face); color: #fff; }
+
+.st-pl-sec {
+  margin-top: 16px; font: 500 11px/15px var(--mono); letter-spacing: .07em;
+  text-transform: uppercase; color: rgba(255,255,255,.45);
+}
+.st-pl-notes { margin-top: 6px; }
+.st-pl-note {
+  display: flex; gap: 10px; padding: 9px 0;
+  border-bottom: .5px solid rgba(255,255,255,.10);
+  font: 400 14px/19px var(--face); color: rgba(255,255,255,.78);
+}
+.st-pl-note:last-child { border-bottom: 0; }
+.st-pl-note span { flex: none; min-width: 42px; font: 500 12px/19px var(--mono); color: var(--st-rose); }
 
 /* —— локскрин: Now Playing и уведомление —— */
 .st-lock-clock { text-align: center; padding-top: 6px; }
@@ -342,8 +337,8 @@
 .st-card-sub { margin-top: 3px; font: 400 12px/16px var(--face); color: rgba(255,255,255,.82); }
 
 /* —— карточка горизонтальной ленты —— */
-.st-cc { width: 128px; }
-.st-cc-face { height: 128px; border-radius: 12px; }
+.st-cc { width: 104px; }
+.st-cc-face { height: 104px; border-radius: 10px; }
 .st-cc-title {
   margin-top: 7px; font: 500 14px/18px var(--face); letter-spacing: -.01em; color: #000;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;

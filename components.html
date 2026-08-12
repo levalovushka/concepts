@@ -1859,6 +1859,7 @@
   }
   .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 2px 8px; }
   .sec-more { flex: none; font: 400 15px/20px var(--face); color: var(--accent); }
+  .sec-more.is-plain { color: rgba(60,60,67,.6); }
   .hscroll { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px; }
   .hscroll::-webkit-scrollbar { display: none; }
   .hscroll > * { flex: none; }
@@ -4579,6 +4580,7 @@
             <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
               <div><span style="color:var(--page-ink);font-weight:600">Segbar</span> — разделы верхнего уровня, 15 Semibold, активный подчёркнут акцентом 2pt. Не путать с <code>.ios-segmented</code>: та пилюля переключает режим списка внутри экрана</div>
               <div><span style="color:var(--page-ink);font-weight:600">Sec-head</span> — заголовок секции + «Показать все» справа, baseline-выравнивание</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Sec-more</span> — акцентный, когда нажимается; <code>.is-plain</code> серый, когда это просто значение («37 страниц»). Иначе весь правый столбец выглядит кликабельным</div>
               <div><span style="color:var(--page-ink);font-weight:600">Hscroll</span> — лента уходит под края: margin −16, padding 16. Скроллбар скрыт</div>
               <div><span style="color:var(--page-ink);font-weight:600">Mini player</span> — h56 между <code>.body-scroll</code> и <code>.tabbar</code>, в потоке, а не поверх. Обложка 40 r6, две строки, пауза, «ещё», полоса прогресса 2pt по низу</div>
               <div><span style="color:var(--page-ink);font-weight:600">Правило</span> — плашка стоит только там, где что-то играет; иначе фоновое аудио видно лишь на своём экране</div>
