@@ -1,18 +1,105 @@
 <div class="screen rd-screen" id="scr-profile">
-  <div class="rd-profile-head"><div class="rd-profile-headtop"><div class="rd-hit"><svg class="rd-icon"><use href="#i-settings"/></svg></div></div><div class="rd-profile-id"><div class="rd-avatar">АЯ</div><div><h1>Алексей Яров</h1><p>@yarov · Алматы</p></div></div><div class="rd-profile-stats"><div><strong>12</strong><span>видео</span></div><div><strong>1,8K</strong><span>подписчиков</span></div><div><strong>34</strong><span>места</span></div></div></div>
-  <div class="body-scroll rd-library">
-    <h2>Ваша библиотека</h2>
-    <div class="rd-library-row" data-go="saved"><div class="rd-library-ico"><svg class="rd-icon"><use href="#i-bookmark"/></svg></div><div class="rd-library-copy"><strong>Сохранённые</strong><span>18 видео · 2 загружены</span></div><svg class="rd-icon sm"><use href="#i-chevron-right"/></svg></div>
-    <div class="rd-library-row"><div class="rd-library-ico"><svg class="rd-icon"><use href="#i-clock"/></svg></div><div class="rd-library-copy"><strong>История просмотра</strong><span>Сегодня и раньше</span></div><svg class="rd-icon sm"><use href="#i-chevron-right"/></svg></div>
-    <div class="rd-library-row"><div class="rd-library-ico"><svg class="rd-icon"><use href="#i-video"/></svg></div><div class="rd-library-copy"><strong>Ваши видео</strong><span>12 публикаций · 1 черновик</span></div><svg class="rd-icon sm"><use href="#i-chevron-right"/></svg></div>
-    <div class="rd-library-row"><div class="rd-library-ico"><svg class="rd-icon"><use href="#i-map-pin"/></svg></div><div class="rd-library-copy"><strong>Места</strong><span>7 подписок на районы и точки</span></div><svg class="rd-icon sm"><use href="#i-chevron-right"/></svg></div>
+  <div class="rd-safe"></div>
+  <div class="body-scroll rd-vk-profile">
+    <header>
+      <div class="rd-avatar">АЯ</div>
+      <div>
+        <h1>Алексей Яров</h1>
+        <p>Сменить аккаунт</p>
+      </div>
+      <div class="rd-profile-actions">
+        <div class="rd-hit">
+          <svg class="rd-icon"><use href="#i-bell" /></svg>
+        </div>
+        <div class="rd-hit">
+          <svg class="rd-icon"><use href="#i-settings" /></svg>
+        </div>
+      </div>
+    </header>
+    <section class="rd-profile-shelf">
+      <div class="rd-profile-section-title">
+        <h2>История просмотра</h2>
+        <span class="rd-section-link">Все</span>
+      </div>
+      <div class="rd-profile-rail">
+        <article data-go="watch">
+          <div class="rd-thumb cinema">
+            <span class="rd-duration">18:42</span>
+          </div>
+          <h3>Кино во дворе</h3>
+          <p>Соседи показывают</p>
+        </article>
+        <article data-go="watch">
+          <div class="rd-thumb bakery">
+            <span class="rd-duration">12:08</span>
+          </div>
+          <h3>Первое утро пекарни</h3>
+          <p>Улица Тихая</p>
+        </article>
+      </div>
+    </section>
+    <section class="rd-profile-shelf">
+      <div class="rd-profile-section-title">
+        <h2>Скачанные</h2>
+        <span class="rd-section-link" data-go="saved">Все</span>
+      </div>
+      <div class="rd-profile-rail">
+        <article data-go="saved">
+          <div class="rd-thumb sea"><span class="rd-duration">27:10</span></div>
+          <h3>Дорога вдоль моря</h3>
+          <p>Край</p>
+        </article>
+        <article data-go="saved">
+          <div class="rd-thumb cinema">
+            <span class="rd-duration">18:42</span>
+          </div>
+          <h3>Четыре дома</h3>
+          <p>Сохранено</p>
+        </article>
+      </div>
+    </section>
+    <section class="rd-profile-shelf">
+      <div class="rd-profile-section-title">
+        <h2>Понравившиеся</h2>
+        <span class="rd-section-link">Все</span>
+      </div>
+      <div class="rd-profile-rail">
+        <article>
+          <div class="rd-thumb bakery">
+            <span class="rd-duration">0:46</span>
+          </div>
+          <h3>Хлеб из печи</h3>
+          <p>Улица Тихая</p>
+        </article>
+      </div>
+    </section>
   </div>
-  <div class="tabbar light rd-tabs" aria-label="Основная навигация">
-    <div class="tab" data-go="home"><span class="ico"><svg class="rd-icon"><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div>
-    <div class="tab" data-go="clips"><span class="ico"><svg class="rd-icon"><use href="#i-video"/></svg></span><span class="tab-label">Клипы</span></div>
-    <div class="tab" data-go="create"><span class="ico rd-create-ico"><svg class="rd-icon"><use href="#i-plus"/></svg></span><span class="tab-label">Создать</span></div>
-    <div class="tab" data-go="subscriptions"><span class="ico"><svg class="rd-icon"><use href="#i-users"/></svg></span><span class="tab-label">Подписки</span></div>
-    <div class="tab is-on" data-go="profile"><span class="ico"><svg class="rd-icon"><use href="#i-user"/></svg></span><span class="tab-label">Профиль</span></div>
+  <div class="tabbar rd-tabs">
+    <div class="tab" data-go="home">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab" data-go="clips">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-video" /></svg></span
+      ><span class="tab-label">Клипы</span>
+    </div>
+    <div class="tab" data-go="create">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-plus" /></svg></span
+      ><span class="tab-label">Создать</span>
+    </div>
+    <div class="tab" data-go="subscriptions">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Подписки</span>
+    </div>
+    <div class="tab is-on" data-go="profile">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </div>
   </div>
-  <div class="home-ind" aria-hidden="true"></div>
+  <div class="home-ind"></div>
 </div>
