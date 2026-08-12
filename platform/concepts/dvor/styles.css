@@ -523,7 +523,7 @@
 .d-plan-bld {
   position: absolute; background-color: #B9C2CE; border-radius: 3px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; color: #4A5462;
+  font-size: 11px; font-weight: 800; color: #3C4653;
 }
 .d-plan-bld.mine { background-color: var(--accent-fill); color: #fff; }
 .d-plan-zone {
@@ -531,7 +531,7 @@
   background-color: rgba(75, 179, 75, .3);
   border: 1px dashed rgba(30, 110, 30, .5);
   display: flex; align-items: flex-end; padding: 3px;
-  font-size: 9px; font-weight: 700; color: #2C6B2C;
+  font-size: 11px; font-weight: 700; color: #245A24;
 }
 .d-plan-me {
   position: absolute; width: 14px; height: 14px; border-radius: 50%;
@@ -571,13 +571,13 @@
 .d-floors { display: flex; flex-direction: column-reverse; gap: 2px; padding: 0 var(--d-ins) 12px; }
 .d-floor { display: flex; align-items: center; gap: 4px; }
 .d-floor-n {
-  width: 20px; font-family: var(--mono); font-size: 11px; color: var(--d-mute);
+  width: 22px; font-family: var(--mono); font-size: 11px; color: var(--d-mute);
   text-align: right; flex: none;
 }
 .d-flat {
   flex: 1; height: 22px; border-radius: 3px;
   background-color: #E7EAF0;
-  font-family: var(--mono); font-size: 10px; color: var(--d-sub);
+  font-family: var(--mono); font-size: 11px; color: var(--d-sub);
   display: flex; align-items: center; justify-content: center;
 }
 .d-flat.here { background-color: var(--accent-fill); color: #fff; font-weight: 600; }
