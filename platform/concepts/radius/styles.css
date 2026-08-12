@@ -3005,9 +3005,14 @@
   padding-top: 10px !important;
 }
 .screen[data-screen="profile"] .rd-vk-profile > header {
-  grid-template-columns: 48px minmax(0, 1fr) 44px 44px !important;
-  gap: 8px !important;
-  padding: 0 12px 12px 16px !important;
+  grid-template-columns: 48px minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+  padding: 0 16px 12px !important;
+}
+.screen[data-screen="profile"] .rd-profile-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
 }
 .screen[data-screen="profile"] .rd-vk-profile > header > .rd-avatar {
   width: 48px !important;
@@ -3033,7 +3038,19 @@
   font-size: 13px !important;
 }
 .screen[data-screen="profile"] .rd-profile-section-title {
+  position: relative !important;
   padding: 0 16px 8px !important;
+}
+.screen[data-screen="profile"] .rd-profile-section-title .rd-section-link {
+  position: absolute !important;
+  top: -11px !important;
+  right: 16px !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  justify-content: flex-end !important;
 }
 .screen[data-screen="profile"] .rd-profile-section-title h2 {
   font-size: 18px !important;
