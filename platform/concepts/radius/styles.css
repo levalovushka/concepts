@@ -3818,3 +3818,263 @@
   font-size: 15px !important;
   font-weight: 590 !important;
 }
+
+/* Product-level normalization: one density and one component vocabulary. */
+.rd-screen {
+  --rd-page: #0a0a0a;
+  --rd-surface: #1c1c1e;
+  --rd-surface-raised: #242426;
+  --rd-label: #f2f3f5;
+  --rd-secondary-label: rgba(235, 235, 245, 0.6);
+  --rd-tertiary-label: rgba(235, 235, 245, 0.38);
+  --rd-control-radius: 12px;
+  --rd-card-radius: 14px;
+  background: var(--rd-page) !important;
+  color: var(--rd-label) !important;
+}
+.rd-screen .rd-nav {
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 6px !important;
+  background: var(--rd-page) !important;
+}
+.rd-screen .rd-nav-title {
+  font-size: 17px !important;
+  line-height: 22px !important;
+  font-weight: 590 !important;
+}
+.rd-screen .rd-nav-action,
+.rd-screen .rd-section-link {
+  color: #5aa7ff !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 510 !important;
+}
+.rd-screen .rd-chip {
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 14px !important;
+  border: 0 !important;
+  border-radius: var(--rd-control-radius) !important;
+  background: #262627 !important;
+  color: rgba(235, 235, 245, 0.72) !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 510 !important;
+  white-space: nowrap !important;
+}
+.rd-screen .rd-chip.active {
+  background: #f2f3f5 !important;
+  color: #080808 !important;
+}
+.rd-screen .rd-primary,
+.rd-screen .rd-secondary {
+  min-height: 50px !important;
+  border-radius: var(--rd-control-radius) !important;
+  font-size: 15px !important;
+  line-height: 20px !important;
+  font-weight: 590 !important;
+}
+
+/* Login and verification are utility screens, not branded marketing pages. */
+.screen[data-screen="code"] .rd-auth-top {
+  display: flex !important;
+  min-height: 44px !important;
+  margin-left: -10px !important;
+}
+.screen[data-screen="code"] .rd-auth-top .rd-back {
+  justify-content: flex-start !important;
+  padding-left: 4px !important;
+}
+.screen[data-screen="code"] .rd-auth-copy {
+  margin-top: 44px !important;
+}
+.screen[data-screen="code"] .rd-otp {
+  margin-top: 32px !important;
+}
+.screen[data-screen="phone"] .rd-auth-foot,
+.screen[data-screen="code"] .rd-auth-foot {
+  margin-bottom: calc(var(--safe-bottom) - 4px) !important;
+  padding-bottom: 0 !important;
+}
+.screen[data-screen="phone"] .rd-legal {
+  margin: 10px 12px 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Picker and publishing use real controls and avoid placeholder geometry. */
+.screen[data-screen="upload"] .rd-picker {
+  padding: var(--safe-top) 12px calc(var(--safe-bottom) + 14px) !important;
+}
+.screen[data-screen="upload"] .rd-auth-top {
+  min-height: 52px !important;
+}
+.screen[data-screen="upload"] .rd-chiprail {
+  min-height: 48px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  gap: 8px !important;
+}
+.screen[data-screen="upload"] .rd-picker-grid {
+  gap: 2px !important;
+  background: transparent !important;
+}
+.screen[data-screen="upload"] .rd-picker-cell {
+  border: 0 !important;
+  border-radius: 2px !important;
+}
+.screen[data-screen="publish"] .rd-publish {
+  padding: 12px 16px calc(var(--safe-bottom) + 20px) !important;
+}
+.screen[data-screen="publish"] .rd-publish-preview {
+  border-radius: var(--rd-card-radius) !important;
+  overflow: hidden !important;
+}
+.screen[data-screen="publish"] .rd-field {
+  padding: 16px 0 14px !important;
+}
+.screen[data-screen="publish"] .rd-field label {
+  margin-bottom: 7px !important;
+  color: var(--rd-secondary-label) !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  font-weight: 510 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+.screen[data-screen="publish"] .rd-field input,
+.screen[data-screen="publish"] .rd-field textarea {
+  width: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  resize: none !important;
+  background: transparent !important;
+  color: var(--rd-label) !important;
+  font: inherit !important;
+  font-size: 15px !important;
+  line-height: 21px !important;
+}
+.screen[data-screen="publish"] .rd-publish-options {
+  margin-top: 8px !important;
+  padding: 2px 12px !important;
+  border-radius: var(--rd-card-radius) !important;
+  background: var(--rd-surface) !important;
+}
+.screen[data-screen="publish"] .rd-place-row {
+  min-height: 64px !important;
+  padding: 8px 0 !important;
+}
+.screen[data-screen="publish"] .rd-place-row + .rd-place-row {
+  border: 0 !important;
+}
+.screen[data-screen="publish"] .rd-card-icon {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+}
+
+/* Consent is a single choice, not two stacked settings rows. */
+.screen[data-screen="ads"] .rd-consent-options {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+.screen[data-screen="ads"] .rd-consent-options > div {
+  min-height: 116px !important;
+  padding: 14px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--rd-card-radius) !important;
+  background: var(--rd-surface) !important;
+}
+.screen[data-screen="ads"] .rd-consent-options > div.selected {
+  border-color: rgba(255, 255, 255, 0.72) !important;
+}
+.screen[data-screen="ads"] .rd-consent-options span {
+  margin-top: 3px !important;
+  font-size: 11px !important;
+  line-height: 15px !important;
+}
+
+/* Secondary utilities need the same quiet product density. */
+.screen[data-screen="saved"] .rd-saved {
+  padding: 12px 16px calc(var(--safe-bottom) + 18px) !important;
+}
+.screen[data-screen="saved"] .rd-saved-row {
+  gap: 12px !important;
+  padding: 7px 0 !important;
+}
+.screen[data-screen="saved"] .rd-saved-copy h3 {
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="saved"] .rd-saved-copy p {
+  margin-top: 3px !important;
+  font-size: 11px !important;
+  line-height: 15px !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy .rd-primary {
+  max-width: 160px !important;
+}
+
+/* The home indicator is an overlay and never provides layout space itself. */
+.screen[data-screen="cast"] .rd-sheet,
+.screen[data-screen="background"] .rd-now,
+.screen[data-screen="camera"] .rd-camera-controls {
+  padding-bottom: calc(var(--safe-bottom) + 14px) !important;
+}
+.screen[data-screen="cast"] .rd-device-ico {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.screen[data-screen="cast"] .rd-device {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border: 0 !important;
+}
+.screen[data-screen="cast"] .rd-sheet h2 {
+  border: 0 !important;
+}
+.screen[data-screen="cast"] .rd-secondary {
+  margin-bottom: 2px !important;
+}
+.screen[data-screen="publish"] .rd-publish,
+.screen[data-screen="upload"] .rd-picker,
+.screen[data-screen="saved"] .rd-saved,
+.screen[data-screen="deeplink"] .body-scroll {
+  padding-bottom: calc(var(--safe-bottom) + 20px) !important;
+}
+
+.screen[data-screen="upload"] .rd-auth-top {
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) 56px !important;
+  align-items: center !important;
+}
+.screen[data-screen="upload"] .rd-auth-top .rd-back {
+  margin-left: -10px !important;
+  justify-content: flex-start !important;
+  padding-left: 4px !important;
+}
+.screen[data-screen="upload"] .rd-auth-top > strong {
+  justify-self: center !important;
+  font-size: 17px !important;
+  line-height: 22px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="upload"] .rd-auth-top .rd-nav-action {
+  justify-self: end !important;
+}
+.screen[data-screen="upload"] .rd-picker-grid {
+  margin-top: 12px !important;
+}
