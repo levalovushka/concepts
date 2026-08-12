@@ -3816,7 +3816,7 @@
 .screen[data-screen="phone"] .rd-auth-copy,
 .screen[data-screen="code"] .rd-auth-copy { margin-top: 52px !important; }
 
-/* Final optical pass: subscriptions use product chips, not story rings. */
+/* Final optical pass: native story previews with quiet watched/unwatched states. */
 .screen[data-screen="subscriptions"] .rd-storyrail {
   gap: 14px !important;
   padding: 10px 16px 12px !important;
@@ -3836,22 +3836,25 @@
   text-align: center !important;
 }
 .screen[data-screen="subscriptions"] .rd-story-ring {
-  width: 50px !important;
-  height: 50px !important;
+  width: 52px !important;
+  height: 52px !important;
   margin: 0 auto 6px !important;
   padding: 2px !important;
   border: 0 !important;
   border-radius: 50% !important;
-  background: linear-gradient(145deg, #ff5c4d, #ff8a70) !important;
+  background: #ff5c4d !important;
 }
 .screen[data-screen="subscriptions"] .rd-story-ring > div {
-  width: 46px !important;
-  height: 46px !important;
+  width: 48px !important;
+  height: 48px !important;
   border: 2px solid #0a0a0a !important;
   border-radius: 50% !important;
   background: #303033 !important;
   font-size: 12px !important;
   font-weight: 700 !important;
+}
+.screen[data-screen="subscriptions"] .rd-story:nth-child(3) .rd-story-ring {
+  background: #3a3a3c !important;
 }
 .screen[data-screen="subscriptions"] .rd-notify {
   min-height: 62px !important;
@@ -3882,6 +3885,80 @@
 }
 .screen[data-screen="clips"] .rd-clip-actions {
   bottom: 96px !important;
+}
+
+/* Profile is a media library: stronger identity, larger shelves, no dashboard chrome. */
+.screen[data-screen="profile"] .rd-vk-profile {
+  padding: 12px 0 112px !important;
+}
+.screen[data-screen="profile"] .rd-vk-profile > header {
+  min-height: 68px !important;
+  padding: 0 16px 22px !important;
+  grid-template-columns: 56px minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+}
+.screen[data-screen="profile"] .rd-vk-profile > header > .rd-avatar {
+  width: 56px !important;
+  height: 56px !important;
+  background: #2c2c2e !important;
+  font-size: 18px !important;
+}
+.screen[data-screen="profile"] .rd-vk-profile > header h1 {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.02em !important;
+}
+.screen[data-screen="profile"] .rd-vk-profile > header p {
+  margin-top: 2px !important;
+  color: var(--rd-secondary-label) !important;
+  font-size: 13px !important;
+  line-height: 17px !important;
+}
+.screen[data-screen="profile"] .rd-profile-actions {
+  gap: 2px !important;
+}
+.screen[data-screen="profile"] .rd-profile-section-title {
+  padding: 0 16px 10px !important;
+}
+.screen[data-screen="profile"] .rd-profile-section-title h2 {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.02em !important;
+}
+.screen[data-screen="profile"] .rd-profile-section-title .rd-section-link {
+  top: -10px !important;
+  right: 16px !important;
+  color: #5aa7ff !important;
+  font-size: 14px !important;
+  font-weight: 510 !important;
+}
+.screen[data-screen="profile"] .rd-profile-shelf {
+  margin-bottom: 26px !important;
+}
+.screen[data-screen="profile"] .rd-profile-rail {
+  gap: 12px !important;
+}
+.screen[data-screen="profile"] .rd-profile-rail article,
+.screen[data-screen="profile"] .rd-profile-rail .rd-thumb {
+  width: 166px !important;
+}
+.screen[data-screen="profile"] .rd-profile-rail .rd-thumb {
+  height: 94px !important;
+  border-radius: 10px !important;
+}
+.screen[data-screen="profile"] .rd-profile-rail h3 {
+  margin-top: 7px !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="profile"] .rd-profile-rail p {
+  margin-top: 1px !important;
+  color: var(--rd-secondary-label) !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
 }
 
 .screen[data-screen="deeplink"] .rd-nav {

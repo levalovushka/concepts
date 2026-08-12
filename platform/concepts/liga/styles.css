@@ -3089,3 +3089,171 @@
   border: 0 !important;
   background: rgba(255,255,255,.18) !important;
 }
+
+/* Art-direction pass: one surface family, one accent role, less dashboard chrome. */
+.lx-screen {
+  --lx-bg: #090909 !important;
+  --lx-surface: #1c1c1e !important;
+  --lx-surface-2: #262628 !important;
+  --lx-secondary: rgba(235, 235, 245, 0.62) !important;
+  --lx-tertiary: rgba(235, 235, 245, 0.42) !important;
+  --lx-radius: 14px !important;
+}
+.lx-screen .lx-section > span,
+.lx-screen .lx-protocol-head > span {
+  color: var(--lx-secondary) !important;
+}
+.lx-screen .lx-eyebrow,
+.lx-screen .lx-score-top > span,
+.lx-screen .lx-rec {
+  color: #c4f455 !important;
+}
+
+/* The live card reads in three beats: status, match, supporting metadata. */
+.lx-home-v2 .lx-matchday {
+  background: var(--lx-surface) !important;
+  box-shadow: none !important;
+}
+.lx-home-v2 .lx-matchday-media {
+  height: 208px !important;
+}
+.lx-home-v2 .lx-matchday-media::after {
+  background: linear-gradient(180deg, transparent 45%, rgba(6,8,11,.88) 100%) !important;
+}
+.lx-home-v2 .lx-matchday-score {
+  left: 14px !important;
+  right: 14px !important;
+  bottom: 12px !important;
+}
+.lx-home-v2 .lx-matchday-team {
+  font-size: 15px !important;
+  line-height: 19px !important;
+}
+.lx-home-v2 .lx-matchday-team span {
+  color: rgba(255,255,255,.62) !important;
+  font-size: 10px !important;
+  line-height: 13px !important;
+}
+.lx-home-v2 .lx-bigscore {
+  font-size: 32px !important;
+  line-height: 34px !important;
+  font-weight: 720 !important;
+}
+.lx-home-v2 .lx-matchday-foot {
+  min-height: 50px !important;
+  padding: 8px 14px 9px !important;
+  background: var(--lx-surface) !important;
+}
+.lx-home-v2 .lx-agenda,
+.lx-subscribe .lx-agenda,
+.lx-screen .lx-alert,
+.lx-screen .lx-followteam,
+.lx-screen .lx-kpis,
+.lx-screen .lx-profilemenu,
+.lx-screen .lx-clubbanner,
+.lx-screen .lx-protocol,
+.lx-screen .lx-consent-options article {
+  background: var(--lx-surface) !important;
+}
+
+/* Profile rows are individual destinations, not a settings table. */
+.lx-profile-v2 {
+  padding-top: 12px !important;
+}
+.lx-profile-v2 .lx-profile-header {
+  min-height: 68px !important;
+}
+.lx-profile-v2 .lx-avatar2 {
+  width: 56px !important;
+  height: 56px !important;
+  background: #2c2c2e !important;
+}
+.lx-profile-v2 .lx-profile-identity h1 {
+  font-size: 21px !important;
+  line-height: 25px !important;
+  font-weight: 700 !important;
+}
+.lx-profile-v2 .lx-profile-tags {
+  margin-top: 12px !important;
+}
+.lx-profile-v2 .lx-profile-tags span {
+  height: 30px !important;
+  padding: 0 11px !important;
+  border-radius: 10px !important;
+  background: #252527 !important;
+  color: var(--lx-secondary) !important;
+  font-size: 12px !important;
+}
+.lx-profile-v2 .lx-kpis {
+  min-height: 76px !important;
+  margin-top: 14px !important;
+  border-radius: 14px !important;
+}
+.lx-profile-v2 .lx-profilemenu {
+  margin-top: 12px !important;
+  padding: 0 !important;
+  display: grid !important;
+  gap: 8px !important;
+  background: transparent !important;
+}
+.lx-profile-v2 .lx-profilemenu .lx-toolrow {
+  min-height: 64px !important;
+  padding: 8px 12px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: var(--lx-surface) !important;
+}
+.lx-profile-v2 .lx-toolrow i {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 11px !important;
+  background: #29292c !important;
+}
+
+/* Club and protocol screens use content hierarchy, not decoration. */
+.lx-channel .lx-clubbanner {
+  padding: 18px !important;
+  border-radius: 16px !important;
+}
+.lx-channel .lx-clubbanner::after {
+  display: none !important;
+}
+.lx-channel .lx-clubbanner h1 {
+  margin-top: 18px !important;
+  font-size: 24px !important;
+  line-height: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+}
+.lx-channel .lx-clubbanner .lx-outline {
+  min-height: 44px !important;
+  margin-top: 16px !important;
+  border-radius: 12px !important;
+}
+.lx-screen .lx-protocol {
+  border-radius: 16px !important;
+}
+.lx-screen .lx-protocol-row + .lx-protocol-row,
+.lx-screen .lx-agenda .lx-game + .lx-game {
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+/* Lime is reserved for live states and actions; navigation remains neutral. */
+.lx-screen .lx-primary2,
+.lx-screen .lx-opbtn.primary {
+  background: #c4f455 !important;
+  color: #10110f !important;
+}
+.lx-screen .lx-game-tag {
+  background: #29292c !important;
+  color: var(--lx-secondary) !important;
+}
+.lx-screen .lx-head-action,
+.lx-screen .lx-section span,
+.lx-screen .lx-protocol-head span {
+  color: var(--lx-label) !important;
+}
+.lx-home-v2 .lx-section > span,
+.lx-subscribe .lx-section > span {
+  color: var(--lx-secondary) !important;
+}
