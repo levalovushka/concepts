@@ -3812,6 +3812,10 @@
   text-align: center !important;
 }
 
+/* Authentication shares one vertical anchor; product navigation stays untouched. */
+.screen[data-screen="phone"] .rd-auth-copy,
+.screen[data-screen="code"] .rd-auth-copy { margin-top: 52px !important; }
+
 .screen[data-screen="deeplink"] .rd-nav {
   height: 52px !important;
   min-height: 52px !important;

@@ -214,7 +214,7 @@ async function run(slug) {
   /* —— сквозной пользовательский маршрут без служебных переходов ——
      Предыдущие проверки открывают экраны через галерею и поэтому не ловят
      недостижимые доступы и потерянный back-stack в реальном продукте. */
-  if (slug === 'radius') {
+  if (slug === 'radius' || slug === 'liga') {
     await reset();
     const click = async (selector) => {
       await page.click(`${H} .screen.is-on${selector}, ${H} .screen.is-on ${selector}`);
@@ -245,7 +245,8 @@ async function run(slug) {
     await click('[data-ask^="camera+mic|"]');
     await answer('grant'); await page.waitForTimeout(40);
     await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-back]');
+    if (slug === 'liga') await click('[data-go="create"]');
+    else await click('[data-back]');
     await click('[data-go="subscriptions"]');
     await click('[data-ask^="push|"]');
     await answer('grant'); await page.waitForTimeout(60);
