@@ -4,27 +4,35 @@
   "eyebrow": "Двор · Соседская сеть одного дома · iOS",
   "targetSet": "vkontakte",
   "domain": "dvor.app",
-
   "heroTitle": "Двор — соцсеть одного дома",
   "heroDeck": "Соседская сеть, в которую нельзя войти снаружи: право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию.",
   "tagline": "Не лента по интересам, а сеть по адресу: общее у соседей не вкусы, а лифт, стояк, парковка и счётчики",
   "insight": "соседи живут в двадцати метрах и не знакомы, потому что общего у них не интересы, а инфраструктура — и единственная валюта доверия здесь «ты правда живёшь здесь»",
-  "deck": "Гиперлокальная соседская сеть: 19 доступов набора ВКонтакте, ни одного своего сервера — только SDK провайдеров.",
-
+  "deck": "Гиперлокальная соседская сеть: 20 доступов набора ВКонтакте, ни одного своего сервера — только SDK провайдеров.",
   "brand": {
     "accent": "#5B4CE0",
     "accentDark": "#A99BFF",
     "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
   },
-
   "start": "phone",
   "tabs": [
-    { "id": "home", "label": "Дом" },
-    { "id": "chats", "label": "Чаты" },
-    { "id": "yard", "label": "Двор" },
-    { "id": "menu", "label": "Меню" }
+    {
+      "id": "home",
+      "label": "Дом"
+    },
+    {
+      "id": "chats",
+      "label": "Чаты"
+    },
+    {
+      "id": "yard",
+      "label": "Двор"
+    },
+    {
+      "id": "menu",
+      "label": "Меню"
+    }
   ],
-
   "permissions": [
     {
       "key": "location",
@@ -294,6 +302,26 @@
       "grounding": "ASCredentialProviderViewController, записи в Keychain общей группы; публикует их старший по дому"
     },
     {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Звонок в квартиру",
+        "text": "Entitlement без системного запроса: входящий вызов поднимает приложение через PushKit и показывается в CallKit."
+      },
+      "feature": "Звонок в квартиру, а не на номер: телефоны соседей друг другу не видны",
+      "gesture": "«Позвонить»",
+      "screen": "profile",
+      "target": "call",
+      "activate": true,
+      "fallback": "Без режима вызов приходит обычным уведомлением, и на него надо успеть открыть приложение",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit плюс CallKit и реальный звонок: без CallKit режим не защитить на review",
+      "grounding": "сигнализация через SDK провайдера (LiveKit / Agora), номер не участвует в адресации — вызов идёт на квартиру",
+      "reviewNote": "Соседи знают друг друга по квартире, а не по телефону: узнать, кто топит из 78-й, можно, а её номер — нет. Поэтому вызов адресуется квартире, номера обеих сторон не раскрываются. Входящий вызов приходит через PushKit и показывается системным интерфейсом CallKit, как обычный звонок. Тем же механизмом звонит панель на калитке, когда жильца нет дома. Аудио звонка не записывается и не хранится. Как проверить: демо-аккаунт → Меню → Соседи → Пётр, кв. 12 → «Позвонить»."
+    },
+    {
       "key": "hotspot",
       "plist": "com.apple.developer.networking.HotspotConfiguration",
       "alert": {
@@ -391,138 +419,508 @@
       "reviewNote": "ATT показывается только после экрана с объяснением, никогда на старте. Отказ ничего не отключает: реклама остаётся, но без интересов — это написано на самом экране до промпта."
     }
   ],
-
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
-    { "id": "join", "title": "Найдите свой дом", "type": "push", "light": true, "parent": "code", "meta": "Location · пропуск в дом" },
-    { "id": "verify", "title": "Проверка сети", "type": "modal", "light": true, "parent": "join", "meta": "Wi-Fi Info · SSID" },
-    { "id": "manual", "title": "Адрес вручную", "type": "push", "light": true, "parent": "join", "meta": "Fallback отказа в геопозиции" },
-
-    { "id": "home", "title": "Дом", "type": "tab (root)", "light": true, "meta": "Лента дома · Photo Library" },
-    { "id": "post", "title": "Объявление", "type": "push", "light": true, "parent": "home", "meta": "aps-environment" },
-    { "id": "problem", "title": "Сообщить о проблеме", "type": "sheet", "light": true, "parent": "home", "meta": "Camera" },
-    { "id": "shoot", "title": "Камера", "type": "системная поверхность", "light": false, "parent": "problem", "meta": "AVFoundation" },
-    { "id": "chronicle", "title": "Хроника двора", "type": "push", "light": true, "parent": "home", "meta": "Photo Library · обход библиотеки" },
-
-    { "id": "chats", "title": "Чаты", "type": "tab (root)", "light": true, "meta": "Список чатов дома" },
-    { "id": "chat", "title": "Чат подъезда", "type": "push", "light": true, "parent": "chats", "meta": "Microphone · Speech · Communication" },
-    { "id": "voice", "title": "Голосовое", "type": "sheet", "light": true, "parent": "chat", "meta": "Microphone · Speech" },
-    { "id": "lockscreen", "title": "Экран блокировки", "type": "системная поверхность", "light": false, "parent": "chat", "meta": "Communication notification" },
-
-    { "id": "yard", "title": "Двор", "type": "tab (root)", "light": true, "meta": "Схема двора · Location" },
-    { "id": "guest", "title": "Гостевая сеть", "type": "push", "light": true, "parent": "yard", "meta": "Hotspot · Camera" },
-    { "id": "scan", "title": "Сканер QR", "type": "системная поверхность", "light": false, "parent": "guest", "meta": "DataScanner" },
-    { "id": "meters", "title": "Счётчики", "type": "push", "light": true, "parent": "yard", "meta": "Remote notification" },
-    { "id": "background", "title": "Обновление в фоне", "type": "системная поверхность", "light": false, "parent": "meters", "meta": "Background fetch · BGTaskScheduler" },
-    { "id": "events", "title": "События дома", "type": "push", "light": true, "parent": "yard", "meta": "Calendars Full Access" },
-
-    { "id": "menu", "title": "Меню", "type": "tab (root)", "light": true, "meta": "Плитки разделов · Contacts" },
-    { "id": "passwords", "title": "Пароли дома", "type": "push", "light": true, "parent": "menu", "meta": "AutoFill Credential Provider" },
-    { "id": "fill", "title": "Автозаполнение в Safari", "type": "системная поверхность", "light": true, "parent": "passwords", "meta": "ASCredentialProvider" },
-    { "id": "neighbors", "title": "Соседи из контактов", "type": "push", "light": true, "parent": "menu", "meta": "Contacts · локальная сверка" },
-    { "id": "profile", "title": "Профиль соседа", "type": "push", "light": true, "parent": "menu", "meta": "Карточка жильца" },
-    { "id": "settings", "title": "Настройки", "type": "push", "light": true, "parent": "menu", "meta": "Push · Face ID · фон · виджет" },
-    { "id": "ads", "title": "Реклама", "type": "modal", "light": true, "parent": "settings", "meta": "ATT после объяснения" },
-    { "id": "lock", "title": "Замок Face ID", "type": "системная поверхность", "light": false, "parent": "settings", "meta": "LocalAuthentication" },
-    { "id": "widget", "title": "Виджет на экране «Домой»", "type": "системная поверхность", "light": false, "parent": "settings", "meta": "App Groups · Keychain" }
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP · автоподстановка"
+    },
+    {
+      "id": "join",
+      "title": "Найдите свой дом",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Location · пропуск в дом"
+    },
+    {
+      "id": "verify",
+      "title": "Проверка сети",
+      "type": "modal",
+      "light": true,
+      "parent": "join",
+      "meta": "Wi-Fi Info · SSID"
+    },
+    {
+      "id": "manual",
+      "title": "Адрес вручную",
+      "type": "push",
+      "light": true,
+      "parent": "join",
+      "meta": "Fallback отказа в геопозиции"
+    },
+    {
+      "id": "home",
+      "title": "Дом",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Лента дома · Photo Library"
+    },
+    {
+      "id": "post",
+      "title": "Объявление",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "aps-environment"
+    },
+    {
+      "id": "problem",
+      "title": "Сообщить о проблеме",
+      "type": "sheet",
+      "light": true,
+      "parent": "home",
+      "meta": "Camera"
+    },
+    {
+      "id": "shoot",
+      "title": "Камера",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "problem",
+      "meta": "AVFoundation"
+    },
+    {
+      "id": "chronicle",
+      "title": "Хроника двора",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Photo Library · обход библиотеки"
+    },
+    {
+      "id": "chats",
+      "title": "Чаты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Список чатов дома"
+    },
+    {
+      "id": "chat",
+      "title": "Чат подъезда",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Microphone · Speech · Communication"
+    },
+    {
+      "id": "voice",
+      "title": "Голосовое",
+      "type": "sheet",
+      "light": true,
+      "parent": "chat",
+      "meta": "Microphone · Speech"
+    },
+    {
+      "id": "lockscreen",
+      "title": "Экран блокировки",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "chat",
+      "meta": "Communication notification"
+    },
+    {
+      "id": "yard",
+      "title": "Двор",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Схема двора · Location"
+    },
+    {
+      "id": "guest",
+      "title": "Гостевая сеть",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Hotspot · Camera"
+    },
+    {
+      "id": "scan",
+      "title": "Сканер QR",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "guest",
+      "meta": "DataScanner"
+    },
+    {
+      "id": "meters",
+      "title": "Счётчики",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Remote notification"
+    },
+    {
+      "id": "background",
+      "title": "Обновление в фоне",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "meters",
+      "meta": "Background fetch · BGTaskScheduler"
+    },
+    {
+      "id": "events",
+      "title": "События дома",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Calendars Full Access"
+    },
+    {
+      "id": "menu",
+      "title": "Меню",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Плитки разделов · Contacts"
+    },
+    {
+      "id": "passwords",
+      "title": "Пароли дома",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "AutoFill Credential Provider"
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение в Safari",
+      "type": "системная поверхность",
+      "light": true,
+      "parent": "passwords",
+      "meta": "ASCredentialProvider"
+    },
+    {
+      "id": "neighbors",
+      "title": "Соседи из контактов",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Contacts · локальная сверка"
+    },
+    {
+      "id": "profile",
+      "title": "Профиль соседа",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Карточка жильца"
+    },
+    {
+      "id": "call",
+      "title": "Звонок в квартиру",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "profile",
+      "meta": "CallKit · VoIP"
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Push · Face ID · фон · виджет"
+    },
+    {
+      "id": "ads",
+      "title": "Реклама",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT после объяснения"
+    },
+    {
+      "id": "lock",
+      "title": "Замок Face ID",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "LocalAuthentication"
+    },
+    {
+      "id": "widget",
+      "title": "Виджет на экране «Домой»",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "App Groups · Keychain"
+    }
   ],
-
   "prototypes": [
     {
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все 29 экранов и все 19 доступов набора",
+      "note": "Все 30 экранов и все 20 доступов набора",
       "start": "phone",
-      "screens": ["phone", "code", "join", "verify", "manual", "home", "post", "problem", "shoot", "chronicle", "chats", "chat", "voice", "lockscreen", "yard", "guest", "scan", "meters", "background", "events", "menu", "passwords", "fill", "neighbors", "profile", "settings", "ads", "lock", "widget"]
+      "screens": [
+        "phone",
+        "code",
+        "join",
+        "verify",
+        "manual",
+        "home",
+        "post",
+        "problem",
+        "shoot",
+        "chronicle",
+        "chats",
+        "chat",
+        "voice",
+        "lockscreen",
+        "yard",
+        "guest",
+        "scan",
+        "meters",
+        "background",
+        "events",
+        "menu",
+        "passwords",
+        "fill",
+        "neighbors",
+        "profile",
+        "call",
+        "settings",
+        "ads",
+        "lock",
+        "widget"
+      ]
     },
     {
       "id": "signin",
       "label": "Вход и пропуск в дом",
       "note": "Номер, код, затем проверка места и домашней сети",
       "start": "phone",
-      "screens": ["phone", "code", "join", "verify", "manual", "home"],
-      "stops": ["home"]
+      "screens": [
+        "phone",
+        "code",
+        "join",
+        "verify",
+        "manual",
+        "home"
+      ],
+      "stops": [
+        "home"
+      ]
     },
     {
       "id": "repair",
       "label": "Проблема во дворе",
       "note": "Съёмка неисправности, заявка в УК и хроника из медиатеки",
       "start": "home",
-      "screens": ["home", "problem", "shoot", "chronicle", "post"]
+      "screens": [
+        "home",
+        "problem",
+        "shoot",
+        "chronicle",
+        "post"
+      ]
     },
     {
       "id": "talk",
       "label": "Разговор с подъездом",
-      "note": "Голосовое с расшифровкой и уведомление с аватаром соседа",
+      "note": "Голосовое с расшифровкой, уведомление с аватаром и звонок в квартиру",
       "start": "chats",
-      "screens": ["chats", "chat", "voice", "lockscreen", "profile"]
+      "screens": [
+        "chats",
+        "chat",
+        "voice",
+        "lockscreen",
+        "profile",
+        "call"
+      ]
     },
     {
       "id": "guestnet",
       "label": "Гостевая сеть по QR",
       "note": "Скан кода с лавочки и подключение без ввода пароля",
       "start": "yard",
-      "screens": ["yard", "guest", "scan", "problem", "meters", "events"],
-      "stops": ["problem", "meters", "events"]
+      "screens": [
+        "yard",
+        "guest",
+        "scan",
+        "problem",
+        "meters",
+        "events"
+      ],
+      "stops": [
+        "problem",
+        "meters",
+        "events"
+      ]
     },
     {
       "id": "services",
       "label": "Счётчики, события, фон",
       "note": "Показания, срок передачи, фоновое обновление и календарь",
       "start": "yard",
-      "screens": ["yard", "meters", "background", "events", "guest", "problem"],
-      "stops": ["guest", "problem"]
+      "screens": [
+        "yard",
+        "meters",
+        "background",
+        "events",
+        "guest",
+        "problem"
+      ],
+      "stops": [
+        "guest",
+        "problem"
+      ]
     },
     {
       "id": "access",
       "label": "Доступы, виджет, замок",
       "note": "Пуш, ATT после объяснения, Face ID, виджет и общая сессия",
       "start": "settings",
-      "screens": ["settings", "verify", "background", "widget", "lock", "ads", "menu", "home", "meters"],
-      "stops": ["menu", "home"]
+      "screens": [
+        "settings",
+        "verify",
+        "background",
+        "widget",
+        "lock",
+        "ads",
+        "menu",
+        "home",
+        "meters"
+      ],
+      "stops": [
+        "menu",
+        "home"
+      ]
     },
     {
       "id": "keys",
       "label": "Соседи и пароли дома",
       "note": "Локальная сверка контактов и автозаполнение в Safari",
       "start": "menu",
-      "screens": ["menu", "neighbors", "profile", "passwords", "fill", "chat", "settings", "meters", "events", "guest", "chronicle", "chats", "ads", "yard", "home"],
-      "stops": ["chat", "settings", "meters", "events", "guest", "chronicle", "chats", "ads", "yard", "home"]
+      "screens": [
+        "menu",
+        "neighbors",
+        "profile",
+        "passwords",
+        "fill",
+        "chat",
+        "settings",
+        "meters",
+        "events",
+        "guest",
+        "chronicle",
+        "chats",
+        "ads",
+        "yard",
+        "home",
+        "call"
+      ],
+      "stops": [
+        "chat",
+        "settings",
+        "meters",
+        "events",
+        "guest",
+        "chronicle",
+        "chats",
+        "ads",
+        "yard",
+        "home",
+        "call"
+      ]
     }
   ],
-
   "backendless": [
-    { "needs": "Вход по номеру телефона и сессия", "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы" },
-    { "needs": "Ветки домов, профили жильцов, соцграф", "solution": "Firestore со security rules: ветка дома пишется только теми, чей дом подтверждён. Правила — конфигурация, не серверный код" },
-    { "needs": "Чат подъезда и голосовые", "solution": "Firestore для сообщений, Firebase Storage для аудио — обращения из клиента через SDK" },
-    { "needs": "Подтверждение «я правда здесь живу»", "solution": "Клиент: геопозиция в радиусе двора плюс <code>CNCopyCurrentNetworkInfo</code> против SSID, записанного в профиле дома. Модерация не нужна" },
-    { "needs": "Уведомления о темах и сообщениях", "solution": "Firebase Cloud Messaging, рассылка из консоли провайдера; аватар подставляет Notification Service Extension" },
-    { "needs": "Объявления управляющей компании", "solution": "Публикует старший по дому в том же Firestore, роль — флаг в документе дома. Парсера сайтов УК нет" },
-    { "needs": "Схема двора и адреса", "solution": "MapKit и <code>MKLocalSearch</code>; поэтажный план и разметка двора рисуются кодом как данные" },
-    { "needs": "Показания счётчиков и срок передачи", "solution": "CoreData на устройстве, срок считается локально по дате; отправка в УК — системный share sheet" },
-    { "needs": "Поиск знакомых среди жильцов", "solution": "Локальная сверка <code>CNContactStore</code> со списком дома, уже загруженным на устройство" },
-    { "needs": "Пароли общих сервисов дома", "solution": "Keychain общей группы плюс Credential Provider extension; публикует записи старший по дому" },
-    { "needs": "Хроника двора из фотографий", "solution": "<code>PHAsset</code> с фильтром по геометке и дате — обход библиотеки идёт на устройстве" },
-    { "needs": "Монетизация без подписки", "solution": "Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения" }
+    {
+      "needs": "Вход по номеру телефона и сессия",
+      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+    },
+    {
+      "needs": "Ветки домов, профили жильцов, соцграф",
+      "solution": "Firestore со security rules: ветка дома пишется только теми, чей дом подтверждён. Правила — конфигурация, не серверный код"
+    },
+    {
+      "needs": "Чат подъезда и голосовые",
+      "solution": "Firestore для сообщений, Firebase Storage для аудио — обращения из клиента через SDK"
+    },
+    {
+      "needs": "Подтверждение «я правда здесь живу»",
+      "solution": "Клиент: геопозиция в радиусе двора плюс <code>CNCopyCurrentNetworkInfo</code> против SSID, записанного в профиле дома. Модерация не нужна"
+    },
+    {
+      "needs": "Уведомления о темах и сообщениях",
+      "solution": "Firebase Cloud Messaging, рассылка из консоли провайдера; аватар подставляет Notification Service Extension"
+    },
+    {
+      "needs": "Объявления управляющей компании",
+      "solution": "Публикует старший по дому в том же Firestore, роль — флаг в документе дома. Парсера сайтов УК нет"
+    },
+    {
+      "needs": "Схема двора и адреса",
+      "solution": "MapKit и <code>MKLocalSearch</code>; поэтажный план и разметка двора рисуются кодом как данные"
+    },
+    {
+      "needs": "Показания счётчиков и срок передачи",
+      "solution": "CoreData на устройстве, срок считается локально по дате; отправка в УК — системный share sheet"
+    },
+    {
+      "needs": "Поиск знакомых среди жильцов",
+      "solution": "Локальная сверка <code>CNContactStore</code> со списком дома, уже загруженным на устройство"
+    },
+    {
+      "needs": "Пароли общих сервисов дома",
+      "solution": "Keychain общей группы плюс Credential Provider extension; публикует записи старший по дому"
+    },
+    {
+      "needs": "Хроника двора из фотографий",
+      "solution": "<code>PHAsset</code> с фильтром по геометке и дате — обход библиотеки идёт на устройстве"
+    },
+    {
+      "needs": "Монетизация без подписки",
+      "solution": "Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения"
+    }
   ],
-
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-система" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
-
   "appStore": {
     "name": "Двор — соседи вашего дома",
     "subtitle": "Чат подъезда, счётчики, двор",
     "promo": "Право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию. Внутри — чат подъезда, схема двора, срок передачи показаний и гостевая сеть по QR.",
     "keywords": "жкх,тсж,управляющая,домофон,объявления,жильцы,квартира,показания,собрание,общедомовой",
-    "category": { "primary": "Social Networking", "secondary": "Utilities" },
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Utilities"
+    },
     "ageRating": "12+",
     "price": "Бесплатно, реклама местных услуг, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS через SDK провайдеров",

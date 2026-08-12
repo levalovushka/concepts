@@ -19,6 +19,7 @@
 <div class="flow"><span class="chip">Счётчики</span><span class="arr">→</span><span class="chip">«Обновлять в фоне»</span><span class="arr">→</span><span class="chip">Remote notification</span><span class="arr">→</span><span class="chip">тихий пуш переписывает виджет</span></div>
 <div class="flow"><span class="chip">Настройки</span><span class="arr">→</span><span class="chip">«Виджет на экран „Домой“»</span><span class="arr">→</span><span class="chip">App Groups</span><span class="arr">→</span><span class="chip">«Открыть Двор»</span><span class="arr">→</span><span class="chip">Keychain</span><span class="arr">→</span><span class="chip">приложение уже войдено</span></div>
 <div class="flow"><span class="chip">Пароли дома</span><span class="arr">→</span><span class="chip">«Включить автозаполнение»</span><span class="arr">→</span><span class="chip">AutoFill Credential Provider</span><span class="arr">→</span><span class="chip">подсказка над клавиатурой в Safari</span></div>
+<div class="flow"><span class="chip">Профиль соседа</span><span class="arr">→</span><span class="chip">«Позвонить»</span><span class="arr">→</span><span class="chip">VoIP + CallKit</span><span class="arr">→</span><span class="chip">вызов в квартиру, номера скрыты</span></div>
 <div class="flow"><span class="chip">Гостевая сеть</span><span class="arr">→</span><span class="chip">«Сканировать QR»</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">«Подключиться»</span><span class="arr">→</span><span class="chip">Hotspot Configuration</span></div>
 <div class="flow"><span class="chip">Меню</span><span class="arr">→</span><span class="chip">«Найти среди контактов»</span><span class="arr">→</span><span class="chip">Contacts</span><span class="arr">→</span><span class="chip">сверка со списком дома на устройстве</span></div>
 <div class="flow"><span class="chip">События дома</span><span class="arr">→</span><span class="chip">«Добавить в Календарь»</span><span class="arr">→</span><span class="chip">Calendars Full Access</span><span class="arr">→</span><span class="chip">правка при переносе даты</span></div>
@@ -28,7 +29,7 @@
 <div class="arch">
   <div class="arch-layer">
     <h3>UI</h3>
-    <p>29 экранов, четыре раздела в доке: Дом, Чаты, Двор, Меню. Шесть системных поверхностей — камера, сканер, локскрин, фоновое обновление, замок, домашний экран с виджетом — показаны отдельными экранами, потому что именно на них видно результат entitlement'а.</p>
+    <p>30 экранов, четыре раздела в доке: Дом, Чаты, Двор, Меню. Семь системных поверхностей — камера, сканер, локскрин, фоновое обновление, замок, домашний экран с виджетом и звонок в CallKit — показаны отдельными экранами, потому что именно на них видно результат entitlement'а.</p>
   </div>
   <div class="arch-layer">
     <h3>Domain</h3>
@@ -36,7 +37,7 @@
   </div>
   <div class="arch-layer">
     <h3>Services</h3>
-    <p>CLLocationManager и CNCopyCurrentNetworkInfo для пропуска, AVFoundation и DataScannerViewController для съёмки и QR, SFSpeechRecognizer on-device для расшифровки, EventKit, LocalAuthentication, NEHotspotConfigurationManager, BGTaskScheduler с одним идентификатором app.dvor.refresh.</p>
+    <p>CLLocationManager и CNCopyCurrentNetworkInfo для пропуска, AVFoundation и DataScannerViewController для съёмки и QR, SFSpeechRecognizer on-device для расшифровки, EventKit, LocalAuthentication, NEHotspotConfigurationManager, BGTaskScheduler с одним идентификатором app.dvor.refresh, PushKit и CallKit для вызова в квартиру.</p>
   </div>
   <div class="arch-layer">
     <h3>Data</h3>
@@ -51,10 +52,10 @@
 
 <section class="section" id="perm-matrix">
   <h2>Матрица доступов</h2>
-  <p class="deck">Девятнадцать ключей набора ВКонтакте: чем заслужен, каким жестом вызывается, что остаётся при отказе.</p>
+  <p class="deck">Двадцать ключей набора ВКонтакте: чем заслужен, каким жестом вызывается, что остаётся при отказе.</p>
   {{PERM_MATRIX}}
   <div class="note-box">
-    <p><strong>Три ключа набора не заявлены, и это осознанно.</strong> <code>com.apple.developer.associated-domains</code> — диплинков в концептах не делаем вообще, поэтому фичи под него в сборке нет, а заявлять ключ без фичи нельзя. <code>UIBackgroundModes: voip</code> — честный сценарий требует реальных звонков с CallKit, а высокий риск 2.5.4 оправдан только ядровой фичей; у соседской сети такой фичи нет. <code>UIBackgroundModes: audio</code> — тот же случай: без реального playback и экрана Now Playing режим не защищается.</p>
+    <p><strong>Два ключа набора не заявлены, и это осознанно.</strong> <code>com.apple.developer.associated-domains</code> — диплинков в концептах не делаем вообще, поэтому фичи под него в сборке нет, а заявлять ключ без фичи нельзя. <code>UIBackgroundModes: audio</code> — фоновый playback защищается только реальной очередью и экраном Now Playing, а фича вышла слабой: убери её, и продукт не рассыплется. В отличие от звонка, ради которого <code>voip</code> в набор как раз вернули.</p>
   </div>
 </section>
 

@@ -2,7 +2,7 @@
 
 Документ согласован с [01-product-vision.md](./01-product-vision.md). Приложение клиентское: серверного кода не пишется, общая база и чат закрыты SDK провайдера с security rules. Все доступы — just-in-time, после входа по номеру. Background Modes — только `fetch` и `remote-notification`, оба под одну фоновую задачу `app.dvor.refresh`.
 
-Числа, которые должны совпадать во всех разделах: **19 заявленных ключей · 29 экранов · 4 вкладки дока · 8 прототипов**.
+Числа, которые должны совпадать во всех разделах: **20 заявленных ключей · 30 экранов · 4 вкладки дока · 8 прототипов**.
 
 Блоки `@generated:*` пересобираются командой `npm run docs -- dvor` из `concept.json` и разметки экранов — внутрь них руками не пишем.
 
@@ -57,7 +57,8 @@
     ├─ Пароли дома (passwords) — push · открывается: «Пароли дома» · autofill
     │   └─ Автозаполнение в Safari (fill) — системная поверхность · открывается: «Включить автозаполнение паролей дома» (autofill)
     ├─ Соседи из контактов (neighbors) — push · открывается: «Соседи из контактов» (contacts)
-    ├─ Профиль соседа (profile) — push · открывается: «Кто в подъезде», «Мой профиль жильца» …
+    ├─ Профиль соседа (profile) — push · открывается: «Кто в подъезде», «Мой профиль жильца» …, «Завершить вызов» · voip
+    │   └─ Звонок в квартиру (call) — системная поверхность · открывается: «Позвонить в квартиру 12» (voip)
     └─ Настройки (settings) — push · открывается: «Настройки» · fetch, appgroups, faceid
         ├─ Реклама (ads) — modal · открывается: «Реклама местных услуг», «Реклама и отслеживание» · tracking
         ├─ Замок Face ID (lock) — системная поверхность · открывается: «Замок Face ID на приложении» (faceid)
@@ -165,7 +166,8 @@
 | `passwords` | Пароли дома | push | autofill (activate) |
 | `fill` | Автозаполнение в Safari | системная поверхность | — |
 | `neighbors` | Соседи из контактов | push | — |
-| `profile` | Профиль соседа | push | — |
+| `profile` | Профиль соседа | push | voip (activate) |
+| `call` | Звонок в квартиру | системная поверхность | — |
 | `settings` | Настройки | push | fetch (activate), appgroups (activate), faceid |
 | `ads` | Реклама | modal | tracking |
 | `lock` | Замок Face ID | системная поверхность | — |
@@ -249,6 +251,8 @@
 | `neighbors` | «Профиль Петра Ильина, кв. 12», «Профиль Марины Кольцовой, кв. 48» … | `profile` | — | переход |
 | `profile` | «Назад в меню» | `menu` | — | возврат по IA |
 | `profile` | «Написать Петру в чат подъезда» | `chat` | — | переход |
+| `profile` | «Позвонить в квартиру 12» | `call` | `UIBackgroundModes: voip` | entitlement, без alert |
+| `call` | «Завершить вызов» | `profile` | — | подтверждение |
 | `settings` | «Назад в меню» | `menu` | — | возврат по IA |
 | `settings` | «Проверить домашнюю сеть заново» | `verify` | — | переход |
 | `settings` | «Обновление в фоне» | `background` | `UIBackgroundModes: fetch` | entitlement, без alert |
@@ -276,7 +280,7 @@
 
 ## Матрица доступов
 
-Девятнадцать ключей набора: чем заслужен, каким жестом вызывается, что остаётся при отказе.
+Двадцать ключей набора: чем заслужен, каким жестом вызывается, что остаётся при отказе.
 
 <!-- @generated:perm-matrix -->
 | Ключ | Жест пользователя | Экран | Если отказ | Риск Review |
@@ -295,6 +299,7 @@
 | `com.apple.security.application-groups` | «Виджет на экран „Домой“» | Настройки | Без группы виджет пустой, а пересланное объявление не доходит — не ship | Низкий |
 | `keychain-access-groups` | «Открыть Двор» из виджета | Виджет на экране «Домой» | Без общей группы вход придётся повторять в каждом расширении | Низкий |
 | `com.apple.developer.authentication-services.autofill-credential-provider` | «Включить автозаполнение» | Пароли дома | Пароль остаётся копировать руками из карточки | Низкий |
+| `UIBackgroundModes: voip` | «Позвонить» | Профиль соседа | Без режима вызов приходит обычным уведомлением, и на него надо успеть открыть приложение | **Условный** — PushKit плюс CallKit и реальный звонок: без CallKit режим не защитить на review |
 | `com.apple.developer.networking.HotspotConfiguration` | «Подключиться» | Гостевая сеть | Имя сети и пароль показываются текстом — вводится руками в Настройках | Низкий |
 | `NSContactsUsageDescription` | «Найти среди контактов» | Меню | Остаётся поиск по номеру квартиры и по подъезду | Средний |
 | `NSCalendarsFullAccessUsageDescription` | «Добавить в Календарь» | События дома | Событие остаётся только внутри «Двора», с напоминанием в приложении | Низкий |
@@ -442,7 +447,7 @@ flowchart TD
 
 | Слой | Содержимое |
 |---|---|
-| **UI** | 29 экранов, док из четырёх разделов, nav stack, system ask, снекбар, семь системных поверхностей. Статусы доступов не хранит — только отображает |
+| **UI** | 30 экранов, док из четырёх разделов, nav stack, system ask, снекбар, семь системных поверхностей. Статусы доступов не хранит — только отображает |
 | **Domain** | `House` · `Resident` · `HouseVerification` · `Thread` · `Post` · `Issue` · `Chat` · `Message` · `VoiceNote` · `Meter` · `MeterReading` · `HouseEvent` · `GuestNetwork` · `HousePassword` · `ChronicleItem` · `AdConsent` |
 | **Services** | `Permissions` · `HouseVerification` (CLLocationManager + CNCopyCurrentNetworkInfo) · `Capture` (AVFoundation) · `QRScanner` (DataScanner) · `MediaLibrary` (PHAsset + PHPicker) · `VoiceRecorder` (AVAudioRecorder) · `Transcriber` (SFSpeechRecognizer, on-device) · `Push` (FCM) · `NotificationService` (INSendMessageIntent + NSE) · `BackgroundRefresh` (BGTaskScheduler, `app.dvor.refresh`) · `HotspotSetup` (NEHotspotConfigurationManager) · `ContactsMatch` (CNContactStore) · `Calendar` (EventKit) · `AppLock` (LocalAuthentication) · `CredentialProvider` (ASCredentialProviderViewController) · `WidgetSnapshot` · `PhoneAuth` (SDK провайдера) · `AdsAttribution` (ATT) |
 | **Data** | CoreData — показания, хроника, черновики заявок, список жильцов своего дома. Keychain общей группы — токен сессии и записи паролей дома. Контейнер `group.app.dvor` — снапшот виджета в JSON и аватары для NSE. FileManager — кадры и аудио до отправки |

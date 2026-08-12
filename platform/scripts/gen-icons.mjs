@@ -37,6 +37,8 @@ export const ICONS = [
   'gauge', 'droplets', 'zap', 'trash-2', 'clock', 'calendar', 'calendar-plus',
   // лента и чат
   'heart', 'eye', 'repeat-2', 'pin', 'send', 'paperclip', 'badge-check', 'chevron-down',
+  // звонок: CallKit-поверхность
+  'phone', 'phone-off', 'phone-incoming', 'mic-off',
 ];
 
 /** Иконки берём из локального lucide-static: сборка не ходит в сеть. */
