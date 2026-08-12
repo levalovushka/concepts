@@ -19,6 +19,7 @@ async function run(slug) {
 
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1200, height: 1000 } });
+  page.setDefaultTimeout(5000);
   const errs = [];
   page.on('console', (m) => { if (m.type() === 'error' || /нет экрана|нет доступа/.test(m.text())) errs.push(m.text()); });
   page.on('pageerror', (e) => errs.push('PAGEERROR ' + e.message));
@@ -209,6 +210,50 @@ async function run(slug) {
   }, H);
   ok('хит-таргеты ≥ 44pt' + (small.length ? ` → ${small.slice(0, 4)}` : ''), !small.length);
   ok('консоль чистая' + (errs.length ? ` → ${errs.slice(0, 3)}` : ''), !errs.length);
+
+  /* —— сквозной пользовательский маршрут без служебных переходов ——
+     Предыдущие проверки открывают экраны через галерею и поэтому не ловят
+     недостижимые доступы и потерянный back-stack в реальном продукте. */
+  if (slug === 'radius') {
+    await reset();
+    const click = async (selector) => {
+      await page.click(`${H} .screen.is-on${selector}, ${H} .screen.is-on ${selector}`);
+      await page.waitForTimeout(60);
+    };
+    await click('[data-go="code"]');
+    await click('[data-go="ads"]');
+    await click('[data-ask^="tracking|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-ask^="location|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-go="watch"]');
+    await click('[data-ask^="localnet|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-ask^="photoadd|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-activate^="audio|"]');
+    await click('[data-go="watch"]');
+    await click('[data-activate^="domains|"]');
+    await click('[data-go="watch"]');
+    await click('[data-back]');
+    await click('[data-go="create"]');
+    await click('[data-ask^="photo|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-ask^="camera+mic|"]');
+    await answer('grant'); await page.waitForTimeout(40);
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-go="subscriptions"]');
+    await click('[data-ask^="push|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    const askedKeys = await page.evaluate(() =>
+      [...document.querySelectorAll('#perms .perm:not([data-state="idle"])')]
+        .map((e) => e.querySelector('.perm-name')?.textContent));
+    ok('сквозной маршрут достигает всех 10 доступов', askedKeys.length === 10);
+  }
 
   await browser.close();
   return res;
