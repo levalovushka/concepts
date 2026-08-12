@@ -11,7 +11,8 @@
     "shots": "node scripts/capture.mjs",
     "test": "node scripts/test-flows.mjs",
     "lint": "node scripts/lint-concept.mjs",
-    "audit": "node scripts/audit-visual.mjs"
+    "audit": "node scripts/audit-visual.mjs",
+    "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga"
   },
   "license": "ISC",
   "devDependencies": {
