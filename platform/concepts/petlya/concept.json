@@ -491,7 +491,7 @@
     },
     {
       "file": "03-design-system.md",
-      "label": "Дизайн-токены"
+      "label": "Дизайн-система"
     },
     {
       "file": "04-references.md",
@@ -503,7 +503,7 @@
     },
     {
       "file": "06-app-store.md",
-      "label": "App Store"
+      "label": "Карточка App Store"
     }
   ],
   "appStore": {

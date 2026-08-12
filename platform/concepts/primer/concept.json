@@ -317,10 +317,10 @@
   "docs": [
     { "file": "01-product-vision.md", "label": "Вижен" },
     { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "03-design-system.md", "label": "Дизайн-система" },
     { "file": "04-references.md", "label": "Референсы" },
     { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "App Store" }
+    { "file": "06-app-store.md", "label": "Карточка App Store" }
   ],
   "appStore": {
     "name": "Праймер: краски и палитры",

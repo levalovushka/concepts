@@ -38,14 +38,37 @@
 .list-gap { margin-bottom:22px; }
 
 /* —— каталог уроков —— */
-.hero { position:relative; margin:0 var(--margin) 20px; height:224px; border-radius:var(--r-card); overflow:hidden; color:#fff; }
-.hero .scene { position:absolute; inset:0; }
-.hero::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,transparent 30%,rgba(0,0,0,.86) 100%); }
-.hero-meta { position:absolute; left:16px; right:16px; bottom:16px; z-index:2; }
-.hero-meta .pill { margin-bottom:10px; }
-.hero-title { font:700 22px/28px var(--face); letter-spacing:-.02em; }
-.hero-sub { font:400 13px/18px var(--face); color:rgba(255,255,255,.78); margin-top:4px; }
-.lesson-list { padding:0 var(--margin) 8px; }
+.ptl-lessons { --face:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif; background:#fff; color:#111; }
+.ptl-lessons-scroll { padding:2px 20px 28px; }
+.ptl-section-title { font:600 20px/25px var(--face); letter-spacing:-.025em; }
+
+.ptl-continue-row { display:flex; align-items:center; gap:12px; min-height:116px; margin-top:7px; padding:10px 0; }
+.ptl-continue-thumb { width:96px; height:96px; flex:none; border-radius:14px; background-size:cover; background-position:center 34%; box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08); }
+.ptl-continue-copy { flex:1; min-width:0; }
+.ptl-continue-course { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font:400 12px/16px var(--face); color:rgba(60,60,67,.56); }
+.ptl-continue-copy h2 { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin:2px 0 0; font:600 17px/22px var(--face); letter-spacing:-.015em; }
+.ptl-continue-copy p { margin:3px 0 0; font:400 13px/18px var(--face); color:rgba(60,60,67,.58); }
+.ptl-continue-progress { height:3px; margin-top:10px; overflow:hidden; border-radius:2px; background:rgba(60,60,67,.12); }
+.ptl-continue-progress i { display:block; height:100%; background:var(--accent-fill); }
+.ptl-continue-play { width:38px; height:38px; flex:none; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--accent-fill); color:#fff; }
+.ptl-continue-play svg { width:15px; height:15px; margin-left:2px; fill:currentColor; stroke-width:1.4; }
+
+.ptl-courses { margin-top:24px; }
+.ptl-courses-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:6px; }
+.ptl-courses-head > span { color:rgba(60,60,67,.5); font:500 12px/16px var(--face); }
+.ptl-course-list { display:flex; flex-direction:column; }
+.ptl-course-row { position:relative; min-height:82px; display:flex; align-items:center; gap:12px; padding:8px 0; }
+.ptl-course-row::after { content:""; position:absolute; left:78px; right:0; bottom:0; height:.5px; background:rgba(60,60,67,.14); }
+.ptl-course-row:last-child::after { display:none; }
+.ptl-course-thumb {
+  width:66px; height:66px; flex:none; border-radius:12px; overflow:hidden;
+  background-size:cover; background-position:center; box-shadow:inset 0 0 0 .5px rgba(0,0,0,.06);
+}
+.ptl-course-copy { flex:1; min-width:0; }
+.ptl-course-copy h3 { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin:0; font:600 16px/21px var(--face); letter-spacing:-.01em; }
+.ptl-course-copy p { margin:3px 0 0; font:400 13px/18px var(--face); color:rgba(60,60,67,.58); }
+.ptl-course-current { flex:none; color:var(--accent-fill); font:500 12px/16px var(--face); }
+.ptl-push-note { margin-top:12px; color:var(--accent-fill); }
 .row.has-media { align-items:center; padding:8px 16px; }
 
 /* —— урок: превью как контент (не system video chrome) —— */
