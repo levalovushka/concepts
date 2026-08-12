@@ -3421,3 +3421,400 @@
 .screen[data-screen="saved"] .rd-saved-copy p:last-child {
   margin-top: 4px !important;
 }
+
+/* Screen-by-screen polish requested after visual QA. */
+.screen[data-screen="profile"] .rd-vk-profile {
+  padding-top: 6px !important;
+}
+.screen[data-screen="profile"] .rd-vk-profile > header {
+  padding-bottom: 18px !important;
+}
+
+.screen[data-screen="subscriptions"] .rd-sub-chips,
+.screen[data-screen="channel"] .rd-channel-chips {
+  min-height: 52px !important;
+  padding: 8px 16px !important;
+  gap: 8px !important;
+  border-bottom: 0 !important;
+}
+.screen[data-screen="subscriptions"] .rd-sub-chips .rd-chip,
+.screen[data-screen="channel"] .rd-channel-chips .rd-chip {
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 14px !important;
+  border-radius: 12px !important;
+  background: #262627 !important;
+  color: rgba(235, 235, 245, 0.72) !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  font-weight: 510 !important;
+}
+.screen[data-screen="subscriptions"] .rd-sub-chips .rd-chip.active,
+.screen[data-screen="channel"] .rd-channel-chips .rd-chip.active {
+  background: #f2f3f5 !important;
+  color: #080808 !important;
+}
+.screen[data-screen="subscriptions"] .rd-storyrail {
+  padding-top: 12px !important;
+}
+
+.screen[data-screen="watch"] .rd-playbutton {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 50% !important;
+  background: rgba(18, 18, 18, 0.72) !important;
+  color: #fff !important;
+  backdrop-filter: blur(12px) !important;
+}
+.screen[data-screen="watch"] .rd-playbutton .rd-icon {
+  width: 30px !important;
+  height: 30px !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.screen[data-screen="watch"] .rd-player-top {
+  top: 10px !important;
+  left: 8px !important;
+  right: 8px !important;
+}
+.screen[data-screen="watch"] .rd-vk-actions {
+  margin-top: -4px !important;
+}
+.screen[data-screen="watch"] .rd-vk-action-hit {
+  min-height: 44px !important;
+}
+
+.screen[data-screen="clips"] .rd-clips-top {
+  top: 62px !important;
+}
+.screen[data-screen="clips"] .rd-clip-brand {
+  top: 10px !important;
+}
+.screen[data-screen="clips"] .rd-clip-author .rd-avatar {
+  border: 0 !important;
+}
+.screen[data-screen="clips"] .rd-share-label {
+  display: none !important;
+}
+.screen[data-screen="clips"] .rd-clip-actions {
+  bottom: 96px !important;
+}
+.screen[data-screen="clips"] .rd-clip-copy {
+  bottom: 92px !important;
+}
+.screen[data-screen="clips"] .rd-clip-copy h2 {
+  margin-top: 8px !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="clips"] .rd-clip-author .rd-avatar {
+  width: 30px !important;
+  height: 30px !important;
+}
+.screen[data-screen="clips"] .rd-clip-action {
+  gap: 0 !important;
+}
+
+.screen[data-screen="cast"] .rd-sheet {
+  padding: 8px 16px calc(var(--safe-bottom) + 14px) !important;
+  border-radius: 20px 20px 0 0 !important;
+  background: #232324 !important;
+}
+.screen[data-screen="cast"] .rd-sheet h2 {
+  margin: 12px 0 8px !important;
+  font-size: 20px !important;
+  line-height: 25px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="cast"] .rd-device {
+  min-height: 68px !important;
+  padding: 10px 4px !important;
+  gap: 12px !important;
+}
+.screen[data-screen="cast"] .rd-device-copy strong {
+  font-size: 15px !important;
+  line-height: 19px !important;
+  font-weight: 510 !important;
+}
+.screen[data-screen="cast"] .rd-device-copy span {
+  margin-top: 3px !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+.screen[data-screen="cast"] .rd-secondary {
+  min-height: 48px !important;
+  margin-top: 8px !important;
+  border-radius: 12px !important;
+  background: #2c2c2e !important;
+  font-size: 15px !important;
+  font-weight: 590 !important;
+}
+
+.screen[data-screen="channel"] .rd-channel-hero {
+  padding: 0 16px 16px !important;
+}
+.screen[data-screen="channel"] .rd-channel-cover {
+  margin: 0 -16px 14px !important;
+}
+.screen[data-screen="channel"] .rd-channel-id {
+  grid-template-columns: 48px minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+}
+.screen[data-screen="channel"] .rd-channel-id .rd-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 15px !important;
+}
+.screen[data-screen="channel"] .rd-channel-id h1 {
+  font-size: 18px !important;
+  line-height: 22px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="channel"] .rd-channel-id p {
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+.screen[data-screen="channel"] .rd-channel-follow {
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  background: #f2f3f5 !important;
+  color: #080808 !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+  font-weight: 590 !important;
+  white-space: nowrap !important;
+}
+.screen[data-screen="channel"] .rd-channel-bio {
+  margin-top: 12px !important;
+  font-size: 13px !important;
+  line-height: 18px !important;
+}
+
+.screen[data-screen="phone"] .rd-auth-vk,
+.screen[data-screen="code"] .rd-auth-vk {
+  padding: 0 16px calc(var(--safe-bottom) + 18px) !important;
+  background: #0a0a0a !important;
+}
+.screen[data-screen="phone"] .rd-auth-top,
+.screen[data-screen="code"] .rd-auth-top {
+  min-height: 52px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.screen[data-screen="code"] .rd-auth-top {
+  display: grid !important;
+  grid-template-columns: 44px 1fr 44px !important;
+}
+.screen[data-screen="code"] .rd-auth-top .rd-wordmark {
+  justify-self: center !important;
+}
+.screen[data-screen="phone"] .rd-auth-top .rd-wordmark,
+.screen[data-screen="code"] .rd-auth-top .rd-wordmark {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 600 !important;
+}
+.screen[data-screen="phone"] .rd-auth-copy,
+.screen[data-screen="code"] .rd-auth-copy {
+  margin-top: 54px !important;
+  max-width: 320px !important;
+}
+.screen[data-screen="phone"] .rd-auth-copy h1,
+.screen[data-screen="code"] .rd-auth-copy h1 {
+  margin: 0 !important;
+  font-size: 28px !important;
+  line-height: 34px !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.6px !important;
+}
+.screen[data-screen="phone"] .rd-auth-copy p,
+.screen[data-screen="code"] .rd-auth-copy p {
+  margin: 10px 0 0 !important;
+  color: rgba(235, 235, 245, 0.6) !important;
+  font-size: 15px !important;
+  line-height: 21px !important;
+}
+.rd-field-label {
+  display: block !important;
+  margin: 30px 0 8px !important;
+  color: rgba(235, 235, 245, 0.6) !important;
+  font-size: 13px !important;
+  line-height: 17px !important;
+}
+.screen[data-screen="phone"] .rd-phone-field,
+.screen[data-screen="code"] .rd-code-field {
+  width: 100% !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  background: #19191a !important;
+  color: #f2f3f5 !important;
+  font: inherit !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+}
+.screen[data-screen="phone"] .rd-phone-field {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.screen[data-screen="phone"] .rd-phone-field input {
+  min-width: 0 !important;
+  flex: 1 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  font: inherit !important;
+}
+.screen[data-screen="phone"] .rd-cc {
+  padding-right: 10px !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: rgba(235, 235, 245, 0.72) !important;
+}
+.screen[data-screen="code"] .rd-otp {
+  display: grid !important;
+  grid-template-columns: repeat(4, 52px) !important;
+  gap: 10px !important;
+}
+.screen[data-screen="code"] .rd-otp input {
+  width: 52px !important;
+  height: 56px !important;
+  padding: 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 14px !important;
+  outline: 0 !important;
+  background: #19191a !important;
+  color: #f2f3f5 !important;
+  font: inherit !important;
+  font-size: 22px !important;
+  line-height: 56px !important;
+  font-weight: 510 !important;
+  text-align: center !important;
+  caret-color: #f2f3f5 !important;
+}
+.screen[data-screen="code"] .rd-otp input:focus {
+  border-color: rgba(255, 255, 255, 0.72) !important;
+}
+
+/* Borders only where they communicate a real container boundary. */
+.screen[data-screen="home"] .rd-video-card,
+.screen[data-screen="subscriptions"] .rd-video-card,
+.screen[data-screen="channel"] .rd-video-card,
+.screen[data-screen="channel"] .rd-channel-hero,
+.screen[data-screen="saved"] .rd-saved-row,
+.screen[data-screen="subscriptions"] .rd-notify {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+.screen[data-screen="subscriptions"] .rd-notify {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+/* Radius uses spacing, not hairlines, to separate content. */
+.rd-screen .rd-nav,
+.rd-screen .rd-tabs,
+.rd-screen .rd-device,
+.rd-screen .rd-library-row,
+.rd-screen .rd-create-sheet-row,
+.rd-screen .rd-comment,
+.rd-screen .rd-profile-head,
+.rd-screen .rd-sub-tabs,
+.rd-screen .rd-consent-options > div,
+.rd-screen .rd-video-card,
+.rd-screen .rd-video-info,
+.rd-screen .rd-channel-hero,
+.rd-screen .rd-saved-row,
+.rd-screen .rd-notify {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+.screen[data-screen="code"] .rd-resend {
+  min-height: 44px !important;
+  margin-top: 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: rgba(235, 235, 245, 0.4) !important;
+  font-size: 13px !important;
+  text-align: left !important;
+}
+.screen[data-screen="phone"] .rd-auth-foot,
+.screen[data-screen="code"] .rd-auth-foot {
+  margin-top: auto !important;
+}
+.screen[data-screen="phone"] .rd-auth-foot .rd-primary,
+.screen[data-screen="code"] .rd-auth-foot .rd-primary {
+  min-height: 52px !important;
+  border-radius: 12px !important;
+  background: #f2f3f5 !important;
+  color: #080808 !important;
+  font-size: 16px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="phone"] .rd-legal {
+  margin: 12px 8px 0 !important;
+  color: rgba(235, 235, 245, 0.4) !important;
+  font-size: 11px !important;
+  line-height: 15px !important;
+  text-align: center !important;
+}
+
+.screen[data-screen="deeplink"] .rd-nav {
+  height: 52px !important;
+  min-height: 52px !important;
+  background: #0a0a0a !important;
+  border: 0 !important;
+}
+.screen[data-screen="deeplink"] .body-scroll {
+  padding: 20px 16px !important;
+}
+.screen[data-screen="deeplink"] .rd-link-card {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #0a0a0a !important;
+  box-shadow: none !important;
+}
+.screen[data-screen="deeplink"] .rd-link-card .rd-thumb {
+  height: 194px !important;
+  border-radius: 12px !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy {
+  padding: 14px 0 0 !important;
+  background: transparent !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy .rd-kicker {
+  color: rgba(235, 235, 245, 0.5) !important;
+  font-size: 12px !important;
+  line-height: 16px !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy h1 {
+  margin: 5px 0 0 !important;
+  font-size: 18px !important;
+  line-height: 23px !important;
+  font-weight: 590 !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy p {
+  margin: 5px 0 16px !important;
+  font-size: 13px !important;
+  line-height: 17px !important;
+}
+.screen[data-screen="deeplink"] .rd-link-copy .rd-primary {
+  min-height: 48px !important;
+  border-radius: 12px !important;
+  background: #f2f3f5 !important;
+  color: #080808 !important;
+  font-size: 15px !important;
+  font-weight: 590 !important;
+}
