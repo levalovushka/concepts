@@ -2581,9 +2581,9 @@
 .rd-create-sheet {
   position: absolute;
   z-index: 4;
-  left: 8px;
-  right: 8px;
-  bottom: calc(80px + var(--safe-bottom));
+  left: 10px;
+  right: 10px;
+  bottom: calc(76px + var(--safe-bottom));
 }
 .rd-create-sheet-screen > .rd-tabs {
   position: absolute;
@@ -2594,15 +2594,15 @@
 }
 .rd-create-sheet-group {
   overflow: hidden;
-  border-radius: 18px;
-  background: #232323;
+  border-radius: 16px;
+  background: #252525;
 }
 .rd-create-sheet-row {
-  min-height: 76px;
+  min-height: 66px;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 14px;
+  grid-template-columns: 34px 1fr;
+  gap: 16px;
   align-items: center;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -2610,14 +2610,34 @@
   border-top: 0;
 }
 .rd-create-sheet-row > .rd-icon {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
+}
+.rd-live-broadcast {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+.rd-live-broadcast::before,
+.rd-live-broadcast::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+.rd-live-broadcast::after {
+  inset: 10px;
+  border: 0;
+  background: currentColor;
 }
 .rd-create-sheet-row strong {
   display: block;
-  font-size: 17px;
-  line-height: 22px;
-  font-weight: 510;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
 }
 .rd-create-sheet-row span {
   display: block;
@@ -2627,14 +2647,14 @@
   line-height: 15px;
 }
 .rd-create-cancel {
-  min-height: 58px;
+  min-height: 54px;
   margin-top: 8px;
-  border-radius: 18px;
-  background: #2a2a2b;
+  border-radius: 16px;
+  background: #252525;
   display: grid;
   place-items: center;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 17px;
+  line-height: 21px;
   font-weight: 510;
 }
 .rd-create-sheet .rd-denied-box {
@@ -3755,6 +3775,11 @@
 .rd-screen .rd-notify {
   border-top: 0 !important;
   border-bottom: 0 !important;
+}
+
+/* The create menu follows the native VK Video action-sheet rhythm. */
+.screen[data-screen="create"] .rd-create-sheet-row + .rd-create-sheet-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 .screen[data-screen="code"] .rd-resend {
   min-height: 44px !important;
