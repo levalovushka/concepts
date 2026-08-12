@@ -1,29 +1,15 @@
-<div class="screen ios-surface" id="scr-phone" style="background:#f2f2f7">
-            <div class="body-scroll rk-col" style="padding:calc(var(--safe-top) + 24px) var(--margin) 0">
-              <div class="auth-mark" aria-hidden="true">
-                <svg class="ico-svg" style="width:32px;height:32px"><use href="#i-layout-grid"/></svg>
-              </div>
-              <h1 class="t-title mt24" style="font-size:28px;line-height:34px">Вход в «Расклад»</h1>
-              <p class="t-subhead mt8">Пришлём код в SMS. Номер нужен, чтобы дневник практики и прогресс по колоде остались за вами при смене телефона.</p>
-
-              <div class="ios-list mt24">
-                <div class="row">
-                  <div class="auth-cc">+7</div>
-                  <input class="field-input auth-num" type="text" value="900 123-45-67" readonly aria-label="Номер телефона">
-                </div>
-              </div>
-              <div class="group-foot wide">Оператор может взять плату за SMS.</div>
-
-              <div class="rk-quiet mt24">
-                <div class="rk-eyebrow">Что дальше</div>
-                <p class="t-footnote" style="margin:6px 0 0">Приложение работает с бумажной колодой: вечером вы тянете одну карту и слушаете размышление под неё. Карта задаёт вопрос — предсказаний здесь нет.</p>
-              </div>
-
-              <div class="push"></div>
-              <div class="cta-col" style="padding-left:0;padding-right:0">
-                <div class="btn-filled block" data-go="code">Получить код</div>
-                <p class="t-footnote" style="text-align:center;margin:0">Продолжая, вы принимаете условия и политику конфиденциальности.</p>
-              </div>
-            </div>
-            <div class="home-ind" aria-hidden="true"></div>
-          </div>
+<div class="screen ios-surface" id="scr-phone" style="background:#fff">
+  <div class="body-scroll auth">
+    <div class="auth-mark" aria-hidden="true"></div>
+    <h1 class="auth-title">Вход</h1>
+    <p class="auth-lede">Пришлём код в SMS. Номер нужен, чтобы дневник практики и прогресс по колоде остались с вами при смене телефона.</p>
+    <div class="auth-field">
+      <input class="auth-num" type="text" value="+7 900 123-45-67" readonly aria-label="Номер телефона">
+    </div>
+    <div class="auth-actions">
+      <div class="btn-filled block tap" data-go="code">Получить код</div>
+      <p class="auth-legal">Продолжая, вы принимаете условия использования и политику конфиденциальности</p>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

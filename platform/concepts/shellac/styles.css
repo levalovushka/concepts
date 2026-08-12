@@ -25,9 +25,11 @@
   color:rgba(60,60,67,.55); margin-bottom:8px;
 }
 .list-gap { margin-bottom:22px; }
-.btn-quiet {
-  text-align:center; margin-top:14px; width:100%;
-  color:rgba(60,60,67,.55); font:400 15px/20px var(--face);
+/* Своё имя вместо ядрового: одноимённый класс, объявленный с нуля
+   и здесь, и в base.css, молча ломает страницу (CLAUDE.md, ловушка №1). */
+.sh-quiet {
+  display:block; text-align:center; margin-top:14px; width:100%; border:0; background:none;
+  min-height:44px; color:rgba(60,60,67,.55); font:400 15px/20px var(--face);
 }
 /* Матричный номер — «данные», поэтому моноширинный везде, где он появляется */
 .matrix {
