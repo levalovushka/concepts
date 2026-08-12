@@ -1843,6 +1843,41 @@
   /* ════════════════════════════════════════
      13. SEARCH — UISearchBar-like
      ════════════════════════════════════════ */
+  /* 15. Sections & Mini Player */
+  .segbar {
+    flex: none; display: flex; gap: 20px; padding: 0 16px;
+    border-bottom: .33px solid rgba(60,60,67,.18);
+  }
+  .segbar > .segtab {
+    position: relative; flex: none; padding: 6px 0 11px; border: 0; background: none;
+    font: 600 15px/20px var(--face); letter-spacing: -.01em; color: rgba(60,60,67,.6);
+  }
+  .segbar > .segtab.is-on { color: #000; }
+  .segbar > .segtab.is-on::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    border-radius: 2px 2px 0 0; background: var(--accent);
+  }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 2px 8px; }
+  .sec-more { flex: none; font: 400 15px/20px var(--face); color: var(--accent); }
+  .hscroll { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px; }
+  .hscroll::-webkit-scrollbar { display: none; }
+  .hscroll > * { flex: none; }
+  .sb-cc { width: 132px; }
+  .sb-cc-face { height: 132px; border-radius: 12px; background: #e5e5ea; }
+  .sb-cc-title { margin-top: 7px; font: 500 14px/18px var(--face); }
+  .sb-cc-sub { font: 400 12px/16px var(--face); color: rgba(60,60,67,.6); }
+  .miniplayer {
+    position: relative; flex: none; display: flex; align-items: center; gap: 10px;
+    min-height: 56px; padding: 8px 10px 8px 12px;
+    background: rgba(249,249,249,.94); border-top: .33px solid rgba(0,0,0,.12);
+  }
+  .miniplayer-face { width: 40px; height: 40px; border-radius: 6px; flex: none; background: #e5e5ea; }
+  .miniplayer-text { flex: 1; min-width: 0; }
+  .miniplayer-title { font: 500 14px/18px var(--face); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .miniplayer-sub { font: 400 12px/16px var(--face); color: rgba(60,60,67,.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .miniplayer-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(120,120,128,.2); }
+  .miniplayer-bar > i { display: block; height: 100%; background: var(--accent); }
+
   .searchfield {
     display: flex;
     align-items: center;
@@ -1930,6 +1965,7 @@
       <li><a href="#camera">Camera</a></li>
       <li><a href="#search">Search</a></li>
       <li><a href="#cta">CTA Column</a></li>
+      <li><a href="#sections">Sections &amp; Mini Player</a></li>
     </ul>
     <div class="nav-note">
       <code>375×812</code> · safe 47/34 ·
@@ -4469,6 +4505,83 @@
               <div><span style="color:var(--page-ink);font-weight:600">Secondary</span> — tinted 44 или quiet 15</div>
               <div><span style="color:var(--page-ink);font-weight:600">Footnote</span> — 13 secondary · center · опционально</div>
               <div><span style="color:var(--page-ink);font-weight:600">Rule</span> — ровно один основной путь + один обходной</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sections">
+      <div class="section-head">
+        <h2>15. Sections &amp; Mini Player</h2>
+        <p>Разделы верхнего уровня подчёркиванием · заголовок секции со «Показать все» · горизонтальная лента · плашка проигрывателя над таб-баром.</p>
+        <div class="meta">
+          <span class="chip">segtab 15 Semibold</span>
+          <span class="chip">underline 2</span>
+          <span class="chip">hscroll gap 12</span>
+          <span class="chip">mini h 56</span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="specimen">
+          <h3>Segbar · hscroll · mini player</h3>
+          <div class="phone mid">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"></div>
+              <div class="title">Медиатека</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="segbar">
+              <button type="button" class="segtab is-on">Главная</button>
+              <button type="button" class="segtab">Моя музыка</button>
+              <button type="button" class="segtab">Обзор</button>
+            </div>
+            <div style="flex:1;min-height:0;overflow:auto;padding:16px">
+              <div class="sec-head">
+                <div class="t-headline">Собрано алгоритмами</div>
+                <span class="sec-more">Показать все</span>
+              </div>
+              <div class="hscroll">
+                <div class="sb-cc"><div class="sb-cc-face"></div><div class="sb-cc-title">Открытия</div><div class="sb-cc-sub">136 треков</div></div>
+                <div class="sb-cc"><div class="sb-cc-face"></div><div class="sb-cc-title">Плейлист дня</div><div class="sb-cc-sub">обновлён сегодня</div></div>
+                <div class="sb-cc"><div class="sb-cc-face"></div><div class="sb-cc-title">Новинки</div><div class="sb-cc-sub">42 трека</div></div>
+              </div>
+            </div>
+            <div class="miniplayer">
+              <div class="miniplayer-face"></div>
+              <div class="miniplayer-text">
+                <div class="miniplayer-title">I Got Love</div>
+                <div class="miniplayer-sub">Miyagi &amp; Эндшпиль</div>
+              </div>
+              <button type="button" class="icon-btn" aria-label="Пауза"><i data-lucide="pause"></i></button>
+              <button type="button" class="icon-btn" aria-label="Ещё"><i data-lucide="ellipsis"></i></button>
+              <div class="miniplayer-bar" aria-hidden="true"><i style="width:38%"></i></div>
+            </div>
+            <div class="sb-tabbar light">
+              <button type="button" class="tab is-on"><span class="ico"><i data-lucide="layout-grid"></i></span><span class="tab-label">Главная</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="images"></i></span><span class="tab-label">Ноты</span></button>
+              <button type="button" class="tab"><span class="ico"><i data-lucide="book-open"></i></span><span class="tab-label">Журнал</span></button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="specimen">
+          <h3>Anatomy</h3>
+          <div class="compare-card">
+            <div style="display:flex;flex-direction:column;gap:10px;font:400 13px/1.45 var(--face);color:var(--page-dim)">
+              <div><span style="color:var(--page-ink);font-weight:600">Segbar</span> — разделы верхнего уровня, 15 Semibold, активный подчёркнут акцентом 2pt. Не путать с <code>.ios-segmented</code>: та пилюля переключает режим списка внутри экрана</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Sec-head</span> — заголовок секции + «Показать все» справа, baseline-выравнивание</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Hscroll</span> — лента уходит под края: margin −16, padding 16. Скроллбар скрыт</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Mini player</span> — h56 между <code>.body-scroll</code> и <code>.tabbar</code>, в потоке, а не поверх. Обложка 40 r6, две строки, пауза, «ещё», полоса прогресса 2pt по низу</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Правило</span> — плашка стоит только там, где что-то играет; иначе фоновое аудио видно лишь на своём экране</div>
             </div>
           </div>
         </div>

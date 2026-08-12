@@ -1,0 +1,382 @@
+/* ==========================================================================
+   «Строчка» — визуальная система концепта.
+
+   Язык взят из Base Kit (VK-типа) и отстроен по механизму из §8 набора:
+   бордо вместо VK-синего, Inter вместо SF Pro, моноширинный — на числах,
+   которых в этой предметной области больше, чем слов (такты, буквы, минуты).
+
+   Второй концепт с этим же визуальным языком (набор соцсети) ушёл в серую
+   страницу под белыми карточками и снял разделители вовсе — здесь отстройка
+   обратная: каноническая белая страница, hairline-разделители во всю ширину
+   и радиус контрола 10, как в первоисточнике.
+
+   Все свои классы с префиксом st-: в base.css такого префикса нет, коллизия
+   имён исключена по построению. Шорткаты background и margin не используются —
+   только background-color и margin-top/-bottom, иначе гасятся утилиты ядра.
+   ========================================================================== */
+
+:root {
+  --face: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --st-sub: #6D7885;       /* второстепенный текст: 4.6:1 на белом */
+  --st-mute: #79818C;      /* третичный: мета-строки списка, 4.0:1 на белом.
+                              Исходный #99A2AD из набора давал 2.4:1, а через
+                              третичный тон здесь идёт почти вся мета. */
+  --st-line: #D7D8D9;      /* separator.primary первоисточника */
+  --st-warn: #8A5300;      /* текстовый вариант icon.warning: сам #F8A01C
+                              на светлой заливке даёт 2.1:1 */
+  --st-warn-bg: rgba(248,160,28,.18);
+  --st-rose: #F2A0B4;      /* акцент на тёмных поверхностях: плеер и локскрин.
+                              Бордо на чёрном не читается, тон тот же, светлее */
+  --st-ink-dark: #17090D;  /* подложка под белой кнопкой плеера */
+}
+
+/* Радиус контрола 10 — значение первоисточника (§5), а не капсула ядра.
+   Область — только устройство: страница документа живёт своими токенами. */
+.screen { --r-btn: 10px; }
+
+/* —— полотно экрана —— */
+.st-pad { padding: 0 16px 24px; }
+.screen:not(:has(.tabbar)) .st-pad { padding-bottom: calc(var(--safe-bottom) + 20px); }
+
+.st-sec {
+  margin-top: 26px; margin-bottom: 7px; padding: 0 2px;
+  font: 500 13px/18px var(--face); letter-spacing: -.01em; color: var(--st-sub);
+}
+.st-foot { padding: 9px 2px 0; font: 400 13px/18px var(--face); color: var(--st-mute); }
+.st-meta {
+  font: 400 13px/17px var(--face); letter-spacing: -.01em; color: var(--st-mute);
+  font-variant-numeric: tabular-nums;
+}
+.st-meta-top { padding: 14px 2px 0; }
+
+/* —— список: белая страница, разделитель во всю ширину —— */
+.st-list { margin-left: -16px; margin-right: -16px; }
+.st-list .row::after { background: var(--st-line); left: 16px; right: 0; height: .5px; }
+/* Плотность первоисточника: Headline 16/20 против ячейки iOS 17/22 */
+.st-list .t-headline { font: 500 16px/20px var(--face); letter-spacing: -.02em; }
+/* Строка — контент, а не пункт настроек: текст переносится, а не режется. */
+.st-list .t-headline, .st-list .t-body { white-space: normal; }
+.st-list .t-body { font: 400 16px/20px var(--face); letter-spacing: -.02em; }
+
+/* —— шапка раздела и номера —— */
+
+
+.st-num {
+  width: 28px; flex: none; text-align: right;
+  font: 400 13px/20px var(--mono); color: var(--st-mute); font-variant-numeric: tabular-nums;
+}
+.st-num.is-on { color: var(--accent-fill); font-weight: 500; }
+.st-date {
+  width: 34px; flex: none; text-align: right;
+  font: 500 12px/20px var(--mono); color: var(--st-mute);
+}
+
+/* Голос и репетиционная буква — носители, на которых держится вся навигация
+   по произведению: голос отвечает «какая строчка», буква — «откуда». */
+.st-key, .st-let {
+  width: 30px; height: 30px; flex: none; display: flex; align-items: center; justify-content: center;
+  background-color: rgba(120,120,128,.13); color: var(--st-sub);
+  font: 500 14px/1 var(--mono);
+}
+.st-key { border-radius: 9px; }
+.st-let { border-radius: 50%; }
+.st-key.is-on, .st-let.is-on {
+  background-color: color-mix(in srgb, var(--accent-fill) 14%, transparent); color: var(--accent-fill);
+}
+.st-key.is-all { color: var(--st-mute); }
+.st-key.is-all .ico-svg { width: 17px; height: 17px; }
+
+/* —— чипы состояния —— */
+.st-flags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.st-flag {
+  flex: none; padding: 1px 7px; border-radius: 6px;
+  background-color: rgba(120,120,128,.13); color: var(--st-sub);
+  font: 500 12px/17px var(--face); letter-spacing: -.01em; white-space: nowrap;
+}
+.st-flag.is-soft { background-color: var(--st-warn-bg); color: var(--st-warn); }
+.st-flag.is-cut { background-color: rgba(120,120,128,.13); color: #2C2D2E; }
+.st-flag.is-new {
+  background-color: color-mix(in srgb, var(--accent-fill) 12%, transparent); color: var(--accent-fill);
+}
+.st-flag.is-none { background-color: transparent; color: rgba(60,60,67,.5); }
+
+/* —— пометки с розданной страницы —— */
+.st-notes { margin-top: 2px; }
+.st-note {
+  display: flex; gap: 10px; padding: 9px 2px;
+  border-bottom: .5px solid var(--st-line);
+  font: 400 15px/20px var(--face); letter-spacing: -.01em; color: #000;
+}
+.st-note:last-child { border-bottom: 0; }
+.st-note-at {
+  flex: none; min-width: 44px;
+  font: 500 12px/20px var(--mono); color: var(--accent-fill);
+}
+
+/* —— отказ в доступе —— */
+.st-quiet {
+  padding: 12px 14px; border-radius: 12px;
+  background-color: color-mix(in srgb, var(--accent-fill) 8%, transparent);
+  box-shadow: inset 2px 0 0 var(--accent-fill);
+  font: 400 13px/18px var(--face); color: var(--accent-fill);
+}
+
+/* Страница нот — портрет: пейзажная миниатюра ядра давала неверный кроп. */
+.st-page-thumb { width: 46px; height: 61px; }
+.row.has-thumb:has(.st-page-thumb)::after { left: 74px; }
+
+/* —— найденные в галерее снимки —— */
+.st-shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 4px; }
+.st-shot { aspect-ratio: 3 / 4; border-radius: 8px; position: relative; }
+.st-shot.is-on { box-shadow: inset 0 0 0 2px var(--accent-fill); }
+.st-shot-check {
+  display: none; position: absolute; top: 4px; right: 4px; width: 18px; height: 18px;
+  border-radius: 50%; background-color: var(--accent-fill); color: #fff;
+  align-items: center; justify-content: center;
+}
+.st-shot.is-on .st-shot-check { display: flex; }
+.st-shot-check .ico-svg { width: 11px; height: 11px; stroke-width: 3; }
+
+/* —— журнал —— */
+.st-stats {
+  display: flex; margin-top: 14px; padding: 12px 0;
+  border-top: .5px solid var(--st-line); border-bottom: .5px solid var(--st-line);
+}
+.st-stat { flex: 1; text-align: center; }
+.st-stat + .st-stat { border-left: .5px solid var(--st-line); }
+.st-stat b {
+  display: block; font: 500 22px/26px var(--mono); letter-spacing: -.02em; color: #000;
+  font-variant-numeric: tabular-nums;
+}
+.st-stat span { display: block; margin-top: 2px; font: 400 12px/15px var(--face); color: var(--st-mute); }
+
+.st-weeks { display: flex; align-items: flex-end; gap: 10px; height: 96px; margin-top: 4px; }
+.st-week { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+.st-week i {
+  display: block; width: 100%; max-width: 46px; margin-left: auto; margin-right: auto;
+  background-color: rgba(120,120,128,.18); border-radius: 4px 4px 0 0;
+}
+.st-week span { text-align: center; font: 400 11px/14px var(--mono); color: var(--st-mute); }
+.st-week.is-on i { background-color: var(--accent-fill); }
+.st-week.is-on span { color: var(--accent-fill); }
+
+/* —— плеер: тёмная иммерсивная поверхность —— */
+.st-pl {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  padding: 6px 20px 0; color: #fff;
+}
+.st-pl-voice {
+  font: 500 12px/16px var(--mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--st-rose);
+}
+.st-pl-title { margin-top: 6px; font: 700 24px/29px var(--face); letter-spacing: -.03em; }
+.st-pl-sub { margin-top: 4px; font: 400 14px/19px var(--face); color: rgba(255,255,255,.62); }
+
+/* Линейка тактов — данные экрана: 96 тактов, разбитых репетиционными буквами.
+   Ширина сегмента пропорциональна числу тактов в букве (24/16/34/22). */
+.st-ruler { display: flex; gap: 4px; height: 54px; margin-top: 22px; }
+.st-seg {
+  position: relative; overflow: hidden; border-radius: 9px;
+  background-color: rgba(255,255,255,.09);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.st-seg b { font: 500 13px/1 var(--mono); color: rgba(255,255,255,.82); }
+.st-seg span { font: 400 11px/1 var(--mono); color: rgba(255,255,255,.45); }
+.st-seg i { position: absolute; left: 0; bottom: 0; height: 3px; background-color: var(--st-rose); }
+.st-seg.is-on { background-color: rgba(242,160,180,.20); }
+.st-seg.is-on b { color: #fff; }
+.st-seg.is-on span { color: rgba(255,255,255,.7); }
+
+.st-pl-time {
+  display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px;
+  font: 400 12px/16px var(--mono); color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums;
+}
+.st-pl-bar-num { color: var(--st-rose); }
+
+.st-pl-controls { display: flex; align-items: center; justify-content: center; gap: 26px; margin-top: 18px; }
+.st-pl-btn {
+  width: 56px; height: 56px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(255,255,255,.10); color: #fff;
+}
+.st-pl-btn .ico-svg { width: 23px; height: 23px; }
+.st-pl-btn.main { width: 72px; height: 72px; background-color: #fff; color: var(--st-ink-dark); }
+.st-pl-btn.main .ico-svg { width: 29px; height: 29px; }
+
+.st-loop {
+  display: flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 16px; padding: 0 12px;
+  border-radius: 10px; background-color: rgba(255,255,255,.09);
+  font: 400 14px/18px var(--face); color: #fff;
+}
+.st-loop-ico { flex: none; display: flex; color: var(--st-rose); }
+.st-loop-ico .ico-svg { width: 18px; height: 18px; }
+.st-loop-n { flex: none; font: 400 12px/16px var(--mono); color: rgba(255,255,255,.5); }
+
+.st-cues { margin-top: 14px; }
+.st-cue {
+  display: flex; align-items: baseline; gap: 10px; padding: 8px 0;
+  border-bottom: .5px solid rgba(255,255,255,.10);
+  font: 400 14px/19px var(--face); color: rgba(255,255,255,.62);
+}
+.st-cue:last-child { border-bottom: 0; }
+.st-cue span {
+  flex: none; width: 34px; font: 400 12px/19px var(--mono); color: rgba(255,255,255,.42);
+  font-variant-numeric: tabular-nums;
+}
+.st-cue b { flex: none; width: 13px; font: 500 12px/19px var(--mono); color: rgba(255,255,255,.7); }
+.st-cue.is-on { color: #fff; }
+.st-cue.is-on span, .st-cue.is-on b { color: var(--st-rose); }
+.st-pl-foot {
+  margin: 0; text-align: center; font: 400 12px/17px var(--face); color: rgba(255,255,255,.45);
+}
+
+.st-pl-pages { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+.st-pl-page { width: 46px; height: 61px; border-radius: 6px; flex: none; }
+.st-pl-pages-txt { flex: 1; min-width: 0; font: 400 12px/16px var(--face); color: rgba(255,255,255,.55); }
+.st-pl-pages-txt b { display: block; font: 500 13px/18px var(--face); color: #fff; }
+
+/* —— локскрин: Now Playing и уведомление —— */
+.st-lock-clock { text-align: center; padding-top: 6px; }
+.st-lock-date {
+  font: 500 12px/16px var(--mono); letter-spacing: .09em; color: rgba(255,255,255,.72);
+}
+.st-lock-time { margin-top: 4px; font: 200 84px/.92 var(--face); letter-spacing: -.03em; }
+
+.st-np {
+  margin-top: auto; padding: 14px; border-radius: 16px;
+  background-color: rgba(30,18,23,.55);
+  backdrop-filter: blur(22px) saturate(150%); -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: inset 0 0 0 .5px rgba(255,255,255,.14);
+}
+.st-np-head {
+  display: flex; justify-content: space-between; gap: 8px;
+  font: 500 11px/14px var(--face); letter-spacing: .06em; text-transform: uppercase;
+}
+.st-np-app { color: rgba(255,255,255,.6); }
+.st-np-state { color: var(--st-rose); }
+.st-np-body { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.st-np-face { width: 56px; height: 56px; border-radius: 8px; flex: none; }
+.st-np-title { font: 600 15px/19px var(--face); letter-spacing: -.02em; color: #fff; }
+.st-np-sub { margin-top: 2px; font: 400 13px/17px var(--face); color: rgba(255,255,255,.62); }
+.st-np-bar { height: 4px; border-radius: 2px; margin-top: 14px; overflow: hidden; background-color: rgba(255,255,255,.2); }
+.st-np-bar > i { display: block; height: 100%; background-color: #fff; }
+.st-np-time {
+  display: flex; justify-content: space-between; margin-top: 6px;
+  font: 400 11px/15px var(--mono); color: rgba(255,255,255,.5);
+}
+.st-np-controls { display: flex; align-items: center; justify-content: center; gap: 34px; margin-top: 10px; color: #fff; }
+.st-np-loop {
+  display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px;
+  font: 400 12px/16px var(--mono); color: var(--st-rose);
+}
+.st-np-loop .ico-svg { width: 14px; height: 14px; }
+
+.st-notif {
+  margin-top: 10px; padding: 12px 14px; border-radius: 16px;
+  background-color: rgba(255,255,255,.16);
+  backdrop-filter: blur(22px) saturate(150%); -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: inset 0 0 0 .5px rgba(255,255,255,.14);
+}
+.st-notif.plain { background-color: rgba(255,255,255,.09); }
+.st-notif:first-of-type { margin-top: 22px; }
+.st-notif-head { display: flex; justify-content: space-between; gap: 8px; }
+.st-notif-app { font: 500 11px/14px var(--face); letter-spacing: .06em; color: rgba(255,255,255,.66); }
+.st-notif-time { font: 400 11px/14px var(--mono); color: rgba(255,255,255,.55); }
+.st-notif-title { margin-top: 7px; font: 600 15px/19px var(--face); letter-spacing: -.02em; color: #fff; }
+.st-notif-text { margin-top: 2px; font: 400 14px/18px var(--face); color: rgba(255,255,255,.78); }
+
+/* —— сканер страниц: рамка вокруг найденного разворота —— */
+.st-frame {
+  position: absolute; left: 34px; right: 34px;
+  top: calc(var(--safe-top) + 78px); bottom: 204px; z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--st-rose), 0 0 0 9999px rgba(0,0,0,.45);
+}
+.st-cam-read {
+  position: absolute; left: 0; right: 0; bottom: 182px; z-index: 2; text-align: center;
+  font: 400 12px/16px var(--mono); color: var(--st-rose);
+}
+.st-cam-n {
+  width: 30px; height: 30px; border-radius: 50%; background-color: var(--st-rose);
+  color: var(--st-ink-dark); font: 500 14px/30px var(--mono); text-align: center;
+}
+
+/* —— градиентные носители: герой раздела и плитки-входы ——
+   Base Kit §7 прямо описывает отдельный декоративный набор градиентов для
+   плиток, не пересекающийся с семантической палитрой. Пользуемся им, но
+   держим все градиенты в одном семействе тона: акцент по-прежнему один. */
+.st-hero-card {
+  margin-top: 14px; border-radius: 16px; padding: 16px; color: #fff;
+  background-image: linear-gradient(142deg, #7E1F3D 0%, #B32E63 46%, #E2568C 100%);
+}
+.st-hero-kicker {
+  font: 500 11px/15px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.75);
+}
+.st-hero-big { margin-top: 8px; font: 700 26px/30px var(--face); letter-spacing: -.03em; }
+.st-hero-note { margin-top: 6px; font: 400 14px/19px var(--face); color: rgba(255,255,255,.82); }
+.st-hero-go {
+  display: flex; align-items: center; gap: 12px; min-height: 44px; margin-top: 14px;
+}
+.st-hero-play {
+  width: 44px; height: 44px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: #fff; color: #7E1F3D;
+}
+.st-hero-play .ico-svg { width: 20px; height: 20px; }
+.st-hero-go-txt { flex: 1; min-width: 0; font: 500 15px/19px var(--face); }
+.st-hero-go-txt span { display: block; font: 400 12px/16px var(--mono); color: rgba(255,255,255,.7); }
+
+.st-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+.st-card {
+  min-height: 128px; border-radius: 14px; padding: 12px; color: #fff;
+  display: flex; flex-direction: column;
+}
+.st-card.g1 { background-image: linear-gradient(150deg, #A8285C 0%, #E14F84 100%); }
+.st-card.g2 { background-image: linear-gradient(150deg, #5C1B45 0%, #9B2C4A 100%); }
+.st-card-kicker {
+  font: 500 11px/15px var(--mono); letter-spacing: .07em; text-transform: uppercase; color: rgba(255,255,255,.78);
+}
+.st-card-title { margin-top: auto; font: 700 18px/22px var(--face); letter-spacing: -.02em; }
+.st-card-sub { margin-top: 3px; font: 400 12px/16px var(--face); color: rgba(255,255,255,.82); }
+
+/* —— карточка горизонтальной ленты —— */
+.st-cc { width: 128px; }
+.st-cc-face { height: 128px; border-radius: 12px; }
+.st-cc-title {
+  margin-top: 7px; font: 500 14px/18px var(--face); letter-spacing: -.01em; color: #000;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.st-cc-sub { font: 400 12px/16px var(--face); color: var(--st-mute); }
+.st-cc-sub.mono { font-family: var(--mono); font-size: 11px; }
+
+/* —— шапка номера: раскладка экрана альбома —— */
+.st-alb { padding: 8px 0 2px; text-align: center; }
+.st-alb-face { width: 148px; height: 148px; border-radius: 12px; margin-left: auto; margin-right: auto; }
+.st-alb-title { margin-top: 14px; font: 700 22px/27px var(--face); letter-spacing: -.03em; color: #000; }
+.st-alb-author {
+  display: inline-flex; align-items: center; gap: 3px; margin-top: 4px;
+  font: 400 15px/20px var(--face); color: var(--accent-fill);
+}
+.st-alb-author .ico-svg { width: 13px; height: 13px; }
+.st-alb-meta { margin-top: 3px; font: 400 12px/16px var(--mono); color: var(--st-mute); }
+.st-alb-acts { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+.st-alb-acts .btn-filled { flex: 1; min-height: 44px; font-size: 15px; }
+.st-alb-ico {
+  width: 44px; height: 44px; border-radius: 10px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(120,120,128,.13); color: var(--accent-fill);
+}
+.st-alb-ico.is-on { background-color: color-mix(in srgb, var(--accent-fill) 14%, transparent); }
+.st-alb-ico .ico-svg { width: 19px; height: 19px; }
+
+/* —— нумерованная строка: индекс, как в списке треков альбома —— */
+.st-idx {
+  width: 18px; flex: none; text-align: right;
+  font: 400 14px/20px var(--mono); color: var(--st-mute); font-variant-numeric: tabular-nums;
+}
+.st-idx.is-on { color: var(--accent-fill); }
+.st-dur {
+  flex: none; font: 400 13px/20px var(--mono); color: var(--st-mute); font-variant-numeric: tabular-nums;
+}
