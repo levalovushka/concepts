@@ -2426,3 +2426,24 @@
 .lx-kpis { background:transparent!important; border-radius:0!important; border-top:1px solid #343434!important; border-bottom:1px solid #343434!important; margin-inline:0!important; }
 .lx-profilemenu { background:transparent!important; border-radius:0!important; padding-inline:0!important; }
 .lx-profilemenu .lx-toolrow i { background:#2b2b2d!important; }
+
+/* Pre-Figma polish: one rhythm for labels, controls and compact cells. */
+.lx-screen { font-feature-settings:"kern" 1,"tnum" 1; }
+.lx-screen h1,.lx-screen h2,.lx-screen h3,.lx-screen strong { text-wrap:balance; }
+.lx-head-action,.lx-back,.lx-tooltext,.lx-follow2,.lx-primary2,.lx-secondary2,.lx-opbtn { -webkit-tap-highlight-color:transparent; }
+.lx-head-action,.lx-back { border-radius:50%; }
+.lx-game,.lx-toolrow,.lx-create-action,.lx-protocol-row { column-gap:12px!important; }
+.lx-game strong,.lx-toolrow strong,.lx-create-action strong,.lx-protocol-row strong { font-weight:700!important; letter-spacing:-.012em; }
+.lx-game p,.lx-toolrow p,.lx-create-action p,.lx-protocol-row p { line-height:15px!important; }
+.lx-toolrow>.lx-icon,.lx-create-action>.lx-icon,.lx-game>.lx-icon { width:18px!important; color:#818c99!important; }
+.lx-rolegrid.refined .lx-rolecard h2 { margin-bottom:4px!important; }
+.lx-rolegrid.refined .lx-rolecard p { line-height:15px!important; }
+.lx-searchfield { min-height:48px!important; border-radius:12px!important; }
+.lx-sheetbody { box-shadow:0 -12px 36px rgba(0,0,0,.28); }
+.lx-device2 { border-radius:14px!important; }
+.lx-following { gap:8px!important; }
+.lx-followteam { border-radius:16px!important; }
+.lx-alert { padding-inline:14px!important; }
+.lx-alert strong { font-size:13px!important; }
+.lx-alert p { margin-top:2px!important; }
+.lx-clips .lx-tabs { background:rgba(20,20,20,.88)!important; backdrop-filter:blur(22px)!important; }
