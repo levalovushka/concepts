@@ -1,0 +1,80 @@
+{
+  "slug": "liga",
+  "name": "Лига",
+  "eyebrow": "Лига · Живой любительский спорт · iOS",
+  "targetSet": "vk-video",
+  "domain": "liga.video",
+  "heroTitle": "Лига — матч становится видео",
+  "heroDeck": "Расписание, прямой эфир, протокол и готовые моменты любительской игры в одном продукте.",
+  "tagline": "Снимите матч одним телефоном — моменты соберутся сами",
+  "insight": "любительские команды умеют играть, но почти никогда не могут позволить себе оператора, режиссёра и монтаж хайлайтов",
+  "deck": "Видеосервис для любительского спорта. Зритель следит за командами и матчами; оператор снимает горизонтальный эфир; секретарь ведёт протокол со второго телефона; события синхронизируются с записью и превращаются в клипы.",
+  "brand": { "accent": "#d93624", "accentDark": "#ff6856", "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600" },
+  "start": "phone",
+  "tabs": [
+    { "id": "home", "label": "Главная" },
+    { "id": "clips", "label": "Моменты" },
+    { "id": "create", "label": "Создать" },
+    { "id": "subscriptions", "label": "Подписки" },
+    { "id": "profile", "label": "Профиль" }
+  ],
+  "permissions": [
+    { "key":"photoadd", "plist":"NSPhotoLibraryAddUsageDescription", "alert":{"title":"Разрешить «Лиге» добавлять видео в «Фото»?","text":"Чтобы сохранить выбранный момент в медиатеке iPhone."}, "feature":"Экспорт момента в «Фото»", "gesture":"«Сохранить момент» в эфире", "screen":"watch", "target":"watch", "fallback":"Момент остаётся в разделе «Мои видео»", "snack":"Сохранили в «Мои видео»", "risk":"low", "anchor":false, "conditional":false, "grounding":"PHPhotoLibrary.performChanges создаёт новый видео-asset" },
+    { "key":"localnet", "plist":"NSLocalNetworkUsageDescription (+ NSBonjourServices)", "alert":{"title":"Разрешить «Лиге» находить устройства в локальной сети?","text":"Чтобы смотреть матч на телевизоре."}, "feature":"Трансляция матча на телевизор", "gesture":"Кнопка телевизора в плеере", "screen":"watch", "target":"cast", "fallback":"Эфир продолжает играть на iPhone", "snack":"Телевизоры недоступны без локальной сети", "risk":"low", "anchor":false, "conditional":false, "grounding":"Bonjour discovery и Cast SDK" },
+    { "key":"mic", "plist":"NSMicrophoneUsageDescription", "alert":{"title":"Разрешить «Лиге» доступ к микрофону?","text":"Чтобы зрители слышали площадку во время трансляции."}, "feature":"Звук прямого эфира", "gesture":"«Начать трансляцию»", "screen":"create", "target":"camera", "fallback":"Можно начать эфир без звука или загрузить запись", "snack":"Трансляция начнётся без звука", "risk":"low", "anchor":true, "conditional":false, "grounding":"AVCaptureAudioDataOutput передаёт аудиодорожку в live encoder" },
+    { "key":"location", "plist":"NSLocationWhenInUseUsageDescription", "alert":{"title":"Разрешить «Лиге» использовать геопозицию?","text":"Чтобы показать матчи и площадки рядом."}, "feature":"Матчи рядом", "gesture":"«Рядом» на главной", "screen":"home", "target":"nearby", "fallback":"Открывается расписание выбранного города", "snack":"Показываем матчи по городу", "risk":"low", "anchor":true, "conditional":true, "requires":"Запрос только после выбора фильтра «Рядом»", "grounding":"Core Location сравнивает площадки из каталога" },
+    { "key":"tracking", "plist":"NSUserTrackingUsageDescription", "alert":{"title":"Разрешить «Лиге» отслеживать ваши действия в приложениях и на сайтах других компаний?","text":"Данные будут использоваться для показа релевантной рекламы."}, "feature":"Бесплатный просмотр с рекламой", "gesture":"«Продолжить бесплатно» после входа", "screen":"ads", "target":"home", "fallback":"Показывается неперсонализированная реклама", "snack":"Будем показывать неперсонализированную рекламу", "snackOnce":true, "risk":"medium", "anchor":false, "conditional":true, "requires":"ATT после собственного объяснения", "grounding":"Рекламный SDK работает контекстно при отказе" },
+    { "key":"camera", "plist":"NSCameraUsageDescription", "alert":{"title":"Разрешить «Лиге» доступ к камере?","text":"Чтобы вести трансляцию матча или снять клип."}, "feature":"Операторская камера матча", "gesture":"«Начать трансляцию»", "screen":"create", "target":"camera", "fallback":"Остаётся загрузка готового видео", "snack":"Нет доступа к камере — выберите запись", "risk":"low", "anchor":true, "conditional":false, "grounding":"AVCaptureSession отдаёт горизонтальный видеопоток live encoder" },
+    { "key":"photo", "plist":"NSPhotoLibraryUsageDescription", "alert":{"title":"Разрешить «Лиге» доступ к медиатеке?","text":"Чтобы выбрать запись матча или готовый момент."}, "feature":"Импорт записи и клипа", "gesture":"«Выбрать видео» на вкладке «Создать»", "screen":"create", "target":"upload", "fallback":"Можно снять новое видео камерой", "snack":"Нет доступа к медиатеке — снимите новое видео", "risk":"low", "anchor":false, "conditional":false, "grounding":"PHPicker отдаёт только выбранный файл" },
+    { "key":"audio", "plist":"UIBackgroundModes: audio", "alert":{"title":"Слушать матч в фоне", "text":"Звук эфира продолжит играть при блокировке экрана."}, "activate":true, "feature":"Фоновое прослушивание эфира", "gesture":"«Слушать» под плеером", "screen":"watch", "target":"background", "fallback":"Без capability эфир останавливается при блокировке", "risk":"high", "anchor":true, "conditional":true, "requires":"AVPlayer, Now Playing и remote-команды реально работают", "grounding":"AVAudioSession .playback + MPNowPlayingInfoCenter" },
+    { "key":"push", "plist":"aps-environment (Push Notifications capability)", "alert":{"title":"Разрешить «Лиге» отправлять уведомления?","text":"Сообщим о начале матчей выбранных команд."}, "feature":"Напоминания о матчах", "gesture":"Свитч «Начало матчей» в подписках", "screen":"subscriptions", "target":"subscriptions", "fallback":"Начало матчей отмечается внутри вкладки", "snack":"Напоминания выключены — расписание останется в приложении", "snackOnce":true, "risk":"low", "anchor":false, "conditional":true, "requires":"APNs topics для выбранных команд", "grounding":"FCM/APNs topics без хранения контактов" },
+    { "key":"domains", "plist":"com.apple.developer.associated-domains", "alert":{"title":"Ссылки Лиги","text":"Ссылки liga.video открывают матч сразу в приложении."}, "activate":true, "feature":"Ссылка на матч и момент", "gesture":"«Поделиться» под эфиром", "screen":"watch", "target":"deeplink", "fallback":"Ссылка открывается на публичной странице матча", "risk":"medium", "anchor":false, "conditional":true, "requires":"apple-app-site-association обслуживает /match/* и /clip/*", "grounding":"Associated Domains: applinks:liga.video" }
+  ],
+  "screens": [
+    {"id":"phone","title":"Вход по номеру","type":"старт, без таб-бара","light":true,"meta":"Вход"},
+    {"id":"code","title":"Код из SMS","type":"push","light":true,"parent":"phone","meta":"OTP"},
+    {"id":"ads","title":"Бесплатный просмотр","type":"onboarding","light":true,"parent":"code","meta":"ATT"},
+    {"id":"home","title":"Игровой день","type":"tab (root)","light":true,"meta":"Эфиры и расписание"},
+    {"id":"nearby","title":"Матчи рядом","type":"push","light":true,"parent":"home","meta":"Площадки рядом"},
+    {"id":"watch","title":"Прямой эфир","type":"push","light":true,"parent":"home","meta":"Видео, счёт, события"},
+    {"id":"background","title":"Экран погас","type":"system","light":false,"parent":"watch","meta":"Now Playing"},
+    {"id":"cast","title":"Смотреть на телевизоре","type":"sheet","light":true,"parent":"watch","meta":"Local Network"},
+    {"id":"deeplink","title":"Матч по ссылке","type":"system handoff","light":true,"parent":"watch","meta":"Universal Link"},
+    {"id":"clips","title":"Моменты","type":"tab (root)","light":false,"meta":"Вертикальные моменты"},
+    {"id":"create","title":"Создать","type":"tab (root)","light":true,"meta":"Эфир или импорт"},
+    {"id":"camera","title":"Операторская камера","type":"fullscreen","light":false,"parent":"create","meta":"Camera + microphone"},
+    {"id":"upload","title":"Выбор видео","type":"system picker","light":true,"parent":"create","meta":"Photo Library"},
+    {"id":"publish","title":"Настройка матча","type":"push","light":true,"parent":"camera","meta":"Команды и площадка"},
+    {"id":"subscriptions","title":"Подписки","type":"tab (root)","light":true,"meta":"Команды и турниры"},
+    {"id":"channel","title":"Команда","type":"push","light":true,"parent":"subscriptions","meta":"Состав и видео"},
+    {"id":"profile","title":"Профиль","type":"tab (root)","light":true,"meta":"Роли и библиотека"},
+    {"id":"saved","title":"Мои видео","type":"push","light":true,"parent":"profile","meta":"Записи и моменты"},
+    {"id":"moments","title":"Сохранённые моменты","type":"push","light":true,"parent":"profile","meta":"Личная коллекция"},
+    {"id":"teams","title":"Команды и роли","type":"push","light":true,"parent":"profile","meta":"Участие в командах"},
+    {"id":"search","title":"Поиск","type":"push","light":true,"parent":"home","meta":"Команды, матчи и турниры"}
+  ],
+  "prototypes": [
+    {"id":"all","hero":true,"label":"Весь продукт","note":"Пять вкладок и все десять доступов","start":"phone","screens":["phone","code","ads","home","nearby","watch","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","channel","profile","saved","moments","teams","search"]},
+    {"id":"watch","label":"Смотреть матч","note":"Эфир, ТВ, фон, сохранение и ссылка","start":"home","screens":["home","search","nearby","watch","cast","background","deeplink","channel"]},
+    {"id":"clips","label":"Смотреть моменты","note":"Вертикальные клипы из протокола","start":"clips","screens":["clips","channel","watch","deeplink"],"stops":["watch","deeplink"]},
+    {"id":"create","label":"Провести матч","note":"Камера, микрофон, протокол и импорт","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},
+    {"id":"near","label":"Найти игру рядом","note":"Расписание ближайших площадок","start":"home","screens":["home","search","nearby","watch","channel"],"stops":["watch","channel"]},
+    {"id":"subs","label":"Следить за командой","note":"Команды, турниры и напоминания","start":"subscriptions","screens":["subscriptions","channel","watch"],"stops":["watch"]}
+  ],
+  "backendless": [
+    {"needs":"Каталог турниров и матчей","solution":"Статический пакет демо; production получает расписание из API видеопровайдера"},
+    {"needs":"Live ingest и запись","solution":"В прототипе локальная запись; production передаёт поток в SDK видеопровайдера"},
+    {"needs":"Синхронизация протокола","solution":"В демо события предзаписаны; production использует real-time room матча"},
+    {"needs":"Публичные ссылки","solution":"Статические страницы liga.video и apple-app-site-association"}
+  ],
+  "docs": [
+    {"file":"01-product-vision.md","label":"Вижен"},{"file":"02-architecture.md","label":"Архитектура"},{"file":"03-design-system.md","label":"Дизайн-токены"},{"file":"04-references.md","label":"Референсы"},{"file":"05-visual-audit.md","label":"Визуальный аудит"},{"file":"06-app-store.md","label":"Карточка App Store"}
+  ],
+  "appStore": {
+    "name":"Лига", "subtitle":"Эфиры любительских матчей", "promo":"Снимите матч одним телефоном: счёт синхронизируется с эфиром, а лучшие моменты собираются автоматически.", "keywords":"спорт,матчи,команды,турниры,футбол,баскетбол,клипы,голы", "category":{"primary":"Sports","secondary":"Photo & Video"}, "ageRating":"4+", "price":"Бесплатно, с рекламой", "encryption":"ITSAppUsesNonExemptEncryption = NO — только HTTPS", "urls":{"support":"https://liga.video/support","marketing":"https://liga.video","privacy":"https://liga.video/privacy"},
+    "description":["Лига — видеосервис для команд, турниров и зрителей любительского спорта.","СМОТРИТЕ МАТЧИ\nПрямой эфир, счёт и события игры на одном экране.","СНИМАЙТЕ ОДНИМ ТЕЛЕФОНОМ\nОператор отвечает за кадр, секретарь ведёт протокол со второго устройства.","ПОЛУЧАЙТЕ МОМЕНТЫ\nГолы и другие события автоматически становятся готовыми клипами.","СЛЕДИТЕ ЗА КОМАНДАМИ\nРасписание и напоминания о матчах выбранных клубов."],
+    "whatsNew":"Первая версия: прямые эфиры, клипы, создание матчей, команды и подписки.",
+    "privacy":[{"type":"Номер телефона","apple":"Contact Info → Phone Number","purpose":"Работа приложения","linked":true,"tracking":false,"why":"Вход через SDK провайдера"},{"type":"Геопозиция","apple":"Location → Coarse Location","purpose":"Функциональность","linked":false,"tracking":false,"why":"Матчи и площадки рядом"},{"type":"Пользовательский контент","apple":"User Content → Photos or Videos","purpose":"Функциональность","linked":true,"tracking":false,"why":"Трансляции и загрузка записей"},{"type":"Идентификатор устройства","apple":"Identifiers → Device ID","purpose":"Реклама","linked":false,"tracking":true,"why":"Только после ATT"}],
+    "reviewAccount":{"phone":"+7 900 000-00-00","code":"0000","note":"Тестовый номер принимает код 0000; SMS не отправляется."}
+  }
+}
