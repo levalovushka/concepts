@@ -1,1 +1,17 @@
-<div class="screen td" id="scr-walk"><div class="td-safe"></div><header class="td-head"><button class="td-hit" data-go="pet"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>План</strong><button class="td-hit"><svg class="td-icon"><use href="#i-share"/></svg></button></header><div class="td-plan-hero"><span class="td-status">голосование до 18:30</span><h1>Кино под открытым небом</h1><p style="margin:6px 0 0;opacity:.8">Сегодня · 4 друга</p></div><div class="body-scroll td-vote"><div class="td-friends-now" style="padding:18px 0"><div class="td-person misha"></div><div class="td-person anya"></div><div class="td-person lena"></div><div class="td-person ilya"></div></div><h2 style="font-size:20px">Куда идём?</h2><div class="td-place is-on"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Севкабель Порт</strong><div style="font-size:12px;color:var(--td-muted)">20:10 · всем до 24 минут</div></div><span class="score">3</span></div><div class="td-place"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Новая Голландия</strong><div style="font-size:12px;color:var(--td-muted)">20:30 · всем до 31 минуты</div></div><span class="score">1</span></div><div class="td-fallback perm-hidden" data-show-denied="push">Изменения плана будут отмечены внутри приложения.</div><button class="td-primary block" data-ask="push|walk|walk">Подтвердить план</button><button class="td-secondary block" style="margin-top:10px" data-activate="wifiinfo|walk">Я уже на месте</button><button class="td-secondary block" style="margin-top:10px" data-activate="remotenotif|system">Обновлять голоса</button></div></div>
+<div class="screen td" id="scr-walk">
+  <div class="td-safe"></div>
+  <header class="td-head"><button class="td-hit" data-back aria-label="Назад"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>План</strong><button class="td-hit" aria-label="Ещё"><svg class="td-icon"><use href="#i-ellipsis"/></svg></button></header>
+  <div class="body-scroll" style="padding-bottom:40px">
+    <div class="td-cover plan"><div class="td-cover-copy"><span>Сегодня · 20:10</span><h1>Кино под<br>открытым небом</h1></div></div>
+    <div class="td-plan-summary">
+      <div class="td-private"><svg class="td-icon"><use href="#i-lock"/></svg>Только для 4 участников</div>
+      <div class="td-avatar-stack" style="margin-top:16px"><div class="td-person td-person--s misha"></div><div class="td-person td-person--s anya"></div><div class="td-person td-person--s lena"></div><div class="td-person td-person--s ilya"></div><span>Все подтвердили</span></div>
+      <h2>Выберите место</h2>
+      <button class="td-place is-on"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Севкабель Порт</strong><span>20:10 · всем до 24 минут</span></div><span class="td-votes">3</span></button>
+      <button class="td-place"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Новая Голландия</strong><span>20:30 · всем до 31 минуты</span></div><span class="td-votes">1</span></button>
+      <div class="td-fallback perm-hidden" data-show-denied="push">Изменения плана будут отмечены точкой внутри приложения.</div>
+      <button class="td-primary block" data-ask="push|walk|walk">Подтвердить план</button>
+      <div class="td-compact-actions"><button class="td-secondary" data-activate="wifiinfo|walk">Я на месте</button><button class="td-secondary" data-activate="remotenotif|system">Обновлять состав</button></div>
+    </div>
+  </div>
+</div>

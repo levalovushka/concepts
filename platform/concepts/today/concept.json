@@ -16,7 +16,7 @@
     "situation": "Освободился вечер, но писать каждому и собирать чат слишком долго",
     "problem": "Социальные сети показывают контент, но не текущую готовность увидеться",
     "promise": "За две минуты превратить желание в подтверждённый план",
-    "differentiator": "Нет публичной ленты: каждое действие заканчивается встречей или исчезает",
+    "differentiator": "Приватный план видят только приглашённые: нет публичной ленты, подписчиков и контентной мотивации",
     "returnReasons": [
       "Проверить совпадения сегодня",
       "Ответить на приглашение друга",
@@ -49,7 +49,7 @@
     "distinctions": [
       "Нет публичной ленты",
       "Статус живёт только сегодня",
-      "Группа исчезает после встречи"
+      "Группа архивируется после встречи"
     ],
     "evidenceScreens": [
       "home",
@@ -65,8 +65,8 @@
     ]
   },
   "brand": {
-    "accent": "#20A66A",
-    "accentDark": "#48C58D",
+    "accent": "#2688EB",
+    "accentDark": "#5A9FF0",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },
   "start": "phone",
@@ -77,7 +77,7 @@
     },
     {
       "id": "nearby",
-      "label": "Совпадения"
+      "label": "Вместе"
     },
     {
       "id": "create",
@@ -98,9 +98,9 @@
       "plist": "NSCameraUsageDescription",
       "alert": {
         "title": "«Сегодня» запрашивают доступ к камере",
-        "text": "Чтобы снять общий момент после встречи."
+        "text": "Чтобы снять необязательную обложку приватного плана."
       },
-      "feature": "Момент после встречи",
+      "feature": "Обложка приватного плана",
       "gesture": "«Снять»",
       "screen": "create",
       "target": "camera",
@@ -116,9 +116,9 @@
       "plist": "NSPhotoLibraryUsageDescription",
       "alert": {
         "title": "«Сегодня» запрашивают доступ к фото",
-        "text": "Чтобы добавить готовый снимок в память плана."
+        "text": "Чтобы выбрать необязательную обложку приватного плана."
       },
-      "feature": "Фото встречи",
+      "feature": "Фото для обложки",
       "gesture": "«Из Фото»",
       "screen": "create",
       "target": "media",
@@ -155,7 +155,7 @@
         "text": "Чтобы предложить места, удобные всей компании."
       },
       "feature": "Места между друзьями",
-      "gesture": "«Кто гуляет рядом»",
+      "gesture": "«Показать совпадения»",
       "screen": "home",
       "target": "nearby",
       "fallback": "Район выбирается вручную",
@@ -208,10 +208,10 @@
       "plist": "UIBackgroundModes: remote-notification",
       "alert": {
         "title": "Тихое обновление",
-        "text": "Список планы обновится до открытия приложения."
+        "text": "Состав плана обновится до открытия приложения."
       },
       "activate": true,
-      "feature": "Актуальный состав планы",
+      "feature": "Актуальный состав плана",
       "gesture": "«Обновлять состав»",
       "screen": "walk",
       "target": "system",
@@ -227,14 +227,14 @@
       "plist": "UIBackgroundModes: fetch",
       "alert": {
         "title": "Фоновое обновление",
-        "text": "Лента друзей готова к первому открытию."
+        "text": "Активные планы готовы к первому открытию."
       },
       "activate": true,
-      "feature": "Свежая лента к запуску",
-      "gesture": "«Обновлять ленту в фоне»",
+      "feature": "Свежие планы к запуску",
+      "gesture": "«Обновлять планы в фоне»",
       "screen": "settings",
       "target": "system",
-      "fallback": "Лента обновится после открытия",
+      "fallback": "Планы обновятся после открытия",
       "risk": "medium",
       "anchor": false,
       "conditional": true,
@@ -246,7 +246,7 @@
       "plist": "BGTaskSchedulerPermittedIdentifiers",
       "alert": {
         "title": "Фоновая задача",
-        "text": "app.tails.refresh зарегистрирована для обновления ленты."
+        "text": "app.today.refresh зарегистрирована для обновления планов."
       },
       "activate": true,
       "feature": "Зарегистрированная задача обновления",
@@ -265,10 +265,10 @@
       "plist": "com.apple.security.application-groups",
       "alert": {
         "title": "Общий контейнер",
-        "text": "Виджет показывает следующую прогулку."
+        "text": "Виджет показывает следующий приватный план."
       },
       "activate": true,
-      "feature": "Виджет ближайшей планы",
+      "feature": "Виджет ближайшего плана",
       "gesture": "«Добавить виджет»",
       "screen": "profile",
       "target": "system",
@@ -276,7 +276,7 @@
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "group.app.tails хранит JSON snapshot"
+      "grounding": "group.app.today хранит JSON snapshot"
     },
     {
       "key": "keychain",
@@ -368,7 +368,7 @@
       "ui": {
         "pattern": "auth",
         "purpose": "Подтвердить вход",
-        "primaryAction": "Войти",
+        "primaryAction": "Продолжить",
         "states": [
           "default",
           "loading",
@@ -391,16 +391,16 @@
       "meta": "Желание и время",
       "ui": {
         "pattern": "collection",
-        "purpose": "Смотреть друзей",
-        "primaryAction": null,
+        "purpose": "Отметить желание и окно времени",
+        "primaryAction": "Показать совпадения",
         "states": [
           "default",
           "empty"
         ],
         "density": "high",
         "contentCases": [
-          "пост",
-          "истории",
+          "выбранное желание",
+          "подтверждённый план",
           "fallback"
         ]
       }
@@ -414,15 +414,15 @@
       "meta": "Друг хочет того же",
       "ui": {
         "pattern": "detail",
-        "purpose": "Познакомиться",
-        "primaryAction": null,
+        "purpose": "Проверить совпадение с другом",
+        "primaryAction": "Собрать план",
         "states": [
           "default"
         ],
         "density": "medium",
         "contentCases": [
           "друг",
-          "характер",
+          "общее окно времени",
           "нет сети"
         ]
       }
@@ -436,7 +436,7 @@
       "meta": "Друзья сегодня",
       "ui": {
         "pattern": "collection",
-        "purpose": "Найти прогулку",
+        "purpose": "Найти совпадение среди близких друзей",
         "primaryAction": null,
         "states": [
           "default",
@@ -444,8 +444,8 @@
         ],
         "density": "high",
         "contentCases": [
-          "карта",
-          "район",
+          "точное совпадение",
+          "свободные друзья",
           "нет сети"
         ]
       }
@@ -460,7 +460,7 @@
       "ui": {
         "pattern": "detail",
         "purpose": "Встретиться",
-        "primaryAction": null,
+        "primaryAction": "Подтвердить план",
         "states": [
           "default"
         ],
@@ -474,14 +474,14 @@
     },
     {
       "id": "create",
-      "title": "После встречи",
+      "title": "Новый план",
       "type": "tab (root)",
       "light": true,
-      "meta": "Камера или Фото",
+      "meta": "Приватный редактор плана",
       "ui": {
         "pattern": "editor",
-        "purpose": "Опубликовать момент",
-        "primaryAction": null,
+        "purpose": "Пригласить друзей в приватный план",
+        "primaryAction": "Отправить приглашение",
         "states": [
           "default",
           "error",
@@ -489,8 +489,8 @@
         ],
         "density": "medium",
         "contentCases": [
-          "камера",
-          "медиатека",
+          "участники",
+          "необязательная обложка",
           "нет сети"
         ]
       }
@@ -504,7 +504,7 @@
       "meta": "Съёмка",
       "ui": {
         "pattern": "capture",
-        "purpose": "Снять момент",
+        "purpose": "Снять обложку плана",
         "primaryAction": null,
         "states": [
           "default",
@@ -546,10 +546,10 @@
       "type": "push",
       "light": true,
       "parent": "home",
-      "meta": "Породы и районы",
+      "meta": "Выбранный приватный круг",
       "ui": {
         "pattern": "collection",
-        "purpose": "Найти своих",
+        "purpose": "Управлять близкими друзьями",
         "primaryAction": null,
         "states": [
           "default",
@@ -557,8 +557,8 @@
         ],
         "density": "high",
         "contentCases": [
-          "породы",
-          "районы",
+          "близкие друзья",
+          "статусы на сегодня",
           "нет сети"
         ]
       }
@@ -571,7 +571,7 @@
       "meta": "Диалоги",
       "ui": {
         "pattern": "collection",
-        "purpose": "Вернуться к диалогам",
+        "purpose": "Вернуться к активным планам",
         "primaryAction": null,
         "states": [
           "default",
@@ -579,8 +579,8 @@
         ],
         "density": "high",
         "contentCases": [
-          "личный",
-          "группа",
+          "активный план",
+          "приглашение",
           "нет сети"
         ]
       }
@@ -591,7 +591,7 @@
       "type": "push",
       "light": true,
       "parent": "chats",
-      "meta": "Личный диалог",
+      "meta": "Временная группа плана",
       "ui": {
         "pattern": "detail",
         "purpose": "Договориться",
@@ -646,7 +646,7 @@
         "density": "medium",
         "contentCases": [
           "друзья",
-          "моменты",
+          "недавние встречи",
           "нет сети"
         ]
       }
@@ -661,7 +661,7 @@
       "ui": {
         "pattern": "settings",
         "purpose": "Настроить системные функции",
-        "primaryAction": "Обновлять ленту в фоне",
+        "primaryAction": "Обновлять планы в фоне",
         "states": [
           "default"
         ],
@@ -749,8 +749,8 @@
     },
     {
       "id": "memory",
-      "label": "После встречи",
-      "note": "Камера или Фото без публичной ленты",
+      "label": "Создать план",
+      "note": "Приглашённые, время и необязательная обложка",
       "start": "create",
       "screens": [
         "phone",
