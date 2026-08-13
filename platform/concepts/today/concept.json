@@ -1,0 +1,877 @@
+{
+  "slug": "today",
+  "name": "Сегодня",
+  "eyebrow": "Сегодня · Спонтанные планы с друзьями · iOS",
+  "targetSet": "vkontakte",
+  "domain": "today.place",
+  "heroTitle": "Не переписываться о встрече — встретиться",
+  "heroDeck": "Отметьте, чего хочется сегодня, найдите совпадение среди друзей и соберите план за пару минут.",
+  "tagline": "Кто свободен сегодня — видно сегодня",
+  "insight": "планы срываются не из-за отсутствия желания, а из-за слишком долгой координации",
+  "deck": "Закрытый сервис спонтанных планов с друзьями: желание, окно времени, совпадение, место и временная группа. Без публичной ленты и подписчиков.",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "product": {
+    "audience": "Друзья 18–35 лет в одном городе",
+    "situation": "Освободился вечер, но писать каждому и собирать чат слишком долго",
+    "problem": "Социальные сети показывают контент, но не текущую готовность увидеться",
+    "promise": "За две минуты превратить желание в подтверждённый план",
+    "differentiator": "Приватный план видят только приглашённые: нет публичной ленты, подписчиков и контентной мотивации",
+    "returnReasons": [
+      "Проверить совпадения сегодня",
+      "Ответить на приглашение друга",
+      "Выбрать место общей компанией"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "nearby",
+      "result": "walk"
+    },
+    "coreLoop": [
+      "Выбрать желание и время",
+      "Увидеть совпавших друзей",
+      "Согласовать место и встретиться"
+    ],
+    "nonGoals": [
+      "Публичная лента",
+      "Знакомства с незнакомцами",
+      "Календарь на месяцы"
+    ]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Закрытый social graph и групповые сообщения сохраняют Social Networking, но продукт оптимизирован под офлайн-встречу",
+    "familiarPatterns": [
+      "Друзья и контакты",
+      "Групповой чат",
+      "Реакции на приглашение"
+    ],
+    "distinctions": [
+      "Нет публичной ленты",
+      "Статус живёт только сегодня",
+      "Группа архивируется после встречи"
+    ],
+    "evidenceScreens": [
+      "home",
+      "nearby",
+      "walk",
+      "chats",
+      "profile"
+    ],
+    "referencePatterns": [
+      "messaging",
+      "profile",
+      "communities"
+    ]
+  },
+  "brand": {
+    "accent": "#2688EB",
+    "accentDark": "#5A9FF0",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Сегодня"
+    },
+    {
+      "id": "nearby",
+      "label": "Вместе"
+    },
+    {
+      "id": "create",
+      "label": "Создать"
+    },
+    {
+      "id": "chats",
+      "label": "Планы"
+    },
+    {
+      "id": "profile",
+      "label": "Вы"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Сегодня» запрашивают доступ к камере",
+        "text": "Чтобы снять необязательную обложку приватного плана."
+      },
+      "feature": "Обложка приватного плана",
+      "gesture": "«Снять»",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Можно выбрать готовый снимок",
+      "snack": "Камера недоступна — выберите фото",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession, черновик хранится локально"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Сегодня» запрашивают доступ к фото",
+        "text": "Чтобы выбрать необязательную обложку приватного плана."
+      },
+      "feature": "Фото для обложки",
+      "gesture": "«Из Фото»",
+      "screen": "create",
+      "target": "media",
+      "fallback": "Можно снять новый кадр камерой",
+      "snack": "Фото недоступны — снимите новый кадр",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранные файлы"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Сегодня» запрашивают доступ к микрофону",
+        "text": "Чтобы быстро ответить группе голосом."
+      },
+      "feature": "Голосовое в группе",
+      "gesture": "«Записать голосовое»",
+      "screen": "chat",
+      "target": "voice",
+      "fallback": "Остаются текст и фото",
+      "snack": "Микрофон недоступен — напишите сообщение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, локальный черновик"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Сегодня» запрашивают геопозицию",
+        "text": "Чтобы предложить места, удобные всей компании."
+      },
+      "feature": "Места между друзьями",
+      "gesture": "«Показать совпадения»",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Район выбирается вручную",
+      "snack": "Выберите район вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CoreLocation + статический каталог парков"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить уведомления от «Сегодня»?",
+        "text": "Сообщим только когда друг совпал по желанию."
+      },
+      "feature": "Совпадение с другом",
+      "gesture": "«Следить»",
+      "screen": "walk",
+      "target": "walk",
+      "fallback": "Обновления помечаются точкой внутри приложения",
+      "snack": "Обновления будут отмечены в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "APNs через FCM topics",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Сообщение приходит с аватаром друга и учитывает Focus."
+      },
+      "activate": true,
+      "feature": "Чаты с аватарами в уведомлениях",
+      "gesture": "«Сообщения с аватаром»",
+      "screen": "chat",
+      "target": "chat",
+      "fallback": "Обычное уведомление без аватара",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "INSendMessageIntent + Notification Service Extension",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихое обновление",
+        "text": "Состав плана обновится до открытия приложения."
+      },
+      "activate": true,
+      "feature": "Актуальный состав плана",
+      "gesture": "«Обновлять состав»",
+      "screen": "walk",
+      "target": "system",
+      "fallback": "Состав обновляется при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "didReceiveRemoteNotification обновляет локальный snapshot",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновое обновление",
+        "text": "Активные планы готовы к первому открытию."
+      },
+      "activate": true,
+      "feature": "Свежие планы к запуску",
+      "gesture": "«Обновлять планы в фоне»",
+      "screen": "settings",
+      "target": "system",
+      "fallback": "Планы обновятся после открытия",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGAppRefreshTask читает SDK-кэш",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Фоновая задача",
+        "text": "app.today.refresh зарегистрирована для обновления планов."
+      },
+      "activate": true,
+      "feature": "Зарегистрированная задача обновления",
+      "gesture": "«Проверить фоновые функции»",
+      "screen": "system",
+      "target": "system",
+      "fallback": "Без задачи обновление только вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGTaskScheduler.register совпадает с Info.plist",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Виджет показывает следующий приватный план."
+      },
+      "activate": true,
+      "feature": "Виджет ближайшего плана",
+      "gesture": "«Добавить виджет»",
+      "screen": "profile",
+      "target": "system",
+      "fallback": "Расписание остаётся внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "group.app.today хранит JSON snapshot"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая сессия",
+        "text": "Приложение и расширения используют один защищённый вход."
+      },
+      "activate": true,
+      "feature": "Один вход для приложения и виджета",
+      "gesture": "«Добавить виджет»",
+      "screen": "system",
+      "target": "profile",
+      "fallback": "Виджет открывает приложение для входа",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Токен SDK в общей Keychain group"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Вход на today.place",
+        "text": "Системное автозаполнение подставит сохранённый аккаунт на сайте."
+      },
+      "activate": true,
+      "feature": "Автозаполнение аккаунта на веб-версии",
+      "gesture": "«Автозаполнение на сайте»",
+      "screen": "settings",
+      "target": "system",
+      "fallback": "Вход по коду из SMS",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, данные в общей Keychain group"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сеть площадки",
+        "text": "Wi‑Fi выбранного места помогает группе увидеть, кто уже пришёл."
+      },
+      "activate": true,
+      "feature": "Статус «на месте»",
+      "gesture": "«Я на месте»",
+      "screen": "walk",
+      "target": "walk",
+      "fallback": "Отметка по кнопке без автоматической проверки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "CNCopyCurrentNetworkInfo после выданной геопозиции",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход",
+      "type": "старт",
+      "light": true,
+      "meta": "Номер телефона",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Войти",
+        "primaryAction": "Получить код",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "номер",
+          "ошибка",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить вход",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "код",
+          "повтор",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Сегодня",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "code",
+      "meta": "Желание и время",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Отметить желание и окно времени",
+        "primaryAction": "Показать совпадения",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "выбранное желание",
+          "подтверждённый план",
+          "fallback"
+        ]
+      }
+    },
+    {
+      "id": "pet",
+      "title": "Совпадение",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Друг хочет того же",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Проверить совпадение с другом",
+        "primaryAction": "Собрать план",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "друг",
+          "общее окно времени",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Совпадения",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "meta": "Друзья сегодня",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти совпадение среди близких друзей",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "точное совпадение",
+          "свободные друзья",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "walk",
+      "title": "План",
+      "type": "push",
+      "light": true,
+      "parent": "nearby",
+      "meta": "Место и участники",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Встретиться",
+        "primaryAction": "Подтвердить план",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "состав",
+          "место",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Новый план",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Приватный редактор плана",
+      "ui": {
+        "pattern": "editor",
+        "purpose": "Пригласить друзей в приватный план",
+        "primaryAction": "Отправить приглашение",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "участники",
+          "необязательная обложка",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Съёмка",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Снять обложку плана",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "кадр",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "media",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "parent": "create",
+      "meta": "Выбор кадра",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать фото",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "галерея",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "groups",
+      "title": "Друзья",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Выбранный приватный круг",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Управлять близкими друзьями",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "близкие друзья",
+          "статусы на сегодня",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "chats",
+      "title": "Планы",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Диалоги",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к активным планам",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "активный план",
+          "приглашение",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "chat",
+      "title": "Группа плана",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Временная группа плана",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Договориться",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "текст",
+          "голос",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовое",
+      "type": "modal",
+      "light": true,
+      "parent": "chat",
+      "meta": "Запись",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Записать голос",
+        "primaryAction": "Отправить",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "запись",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Вы",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Мои друзья",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять профилем",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "друзья",
+          "недавние встречи",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Фон и веб-вход",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Настроить системные функции",
+        "primaryAction": "Обновлять планы в фоне",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "фон",
+          "автозаполнение",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "system",
+      "title": "Системные функции",
+      "type": "task",
+      "light": true,
+      "parent": "settings",
+      "meta": "Widget · Background",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Проверить системные функции",
+        "primaryAction": "Готово",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "виджет",
+          "фон",
+          "нет сети"
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "От желания до временной группы и встречи",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "plan",
+      "label": "Собрать план",
+      "note": "Желание, совпадение и место",
+      "start": "home",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "memory",
+      "label": "Создать план",
+      "note": "Приглашённые, время и необязательная обложка",
+      "start": "create",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "group",
+      "label": "Временная группа",
+      "note": "Сообщения и голос",
+      "start": "chats",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Статусы друзей",
+      "solution": "Статический демо-граф и локальные статусы в прототипе"
+    },
+    {
+      "needs": "Подбор места",
+      "solution": "MapKit local search на устройстве"
+    },
+    {
+      "needs": "Сообщения",
+      "solution": "Firebase SDK без собственного API"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Сегодня",
+    "subtitle": "Планы с друзьями сейчас",
+    "promo": "Отметьте желание, найдите совпавших друзей и договоритесь о месте без бесконечного чата.",
+    "keywords": "компания,вечер,встречи,рядом,спонтанно",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://today.place/support",
+      "marketing": "https://today.place",
+      "privacy": "https://today.place/privacy"
+    },
+    "description": [
+      "Закрытый сервис спонтанных планов с друзьями.",
+      "ОДНО ЖЕЛАНИЕ — ОДНА ВСТРЕЧА\nВыберите занятие и время, найдите совпадение, согласуйте место."
+    ],
+    "whatsNew": "Первая версия: статусы сегодня, совпадения, места и временные группы.",
+    "privacy": [
+      {
+        "type": "Медиа и геопозиция",
+        "apple": "User Content · Location",
+        "purpose": "Функции приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Публикации и планы рядом"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Демо-вход, SMS не отправляется"
+    }
+  }
+}

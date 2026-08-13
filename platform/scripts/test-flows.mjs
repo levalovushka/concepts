@@ -88,6 +88,58 @@ async function run(slug) {
   const stray = reachable.filter((k) => !spec.permissions.some((p) => p.key === k));
   ok('в разметке нет доступов вне спеки' + (stray.length ? ` → ${stray}` : ''), !stray.length);
 
+  /* Галерея экранов не считается пользовательским маршрутом. Строим граф
+     реальных переходов от start и убеждаемся, что для каждого доступа есть
+     хотя бы один достижимый UI-триггер. Иначе permission формально лежит в
+     разметке, но получить его внутри продукта невозможно. */
+  const routePermissions = await page.evaluate(({ h, start, parent }) => {
+    const root = document.querySelector(h);
+    const screens = [...root.querySelectorAll('[data-screen]')];
+    const known = new Set(screens.map((e) => e.dataset.screen));
+    const graph = Object.fromEntries([...known].map((id) => [id, new Set()]));
+    const add = (from, to) => { if (from && known.has(to)) graph[from].add(to); };
+
+    for (const screen of screens) {
+      const from = screen.dataset.screen;
+      screen.querySelectorAll('[data-go],[data-jump]').forEach((e) => add(from, e.dataset.go || e.dataset.jump));
+      screen.querySelectorAll('[data-ask]').forEach((e) => {
+        const [, grant, deny] = e.dataset.ask.split('|');
+        add(from, grant); add(from, deny);
+      });
+      screen.querySelectorAll('[data-activate]').forEach((e) => add(from, e.dataset.activate.split('|')[1]));
+      screen.querySelectorAll('[data-toast]').forEach((e) => add(from, e.dataset.toast.split('|')[1]));
+      if (screen.querySelector('[data-back]')) add(from, parent[from]);
+    }
+
+    const reached = new Set([start]);
+    const queue = [start];
+    while (queue.length) {
+      const from = queue.shift();
+      for (const to of graph[from] || []) if (!reached.has(to)) { reached.add(to); queue.push(to); }
+    }
+
+    const triggers = {};
+    for (const screen of screens) {
+      const id = screen.dataset.screen;
+      screen.querySelectorAll('[data-ask]').forEach((e) => {
+        e.dataset.ask.split('|')[0].split('+').forEach((key) => (triggers[key] ||= new Set()).add(id));
+      });
+      screen.querySelectorAll('[data-activate]').forEach((e) => {
+        const key = e.dataset.activate.split('|')[0];
+        (triggers[key] ||= new Set()).add(id);
+      });
+    }
+    return {
+      reached: [...reached],
+      triggers: Object.fromEntries(Object.entries(triggers).map(([key, ids]) => [key, [...ids]])),
+    };
+  }, { h: H, start: spec.start, parent: Object.fromEntries(spec.screens.map((s) => [s.id, s.parent])) });
+  for (const p of spec.permissions) {
+    const triggerScreens = routePermissions.triggers[p.key] || [];
+    const available = triggerScreens.filter((id) => routePermissions.reached.includes(id));
+    ok(`${p.key}: UI-триггер достижим от «${spec.start}»` + (available.length ? ` через «${available.join(', ')}»` : ` → триггеры только на: ${triggerScreens.join(', ') || 'нет'}`), available.length > 0);
+  }
+
   /* —— доступы: отказ ведёт на видимый fallback —— */
   for (const p of spec.permissions) {
     if (p.activate) {

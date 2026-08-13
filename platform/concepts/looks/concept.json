@@ -1,0 +1,877 @@
+{
+  "slug": "looks",
+  "name": "Образы",
+  "eyebrow": "Образы · Социальная сеть личного стиля · iOS",
+  "targetSet": "vkontakte",
+  "domain": "looks.social",
+  "heroTitle": "Стиль начинается не с покупки",
+  "heroDeck": "Авторы, публикации, сообщества и разговоры о личном стиле — без витрины маркетплейса.",
+  "tagline": "Не вещи по отдельности, а сочетания, которые уже живут",
+  "insight": "люди сохраняют не товар, а готовый ответ на вопрос «как это носить»",
+  "deck": "Социальная сеть личного стиля: публикации образов, профили авторов, сообщества, клипы-примерки и отметки вещей.",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "product": {
+    "audience": "Люди 18–35 лет, которые собирают повседневный стиль без стилиста",
+    "situation": "Нужно придумать образ из уже знакомых вещей или поделиться удачным сочетанием",
+    "problem": "Маркетплейсы продают отдельные товары, а вдохновение теряется между сохранёнными картинками",
+    "promise": "Найти носибельный образ и разобрать его на вещи",
+    "differentiator": "Социальная единица — образ из реального гардероба, а не товарная карточка",
+    "returnReasons": [
+      "Новые образы знакомых авторов",
+      "Сохранённые сочетания",
+      "Реакции и комментарии к своим публикациям"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "create",
+      "result": "camera"
+    },
+    "coreLoop": [
+      "Увидеть публикацию автора или сообщества",
+      "Отреагировать, обсудить или сохранить",
+      "Подписаться и опубликовать свою версию"
+    ],
+    "nonGoals": [
+      "Маркетплейс",
+      "Услуги стилиста",
+      "Генерация лиц и тел"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Лента, профили, сообщества, короткие видео и сообщения формируют Social Networking",
+    "familiarPatterns": [
+      "Лента и реакции",
+      "Авторы и подписки",
+      "Сообщества",
+      "Клипы-примерки"
+    ],
+    "distinctions": [
+      "Отметки вещей на фото",
+      "Профиль как живой гардероб",
+      "Ремикс образа своими вещами"
+    ],
+    "evidenceScreens": [
+      "home",
+      "pet",
+      "nearby",
+      "create",
+      "profile"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile",
+      "create-post",
+      "communities"
+    ]
+  },
+  "brand": {
+    "accent": "#6B57E8",
+    "accentDark": "#8D7CFF",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "nearby",
+      "label": "Сообщества"
+    },
+    {
+      "id": "chats",
+      "label": "Сообщения"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к камере",
+        "text": "Чтобы снять образ или видео-примерку."
+      },
+      "feature": "Снять образ",
+      "gesture": "«Снять»",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Можно выбрать готовый снимок",
+      "snack": "Камера недоступна — выберите фото",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession, черновик хранится локально"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к фото",
+        "text": "Чтобы выбрать фото образа из медиатеки."
+      },
+      "feature": "Публикация из медиатеки",
+      "gesture": "«Из Фото»",
+      "screen": "create",
+      "target": "media",
+      "fallback": "Можно снять новый кадр камерой",
+      "snack": "Фото недоступны — снимите новый кадр",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранные файлы"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к микрофону",
+        "text": "Чтобы записать голосовое сообщение автору."
+      },
+      "feature": "Голосовые сообщения",
+      "gesture": "«Записать голосовое»",
+      "screen": "chat",
+      "target": "voice",
+      "fallback": "Остаются текст и фото",
+      "snack": "Микрофон недоступен — напишите сообщение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, локальный черновик"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают геопозицию",
+        "text": "Чтобы показывать локальные свопы и события стиля."
+      },
+      "feature": "События стиля рядом",
+      "gesture": "«Кто гуляет рядом»",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Район выбирается вручную",
+      "snack": "Выберите район вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CoreLocation + статический каталог парков"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить уведомления от «Образов»?",
+        "text": "Сообщим об ответах и новых образах избранных авторов."
+      },
+      "feature": "Ответы и новые публикации",
+      "gesture": "«Следить»",
+      "screen": "walk",
+      "target": "walk",
+      "fallback": "Обновления помечаются точкой внутри приложения",
+      "snack": "Обновления будут отмечены в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "APNs через FCM topics",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Сообщение приходит с аватаром автора и учитывает Focus."
+      },
+      "activate": true,
+      "feature": "Чаты с аватарами в уведомлениях",
+      "gesture": "«Сообщения с аватаром»",
+      "screen": "chat",
+      "target": "chat",
+      "fallback": "Обычное уведомление без аватара",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "INSendMessageIntent + Notification Service Extension",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихое обновление",
+        "text": "Новая часть серии загрузится до открытия приложения."
+      },
+      "activate": true,
+      "feature": "Актуальная серия клипов",
+      "gesture": "«Обновление клипов»",
+      "screen": "settings",
+      "target": "system",
+      "fallback": "Состав обновляется при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "didReceiveRemoteNotification обновляет локальный snapshot",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновое обновление",
+        "text": "Лента друзей готова к первому открытию."
+      },
+      "activate": true,
+      "feature": "Свежая лента к запуску",
+      "gesture": "«Обновлять ленту в фоне»",
+      "screen": "settings",
+      "target": "system",
+      "fallback": "Лента обновится после открытия",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGAppRefreshTask читает SDK-кэш",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Фоновая задача",
+        "text": "app.looks.refresh зарегистрирована для обновления ленты."
+      },
+      "activate": true,
+      "feature": "Зарегистрированная задача обновления",
+      "gesture": "«Проверить фоновые функции»",
+      "screen": "system",
+      "target": "system",
+      "fallback": "Без задачи обновление только вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGTaskScheduler.register совпадает с Info.plist",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Виджет показывает последний сохранённый образ."
+      },
+      "activate": true,
+      "feature": "Виджет сохранённого образа",
+      "gesture": "«Добавить виджет»",
+      "screen": "profile",
+      "target": "system",
+      "fallback": "Расписание остаётся внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "group.app.looks хранит JSON snapshot"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая сессия",
+        "text": "Приложение и расширения используют один защищённый вход."
+      },
+      "activate": true,
+      "feature": "Один вход для приложения и виджета",
+      "gesture": "«Добавить виджет»",
+      "screen": "system",
+      "target": "profile",
+      "fallback": "Виджет открывает приложение для входа",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Токен SDK в общей Keychain group"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Вход на looks.social",
+        "text": "Системное автозаполнение подставит сохранённый аккаунт на сайте."
+      },
+      "activate": true,
+      "feature": "Автозаполнение аккаунта на веб-версии",
+      "gesture": "«Автозаполнение на сайте»",
+      "screen": "settings",
+      "target": "system",
+      "fallback": "Вход по коду из SMS",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, данные в общей Keychain group"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сеть площадки",
+        "text": "Сеть поп-апа подтверждает участие в локальном свопе."
+      },
+      "activate": true,
+      "feature": "Отметка на поп-апе",
+      "gesture": "«События на площадках»",
+      "screen": "settings",
+      "target": "walk",
+      "fallback": "Отметка по кнопке без автоматической проверки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "CNCopyCurrentNetworkInfo после выданной геопозиции",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход",
+      "type": "старт",
+      "light": true,
+      "meta": "Номер телефона",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Войти",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "номер",
+          "ошибка",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить вход",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "код",
+          "повтор",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "code",
+      "meta": "Публикации и истории",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Следить за авторами",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "пост",
+          "истории",
+          "fallback"
+        ]
+      }
+    },
+    {
+      "id": "pet",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Пост и комментарии",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Обсудить образ",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "автор",
+          "характер",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Сообщества",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "meta": "Подписки и рекомендации",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти своих",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "подписки",
+          "рекомендации",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "walk",
+      "title": "Клип-примерка",
+      "type": "push",
+      "light": false,
+      "parent": "nearby",
+      "meta": "Клип сообщества",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Посмотреть серию",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "состав",
+          "место",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Новый образ",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Текст, фото и аудитория",
+      "ui": {
+        "pattern": "editor",
+        "purpose": "Опубликовать момент",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "камера",
+          "медиатека",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Съёмка",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Снять момент",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "кадр",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "media",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "parent": "create",
+      "meta": "Выбор кадра",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать фото",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "галерея",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "groups",
+      "title": "Сообщество",
+      "type": "push",
+      "light": true,
+      "parent": "nearby",
+      "meta": "Лента сообщества",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти своих",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "описание",
+          "публикации",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "chats",
+      "title": "Сообщения",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Диалоги",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к диалогам",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "личный",
+          "группа",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "chat",
+      "title": "Диалог",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный диалог",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Договориться",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "текст",
+          "голос",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовое сообщение",
+      "type": "modal",
+      "light": true,
+      "parent": "chat",
+      "meta": "Запись",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Записать голос",
+        "primaryAction": "Отправить",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "запись",
+          "пустое состояние",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль автора",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Публикации и подписки",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять профилем",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "публикации",
+          "сохранённое",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Фон и веб-вход",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Настроить системные функции",
+        "primaryAction": "Фоновая лента",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "разрешения",
+          "системные возможности",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "system",
+      "title": "Системные функции",
+      "type": "task",
+      "light": true,
+      "parent": "settings",
+      "meta": "Widget · Background",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Проверить системные функции",
+        "primaryAction": "Вернуться в профиль",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "виджет",
+          "фон",
+          "нет сети"
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Социальная лента, сообщества, сообщения, профиль и публикация",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "discover",
+      "label": "Найти образ",
+      "note": "Лента, разбор вещей и автор",
+      "start": "home",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать образ",
+      "note": "Камера, Фото и публикация",
+      "start": "create",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    },
+    {
+      "id": "clip",
+      "label": "Примерка",
+      "note": "Короткое видео и комментарий",
+      "start": "nearby",
+      "screens": [
+        "phone",
+        "code",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Лента и профили",
+      "solution": "Статический контент-пак и локальные реакции в прототипе"
+    },
+    {
+      "needs": "Распознавание вещей",
+      "solution": "Vision на устройстве с ручным подтверждением"
+    },
+    {
+      "needs": "Уведомления",
+      "solution": "APNs через SDK провайдера"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Образы",
+    "subtitle": "Живой стиль реальных людей",
+    "promo": "Сохраняйте сочетания, разбирайте образы на вещи и показывайте свои.",
+    "keywords": "гардероб,сочетания,примерка,авторы,сообщество",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://looks.social/support",
+      "marketing": "https://looks.social",
+      "privacy": "https://looks.social/privacy"
+    },
+    "description": [
+      "Социальная сеть реального личного стиля.",
+      "ОБРАЗЫ И АВТОРЫ\nСмотрите сочетания, отмечайте вещи, сохраняйте и повторяйте."
+    ],
+    "whatsNew": "Первая версия: лента, клипы-примерки, гардеробы и сообщения.",
+    "privacy": [
+      {
+        "type": "Медиа и геопозиция",
+        "apple": "User Content · Location",
+        "purpose": "Функции приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Публикации и примерки рядом"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Демо-вход, SMS не отправляется"
+    }
+  }
+}
