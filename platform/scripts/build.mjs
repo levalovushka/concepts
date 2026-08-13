@@ -60,6 +60,22 @@ ${spec.permissions.map((p) =>
 ).join('\n')}
 </div>`;
 
+const productContract = (spec) => `<div class="product-contract">
+  <div class="product-facts">
+    <div><b>Для кого</b><span>${esc(spec.product.audience)}</span></div>
+    <div><b>Ситуация</b><span>${esc(spec.product.situation)}</span></div>
+    <div><b>Проблема</b><span>${esc(spec.product.problem)}</span></div>
+    <div><b>Обещание</b><span>${esc(spec.product.promise)}</span></div>
+    <div><b>Отличие</b><span>${esc(spec.product.differentiator)}</span></div>
+  </div>
+  <div class="product-loop">
+    <b>Ядровой цикл</b>
+    <ol>${spec.product.coreLoop.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>
+    <b>Не делаем</b>
+    <ul>${spec.product.nonGoals.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+  </div>
+</div>`;
+
 const docsLinks = (spec) =>
   (spec.docs || []).map((d) => `<a href="docs/${d.file}">${esc(d.label)}</a>`).join('\n      ') +
   `\n      <a class="zip" href="docs/${spec.slug}-docs.zip" download>Скачать все (ZIP)</a>`;
@@ -245,6 +261,7 @@ export function build(slug, { outDir } = {}) {
     HERO_DEVICE: heroDevice,
     PROTO_CARDS: protoCards,
     VISION_BODY: grab('vision'),
+    PRODUCT_CONTRACT: productContract(spec),
     ARCH_BODY: grab('arch'),
     DOCS_LINKS: docsLinks(spec),
     LEDGER_INTRO: `${spec.permissions.length} ключей. Каждый запрашивается в момент действия и стоит за фичей, которую видно в интерфейсе. Домен ссылок — только <code style="font-family:var(--mono);font-size:12px">${esc(spec.domain)}</code>.`,

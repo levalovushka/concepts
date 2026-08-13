@@ -68,6 +68,20 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .panel { background:var(--page-card); border-radius:var(--r-panel); padding:var(--s-xl); margin-bottom:var(--s-base); }
 .panel-title { font:600 clamp(19px,2vw,22px)/1.2 var(--face); letter-spacing:-.03em; margin:0 0 var(--s-lg); text-align:left; }
 
+/* Обязательный продуктовый контракт из concept.json: один источник для Overview и проверок. */
+.product-contract { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(260px,1fr); gap:var(--s-xl); }
+.product-facts { display:grid; grid-template-columns:1fr 1fr; gap:1px; border:1px solid var(--page-line); border-radius:var(--r-panel); overflow:hidden; background:var(--page-line); }
+.product-facts div { padding:var(--s-base); background:var(--page-card); }
+.product-facts div:last-child { grid-column:1/-1; }
+.product-facts b,.product-facts span,.product-loop>b { display:block; }
+.product-facts b,.product-loop>b { font:600 11px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--page-ink-mute); }
+.product-facts span { margin-top:6px; color:var(--page-ink-dim); font-size:14px; line-height:1.5; }
+.product-loop { padding:var(--s-base); border-radius:var(--r-panel); background:var(--page-chip); }
+.product-loop ol,.product-loop ul { margin:10px 0 var(--s-lg); padding-left:22px; color:var(--page-ink-dim); font-size:14px; }
+.product-loop ul { margin-bottom:0; }
+.product-loop li+li { margin-top:7px; }
+@media (max-width:780px) { .product-contract { grid-template-columns:1fr; } .product-facts { grid-template-columns:1fr; } .product-facts div:last-child { grid-column:auto; } }
+
 /* —— шапка Overview: заголовок · устройство · доступы —— */
 .overview-hero {
   display:grid; grid-template-columns:auto minmax(0,1fr);
