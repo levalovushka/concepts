@@ -1,33 +1,39 @@
 <div class="screen sm-screen sm-player-screen" id="scr-player">
   <header class="sm-player-head">
-    <button class="sm-icon-btn tap" data-back aria-label="Свернуть плеер"><svg><use href="#i-chevron-down"/></svg></button>
-    <div><strong>Сторона A</strong><span>Чёрные глаза</span></div>
-    <button class="sm-icon-btn tap" data-toast="Ссылка скопирована · shellac.app/rec/2213-А" aria-label="Поделиться"><svg><use href="#i-share"/></svg></button>
+    <button class="sm-vk-nav tap" data-back aria-label="Свернуть плеер"><svg class="ico-svg"><use href="#i-chevron-down"/></svg></button>
+    <div class="sm-player-head-copy"><span>Архив ЛИРА</span><strong>Чёрные глаза</strong></div>
+    <button class="sm-vk-nav tap" data-toast="Меню трека" aria-label="Ещё"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></button>
   </header>
 
   <div class="sm-player-body">
-    <div class="sm-player-art art-player" role="img" aria-label="Конверт и пластинка «Чёрные глаза»"></div>
+    <div class="sm-player-art-zone">
+      <div class="sm-player-art art-player" role="img" aria-label="Конверт и пластинка «Чёрные глаза»"></div>
+    </div>
 
-    <div class="sm-playback">
-      <div class="sm-side-caption"><span>Сторона A</span><i></i><span>3:04</span></div>
+    <section class="sm-playback">
       <div class="sm-now-copy">
-        <div><h1>Чёрные глаза</h1><p>А. Вертинскій · ЛИРА, 1927</p></div>
-        <button class="sm-favorite tap" data-toast="Добавлено в «Мою музыку»" aria-label="Добавить в мою музыку"><svg><use href="#i-plus"/></svg></button>
+        <div><h1>Чёрные глаза</h1><p>А. Вертинскій</p></div>
+        <button class="sm-favorite tap" data-toast="Добавлено в «Мою музыку»" aria-label="Добавить в мою музыку"><svg class="ico-svg"><use href="#i-plus"/></svg></button>
       </div>
 
-      <div class="sm-progress"><i></i></div>
-      <div class="sm-time"><span>1:06</span><span>−1:58</span></div>
+      <div class="sm-timeline">
+        <div class="sm-progress"><i></i></div>
+        <div class="sm-time"><span>1:06</span><span>−1:58</span></div>
+      </div>
+
       <div class="sm-player-controls">
-        <button class="tap" aria-label="Предыдущая сторона"><svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></svg></button>
-        <button class="sm-pause tap" aria-label="Пауза"><svg><use href="#i-pause"/></svg></button>
-        <button class="tap" aria-label="Следующая сторона"><svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg></button>
+        <div class="sm-transport">
+          <button class="tap" aria-label="Предыдущая сторона"><svg class="ico-svg"><use href="#i-skip-back"/></svg></button>
+          <button class="sm-pause tap" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></button>
+          <button class="tap" aria-label="Следующая сторона"><svg class="ico-svg"><use href="#i-skip-forward"/></svg></button>
+        </div>
       </div>
-    </div>
 
-    <div class="sm-player-options">
-      <button class="tap is-on" data-toast="Шум иглы включён — играет нереставрированная дорожка"><svg><use href="#i-volume-2"/></svg><span>Шум иглы</span></button>
-      <button class="tap" data-activate="audio|background"><svg><use href="#i-lock"/></svg><span>Слушать при погасшем экране</span></button>
-    </div>
+      <div class="sm-player-options">
+        <button class="tap is-on" data-toast="Шум иглы включён — играет нереставрированная дорожка"><svg class="ico-svg"><use href="#i-volume-2"/></svg><span>Шум иглы</span></button>
+        <button class="tap" data-activate="audio|background"><svg class="ico-svg"><use href="#i-lock"/></svg><span>Слушать при погасшем экране</span></button>
+      </div>
+    </section>
   </div>
   <div class="home-ind"></div>
 </div>
