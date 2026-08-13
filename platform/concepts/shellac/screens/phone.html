@@ -1,15 +1,16 @@
-<div class="screen ios-surface" id="scr-phone" style="background:#fff">
-  <div class="body-scroll auth">
-    <div class="auth-mark" aria-hidden="true"></div>
-    <h1 class="auth-title">Вход</h1>
-    <p class="auth-lede">Пришлём код в SMS. Номер нужен, чтобы полка и список розыска остались с вами при смене телефона.</p>
-    <div class="auth-field">
-      <input class="auth-num" type="text" value="+7 900 123-45-67" readonly aria-label="Номер телефона">
-    </div>
-    <div class="auth-actions">
-      <div class="btn-filled block tap" data-go="code">Получить код</div>
-      <p class="auth-legal">Продолжая, вы принимаете условия использования и политику конфиденциальности</p>
-    </div>
+<div class="screen sm-screen sm-login" id="scr-phone">
+  <div class="sm-login-body">
+    <div class="sm-login-brand" aria-hidden="true"><i></i></div>
+    <span class="sm-login-name">ШЕЛЛАК</span>
+    <h1>Ваша музыка<br>остаётся с вами</h1>
+    <p>Номер сохранит коллекцию пластинок и «Розыск» при смене телефона.</p>
+
+    <label class="sm-phone-field">
+      <span>Номер телефона</span>
+      <input type="text" value="+7 900 123-45-67" readonly aria-label="Номер телефона">
+    </label>
+    <button class="sm-login-primary tap" data-go="code">Получить код</button>
+    <small>Пришлём SMS. Никаких рассылок и публичного профиля.</small>
   </div>
-  <div class="home-ind" aria-hidden="true"></div>
+  <div class="home-ind"></div>
 </div>

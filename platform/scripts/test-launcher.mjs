@@ -23,8 +23,8 @@ try {
 
   const concepts = listConcepts();
   const modes = Object.fromEntries(concepts.map((slug) => [slug, readSpec(slug).positioning.mode]));
-  assert.deepEqual(Object.keys(modes).filter((slug) => modes[slug] === 'mimicry'), ['dvor', 'liga', 'radius'], 'состав мимикрии изменился');
-  assert.equal(Object.values(modes).filter((mode) => mode === 'differentiation').length, 7, 'в отстройке должно быть 7 концептов');
+  assert.deepEqual(Object.keys(modes).filter((slug) => modes[slug] === 'mimicry'), ['dvor', 'liga', 'radius', 'shellac'], 'состав мимикрии изменился');
+  assert.equal(Object.values(modes).filter((mode) => mode === 'differentiation').length, 6, 'в отстройке должно быть 6 концептов');
   const cards = page.locator('.card');
   assert.equal(await cards.count(), concepts.length, 'в лаунчере должен быть каждый концепт');
 

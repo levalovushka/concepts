@@ -1,112 +1,41 @@
-<div class="screen ios-surface" id="scr-archive" style="background:#f2f2f7">
-            <div class="navbar is-large">
-              <div class="nav-top"></div>
-              <div class="title large">Архив</div>
-            </div>
-            <div class="body-scroll" style="padding-bottom:12px">
-              <div class="pad-x">
-                <div class="searchfield">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
-                  <span class="sf-placeholder">Название, лейбл или матрица</span>
-                </div>
-              </div>
+<div class="screen sm-screen" id="scr-archive">
+  <header class="sm-header">
+    <div><h1>Главная</h1></div>
+    <div class="sm-head-actions"><button class="sm-icon-btn" aria-label="Поиск"><svg><use href="#i-search"/></svg></button><button class="sm-avatar" aria-label="Профиль">В</button></div>
+  </header>
+  <div class="body-scroll sm-scroll">
+    <div class="sm-search"><svg><use href="#i-search"/></svg><span>Название, лейбл или матрица</span></div>
 
-              <!-- Главное действие: камера первой строкой, до всякого контента -->
-              <div class="find-card tap" data-ask="camera|scan|archive">
-                <div class="find-ico">
-                  <svg class="ico-svg"><use href="#i-scan-line"/></svg>
-                </div>
-                <div class="grow">
-                  <div class="t-headline">Найти пластинку</div>
-                  <div class="t-caption" style="margin-top:3px">Наведите камеру на этикетку — запись найдётся в архиве</div>
-                </div>
-                <span class="ios-disclosure" aria-hidden="true"></span>
-              </div>
+    <section class="sm-mix tap" data-go="record">
+      <div class="sm-mix-copy"><span class="sm-kicker">ПРОДОЛЖИТЬ</span><h2>Прощай,<br>радость</h2><p>Хоръ Кузнецова · 1925</p><span class="sm-play" aria-label="Продолжить сторону B"><svg><use href="#i-play"/></svg></span></div>
+      <div class="sm-mix-art art-s2"></div>
+    </section>
 
-              <div class="pad-x">
-                <div class="t-footnote perm-hidden" style="color:var(--refused);margin:-8px 0 18px" data-show-denied="camera">
-                  Нет доступа к камере. Поиск по названию, лейблу и матричному номеру работает — введите номер, выдавленный у центра пластинки.
-                </div>
-              </div>
+    <section class="sm-recognize tap" data-ask="camera|scan|archive">
+      <div class="sm-recognize-icon"><svg><use href="#i-scan-line"/></svg></div>
+      <div class="grow"><strong>Найти пластинку</strong><span>Наведите камеру на этикетку</span></div>
+      <svg class="sm-chevron"><use href="#i-chevron-right"/></svg>
+    </section>
+    <p class="sm-fallback perm-hidden" data-show-denied="camera">Камера недоступна — ищите по названию, лейблу или матрице.</p>
 
-              <div class="crate tap" data-go="record">
-                <div class="scene art-crate" style="background-position:center 42%"></div>
-                <div class="crate-meta">
-                  <div class="pill" style="background:rgba(168,99,29,.92)">Продолжить · сторона B</div>
-                  <div class="crate-title">Прощай, радость</div>
-                  <div class="crate-sub">Хоръ Кузнецова · ГРАМОФОНЪ, 1925</div>
-                </div>
-              </div>
+    <div class="sm-section-head"><h2>Новое в архиве</h2><button>Всё</button></div>
+    <div class="sm-release-rail">
+      <article class="sm-release tap" data-go="record"><div class="sm-release-art art-s1"></div><strong>Чёрные глаза</strong><span>А. Вертинскій · 1927</span></article>
+      <article class="sm-release tap" data-go="record"><div class="sm-release-art art-d3"></div><strong>Полька-мазурка</strong><span>Оркестръ Гольдберга</span></article>
+      <article class="sm-release tap" data-go="record"><div class="sm-release-art art-d4"></div><strong>Гай-да тройка</strong><span>Н. Плевицкая · 1922</span></article>
+    </div>
 
-              <div class="pad-x">
-                <div class="sec-label">Оцифровано на этой неделе</div>
-                <div class="ios-list list-gap">
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d1"><span class="dur">3:04</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Чёрные глаза</div>
-                      <div class="t-caption mt4">А. Вертинскій · ЛИРА, 1927</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d3"><span class="dur">2:38</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Полька-мазурка</div>
-                      <div class="t-caption mt4">Оркестръ Гольдберга · АРТЕЛЬ ЗВУКЪ, 1928</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d4"><span class="dur">2:52</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Гай-да тройка</div>
-                      <div class="t-caption mt4">Н. Плевицкая · ЭХО, 1922</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                </div>
-
-                <div class="sec-label">Собрания</div>
-                <div class="ios-list">
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d5"><span class="dur">41</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Салонные вальсы</div>
-                      <div class="t-caption mt4">41 сторона · 1907–1928</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d6"><span class="dur">27</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Ямщицкія и дорожныя</div>
-                      <div class="t-caption mt4">27 сторонъ · 1910–1924</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                  <div class="row tap has-media" data-go="record">
-                    <div class="lrow-thumb art-d2"><span class="dur">63</span></div>
-                    <div class="grow">
-                      <div class="t-headline">Хоры и капеллы</div>
-                      <div class="t-caption mt4">63 стороны · 1905–1926</div>
-                    </div>
-                    <span class="ios-disclosure" aria-hidden="true"></span>
-                  </div>
-                </div>
-
-                <div class="t-footnote perm-hidden" style="color:var(--accent-fill);margin-top:16px" data-show-granted="push">
-                  Уведомления включены — сообщим, когда оцифруют пластинку из «Розыска».
-                </div>
-                <p class="t-footnote" style="margin:16px 0 0">
-                  2 418 сторон — все в общественном достоянии.
-                </p>
-              </div>
-            </div>
-            <div class="tabbar light" aria-label="Основная навигация">
-              <div class="tab is-on" aria-current="page" data-go="archive"><span class="ico"><svg class="ico-svg"><use href="#i-search"/></svg></span><span class="tab-label">Архив</span></div>
-              <div class="tab" data-go="shelf"><span class="ico"><svg class="ico-svg"><use href="#i-layout-grid"/></svg></span><span class="tab-label">Полка</span></div>
-              <div class="tab" data-go="settings"><span class="ico"><svg class="ico-svg"><use href="#i-user"/></svg></span><span class="tab-label">Профиль</span></div>
-            </div>
-            <div class="home-ind" aria-hidden="true"></div>
-          </div>
+    <div class="sm-section-head"><h2>Собрания</h2><button>Всё</button></div>
+    <div class="sm-collection-list">
+      <article class="tap" data-go="record"><div class="sm-collection-art art-s1"></div><div class="grow"><strong>Салонные вальсы</strong><span>41 сторона · 1907–1928</span></div><svg><use href="#i-chevron-right"/></svg></article>
+      <article class="tap" data-go="record"><div class="sm-collection-art art-s3"></div><div class="grow"><strong>Ямщицкія и дорожныя</strong><span>27 сторонъ · 1910–1924</span></div><svg><use href="#i-chevron-right"/></svg></article>
+    </div>
+  </div>
+  <div class="sm-mini tap" data-go="player"><div class="sm-mini-art art-s1"></div><div class="grow"><strong>Чёрные глаза</strong><span>А. Вертинскій</span></div><span class="sm-mini-control" aria-label="Пауза">Ⅱ</span></div>
+  <div class="tabbar sm-tabs" aria-label="Основная навигация">
+    <div class="tab is-on" data-go="archive"><span class="ico"><svg><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div>
+    <div class="tab" data-go="shelf"><span class="ico"><svg><use href="#i-layout-grid"/></svg></span><span class="tab-label">Моя музыка</span></div>
+    <div class="tab" data-go="settings"><span class="ico"><svg><use href="#i-user"/></svg></span><span class="tab-label">Профиль</span></div>
+  </div>
+  <div class="home-ind"></div>
+</div>

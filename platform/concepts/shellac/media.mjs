@@ -10,18 +10,21 @@
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { mix, dark, lite, seeded } from '../../kernel/media-primitives.mjs';
 
-const out = join(new URL('.', import.meta.url).pathname, 'assets', 'media');
+const out = join(fileURLToPath(new URL('.', import.meta.url)), 'assets', 'media');
 mkdirSync(out, { recursive: true });
+const legacyScenes = process.argv.includes('--legacy-scenes');
 
 const svg = (w, h, body) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;
 const n = (v) => Number(v.toFixed(1));
 
 /* Шеллак — не чёрный, а тёмно-коричневый: смола с наполнителем. */
-const SHELLAC = '#1b1210';
-const FACE = 'Geist, system-ui, sans-serif';
+const SHELLAC = '#020203';
+const FACE = 'Inter, system-ui, sans-serif';
+const DISPLAY = 'Iowan Old Style, Georgia, serif';
 const MONO = 'Geist Mono, ui-monospace, monospace';
 
 /**
@@ -69,21 +72,34 @@ function labelFace(cx, cy, R, { color, label, title, artist, matrix, year }, suf
       <stop offset="72%" stop-color="${paper}"/>
       <stop offset="100%" stop-color="${dark(paper, 0.16)}"/>
     </radialGradient>
+    <filter id="paper${suffix}" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComposite in="gray" in2="SourceAlpha" operator="in" result="maskedNoise"/>
+      <feComponentTransfer in="maskedNoise" result="softNoise"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softNoise" mode="soft-light"/>
+    </filter>
     ${arc(`at${suffix}`, cx, cy, R * 0.79, true)}
     ${arc(`ab${suffix}`, cx, cy, R * 0.81, false)}
   </defs>
-  <circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#lp${suffix})"/>
+  <circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#lp${suffix})" filter="url(#paper${suffix})"/>
   <circle cx="${cx}" cy="${cy}" r="${n(R * 0.91)}" fill="none" stroke="${ink}" stroke-width="${s(1.1)}" stroke-opacity=".5"/>
   <circle cx="${cx}" cy="${cy}" r="${n(R * 0.87)}" fill="none" stroke="${ink}" stroke-width="${s(0.5)}" stroke-opacity=".3"/>
+  <circle cx="${cx}" cy="${cy}" r="${n(R * 0.72)}" fill="none" stroke="${ink}" stroke-width="${s(0.45)}" stroke-opacity=".18"/>
   ${onArc(`at${suffix}`, label, s(10.5), 700, ink, '.2em')}
   ${onArc(`ab${suffix}`, `${matrix} · ${year}`, s(7.5), 600, mix(ink, paper, 0.14), '.14em')}
   <g text-anchor="middle" font-family="${FACE}" fill="${ink}">
-    <text x="${cx}" y="${y(-0.24)}" font-size="${s(12)}" font-weight="700" letter-spacing="-.01em">${title}</text>
+    <text x="${cx}" y="${y(-0.24)}" font-family="${DISPLAY}" font-size="${s(12.6)}" font-weight="700" letter-spacing="-.015em">${title}</text>
     <text x="${cx}" y="${y(0.34)}" font-size="${s(8.5)}" font-weight="500" letter-spacing=".01em"
       fill="${mix(ink, paper, 0.12)}">${artist}</text>
     <text x="${cx}" y="${y(0.53)}" font-size="${s(6.5)}" font-weight="600"
       letter-spacing=".1em" fill="${mix(ink, paper, 0.3)}">78 ОБ/МИН · ЭЛЕКТРО</text>
   </g>
+  <g fill="${ink}" opacity=".52">
+    <path d="M${n(cx - R * .18)} ${y(-.55)} h${s(8)} l${s(4)} ${s(4)} l-${s(4)} ${s(4)} h-${s(8)} l-${s(4)} -${s(4)}z"/>
+    <path d="M${n(cx + R * .18)} ${y(-.55)} h-${s(8)} l-${s(4)} ${s(4)} l${s(4)} ${s(4)} h${s(8)} l${s(4)} -${s(4)}z"/>
+  </g>
+  <text x="${cx}" y="${y(.72)}" text-anchor="middle" font-family="${FACE}" font-size="${s(4.6)}" font-weight="600" letter-spacing=".13em" fill="${ink}" opacity=".55">ЗАПИСАНО ВЪ С.-ПЕТЕРБУРГѢ</text>
   <path d="M${n(cx - R * 0.34)} ${y(-0.13)} H${n(cx + R * 0.34)}" stroke="${ink}" stroke-width="${s(0.6)}" stroke-opacity=".28"/>
   <path d="M${n(cx - R * 0.28)} ${y(0.44)} H${n(cx + R * 0.28)}" stroke="${ink}" stroke-width="${s(0.5)}" stroke-opacity=".2"/>
   <circle cx="${cx}" cy="${cy}" r="${n(R * 0.055)}" fill="${dark(SHELLAC, 0.2)}"/>
@@ -101,13 +117,13 @@ function grooves(cx, cy, rOuter, rInner, seed) {
   const rnd = seeded(seed);
   const g = [];
   for (let r = rInner; r < rOuter; r += 2.1) {
-    const o = 0.05 + rnd() * 0.1;
+    const o = 0.012 + rnd() * 0.032;
     g.push(`<circle cx="${cx}" cy="${cy}" r="${n(r)}" fill="none" stroke="#c9b7a6" stroke-opacity="${o.toFixed(3)}" stroke-width="1"/>`);
   }
   /* Разделители дорожек — чуть шире и светлее, по ним пластинку и «читают». */
   for (const t of [0.24, 0.63]) {
     const r = rInner + (rOuter - rInner) * t;
-    g.push(`<circle cx="${cx}" cy="${cy}" r="${n(r)}" fill="none" stroke="#d9c9b8" stroke-opacity=".26" stroke-width="2.6"/>`);
+    g.push(`<circle cx="${cx}" cy="${cy}" r="${n(r)}" fill="none" stroke="#b9b0cf" stroke-opacity=".1" stroke-width="2"/>`);
   }
   return g.join('');
 }
@@ -117,17 +133,32 @@ function disc(size, rec, { seed = 9, sheen = true } = {}) {
   const cx = size / 2, cy = size / 2;
   const R = size * 0.49;
   const meta = { color, label, title, artist, matrix, year };
+  const rnd = seeded(seed + 101);
+  const dust = Array.from({ length: 28 }, () => {
+    const a = rnd() * Math.PI * 2;
+    const rr = R * (0.45 + rnd() * 0.5);
+    const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr;
+    return `<circle cx="${n(x)}" cy="${n(y)}" r="${n(.35 + rnd() * .75)}" fill="#ead9c2" opacity="${(.06 + rnd() * .12).toFixed(3)}"/>`;
+  }).join('');
+  const scuffs = Array.from({ length: 5 }, (_, i) => {
+    const rr = R * (.55 + rnd() * .34);
+    const start = 210 + i * 23 + rnd() * 18;
+    const end = start + 13 + rnd() * 26;
+    const p = (deg) => [n(cx + Math.cos(deg * Math.PI / 180) * rr), n(cy + Math.sin(deg * Math.PI / 180) * rr)];
+    const [x1,y1] = p(start), [x2,y2] = p(end);
+    return `<path d="M${x1} ${y1} A${n(rr)} ${n(rr)} 0 0 1 ${x2} ${y2}" fill="none" stroke="#f3e7db" stroke-width="${n(.45 + rnd() * .55)}" stroke-opacity="${(.08 + rnd() * .11).toFixed(3)}"/>`;
+  }).join('');
   return svg(size, size, `
   <defs>
     <radialGradient id="dg" cx="38%" cy="30%" r="78%">
-      <stop offset="0%" stop-color="${lite(SHELLAC, 0.12)}"/>
+      <stop offset="0%" stop-color="${lite(SHELLAC, 0.08)}"/>
       <stop offset="62%" stop-color="${SHELLAC}"/>
-      <stop offset="100%" stop-color="${dark(SHELLAC, 0.45)}"/>
+      <stop offset="100%" stop-color="#010101"/>
     </radialGradient>
     <linearGradient id="sh" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fff" stop-opacity=".16"/>
-      <stop offset="38%" stop-color="#fff" stop-opacity="0"/>
-      <stop offset="66%" stop-color="#fff" stop-opacity=".07"/>
+      <stop offset="0%" stop-color="#d7c9ff" stop-opacity=".2"/>
+      <stop offset="32%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="67%" stop-color="#ffdcb8" stop-opacity=".1"/>
       <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
     </linearGradient>
     <clipPath id="dc"><circle cx="${cx}" cy="${cy}" r="${n(R)}"/></clipPath>
@@ -136,6 +167,7 @@ function disc(size, rec, { seed = 9, sheen = true } = {}) {
   <g clip-path="url(#dc)">
     ${grooves(cx, cy, R * 0.97, R * 0.43, seed)}
     ${sheen ? `<rect width="${size}" height="${size}" fill="url(#sh)"/>` : ''}
+    ${dust}${scuffs}
   </g>
   <circle cx="${cx}" cy="${cy}" r="${n(R)}" fill="none" stroke="${lite(SHELLAC, 0.22)}" stroke-width="${n(size * 0.006)}" stroke-opacity=".7"/>
   <circle cx="${cx}" cy="${cy}" r="${n(R * 0.995)}" fill="none" stroke="#000" stroke-width="${n(size * 0.004)}" stroke-opacity=".5"/>
@@ -315,12 +347,51 @@ writeFileSync(join(out, 'wide-table.svg'), svg(390, 260, `
   ${discOn(138, 134, 104, RECORDS[0], 'W')}
   <rect width="390" height="260" fill="url(#vg)"/>`));
 
+/** Artwork плеера: не голый круг, а физический релиз — конверт и выдвинутая пластинка. */
+writeFileSync(join(out, 'player-art.svg'), svg(400, 400, `
+  <defs>
+    <linearGradient id="pa" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#342d3a"/>
+      <stop offset="52%" stop-color="#201b24"/>
+      <stop offset="100%" stop-color="#100f12"/>
+    </linearGradient>
+    <radialGradient id="pal" cx="24%" cy="16%" r="78%">
+      <stop offset="0%" stop-color="#d2baff" stop-opacity=".2"/>
+      <stop offset="100%" stop-color="#d2baff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pash" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <filter id="dsh" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+  <rect width="400" height="400" fill="url(#pa)"/>
+  <rect width="400" height="400" fill="url(#pal)"/>
+  <g transform="rotate(5 287 197)" filter="url(#pash)">
+    <rect x="172" y="70" width="250" height="250" rx="5" fill="#c7b18f"/>
+    <circle cx="297" cy="195" r="100" fill="none" stroke="#77634d" stroke-width="5" stroke-opacity=".22"/>
+    <circle cx="297" cy="195" r="50" fill="${dark(SHELLAC, .1)}"/>
+    ${labelFace(297, 195, 47, {
+      color: RECORDS[0][1], label: RECORDS[0][2], title: RECORDS[0][3],
+      artist: RECORDS[0][4], matrix: RECORDS[0][5], year: RECORDS[0][6],
+    }, 'PA')}
+    <text x="297" y="98" text-anchor="middle" font-family="${FACE}" font-size="13" font-weight="700" letter-spacing=".18em" fill="#514231">ЛИРА</text>
+  </g>
+  <g transform="rotate(-7 145 218)">${discOn(145, 218, 166, RECORDS[0], 'PA2')}</g>
+  <path d="M-8 286 Q104 226 267 118" fill="none" stroke="#d8ccff" stroke-width="30" stroke-linecap="round" opacity=".07"/>
+  <path d="M-10 330 Q145 265 410 150" fill="none" stroke="#d9c8ff" stroke-width="38" stroke-linecap="round" opacity=".045"/>
+  <rect width="400" height="400" fill="none" stroke="#fff" stroke-opacity=".06"/>
+`));
+
 /**
  * Ящик с пластинками: конверты стоят лицом и перекрывают друг друга, как когда
  * их перебирают. Корешки не годятся — ряд корешков читается как полка книг;
  * пластинку опознаёт именно круглый вырез под этикетку.
  */
-writeFileSync(join(out, 'wide-shelf.svg'), (() => {
+/* Старые сценические ассеты оставлены как справочник генерации, но новый UI
+   использует квадратные конверты и рисует проигрыватель компонентами. */
+if (legacyScenes) writeFileSync(join(out, 'wide-shelf.svg'), (() => {
   const rnd = seeded(57);
   const cards = [
     [-14, 3, RECORDS[3], '#a98d6a'],
@@ -366,7 +437,7 @@ writeFileSync(join(out, 'wide-shelf.svg'), (() => {
  * Диск на мате с тонармом и иглой. Игла стоит на первой трети стороны —
  * ровно то, что показывает шкала под ней: сторону не листают, она доигрывает.
  */
-writeFileSync(join(out, 'turntable.svg'), (() => {
+if (legacyScenes) writeFileSync(join(out, 'turntable.svg'), (() => {
   const S = 390, cx = 195, cy = 195, R = 168;
   const rec = RECORDS[0];
   /* Ось тонарма — за краем диска справа, игла стоит на первой трети стороны
@@ -433,5 +504,5 @@ console.log('медиа готово:', out);
 console.log(
   'диски:', RECORDS.length,
   '· конверты:', SLEEVES.length,
-  '· этикетка под сканер · стол (вертикальный + широкий) · полка · вертушка'
+  '· этикетка под сканер · стол (вертикальный + широкий)'
 );
