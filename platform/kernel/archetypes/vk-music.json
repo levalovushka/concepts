@@ -4,6 +4,12 @@
   "category": "Music",
   "contentModel": ["track", "release", "artist", "playlist"],
   "navigation": ["home", "search", "library", "profile"],
+  "requiredNavigationRoles": ["home", "search", "library"],
+  "productInvariants": [
+    "Контент можно запустить не глубже чем за два действия от главной",
+    "Текущий playback не теряется при переходе между корневыми разделами",
+    "Поиск, библиотека и контекст произведения решают разные пользовательские задачи"
+  ],
   "patterns": {
     "audio-library": "Библиотека произведений и сохранённого",
     "audio-player": "Плеер с очередью и контекстом произведения",

@@ -102,6 +102,11 @@ export function validateUiMarkup(spec, markup) {
   for (const screen of spec.screens) {
     const action = screen.ui?.primaryAction;
     if (action && !visibleText(markup[screen.id] || '').includes(action)) problems.push(`${screen.id}: главное действие «${action}» не найдено в разметке`);
+    if (spec.uiContractVersion >= 3 && action) {
+      const html = markup[screen.id] || '';
+      const primaryCount = (html.match(/\bdata-primary(?:=|\s|>)/g) || []).length;
+      if (primaryCount !== 1) problems.push(`${screen.id}: UI v3 требует ровно один data-primary для главного действия, найдено ${primaryCount}`);
+    }
   }
   if (problems.length) throw new Error(`UI-контракт ${spec.slug}:\n  · ${problems.join('\n  · ')}`);
 }
