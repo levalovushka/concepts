@@ -347,6 +347,43 @@ writeFileSync(join(out, 'wide-table.svg'), svg(390, 260, `
   ${discOn(138, 134, 104, RECORDS[0], 'W')}
   <rect width="390" height="260" fill="url(#vg)"/>`));
 
+/** Artwork плеера: не голый круг, а физический релиз — конверт и выдвинутая пластинка. */
+writeFileSync(join(out, 'player-art.svg'), svg(400, 400, `
+  <defs>
+    <linearGradient id="pa" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#342d3a"/>
+      <stop offset="52%" stop-color="#201b24"/>
+      <stop offset="100%" stop-color="#100f12"/>
+    </linearGradient>
+    <radialGradient id="pal" cx="24%" cy="16%" r="78%">
+      <stop offset="0%" stop-color="#d2baff" stop-opacity=".2"/>
+      <stop offset="100%" stop-color="#d2baff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pash" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <filter id="dsh" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+  <rect width="400" height="400" fill="url(#pa)"/>
+  <rect width="400" height="400" fill="url(#pal)"/>
+  <g transform="rotate(5 287 197)" filter="url(#pash)">
+    <rect x="172" y="70" width="250" height="250" rx="5" fill="#c7b18f"/>
+    <circle cx="297" cy="195" r="100" fill="none" stroke="#77634d" stroke-width="5" stroke-opacity=".22"/>
+    <circle cx="297" cy="195" r="50" fill="${dark(SHELLAC, .1)}"/>
+    ${labelFace(297, 195, 47, {
+      color: RECORDS[0][1], label: RECORDS[0][2], title: RECORDS[0][3],
+      artist: RECORDS[0][4], matrix: RECORDS[0][5], year: RECORDS[0][6],
+    }, 'PA')}
+    <text x="297" y="98" text-anchor="middle" font-family="${FACE}" font-size="13" font-weight="700" letter-spacing=".18em" fill="#514231">ЛИРА</text>
+  </g>
+  <g transform="rotate(-7 145 218)">${discOn(145, 218, 166, RECORDS[0], 'PA2')}</g>
+  <path d="M-8 286 Q104 226 267 118" fill="none" stroke="#d8ccff" stroke-width="30" stroke-linecap="round" opacity=".07"/>
+  <path d="M-10 330 Q145 265 410 150" fill="none" stroke="#d9c8ff" stroke-width="38" stroke-linecap="round" opacity=".045"/>
+  <rect width="400" height="400" fill="none" stroke="#fff" stroke-opacity=".06"/>
+`));
+
 /**
  * Ящик с пластинками: конверты стоят лицом и перекрывают друг друга, как когда
  * их перебирают. Корешки не годятся — ряд корешков читается как полка книг;
