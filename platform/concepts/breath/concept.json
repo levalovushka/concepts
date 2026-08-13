@@ -1,0 +1,680 @@
+{
+  "slug": "breath",
+  "name": "Дыхание",
+  "targetSet": "vk-music",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "brand": {
+    "accent": "#72e5c2",
+    "accentDark": "#72e5c2",
+    "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
+  },
+  "deck": "Звуковой мир дышит вместе с вами. Все 5 доступов запрашиваются точно в момент функции.",
+  "eyebrow": "Дыхание · Health & Fitness · iOS",
+  "heroTitle": "Дыхание",
+  "heroDeck": "Выбрать мир и за пять минут услышать, как он становится спокойнее вместе с дыханием",
+  "tagline": "Звуковой мир дышит вместе с вами",
+  "insight": "для переключения не нужны метрики и дисциплина — нужен звук, который мягко отвечает на дыхание",
+  "domain": "breath.space",
+  "start": "home",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Сейчас"
+    },
+    {
+      "id": "library",
+      "label": "История"
+    },
+    {
+      "id": "studio",
+      "label": "Настроить"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
+  ],
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Звук — инструмент состояния, поэтому основная категория Health & Fitness",
+    "familiarPatterns": [
+      "полноэкранный аудиоплеер",
+      "сохранённая библиотека",
+      "персональная витрина"
+    ],
+    "distinctions": [
+      "Нет каталога треков, артистов и плейлистов: есть живая генеративная сессия с собственным началом и концом",
+      "Считать свет комнаты",
+      "Мир настроен"
+    ],
+    "evidenceScreens": [
+      "home",
+      "detail",
+      "player",
+      "studio",
+      "background"
+    ],
+    "referencePatterns": [
+      "guided-session",
+      "generative-audio",
+      "background-playback",
+      "ambient-capture"
+    ]
+  },
+  "product": {
+    "audience": "Люди с насыщенным днём, которым нужен короткий вечерний или дневной ритуал без оценок",
+    "situation": "Между звонками, перед сном или в дороге хочется на несколько минут снизить темп",
+    "problem": "Медитации требуют следовать голосу, а музыка не реагирует на состояние",
+    "promise": "Выбрать мир и за пять минут услышать, как он становится спокойнее вместе с дыханием",
+    "differentiator": "Нет каталога треков, артистов и плейлистов: есть живая генеративная сессия с собственным началом и концом",
+    "returnReasons": [
+      "Открыть новое",
+      "Вернуться к сохранённому",
+      "Продолжить в фоне"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "detail",
+      "result": "player"
+    },
+    "coreLoop": [
+      "Выбрать подходящий материал",
+      "Начать сессию",
+      "Сохранить или вернуться позже"
+    ],
+    "nonGoals": [
+      "Публичная соцсеть",
+      "Универсальный каталог всей музыки"
+    ]
+  },
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Дыхание» запрашивает доступ к камере",
+        "text": "Камера мягко считает свет в комнате, а цвет из снимка можно взять как палитру. Кадры не сохраняются."
+      },
+      "feature": "Считать свет комнаты",
+      "gesture": "Считать свет комнаты",
+      "screen": "studio",
+      "target": "capture",
+      "fallback": "Ручной ввод и выбор из «Фото» остаются доступны",
+      "snack": "Камера выключена",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation; обработка на устройстве"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Дыхание» запрашивает доступ к «Фото»",
+        "text": "Выбрать цвет из фото"
+      },
+      "feature": "Выбрать цвет из фото",
+      "gesture": "Выбрать цвет из фото",
+      "screen": "studio",
+      "target": "pick",
+      "fallback": "Камера и ручная настройка остаются",
+      "snack": "Нет доступа к «Фото»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker: только выбранный снимок"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Звук продолжится при погашенном экране."
+      },
+      "activate": true,
+      "feature": "Непрерывная сессия в фоне",
+      "gesture": "«Слушать в фоне» в плеере",
+      "screen": "player",
+      "target": "background",
+      "fallback": "Плеер предупредит, что экран должен оставаться активным",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession .playback + Now Playing + remote commands",
+      "grounding": "AVPlayer + MPNowPlayingInfoCenter + MPRemoteCommandCenter"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Дыхание» запрашивает разрешение на уведомления",
+        "text": "Только выбранные новинки и напоминания."
+      },
+      "feature": "Персональные новинки",
+      "gesture": "Свитч «Новое для меня»",
+      "screen": "profile",
+      "target": "profile",
+      "fallback": "Новинки видны в главной витрине",
+      "snack": "Уведомления выключены",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Реальная регистрация APNs",
+      "grounding": "APNs через SDK провайдера"
+    },
+    {
+      "key": "domains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Universal Links",
+        "text": "Ссылки breath.space открываются в приложении."
+      },
+      "activate": true,
+      "feature": "Прямая ссылка на контент",
+      "gesture": "«Проверить ссылку» в профиле",
+      "screen": "profile",
+      "target": "deeplink",
+      "fallback": "Та же страница откроется в Safari",
+      "risk": "high",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Статический AASA на breath.space; только applinks"
+    }
+  ],
+  "screens": [
+    {
+      "id": "home",
+      "title": "Сейчас",
+      "type": "tab (root, start)",
+      "light": false,
+      "meta": "Персональная витрина",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти подходящий контент",
+        "primaryAction": "Тихий берег",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "discover",
+      "title": "Поиск",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Категории и поиск",
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Открыть новое",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "detail",
+      "title": "Тихий берег",
+      "type": "push",
+      "light": false,
+      "meta": "Карточка контента",
+      "parent": "home",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Понять контекст и начать",
+        "primaryAction": "Начать сессию",
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Тихий берег",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Now Playing",
+      "parent": "detail",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Управлять живым звуком",
+        "primaryAction": "Слушать в фоне",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "meta": "Background audio",
+      "parent": "player",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Управлять звуком с локскрина",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "История",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Сохранённое",
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к сохранённому",
+        "primaryAction": "Мох после дождя",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "studio",
+      "title": "Настройка",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Камера и «Фото»",
+      "parent": "home",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Камера мягко считает свет в комнате, а цвет из снимка можно взять как палитру. Кадры не сохраняются.",
+        "primaryAction": "Считать свет комнаты",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "capture",
+      "title": "Считать свет комнаты",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Camera",
+      "parent": "studio",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Использовать камеру в якорной фиче",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "pick",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "meta": "Photo Library",
+      "parent": "studio",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать один снимок",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "result",
+      "title": "Мир настроен",
+      "type": "modal",
+      "light": false,
+      "meta": "Ценный результат",
+      "parent": "capture",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Показать результат действия",
+        "primaryAction": "Сохранить",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Push, links, audio",
+      "parent": "home",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять доступами",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "deeplink",
+      "title": "Открыто по ссылке",
+      "type": "modal",
+      "light": false,
+      "meta": "Universal Link",
+      "parent": "profile",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Открыть прямую ссылку",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "denied",
+      "title": "Нужен доступ",
+      "type": "state",
+      "light": false,
+      "meta": "Permission fallback",
+      "parent": "studio",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Восстановиться после отказа",
+        "primaryAction": "Открыть Настройки",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "search",
+      "title": "Результаты",
+      "type": "push",
+      "light": false,
+      "meta": "Search results",
+      "parent": "discover",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Сузить выбор",
+        "primaryAction": "Окно ночью",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "14 экранов и 5 доступов",
+      "start": "home",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "core",
+      "label": "Главный цикл",
+      "note": "Выбрать мир и за пять минут услышать, как он становится спокойнее вместе с дыханием",
+      "start": "home",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Настроить мир",
+      "note": "Камера мягко считает свет в комнате, а цвет из снимка можно взять как палитру. Кадры не сохраняются.",
+      "start": "studio",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "permissions",
+      "label": "Все доступы",
+      "note": "Явные триггеры и fallback",
+      "start": "profile",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Каталог и аудио",
+      "solution": "Подписанный статический content pack + CDN"
+    },
+    {
+      "needs": "Личная библиотека",
+      "solution": "CoreData и CloudKit private database"
+    },
+    {
+      "needs": "Обработка камеры",
+      "solution": "Vision/Core Image на устройстве; кадр не уходит в сеть"
+    },
+    {
+      "needs": "Push",
+      "solution": "APNs через дашборд провайдера"
+    },
+    {
+      "needs": "Universal Links",
+      "solution": "Статический AASA на breath.space"
+    }
+  ],
+  "appStore": {
+    "name": "Дыхание: звуковые миры",
+    "subtitle": "Звуковой мир дышит вместе с ва",
+    "promo": "Выбрать мир и за пять минут услышать, как он становится спокойнее вместе с дыханием",
+    "keywords": "атмосфера,ритуал,расслабление,поток,вода,вечер,покой",
+    "category": {
+      "primary": "Health & Fitness",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://breath.space/support",
+      "marketing": "https://breath.space",
+      "privacy": "https://breath.space/privacy"
+    },
+    "description": [
+      "Звуковой мир дышит вместе с вами",
+      "Выбрать мир и за пять минут услышать, как он становится спокойнее вместе с дыханием",
+      "Нет каталога треков, артистов и плейлистов: есть живая генеративная сессия с собственным началом и концом"
+    ],
+    "whatsNew": "Первая версия.",
+    "reviewAccount": {
+      "phone": "Не требуется",
+      "code": "Не требуется",
+      "note": "Приложение открывается сразу на главной; аккаунт не нужен."
+    },
+    "privacy": [
+      {
+        "type": "Фото",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Выбранный кадр обрабатывается на устройстве"
+      }
+    ]
+  },
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ]
+}
