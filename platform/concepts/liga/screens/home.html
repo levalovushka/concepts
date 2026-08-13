@@ -1,19 +1,21 @@
 <div class="screen lx-screen is-on" id="scr-home">
   <div class="lx-safe"></div>
-  <div class="lx-head lx-home-head">
+  <div class="lx-head">
     <div class="lx-logo">ЛИГА</div>
     <div class="lx-head-action" data-go="search" aria-label="Поиск"><svg class="lx-icon"><use href="#i-search"/></svg></div>
   </div>
-  <div class="body-scroll lx-scroll lx-home-v2">
-    <div class="lx-home-chips">
-      <span class="on">Сегодня</span>
+  <div class="body-scroll lx-scroll lx-home-v2 lx-video-home">
+    <div class="lx-home-chips" aria-label="Разделы каталога">
+      <span class="on">Для вас</span>
+      <span>В эфире</span>
       <span data-ask="location|nearby|home">Рядом</span>
-      <span>Футбол</span><span>Баскетбол</span>
+      <span>Футбол</span>
+      <span>Баскетбол</span>
     </div>
-    <div class="perm-hidden lx-fallback" data-show-denied="location">Показываем матчи в Алматы. Город можно изменить в настройках.</div>
+    <div class="perm-hidden lx-fallback" data-show-denied="location">Показываем видео из Алматы. Город можно изменить в настройках.</div>
     <div class="perm-hidden lx-fallback" data-show-denied="tracking">Реклама останется, но не будет учитывать ваши интересы.</div>
 
-    <div class="lx-section lx-section-first"><h2>Сейчас в эфире</h2><span>2 матча</span></div>
+    <div class="lx-section lx-section-first"><h2>Прямой эфир</h2><span>Смотреть все</span></div>
     <article class="lx-matchday" data-go="watch">
       <div class="lx-matchday-media">
         <div class="lx-live"><i></i>68′</div>
@@ -23,13 +25,32 @@
           <div class="lx-matchday-team right"><strong>Порт</strong></div>
         </div>
       </div>
-      <div class="lx-matchday-foot"><div><strong>Финал городской лиги</strong><span>1,2 тыс. смотрят</span></div><svg class="lx-icon"><use href="#i-chevron-right"/></svg></div>
+      <div class="lx-matchday-foot"><div><strong>Финал городской лиги</strong><span>1,2 тыс. зрителей</span></div><svg class="lx-icon"><use href="#i-chevron-right"/></svg></div>
     </article>
 
-    <div class="lx-section"><h2>Сегодня</h2><span data-ask="location|nearby|home">Матчи рядом</span></div>
-    <div class="lx-agenda">
-      <div class="lx-game" data-go="channel"><time>19:30<span>сегодня</span></time><div><strong>Метеор — Восток</strong><p>Стадион «Юность» · 1,4 км</p></div><div class="lx-game-tag">Футбол</div></div>
-      <div class="lx-game"><time>21:00<span>сегодня</span></time><div><strong>Импульс — Атлас</strong><p>Спортцентр «Орбита»</p></div><div class="lx-game-tag">Баскетбол</div></div>
+    <div class="lx-section"><h2>Моменты дня</h2><span>Новые видео</span></div>
+    <div class="lx-video-rail">
+      <article class="lx-mini-video" data-go="watch">
+        <div class="lx-mini-cover basketball"><span>0:24</span></div>
+        <strong>Бросок на последней секунде</strong>
+        <p>Импульс · 8,4 тыс. просмотров</p>
+      </article>
+      <article class="lx-mini-video" data-go="watch">
+        <div class="lx-mini-cover football"><span>0:38</span></div>
+        <strong>Два гола за одну минуту</strong>
+        <p>Север · 5,1 тыс. просмотров</p>
+      </article>
+      <article class="lx-mini-video" data-go="watch">
+        <div class="lx-mini-cover volleyball"><span>1:12</span></div>
+        <strong>Розыгрыш, который изменил матч</strong>
+        <p>Метеор · 2,7 тыс. просмотров</p>
+      </article>
+    </div>
+
+    <div class="lx-section"><h2>Скоро в эфире</h2><span data-ask="location|nearby|home">Рядом с вами</span></div>
+    <div class="lx-video-list">
+      <div class="lx-upcoming" data-go="channel"><time>19:30<span>сегодня</span></time><div><strong>Метеор — Восток</strong><p>Кубок города · Футбол</p></div><svg class="lx-icon"><use href="#i-chevron-right"/></svg></div>
+      <div class="lx-upcoming"><time>21:00<span>сегодня</span></time><div><strong>Импульс — Атлас</strong><p>Молодёжная лига · Баскетбол</p></div><svg class="lx-icon"><use href="#i-chevron-right"/></svg></div>
     </div>
   </div>
   <div class="tabbar lx-tabs">

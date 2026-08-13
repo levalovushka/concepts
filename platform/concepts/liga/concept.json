@@ -5,10 +5,10 @@
   "targetSet": "vk-video",
   "domain": "liga.video",
   "heroTitle": "Лига — матч становится видео",
-  "heroDeck": "Расписание, прямой эфир, протокол и готовые моменты любительской игры в одном продукте.",
-  "tagline": "Снимите матч одним телефоном — моменты соберутся сами",
+  "heroDeck": "Прямые эфиры, полные записи и короткие моменты любительских матчей в одном видеосервисе.",
+  "tagline": "Смотрите, снимайте и сохраняйте лучшие моменты игры",
   "insight": "любительские команды умеют играть, но почти никогда не могут позволить себе оператора, режиссёра и монтаж хайлайтов",
-  "deck": "Видеосервис для любительского спорта. Зритель следит за командами и матчами; оператор снимает горизонтальный эфир; секретарь ведёт протокол со второго телефона; события синхронизируются с записью и превращаются в клипы.",
+  "deck": "Видеосервис любительского спорта. Зритель смотрит прямые эфиры, записи и вертикальные моменты; автор запускает трансляцию или загружает видео; протокол синхронизируется с записью и помогает быстро находить ключевые эпизоды.",
   "brand": { "accent": "#d93624", "accentDark": "#ff6856", "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600" },
   "start": "phone",
   "tabs": [
@@ -34,7 +34,7 @@
     {"id":"phone","title":"Вход по номеру","type":"старт, без таб-бара","light":false,"meta":"Вход"},
     {"id":"code","title":"Код из SMS","type":"push","light":false,"parent":"phone","meta":"OTP"},
     {"id":"ads","title":"Бесплатный просмотр","type":"onboarding","light":false,"parent":"code","meta":"ATT"},
-    {"id":"home","title":"Игровой день","type":"tab (root)","light":false,"meta":"Эфиры и расписание"},
+    {"id":"home","title":"Главная","type":"tab (root)","light":false,"meta":"Эфиры, видео и моменты"},
     {"id":"nearby","title":"Матчи рядом","type":"push","light":false,"parent":"home","meta":"Площадки рядом"},
     {"id":"watch","title":"Прямой эфир","type":"push","light":false,"parent":"home","meta":"Видео, счёт, события"},
     {"id":"background","title":"Экран погас","type":"system","light":false,"parent":"watch","meta":"Now Playing"},
@@ -45,7 +45,7 @@
     {"id":"camera","title":"Операторская камера","type":"fullscreen","light":false,"parent":"create","meta":"Camera + microphone"},
     {"id":"upload","title":"Выбор видео","type":"system picker","light":false,"parent":"create","meta":"Photo Library"},
     {"id":"publish","title":"Настройка матча","type":"push","light":false,"parent":"camera","meta":"Команды и площадка"},
-    {"id":"subscriptions","title":"Подписки","type":"tab (root)","light":false,"meta":"Команды и турниры"},
+    {"id":"subscriptions","title":"Подписки","type":"tab (root)","light":false,"meta":"Каналы и новые видео"},
     {"id":"channel","title":"Команда","type":"push","light":false,"parent":"subscriptions","meta":"Состав и видео"},
     {"id":"profile","title":"Профиль","type":"tab (root)","light":false,"meta":"Роли и библиотека"},
     {"id":"saved","title":"Мои видео","type":"push","light":false,"parent":"profile","meta":"Записи и моменты"},
@@ -57,7 +57,7 @@
     {"id":"all","hero":true,"label":"Весь продукт","note":"Пять вкладок и все десять доступов","start":"phone","screens":["phone","code","ads","home","nearby","watch","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","channel","profile","saved","moments","teams","search"]},
     {"id":"watch","label":"Смотреть матч","note":"Эфир, ТВ, фон, сохранение и ссылка","start":"home","screens":["home","search","nearby","watch","cast","background","deeplink","channel"]},
     {"id":"clips","label":"Смотреть моменты","note":"Вертикальные клипы из протокола","start":"clips","screens":["clips","channel","watch","deeplink"],"stops":["watch","deeplink"]},
-    {"id":"create","label":"Провести матч","note":"Камера, микрофон, протокол и импорт","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},
+    {"id":"create","label":"Добавить видео","note":"Трансляция, короткий момент или импорт записи","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},
     {"id":"near","label":"Найти игру рядом","note":"Расписание ближайших площадок","start":"home","screens":["home","search","nearby","watch","channel"],"stops":["watch","channel"]},
     {"id":"subs","label":"Следить за командой","note":"Команды, турниры и напоминания","start":"subscriptions","screens":["subscriptions","channel","watch"],"stops":["watch"]}
   ],
@@ -71,9 +71,9 @@
     {"file":"01-product-vision.md","label":"Вижен"},{"file":"02-architecture.md","label":"Архитектура"},{"file":"03-design-system.md","label":"Дизайн-токены"},{"file":"04-references.md","label":"Референсы"},{"file":"05-visual-audit.md","label":"Визуальный аудит"},{"file":"06-app-store.md","label":"Карточка App Store"}
   ],
   "appStore": {
-    "name":"Лига", "subtitle":"Эфиры любительских матчей", "promo":"Снимите матч одним телефоном: счёт синхронизируется с эфиром, а лучшие моменты собираются автоматически.", "keywords":"спорт,матчи,команды,турниры,футбол,баскетбол,клипы,голы", "category":{"primary":"Sports","secondary":"Photo & Video"}, "ageRating":"4+", "price":"Бесплатно, с рекламой", "encryption":"ITSAppUsesNonExemptEncryption = NO — только HTTPS", "urls":{"support":"https://liga.video/support","marketing":"https://liga.video","privacy":"https://liga.video/privacy"},
-    "description":["Лига — видеосервис для команд, турниров и зрителей любительского спорта.","СМОТРИТЕ МАТЧИ\nПрямой эфир, счёт и события игры на одном экране.","СНИМАЙТЕ ОДНИМ ТЕЛЕФОНОМ\nОператор отвечает за кадр, секретарь ведёт протокол со второго устройства.","ПОЛУЧАЙТЕ МОМЕНТЫ\nГолы и другие события автоматически становятся готовыми клипами.","СЛЕДИТЕ ЗА КОМАНДАМИ\nРасписание и напоминания о матчах выбранных клубов."],
-    "whatsNew":"Первая версия: прямые эфиры, клипы, создание матчей, команды и подписки.",
+    "name":"Лига", "subtitle":"Матчи, эфиры и моменты", "promo":"Смотрите любительский спорт в прямом эфире, загружайте полные записи и сохраняйте лучшие моменты игры.", "keywords":"видео,трансляции,записи,спорт,футбол,баскетбол,голы,команды,турниры", "category":{"primary":"Photo & Video","secondary":"Sports"}, "ageRating":"4+", "price":"Бесплатно, с рекламой", "encryption":"ITSAppUsesNonExemptEncryption = NO — только HTTPS", "urls":{"support":"https://liga.video/support","marketing":"https://liga.video","privacy":"https://liga.video/privacy"},
+    "description":["Лига — видеосервис любительского спорта: прямые эфиры, записи матчей и короткие моменты в одном приложении.","СМОТРИТЕ В ПРЯМОМ ЭФИРЕ\nМатч, счёт и ключевые события доступны на одном экране.","ПУБЛИКУЙТЕ ВИДЕО\nНачните трансляцию с телефона или загрузите готовую запись из медиатеки.","СОХРАНЯЙТЕ МОМЕНТЫ\nГолы, броски и другие события быстро превращаются в короткие видео.","ПОДПИСЫВАЙТЕСЬ НА КАНАЛЫ\nПолучайте новые видео и уведомления о начале эфиров выбранных команд."],
+    "whatsNew":"Первая версия: прямые эфиры, записи матчей, короткие моменты, каналы и подписки.",
     "privacy":[{"type":"Номер телефона","apple":"Contact Info → Phone Number","purpose":"Работа приложения","linked":true,"tracking":false,"why":"Вход через SDK провайдера"},{"type":"Геопозиция","apple":"Location → Coarse Location","purpose":"Функциональность","linked":false,"tracking":false,"why":"Матчи и площадки рядом"},{"type":"Пользовательский контент","apple":"User Content → Photos or Videos","purpose":"Функциональность","linked":true,"tracking":false,"why":"Трансляции и загрузка записей"},{"type":"Идентификатор устройства","apple":"Identifiers → Device ID","purpose":"Реклама","linked":false,"tracking":true,"why":"Только после ATT"}],
     "reviewAccount":{"phone":"+7 900 000-00-00","code":"0000","note":"Тестовый номер принимает код 0000; SMS не отправляется."}
   }

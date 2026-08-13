@@ -3042,7 +3042,8 @@
   color: inherit !important;
 }
 .lx-screen .lx-tabs .ico .lx-icon { width: 24px !important; height: 24px !important; }
-.lx-screen .lx-tabs .lx-create .lx-icon { color: #fff !important; }
+.lx-screen .lx-tabs .lx-create .lx-icon { color: inherit !important; }
+.lx-screen .lx-tabs .tab.is-on .lx-create .lx-icon { color: #fff !important; }
 .lx-screen .lx-tabs .tab-label { font-size: 10px !important; line-height: 12px !important; }
 
 /* Filter chips are one component: identical hit area, radius and baseline. */
@@ -3406,3 +3407,173 @@
   padding-top: 17px !important;
   border-top: 1px solid rgba(255,255,255,.07) !important;
 }
+
+/* Photo & Video product pass: content first, match utilities second. */
+.lx-video-home,
+.lx-video-subs,
+.lx-create-video,
+.lx-video-profile {
+  padding-bottom: 34px !important;
+}
+.lx-video-home .lx-section,
+.lx-video-subs .lx-section,
+.lx-video-profile .lx-section {
+  margin-top: 20px !important;
+  margin-bottom: 9px !important;
+}
+.lx-video-home .lx-section h2,
+.lx-video-subs .lx-section h2,
+.lx-video-profile .lx-section h2 {
+  font-size: 19px !important;
+  line-height: 23px !important;
+  font-weight: 720 !important;
+  letter-spacing: -.025em !important;
+}
+.lx-video-home .lx-section > span,
+.lx-video-subs .lx-section > span,
+.lx-video-profile .lx-section > span {
+  min-height: 44px !important;
+  color: rgba(235,235,245,.62) !important;
+  font-size: 12px !important;
+}
+
+.lx-video-rail {
+  display: flex;
+  gap: 10px;
+  margin: 0 -16px;
+  padding: 0 16px 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.lx-mini-video { width: 178px; flex: 0 0 178px; }
+.lx-mini-cover,
+.lx-sub-video-cover,
+.lx-profile-thumb {
+  position: relative;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+.lx-mini-cover { height: 100px; border-radius: 12px; }
+.lx-mini-cover.basketball,
+.lx-sub-video-cover.basketball,
+.lx-profile-thumb.basketball { background-image: url("assets/media/basketball-clip.png"); }
+.lx-mini-cover.football,
+.lx-sub-video-cover.football,
+.lx-profile-thumb.football { background-image: url("assets/media/football-match.png"); }
+.lx-mini-cover.volleyball,
+.lx-sub-video-cover.volleyball,
+.lx-profile-thumb.volleyball { background-image: url("assets/media/volleyball-team.png"); }
+.lx-mini-cover::after,
+.lx-sub-video-cover::after,
+.lx-profile-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.48));
+}
+.lx-mini-cover span,
+.lx-profile-thumb span,
+.lx-duration {
+  position: absolute;
+  z-index: 1;
+  right: 7px;
+  bottom: 7px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: rgba(0,0,0,.78);
+  color: #fff;
+  font: 650 11px/14px "IBM Plex Mono", monospace;
+}
+.lx-mini-video > strong,
+.lx-mini-video > p { display: block; }
+.lx-mini-video > strong {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 680;
+}
+.lx-mini-video > p {
+  margin: 3px 0 0;
+  color: var(--lx-secondary);
+  font-size: 11px;
+  line-height: 15px;
+}
+.lx-video-list {
+  border-radius: 14px;
+  background: var(--lx-surface);
+  overflow: hidden;
+}
+.lx-upcoming {
+  min-height: 66px;
+  padding: 9px 12px;
+  display: grid;
+  grid-template-columns: 50px minmax(0,1fr) 20px;
+  align-items: center;
+  gap: 10px;
+}
+.lx-upcoming + .lx-upcoming { border-top: 1px solid rgba(255,255,255,.07); }
+.lx-upcoming time { color: var(--lx-label); font: 650 13px/16px "IBM Plex Mono", monospace; }
+.lx-upcoming time span { display: block; margin-top: 2px; color: var(--lx-tertiary); font: 450 11px/14px Manrope; }
+.lx-upcoming strong { display: block; font-size: 13px; line-height: 17px; }
+.lx-upcoming p { margin: 2px 0 0; color: var(--lx-secondary); font-size: 11px; line-height: 15px; }
+.lx-upcoming > .lx-icon { width: 17px; color: var(--lx-tertiary); }
+
+/* Creation behaves like a media composer, not a role selector. */
+.lx-create-video { padding: 12px 16px 36px !important; }
+.lx-create-video .lx-create-intro { margin: 10px 0 24px !important; }
+.lx-create-video .lx-create-intro h1 { margin: 0; font-size: 25px; line-height: 30px; font-weight: 720; letter-spacing: -.03em; }
+.lx-create-video .lx-create-intro p { max-width: 340px; margin: 7px 0 0; color: var(--lx-secondary); font-size: 13px; line-height: 18px; }
+.lx-create-actions { display: grid; gap: 10px; }
+.lx-create-actions-cards {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+.lx-create-row {
+  min-height: 76px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 44px minmax(0,1fr) 18px;
+  align-items: center;
+  gap: 12px;
+  border-radius: 16px;
+  background: var(--lx-surface);
+}
+.lx-create-row i { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 13px; background: #29292c; }
+.lx-create-row.is-primary i { background: var(--lx-accent); color: #111; }
+.lx-create-row i .lx-icon { width: 22px; height: 22px; }
+.lx-create-row strong { display: block; font-size: 14px; line-height: 18px; font-weight: 700; }
+.lx-create-row p { margin: 3px 0 0; color: var(--lx-secondary); font-size: 11px; line-height: 15px; }
+.lx-create-row > .lx-icon { width: 17px; color: var(--lx-tertiary); }
+
+/* Subscriptions are channels and their videos; schedule is supporting content. */
+.lx-video-subs { padding: 6px 16px 34px !important; }
+.lx-video-subs .lx-alert { min-height: 68px !important; margin-top: 6px !important; padding: 10px 12px !important; border-radius: 14px !important; }
+.lx-video-subs .lx-alert strong { font-size: 13px !important; line-height: 17px !important; }
+.lx-video-subs .lx-alert p { margin-top: 2px !important; font-size: 11px !important; line-height: 15px !important; }
+.lx-sub-video { margin-top: 12px; }
+.lx-sub-video-cover { height: 184px; border-radius: 14px; }
+.lx-sub-video-cover > b { position: absolute; z-index: 1; left: 50%; bottom: 12px; transform: translateX(-50%); color: #fff; font: 700 27px/30px "IBM Plex Mono", monospace; }
+.lx-sub-video-cover .lx-live { z-index: 2; top: 10px !important; left: 10px !important; }
+.lx-sub-video-meta { min-height: 64px; padding: 10px 2px 0; display: grid; grid-template-columns: 38px minmax(0,1fr) 20px; align-items: start; gap: 10px; }
+.lx-sub-video-meta .lx-crest { width: 38px !important; height: 38px !important; border-radius: 50% !important; background: #29292c !important; color: #fff !important; font-size: 11px !important; }
+.lx-sub-video-meta strong { display: block; font-size: 13px; line-height: 17px; }
+.lx-sub-video-meta p { margin: 3px 0 0; color: var(--lx-secondary); font-size: 11px; line-height: 15px; }
+.lx-sub-video-meta > .lx-icon { width: 17px; color: var(--lx-secondary); }
+
+/* Profile is a compact media library. */
+.lx-video-profile { padding-top: 10px !important; }
+.lx-video-profile .lx-kpis { margin-top: 16px !important; }
+.lx-profile-library { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+.lx-profile-library article { min-width: 0; }
+.lx-profile-thumb { height: 94px; border-radius: 12px; }
+.lx-profile-library strong { display: block; margin-top: 7px; font-size: 12px; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lx-profile-library p { margin: 2px 0 0; color: var(--lx-secondary); font-size: 11px; line-height: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lx-video-profile .lx-profilemenu { margin-top: 20px !important; }
+.lx-video-profile .lx-section > span { min-width: 44px; justify-content: flex-end; }
+
+/* Player content hierarchy: live metadata and channel before match indexing. */
+.lx-watch .lx-protocol-head h2 { font-size: 19px !important; }
+.lx-watch .lx-protocol-row time { padding-top: 7px !important; }
