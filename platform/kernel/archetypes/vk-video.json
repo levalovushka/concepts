@@ -1,0 +1,15 @@
+{
+  "id": "vk-video",
+  "label": "ВК Видео",
+  "category": "Photo & Video",
+  "contentModel": ["video", "clip", "channel", "subscription"],
+  "navigation": ["home", "clips", "create", "subscriptions", "profile"],
+  "patterns": {
+    "video-feed": "Контентная главная с быстрым входом в просмотр",
+    "vertical-clips": "Полноэкранная последовательность коротких видео",
+    "immersive-player": "Плеер с действиями, автором и продолжением просмотра",
+    "channels": "Автор или команда как подписная единица",
+    "capture-publish": "Создание, выбор медиа и публикация"
+  },
+  "density": "content-heavy"
+}

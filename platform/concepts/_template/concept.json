@@ -11,12 +11,15 @@
   "insight": "ядровое ограничение, из которого вытекают якорные доступы",
   "deck": "Абзац под заголовком: что это, для кого, и почему бэкенда нет.",
 
+  "qualityContractVersion": 1,
   "product": {
     "audience": "Кто конкретно пользуется продуктом — без «всех, кто»",
     "situation": "В какой наблюдаемой ситуации возникает потребность",
     "problem": "Что сейчас мешает достичь результата",
     "promise": "Какой наблюдаемый результат даёт продукт",
     "differentiator": "Почему это не фича большого сервиса и не клон существующего приложения",
+    "returnReasons": ["Причина вернуться 1", "Причина вернуться 2", "Причина вернуться 3"],
+    "verticalSlice": { "entry": "phone", "action": "code", "result": "home" },
     "coreLoop": ["Шаг 1: триггер", "Шаг 2: якорное действие", "Шаг 3: ценный результат"],
     "nonGoals": ["Что продукт сознательно не делает"]
   },
@@ -24,7 +27,9 @@
     "mode": "__POSITIONING_MODE__",
     "categoryFit": "Почему выбранная категория App Store соответствует основной ценности",
     "familiarPatterns": ["Знакомый паттерн 1", "Знакомый паттерн 2", "Знакомый паттерн 3"],
-    "distinctions": ["Ось отстройки 1", "Ось отстройки 2", "Ось отстройки 3"]
+    "distinctions": ["Ось отстройки 1", "Ось отстройки 2", "Ось отстройки 3"],
+    "evidenceScreens": ["phone", "code", "home"],
+    "referencePatterns": ["__REFERENCE_PATTERN_1__", "__REFERENCE_PATTERN_2__", "__REFERENCE_PATTERN_3__"]
   },
   "brand": {
     "accent": "#0d8a7a",
@@ -33,7 +38,7 @@
   },
 
   "start": "phone",
-  "uiContractVersion": 1,
+  "uiContractVersion": 2,
   "tabs": [{ "id": "home", "label": "Главная" }],
 
   "permissions": [
@@ -58,9 +63,9 @@
   ],
 
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "states": ["default", "error", "loading"] } },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "states": ["default", "error", "loading"] } },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "states": ["default", "empty", "denied"] } }
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "states": ["default", "error", "loading"], "density": "low", "contentCases": ["Корректный номер", "Неверный формат", "Медленный ответ"] } },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "states": ["default", "error", "loading"], "density": "low", "contentCases": ["Код пришёл", "Неверный код", "Повторная отправка"] } },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "states": ["default", "empty", "denied"], "density": "medium", "contentCases": ["Три полезных объекта", "Пустая коллекция", "Отказ в доступе"] } }
   ],
 
   "prototypes": [

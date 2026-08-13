@@ -2,6 +2,9 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateConceptQuality, validateUiContract } from './concept-quality.mjs';
+
+export { POSITIONING_MODES } from './concept-quality.mjs';
 
 export const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const KERNEL = join(ROOT, 'kernel');
@@ -10,14 +13,9 @@ export const DIST = join(ROOT, 'dist');
 
 /** Один реестр связывает набор доступов, продукт-референс и категорию стора. */
 export const TARGET_PRODUCTS = {
-  'vk-music': { label: 'ВК Музыка', short: 'Музыка', category: 'Music' },
-  'vk-video': { label: 'ВК Видео', short: 'Видео', category: 'Photo & Video' },
-  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте', category: 'Social Networking' },
-};
-
-export const POSITIONING_MODES = {
-  mimicry: { label: 'Мимикрия', description: 'Знакомая грамматика продукта-референса в собственной нише' },
-  differentiation: { label: 'Отстройка', description: 'Самостоятельный продукт на том же наборе доступов' },
+  'vk-music': { label: 'ВК Музыка', short: 'Музыка' },
+  'vk-video': { label: 'ВК Видео', short: 'Видео' },
+  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте' },
 };
 
 export const conceptDir = (slug) => join(CONCEPTS, slug);
@@ -55,22 +53,6 @@ export function validate(spec, slug) {
   }
   if (spec.product?.coreLoop?.length < 3) err.push('product.coreLoop: нужно минимум 3 шага');
 
-  const positioning = spec.positioning;
-  if (positioning) {
-    if (!POSITIONING_MODES[positioning.mode]) err.push(`positioning.mode «${positioning.mode}» не поддерживается`);
-    if (!positioning.categoryFit?.trim()) err.push('positioning.categoryFit пуст');
-    for (const field of ['familiarPatterns', 'distinctions']) {
-      if (!Array.isArray(positioning[field]) || positioning[field].length < 3) err.push(`positioning.${field}: нужно минимум 3 пункта`);
-      else if (positioning[field].some((item) => typeof item !== 'string' || !item.trim())) err.push(`positioning.${field} содержит пустой пункт`);
-    }
-    if (positioning.mode === 'mimicry') {
-      const expected = TARGET_PRODUCTS[spec.targetSet]?.category;
-      const categories = [spec.appStore?.category?.primary, spec.appStore?.category?.secondary];
-      if (!expected) err.push(`для мимикрии неизвестен продукт-референс ${spec.targetSet}`);
-      else if (!categories.includes(expected)) err.push(`мимикрия под ${spec.targetSet}: категория App Store должна включать ${expected}`);
-    }
-  }
-
   const ids = new Set();
   for (const s of spec.screens || []) {
     if (!s.id || !s.title) err.push('экран без id/title');
@@ -78,6 +60,7 @@ export function validate(spec, slug) {
     ids.add(s.id);
   }
   if (spec.start && !ids.has(spec.start)) err.push('стартовый экран отсутствует: ' + spec.start);
+  err.push(...validateConceptQuality(spec, ids));
 
   /* Родитель по IA: должен существовать, цепочка — доходить до корня без петли. */
   const parentOf = Object.fromEntries((spec.screens || []).map((s) => [s.id, s.parent]));
@@ -105,22 +88,7 @@ export function validate(spec, slug) {
   }
   for (const t of spec.tabs || []) if (!ids.has(t.id)) err.push('вкладка без экрана: ' + t.id);
 
-  /* UI-контракт версионируется: новые концепты получают строгий
-     контракт, старые мигрируют поэкранно без аварийной механической правки. */
-  if (spec.uiContractVersion != null) {
-    if (spec.uiContractVersion !== 1) err.push(`uiContractVersion ${spec.uiContractVersion} не поддерживается`);
-    const patterns = new Set(['auth', 'collection', 'detail', 'task', 'player', 'capture', 'editor', 'settings', 'state', 'system']);
-    const states = new Set(['default', 'empty', 'loading', 'error', 'denied', 'success', 'offline']);
-    for (const screen of spec.screens || []) {
-      const ui = screen.ui;
-      if (!ui) { err.push(`${screen.id}: нет ui-контракта`); continue; }
-      if (!patterns.has(ui.pattern)) err.push(`${screen.id}: неизвестный ui.pattern «${ui.pattern}»`);
-      if (!ui.purpose?.trim()) err.push(`${screen.id}: ui.purpose пуст`);
-      if (ui.primaryAction !== null && !ui.primaryAction?.trim()) err.push(`${screen.id}: ui.primaryAction должен быть строкой или null`);
-      if (!Array.isArray(ui.states) || !ui.states.length) err.push(`${screen.id}: ui.states пуст`);
-      else for (const state of ui.states) if (!states.has(state)) err.push(`${screen.id}: неизвестное ui-состояние «${state}»`);
-    }
-  }
+  err.push(...validateUiContract(spec));
 
   if (err.length) throw new Error('Спека ' + slug + ':\n  · ' + err.join('\n  · '));
 }

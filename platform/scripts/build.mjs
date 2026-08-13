@@ -13,6 +13,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, POSITIONING_MODES, listConcepts } from './lib.mjs';
 import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
+import { archetypeFor } from './concept-quality.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
 
@@ -60,7 +61,12 @@ ${spec.permissions.map((p) =>
 ).join('\n')}
 </div>`;
 
-const productContract = (spec) => `<div class="product-contract">
+const productContract = (spec) => {
+  const titles = Object.fromEntries(spec.screens.map((screen) => [screen.id, screen.title]));
+  const slice = spec.product.verticalSlice;
+  const archetype = archetypeFor(spec.targetSet);
+  const referencePatterns = (spec.positioning.referencePatterns || []).map((id) => archetype?.patterns[id] || id);
+  return `<div class="product-contract">
   <div class="product-facts">
     <div><b>Стратегия</b><span>${esc(POSITIONING_MODES[spec.positioning.mode].label)}</span></div>
     <div><b>Категория</b><span>${esc(spec.appStore.category.primary)}</span></div>
@@ -77,10 +83,18 @@ const productContract = (spec) => `<div class="product-contract">
     <ul>${spec.positioning.familiarPatterns.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
     <b>Отстройка</b>
     <ul>${spec.positioning.distinctions.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+    ${referencePatterns.length ? `<b>Паттерны референса</b><ul>${referencePatterns.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}
+    <b>Вертикальный срез</b>
+    <ol><li>${esc(titles[slice.entry])}</li><li>${esc(titles[slice.action])}</li><li>${esc(titles[slice.result])}</li></ol>
+    <b>Почему возвращаются</b>
+    <ul>${spec.product.returnReasons.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+    <b>Доказано экранами</b>
+    <ul>${spec.positioning.evidenceScreens.map((id) => `<li>${esc(titles[id])}</li>`).join('')}</ul>
     <b>Не делаем</b>
     <ul>${spec.product.nonGoals.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
   </div>
 </div>`;
+};
 
 const docsLinks = (spec) =>
   (spec.docs || []).map((d) => `<a href="docs/${d.file}">${esc(d.label)}</a>`).join('\n      ') +
