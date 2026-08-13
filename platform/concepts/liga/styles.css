@@ -13,17 +13,6 @@
 .lx-head .lx-logo {
   font-weight: 800 !important;
 }
-.lx-authfield {
-  margin-top: 30px;
-}
-.lx-authfield label {
-  display: block;
-  font-size: 11px;
-  line-height: 15px;
-  font-weight: 700;
-  color: #626872;
-  margin: 0 0 7px 3px;
-}
 .lx-inputshell {
   height: 58px;
   border-radius: 16px;
@@ -38,29 +27,6 @@
 }
 .lx-inputshell:focus-within {
   box-shadow: inset 0 0 0 2px var(--lx-blue);
-}
-.lx-country {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.lx-country small {
-  font-size: 11px;
-  color: var(--lx-muted);
-}
-.lx-input-divider {
-  height: 24px;
-  background: #dedfdb;
-}
-.lx-input-value {
-  padding-left: 13px;
-  letter-spacing: 0.01em;
-}
-.lx-input-hint {
-  font-size: 11px;
-  line-height: 16px;
-  color: var(--lx-muted);
-  margin: 7px 3px 0;
 }
 :root {
   --lg-ink: #111214;
@@ -81,74 +47,8 @@
 .lx-clips .lx-tabs .lx-create .lx-icon {
   color: #0b1018 !important;
 }
-.lx-rolegrid.refined {
-  margin-top: 16px;
-  gap: 10px;
-}
-.lx-rolegrid.refined .lx-rolecard {
-  min-height: 196px;
-  padding: 16px;
-  border-radius: 20px;
-}
-.lx-rolegrid.refined .lx-rolecard.camera {
-  background: var(--lx-blue);
-}
-.lx-rolegrid.refined .lx-rolecard.protocol {
-  background: #e4f6b2;
-}
-.lx-rolegrid.refined .lx-rolecard h2 {
-  font-size: 19px;
-  line-height: 21px;
-  margin: auto 0 5px;
-}
-.lx-rolegrid.refined .lx-rolecard p {
-  font-size: 11px;
-  line-height: 15px;
-}
-.lx-rolegrid.refined .lx-rolecard strong {
-  font-size: 11px;
-  line-height: 15px;
-  margin-top: 12px;
-}
-.lx-rolegrid.refined .lx-roleicon {
-  width: 42px;
-  height: 42px;
-  border-radius: 13px;
-}
-.lx-uploadcell {
-  min-height: 72px;
-  margin-top: 10px;
-  background: #fff;
-  border-radius: 18px;
-  padding: 0 14px;
-  display: grid;
-  grid-template-columns: 42px 1fr 24px;
-  align-items: center;
-  gap: 11px;
-}
-.lx-uploadcell i {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--lx-paper);
-  display: grid;
-  place-items: center;
-}
-.lx-uploadcell strong {
-  font-size: 13px;
-  line-height: 17px;
-  display: block;
-}
-.lx-uploadcell p {
-  font-size: 11px;
-  line-height: 15px;
-  color: var(--lx-muted);
-  margin: 3px 0 0;
-}
-.lx-uploadcell > .lx-icon {
-  width: 19px;
-  color: #5f646b;
-}
+
+
 .lx-game {
   min-height: 74px !important;
 }
@@ -226,9 +126,6 @@
   font-weight: 750 !important;
   letter-spacing: 0.035em !important;
   text-transform: none !important;
-}
-.lx-head-meta {
-  display: none;
 }
 .lx-player2 {
   height: 252px !important;
@@ -483,51 +380,6 @@
 .lx-otp2 span.on {
   box-shadow: inset 0 0 0 2px var(--lx-blue);
 }
-.lx-onboard2 {
-  margin-top: 25px;
-  border-radius: 26px;
-  background: var(--lx-navy);
-  color: #fff;
-  padding: 24px;
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-.lx-onboard2:after {
-  content: "";
-  position: absolute;
-  width: 240px;
-  height: 240px;
-  border: 46px solid var(--lx-blue);
-  border-radius: 50%;
-  right: -125px;
-  top: -105px;
-}
-.lx-onboard2 h1 {
-  font-size: 29px;
-  line-height: 33px;
-  letter-spacing: -0.045em;
-  margin: 0;
-  max-width: 260px;
-  position: relative;
-  z-index: 1;
-}
-.lx-onboard2 div {
-  margin-top: auto;
-  position: relative;
-  z-index: 1;
-}
-.lx-onboard2 strong {
-  font-size: 13px;
-}
-.lx-onboard2 p {
-  font-size: 11px;
-  line-height: 17px;
-  color: #bec4cd;
-  margin: 5px 0 0;
-}
 .lx-sheet2 {
   background: rgba(8, 12, 20, 0.48);
   flex-direction: column;
@@ -699,20 +551,6 @@
 .lx-logo i {
   color: var(--lx-blue);
   font-style: normal;
-}
-.lx-head-meta {
-  margin-left: auto;
-  text-align: right;
-}
-.lx-head-meta strong {
-  display: block;
-  font:
-    650 11px/14px "IBM Plex Mono",
-    monospace;
-}
-.lx-head-meta span {
-  font-size: 11px;
-  color: var(--lx-muted);
 }
 .lx-head-action {
   width: 44px;
@@ -893,14 +731,7 @@
   color: var(--lx-muted);
   margin: 3px 0 0;
 }
-.lx-game-tag {
-  font-size: 11px;
-  background: #e9efff;
-  color: #2756ce;
-  border-radius: 7px;
-  padding: 5px 7px;
-  font-weight: 800;
-}
+
 .lx-subnav {
   height: 48px;
   padding: 0 7px;
@@ -1189,57 +1020,8 @@
 .lx-createpage > .lx-title {
   max-width: 310px;
 }
-.lx-rolegrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-  margin-top: 18px;
-}
-.lx-rolecard {
-  min-height: 224px;
-  border-radius: 22px;
-  padding: 17px;
-  display: flex;
-  flex-direction: column;
-}
-.lx-rolecard.camera {
-  background: var(--lx-blue);
-  color: #fff;
-}
-.lx-rolecard.protocol {
-  background: var(--lx-lime);
-  color: var(--lx-navy);
-}
-.lx-roleicon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.18);
-  display: grid;
-  place-items: center;
-}
-.lx-rolecard.protocol .lx-roleicon {
-  background: rgba(16, 27, 48, 0.1);
-}
-.lx-rolecard h2 {
-  font-size: 20px;
-  line-height: 23px;
-  letter-spacing: -0.04em;
-  margin: auto 0 6px;
-}
-.lx-rolecard p {
-  font-size: 11px;
-  line-height: 15px;
-  margin: 0;
-  opacity: 0.78;
-}
-.lx-rolecard strong {
-  margin-top: 15px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
+
+
 .lx-toolrow {
   min-height: 62px;
   display: grid;
@@ -1270,66 +1052,8 @@
 .lx-subscribe {
   padding: 0 16px 24px;
 }
-.lx-week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin-top: 8px;
-}
-.lx-day {
-  height: 58px;
-  border-radius: 14px;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: var(--lx-muted);
-}
-.lx-day strong {
-  font:
-    700 12px/16px "IBM Plex Mono",
-    monospace;
-  color: var(--lx-ink);
-}
-.lx-day.on {
-  background: var(--lx-blue);
-  color: #dfe7ff;
-}
-.lx-day.on strong {
-  color: #fff;
-}
-.lx-following {
-  display: flex;
-  gap: 9px;
-  overflow: auto;
-  margin: 15px -16px 0;
-  padding: 0 16px;
-  scrollbar-width: none;
-}
-.lx-followteam {
-  min-width: 112px;
-  height: 54px;
-  border-radius: 16px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px;
-}
-.lx-followteam .lx-crest {
-  width: 39px;
-  height: 39px;
-}
-.lx-followteam strong {
-  font-size: 11px;
-}
-.lx-followteam span {
-  font-size: 11px;
-  color: var(--lx-muted);
-  display: block;
-}
+
+
 .lx-alert {
   min-height: 60px;
   background: var(--lx-navy);
@@ -1371,31 +1095,6 @@
 .lx-profile {
   padding: 2px 16px 24px;
 }
-.lx-pass {
-  background: var(--lx-navy);
-  color: #fff;
-  border-radius: 26px;
-  padding: 18px;
-  position: relative;
-  overflow: hidden;
-}
-.lx-pass:after {
-  content: "";
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  border: 34px solid var(--lx-blue);
-  border-radius: 50%;
-  right: -77px;
-  top: -70px;
-}
-.lx-pass-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 1;
-}
 .lx-avatar2 {
   width: 58px;
   height: 58px;
@@ -1406,31 +1105,6 @@
   place-items: center;
   font-size: 17px;
   font-weight: 850;
-}
-.lx-pass h1 {
-  font-size: 21px;
-  margin: 0;
-}
-.lx-pass p {
-  font-size: 11px;
-  color: #b8bec8;
-  margin: 4px 0 0;
-}
-.lx-pass-role {
-  margin-top: 21px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding-top: 13px;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  z-index: 1;
-}
-.lx-pass-role span {
-  font-size: 11px;
-  color: #aeb5c0;
-}
-.lx-pass-role strong {
-  font-size: 11px;
 }
 .lx-kpis {
   display: grid;
@@ -1560,17 +1234,8 @@
     rgba(8, 13, 22, 0.94) 100%
   ) !important;
 }
-.lx-rolegrid.refined .lx-rolecard h2 {
-  font-weight: 780 !important;
-  letter-spacing: -0.035em;
-}
-.lx-rolegrid.refined .lx-rolecard strong {
-  font-weight: 750 !important;
-}
-.lx-rolegrid.refined .lx-rolecard p {
-  font-weight: 550;
-}
-.lx-uploadcell strong,
+
+
 .lx-create-action strong,
 .lx-toolrow strong,
 .lx-game strong,
@@ -1600,32 +1265,8 @@
 .lx-crest {
   border-radius: 13px !important;
 }
-.lx-following {
-  gap: 8px !important;
-  margin-top: 12px !important;
-}
-.lx-followteam {
-  min-width: 116px !important;
-  height: 58px !important;
-  border-radius: 17px !important;
-  padding: 8px !important;
-  gap: 9px !important;
-}
-.lx-followteam .lx-crest {
-  width: 42px !important;
-  height: 42px !important;
-  flex: none;
-}
-.lx-followteam strong {
-  font-size: 12px !important;
-  line-height: 15px !important;
-  font-weight: 720 !important;
-}
-.lx-followteam span {
-  font-size: 11px !important;
-  line-height: 14px !important;
-  margin-top: 1px;
-}
+
+
 .lx-alert {
   min-height: 64px !important;
   padding: 0 12px !important;
@@ -1863,9 +1504,6 @@
   margin-left: 0 !important;
   justify-self: end;
 }
-.lx-head > .lx-head-meta {
-  display: none !important;
-}
 .lx-head-action {
   border-radius: 14px;
 }
@@ -1880,56 +1518,10 @@
 .lx-cliphead span {
   font-size: 12px !important;
 }
-.lx-pass {
-  border-radius: 22px !important;
-  padding: 16px !important;
-}
-.lx-pass:after {
-  display: none;
-}
-.lx-pass-top {
-  gap: 12px !important;
-}
 .lx-avatar2 {
   width: 52px !important;
   height: 52px !important;
   border-radius: 16px !important;
-}
-.lx-pass h1 {
-  font-size: 18px !important;
-  line-height: 23px !important;
-  font-weight: 760 !important;
-  letter-spacing: -0.02em;
-}
-.lx-pass p {
-  font-size: 11px !important;
-  line-height: 15px !important;
-  margin-top: 2px !important;
-}
-.lx-pass-role {
-  margin-top: 15px !important;
-  padding-top: 12px !important;
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 16px !important;
-}
-.lx-pass-role > div:last-child {
-  text-align: right;
-}
-.lx-pass-role span,
-.lx-pass-role strong {
-  display: block !important;
-}
-.lx-pass-role span {
-  font-size: 11px !important;
-  line-height: 14px !important;
-  color: #929baa !important;
-}
-.lx-pass-role strong {
-  font-size: 12px !important;
-  line-height: 16px !important;
-  margin-top: 2px !important;
-  font-weight: 700 !important;
 }
 .lx-kpis {
   margin-top: 8px !important;
@@ -1971,14 +1563,8 @@
   width: 18px;
   color: #676e78;
 }
-.lx-followteam {
-  min-width: 116px !important;
-  height: 56px !important;
-}
-.lx-followteam .lx-crest {
-  width: 40px !important;
-  height: 40px !important;
-}
+
+
 .lx-alert {
   min-height: 60px !important;
 }
@@ -2236,12 +1822,9 @@
   color: #101216 !important;
 }
 .lx-agenda,
-.lx-day,
-.lx-followteam,
 .lx-kpis,
 .lx-profilemenu,
 .lx-searchfield,
-.lx-uploadcell,
 .lx-create-actions,
 .lx-inputshell,
 .lx-otp2 span,
@@ -2260,31 +1843,22 @@
 .lx-create-action p,
 .lx-protocol-row p,
 .lx-clubrow p,
-.lx-input-hint,
 .lx-legal2 {
   color: #9299a4 !important;
 }
-.lx-game-tag {
-  background: #202c4b !important;
-  color: #8eacff !important;
-}
+
 .lx-matchday {
   background: #151922 !important;
 }
 .lx-matchday-foot {
   color: #9ca3ae !important;
 }
-.lx-day.on {
-  background: var(--lx-blue) !important;
-}
+
 .lx-alert {
   background: #1b2230 !important;
 }
 .lx-toggle {
   background: #3a404a !important;
-}
-.lx-pass {
-  background: #171c28 !important;
 }
 .lx-kpis,
 .lx-profilemenu {
@@ -2320,9 +1894,6 @@
 }
 .lx-inputshell {
   box-shadow: inset 0 0 0 1px #34383f !important;
-}
-.lx-input-divider {
-  background: #34383f !important;
 }
 .lx-secondary2 {
   background: #1b1d22 !important;
@@ -2374,15 +1945,14 @@
 .lx-section { margin:22px 0 9px!important; }
 .lx-section h2,.lx-protocol-head h2 { font-size:19px!important; line-height:24px!important; font-weight:760!important; }
 .lx-section span,.lx-protocol-head span { font-size:11px!important; color:#818c99!important; }
-.lx-agenda,.lx-day,.lx-followteam,.lx-kpis,.lx-profilemenu,.lx-searchfield,.lx-uploadcell,.lx-create-actions,.lx-inputshell,.lx-otp2 span,.lx-device2 { background:#232323!important; }
+.lx-agenda,.lx-kpis,.lx-profilemenu,.lx-searchfield,.lx-create-actions,.lx-inputshell,.lx-otp2 span,.lx-device2 { background:#232323!important; }
 .lx-agenda { border-radius:16px!important; padding-inline:14px!important; }
 .lx-game { min-height:68px!important; border-color:#343434!important; }
 .lx-game strong { font-size:13px!important; line-height:17px!important; }
 .lx-game p { margin-top:2px!important; color:#818c99!important; }
-.lx-game-tag { background:#2a3442!important; color:#79a8df!important; }
+
 .lx-alert { background:#232323!important; border-radius:16px!important; }
-.lx-toggle { background:#43454a!important; }
-.lx-pass,.lx-assignment,.lx-scoreboard { background:#202124!important; }
+.lx-toggle { background:#43454a!important; }.lx-assignment,.lx-scoreboard { background:#202124!important; }
 .lx-kpis,.lx-profilemenu { box-shadow:none!important; border-radius:18px!important; }
 .lx-toolrow,.lx-create-action,.lx-protocol-row,.lx-watch .lx-clubrow { border-color:#343434!important; }
 .lx-profilemenu { padding-inline:14px!important; }
@@ -2396,33 +1966,20 @@
 .lx-watchtools { padding:8px 16px 9px!important; gap:8px!important; }
 .lx-tooltext { min-height:42px!important; background:#232323!important; border-radius:13px!important; padding-inline:11px!important; }
 .lx-follow2 { background:#fff!important; color:#111!important; border-radius:13px!important; }
-.lx-rolegrid.refined { gap:10px!important; }
-.lx-rolegrid.refined .lx-rolecard { min-height:190px!important; background:#232323!important; color:#f2f3f5!important; border-radius:18px!important; }
-.lx-rolegrid.refined .lx-rolecard p { color:#9aa0a9!important; }
-.lx-rolegrid.refined .lx-rolecard.camera .lx-roleicon { background:#4986cc!important; color:#fff!important; }
-.lx-rolegrid.refined .lx-rolecard.protocol .lx-roleicon { background:#c4f455!important; color:#161b24!important; }
-.lx-rolegrid.refined .lx-rolecard strong { color:#8ab4e3!important; }
-.lx-uploadcell,.lx-create-actions { border-radius:16px!important; }
-.lx-uploadcell i,.lx-create-action i { background:#303236!important; }
+
+
+.lx-create-actions { border-radius:16px!important; }
+.lx-create-action i { background:#303236!important; }
 .lx-create-action.primary i { background:#4986cc!important; color:#fff!important; }
 .lx-auth2 { background:#191919!important; }
-.lx-authfield label { color:#9aa0a9!important; }
 .lx-inputshell { box-shadow:inset 0 0 0 1px #3a3a3c!important; }
-.lx-input-divider { background:#3a3a3c!important; }
 .lx-primary2 { background:#4986cc!important; }
 .lx-secondary2 { background:#2a2a2c!important; }
-.lx-onboard2 { background:#232323!important; }
 .lx-sheetbody { background:#202020!important; }
 .lx-device2 i { background:#303030!important; }
 
 /* VK profile/library pattern: identity without a decorative hero card. */
 .lx-profile { padding-top:12px!important; }
-.lx-pass { background:transparent!important; padding:4px 0 16px!important; border-radius:0!important; }
-.lx-pass:after { display:none!important; }
-.lx-pass-top { justify-content:flex-end!important; }
-.lx-pass h1 { font-size:22px!important; line-height:27px!important; }
-.lx-pass p { color:#818c99!important; }
-.lx-pass-role { border-color:#343434!important; }
 .lx-kpis { background:transparent!important; border-radius:0!important; border-top:1px solid #343434!important; border-bottom:1px solid #343434!important; margin-inline:0!important; }
 .lx-profilemenu { background:transparent!important; border-radius:0!important; padding-inline:0!important; }
 .lx-profilemenu .lx-toolrow i { background:#2b2b2d!important; }
@@ -2436,13 +1993,13 @@
 .lx-game strong,.lx-toolrow strong,.lx-create-action strong,.lx-protocol-row strong { font-weight:700!important; letter-spacing:-.012em; }
 .lx-game p,.lx-toolrow p,.lx-create-action p,.lx-protocol-row p { line-height:15px!important; }
 .lx-toolrow>.lx-icon,.lx-create-action>.lx-icon,.lx-game>.lx-icon { width:18px!important; color:#818c99!important; }
-.lx-rolegrid.refined .lx-rolecard h2 { margin-bottom:4px!important; }
-.lx-rolegrid.refined .lx-rolecard p { line-height:15px!important; }
+
+
 .lx-searchfield { min-height:48px!important; border-radius:12px!important; }
 .lx-sheetbody { box-shadow:0 -12px 36px rgba(0,0,0,.28); }
 .lx-device2 { border-radius:14px!important; }
-.lx-following { gap:8px!important; }
-.lx-followteam { border-radius:16px!important; }
+
+
 .lx-alert { padding-inline:14px!important; }
 .lx-alert strong { font-size:13px!important; }
 .lx-alert p { margin-top:2px!important; }
@@ -2613,14 +2170,7 @@
   border: 0 !important;
 }
 .lx-home-v2 .lx-game + .lx-game { border-top: 1px solid rgba(255,255,255,.08) !important; }
-.lx-home-v2 .lx-game-tag {
-  padding: 5px 7px !important;
-  border-radius: 7px !important;
-  background: #2a3442 !important;
-  color: #79a8df !important;
-  font-size: 10px !important;
-  text-transform: none !important;
-}
+
 
 /* User library profile. */
 .lx-profile-v2 { padding: 8px 16px 28px !important; }
@@ -2652,22 +2202,8 @@
   font-size: 13px;
   line-height: 17px;
 }
-.lx-profile-tags {
-  display: flex;
-  gap: 8px;
-  margin-top: 14px;
-}
-.lx-profile-tags span {
-  height: 32px;
-  padding: 0 12px;
-  display: flex;
-  align-items: center;
-  border-radius: 11px;
-  background: #262627;
-  color: rgba(235,235,245,.72);
-  font-size: 13px;
-  line-height: 17px;
-}
+
+
 .lx-profile-v2 .lx-kpis {
   min-height: 72px !important;
   margin: 12px 0 0 !important;
@@ -2992,22 +2528,13 @@
   background: #c4f455 !important;
   color: #10110f !important;
 }
-.lx-game-tag,
-.lx-day.on {
-  background: #303a20 !important;
-  color: #d9ff7a !important;
-}
-.lx-game-tag {
-  background: #303033 !important;
-  color: var(--lx-secondary) !important;
-}
-.lx-rolegrid.refined .lx-rolecard.camera .lx-roleicon,
-.lx-rolegrid.refined .lx-rolecard.protocol .lx-roleicon,
+
+
 .lx-create-action.primary i {
   background: #c4f455 !important;
   color: #111 !important;
 }
-.lx-rolegrid.refined .lx-rolecard strong { color: #d9ff7a !important; }
+
 .lx-clubbanner { background: #202020 !important; color: var(--lx-label) !important; }
 .lx-clubbanner::after { border-color: #303a20 !important; }
 .lx-clubbanner .lx-crest { background: #c4f455 !important; color: #111 !important; }
@@ -3070,18 +2597,10 @@
 .lx-auth-v2 .lx-code-v2 { margin-top: 52px !important; }
 
 /* Club color belongs to live status, not every avatar in the schedule. */
-.lx-followteam .lx-crest {
-  background: #303033 !important;
-  color: var(--lx-label) !important;
-}
-.lx-followteam:first-child .lx-crest {
-  background: #c4f455 !important;
-  color: #111 !important;
-}
+
 
 /* Small supporting copy remains readable at capture scale. */
 .lx-auth-v2 .lx-legal2,
-.lx-home-v2 .lx-game-tag,
 .lx-clips .lx-sideact b {
   font-size: 11px !important;
   line-height: 14px !important;
@@ -3148,7 +2667,6 @@
 .lx-home-v2 .lx-agenda,
 .lx-subscribe .lx-agenda,
 .lx-screen .lx-alert,
-.lx-screen .lx-followteam,
 .lx-screen .lx-kpis,
 .lx-screen .lx-profilemenu,
 .lx-screen .lx-clubbanner,
@@ -3174,17 +2692,8 @@
   line-height: 25px !important;
   font-weight: 700 !important;
 }
-.lx-profile-v2 .lx-profile-tags {
-  margin-top: 12px !important;
-}
-.lx-profile-v2 .lx-profile-tags span {
-  height: 30px !important;
-  padding: 0 11px !important;
-  border-radius: 10px !important;
-  background: #252527 !important;
-  color: var(--lx-secondary) !important;
-  font-size: 12px !important;
-}
+
+
 .lx-profile-v2 .lx-kpis {
   min-height: 76px !important;
   margin-top: 14px !important;
@@ -3245,10 +2754,7 @@
   background: #c4f455 !important;
   color: #10110f !important;
 }
-.lx-screen .lx-game-tag {
-  background: #29292c !important;
-  color: var(--lx-secondary) !important;
-}
+
 .lx-screen .lx-head-action,
 .lx-screen .lx-section span,
 .lx-screen .lx-protocol-head span {

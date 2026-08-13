@@ -2,11 +2,21 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateConceptQuality, validateUiContract } from './concept-quality.mjs';
+
+export { POSITIONING_MODES } from './concept-quality.mjs';
 
 export const ROOT = fileURLToPath(new URL('..', import.meta.url));
 export const KERNEL = join(ROOT, 'kernel');
 export const CONCEPTS = join(ROOT, 'concepts');
 export const DIST = join(ROOT, 'dist');
+
+/** Один реестр связывает набор доступов, продукт-референс и категорию стора. */
+export const TARGET_PRODUCTS = {
+  'vk-music': { label: 'ВК Музыка', short: 'Музыка' },
+  'vk-video': { label: 'ВК Видео', short: 'Видео' },
+  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте' },
+};
 
 export const conceptDir = (slug) => join(CONCEPTS, slug);
 
@@ -31,9 +41,17 @@ export function readSpec(slug) {
  */
 export function validate(spec, slug) {
   const err = [];
-  const need = ['slug', 'name', 'start', 'permissions', 'screens', 'brand'];
+  const need = ['slug', 'name', 'start', 'permissions', 'screens', 'brand', 'product', 'positioning'];
   for (const k of need) if (!spec[k]) err.push('нет поля ' + k);
   if (spec.slug !== slug) err.push(`slug «${spec.slug}» не совпадает с папкой «${slug}»`);
+
+  const productFields = ['audience', 'situation', 'problem', 'promise', 'differentiator'];
+  for (const field of productFields) if (!spec.product?.[field]?.trim()) err.push(`product.${field} пуст`);
+  for (const field of ['coreLoop', 'nonGoals']) {
+    if (!Array.isArray(spec.product?.[field]) || !spec.product[field].length) err.push(`product.${field} должен быть непустым списком`);
+    else if (spec.product[field].some((item) => typeof item !== 'string' || !item.trim())) err.push(`product.${field} содержит пустой пункт`);
+  }
+  if (spec.product?.coreLoop?.length < 3) err.push('product.coreLoop: нужно минимум 3 шага');
 
   const ids = new Set();
   for (const s of spec.screens || []) {
@@ -42,6 +60,7 @@ export function validate(spec, slug) {
     ids.add(s.id);
   }
   if (spec.start && !ids.has(spec.start)) err.push('стартовый экран отсутствует: ' + spec.start);
+  err.push(...validateConceptQuality(spec, ids));
 
   /* Родитель по IA: должен существовать, цепочка — доходить до корня без петли. */
   const parentOf = Object.fromEntries((spec.screens || []).map((s) => [s.id, s.parent]));
@@ -69,7 +88,22 @@ export function validate(spec, slug) {
   }
   for (const t of spec.tabs || []) if (!ids.has(t.id)) err.push('вкладка без экрана: ' + t.id);
 
+  err.push(...validateUiContract(spec));
+
   if (err.length) throw new Error('Спека ' + slug + ':\n  · ' + err.join('\n  · '));
+}
+
+/** Заявленное главное действие должно существовать в реальной разметке. */
+export function validateUiMarkup(spec, markup) {
+  if (spec.uiContractVersion == null) return;
+  const problems = [];
+  const visibleText = (html) => html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')
+    .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  for (const screen of spec.screens) {
+    const action = screen.ui?.primaryAction;
+    if (action && !visibleText(markup[screen.id] || '').includes(action)) problems.push(`${screen.id}: главное действие «${action}» не найдено в разметке`);
+  }
+  if (problems.length) throw new Error(`UI-контракт ${spec.slug}:\n  · ${problems.join('\n  · ')}`);
 }
 
 /** Разметка всех экранов спеки: {id: html}. Источник карты экранов и прототипа один. */

@@ -1,0 +1,15 @@
+{
+  "id": "vkontakte",
+  "label": "ВКонтакте",
+  "category": "Social Networking",
+  "contentModel": ["person", "post", "conversation", "community"],
+  "navigation": ["feed", "messages", "communities", "profile"],
+  "patterns": {
+    "social-feed": "Лента обновлений от знакомого графа",
+    "messaging": "Личные и групповые разговоры",
+    "profile": "Идентичность, связи и собственная активность",
+    "create-post": "Создание публикации с медиа",
+    "communities": "Группа как отдельный социальный контекст"
+  },
+  "density": "social-dense"
+}

@@ -141,7 +141,10 @@ function lint(slug) {
   for (const other of listConcepts()) {
     if (other === slug) continue;
     const o = readSpec(other);
-    if (html.includes(o.name) || html.includes(o.domain)) P(`след другого концепта: ${o.name} / ${o.domain}`);
+    /* Обычное слово может совпасть с именем концепта («радиус карточки»).
+       Имя считаем брендом только в кавычках; домен остаётся точным маркером. */
+    const brandedName = html.includes(`«${o.name}»`) || html.includes(`“${o.name}”`);
+    if (brandedName || (o.domain && html.includes(o.domain))) P(`след другого концепта: ${o.name} / ${o.domain}`);
   }
 
   /* —— числа сходятся —— */

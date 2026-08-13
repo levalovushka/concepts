@@ -1,0 +1,12 @@
+{
+  "auth": { "densities": ["low"], "requiredStates": ["default", "loading", "error"], "rule": "Одна причина войти и одно главное действие" },
+  "collection": { "densities": ["medium", "high"], "requiredStates": ["default", "empty"], "rule": "Первый полезный объект виден без лишнего вступления" },
+  "detail": { "densities": ["medium", "high"], "requiredStates": ["default"], "rule": "Один объект, ясная иерархия и одно главное действие" },
+  "task": { "densities": ["low", "medium"], "requiredStates": ["default", "error"], "rule": "Линейный прогресс и очевидный следующий шаг" },
+  "player": { "densities": ["low", "medium"], "requiredStates": ["default", "loading", "error"], "rule": "Контент первичен, управление стабильно и доступно одной рукой" },
+  "capture": { "densities": ["low"], "requiredStates": ["default", "denied"], "rule": "Кадр первичен, разрешение спрашивается из явного жеста" },
+  "editor": { "densities": ["medium"], "requiredStates": ["default", "error", "success"], "rule": "Черновик сохраняется, главное действие не конкурирует со вторичными" },
+  "settings": { "densities": ["medium", "high"], "requiredStates": ["default"], "rule": "Grouped-структура, предсказуемые строки и системные контролы" },
+  "state": { "densities": ["low"], "requiredStates": [], "rule": "Причина состояния и следующий доступный шаг" },
+  "system": { "densities": ["low", "medium"], "requiredStates": ["default"], "rule": "Не имитировать системную поверхность собственным контролом" }
+}

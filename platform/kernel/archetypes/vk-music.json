@@ -1,0 +1,15 @@
+{
+  "id": "vk-music",
+  "label": "ВК Музыка",
+  "category": "Music",
+  "contentModel": ["track", "release", "artist", "playlist"],
+  "navigation": ["home", "search", "library", "profile"],
+  "patterns": {
+    "audio-library": "Библиотека произведений и сохранённого",
+    "audio-player": "Плеер с очередью и контекстом произведения",
+    "background-playback": "Продолжение сценария при погашенном экране",
+    "release-detail": "Карточка релиза, программы или коллекции",
+    "search-discovery": "Поиск и открытие нового контента"
+  },
+  "density": "library-first"
+}

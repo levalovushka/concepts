@@ -2,22 +2,30 @@
 /**
  * Скаффолд нового концепта из _template.
  *
- *   node scripts/new-concept.mjs muzloop "Музлуп" vk-music
+ *   node scripts/new-concept.mjs muzloop "Музлуп" vk-music differentiation
  *
  * Дальше: заполнить concept.json по PLAYBOOK.md (фазы 0–5), написать экраны,
- * медиа и доки, затем build → capture → test → lint (фазы 7–10).
+ * медиа и доки, затем capture → check (фазы 7–10).
  */
 import { cpSync, existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { CONCEPTS, conceptDir, listConcepts } from './lib.mjs';
+import { CONCEPTS, conceptDir, listConcepts, TARGET_PRODUCTS, POSITIONING_MODES } from './lib.mjs';
+import { archetypeFor } from './concept-quality.mjs';
 
-const [slug, name, targetSet] = process.argv.slice(2);
+const [slug, name, targetSet, requestedMode = 'differentiation'] = process.argv.slice(2);
+const referencePatterns = {
+  'vk-music': ['audio-library', 'audio-player', 'background-playback'],
+  'vk-video': ['video-feed', 'vertical-clips', 'immersive-player'],
+  vkontakte: ['social-feed', 'messaging', 'profile'],
+}[targetSet] || ['Знакомый паттерн 1', 'Знакомый паттерн 2', 'Знакомый паттерн 3'];
 if (!slug || !name) {
-  console.error('использование: node scripts/new-concept.mjs <slug> "<Название>" [целевой-набор]');
+  console.error('использование: node scripts/new-concept.mjs <slug> "<Название>" <целевой-набор> [mimicry|differentiation]');
   console.error('существующие концепты:', listConcepts().join(', ') || '—');
   process.exit(1);
 }
 if (!/^[a-z][a-z0-9-]*$/.test(slug)) { console.error('slug: только строчные латинские, цифры и дефис'); process.exit(1); }
+if (!POSITIONING_MODES[requestedMode]) { console.error(`неизвестная стратегия: ${requestedMode}`); process.exit(1); }
+if (requestedMode === 'mimicry' && !TARGET_PRODUCTS[targetSet]) { console.error(`для мимикрии неизвестен продукт-референс: ${targetSet}`); process.exit(1); }
 
 const dir = conceptDir(slug);
 if (existsSync(dir)) { console.error(`концепт ${slug} уже существует: ${dir}`); process.exit(1); }
@@ -32,7 +40,12 @@ for (const f of walk(dir)) {
   const s = readFileSync(f, 'utf8')
     .replaceAll('__SLUG__', slug)
     .replaceAll('__NAME__', name)
-    .replaceAll('__TARGET_SET__', targetSet || 'не задан');
+    .replaceAll('__TARGET_SET__', targetSet || 'не задан')
+    .replaceAll('__POSITIONING_MODE__', requestedMode)
+    .replaceAll('__APP_STORE_CATEGORY__', requestedMode === 'mimicry' ? archetypeFor(targetSet).category : 'Utilities')
+    .replaceAll('__REFERENCE_PATTERN_1__', referencePatterns[0])
+    .replaceAll('__REFERENCE_PATTERN_2__', referencePatterns[1])
+    .replaceAll('__REFERENCE_PATTERN_3__', referencePatterns[2]);
   writeFileSync(f, s);
 }
 mkdirSync(join(dir, 'assets', 'media'), { recursive: true });
@@ -41,11 +54,11 @@ mkdirSync(join(dir, 'assets', 'screenshots'), { recursive: true });
 console.log(`создан ${dir}
 
 дальше по PLAYBOOK.md:
-  1. заполнить concept.json  — доступы, экраны, вкладки, бренд (фазы 0–5)
-  2. написать screens/*.html — по файлу на экран
-  3. media.mjs, styles.css, sections.html, docs/
-  4. node scripts/build.mjs ${slug}
+  1. заменить учебный вертикальный срез phone → code → home на три продуктовых экрана
+  2. заполнить concept.json  — причины вернуться, позиционирование, UI v2, доступы и бренд
+  3. написать screens/*.html — сначала только вертикальный срез
+  4. media.mjs, styles.css, sections.html, docs/
+  5. npm run proof -- ${slug}
+     node scripts/build.mjs ${slug}
      node scripts/capture.mjs ${slug} --sheet
-     node scripts/build.mjs ${slug}          # ещё раз: свежие скриншоты нужны в dist
-     node scripts/test-flows.mjs ${slug}
-     node scripts/lint-concept.mjs ${slug}`);
+     npm run check                           # единый приёмочный цикл всех концептов`);

@@ -17,18 +17,18 @@ npm install && npx playwright install chromium
 Дальше цикл концепта:
 
 ```bash
-node scripts/new-concept.mjs muzloop "Музлуп" vk-music
+node scripts/new-concept.mjs muzloop "Музлуп" vk-music differentiation
 # заполнить concept.json и screens/*.html по PLAYBOOK.md
+npm run proof -- muzloop
 node scripts/build.mjs muzloop
 node scripts/capture.mjs muzloop
 node scripts/build.mjs muzloop        # ещё раз: свежие PNG нужны внутри dist
-node scripts/test-flows.mjs muzloop
-node scripts/lint-concept.mjs muzloop
+npm run check                         # полная приёмка всех концептов и лаунчера
 ```
 
 Скаффолд из `_template` собирается и проходит тест сразу, до всякого заполнения — можно убедиться, что окружение живое, прежде чем что-то писать.
 
-`test-flows.mjs`, `lint-concept.mjs` и `gen-docs.mjs` без слага проходят по всем концептам. `build.mjs` требует слаг (все концепты сразу — это `build-all.mjs`), `capture.mjs` тоже, но принимает после слага список id экранов, чтобы перерисовать не всё. Те же шаги через npm-скрипты: `npm run build -- <slug>`, `build:all`, `shots`, `test`, `lint`, `docs`, `new`.
+`npm run proof -- <slug>` — быстрые продуктовые ворота до сборки. `npm run check` — канонический приёмочный цикл: продуктовые ворота, сборка всех концептов, тест лаунчера, структурный линт, визуальный аудит и интерактивные сценарии. Отдельные команды остаются для быстрой локальной итерации.
 
 ## Структура
 
@@ -39,12 +39,19 @@ kernel/                    общее ядро — версионируется 
   page.html                каркас страницы со слотами {{...}}
   icons.svg                спрайт иконок Lucide, инлайнится при сборке
   ios-chrome.md            канон системных компонентов iOS
+  positioning-contract.md два режима: мимикрия и отстройка
+  pipeline-v2.md           продуктовые и интерфейсные ворота пайплайна
+  archetypes/              профили ВК Музыки, ВК Видео и ВКонтакте
+  screen-recipes.json      композиционные ограничения экранных паттернов
+  ui-contract.md           обязательный контракт экранов для новых концептов
   deliverable.md           спека итогового файла — читать до вёрстки
   chrome-gallery.html      галерея хрома для глазной сверки
   doc-templates/           заготовки доков 01–06
   media-primitives.mjs     цвет, детерминированный псевдослучай
 scripts/
   lib.mjs                  пути, чтение и ВАЛИДАЦИЯ спеки, производные данные
+  concept-quality.mjs      глубокий модуль продуктового и UI-качества
+  pipeline-proof.mjs       быстрые продуктовые ворота до сборки
   screen-map.mjs           карта экранов из разметки: дерево IA, таблица переходов
   new-concept.mjs          скаффолд из _template
   build.mjs                спека + экраны + ядро → самодостаточный index.html
