@@ -8,7 +8,7 @@
 
   <!-- @overview:arch -->
   <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
-  <div class="flow"><span class="chip">Архив</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Этикетка в кадре</span><span class="arr">→</span><span class="chip">Совпадение</span><span class="arr">→</span><span class="chip">Сторона играет</span></div>
+  <div class="flow"><span class="chip">Главная</span><span class="arr">→</span><span class="chip">Camera</span><span class="arr">→</span><span class="chip">Этикетка в кадре</span><span class="arr">→</span><span class="chip">Совпадение</span><span class="arr">→</span><span class="chip">Сторона играет</span></div>
   <div class="flow"><span class="chip">Плеер</span><span class="arr">→</span><span class="chip">Background audio</span><span class="arr">→</span><span class="chip">Локскрин · Now Playing</span></div>
   <div class="flow"><span class="chip">Этикетка</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Снимок из галереи</span><span class="arr">→</span><span class="chip">Совпадение</span></div>
   <div class="flow"><span class="chip">Экземпляр</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">Фото конверта</span></div>
@@ -50,11 +50,11 @@
 
   <section class="section" id="tokens">
     <h2>Дизайн-токены</h2>
-    <p class="deck">Шеллак и бумага: тёмно-коричневый диск, выгоревшие этикетки, дерево стола. Жжёная амбра как единственный акцент, iOS-хром без самодеятельности. Geist / Geist Mono для матричных номеров и таймкодов.</p>
+    <p class="deck">Тёмная library-first система в грамматике ВК Музыки: Главная, «Моя музыка», релиз, persistent mini-player и полноэкранный плеер. Тёплые шеллак и бумага остаются в медиа; интерфейс нейтральный, контрастный и музыкальный.</p>
     <div class="feat-grid">
-      <div class="feat"><b>Accent</b><span>#a8631d · #e8a75e в тёмной теме</span></div>
+      <div class="feat"><b>Accent</b><span>#9c7cff · #b9a6ff на тёмных поверхностях</span></div>
       <div class="feat"><b>Device</b><span>390×844 · radius 40 · safe areas 47 / 34</span></div>
-      <div class="feat"><b>Type</b><span>Geist 400–700 · Geist Mono для матриц и времени</span></div>
+      <div class="feat"><b>Type</b><span>Inter 400–800 · Roboto Mono для матриц и времени</span></div>
       <div class="feat"><b>Медиа</b><span>Всё рисуется кодом: <code>media.mjs</code></span></div>
     </div>
   </section>
