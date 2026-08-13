@@ -11,7 +11,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync, rmSync, rea
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, listConcepts } from './lib.mjs';
+import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, POSITIONING_MODES, listConcepts } from './lib.mjs';
 import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
@@ -62,6 +62,8 @@ ${spec.permissions.map((p) =>
 
 const productContract = (spec) => `<div class="product-contract">
   <div class="product-facts">
+    <div><b>Стратегия</b><span>${esc(POSITIONING_MODES[spec.positioning.mode].label)}</span></div>
+    <div><b>Категория</b><span>${esc(spec.appStore.category.primary)}</span></div>
     <div><b>Для кого</b><span>${esc(spec.product.audience)}</span></div>
     <div><b>Ситуация</b><span>${esc(spec.product.situation)}</span></div>
     <div><b>Проблема</b><span>${esc(spec.product.problem)}</span></div>
@@ -71,6 +73,10 @@ const productContract = (spec) => `<div class="product-contract">
   <div class="product-loop">
     <b>Ядровой цикл</b>
     <ol>${spec.product.coreLoop.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>
+    <b>Знакомые паттерны</b>
+    <ul>${spec.positioning.familiarPatterns.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+    <b>Отстройка</b>
+    <ul>${spec.positioning.distinctions.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
     <b>Не делаем</b>
     <ul>${spec.product.nonGoals.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
   </div>

@@ -17,7 +17,7 @@ npm install && npx playwright install chromium
 Дальше цикл концепта:
 
 ```bash
-node scripts/new-concept.mjs muzloop "Музлуп" vk-music
+node scripts/new-concept.mjs muzloop "Музлуп" vk-music differentiation
 # заполнить concept.json и screens/*.html по PLAYBOOK.md
 node scripts/build.mjs muzloop
 node scripts/capture.mjs muzloop
@@ -38,6 +38,7 @@ kernel/                    общее ядро — версионируется 
   page.html                каркас страницы со слотами {{...}}
   icons.svg                спрайт иконок Lucide, инлайнится при сборке
   ios-chrome.md            канон системных компонентов iOS
+  positioning-contract.md два режима: мимикрия и отстройка
   ui-contract.md           обязательный контракт экранов для новых концептов
   deliverable.md           спека итогового файла — читать до вёрстки
   chrome-gallery.html      галерея хрома для глазной сверки

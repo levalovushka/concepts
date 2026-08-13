@@ -8,6 +8,18 @@ export const KERNEL = join(ROOT, 'kernel');
 export const CONCEPTS = join(ROOT, 'concepts');
 export const DIST = join(ROOT, 'dist');
 
+/** Один реестр связывает набор доступов, продукт-референс и категорию стора. */
+export const TARGET_PRODUCTS = {
+  'vk-music': { label: 'ВК Музыка', short: 'Музыка', category: 'Music' },
+  'vk-video': { label: 'ВК Видео', short: 'Видео', category: 'Photo & Video' },
+  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте', category: 'Social Networking' },
+};
+
+export const POSITIONING_MODES = {
+  mimicry: { label: 'Мимикрия', description: 'Знакомая грамматика продукта-референса в собственной нише' },
+  differentiation: { label: 'Отстройка', description: 'Самостоятельный продукт на том же наборе доступов' },
+};
+
 export const conceptDir = (slug) => join(CONCEPTS, slug);
 
 /** Все концепты, кроме служебного _template. */
@@ -31,7 +43,7 @@ export function readSpec(slug) {
  */
 export function validate(spec, slug) {
   const err = [];
-  const need = ['slug', 'name', 'start', 'permissions', 'screens', 'brand', 'product'];
+  const need = ['slug', 'name', 'start', 'permissions', 'screens', 'brand', 'product', 'positioning'];
   for (const k of need) if (!spec[k]) err.push('нет поля ' + k);
   if (spec.slug !== slug) err.push(`slug «${spec.slug}» не совпадает с папкой «${slug}»`);
 
@@ -42,6 +54,22 @@ export function validate(spec, slug) {
     else if (spec.product[field].some((item) => typeof item !== 'string' || !item.trim())) err.push(`product.${field} содержит пустой пункт`);
   }
   if (spec.product?.coreLoop?.length < 3) err.push('product.coreLoop: нужно минимум 3 шага');
+
+  const positioning = spec.positioning;
+  if (positioning) {
+    if (!POSITIONING_MODES[positioning.mode]) err.push(`positioning.mode «${positioning.mode}» не поддерживается`);
+    if (!positioning.categoryFit?.trim()) err.push('positioning.categoryFit пуст');
+    for (const field of ['familiarPatterns', 'distinctions']) {
+      if (!Array.isArray(positioning[field]) || positioning[field].length < 3) err.push(`positioning.${field}: нужно минимум 3 пункта`);
+      else if (positioning[field].some((item) => typeof item !== 'string' || !item.trim())) err.push(`positioning.${field} содержит пустой пункт`);
+    }
+    if (positioning.mode === 'mimicry') {
+      const expected = TARGET_PRODUCTS[spec.targetSet]?.category;
+      const categories = [spec.appStore?.category?.primary, spec.appStore?.category?.secondary];
+      if (!expected) err.push(`для мимикрии неизвестен продукт-референс ${spec.targetSet}`);
+      else if (!categories.includes(expected)) err.push(`мимикрия под ${spec.targetSet}: категория App Store должна включать ${expected}`);
+    }
+  }
 
   const ids = new Set();
   for (const s of spec.screens || []) {

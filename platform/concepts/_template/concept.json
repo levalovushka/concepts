@@ -20,6 +20,12 @@
     "coreLoop": ["Шаг 1: триггер", "Шаг 2: якорное действие", "Шаг 3: ценный результат"],
     "nonGoals": ["Что продукт сознательно не делает"]
   },
+  "positioning": {
+    "mode": "__POSITIONING_MODE__",
+    "categoryFit": "Почему выбранная категория App Store соответствует основной ценности",
+    "familiarPatterns": ["Знакомый паттерн 1", "Знакомый паттерн 2", "Знакомый паттерн 3"],
+    "distinctions": ["Ось отстройки 1", "Ось отстройки 2", "Ось отстройки 3"]
+  },
   "brand": {
     "accent": "#0d8a7a",
     "accentDark": "#3dd6c0",
@@ -94,7 +100,7 @@
     "subtitle": "Три-четыре слова о пользе",
     "promo": "До 170 символов: что нового и зачем скачивать. Текст можно менять без релиза, поэтому здесь живёт самое свежее.",
     "keywords": "первое,второе,третье,четвёртое,пятое",
-    "category": { "primary": "Utilities", "secondary": "Lifestyle" },
+    "category": { "primary": "__APP_STORE_CATEGORY__", "secondary": "Lifestyle" },
     "ageRating": "4+",
     "price": "Бесплатно, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
