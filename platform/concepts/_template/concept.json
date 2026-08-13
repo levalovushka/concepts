@@ -27,6 +27,7 @@
   },
 
   "start": "phone",
+  "uiContractVersion": 1,
   "tabs": [{ "id": "home", "label": "Главная" }],
 
   "permissions": [
@@ -51,9 +52,9 @@
   ],
 
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "" }
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "states": ["default", "error", "loading"] } },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "states": ["default", "error", "loading"] } },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "states": ["default", "empty", "denied"] } }
   ],
 
   "prototypes": [

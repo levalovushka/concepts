@@ -77,7 +77,37 @@ export function validate(spec, slug) {
   }
   for (const t of spec.tabs || []) if (!ids.has(t.id)) err.push('вкладка без экрана: ' + t.id);
 
+  /* UI-контракт версионируется: новые концепты получают строгий
+     контракт, старые мигрируют поэкранно без аварийной механической правки. */
+  if (spec.uiContractVersion != null) {
+    if (spec.uiContractVersion !== 1) err.push(`uiContractVersion ${spec.uiContractVersion} не поддерживается`);
+    const patterns = new Set(['auth', 'collection', 'detail', 'task', 'player', 'capture', 'editor', 'settings', 'state', 'system']);
+    const states = new Set(['default', 'empty', 'loading', 'error', 'denied', 'success', 'offline']);
+    for (const screen of spec.screens || []) {
+      const ui = screen.ui;
+      if (!ui) { err.push(`${screen.id}: нет ui-контракта`); continue; }
+      if (!patterns.has(ui.pattern)) err.push(`${screen.id}: неизвестный ui.pattern «${ui.pattern}»`);
+      if (!ui.purpose?.trim()) err.push(`${screen.id}: ui.purpose пуст`);
+      if (ui.primaryAction !== null && !ui.primaryAction?.trim()) err.push(`${screen.id}: ui.primaryAction должен быть строкой или null`);
+      if (!Array.isArray(ui.states) || !ui.states.length) err.push(`${screen.id}: ui.states пуст`);
+      else for (const state of ui.states) if (!states.has(state)) err.push(`${screen.id}: неизвестное ui-состояние «${state}»`);
+    }
+  }
+
   if (err.length) throw new Error('Спека ' + slug + ':\n  · ' + err.join('\n  · '));
+}
+
+/** Заявленное главное действие должно существовать в реальной разметке. */
+export function validateUiMarkup(spec, markup) {
+  if (spec.uiContractVersion == null) return;
+  const problems = [];
+  const visibleText = (html) => html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S]*?<\/style>/g, '')
+    .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+  for (const screen of spec.screens) {
+    const action = screen.ui?.primaryAction;
+    if (action && !visibleText(markup[screen.id] || '').includes(action)) problems.push(`${screen.id}: главное действие «${action}» не найдено в разметке`);
+  }
+  if (problems.length) throw new Error(`UI-контракт ${spec.slug}:\n  · ${problems.join('\n  · ')}`);
 }
 
 /** Разметка всех экранов спеки: {id: html}. Источник карты экранов и прототипа один. */

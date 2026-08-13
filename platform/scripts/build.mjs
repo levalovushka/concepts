@@ -11,7 +11,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync, rmSync, rea
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { KERNEL, DIST, conceptDir, readSpec, readMarkup, engineData, fill, esc, RISK_LABEL, listConcepts } from './lib.mjs';
+import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, listConcepts } from './lib.mjs';
 import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
@@ -196,6 +196,7 @@ export function build(slug, { outDir } = {}) {
   const dir = conceptDir(slug);
 
   const markup = readMarkup(slug, spec);
+  validateUiMarkup(spec, markup);
 
   /* Карта экранов — из тех же байтов, что прототип. Экран, в который не ведёт
      ни один переход, в собранном файле выглядит полноценным: увидеть его можно

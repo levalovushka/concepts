@@ -39,9 +39,11 @@ const APP_STORE_CATEGORIES = {
   'Health & Fitness': 'Здоровье и фитнес',
   Lifestyle: 'Образ жизни',
   Music: 'Музыка',
+  'Photo & Video': 'Фото и видео',
   Productivity: 'Продуктивность',
   Reference: 'Справочники',
   'Social Networking': 'Социальные сети',
+  Sports: 'Спорт',
   Utilities: 'Утилиты',
 };
 
@@ -84,7 +86,7 @@ const gallery = (items) => {
   .section-name { color:var(--page-ink); font:500 14px/1.2 var(--face); }
   .concept-count { justify-self:end; color:var(--page-ink-dim); font:400 13px/1.2 var(--face); }
   .wrap { max-width:1180px; margin:0 auto; padding:48px 24px 120px; }
-  .hero { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:32px; margin-bottom:40px; }
+  .hero { margin-bottom:40px; }
   .eyebrow { font:600 11px/1.3 var(--mono); letter-spacing:.09em; text-transform:uppercase; color:var(--page-ink-mute); }
   h1 { font:600 clamp(32px,4vw,44px)/1.06 var(--face); letter-spacing:-.045em; margin:12px 0 14px; }
   .deck { margin:0; color:var(--page-ink-dim); max-width:68ch; font-size:16px; line-height:1.5; }
@@ -111,7 +113,7 @@ const gallery = (items) => {
   .chip { padding:4px 8px; border-radius:999px; background:color-mix(in srgb,var(--accent) 12%,transparent); color:var(--accent); font:600 10px/1.4 var(--mono); letter-spacing:.03em; }
   .chip.secondary { background:var(--page-chip); color:var(--page-ink-dim); }
   .empty { color:var(--page-ink-dim); }
-  @media (max-width:860px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .hero { grid-template-columns:1fr; align-items:start; } }
+  @media (max-width:860px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
   @media (max-width:560px) { .topbar { grid-template-columns:1fr auto; padding:0 16px; } .section-name { display:none; } .wrap { padding:32px 16px 80px; } .hero { margin-bottom:32px; } .grid { grid-template-columns:1fr; } .filter { flex:1; } }
   @media (prefers-reduced-motion:reduce) { .card,.arrow { transition:none; } }
 </style>

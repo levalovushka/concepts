@@ -5,7 +5,7 @@
  *   node scripts/new-concept.mjs muzloop "Музлуп" vk-music
  *
  * Дальше: заполнить concept.json по PLAYBOOK.md (фазы 0–5), написать экраны,
- * медиа и доки, затем build → capture → test → lint (фазы 7–10).
+ * медиа и доки, затем capture → check (фазы 7–10).
  */
 import { cpSync, existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -41,11 +41,9 @@ mkdirSync(join(dir, 'assets', 'screenshots'), { recursive: true });
 console.log(`создан ${dir}
 
 дальше по PLAYBOOK.md:
-  1. заполнить concept.json  — доступы, экраны, вкладки, бренд (фазы 0–5)
+  1. заполнить concept.json  — продуктовый и UI-контракты, доступы, экраны, вкладки, бренд (фазы 0–5)
   2. написать screens/*.html — по файлу на экран
   3. media.mjs, styles.css, sections.html, docs/
   4. node scripts/build.mjs ${slug}
      node scripts/capture.mjs ${slug} --sheet
-     node scripts/build.mjs ${slug}          # ещё раз: свежие скриншоты нужны в dist
-     node scripts/test-flows.mjs ${slug}
-     node scripts/lint-concept.mjs ${slug}`);
+     npm run check                           # единый приёмочный цикл всех концептов`);

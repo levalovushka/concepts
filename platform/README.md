@@ -22,13 +22,12 @@ node scripts/new-concept.mjs muzloop "Музлуп" vk-music
 node scripts/build.mjs muzloop
 node scripts/capture.mjs muzloop
 node scripts/build.mjs muzloop        # ещё раз: свежие PNG нужны внутри dist
-node scripts/test-flows.mjs muzloop
-node scripts/lint-concept.mjs muzloop
+npm run check                         # полная приёмка всех концептов и лаунчера
 ```
 
 Скаффолд из `_template` собирается и проходит тест сразу, до всякого заполнения — можно убедиться, что окружение живое, прежде чем что-то писать.
 
-`test-flows.mjs`, `lint-concept.mjs` и `gen-docs.mjs` без слага проходят по всем концептам. `build.mjs` требует слаг (все концепты сразу — это `build-all.mjs`), `capture.mjs` тоже, но принимает после слага список id экранов, чтобы перерисовать не всё. Те же шаги через npm-скрипты: `npm run build -- <slug>`, `build:all`, `shots`, `test`, `lint`, `docs`, `new`.
+`npm run check` — канонический приёмочный цикл: сборка всех концептов, тест лаунчера, структурный линт, визуальный аудит и интерактивные сценарии. Отдельные команды остаются для быстрой локальной итерации. `test-flows.mjs`, `lint-concept.mjs` и `gen-docs.mjs` без слага проходят по всем концептам. `build.mjs` требует слаг (все концепты сразу — это `build-all.mjs`), `capture.mjs` тоже, но принимает после слага список id экранов, чтобы перерисовать не всё.
 
 ## Структура
 
@@ -39,6 +38,7 @@ kernel/                    общее ядро — версионируется 
   page.html                каркас страницы со слотами {{...}}
   icons.svg                спрайт иконок Lucide, инлайнится при сборке
   ios-chrome.md            канон системных компонентов iOS
+  ui-contract.md           обязательный контракт экранов для новых концептов
   deliverable.md           спека итогового файла — читать до вёрстки
   chrome-gallery.html      галерея хрома для глазной сверки
   doc-templates/           заготовки доков 01–06

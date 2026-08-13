@@ -94,6 +94,7 @@
 .pl-scrub { margin-top:18px; }
 .pl-scrub .bar { height:5px; border-radius:3px; background:rgba(255,255,255,.22); overflow:hidden; }
 .pl-scrub .bar i { display:block; height:100%; width:36%; background:#fff; border-radius:3px; }
+.lv-time { margin-top:7px; display:flex; justify-content:space-between; font:500 11px/14px var(--mono); color:rgba(255,255,255,.5); }
 /* Осталось до конца стороны — то самое ограничение, из которого растёт продукт */
 .pl-remain {
   margin-top:10px; text-align:center; font:500 12px/16px var(--face);
@@ -216,6 +217,13 @@
 .pick-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
 
 /* —— форум в Safari —— */
+.safari { background:#f2f2f7; }
+.safari-top { padding:calc(var(--safe-top) + 8px) 12px 8px; background:#f9f9f9; border-bottom:.33px solid rgba(0,0,0,.14); }
+.urlbar { min-height:34px; padding:0 12px; display:flex; align-items:center; justify-content:center; gap:6px; border-radius:10px; background:#e5e5ea; font:400 13px/18px var(--face); color:#1c1c1e; }
+.smart-banner { min-height:72px; padding:9px 12px; display:flex; align-items:center; gap:10px; background:#fff; border-bottom:.33px solid rgba(0,0,0,.14); }
+.smart-banner .icon { width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background:var(--accent-fill); color:var(--on-accent); flex:none; }
+.smart-banner .open { min-height:32px; padding:0 12px; display:flex; align-items:center; border-radius:16px; background:#e9e9ee; color:#0a84ff; font:600 13px/1 var(--face); }
+.safari-bottom { min-height:calc(var(--safe-bottom) + 44px); padding:8px 20px var(--safe-bottom); display:flex; align-items:flex-start; justify-content:space-between; background:#f9f9f9; border-top:.33px solid rgba(0,0,0,.14); }
 .forum-post { padding:2px 0 0; }
 .forum-who { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
 .forum-ava { width:34px; height:34px; border-radius:50%; flex:none; background:#c9b393; }
