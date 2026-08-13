@@ -37,6 +37,12 @@ try {
     assert.ok(existsSync(fileURLToPath(new URL(image, page.url()))), `нет скриншота ${image}`);
   }
 
+  await cards.first().click();
+  const back = page.locator('.topbar-back');
+  assert.equal(await back.getAttribute('href'), '../index.html', 'у концепта должна быть ссылка назад в лаунчер');
+  await back.click();
+  assert.equal(await page.locator('.card').count(), concepts.length, 'кнопка назад не вернула в лаунчер');
+
   for (const button of await page.locator('[data-mode-filter]:not([data-mode-filter="all"])').all()) {
     const mode = await button.getAttribute('data-mode-filter');
     const expected = await page.locator(`.card[data-mode="${mode}"]`).count();
@@ -48,15 +54,16 @@ try {
     await page.locator('[data-mode-filter="all"]').click();
   }
 
-  for (const button of await page.locator('[data-set-filter]:not([data-set-filter="all"])').all()) {
-    const targetSet = await button.getAttribute('data-set-filter');
+  for (const targetSet of await page.locator('[data-set-filter] option:not([value="all"])').evaluateAll((options) => options.map((option) => option.value))) {
     const expected = await page.locator(`.card[data-target-set="${targetSet}"]`).count();
-    await button.click();
+    await page.locator('[data-set-filter]').selectOption(targetSet);
     assert.equal(await page.locator('.card:visible').count(), expected, `неверная выдача фильтра ${targetSet}`);
+    const groupedCount = await page.locator('[data-mode-group]:visible [data-group-count]').allTextContents();
+    assert.equal(groupedCount.reduce((sum, value) => sum + Number(value), 0), expected, `счётчики секций не обновились для ${targetSet}`);
     assert.equal(new URL(page.url()).searchParams.get('set'), targetSet, 'фильтр не сохранился в URL');
     await page.reload();
     assert.equal(await page.locator('.card:visible').count(), expected, `фильтр ${targetSet} не восстановился из URL`);
-    await page.locator('[data-set-filter="all"]').click();
+    await page.locator('[data-set-filter]').selectOption('all');
   }
 
   assert.deepEqual(errors, [], `ошибки в консоли: ${errors.join('; ')}`);

@@ -56,7 +56,7 @@ const gallery = (items) => {
   const filters = [...new Set(items.map((item) => item.targetSet))]
     .sort((a, b) => targetSetMeta(a).label.localeCompare(targetSetMeta(b).label, 'ru'));
   const plural = items.length % 10 === 1 && items.length % 100 !== 11 ? 'концепт' : 'концептов';
-  const card = (item) => `    <a class="card" href="./${item.slug}/" data-target-set="${esc(item.targetSet)}" data-mode="${item.mode}" aria-label="${esc(item.name)} — ${esc(item.modeLabel)}, ${esc(item.category)}">
+  const card = (item) => `    <a class="card" href="./${item.slug}/index.html" data-target-set="${esc(item.targetSet)}" data-mode="${item.mode}" aria-label="${esc(item.name)} — ${esc(item.modeLabel)}, ${esc(item.category)}">
       <div class="shot"><img src="./${item.slug}/assets/screenshots/${item.start}.png" alt="Экран «${esc(item.name)}»" loading="lazy"></div>
       <div class="meta">
         <div class="card-kicker"><span class="category">${esc(item.category)}</span><span class="mode-badge ${item.mode}">${esc(item.modeLabel)}</span></div>
@@ -69,7 +69,7 @@ const gallery = (items) => {
     const meta = POSITIONING_MODES[mode];
     const selected = items.filter((item) => item.mode === mode);
     return `  <section class="concept-group" data-mode-group="${mode}">
-    <header class="group-head"><div><h2>${meta.label}</h2><p>${meta.description}</p></div><span>${selected.length}</span></header>
+    <header class="group-head"><div><h2>${meta.label}</h2><p>${meta.description}</p></div><span data-group-count>${selected.length}</span></header>
     <div class="grid">${selected.map(card).join('\n')}</div>
   </section>`;
   };
@@ -108,15 +108,17 @@ const gallery = (items) => {
   .eyebrow { font:600 11px/1.3 var(--mono); letter-spacing:.09em; text-transform:uppercase; color:var(--page-ink-mute); }
   h1 { font:600 clamp(32px,4vw,44px)/1.06 var(--face); letter-spacing:-.045em; margin:12px 0 14px; }
   .deck { margin:0; color:var(--page-ink-dim); max-width:68ch; font-size:16px; line-height:1.5; }
-  .controls { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:40px; }
-  .mode-tabs { display:inline-flex; padding:3px; border:1px solid var(--page-line); border-radius:12px; background:var(--page-chip); }
-  .mode-tab { min-height:34px; padding:7px 13px; border:0; border-radius:9px; background:transparent; color:var(--page-ink-dim); cursor:pointer; font:500 13px/1.2 var(--face); }
-  .mode-tab.is-on { color:var(--page-ink); background:var(--page-card); box-shadow:0 1px 4px color-mix(in srgb,var(--page-ink) 10%,transparent); }
-  .filters { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; margin:0; padding:0; border:0; }
-  .filter { min-height:36px; padding:7px 13px; border:1px solid var(--page-line); border-radius:999px; background:var(--page-card); color:var(--page-ink-dim); cursor:pointer; font:500 13px/1.2 var(--face); transition:color 120ms,border-color 120ms,background 120ms; }
-  .filter:hover { color:var(--page-ink); border-color:var(--page-ink-mute); }
-  .filter.is-on { color:var(--page-bg); border-color:var(--page-ink); background:var(--page-ink); }
-  .filter span { margin-left:4px; color:inherit; opacity:.65; font-family:var(--mono); font-size:10px; }
+  .controls { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:32px; margin-bottom:40px; padding-bottom:14px; border-bottom:1px solid var(--page-line); }
+  .control-label { display:block; margin-bottom:7px; color:var(--page-ink-mute); font:600 10px/1.2 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+  .mode-tabs { display:flex; gap:22px; }
+  .mode-tab { position:relative; min-height:36px; padding:6px 0 10px; border:0; background:transparent; color:var(--page-ink-dim); cursor:pointer; font:500 14px/1.2 var(--face); }
+  .mode-tab::after { content:''; position:absolute; left:0; right:0; bottom:-15px; height:2px; background:transparent; }
+  .mode-tab:hover { color:var(--page-ink); }
+  .mode-tab.is-on { color:var(--page-ink); font-weight:600; }
+  .mode-tab.is-on::after { background:var(--page-ink); }
+  .set-picker { min-width:210px; }
+  .set-picker select { width:100%; min-height:40px; padding:8px 38px 8px 12px; border:1px solid var(--page-line); border-radius:10px; appearance:none; background:var(--page-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; color:var(--page-ink); cursor:pointer; font:500 13px/1.2 var(--face); }
+  .set-picker select:hover { border-color:var(--page-ink-mute); }
   .concept-group + .concept-group { margin-top:56px; }
   .concept-group[hidden] { display:none; }
   .group-head { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--page-line); }
@@ -144,8 +146,8 @@ const gallery = (items) => {
   .chip { padding:4px 8px; border-radius:999px; background:color-mix(in srgb,var(--accent) 12%,transparent); color:var(--accent); font:600 10px/1.4 var(--mono); letter-spacing:.03em; }
   .chip.secondary { background:var(--page-chip); color:var(--page-ink-dim); }
   .empty { color:var(--page-ink-dim); }
-  @media (max-width:860px) { .controls { align-items:flex-start; flex-direction:column; } .filters { justify-content:flex-start; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media (max-width:560px) { .topbar { grid-template-columns:1fr auto; padding:0 16px; } .section-name { display:none; } .wrap { padding:32px 16px 80px; } .hero { margin-bottom:32px; } .controls { margin-bottom:32px; } .mode-tabs { width:100%; } .mode-tab { flex:1; } .grid { grid-template-columns:1fr; } .filter { flex:1; } }
+  @media (max-width:860px) { .controls { grid-template-columns:minmax(0,1fr) minmax(180px,220px); gap:20px; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:560px) { .topbar { grid-template-columns:1fr auto; padding:0 16px; } .section-name { display:none; } .wrap { padding:32px 16px 80px; } .hero { margin-bottom:32px; } .controls { grid-template-columns:1fr; align-items:start; gap:20px; margin-bottom:32px; padding:14px; border:1px solid var(--page-line); border-radius:14px; } .mode-tabs { gap:18px; border-bottom:1px solid var(--page-line); } .mode-tab { flex:1; } .mode-tab::after { bottom:-1px; } .set-picker { width:100%; } .grid { grid-template-columns:1fr; } }
   @media (prefers-reduced-motion:reduce) { .card,.arrow { transition:none; } }
 </style>
 <header class="topbar">
@@ -162,15 +164,21 @@ const gallery = (items) => {
     </div>
   </section>
   <div class="controls">
-    <nav class="mode-tabs" aria-label="Стратегия концепта">
-      <button class="mode-tab is-on" type="button" data-mode-filter="all" aria-pressed="true">Все</button>
-      <button class="mode-tab" type="button" data-mode-filter="mimicry" aria-pressed="false">Мимикрия</button>
-      <button class="mode-tab" type="button" data-mode-filter="differentiation" aria-pressed="false">Отстройка</button>
-    </nav>
-    <nav class="filters" aria-label="Целевой набор доступов">
-      <button class="filter is-on" type="button" data-set-filter="all" aria-pressed="true">Все наборы <span>${items.length}</span></button>
-${filters.map((targetSet) => `      <button class="filter" type="button" data-set-filter="${esc(targetSet)}" aria-pressed="false">${esc(targetSetMeta(targetSet).label)} <span>${items.filter((item) => item.targetSet === targetSet).length}</span></button>`).join('\n')}
-    </nav>
+    <div>
+      <span class="control-label">Стратегия</span>
+      <nav class="mode-tabs" aria-label="Стратегия концепта">
+        <button class="mode-tab is-on" type="button" data-mode-filter="all" aria-pressed="true">Все</button>
+        <button class="mode-tab" type="button" data-mode-filter="mimicry" aria-pressed="false">Мимикрия</button>
+        <button class="mode-tab" type="button" data-mode-filter="differentiation" aria-pressed="false">Отстройка</button>
+      </nav>
+    </div>
+    <label class="set-picker">
+      <span class="control-label">Набор доступов</span>
+      <select data-set-filter aria-label="Набор доступов">
+        <option value="all">Все наборы · ${items.length}</option>
+${filters.map((targetSet) => `        <option value="${esc(targetSet)}">${esc(targetSetMeta(targetSet).label)} · ${items.filter((item) => item.targetSet === targetSet).length}</option>`).join('\n')}
+      </select>
+    </label>
   </div>
   <main id="concept-grid">
 ${items.length ? ['mimicry', 'differentiation'].map(group).join('\n') : '    <p class="empty">Пока ни одного концепта.</p>'}
@@ -178,7 +186,7 @@ ${items.length ? ['mimicry', 'differentiation'].map(group).join('\n') : '    <p 
 </div>
 <script>
   const modeButtons = [...document.querySelectorAll('[data-mode-filter]')];
-  const setButtons = [...document.querySelectorAll('[data-set-filter]')];
+  const setSelect = document.querySelector('[data-set-filter]');
   const cards = [...document.querySelectorAll('[data-target-set]')];
   const groups = [...document.querySelectorAll('[data-mode-group]')];
   const applyFilters = (mode, set, updateUrl = true) => {
@@ -189,13 +197,13 @@ ${items.length ? ['mimicry', 'differentiation'].map(group).join('\n') : '    <p 
       button.classList.toggle('is-on', active);
       button.setAttribute('aria-pressed', String(active));
     });
-    setButtons.forEach((button) => {
-      const active = button.dataset.setFilter === selectedSet;
-      button.classList.toggle('is-on', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
+    setSelect.value = selectedSet;
     cards.forEach((card) => { card.hidden = (selectedMode !== 'all' && card.dataset.mode !== selectedMode) || (selectedSet !== 'all' && card.dataset.targetSet !== selectedSet); });
-    groups.forEach((group) => { group.hidden = !group.querySelector('.card:not([hidden])'); });
+    groups.forEach((group) => {
+      const visible = group.querySelectorAll('.card:not([hidden])').length;
+      group.hidden = visible === 0;
+      group.querySelector('[data-group-count]').textContent = visible;
+    });
     if (updateUrl) {
       const url = new URL(location.href);
       selectedMode === 'all' ? url.searchParams.delete('mode') : url.searchParams.set('mode', selectedMode);
@@ -203,8 +211,8 @@ ${items.length ? ['mimicry', 'differentiation'].map(group).join('\n') : '    <p 
       history.replaceState(null, '', url);
     }
   };
-  modeButtons.forEach((button) => button.addEventListener('click', () => applyFilters(button.dataset.modeFilter, document.querySelector('[data-set-filter].is-on').dataset.setFilter)));
-  setButtons.forEach((button) => button.addEventListener('click', () => applyFilters(document.querySelector('[data-mode-filter].is-on').dataset.modeFilter, button.dataset.setFilter)));
+  modeButtons.forEach((button) => button.addEventListener('click', () => applyFilters(button.dataset.modeFilter, setSelect.value)));
+  setSelect.addEventListener('change', () => applyFilters(document.querySelector('[data-mode-filter].is-on').dataset.modeFilter, setSelect.value));
   const initial = new URL(location.href).searchParams;
   applyFilters(initial.get('mode') || 'all', initial.get('set') || 'all', false);
 </script>
