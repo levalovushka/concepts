@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-/**
- * Медиа «Строчки» — единый растровый sprite реалистичных хоровых материалов:
- * ноты на фортепиано, папка программы, репетиционный зал и крупный фрагмент партитуры.
- */
+/** Медиа «Строчки»: обложки, партитуры и документальная репетиция. */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const asset = join(new URL('.', import.meta.url).pathname, 'assets', 'media', 'choir-materials.png');
-if (!existsSync(asset)) throw new Error('Нет assets/media/choir-materials.png');
-console.log('медиа готово:', asset);
+const dir = join(new URL('.', import.meta.url).pathname, 'assets', 'media');
+const assets = ['covers-v2.png', 'scores-v2.png', 'rehearsal-v2.png'];
+for (const asset of assets) {
+  const path = join(dir, asset);
+  if (!existsSync(path)) throw new Error(`Нет assets/media/${asset}`);
+}
+console.log('медиа готово:', assets.join(', '));

@@ -1,12 +1,75 @@
 <div class="screen st-player" id="scr-player">
-  <div class="navbar on-dark"><div class="nav-leading"><div class="btn-plain on-dark tap" data-back aria-label="Закрыть плеер"><svg class="ico-svg"><use href="#i-chevron-down"/></svg></div></div><div class="title">Сейчас играет</div><div class="nav-trailing"><div class="icon-btn on-dark tap" data-go="sheet" aria-label="Открыть ноты"><svg class="ico-svg"><use href="#i-book-open"/></svg></div></div></div>
+  <div class="navbar on-dark">
+    <div class="nav-leading">
+      <div class="btn-plain on-dark tap" data-back aria-label="Закрыть плеер">
+        <svg class="ico-svg"><use href="#i-chevron-down" /></svg>
+      </div>
+    </div>
+    <div class="title">Сейчас играет</div>
+    <div class="nav-trailing">
+      <div class="icon-btn on-dark" aria-label="Ещё">
+        <svg class="ico-svg"><use href="#i-ellipsis" /></svg>
+      </div>
+    </div>
+  </div>
   <div class="st-player-body">
-    <div class="st-player-art st-sprite st-art-score"></div>
-    <div class="st-player-title">Да исправится молитва моя</div><div class="st-player-sub">Альт · Павел Чесноков · буква В</div>
-    <div class="st-timeline"><i></i></div><div class="st-time"><span>2:14</span><span>т. 63 из 96</span><span>−1:58</span></div>
-    <div class="st-player-controls"><div class="st-player-control tap" aria-label="Предыдущий фрагмент"><svg class="ico-svg"><use href="#i-skip-back"/></svg></div><div class="st-player-control is-main tap" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="st-player-control tap" aria-label="Следующий фрагмент"><svg class="ico-svg"><use href="#i-skip-forward"/></svg></div></div>
-    <div class="st-loop tap"><svg class="ico-svg"><use href="#i-repeat-2"/></svg>Повтор т. 41–74<span>3 круга</span></div>
-    <div class="st-up-next"><div class="st-up-title">Дальше в программе</div><div class="st-up-row"><div class="st-up-art st-sprite st-art-hall"></div><div class="st-up-copy">Легенда<span>Чайковский · альт · 3:02</span></div><div class="st-action-icon"><svg class="ico-svg"><use href="#i-menu"/></svg></div></div></div>
-    <div class="st-audio-cta tap" data-primary data-activate="audio|background"><svg class="ico-svg"><use href="#i-lock"/></svg>Погасить экран</div>
-  </div><div class="home-ind"></div>
+    <div class="st-player-cover st-sprite st-covers st-q1"></div>
+    <div class="st-player-title">Да исправится молитва моя</div>
+    <div class="st-player-sub">Альт · Павел Чесноков · буква В</div>
+    <div class="st-timeline"><i></i></div>
+    <div class="st-time">
+      <span>2:14</span><span>т. 63 из 96</span><span>−1:58</span>
+    </div>
+    <div class="st-controls">
+      <div class="st-control tap" aria-label="Предыдущий фрагмент">
+        <svg class="ico-svg"><use href="#i-skip-back" /></svg>
+      </div>
+      <div class="st-control is-main tap" aria-label="Пауза">
+        <svg class="ico-svg"><use href="#i-pause" /></svg>
+      </div>
+      <div class="st-control tap" aria-label="Следующий фрагмент">
+        <svg class="ico-svg"><use href="#i-skip-forward" /></svg>
+      </div>
+    </div>
+    <div class="st-loop tap">
+      <svg class="ico-svg"><use href="#i-repeat-2" /></svg>Повтор т. 41–74<span
+        >3 круга</span
+      >
+    </div>
+    <div class="st-queue">
+      <div class="st-section-head">
+        <h2>Дальше</h2>
+        <span>Очередь программы</span>
+      </div>
+      <div class="st-queue-row tap" data-go="piece">
+        <div class="st-row-art st-sprite st-covers st-q4"></div>
+        <div class="st-row-copy">
+          <div class="st-row-title">Легенда</div>
+          <div class="st-row-sub">Чайковский · альт · 3:02</div>
+        </div>
+        <div class="st-row-more">
+          <svg class="ico-svg"><use href="#i-menu" /></svg>
+        </div>
+      </div>
+      <div class="st-queue-row tap" data-go="piece">
+        <div class="st-row-art st-sprite st-covers st-q2"></div>
+        <div class="st-row-copy">
+          <div class="st-row-title">Богородице Дево, радуйся</div>
+          <div class="st-row-sub">Рахманинов · альт · 2:35</div>
+        </div>
+        <div class="st-row-more">
+          <svg class="ico-svg"><use href="#i-menu" /></svg>
+        </div>
+      </div>
+    </div>
+    <div class="st-player-bottom">
+      <div class="st-player-action is-primary tap" data-primary data-go="sheet">
+        <svg class="ico-svg"><use href="#i-book-open" /></svg>Открыть ноты
+      </div>
+      <div class="st-player-action tap" data-activate="audio|background">
+        <svg class="ico-svg"><use href="#i-lock" /></svg>В фоне
+      </div>
+    </div>
+  </div>
+  <div class="home-ind"></div>
 </div>

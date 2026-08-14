@@ -1,11 +1,109 @@
-<div class="screen ios-surface" id="scr-piece">
-  <div class="navbar"><div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="title">Произведение</div><div class="nav-trailing"><div class="icon-btn tap" data-go="sheet" aria-label="Ноты"><svg class="ico-svg"><use href="#i-book-open"/></svg></div></div></div>
-  <div class="body-scroll st-pad"><div class="st-stack">
-    <div class="st-detail"><div class="st-detail-art st-sprite st-art-score"></div><h1>Да исправится молитва моя</h1><div class="st-detail-author">Павел Чесноков</div><div class="st-detail-meta">op. 24/6 · №5 в программе · 96 тактов · 4:12</div><div class="st-detail-actions"><div class="st-primary tap" data-primary data-go="player"><svg class="ico-svg"><use href="#i-play"/></svg>Слушать альт</div><div class="st-round" aria-label="Сохранено"><svg class="ico-svg"><use href="#i-bookmark"/></svg></div></div></div>
-    <section class="st-section"><div class="st-head"><h2>Голос</h2><span>Ваш — альт</span></div><div class="st-voice-row"><div class="st-voice">С<span>14</span></div><div class="st-voice is-on">А<span>11</span></div><div class="st-voice">Т<span>7</span></div><div class="st-voice">Б<span>9</span></div><div class="st-voice"><svg class="ico-svg"><use href="#i-users"/></svg><span>все</span></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Фрагмент</h2><span>Повтор включён</span></div><div class="st-fragments"><div class="st-fragment"><b>А</b><span>т. 1–24</span></div><div class="st-fragment"><b>Б</b><span>т. 25–40</span></div><div class="st-fragment is-on"><b>В</b><span>т. 41–74</span></div><div class="st-fragment"><b>Г</b><span>т. 75–96</span></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Ноты рядом</h2><span class="tap" data-go="sheet">4 страницы</span></div><div class="st-page-row tap" data-go="sheet"><div class="st-page-thumb st-sprite st-art-page"></div><div class="st-page-thumb st-sprite st-art-score"></div><div class="st-page-thumb st-sprite st-art-page"></div><div class="st-page-info">Открыта с. 3<span>т. 41–64 · 2 пометки</span></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>С репетиции</h2><span>25 февраля</span></div><div class="st-list"><div class="st-list-row"><div class="st-list-index">40</div><div class="st-list-copy"><div class="st-list-title">Дыхание перед В, а не на В</div></div></div><div class="st-list-row"><div class="st-list-index">52</div><div class="st-list-copy"><div class="st-list-title">Ре не тянем, снимаем с тенорами</div></div></div></div></section>
-  </div></div>
-  <div class="miniplayer tap" data-go="player"><div class="st-mini-art st-sprite st-art-score"></div><div class="miniplayer-text"><div class="miniplayer-title">Да исправится молитва моя</div><div class="miniplayer-sub">Альт · т. 63 · повтор В</div></div><div class="st-mini-pause" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="miniplayer-bar"><i class="st-mini-fill"></i></div></div><div class="home-ind"></div>
+<div class="screen st-dark" id="scr-piece">
+  <div class="navbar st-nav-dark">
+    <div class="nav-leading">
+      <div class="btn-plain on-dark tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="title">Произведение</div>
+    <div class="nav-trailing">
+      <div
+        class="icon-btn on-dark tap"
+        data-go="sheet"
+        aria-label="Открыть ноты"
+      >
+        <svg class="ico-svg"><use href="#i-book-open" /></svg>
+      </div>
+    </div>
+  </div>
+  <div class="body-scroll st-scroll">
+    <div class="st-stack">
+      <div class="st-detail-top">
+        <div class="st-detail-cover st-sprite st-covers st-q1"></div>
+        <div class="st-detail-title">Да исправится молитва моя</div>
+        <div class="st-detail-author">Павел Чесноков</div>
+        <div class="st-detail-meta">
+          op. 24/6 · №5 в программе · 96 тактов · 4:12
+        </div>
+        <div class="st-detail-actions">
+          <div class="st-main-action tap" data-primary data-go="player">
+            <svg class="ico-svg"><use href="#i-play" /></svg>Слушать альт
+          </div>
+          <div class="st-circle" aria-label="Сохранено">
+            <svg class="ico-svg"><use href="#i-bookmark" /></svg>
+          </div>
+        </div>
+      </div>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Голос</h2>
+          <span>Ваш — альт</span>
+        </div>
+        <div class="st-voices">
+          <div class="st-voice">С<span>14 записей</span></div>
+          <div class="st-voice is-on">А<span>11 записей</span></div>
+          <div class="st-voice">Т<span>7 записей</span></div>
+          <div class="st-voice">Б<span>9 записей</span></div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Фрагмент</h2>
+          <span>Повтор включён</span>
+        </div>
+        <div class="st-frags">
+          <div class="st-frag"><b>А</b><span>т. 1–24</span></div>
+          <div class="st-frag"><b>Б</b><span>т. 25–40</span></div>
+          <div class="st-frag is-on"><b>В</b><span>т. 41–74</span></div>
+          <div class="st-frag"><b>Г</b><span>т. 75–96</span></div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Ноты рядом</h2>
+          <span class="tap" data-go="sheet">4 страницы</span>
+        </div>
+        <div class="st-pages tap" data-go="sheet">
+          <div class="st-page st-sprite st-scores st-q1"></div>
+          <div class="st-page st-sprite st-scores st-q2"></div>
+          <div class="st-page st-sprite st-scores st-q3"></div>
+          <div class="st-page st-sprite st-scores st-q4"></div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>С репетиции</h2>
+          <span>25 февраля</span>
+        </div>
+        <div>
+          <div class="st-note">
+            <span>т. 40</span>Дыхание перед В, а не на В
+          </div>
+          <div class="st-note">
+            <span>т. 52</span>Ре не тянем, снимаем с тенорами
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="miniplayer on-dark tap" data-go="player">
+    <div class="st-mini-art st-sprite st-covers st-q1"></div>
+    <div class="miniplayer-text">
+      <div class="miniplayer-title">Да исправится молитва моя</div>
+      <div class="miniplayer-sub">Альт · т. 63 · повтор В</div>
+    </div>
+    <div class="st-mini-control" aria-label="Пауза">
+      <svg class="ico-svg"><use href="#i-pause" /></svg>
+    </div>
+    <div class="miniplayer-bar"><i class="st-mini-progress"></i></div>
+  </div>
+  <div class="home-ind"></div>
 </div>

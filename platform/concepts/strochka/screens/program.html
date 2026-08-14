@@ -1,11 +1,111 @@
-<div class="screen ios-surface" id="scr-program">
-  <div class="navbar is-large"><div class="nav-top"><div class="icon-btn tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></div></div><div class="title large">Главная</div></div>
-  <div class="body-scroll st-pad"><div class="st-stack">
-    <section class="st-section"><div class="st-continue"><div class="st-cover st-sprite st-art-score"></div><div class="st-continue-copy"><div class="st-kicker">Продолжить подготовку</div><h2>Да исправится молитва моя</h2><div class="st-meta">Альт · буква В · т. 41–74</div><div class="st-progress"><i></i></div><div class="st-primary tap" data-primary data-go="piece"><svg class="ico-svg"><use href="#i-play"/></svg>Продолжить с такта 41</div></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Текущая программа</h2><span class="tap" data-go="releases">Открыть</span></div><div class="st-program-row tap" data-go="releases"><div class="st-program-art st-sprite st-art-program"></div><div><div class="st-row-title">Весенний концерт</div><div class="st-row-sub">22 марта · 10 номеров · готово 68%</div></div><div class="st-round"><svg class="ico-svg"><use href="#i-play"/></svg></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Недавно разучивали</h2><span>История</span></div><div class="st-cards"><div class="st-card tap" data-go="piece"><div class="st-card-art st-sprite st-art-score"></div><div class="st-card-title">Да исправится молитва моя</div><div class="st-card-sub">Чесноков · альт</div></div><div class="st-card tap" data-go="piece"><div class="st-card-art st-sprite st-art-page"></div><div class="st-card-title">Богородице Дево, радуйся</div><div class="st-card-sub">Рахманинов · альт</div></div><div class="st-card tap" data-go="piece"><div class="st-card-art st-sprite st-art-hall"></div><div class="st-card-title">Ныне отпущаеши</div><div class="st-card-sub">Гречанинов · альт</div></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Для вашего голоса</h2><span>Альт</span></div><div class="st-chip-row"><div class="st-chip is-on">Шаткие фрагменты</div><div class="st-chip">Перед концертом</div><div class="st-chip">С новыми нотами</div></div></section>
-  </div></div>
-  <div class="miniplayer tap" data-go="player"><div class="st-mini-art st-sprite st-art-score"></div><div class="miniplayer-text"><div class="miniplayer-title">Да исправится молитва моя</div><div class="miniplayer-sub">Альт · т. 63 · повтор В</div></div><div class="st-mini-pause" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="miniplayer-bar"><i class="st-mini-fill"></i></div></div>
-  <div class="tabbar light"><div class="tab is-on" data-go="program"><span class="ico"><svg class="ico-svg"><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div><div class="tab" data-go="notes"><span class="ico"><svg class="ico-svg"><use href="#i-search"/></svg></span><span class="tab-label">Поиск</span></div><div class="tab" data-go="journal"><span class="ico"><svg class="ico-svg"><use href="#i-bookmark"/></svg></span><span class="tab-label">Моя музыка</span></div></div><div class="home-ind"></div>
+<div class="screen st-dark" id="scr-program">
+  <div class="st-rootbar">
+    <div class="st-brand">
+      <div class="st-mark">
+        <svg class="ico-svg"><use href="#i-volume-2" /></svg>
+      </div>
+      Строчка
+    </div>
+    <div class="st-root-actions">
+      <div class="icon-btn tap" data-go="settings" aria-label="Уведомления">
+        <svg class="ico-svg"><use href="#i-bell" /></svg>
+      </div>
+      <div class="icon-btn tap" data-go="settings" aria-label="Профиль">
+        <svg class="ico-svg"><use href="#i-user" /></svg>
+      </div>
+    </div>
+  </div>
+  <div class="st-chips">
+    <div class="st-chip is-on">Для вас</div>
+    <div class="st-chip">Весенний концерт</div>
+    <div class="st-chip">Альт</div>
+    <div class="st-chip">Шаткие места</div>
+  </div>
+  <div class="body-scroll st-scroll">
+    <div class="st-stack">
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Продолжить</h2>
+          <span>После репетиции</span>
+        </div>
+        <div class="st-hero tap" data-primary data-go="piece">
+          <div class="st-hero-media st-sprite st-rehearsal st-q2"></div>
+          <div class="st-hero-shade"></div>
+          <div class="st-play">
+            <svg class="ico-svg"><use href="#i-play" /></svg>
+          </div>
+          <div class="st-hero-copy">
+            <div class="st-eyebrow">Альт · буква В</div>
+            <div class="st-hero-title">Да исправится молитва моя</div>
+            <div class="st-hero-meta">Продолжить с такта 41 · осталось 1:58</div>
+            <div class="st-hero-progress"><i></i></div>
+          </div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Текущая программа</h2>
+          <span class="tap" data-go="releases">Все номера</span>
+        </div>
+        <div class="st-program tap" data-go="releases">
+          <div class="st-program-art st-sprite st-covers st-q1"></div>
+          <div class="st-copy">
+            <div class="st-title">Весенний концерт</div>
+            <div class="st-sub">22 марта · 10 номеров</div>
+            <div class="st-sub">Подготовлено 7 из 10</div>
+          </div>
+          <div class="st-circle is-play">
+            <svg class="ico-svg"><use href="#i-play" /></svg>
+          </div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Сейчас разучивают</h2>
+          <span>Для альта</span>
+        </div>
+        <div class="st-albums">
+          <div class="tap" data-go="piece">
+            <div class="st-album-art st-sprite st-covers st-q2"></div>
+            <div class="st-album-title">Богородице Дево, радуйся</div>
+            <div class="st-album-sub">Рахманинов · уверенно</div>
+          </div>
+          <div class="tap" data-go="piece">
+            <div class="st-album-art st-sprite st-covers st-q3"></div>
+            <div class="st-album-title">Ныне отпущаеши</div>
+            <div class="st-album-sub">Гречанинов · новая купюра</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="miniplayer on-dark tap" data-go="player">
+    <div class="st-mini-art st-sprite st-covers st-q1"></div>
+    <div class="miniplayer-text">
+      <div class="miniplayer-title">Да исправится молитва моя</div>
+      <div class="miniplayer-sub">Альт · т. 63 · повтор В</div>
+    </div>
+    <div class="st-mini-control" aria-label="Пауза">
+      <svg class="ico-svg"><use href="#i-pause" /></svg>
+    </div>
+    <div class="miniplayer-bar"><i class="st-mini-progress"></i></div>
+  </div>
+  <div class="tabbar">
+    <div class="tab is-on" data-go="program">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab" data-go="notes">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-search" /></svg></span
+      ><span class="tab-label">Поиск</span>
+    </div>
+    <div class="tab" data-go="journal">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span class="tab-label">Моя музыка</span>
+    </div>
+  </div>
+  <div class="home-ind"></div>
 </div>

@@ -1,15 +1,120 @@
-<div class="screen ios-surface" id="scr-releases">
-  <div class="navbar"><div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="title">Программа</div><div class="nav-trailing"><div class="icon-btn tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div></div></div>
-  <div class="body-scroll st-pad"><div class="st-stack">
-    <div class="st-detail"><div class="st-detail-art st-sprite st-art-program"></div><h1>Весенний концерт</h1><div class="st-detail-author">Камерный хор «Созвучие»</div><div class="st-detail-meta">22 марта · Большой зал · 10 номеров · 36:42</div><div class="st-detail-actions"><div class="st-primary tap" data-primary data-go="player"><svg class="ico-svg"><use href="#i-play"/></svg>Слушать программу, альт</div><div class="st-round" aria-label="Сохранено"><svg class="ico-svg"><use href="#i-bookmark"/></svg></div></div></div>
-    <section class="st-section"><div class="st-head"><h2>Программа</h2><span>Готово 68%</span></div><div class="st-list">
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">1</div><div class="st-list-copy"><div class="st-list-title">Скажи ми, Господи</div><div class="st-list-sub">Бортнянский · альт · 5:40</div></div></div>
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">2</div><div class="st-list-copy"><div class="st-list-title">Хвалите имя Господне</div><div class="st-list-sub">Кастальский · загружено 62%</div></div></div>
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">3</div><div class="st-list-copy"><div class="st-list-title">Ныне отпущаеши</div><div class="st-list-sub">Гречанинов · купюра т. 33–40</div></div><span class="st-tag">новое</span></div>
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">4</div><div class="st-list-copy"><div class="st-list-title">Богородице Дево, радуйся</div><div class="st-list-sub">Рахманинов · 2:35</div></div></div>
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">5</div><div class="st-list-copy"><div class="st-list-title">Да исправится молитва моя</div><div class="st-list-sub">Чесноков · альт · шатко с В</div></div><div class="st-action-icon"><svg class="ico-svg"><use href="#i-play"/></svg></div></div>
-      <div class="st-list-row tap" data-go="piece"><div class="st-list-index">6</div><div class="st-list-copy"><div class="st-list-title">Сосна</div><div class="st-list-sub">Танеев · 3:28 · страниц нет</div></div></div>
-    </div></section>
-  </div></div>
-  <div class="miniplayer tap" data-go="player"><div class="st-mini-art st-sprite st-art-score"></div><div class="miniplayer-text"><div class="miniplayer-title">Да исправится молитва моя</div><div class="miniplayer-sub">Альт · т. 63</div></div><div class="st-mini-pause" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="miniplayer-bar"><i class="st-mini-fill"></i></div></div><div class="home-ind"></div>
+<div class="screen st-dark" id="scr-releases">
+  <div class="navbar st-nav-dark">
+    <div class="nav-leading">
+      <div class="btn-plain on-dark tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="title">Программа</div>
+    <div class="nav-trailing">
+      <div
+        class="icon-btn on-dark tap"
+        data-go="settings"
+        aria-label="Настройки программы"
+      >
+        <svg class="ico-svg"><use href="#i-ellipsis" /></svg>
+      </div>
+    </div>
+  </div>
+  <div class="body-scroll st-scroll">
+    <div class="st-stack">
+      <div class="st-detail-top">
+        <div class="st-detail-cover st-sprite st-covers st-q1"></div>
+        <div class="st-detail-title">Весенний концерт</div>
+        <div class="st-detail-author">Камерный хор «Созвучие»</div>
+        <div class="st-detail-meta">
+          22 марта · Большой зал · 10 номеров · 36:42
+        </div>
+        <div class="st-detail-actions">
+          <div class="st-main-action tap" data-primary data-go="player">
+            <svg class="ico-svg"><use href="#i-play" /></svg>Слушать программу,
+            альт
+          </div>
+          <div class="st-circle" aria-label="Сохранено">
+            <svg class="ico-svg"><use href="#i-bookmark" /></svg>
+          </div>
+        </div>
+      </div>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Программа</h2>
+          <span>Готово 68%</span>
+        </div>
+        <div class="st-rows">
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">1</div>
+            <div class="st-row-art st-sprite st-covers st-q4"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Скажи ми, Господи</div>
+              <div class="st-row-sub">Бортнянский · альт · 5:40</div>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">2</div>
+            <div class="st-row-art st-sprite st-covers st-q2"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Хвалите имя Господне</div>
+              <div class="st-row-sub">Кастальский · готово 62%</div>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">3</div>
+            <div class="st-row-art st-sprite st-covers st-q3"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Ныне отпущаеши</div>
+              <div class="st-row-sub">Гречанинов · купюра т. 33–40</div>
+            </div>
+            <div class="st-badge">новое</div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">4</div>
+            <div class="st-row-art st-sprite st-covers st-q2"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Богородице Дево, радуйся</div>
+              <div class="st-row-sub">Рахманинов · 2:35</div>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">5</div>
+            <div class="st-row-art st-sprite st-covers st-q1"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Да исправится молитва моя</div>
+              <div class="st-row-sub">Чесноков · альт · шатко с В</div>
+            </div>
+            <div class="st-row-more">
+              <svg class="ico-svg"><use href="#i-play" /></svg>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-index">6</div>
+            <div class="st-row-art st-sprite st-covers st-q4"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Сосна</div>
+              <div class="st-row-sub">Танеев · 3:28 · страниц нет</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="miniplayer on-dark tap" data-go="player">
+    <div class="st-mini-art st-sprite st-covers st-q1"></div>
+    <div class="miniplayer-text">
+      <div class="miniplayer-title">Да исправится молитва моя</div>
+      <div class="miniplayer-sub">Альт · т. 63</div>
+    </div>
+    <div class="st-mini-control" aria-label="Пауза">
+      <svg class="ico-svg"><use href="#i-pause" /></svg>
+    </div>
+    <div class="miniplayer-bar"><i class="st-mini-progress"></i></div>
+  </div>
+  <div class="home-ind"></div>
 </div>

@@ -1,11 +1,113 @@
-<div class="screen ios-surface" id="scr-notes">
-  <div class="navbar is-large"><div class="nav-top"></div><div class="title large">Поиск</div></div>
-  <div class="body-scroll st-pad"><div class="st-stack">
-    <div class="st-search"><svg class="ico-svg"><use href="#i-search"/></svg>Произведение, композитор, программа или голос</div>
-    <div class="st-chip-row"><div class="st-chip is-on">Произведения</div><div class="st-chip">Композиторы</div><div class="st-chip">Программы</div><div class="st-chip">Партии</div></div>
-    <section class="st-section"><div class="st-head"><h2>Лучшее совпадение</h2><span>Альт</span></div><div class="st-result tap" data-primary data-go="piece"><div class="st-result-art st-sprite st-art-score"></div><div class="st-result-copy"><div class="st-result-kind">Произведение · №5</div><div class="st-result-title">Да исправится молитва моя</div><div class="st-result-sub">Павел Чесноков · 4 голоса · 4:12</div></div><div class="st-action-icon"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></div></div></section>
-    <section class="st-section"><div class="st-head"><h2>Ещё найдено</h2><span>6</span></div><div class="st-list"><div class="st-list-row tap" data-go="releases"><div class="st-list-index">П</div><div class="st-list-copy"><div class="st-list-title">Весенний концерт</div><div class="st-list-sub">Программа · 22 марта · 10 номеров</div></div></div><div class="st-list-row tap" data-go="piece"><div class="st-list-index">А</div><div class="st-list-copy"><div class="st-list-title">Чесноков, Павел Григорьевич</div><div class="st-list-sub">Композитор · 3 произведения в библиотеке</div></div></div><div class="st-list-row tap" data-go="player"><div class="st-list-index">A</div><div class="st-list-copy"><div class="st-list-title">Партия альта · буква В</div><div class="st-list-sub">Да исправится молитва моя · т. 41–74</div></div><div class="st-action-icon"><svg class="ico-svg"><use href="#i-play"/></svg></div></div></div></section>
-  </div></div>
-  <div class="miniplayer tap" data-go="player"><div class="st-mini-art st-sprite st-art-score"></div><div class="miniplayer-text"><div class="miniplayer-title">Да исправится молитва моя</div><div class="miniplayer-sub">Альт · т. 63</div></div><div class="st-mini-pause" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="miniplayer-bar"><i class="st-mini-fill"></i></div></div>
-  <div class="tabbar light"><div class="tab" data-go="program"><span class="ico"><svg class="ico-svg"><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div><div class="tab is-on" data-go="notes"><span class="ico"><svg class="ico-svg"><use href="#i-search"/></svg></span><span class="tab-label">Поиск</span></div><div class="tab" data-go="journal"><span class="ico"><svg class="ico-svg"><use href="#i-bookmark"/></svg></span><span class="tab-label">Моя музыка</span></div></div><div class="home-ind"></div>
+<div class="screen st-dark" id="scr-notes">
+  <div class="st-rootbar">
+    <div class="st-brand">Поиск</div>
+    <div class="st-root-actions">
+      <div class="icon-btn" aria-label="Голосовой поиск">
+        <svg class="ico-svg"><use href="#i-mic" /></svg>
+      </div>
+    </div>
+  </div>
+  <div class="body-scroll st-scroll">
+    <div class="st-stack">
+      <div class="st-search">
+        <svg class="ico-svg"><use href="#i-search" /></svg
+        ><span class="st-cursor"></span>Чесноков
+      </div>
+      <div class="st-chips">
+        <div class="st-chip is-on">Всё</div>
+        <div class="st-chip">Произведения</div>
+        <div class="st-chip">Композиторы</div>
+        <div class="st-chip">Партии</div>
+      </div>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Лучшее совпадение</h2>
+          <span>Произведение</span>
+        </div>
+        <div class="st-result-hero tap" data-primary data-go="piece">
+          <div class="st-result-art st-sprite st-covers st-q1"></div>
+          <div>
+            <div class="st-result-kind">№5 · весенний концерт</div>
+            <div class="st-result-title">Да исправится молитва моя</div>
+            <div class="st-sub">Павел Чесноков · 4:12</div>
+            <div class="st-result-actions">
+              <div class="st-pill">
+                <svg class="ico-svg"><use href="#i-play" /></svg>Альт
+              </div>
+              <div class="st-pill is-soft">
+                <svg class="ico-svg"><use href="#i-bookmark" /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Результаты</h2>
+          <span>6</span>
+        </div>
+        <div class="st-rows">
+          <div class="st-row tap" data-go="releases">
+            <div class="st-row-art st-sprite st-covers st-q1"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Весенний концерт</div>
+              <div class="st-row-sub">Программа · 22 марта · 10 номеров</div>
+            </div>
+            <div class="st-row-more">
+              <svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="piece">
+            <div class="st-row-art st-sprite st-rehearsal st-q3"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Павел Чесноков</div>
+              <div class="st-row-sub">Композитор · 3 произведения</div>
+            </div>
+            <div class="st-row-more">
+              <svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+            </div>
+          </div>
+          <div class="st-row tap" data-go="player">
+            <div class="st-row-art st-sprite st-scores st-q1"></div>
+            <div class="st-row-copy">
+              <div class="st-row-title">Альт · буква В · т. 41–74</div>
+              <div class="st-row-sub">Партия голоса · 1:34</div>
+            </div>
+            <div class="st-row-more">
+              <svg class="ico-svg"><use href="#i-play" /></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="miniplayer on-dark tap" data-go="player">
+    <div class="st-mini-art st-sprite st-covers st-q1"></div>
+    <div class="miniplayer-text">
+      <div class="miniplayer-title">Да исправится молитва моя</div>
+      <div class="miniplayer-sub">Альт · т. 63</div>
+    </div>
+    <div class="st-mini-control" aria-label="Пауза">
+      <svg class="ico-svg"><use href="#i-pause" /></svg>
+    </div>
+    <div class="miniplayer-bar"><i class="st-mini-progress"></i></div>
+  </div>
+  <div class="tabbar">
+    <div class="tab" data-go="program">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab is-on" data-go="notes">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-search" /></svg></span
+      ><span class="tab-label">Поиск</span>
+    </div>
+    <div class="tab" data-go="journal">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span class="tab-label">Моя музыка</span>
+    </div>
+  </div>
+  <div class="home-ind"></div>
 </div>

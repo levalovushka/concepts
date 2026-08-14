@@ -1,5 +1,39 @@
 <div class="screen st-camera" id="scr-camera">
-  <div class="navbar on-dark"><div class="nav-leading"><div class="btn-plain on-dark tap" data-back>Отмена</div></div><div class="title">Сканирование</div><div class="nav-trailing"><div class="icon-btn on-dark tap" data-go="settings" aria-label="Настройки камеры"><svg class="ico-svg"><use href="#i-settings"/></svg></div></div></div>
-  <div class="st-camera-stage"><div class="st-camera-paper st-sprite st-art-page"><div class="st-scan-frame"></div><div class="st-scan-label">Границы найдены</div></div><div class="st-camera-meta">Страница 3 · распознаны т. 41–64</div><div class="st-camera-save tap" data-primary data-go="sheet">Сохранить страницу</div><div class="st-denied perm-hidden" data-show-denied="camera">Нет доступа к камере. Выберите снимок из «Фото» или откройте настройки.<span class="st-link tap" data-go="settings">Открыть настройки</span></div></div>
+  <div class="navbar on-dark">
+    <div class="nav-leading">
+      <div class="btn-plain on-dark tap" data-back>Отмена</div>
+    </div>
+    <div class="title">Сканирование</div>
+    <div class="nav-trailing">
+      <div
+        class="icon-btn on-dark tap"
+        data-go="settings"
+        aria-label="Настройки камеры"
+      >
+        <svg class="ico-svg"><use href="#i-settings" /></svg>
+      </div>
+    </div>
+  </div>
+  <div class="st-camera-view">
+    <div class="st-camera-media st-sprite st-scores st-q2"></div>
+    <div class="st-camera-shade"></div>
+    <div class="st-camera-frame"></div>
+    <div class="st-camera-hint">Держите страницу внутри рамки</div>
+    <div class="st-camera-thumb st-sprite st-scores st-q1"></div>
+    <div
+      class="st-shutter tap"
+      data-primary
+      data-go="sheet"
+      aria-label="Снять страницу"
+    ><span>Снять страницу</span></div>
+    <div class="st-camera-count">2 страницы</div>
+    <div class="st-denied perm-hidden" data-show-denied="camera">
+      Нет доступа к камере. Выберите снимок из «Фото» или откройте настройки.<b
+        class="tap"
+        data-go="settings"
+        >Открыть настройки</b
+      >
+    </div>
+  </div>
   <div class="home-ind"></div>
 </div>
