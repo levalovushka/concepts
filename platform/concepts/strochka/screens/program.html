@@ -1,201 +1,111 @@
-<div class="screen ios-surface" id="scr-program" style="background:#fff">
-  <div class="navbar is-large">
-    <div class="nav-top">
-      <div class="icon-btn tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></div>
+<div class="screen st-dark" id="scr-program">
+  <div class="st-rootbar">
+    <div class="st-brand">
+      <div class="st-mark">
+        <svg class="ico-svg"><use href="#i-volume-2" /></svg>
+      </div>
+      Строчка
     </div>
-    <div class="title large">Программа</div>
-  </div>
-
-  <div class="segbar" aria-label="Разделы программы">
-    <div class="segtab is-on" aria-current="page">Номера</div>
-    <div class="segtab tap" data-go="releases">Дополнения</div>
-    <div class="segtab tap" data-go="settings">Загрузки</div>
-  </div>
-
-  <div class="body-scroll st-pad">
-    <div class="st-hero-card">
-      <div class="st-hero-kicker">Весенний концерт · 22 марта · 19 дней</div>
-      <div class="st-hero-play tap" data-go="piece" aria-label="Продолжить номер 5 с буквы В"><svg class="ico-svg"><use href="#i-play"/></svg></div>
-      <div class="st-hero-big">Продолжить №5</div>
-      <p class="st-hero-note">Альт · с буквы В, т. 41</p>
-      <div class="st-hero-pill tap" data-go="settings" aria-label="Сменить голос">
-        <svg class="ico-svg"><use href="#i-settings"/></svg>
-        Голос: альт
+    <div class="st-root-actions">
+      <div class="icon-btn tap" data-go="settings" aria-label="Уведомления">
+        <svg class="ico-svg"><use href="#i-bell" /></svg>
       </div>
-      <div class="st-hero-ruler" aria-label="96 тактов по репетиционным буквам, идёт буква В">
-        <i style="flex:24"></i><i style="flex:16"></i><i class="is-on" style="flex:34"></i><i style="flex:22"></i>
-      </div>
-      <div class="st-hero-marks"><span style="flex:24">А · 1</span><span style="flex:16">Б · 25</span><span style="flex:34">В · 41</span><span style="flex:22">Г · 75</span></div>
-    </div>
-
-    <div class="st-mini-grid">
-      <div class="st-mini tap" data-go="notes" aria-label="Ноты с репетиции">
-        <div class="st-mini-text">
-          <div class="st-mini-title">Ноты</div>
-          <div class="st-mini-sub">12 снимков</div>
-        </div>
-      </div>
-      <div class="st-mini tap" data-go="player" aria-label="Все голоса вместе">
-        <div class="st-mini-text">
-          <div class="st-mini-title">Все вместе</div>
-          <div class="st-mini-sub">41 человек</div>
-        </div>
-      </div>
-      <div class="st-mini tap" data-go="releases" aria-label="Дополнения к программе">
-        <div class="st-mini-text">
-          <div class="st-mini-title">Дополнения</div>
-          <div class="st-mini-sub">25 февр.</div>
-        </div>
-      </div>
-      <div class="st-mini tap" data-go="journal" aria-label="Журнал прогонов">
-        <div class="st-mini-text">
-          <div class="st-mini-title">Журнал</div>
-          <div class="st-mini-sub">38 прогонов</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="st-group">
-      <div class="sec-head">
-        <div class="t-headline">Недавно слушали</div>
-        <span class="sec-more tap" data-go="journal">Показать все</span>
-      </div>
-      <div class="hscroll">
-        <div class="st-cc tap" data-go="piece" aria-label="Номер 5, альт, вчера">
-          <div class="st-cc-face ph"></div>
-          <div class="st-cc-title">№5 · альт</div>
-          <div class="st-cc-sub mono">вчера · 12 мин</div>
-        </div>
-        <div class="st-cc tap" data-go="piece" aria-label="Номер 2, альт, 24 февраля">
-          <div class="st-cc-face ph"></div>
-          <div class="st-cc-title">№2 · альт</div>
-          <div class="st-cc-sub mono">24.II · 6 мин</div>
-        </div>
-        <div class="st-cc tap" data-go="player" aria-label="Номер 5, все вместе">
-          <div class="st-cc-face ph"></div>
-          <div class="st-cc-title">№5 · все</div>
-          <div class="st-cc-sub mono">23.II · 4 мин</div>
-        </div>
-        <div class="st-cc tap" data-go="piece" aria-label="Номер 8, альт, 21 февраля">
-          <div class="st-cc-face ph"></div>
-          <div class="st-cc-title">№8 · альт</div>
-          <div class="st-cc-sub mono">21.II · 9 мин</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="st-group">
-      <div class="sec-head">
-        <div class="t-headline">Номера концерта</div>
-        <span class="sec-more is-plain">10</span>
-      </div>
-      <div class="st-act tap" data-go="player" aria-label="Слушать программу подряд">
-        <svg class="ico-svg"><use href="#i-play"/></svg>
-        <span class="grow">Слушать подряд, альт</span>
-        <span class="st-act-n">36:42</span>
-      </div>
-      <div class="st-list">
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 1, Бортнянский, Скажи ми Господи">
-          <div class="st-idx">1</div>
-          <div class="grow">
-            <div class="t-headline">Скажи ми, Господи</div>
-            <div class="st-meta">Бортнянский · концерт №32</div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>5:40</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 2, Кастальский, Хвалите имя Господне">
-          <div class="st-idx">2</div>
-          <div class="grow">
-            <div class="t-headline">Хвалите имя Господне</div>
-            <div class="st-meta">Кастальский · 3:10</div>
-            <div class="dl-bar"><i style="width:62%"></i></div>
-          </div>
-          <span class="dl is-busy">62 %</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 3, Гречанинов, Ныне отпущаеши">
-          <div class="st-idx">3</div>
-          <div class="grow">
-            <div class="t-headline">Ныне отпущаеши</div>
-            <div class="st-meta">Гречанинов · купюра т. 33–40</div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>4:05</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 4, Рахманинов, Богородице Дево радуйся">
-          <div class="st-idx">4</div>
-          <div class="grow">
-            <div class="t-headline">Богородице Дево, радуйся</div>
-            <div class="st-meta">Рахманинов · 2:35</div>
-          </div>
-          <span class="dl">41 МБ</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 5, Чесноков, Да исправится молитва моя">
-          <div class="st-idx is-on">5</div>
-          <div class="grow">
-            <div class="t-headline">Да исправится молитва моя</div>
-            <div class="st-meta">Чесноков · 4 страницы</div>
-            <div class="st-flags"><span class="st-flag is-soft">шатко с В</span></div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>4:12</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 6, Танеев, Сосна">
-          <div class="st-idx">6</div>
-          <div class="grow">
-            <div class="t-headline">Сосна</div>
-            <div class="st-meta">Танеев · страниц нет</div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>3:28</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 7, Чайковский, Легенда">
-          <div class="st-idx">7</div>
-          <div class="grow">
-            <div class="t-headline">Легенда</div>
-            <div class="st-meta">Чайковский · запись от 25 февр.</div>
-          </div>
-          <span class="dl">38 МБ</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 8, Ах ты степь широкая">
-          <div class="st-idx">8</div>
-          <div class="grow">
-            <div class="t-headline">Ах ты, степь широкая</div>
-            <div class="st-meta">обработка</div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>2:48</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 9, Вечерний звон">
-          <div class="st-idx">9</div>
-          <div class="grow">
-            <div class="t-headline">Вечерний звон</div>
-            <div class="st-meta">обработка · 4:20</div>
-            <div class="dl-bar"><i style="width:18%"></i></div>
-          </div>
-          <span class="dl is-busy">18 %</span>
-        </div>
-        <div class="row has-lead tap" data-go="piece" aria-label="Номер 10, Многолетие">
-          <div class="st-idx">10</div>
-          <div class="grow">
-            <div class="t-headline">Многолетие</div>
-            <div class="st-meta">обработка · наизусть</div>
-          </div>
-          <span class="st-dur is-ready"><svg class="ico-svg"><use href="#i-check"/></svg>1:16</span>
-        </div>
+      <div class="icon-btn tap" data-go="settings" aria-label="Профиль">
+        <svg class="ico-svg"><use href="#i-user" /></svg>
       </div>
     </div>
   </div>
-
-  <div class="miniplayer tap" data-go="player" aria-label="Сейчас играет: номер 5, альт">
-    <div class="miniplayer-face ph"></div>
+  <div class="st-chips">
+    <div class="st-chip is-on">Для вас</div>
+    <div class="st-chip">Весенний концерт</div>
+    <div class="st-chip">Альт</div>
+    <div class="st-chip">Шаткие места</div>
+  </div>
+  <div class="body-scroll st-scroll">
+    <div class="st-stack">
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Продолжить</h2>
+          <span>После репетиции</span>
+        </div>
+        <div class="st-hero tap" data-primary data-go="piece">
+          <div class="st-hero-media st-sprite st-rehearsal st-q2"></div>
+          <div class="st-hero-shade"></div>
+          <div class="st-play">
+            <svg class="ico-svg"><use href="#i-play" /></svg>
+          </div>
+          <div class="st-hero-copy">
+            <div class="st-eyebrow">Альт · буква В</div>
+            <div class="st-hero-title">Да исправится молитва моя</div>
+            <div class="st-hero-meta">Продолжить с такта 41 · осталось 1:58</div>
+            <div class="st-hero-progress"><i></i></div>
+          </div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Текущая программа</h2>
+          <span class="tap" data-go="releases">Все номера</span>
+        </div>
+        <div class="st-program tap" data-go="releases">
+          <div class="st-program-art st-sprite st-covers st-q1"></div>
+          <div class="st-copy">
+            <div class="st-title">Весенний концерт</div>
+            <div class="st-sub">22 марта · 10 номеров</div>
+            <div class="st-sub">Подготовлено 7 из 10</div>
+          </div>
+          <div class="st-circle is-play">
+            <svg class="ico-svg"><use href="#i-play" /></svg>
+          </div>
+        </div>
+      </section>
+      <section class="st-section">
+        <div class="st-section-head">
+          <h2>Сейчас разучивают</h2>
+          <span>Для альта</span>
+        </div>
+        <div class="st-albums">
+          <div class="tap" data-go="piece">
+            <div class="st-album-art st-sprite st-covers st-q2"></div>
+            <div class="st-album-title">Богородице Дево, радуйся</div>
+            <div class="st-album-sub">Рахманинов · уверенно</div>
+          </div>
+          <div class="tap" data-go="piece">
+            <div class="st-album-art st-sprite st-covers st-q3"></div>
+            <div class="st-album-title">Ныне отпущаеши</div>
+            <div class="st-album-sub">Гречанинов · новая купюра</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="miniplayer on-dark tap" data-go="player">
+    <div class="st-mini-art st-sprite st-covers st-q1"></div>
     <div class="miniplayer-text">
       <div class="miniplayer-title">Да исправится молитва моя</div>
-      <div class="miniplayer-sub">Альт · т. 63</div>
+      <div class="miniplayer-sub">Альт · т. 63 · повтор В</div>
     </div>
-    <div class="icon-btn" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div>
-    <div class="miniplayer-bar" aria-hidden="true"><i style="width:53%"></i></div>
+    <div class="st-mini-control" aria-label="Пауза">
+      <svg class="ico-svg"><use href="#i-pause" /></svg>
+    </div>
+    <div class="miniplayer-bar"><i class="st-mini-progress"></i></div>
   </div>
-
-  <div class="tabbar light" aria-label="Основная навигация">
-    <div class="tab is-on" aria-current="page" data-go="program"><span class="ico"><svg class="ico-svg"><use href="#i-layout-grid"/></svg></span><span class="tab-label">Программа</span></div>
-    <div class="tab" data-go="notes"><span class="ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><span class="tab-label">Ноты</span></div>
-    <div class="tab" data-go="journal"><span class="ico"><svg class="ico-svg"><use href="#i-book-open"/></svg></span><span class="tab-label">Журнал</span></div>
+  <div class="tabbar">
+    <div class="tab is-on" data-go="program">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab" data-go="notes">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-search" /></svg></span
+      ><span class="tab-label">Поиск</span>
+    </div>
+    <div class="tab" data-go="journal">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span class="tab-label">Моя музыка</span>
+    </div>
   </div>
-  <div class="home-ind" aria-hidden="true"></div>
+  <div class="home-ind"></div>
 </div>
