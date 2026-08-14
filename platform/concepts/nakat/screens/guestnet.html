@@ -1,0 +1,104 @@
+<div class="screen ios-surface" id="scr-guestnet" style="background:#fff">
+  <div class="navbar bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к ведомости"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Назад</span></div>
+    </div>
+    <div class="title">Сеть класса</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll nk-pad">
+    <div class="nk-group">
+      <div class="nk-list">
+        <div class="row">
+          <div class="grow"><div class="t-body">Сеть</div></div>
+          <span class="row-value mono">AVTO4-CLASS</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Шифрование</div></div>
+          <span class="row-value">WPA2</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Пароль меняли</div></div>
+          <span class="row-value">1 августа</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="nk-list">
+        <div class="row has-lead tap" data-ask="camera|scanwifi|guestnet" aria-label="Сканировать QR со стены класса">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-qr-code"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Сканировать QR со стены</div>
+            <div class="nk-meta">лист у доски, рядом с расписанием группы</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="camera">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-circle-alert"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Пароль — ниже текстом</div>
+            <div class="nk-meta">Без камеры QR не прочитать, но параметры сети видны и так</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="nk-list" data-hide-denied="hotspot">
+        <div class="row has-lead">
+          <div class="lead-ico green"><svg class="ico-svg"><use href="#i-wifi"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Пароль вводить не нужно</div>
+            <div class="nk-meta">код на стене обновили 1 августа, вместе с паролем</div>
+          </div>
+        </div>
+      </div>
+      <div class="nk-list perm-hidden" data-show-denied="hotspot">
+        <div class="row">
+          <div class="grow"><div class="t-body">Сеть</div></div>
+          <span class="row-value mono">AVTO4-CLASS</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Пароль</div></div>
+          <span class="row-value mono">avto4-2026</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Путь</div></div>
+          <span class="row-value">Настройки → Wi-Fi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Сети рядом</div>
+        <span class="sec-more is-plain">кабинет 2</span>
+      </div>
+      <div class="nk-list">
+        <div class="row has-lead">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-wifi"/></svg></div>
+          <div class="grow"><div class="t-body">AVTO4-CLASS</div><div class="nk-meta">сеть класса, отметка идёт только по ней</div></div>
+          <span class="row-value">−48 dBm</span>
+        </div>
+        <div class="row has-lead">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-wifi"/></svg></div>
+          <div class="grow"><div class="t-body">AVTO4-OFFICE</div><div class="nk-meta">бухгалтерия, пароль не выдают</div></div>
+          <span class="row-value">−61 dBm</span>
+        </div>
+        <div class="row has-lead">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-wifi"/></svg></div>
+          <div class="grow"><div class="t-body">Kabelnaya-3-Guest</div><div class="nk-meta">сеть здания, класс к ней не относится</div></div>
+          <span class="row-value">−72 dBm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-col">
+      <div class="btn-filled block tap" data-ask="hotspot|guestnet|guestnet" aria-label="Подключиться к AVTO4-CLASS">Подключиться к AVTO4-CLASS</div>
+      <div class="btn-quiet tap" data-go="attend">Вернуться к отметке</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

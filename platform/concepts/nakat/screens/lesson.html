@@ -1,0 +1,148 @@
+<div class="screen ios-surface" id="scr-lesson" style="background:#fff">
+  <div class="navbar bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к занятиям"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Занятия</span></div>
+    </div>
+    <div class="title">7:20, маршрут №3</div>
+    <div class="nav-trailing">
+      <div class="icon-btn tap" data-go="chat" aria-label="Переписка с инструктором"><svg class="ico-svg"><use href="#i-message-circle"/></svg></div>
+    </div>
+  </div>
+
+  <div class="body-scroll nk-pad">
+    <div class="nk-lead">
+      <div class="nk-lead-when">Завтра, ср 15 августа · 7:20 — 8:50</div>
+      <div class="nk-lead-what">Маршрут №3: Кабельная — Гвардейская — площадь Победы</div>
+      <div class="nk-lead-note">Экзаменационный, на нём же сдают в ГИБДД</div>
+    </div>
+
+    <div class="nk-group">
+      <div class="nk-list">
+        <div class="row has-avatar">
+          <div class="row-avatar" aria-hidden="true"></div>
+          <div class="grow">
+            <div class="t-headline">Гущин Сергей Валентинович</div>
+            <div class="nk-meta">инструктор с 2009 · 14 занятий вместе</div>
+          </div>
+        </div>
+        <div class="row has-lead tap" data-activate="voip|call" aria-label="Позвонить инструктору">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-phone"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Позвонить инструктору</div>
+            <div class="nk-meta">через приложение — номера не видны ни вам, ни ему</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead tap" data-go="chat" aria-label="Написать инструктору">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-message-circle"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Написать</div>
+            <div class="nk-meta">вчера в 21:14: «возьмите права с собой»</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Посадка</div>
+        <span class="sec-more is-plain">7:20 у ворот</span>
+      </div>
+      <div class="nk-list">
+        <div class="row has-lead tap" data-ask="location|pickup|lesson" aria-label="Показать точку посадки на карте">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-map-pin"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Показать точку посадки</div>
+            <div class="nk-meta">Кабельная, 3 — въезд со стороны рынка</div>
+            <div class="nk-meta accent" data-hide-denied="location">400 м от вас · 6 минут пешком</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="location">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-circle-alert"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Адрес без расстояния</div>
+            <div class="nk-meta">Кабельная, 3. Без геопозиции точку «вы здесь» и время пешком не покажем</div>
+          </div>
+        </div>
+        <div class="row has-lead tap" data-ask="camera|scan|lesson" aria-label="Сканировать QR на стекле машины">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-qr-code"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Сканировать QR на стекле</div>
+            <div class="nk-meta">Rio, В 412 УМ · учебная №7 — скан включает счёт часов</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="camera">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-circle-alert"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Номер машины — руками</div>
+            <div class="nk-meta">Без камеры начало занятия отмечает инструктор со своего телефона</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Напоминание</div>
+      </div>
+      <div class="nk-list">
+        <div class="row has-lead tap" data-ask="calendar|lesson|lesson" aria-label="Добавить занятие в Календарь">
+          <div class="lead-ico red"><svg class="ico-svg"><use href="#i-calendar-plus"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Добавить в Календарь</div>
+            <div class="nk-meta">напоминание за час до выезда</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-granted="calendar">
+          <div class="lead-ico green"><svg class="ico-svg"><use href="#i-check"/></svg></div>
+          <div class="grow">
+            <div class="t-body">В календаре: ср, 7:20</div>
+            <div class="nk-meta">напоминание за час, адрес в событии</div>
+          </div>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="calendar">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Напомним в приложении</div>
+            <div class="nk-meta">Без календаря событие остаётся только здесь</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">План на занятие</div>
+        <span class="sec-more is-plain">составил инструктор</span>
+      </div>
+      <div class="nk-list">
+        <div class="row">
+          <div class="grow"><div class="t-body">Эстакада — до двух чистых из трёх</div></div>
+          <span class="row-value mono">15 мин</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Маршрут №3 целиком, без подсказок</div></div>
+          <span class="row-value mono">50 мин</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Парковка задним ходом, три подхода</div></div>
+          <span class="row-value mono">25 мин</span>
+        </div>
+      </div>
+      <div class="group-foot wide">С прошлого раза: «на эстакаде ручник отпускаете раньше, чем добавляете газ» — заметка от 12 августа.</div>
+    </div>
+
+    <div class="cta-col">
+      <div class="btn-filled block tap" data-go="drive">
+        <svg class="ico-svg"><use href="#i-timer"/></svg>
+        Занятие началось
+      </div>
+      <div class="btn-tinted block tap" data-go="reschedule">Перенести на другое время</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

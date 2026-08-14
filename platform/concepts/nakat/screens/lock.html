@@ -1,0 +1,70 @@
+<div class="screen ios-surface" id="scr-lock" style="background:#fff">
+  <div class="navbar bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад в раздел «Ещё»"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Ещё</span></div>
+    </div>
+    <div class="title">Замок</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll nk-pad">
+    <div class="nk-lead">
+      <div class="nk-lead-when">В приложении лежат документы</div>
+      <div class="nk-lead-what">Медсправка, договор, квитанция и номер группы</div>
+      <div class="nk-lead-note">Телефон в машине передают из рук в руки чаще, чем кажется</div>
+    </div>
+
+    <div class="nk-group">
+      <div class="nk-list">
+        <div class="row has-lead tap" data-ask="faceid|lock|lock" aria-label="Включить Face ID">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-scan-face"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Включить Face ID</div>
+            <div class="nk-meta">спрашивается при открытии и через 5 минут в фоне</div>
+          </div>
+          <span class="switch" data-switch="faceid" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="faceid">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-lock"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Останется код-пароль</div>
+            <div class="nk-meta">Тот же, что у телефона. Документы всё равно закрыты</div>
+          </div>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-granted="faceid">
+          <div class="lead-ico green"><svg class="ico-svg"><use href="#i-check"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Face ID включён</div>
+            <div class="nk-meta">код-пароль остаётся запасным путём</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Что закрывает замок</div>
+      </div>
+      <div class="nk-list">
+        <div class="row">
+          <div class="grow"><div class="t-body">Документы</div></div>
+          <span class="row-value">4 файла</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Пароли группы</div></div>
+          <span class="row-value">2 записи</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Заметки с занятий</div></div>
+          <span class="row-value">31 штука</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Расписание и часы</div></div>
+          <span class="row-value">открыты</span>
+        </div>
+      </div>
+      <div class="group-foot wide">Замок спрашивают в среднем 3 раза в день.</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

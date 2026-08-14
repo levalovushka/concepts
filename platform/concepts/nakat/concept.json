@@ -1,0 +1,965 @@
+{
+  "slug": "nakat",
+  "name": "Накат",
+  "eyebrow": "Накат · iOS",
+  "targetSet": "vkontakte",
+  "domain": "nakat.app",
+  "heroTitle": "Накат",
+  "heroDeck": "Приложение автошколы: билеты слушают за рулём, занятие переносят без звонка на личный номер инструктора.",
+  "tagline": "Разбор билета в наушниках по дороге и занятие, которое переносится без звонка на личный номер",
+  "insight": "половина обучения проходит там, где на экран смотреть нельзя по закону, а расписание переносят ежедневно, и держится оно на личном номере инструктора",
+  "deck": "Курс на категорию B — это 56 часов за рулём, 134 часа теории и три месяца, в которых занятие переносят через день. «Накат» ведёт этот курс: слот, звонок инструктору без обмена номерами, аудио-разбор билета для дороги и отметка присутствия на теории по сети класса. Бэкенда нет: расписание живёт в Firestore с security rules, звонок — на SDK связи, билеты и разборы — статический пак, часы считаются на устройстве.",
+  "brand": {
+    "accent": "#1e56a0",
+    "accentDark": "#79aef5",
+    "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "lessons",
+      "label": "Занятия"
+    },
+    {
+      "id": "theory",
+      "label": "Теория"
+    },
+    {
+      "id": "menu",
+      "label": "Ещё"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Звонок внутри приложения",
+        "text": "Entitlement без системного запроса: входящий вызов поднимает приложение через PushKit и показывается в CallKit."
+      },
+      "feature": "Звонок инструктору по учебной группе, а не на номер: телефоны сторон не видны",
+      "gesture": "«Позвонить инструктору»",
+      "screen": "lesson",
+      "target": "call",
+      "activate": true,
+      "fallback": "Без режима вызов приходит обычным уведомлением, и на него надо успеть открыть приложение",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "PushKit плюс CallKit и реальный звонок: без CallKit режим не защитить на review",
+      "grounding": "сигнализация через SDK связи (LiveKit / Agora), адресация по учебной группе — номер в вызове не участвует",
+      "reviewNote": "Инструктор ведёт до восьми учеников в день и не отдаёт личный номер; ученик уходит через два месяца и тоже не хочет отдавать свой. Поэтому вызов адресуется паре «ученик — инструктор» внутри учебной группы, номера обеих сторон не раскрываются. Входящий приходит через PushKit и показывается системным CallKit — инструктор так сообщает «подъехал», когда ученик уже в дороге. Аудио звонка не записывается и не хранится. Как проверить: демо-номер → Занятия → занятие 7:20 → «Позвонить инструктору»."
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Звук при погашенном экране",
+        "text": "Entitlement без системного запроса: разбор билета продолжается, когда экран погас или телефон в кармане."
+      },
+      "feature": "Разбор билета и вчерашней поездки в наушниках с погашенным экраном",
+      "gesture": "«Погасить экран»",
+      "screen": "player",
+      "target": "background",
+      "activate": true,
+      "fallback": "Без режима звук останавливается вместе с экраном — слушать можно только глядя в телефон",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "реальный playback, заполненный MPNowPlayingInfoCenter и обработанные remote-команды с руля и гарнитуры",
+      "grounding": "AVAudioSession категории playback, файлы разборов лежат на устройстве после загрузки; Now Playing и ±15 секунд работают с локскрина",
+      "reviewNote": "За рулём смотреть в телефон нельзя, поэтому разбор — это звук, а не видео: пауза, ±15 секунд и название билета приходят в Now Playing, команды принимаются с кнопок на руле. Аудио продолжается при погашенном экране и в других приложениях. Как проверить: Теория → билет 12 → «Слушать разбор» → «Погасить экран»."
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Обновление в фоне",
+        "text": "Entitlement без системного запроса: перенос занятия и освободившиеся слоты подтягиваются к утру."
+      },
+      "feature": "Перенос занятия и свободные окна готовы к первому открытию",
+      "gesture": "«Обновление в фоне»",
+      "screen": "bg",
+      "target": "lessons",
+      "activate": true,
+      "fallback": "Без режима расписание подтягивается в момент открытия приложения",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "BGAppRefreshTask, который действительно читает слоты своей группы из Firestore и пишет снапшот для виджета",
+      "grounding": "BGAppRefreshTask, чтение Firestore через SDK, снапшот в контейнер App Group",
+      "reviewNote": "В фоне обновляются два предмета: время своего следующего занятия и список освободившихся слотов на неделю. Обе строки видны на «Занятиях» и в виджете сразу после запуска, ждать не нужно."
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Накату» отслеживать действия?",
+        "text": "Тогда реклама будет про автошколу и дорогу: шины и страховка, а не случайный баннер.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
+      "feature": "Реклама автосервисов и страховых вместо платной подписки",
+      "gesture": "«Продолжить»",
+      "screen": "ads",
+      "target": "menu",
+      "fallback": "Реклама остаётся, но неперсонализированная — не по интересам",
+      "snack": "Отслеживание запрещено — реклама будет обычной",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "рекламный SDK в сборке, IDFA действительно уходит в SDK — иначе промпт нечем оправдать",
+      "grounding": "AppTrackingTransparency плюс рекламный SDK; ставки и креативы на стороне сети",
+      "reviewNote": "Курс в приложении бесплатный, деньги ученик платит автошколе. ATT показывается только после экрана с объяснением, никогда на старте. Отказ ничего не отключает: реклама остаётся, но без интересов — это написано на экране до промпта. Аудитория курса — с 18 лет, приложение не для детей."
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к камере",
+        "text": "Чтобы считать QR на стекле учебной машины и QR сети класса на стене."
+      },
+      "feature": "QR на стекле машины отмечает начало занятия, QR со стены даёт параметры сети класса",
+      "gesture": "«Сканировать QR машины»",
+      "screen": "lesson",
+      "target": "scan",
+      "fallback": "Номер машины вводится руками, начало занятия отмечает инструктор",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "DataScannerViewController для QR и VisionKit для документа — распознавание на устройстве",
+      "reviewNote": "У каждой учебной машины на стекле наклейка с QR. Скан отмечает, что занятие началось именно на этой машине, и запускает счёт часов — иначе часы приходится сверять с бумажной ведомостью инструктора."
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к медиатеке",
+        "text": "Чтобы добавить в документы уже снятую медсправку — заново её фотографировать не нужно."
+      },
+      "feature": "Медсправка и договор из медиатеки в раздел документов",
+      "gesture": "«Добавить из медиатеки»",
+      "screen": "docs",
+      "target": "docs",
+      "fallback": "Документ остаётся сфотографировать на месте",
+      "snack": "Нет доступа к медиатеке",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker: выбранный снимок копируется в контейнер приложения, обхода медиатеки нет"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к микрофону",
+        "text": "Чтобы записать разбор занятия голосом сразу после поездки, пока не забылось."
+      },
+      "feature": "Голосовая заметка об ошибке сразу после занятия, руки только что были на руле",
+      "gesture": "«Записать разбор» — цепочкой с распознаванием речи",
+      "screen": "drive",
+      "target": "note",
+      "fallback": "Заметка к занятию набирается текстом",
+      "snack": "Нет доступа к микрофону",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, файл в контейнере приложения; на сервер не уходит"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к распознаванию речи",
+        "text": "Чтобы у голосовой заметки появилась расшифровка, а проговоренный алгоритм сверялся с чек-листом."
+      },
+      "feature": "Расшифровка заметки и сверка проговоренного алгоритма перекрёстка с чек-листом",
+      "gesture": "«Проговорить алгоритм» и «Записать разбор»",
+      "screen": "checklist",
+      "target": "checklist",
+      "fallback": "Заметка остаётся звуком без текста, пункты чек-листа отмечаются пальцем",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true — аудио не уходит в сервис распознавания",
+      "reviewNote": "Инструктор требует проговаривать порядок действий вслух: «смотрю налево, уступаю трамваю, включаю правый». Приложение слушает эту фразу и отмечает пункты, которые ученик назвал, а какие пропустил. Распознавание идёт на устройстве, запись не сохраняется и никуда не отправляется."
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к геопозиции",
+        "text": "Чтобы показать, сколько идти до точки посадки, и какие экзаменационные маршруты рядом с вами."
+      },
+      "feature": "Точка посадки с расстоянием и экзаменационные маршруты рядом",
+      "gesture": "«Показать точку посадки»",
+      "screen": "lesson",
+      "target": "pickup",
+      "fallback": "Адрес посадки остаётся текстом, без точки «я» и расстояния",
+      "snack": "Нет доступа к геопозиции",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "MapKit и MKLocalSearch на клиенте; геопозиция запрашивается ещё и перед чтением имени сети класса",
+      "grounding": "CLLocationManager whenInUse, карта и поиск — MapKit; треки экзаменационных маршрутов лежат в паке как данные"
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает доступ к календарю",
+        "text": "Чтобы поставить занятие в календарь, а при переносе поправить уже созданное событие."
+      },
+      "feature": "Занятие в системном календаре, при переносе правится то же событие",
+      "gesture": "«Добавить в Календарь»",
+      "screen": "lesson",
+      "target": "lesson",
+      "fallback": "Занятие остаётся внутри «Наката», с напоминанием в приложении",
+      "snack": "Нет доступа к календарю",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit локально; для iOS ниже 17 в Info.plist остаётся NSCalendarsUsageDescription",
+      "reviewNote": "Нужен полный доступ, а не write-only: слот переносят в среднем раз в неделю, и приложение должно найти ранее созданное событие, чтобы изменить время или удалить его. Write-only своё событие найти не позволяет."
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Чтение имени сети",
+        "text": "Entitlement без системного запроса: имя текущей сети сверяется с сетью класса из профиля группы."
+      },
+      "feature": "Присутствие на теории подтверждается сетью класса — часы идут в ведомость",
+      "gesture": "«Отметиться в классе»",
+      "screen": "attend",
+      "target": "classroom",
+      "activate": true,
+      "fallback": "Без entitlement отметку ставит преподаватель вручную, по списку",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CNCopyCurrentNetworkInfo плюс выданная геопозиция — иначе SSID приходит пустым",
+      "grounding": "CNCopyCurrentNetworkInfo, SSID сверяется с записанным локально в профиле учебной группы",
+      "reviewNote": "Программа категории B — 134 часа теории, посещаемость учитывается в ведомости. Имя сети читается один раз при отметке и сравнивается с сохранённым на устройстве; SSID не отправляется и не логируется. Ключ работает только вместе с разрешением на геопозицию, поэтому оно запрашивается на предыдущем шаге."
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "«Накат» подключит вас к сети AVTO4-CLASS",
+        "text": "Приложение настроит подключение к сети класса по параметрам из QR-кода на стене."
+      },
+      "feature": "Подключение к сети класса по QR со стены — без него отметка не проходит",
+      "gesture": "«Подключиться»",
+      "screen": "guestnet",
+      "target": "guestnet",
+      "fallback": "Имя сети и пароль показываются текстом — вводится руками в Настройках",
+      "snack": "Не удалось настроить подключение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfigurationManager, параметры сети приходят из QR — сервер не участвует"
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Накат» запрашивает использование Face ID",
+        "text": "Чтобы закрыть приложение: в нём медсправка, паспортные данные и номер договора."
+      },
+      "feature": "Замок на приложении: документы ученика и номер договора",
+      "gesture": "«Включить Face ID»",
+      "screen": "lock",
+      "target": "lock",
+      "fallback": "Остаётся код-пароль устройства",
+      "snack": "Face ID недоступен — останется код-пароль",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LocalAuthentication, политика deviceOwnerAuthentication — код-пароль как запасной путь"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Автозаполнение паролей",
+        "text": "Entitlement без системного запроса: логины учебных сервисов группы подставляются в Safari."
+      },
+      "feature": "Логины тренажёра билетов и кабинета группы подставляются в Safari без копирования",
+      "gesture": "«Включить автозаполнение»",
+      "screen": "passwords",
+      "target": "fill",
+      "activate": true,
+      "fallback": "Пароль остаётся копировать руками из карточки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, записи в Keychain общей группы; публикует их автошкола"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Накат» запрашивает разрешение на уведомления",
+        "text": "Перенос занятия, освободившийся слот на 7:20 и напоминание за час до выезда."
+      },
+      "feature": "Перенос занятия и освободившийся слот приходят уведомлением",
+      "gesture": "«Включить уведомления»",
+      "screen": "notif",
+      "target": "notif",
+      "fallback": "Изменения видны только при открытии приложения",
+      "snack": "Уведомления выключены — изменения увидите при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "регистрация в APNs через SDK провайдера пушей, отправка из его дашборда",
+      "grounding": "Firebase Cloud Messaging: регистрация и доставка через SDK, своего сервера рассылки нет"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Entitlement без системного запроса: сообщение инструктора приходит с его аватаром."
+      },
+      "feature": "Сообщение инструктора приходит с аватаром и проходит через режим «За рулём»",
+      "gesture": "«Показывать как сообщение»",
+      "screen": "chat",
+      "target": "lockscreen",
+      "activate": true,
+      "fallback": "Без entitlement уведомление обычное: имя в тексте, без аватара и вне сводки Focus",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "донат INSendMessageIntent и Notification Service Extension, подставляющий аватар",
+      "grounding": "INSendMessageIntent, Notification Service Extension, аватар из общего контейнера App Group",
+      "reviewNote": "Entitlement запрашивается под переписку с инструктором по конкретному занятию. Сообщение донатит INSendMessageIntent, поэтому приходит с аватаром и уважает Focus: «Накат» — единственный канал, по которому инструктор сообщает «стою во втором ряду», пока ученик в режиме «За рулём»."
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихие уведомления",
+        "text": "Entitlement без системного запроса: тихий пуш обновляет виджет со следующим занятием."
+      },
+      "feature": "Тихий пуш обновляет виджет и счётчик часов при закрытом приложении",
+      "gesture": "«Тихие обновления»",
+      "screen": "bg",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Виджет обновляется только при запуске приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "обработка content-available в didReceiveRemoteNotification и перезапись снапшота виджета",
+      "grounding": "тихий пуш через FCM, снапшот в контейнере App Group, WidgetCenter.reloadTimelines"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Идентификаторы фоновых задач",
+        "text": "Entitlement без системного запроса: app.nakat.refresh и app.nakat.audio объявлены в Info.plist и зарегистрированы в коде."
+      },
+      "feature": "Два идентификатора: обновление расписания и догрузка аудио-разборов",
+      "gesture": "«Проверить задачи»",
+      "screen": "bg",
+      "target": "theory",
+      "activate": true,
+      "fallback": "Незарегистрированный идентификатор — задача не запустится вообще",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "строки в Info.plist совпадают с BGTaskScheduler.register — иначе падение при регистрации",
+      "grounding": "app.nakat.refresh под BGAppRefreshTask, app.nakat.audio под BGProcessingTask — догрузка разборов по Wi-Fi"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Entitlement без системного запроса: виджет и расширения читают данные приложения."
+      },
+      "feature": "Виджет «Следующее занятие · 34 из 56 часов» и расширение автозаполнения видят данные приложения",
+      "gesture": "«Виджет на экран „Домой“»",
+      "screen": "menu",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Без группы виджет пустой, а автозаполнение не видит записей — не ship",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "контейнер group.app.nakat: снапшот расписания в JSON плюс аватар инструктора для Notification Service Extension"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая связка ключей",
+        "text": "Entitlement без системного запроса: одна сессия на приложение, виджет и расширения."
+      },
+      "feature": "Одна сессия: из виджета приложение открывается уже войденным",
+      "gesture": "«Открыть Накат» из виджета",
+      "screen": "widget",
+      "target": "lessons",
+      "activate": true,
+      "fallback": "Без общей группы вход придётся повторять в каждом расширении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с виджетом и расширением автозаполнения"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP · автоподстановка"
+    },
+    {
+      "id": "lessons",
+      "title": "Занятия",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Следующее занятие · часы · свободные слоты"
+    },
+    {
+      "id": "lesson",
+      "title": "Занятие",
+      "type": "push",
+      "light": true,
+      "parent": "lessons",
+      "meta": "Инструктор, машина, точка посадки"
+    },
+    {
+      "id": "call",
+      "title": "Звонок инструктору",
+      "type": "fullscreen",
+      "parent": "lesson",
+      "meta": "CallKit · номера скрыты"
+    },
+    {
+      "id": "pickup",
+      "title": "Точка посадки",
+      "type": "push",
+      "light": true,
+      "parent": "lesson",
+      "meta": "Карта · расстояние · маршруты рядом"
+    },
+    {
+      "id": "scan",
+      "title": "QR на стекле",
+      "type": "fullscreen",
+      "parent": "lesson",
+      "meta": "Сканер QR учебной машины"
+    },
+    {
+      "id": "drive",
+      "title": "Занятие идёт",
+      "type": "push",
+      "light": true,
+      "parent": "lesson",
+      "meta": "Часы, отметки, разбор голосом"
+    },
+    {
+      "id": "note",
+      "title": "Разбор голосом",
+      "type": "push",
+      "light": true,
+      "parent": "drive",
+      "meta": "Запись · расшифровка · привязка к месту"
+    },
+    {
+      "id": "reschedule",
+      "title": "Перенос занятия",
+      "type": "sheet",
+      "light": true,
+      "parent": "lesson",
+      "meta": "Свободные слоты · правка события"
+    },
+    {
+      "id": "chat",
+      "title": "Инструктор",
+      "type": "push",
+      "light": true,
+      "parent": "lesson",
+      "meta": "Переписка по занятию"
+    },
+    {
+      "id": "lockscreen",
+      "title": "Экран блокировки",
+      "type": "system",
+      "parent": "chat",
+      "meta": "Сообщение с аватаром · режим «За рулём»"
+    },
+    {
+      "id": "notif",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Что приходит и когда"
+    },
+    {
+      "id": "theory",
+      "title": "Теория",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Билеты · разборы · состояние загрузок"
+    },
+    {
+      "id": "ticket",
+      "title": "Билет",
+      "type": "push",
+      "light": true,
+      "parent": "theory",
+      "meta": "Вопросы, ошибки, разбор"
+    },
+    {
+      "id": "player",
+      "title": "Разбор билета",
+      "type": "fullscreen",
+      "parent": "ticket",
+      "meta": "Аудио · ±15 секунд · Now Playing"
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "parent": "player",
+      "meta": "Now Playing на локскрине"
+    },
+    {
+      "id": "checklist",
+      "title": "Алгоритм вслух",
+      "type": "push",
+      "light": true,
+      "parent": "theory",
+      "meta": "Проговаривание · сверка с чек-листом"
+    },
+    {
+      "id": "classroom",
+      "title": "Теория в классе",
+      "type": "push",
+      "light": true,
+      "parent": "theory",
+      "meta": "Ведомость часов · отметка присутствия"
+    },
+    {
+      "id": "attend",
+      "title": "Отметка по сети",
+      "type": "push",
+      "light": true,
+      "parent": "classroom",
+      "meta": "SSID против профиля группы"
+    },
+    {
+      "id": "guestnet",
+      "title": "Сеть класса",
+      "type": "push",
+      "light": true,
+      "parent": "classroom",
+      "meta": "QR со стены · подключение"
+    },
+    {
+      "id": "scanwifi",
+      "title": "QR со стены",
+      "type": "fullscreen",
+      "parent": "guestnet",
+      "meta": "Сканер QR сети класса"
+    },
+    {
+      "id": "menu",
+      "title": "Ещё",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Документы, доступы, виджет, фон"
+    },
+    {
+      "id": "docs",
+      "title": "Документы",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Медсправка, договор, съёмка и медиатека"
+    },
+    {
+      "id": "lock",
+      "title": "Замок приложения",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Face ID · код-пароль"
+    },
+    {
+      "id": "passwords",
+      "title": "Пароли группы",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Записи автошколы · автозаполнение"
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение в Safari",
+      "type": "system",
+      "light": true,
+      "parent": "passwords",
+      "meta": "Подстановка логина на сайт тренажёра"
+    },
+    {
+      "id": "widget",
+      "title": "Виджет на «Домой»",
+      "type": "system",
+      "parent": "menu",
+      "meta": "Следующее занятие · часы"
+    },
+    {
+      "id": "bg",
+      "title": "Фоновые обновления",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Fetch, тихий пуш, идентификаторы задач"
+    },
+    {
+      "id": "ads",
+      "title": "Почему реклама",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Экран-объяснение до ATT"
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все 30 экранов и все 20 доступов набора",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "lessons",
+        "lesson",
+        "call",
+        "pickup",
+        "scan",
+        "drive",
+        "note",
+        "reschedule",
+        "chat",
+        "lockscreen",
+        "notif",
+        "theory",
+        "ticket",
+        "player",
+        "background",
+        "checklist",
+        "classroom",
+        "attend",
+        "guestnet",
+        "scanwifi",
+        "menu",
+        "docs",
+        "lock",
+        "passwords",
+        "fill",
+        "widget",
+        "bg",
+        "ads"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход по номеру",
+      "note": "Номер и код из SMS: доступов на этих экранах нет",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "lessons"
+      ],
+      "stops": [
+        "lessons"
+      ]
+    },
+    {
+      "id": "drive",
+      "label": "Утреннее занятие",
+      "note": "Звонок без номеров, точка посадки, QR на стекле, разбор голосом",
+      "start": "lessons",
+      "screens": [
+        "lessons",
+        "lesson",
+        "call",
+        "pickup",
+        "scan",
+        "drive",
+        "note",
+        "chat",
+        "lockscreen",
+        "reschedule"
+      ],
+      "stops": [
+        "reschedule"
+      ]
+    },
+    {
+      "id": "listen",
+      "label": "Билет в наушниках",
+      "note": "Разбор билета с погашенным экраном и Now Playing на локскрине",
+      "start": "theory",
+      "screens": [
+        "theory",
+        "ticket",
+        "player",
+        "background",
+        "checklist",
+        "classroom"
+      ],
+      "stops": [
+        "classroom"
+      ]
+    },
+    {
+      "id": "slot",
+      "label": "Перенос занятия",
+      "note": "Свободный слот и правка того же события в календаре",
+      "start": "lessons",
+      "screens": [
+        "lessons",
+        "lesson",
+        "reschedule",
+        "call",
+        "pickup",
+        "scan",
+        "drive",
+        "chat"
+      ],
+      "stops": [
+        "call",
+        "pickup",
+        "scan",
+        "drive",
+        "chat"
+      ]
+    },
+    {
+      "id": "class",
+      "label": "Отметка на теории",
+      "note": "Сеть класса по QR и отметка присутствия в ведомость",
+      "start": "theory",
+      "screens": [
+        "theory",
+        "classroom",
+        "attend",
+        "guestnet",
+        "scanwifi",
+        "ticket",
+        "player",
+        "checklist"
+      ],
+      "stops": [
+        "ticket",
+        "player",
+        "checklist"
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Замок, виджет, фон, реклама",
+      "note": "Документы, Face ID, автозаполнение, фоновые режимы и ATT",
+      "start": "menu",
+      "screens": [
+        "menu",
+        "docs",
+        "lock",
+        "passwords",
+        "fill",
+        "widget",
+        "bg",
+        "ads",
+        "notif",
+        "lessons",
+        "theory"
+      ],
+      "stops": [
+        "lessons",
+        "theory"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Вход по номеру телефона и сессия",
+      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+    },
+    {
+      "needs": "Расписание, слоты, перенос занятия",
+      "solution": "Firestore со security rules: ученик пишет только свой слот, инструктор — только свои окна. Правила — конфигурация, не серверный код"
+    },
+    {
+      "needs": "Звонок ученик ↔ инструктор без обмена номерами",
+      "solution": "SDK связи (LiveKit / Agora) плюс PushKit и CallKit: адресация по паре в учебной группе, номера в сигнализации не участвуют"
+    },
+    {
+      "needs": "Уведомления о переносе и освободившемся слоте",
+      "solution": "Firebase Cloud Messaging; аватар инструктора подставляет Notification Service Extension"
+    },
+    {
+      "needs": "Билеты и аудио-разборы",
+      "solution": "Статический пак <code>tickets.json</code> плюс аудио на CDN, только чтение. Догрузка — <code>BGProcessingTask</code> по Wi-Fi"
+    },
+    {
+      "needs": "Голосовые заметки и расшифровка",
+      "solution": "Файл в контейнере приложения и CoreData; <code>SFSpeechRecognizer</code> с <code>requiresOnDeviceRecognition</code>"
+    },
+    {
+      "needs": "Экзаменационные маршруты и точка посадки",
+      "solution": "MapKit и <code>MKLocalSearch</code>; треки маршрутов лежат в паке как данные и рисуются кодом"
+    },
+    {
+      "needs": "Отметка присутствия на теории",
+      "solution": "Клиент: <code>CNCopyCurrentNetworkInfo</code> против SSID из профиля группы плюс геопозиция. Модерации нет"
+    },
+    {
+      "needs": "Документы ученика: медсправка, договор",
+      "solution": "VisionKit-скан и PHPicker, файлы остаются на устройстве под замком Face ID — в облако не уходят"
+    },
+    {
+      "needs": "Накатанные часы и ведомость теории",
+      "solution": "CoreData на устройстве: часы считаются по завершённым занятиям, ведомость — по отметкам"
+    },
+    {
+      "needs": "Пароли учебных сервисов группы",
+      "solution": "Keychain общей группы плюс Credential Provider extension; записи публикует автошкола"
+    },
+    {
+      "needs": "Монетизация без подписки",
+      "solution": "Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Накат",
+    "subtitle": "Автошкола: часы, билеты, слоты",
+    "promo": "Разбор билета слушается за рулём с погашенным экраном. Занятие переносится в приложении, а инструктору можно позвонить, не зная его номера.",
+    "keywords": "пдд,категория b,инструктор,вождение,экзамен,гибдд,теория,права,маршрут,слот",
+    "category": {
+      "primary": "Education",
+      "secondary": "Reference"
+    },
+    "ageRating": "12+",
+    "price": "Бесплатно, без встроенных покупок. Курс оплачивается автошколе, не в приложении",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://nakat.app/support",
+      "marketing": "https://nakat.app",
+      "privacy": "https://nakat.app/privacy"
+    },
+    "description": [
+      "«Накат» ведёт курс категории B от первого занятия до внутреннего экзамена: 56 часов за рулём, 134 часа теории и расписание, которое переносят через день. Приложение для учеников автошколы и их инструкторов.",
+      "РАЗБОР, КОТОРЫЙ СЛУШАЮТ ЗА РУЛЁМ\nАудио-разбор билета и вчерашней поездки продолжается с погашенным экраном. Пауза, ±15 секунд и название билета — в Now Playing, команды принимаются с кнопок на руле.",
+      "ЗВОНОК БЕЗ ОБМЕНА НОМЕРАМИ\nВызов адресуется паре «ученик — инструктор» в учебной группе и показывается системным интерфейсом звонка. Телефоны сторон друг другу не видны.",
+      "ЗАНЯТИЕ, КОТОРОЕ ПЕРЕНОСИТСЯ\nСвободные слоты недели видны в приложении. При переносе правится то же событие в системном календаре, а не создаётся второе.",
+      "ЧАСЫ, КОТОРЫЕ СЧИТАЮТСЯ САМИ\nQR на стекле учебной машины отмечает начало занятия. Присутствие на теории подтверждается сетью класса и попадает в ведомость.",
+      "АЛГОРИТМ ВСЛУХ\nПорядок действий на перекрёстке проговаривается голосом: приложение отмечает названные пункты и пропущенные. Распознавание идёт на устройстве."
+    ],
+    "whatsNew": "Первая версия: часы и ведомость, аудио-разборы билетов, звонок инструктору без номеров, перенос слота с правкой события в календаре, отметка на теории по сети класса.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+      },
+      {
+        "type": "Геопозиция (приблизительная)",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Расстояние до точки посадки и маршруты рядом. Читается только при открытом приложении, не хранится"
+      },
+      {
+        "type": "Фотографии",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Медсправка и договор остаются в контейнере приложения под замком, с сервером не синхронизируются"
+      },
+      {
+        "type": "Аудиозаписи",
+        "apple": "User Content → Audio Data",
+        "purpose": "Функциональность приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Голосовые заметки о занятии и проговоренный алгоритм. Файлы на устройстве, распознавание тоже"
+      },
+      {
+        "type": "Идентификатор устройства (IDFA)",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама третьих лиц",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после разрешения в ATT. Уходит в рекламный SDK; при отказе реклама неперсонализированная"
+      },
+      {
+        "type": "Данные об использовании",
+        "apple": "Usage Data → Advertising Data",
+        "purpose": "Реклама третьих лиц",
+        "linked": false,
+        "tracking": true,
+        "why": "Показы и нажатия рекламных блоков на стороне сети. При отказе в ATT — без связки с устройством"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Вход по номеру. Тестовый номер принимает любой код, SMS не отправляется. В демо-группе есть занятие на завтра 7:20 и инструктор, которому можно позвонить."
+    }
+  }
+}

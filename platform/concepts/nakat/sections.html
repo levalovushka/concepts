@@ -1,0 +1,54 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">Курс на категорию B устроен неудобно для приложения: половина занятий проходит за рулём, где на экран смотреть нельзя по закону, расписание переносят через день, а связь ученика с инструктором держится на личном номере, который ни одна из сторон отдавать не хочет. Из этого ограничения вытекает всё остальное: разбор звуком, а не видео; слот, который переносится в приложении; звонок по учебной группе.</p>
+  <div class="utp-box"><strong>УТП.</strong> Разбор билета в наушниках по дороге и занятие, которое переносится без звонка на личный номер инструктора.</div>
+  {{FEAT_GRID}}
+  <div class="note-box" style="margin-top:var(--s-lg)">
+    <p><strong>Тест на подмену.</strong> Уберите аудио-разборы, звонок без номеров и перенос слота — останется тестовый тренажёр билетов, каких в сторе сотни. Значит эти три фичи и есть продукт.</p>
+    <p><strong>Зачем открывать на третий день.</strong> Курс идёт 2–3 месяца: 56 часов за рулём, 134 часа теории, 40 билетов и слот, который переносят в среднем раз в неделю. Цикл встроен в предмет, а не придуман для удержания.</p>
+    <p><strong>Кто и когда.</strong> Марина, 34, взяла три месяца на права: занятие в 7:20 до работы, разбор билета в метро, в 7:10 стоит на углу и не знает, где машина.</p>
+  </div>
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего серверного кода нет, расписание живёт в Firestore со security rules, звонок — на SDK связи. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Занятия</span></div>
+  <div class="flow"><span class="chip">Занятия</span><span class="arr">→</span><span class="chip">Занятие 7:20</span><span class="arr">→</span><span class="chip">Позвонить инструктору · VoIP</span></div>
+  <div class="flow"><span class="chip">Занятие</span><span class="arr">→</span><span class="chip">Точка посадки · Location</span><span class="arr">→</span><span class="chip">QR на стекле · Camera</span><span class="arr">→</span><span class="chip">Разбор голосом · Mic + Speech</span></div>
+  <div class="flow"><span class="chip">Теория</span><span class="arr">→</span><span class="chip">Билет 12</span><span class="arr">→</span><span class="chip">Слушать разбор</span><span class="arr">→</span><span class="chip">Погасить экран · Audio</span></div>
+  <div class="flow"><span class="chip">Теория</span><span class="arr">→</span><span class="chip">Ведомость</span><span class="arr">→</span><span class="chip">Отметиться в классе · Location</span><span class="arr">→</span><span class="chip">Сверка сети · Wi-Fi Info</span></div>
+  <div class="flow"><span class="chip">Занятие</span><span class="arr">→</span><span class="chip">Перенести</span><span class="arr">→</span><span class="chip">Поправить событие · Calendar</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>30 экранов, три вкладки, nav stack, системный ask и снекбар. Статусы доступов не хранит — только отображает.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Курс (56 часов практики, 134 часа теории) · занятие со слотом, инструктором и учебной машиной · экзаменационный маршрут · билет из 20 вопросов и его аудио-разбор · алгоритм из пунктов · отметка присутствия · документ ученика.</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Playback (AVAudioSession, MPNowPlayingInfoCenter, MPRemoteCommandCenter) · Calls (PushKit, CallKit, SDK связи) · Scanner (DataScannerViewController) · Voice (AVAudioRecorder + SFSpeechRecognizer on-device) · Attendance (CNCopyCurrentNetworkInfo + CLLocationManager) · Hotspot (NEHotspotConfigurationManager) · Schedule (Firestore SDK, BGAppRefreshTask) · Credentials (ASCredentialProviderViewController, Keychain) · PhoneAuth.</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — часы, ведомость, заметки и их расшифровки, ошибки в билетах. FileManager — аудиозаметки и документы. Keychain — токен входа и пароли группы. App Group — снапшот для виджета. Пак билетов, разборов и треков маршрутов — только на чтение. <strong>Своего серверного кода нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>Firestore и Cloud Messaging через SDK (правила доступа — конфигурация) · SDK связи для звонка · CDN пака билетов и разборов · MapKit · рекламный SDK. Больше ничего.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Двадцать ключей из двадцати двух в наборе «ВКонтакте». Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Два ключа набора не заявлены.</strong> <code>com.apple.developer.associated-domains</code> — диплинков в концептах не делаем принципиально. <code>NSContactsUsageDescription</code> — честной фичи в автошколе нет: соцграфа здесь не бывает, а «кто из знакомых тоже учится» — это доступ без ценности, то есть 5.1.2. Причины записаны в <a href="docs/06-app-store.md">карточке App Store</a>.</p>
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Что потребовало бы сервера и чем это заменено. Граница жёсткая: BaaS-SDK и его security rules — конфигурация, а не серверный код; всё, что требует написать и развернуть свой обработчик, из концепта убрано.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
