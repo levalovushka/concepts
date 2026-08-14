@@ -9,6 +9,15 @@
 - `density` — `low`, `medium` или `high`, если плотность разрешена выбранным рецептом;
 - `contentCases` — минимум три реальных случая данных, включая крайний.
 
+`uiContractVersion: 3` добавляет:
+
+- `navigation` — роль экрана: `root`, `push`, `modal`, `fullscreen`, `system`;
+- `hierarchy.primary/secondary` — что визуально первое и второе;
+- объектные `contentCases` с обязательными `typical`, `stress`, `failure`;
+- ровно один `data-primary` для заявленного главного действия;
+- единый tab bar на всех root-экранах и отсутствие tab bar на дочерних;
+- anti-slop lint: без inline-style, emoji-ассетов, `.ph` и безымянных icon-only controls.
+
 ## Паттерны
 
 | Pattern | Когда использовать |

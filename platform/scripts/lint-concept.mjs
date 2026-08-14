@@ -97,6 +97,20 @@ function lint(slug) {
   for (const m of markup.matchAll(/class="([^"]+)"/g)) m[1].split(/\s+/).forEach((c) => c && used.add(c));
   for (const c of used) if (!declared.has(c)) P(`класс без стиля: .${c}`);
 
+  /* —— anti-slop contract новых концептов —— */
+  if (spec.uiContractVersion >= 3 && spec.readiness?.status === 'reviewed') {
+    for (const screen of spec.screens) {
+      const source = read(join(dir, 'screens', `${screen.id}.html`));
+      if (/\sstyle="/.test(source)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
+      if (/class="[^"]*\bph\b/.test(source)) P(`${screen.id}: placeholder .ph запрещён в готовом интерфейсе`);
+      if (/\p{Extended_Pictographic}/u.test(source.replace(/<svg[\s\S]*?<\/svg>/g, ''))) P(`${screen.id}: emoji нельзя использовать как продуктовый ассет или иконку`);
+      for (const button of source.matchAll(/<(?:button|div)\b([^>]*(?:data-go|data-ask|data-back|data-activate)[^>]*)>([\s\S]*?)<\/(?:button|div)>/g)) {
+        const attrs = button[1], body = button[2].replace(/<[^>]+>/g, '').trim();
+        if (/<svg\b/.test(button[2]) && !body && !/aria-label="[^"]+"/.test(attrs)) P(`${screen.id}: icon-only control без aria-label`);
+      }
+    }
+  }
+
   /* —— карточка App Store —— */
   /* Лимиты Apple жёсткие: перебор ловится только при загрузке в App Store Connect,
      то есть в самый неудобный момент. Считаем здесь. */

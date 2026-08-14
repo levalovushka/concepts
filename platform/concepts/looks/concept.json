@@ -5,7 +5,7 @@
   "targetSet": "vkontakte",
   "domain": "looks.social",
   "heroTitle": "Стиль начинается не с покупки",
-  "heroDeck": "Лента реальных образов, гардеробы авторов и примерки без витрины маркетплейса.",
+  "heroDeck": "Авторы, публикации, сообщества и разговоры о личном стиле — без витрины маркетплейса.",
   "tagline": "Не вещи по отдельности, а сочетания, которые уже живут",
   "insight": "люди сохраняют не товар, а готовый ответ на вопрос «как это носить»",
   "deck": "Социальная сеть личного стиля: публикации образов, профили авторов, сообщества, клипы-примерки и отметки вещей.",
@@ -20,7 +20,7 @@
     "returnReasons": [
       "Новые образы знакомых авторов",
       "Сохранённые сочетания",
-      "Отзывы на свою примерку"
+      "Реакции и комментарии к своим публикациям"
     ],
     "verticalSlice": {
       "entry": "home",
@@ -28,9 +28,9 @@
       "result": "camera"
     },
     "coreLoop": [
-      "Увидеть образ",
-      "Разобрать на вещи или сохранить",
-      "Снять собственную версию"
+      "Увидеть публикацию автора или сообщества",
+      "Отреагировать, обсудить или сохранить",
+      "Подписаться и опубликовать свою версию"
     ],
     "nonGoals": [
       "Маркетплейс",
@@ -80,11 +80,7 @@
     },
     {
       "id": "nearby",
-      "label": "Обзор"
-    },
-    {
-      "id": "create",
-      "label": "Создать"
+      "label": "Сообщества"
     },
     {
       "id": "chats",
@@ -137,9 +133,9 @@
       "plist": "NSMicrophoneUsageDescription",
       "alert": {
         "title": "«Образы» запрашивают доступ к микрофону",
-        "text": "Чтобы записать голосовой комментарий автору."
+        "text": "Чтобы записать голосовое сообщение автору."
       },
-      "feature": "Голосовые комментарии",
+      "feature": "Голосовые сообщения",
       "gesture": "«Записать голосовое»",
       "screen": "chat",
       "target": "voice",
@@ -211,12 +207,12 @@
       "plist": "UIBackgroundModes: remote-notification",
       "alert": {
         "title": "Тихое обновление",
-        "text": "Список примерки обновится до открытия приложения."
+        "text": "Новая часть серии загрузится до открытия приложения."
       },
       "activate": true,
-      "feature": "Актуальный состав примерки",
-      "gesture": "«Обновлять состав»",
-      "screen": "walk",
+      "feature": "Актуальная серия клипов",
+      "gesture": "«Обновление клипов»",
+      "screen": "settings",
       "target": "system",
       "fallback": "Состав обновляется при открытии",
       "risk": "low",
@@ -249,7 +245,7 @@
       "plist": "BGTaskSchedulerPermittedIdentifiers",
       "alert": {
         "title": "Фоновая задача",
-        "text": "app.tails.refresh зарегистрирована для обновления ленты."
+        "text": "app.looks.refresh зарегистрирована для обновления ленты."
       },
       "activate": true,
       "feature": "Зарегистрированная задача обновления",
@@ -268,10 +264,10 @@
       "plist": "com.apple.security.application-groups",
       "alert": {
         "title": "Общий контейнер",
-        "text": "Виджет показывает следующую прогулку."
+        "text": "Виджет показывает последний сохранённый образ."
       },
       "activate": true,
-      "feature": "Виджет ближайшей примерки",
+      "feature": "Виджет сохранённого образа",
       "gesture": "«Добавить виджет»",
       "screen": "profile",
       "target": "system",
@@ -279,7 +275,7 @@
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "group.app.tails хранит JSON snapshot"
+      "grounding": "group.app.looks хранит JSON snapshot"
     },
     {
       "key": "keychain",
@@ -326,8 +322,8 @@
       },
       "activate": true,
       "feature": "Отметка на поп-апе",
-      "gesture": "«Я на месте»",
-      "screen": "walk",
+      "gesture": "«События на площадках»",
+      "screen": "settings",
       "target": "walk",
       "fallback": "Отметка по кнопке без автоматической проверки",
       "risk": "low",
@@ -347,7 +343,7 @@
       "ui": {
         "pattern": "auth",
         "purpose": "Войти",
-        "primaryAction": "Получить код",
+        "primaryAction": "Продолжить",
         "states": [
           "default",
           "loading",
@@ -371,7 +367,7 @@
       "ui": {
         "pattern": "auth",
         "purpose": "Подтвердить вход",
-        "primaryAction": "Войти",
+        "primaryAction": "Продолжить",
         "states": [
           "default",
           "loading",
@@ -387,14 +383,14 @@
     },
     {
       "id": "home",
-      "title": "Главная",
+      "title": "Лента",
       "type": "tab (root)",
       "light": true,
       "parent": "code",
-      "meta": "Лента образов",
+      "meta": "Публикации и истории",
       "ui": {
         "pattern": "collection",
-        "purpose": "Смотреть друзей",
+        "purpose": "Следить за авторами",
         "primaryAction": null,
         "states": [
           "default",
@@ -410,14 +406,14 @@
     },
     {
       "id": "pet",
-      "title": "Образ",
+      "title": "Публикация",
       "type": "push",
       "light": true,
       "parent": "home",
-      "meta": "Отметки вещей",
+      "meta": "Пост и комментарии",
       "ui": {
         "pattern": "detail",
-        "purpose": "Познакомиться",
+        "purpose": "Обсудить образ",
         "primaryAction": null,
         "states": [
           "default"
@@ -432,14 +428,14 @@
     },
     {
       "id": "nearby",
-      "title": "Обзор",
+      "title": "Сообщества",
       "type": "tab (root)",
       "light": true,
       "parent": "home",
-      "meta": "Авторы и события",
+      "meta": "Подписки и рекомендации",
       "ui": {
         "pattern": "collection",
-        "purpose": "Найти прогулку",
+        "purpose": "Найти своих",
         "primaryAction": null,
         "states": [
           "default",
@@ -447,8 +443,8 @@
         ],
         "density": "high",
         "contentCases": [
-          "карта",
-          "район",
+          "подписки",
+          "рекомендации",
           "нет сети"
         ]
       }
@@ -457,12 +453,12 @@
       "id": "walk",
       "title": "Клип-примерка",
       "type": "push",
-      "light": true,
+      "light": false,
       "parent": "nearby",
-      "meta": "Вертикальное видео",
+      "meta": "Клип сообщества",
       "ui": {
         "pattern": "detail",
-        "purpose": "Встретиться",
+        "purpose": "Посмотреть серию",
         "primaryAction": null,
         "states": [
           "default"
@@ -478,9 +474,10 @@
     {
       "id": "create",
       "title": "Новый образ",
-      "type": "tab (root)",
+      "type": "push",
       "light": true,
-      "meta": "Камера или Фото",
+      "parent": "home",
+      "meta": "Текст, фото и аудитория",
       "ui": {
         "pattern": "editor",
         "purpose": "Опубликовать момент",
@@ -545,11 +542,11 @@
     },
     {
       "id": "groups",
-      "title": "Сообщества",
+      "title": "Сообщество",
       "type": "push",
       "light": true,
-      "parent": "home",
-      "meta": "Породы и районы",
+      "parent": "nearby",
+      "meta": "Лента сообщества",
       "ui": {
         "pattern": "collection",
         "purpose": "Найти своих",
@@ -560,8 +557,8 @@
         ],
         "density": "high",
         "contentCases": [
-          "породы",
-          "районы",
+          "описание",
+          "публикации",
           "нет сети"
         ]
       }
@@ -590,7 +587,7 @@
     },
     {
       "id": "chat",
-      "title": "Комментарий",
+      "title": "Диалог",
       "type": "push",
       "light": true,
       "parent": "chats",
@@ -612,7 +609,7 @@
     },
     {
       "id": "voice",
-      "title": "Голосовой комментарий",
+      "title": "Голосовое сообщение",
       "type": "modal",
       "light": true,
       "parent": "chat",
@@ -638,7 +635,7 @@
       "title": "Профиль автора",
       "type": "tab (root)",
       "light": true,
-      "meta": "Мои авторы",
+      "meta": "Публикации и подписки",
       "ui": {
         "pattern": "settings",
         "purpose": "Управлять профилем",
@@ -648,8 +645,8 @@
         ],
         "density": "medium",
         "contentCases": [
-          "авторы",
-          "моменты",
+          "публикации",
+          "сохранённое",
           "нет сети"
         ]
       }
@@ -664,14 +661,14 @@
       "ui": {
         "pattern": "settings",
         "purpose": "Настроить системные функции",
-        "primaryAction": "Обновлять ленту в фоне",
+        "primaryAction": "Фоновая лента",
         "states": [
           "default"
         ],
         "density": "medium",
         "contentCases": [
-          "фон",
-          "автозаполнение",
+          "разрешения",
+          "системные возможности",
           "нет сети"
         ]
       }
@@ -686,7 +683,7 @@
       "ui": {
         "pattern": "task",
         "purpose": "Проверить системные функции",
-        "primaryAction": "Готово",
+        "primaryAction": "Вернуться в профиль",
         "states": [
           "default",
           "error"
@@ -705,7 +702,7 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Лента, авторы, примерка, публикация и системные функции",
+      "note": "Социальная лента, сообщества, сообщения, профиль и публикация",
       "start": "phone",
       "screens": [
         "phone",

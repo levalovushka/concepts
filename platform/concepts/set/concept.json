@@ -5,11 +5,11 @@
   "qualityContractVersion": 1,
   "uiContractVersion": 2,
   "brand": {
-    "accent": "#b7ff3c",
-    "accentDark": "#b7ff3c",
+    "accent": "#2688eb",
+    "accentDark": "#68aff9",
     "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
-  "deck": "Живые сеты — от первого бита до последнего. Все 5 доступов запрашиваются точно в момент функции.",
+  "deck": "Живые DJ-сеты с площадкой, датой и точным треклистом — от первого бита до последнего.",
   "eyebrow": "Сет · Music · iOS",
   "heroTitle": "Сет",
   "heroDeck": "Открыть сет, слушать его целиком в фоне и в один тап сохранить играющий трек",
@@ -23,12 +23,12 @@
       "label": "Главная"
     },
     {
-      "id": "library",
-      "label": "Моя музыка"
+      "id": "discover",
+      "label": "Обзор"
     },
     {
-      "id": "studio",
-      "label": "Афиши"
+      "id": "library",
+      "label": "Моя музыка"
     },
     {
       "id": "profile",
@@ -208,7 +208,7 @@
     },
     {
       "id": "discover",
-      "title": "Поиск",
+      "title": "Обзор",
       "type": "tab (root)",
       "light": false,
       "meta": "Категории и поиск",
@@ -261,7 +261,7 @@
       "ui": {
         "pattern": "player",
         "purpose": "Управлять живым звуком",
-        "primaryAction": "Слушать в фоне",
+        "primaryAction": "Фоновый режим",
         "states": [
           "default",
           "loading",
@@ -323,14 +323,14 @@
     {
       "id": "studio",
       "title": "Афиши",
-      "type": "tab (root)",
+      "type": "push",
       "light": false,
       "meta": "Камера и «Фото»",
-      "parent": "home",
+      "parent": "library",
       "ui": {
         "pattern": "task",
         "purpose": "Отсканируйте QR на афише или выберите её из «Фото».",
-        "primaryAction": "Сканировать афишу",
+        "primaryAction": "Сканировать камерой",
         "states": [
           "default",
           "error"
@@ -433,6 +433,38 @@
       }
     },
     {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "modal",
+      "light": false,
+      "meta": "Необязательная синхронизация",
+      "parent": "profile",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Сохранить коллекцию между устройствами",
+        "primaryAction": "Получить код",
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": ["номер заполнен", "ошибка номера", "вход пропущен"]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": false,
+      "meta": "OTP и автоподстановка",
+      "parent": "phone",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить номер телефона",
+        "primaryAction": "Войти",
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": ["код подставлен", "неверный код", "повторная отправка"]
+      }
+    },
+    {
       "id": "deeplink",
       "title": "Открыто по ссылке",
       "type": "modal",
@@ -505,7 +537,7 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "14 экранов и 5 доступов",
+      "note": "16 экранов и 5 доступов",
       "start": "home",
       "screens": [
         "home",
@@ -519,6 +551,8 @@
         "pick",
         "result",
         "profile",
+        "phone",
+        "code",
         "deeplink",
         "denied",
         "search"
@@ -541,6 +575,8 @@
         "pick",
         "result",
         "profile",
+        "phone",
+        "code",
         "deeplink",
         "denied",
         "search"
@@ -563,6 +599,8 @@
         "pick",
         "result",
         "profile",
+        "phone",
+        "code",
         "deeplink",
         "denied",
         "search"
@@ -585,6 +623,8 @@
         "pick",
         "result",
         "profile",
+        "phone",
+        "code",
         "deeplink",
         "denied",
         "search"
@@ -615,9 +655,9 @@
   ],
   "appStore": {
     "name": "Сет: Живые сеты",
-    "subtitle": "Живые сеты — от первого бита д",
-    "promo": "Открыть сет, слушать его целиком в фоне и в один тап сохранить играющий трек",
-    "keywords": "музыка,звук,плеер,аудио,подборки,фон",
+    "subtitle": "Живые DJ-сеты и площадки",
+    "promo": "Находите записи выступлений, слушайте длинные миксы без пауз и сохраняйте трек прямо по таймкоду.",
+    "keywords": "микс,диджей,клуб,эфир,треклист,фон",
     "category": {
       "primary": "Music",
       "secondary": "Lifestyle"
