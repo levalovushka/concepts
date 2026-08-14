@@ -1,0 +1,22 @@
+<!-- @overview:vision -->
+<p class="deck">«Такт» заменяет выбор плейлиста одним решением о ситуации. Поток начинает играть за два действия, а скипы и сохранения подстраивают следующие треки.</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+{{FEAT_GRID}}
+<!-- @end -->
+
+<!-- @overview:arch -->
+<p class="deck">Три root-роли совпадают с музыкальным архетипом: главная запускает волну, поиск находит конкретное, медиатека возвращает сохранённое. Mini-player не теряет playback между ними.</p>
+<div class="flow"><span class="chip">Главная</span><span class="arr">→</span><span class="chip">В дорогу</span><span class="arr">→</span><span class="chip">Плеер</span><span class="arr">→</span><span class="chip">Сохранить трек</span></div>
+<div class="flow"><span class="chip">Медиатека</span><span class="arr">→</span><span class="chip">Добавить музыку</span><span class="arr">→</span><span class="chip">Files / локальная медиатека</span></div>
+<div class="arch">
+  <div class="arch-layer"><h3>UI</h3><p>Root tabs · mini-player · station detail · fullscreen player · queue · Now Playing.</p></div>
+  <div class="arch-layer"><h3>Domain</h3><p>Wave · Station · Track · Artist · QueueSnapshot · LibraryItem.</p></div>
+  <div class="arch-layer"><h3>Services</h3><p>Import · Metadata · Tempo/Mood Analysis · Playback · Queue · Search · Library.</p></div>
+  <div class="arch-layer"><h3>Data</h3><p>Core Data для metadata/history/ranking, FileManager для аудио, security-scoped bookmarks для Files.</p></div>
+  <div class="arch-layer"><h3>System</h3><p>UIDocumentPicker · локальная медиатека · AVAudioSession · Now Playing. Сетевого слоя нет.</p></div>
+</div>
+<!-- @end -->
+
+<section class="section" id="perm-matrix"><h2>Матрица доступов</h2><p class="deck">Оставлены только JIT-доступ к локальной медиатеке и background audio. Camera, Photo Library, push и Associated Domains не являются ядром и не заявлены. UIDocumentPicker не требует permission.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Почему здесь нет бэкенда</h2><p class="deck">Каталог создаётся из Files, локальной медиатеки и demo pack. Поиск, анализ, очередь и история живут на устройстве.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и доступы</h2><p class="deck">Tab bar есть только на трёх root-экранах; push, modal, fullscreen и system поверхности его не дублируют.</p>{{SCREEN_TABLE}}</section>
