@@ -1,10 +1,10 @@
 {
   "slug": "volna",
-  "name": "Волна",
-  "eyebrow": "Волна · iOS",
+  "name": "Такт",
+  "eyebrow": "Такт · iOS",
   "targetSet": "vk-music",
   "domain": "volna.local",
-  "heroTitle": "Волна",
+  "heroTitle": "Такт",
   "heroDeck": "Локальное радио из вашей музыки — под дорогу, работу, вечеринку или тихий вечер.",
   "tagline": "Не собирайте очередь — выберите, как пройдёт следующий час.",
   "insight": "в дороге или за работой важнее попасть в нужную динамику из уже имеющейся музыки, чем разбирать папки и альбомы",
@@ -28,7 +28,7 @@
   },
   "positioning": {
     "mode": "mimicry",
-    "categoryFit": "Волна импортирует, индексирует и воспроизводит музыку, поэтому первичная категория App Store — Music.",
+    "categoryFit": "Такт импортирует, индексирует и воспроизводит музыку, поэтому первичная категория App Store — Music.",
     "familiarPatterns": ["Три root-роли музыкального сервиса: Главное, Поиск и Моя музыка с одинаковым tab bar.", "Главная сочетает персональную hero-рекомендацию, recently played, album rail и станции под настроение.", "Mini-player сохраняет текущий playback между root-разделами; fullscreen player имеет очередь, сохранение, Share Sheet и Now Playing."],
     "distinctions": ["Каталог создаёт пользователь импортом из Files/медиатеки, а не сервер.", "Волны строятся on-device по metadata, tempo, mood и локальной истории.", "Весь core loop, search, library и background playback работают в авиарежиме."],
     "evidenceScreens": ["home", "station", "player", "search", "library", "album", "import", "background"],
@@ -48,7 +48,7 @@
       { "source": "Экраны концептов «Сет» и «Шеллак»", "observation": "Музыкальный UI выглядит зрело, когда меняется масштаб hero/rail/list/player, а в библиотеке соседствуют разные состояния.", "decision": "Главная сочетает hero, асимметричную мозаику и компактный список, а library — imported/analyzing/ready состояния." },
       { "source": "Экраны концепта «Радиус»", "observation": "Системная возможность убедительна, когда UI-триггер, системное состояние и возврат в продукт образуют достижимую цепочку.", "decision": "Плеер явно активирует background audio, отдельный Now Playing показывает локальный asset и remote controls, а fallback сохраняет очередь при недоступном background mode." },
       { "source": "Apple Music Listen Now и Spotify Home/Search/Library — визуальная сверка", "observation": "Ощущение музыкального сервиса создают не один hero и технический каталог, а связка personalized pick, recently played, album rails, mood browse, library filters и отдельный release detail.", "decision": "Root-экраны пересобраны в Главное/Поиск/Моя музыка, добавлены service-модули и полноценный local album detail; технический анализ свернут в компактный статус." },
-      { "source": "Требование backend-free для «Волны»", "observation": "Удалённый каталог, SMS-аккаунт, APNs/FCM и облачная синхронизация нарушают основную модель.", "decision": "Старт перенесён на home, все данные привязаны к Files/медиатеке/demo pack/Core Data/FileManager; оставлены только JIT-доступ к локальной медиатеке и background audio." }
+      { "source": "Требование backend-free для «Такта»", "observation": "Удалённый каталог, SMS-аккаунт, APNs/FCM и облачная синхронизация нарушают основную модель.", "decision": "Старт перенесён на home, все данные привязаны к Files/медиатеке/demo pack/Core Data/FileManager; оставлены только JIT-доступ к локальной медиатеке и background audio." }
     ],
     "productCritique": [
       { "objection": "Без streaming-каталога первый запуск может не дать проверить ценность до импорта.", "resolution": "Bundled demo pack даёт пять волн сразу; Files-импорт добавляет личные assets в тот же on-device ranking.", "evidenceScreens": ["home", "import", "library"] },
@@ -58,7 +58,8 @@
     ],
     "visualPasses": [
       { "name": "Music-service перекомпоновка: personalized home, discovery search, library и album detail", "screensReviewed": "all", "found": 6, "fixed": 6, "blockersOpen": 0, "majorOpen": 0 },
-      { "name": "Повторная приёмка: medium typography, 44pt targets, long metadata, permissions и offline playback", "screensReviewed": "all", "found": 4, "fixed": 4, "blockersOpen": 0, "majorOpen": 0 }
+      { "name": "Повторная приёмка: medium typography, 44pt targets, long metadata, permissions и offline playback", "screensReviewed": "all", "found": 4, "fixed": 4, "blockersOpen": 0, "majorOpen": 0 },
+      { "name": "Fullscreen player polish: icon-only save, metadata rhythm и grouped secondary controls", "screensReviewed": "all", "found": 3, "fixed": 3, "blockersOpen": 0, "majorOpen": 0 }
     ]
   },
   "brand": { "accent": "#6558f5", "accentDark": "#a8a0ff", "fonts": "Inter:wght@400;500;600;700" },
@@ -66,8 +67,8 @@
   "uiContractVersion": 3,
   "tabs": [{ "id": "home", "label": "Главное", "role": "home" }, { "id": "search", "label": "Поиск", "role": "search" }, { "id": "library", "label": "Моя музыка", "role": "library" }],
   "permissions": [
-    { "key": "music", "plist": "NSAppleMusicUsageDescription", "alert": { "title": "Добавить музыку с этого iPhone?", "text": "Волна увидит только локальную медиатеку, чтобы добавить скачанные треки в офлайн-каталог." }, "feature": "Импорт скачанных треков из системной медиатеки", "gesture": "«Локальная медиатека» на экране импорта", "screen": "import", "target": "import", "fallback": "Files и bundled demo pack продолжают работать; доступ можно включить в системных Настройках", "snack": "Медиатека недоступна — Files и demo pack работают", "risk": "medium", "anchor": true, "conditional": true, "requires": "MPMediaLibraryAuthorization запрашивается только после явного выбора локальной медиатеки; сетевой Apple Music catalog не используется", "grounding": "MPMediaLibrary + MPMediaQuery filtered to downloaded local items" },
-    { "key": "audio", "plist": "UIBackgroundModes: audio", "alert": { "title": "Слушать волну в фоне?", "text": "Локальный трек продолжит играть при блокировке экрана." }, "activate": true, "feature": "Фоновое воспроизведение локального аудио", "gesture": "«Слушать в фоне» в плеере", "screen": "player", "target": "background", "fallback": "Без capability локальный трек играет, пока «Волна» открыта; состояние очереди не теряется", "snack": "Фоновый режим не активен", "risk": "high", "anchor": true, "conditional": true, "requires": "AVAudioSession .playback активен только во время playback; MPNowPlayingInfoCenter и MPRemoteCommandCenter заполнены metadata локального asset", "grounding": "AVPlayer/AVAudioEngine + local file URL + AVAudioSession .playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter" }
+    { "key": "music", "plist": "NSAppleMusicUsageDescription", "alert": { "title": "Добавить музыку с этого iPhone?", "text": "Такт увидит только локальную медиатеку, чтобы добавить скачанные треки в офлайн-каталог." }, "feature": "Импорт скачанных треков из системной медиатеки", "gesture": "«Локальная медиатека» на экране импорта", "screen": "import", "target": "import", "fallback": "Files и bundled demo pack продолжают работать; доступ можно включить в системных Настройках", "snack": "Медиатека недоступна — Files и demo pack работают", "risk": "medium", "anchor": true, "conditional": true, "requires": "MPMediaLibraryAuthorization запрашивается только после явного выбора локальной медиатеки; сетевой Apple Music catalog не используется", "grounding": "MPMediaLibrary + MPMediaQuery filtered to downloaded local items" },
+    { "key": "audio", "plist": "UIBackgroundModes: audio", "alert": { "title": "Слушать волну в фоне?", "text": "Локальный трек продолжит играть при блокировке экрана." }, "activate": true, "feature": "Фоновое воспроизведение локального аудио", "gesture": "«Слушать в фоне» в плеере", "screen": "player", "target": "background", "fallback": "Без capability локальный трек играет, пока «Такт» открыт; состояние очереди не теряется", "snack": "Фоновый режим не активен", "risk": "high", "anchor": true, "conditional": true, "requires": "AVAudioSession .playback активен только во время playback; MPNowPlayingInfoCenter и MPRemoteCommandCenter заполнены metadata локального asset", "grounding": "AVPlayer/AVAudioEngine + local file URL + AVAudioSession .playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter" }
   ],
   "screens": [
     { "id": "home", "title": "Главное", "type": "tab root", "light": true, "meta": "Core Data WaveSnapshot + demo pack", "ui": { "pattern": "collection", "navigation": "root", "purpose": "Выбрать локальную волну и запустить playback за два действия", "primaryAction": "Продолжить дорогу", "hierarchy": { "primary": "Персональная hero-волна из локальной истории", "secondary": "Recently played, album rail, ситуации и постоянный mini-player" }, "states": ["default", "empty", "loading", "error", "offline"], "density": "high", "contentCases": [{"kind":"typical","example":"147 локальных треков дают пять волн, recent albums и продолжение playback"},{"kind":"stress","example":"Длинные локальные metadata и мало места над постоянным mini-player"},{"kind":"failure","example":"Пустая коллекция показывает bundled demo pack и переход к импорту"}] } },
@@ -94,10 +95,10 @@
   ],
   "docs": [{ "file": "01-product-vision.md", "label": "Вижен" }, { "file": "02-architecture.md", "label": "Архитектура" }, { "file": "03-design-system.md", "label": "Дизайн-токены" }, { "file": "04-references.md", "label": "Референсы" }, { "file": "05-visual-audit.md", "label": "Визуальный аудит" }, { "file": "06-app-store.md", "label": "Карточка App Store" }, { "file": "07-quality-evidence.md", "label": "Quality evidence" }],
   "appStore": {
-    "name": "Волна — локальное радио", "subtitle": "Музыка без сети", "promo": "Добавьте музыку из Files, выберите дорогу, работу или тихий вечер — локальная волна запустится сразу.",
-    "keywords": "треки,плеер,офлайн,файлы,альбом,настроение,дорога,фокус,аудио",
+    "name": "Такт — музыка офлайн", "subtitle": "Волны из ваших треков", "promo": "Добавьте музыку из Files, выберите дорогу, работу или тихий вечер — локальная волна запустится сразу.",
+    "keywords": "треки,плеер,станции,файлы,альбом,настроение,дорога,фокус,аудио",
     "category": { "primary": "Music", "secondary": "Lifestyle" }, "ageRating": "4+", "price": "Бесплатно, без встроенных покупок", "encryption": "ITSAppUsesNonExemptEncryption = NO — сетевых функций нет", "urls": { "support": "https://volna.local/support", "marketing": "https://volna.local", "privacy": "https://volna.local/privacy" },
-    "description": ["Волна превращает музыку из Files и локальной медиатеки в непрерывные волны под ситуацию. Всё работает на устройстве.", "ЛОКАЛЬНЫЕ ВОЛНЫ\nTempo, mood tags и история скипов/сохранений обрабатываются без сервера.", "АВИАРЕЖИМ\nПоиск, медиатека, плеер, очередь и фоновое воспроизведение не требуют сети."],
+    "description": ["Такт превращает музыку из Files и локальной медиатеки в непрерывные волны под ситуацию. Всё работает на устройстве.", "ЛОКАЛЬНЫЕ ВОЛНЫ\nTempo, mood tags и история скипов/сохранений обрабатываются без сервера.", "АВИАРЕЖИМ\nПоиск, медиатека, плеер, очередь и фоновое воспроизведение не требуют сети."],
     "whatsNew": "Первая версия: Files-импорт, on-device волны, поиск, очередь и background audio.",
     "privacy": [{ "type": "Пользовательский контент", "apple": "User Content → Audio Data", "purpose": "Функциональность приложения", "linked": false, "tracking": false, "why": "Выбранные аудиофайлы и metadata остаются на устройстве и никуда не передаются" }],
     "reviewAccount": { "phone": "Не требуется", "code": "Нет входа", "note": "Приложение открывается сразу на главной. Bundled demo pack доступен без сети и аккаунта." }

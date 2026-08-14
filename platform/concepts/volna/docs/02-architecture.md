@@ -1,4 +1,4 @@
-# Волна — карта экранов и архитектура
+# Такт — карта экранов и архитектура
 
 Корневые роли `home`, `search`, `library` остаются стабильными. Station/artist/import — push, player — fullscreen, queue — modal, Now Playing — system.
 
@@ -86,7 +86,7 @@
 | Ключ | Жест пользователя | Экран | Если отказ | Риск Review |
 |---|---|---|---|---|
 | `NSAppleMusicUsageDescription` | «Локальная медиатека» на экране импорта | Добавить музыку | Files и bundled demo pack продолжают работать; доступ можно включить в системных Настройках | **Условный** — MPMediaLibraryAuthorization запрашивается только после явного выбора локальной медиатеки; сетевой Apple Music catalog не используется |
-| `UIBackgroundModes: audio` | «Слушать в фоне» в плеере | Плеер | Без capability локальный трек играет, пока «Волна» открыта; состояние очереди не теряется | **Условный** — AVAudioSession .playback активен только во время playback; MPNowPlayingInfoCenter и MPRemoteCommandCenter заполнены metadata локального asset |
+| `UIBackgroundModes: audio` | «Слушать в фоне» в плеере | Плеер | Без capability локальный трек играет, пока «Такт» открыт; состояние очереди не теряется | **Условный** — AVAudioSession .playback активен только во время playback; MPNowPlayingInfoCenter и MPRemoteCommandCenter заполнены metadata локального asset |
 <!-- @end -->
 
 ## Почему здесь нет бэкенда

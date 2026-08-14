@@ -1,4 +1,4 @@
-# Волна — quality evidence
+# Такт — quality evidence
 
 ## Первичные наблюдения
 
@@ -14,7 +14,7 @@
 
 ## Visual passes
 
-Pass 1: 10 экранов, 6 найдено / 6 исправлено. Pass 2: 10 экранов, 4 найдено / 4 исправлено. Blocker/major: 0. Проверка включает типичные, длинные, пустые, loading, error, offline, denied-media и degraded-background случаи.
+Pass 1: 10 экранов, 6 найдено / 6 исправлено. Pass 2: 10 экранов, 4 найдено / 4 исправлено. Pass 3: 10 экранов, 3 найдено / 3 исправлено с отдельным polish fullscreen player. Blocker/major: 0. Проверка включает типичные, длинные, пустые, loading, error, offline, denied-media и degraded-background случаи.
 
 ## Interaction pass
 

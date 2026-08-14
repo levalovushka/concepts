@@ -1,4 +1,4 @@
-# Волна — App Store
+# Такт — App Store
 
 Источник Name, Subtitle, Promotional Text, Keywords, описания и privacy labels — `concept.json`. Аккаунт не нужен: приложение стартует с bundled demo pack.
 
