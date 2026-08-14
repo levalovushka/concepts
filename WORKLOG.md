@@ -4,6 +4,18 @@
 
 ---
 
+## 2026-08-14 — разбор расхождения с origin и контракт качества v2 для трёх концептов
+
+**Что изменилось.** Слияние с `origin/main` (46 коммитов второго автора двумя заходами) и контракт качества v2 в `concepts/{nakat,seans,stuk}/concept.json`: `qualityContractVersion`, блоки `product` и `positioning`, +178 строк, ничего существующего не переписано. Раньше — снят задвоенный блок из четырёх записей «Строчки» в `WORKLOG.md` и возвращён `football-match.png` в `liga/assets/media/` и `_prototype-liga/assets/`, удалённый в дереве, но живой в четырёх правилах `liga/styles.css`, в `screens/upload.html` и в `media.mjs`.
+
+**Почему.** origin принёс валидатор, который требует `product` и `positioning` безусловно ([lib.mjs:44](platform/scripts/lib.mjs:44)), а сидит он в `readSpec` — значит падал не только линтер, но и `build.mjs`, то есть `npm run build:all`, то есть деплой Netlify. Лазейки через `qualityContractVersion: 1` нет: `returnReasons`, `verticalSlice` и версия проверяются жёстко ([concept-quality.mjs:80](platform/scripts/concept-quality.mjs:80)). Режим позиционирования взят из вижена каждого концепта, а не назначен: «Сеанс» и «Стук» сами заявляют мимикрию под целевой видеосервис, «Накат» — отстройку от мессенджера.
+
+**Как проверено.** Из `platform/`: `build:all` — 24 концепта, галерея собрана; `lint` — `nakat`, `seans`, `stuk`, `petlya` без расхождений; `test` — 102/102, 56/56, 54/54, 55/55; `audit` — все три чисто; `proof` — продуктовые ворота 3/3; `test:quality` — 24 концепта, 12 негативных evals. Ранний таймаут `test-flows.mjs` был протухшим `dist`, а не отсутствием сети — после `build:all` тесты идут.
+
+**Что осталось.** Три концепта стоят на `qualityContractVersion: 1`: readiness v2 (`referenceResearch`, `productCritique`, `visualPasses`) не заполнен, `uiContractVersion` не заявлен — экраны писались до контракта, задним числом такие свидетельства не сочиняются. Ветка `origin/codex/petlya-ui-pilot` (`1552d45`, от 08-12, 4 конфликта) перекрыта целиком и ждёт решения об удалении.
+
+---
+
 ## 2026-08-14 — «Пересменка»: сеть сменного персонала на наборе «ВКонтакте»
 
 **Что изменилось.** Новый концепт `platform/concepts/peresmenka/` — профессиональная сеть линейного персонала кафе и ритейла: `concept.json` (21 доступ из 22 в наборе `vkontakte`, 32 экрана, 8 прототипов, блок `appStore`), `screens/*.html` (120 КБ разметки), `styles.css` (префикс `pm-`), `sections.html`, доки 01–06. Медиа-ассетов нет: везде `.ph`, героем композиции он не выступает ни на одном экране. Кодом нарисованы только данные — полоса суток со сменой, столбики часов по неделям, распознанный OCR-текст графика, уровень микрофона. В ядро добавлено 12 иконок Lucide (`coffee`, `utensils`, `store`, `arrow-left-right`, `alarm-clock`, `sunrise`, `moon`, `banknote`, `log-in`, `log-out`, `user-check`, `circle-check`) — `scripts/gen-icons.mjs` + `kernel/icons.svg`. Обновлён `README.md`.
