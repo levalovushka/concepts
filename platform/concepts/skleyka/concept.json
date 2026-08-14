@@ -1,0 +1,1254 @@
+{
+  "slug": "skleyka",
+  "name": "Склейка",
+  "eyebrow": "Склейка · iOS",
+  "targetSet": "vk-video",
+  "domain": "skleyka.video",
+  "heroTitle": "Общий фильм из разных камер",
+  "heroDeck": "Соберите ролики, полученные через AirDrop, сообщения, Photos и Files, в локальный фильм — без аккаунта, облака и сети.",
+  "tagline": "Один локальный видеопроект превращает присланные друзьями файлы в аккуратный черновик",
+  "insight": "ролики события приходят разными системными путями, но финальная сортировка и монтаж не должны зависеть от облака или ответа отправителя",
+  "deck": "Проект хранится на одном iPhone. Пользователь запрашивает материалы системной карточкой, принимает файлы вне приложения, импортирует их и собирает фильм on-device.",
+  "qualityContractVersion": 2,
+  "uiContractVersion": 3,
+  "start": "projects",
+  "product": {
+    "audience": "Организатор поездки, праздника или концерта, которому друзья уже прислали видео через AirDrop, сообщения, Photos или Files",
+    "situation": "После события на одном iPhone лежат десятки полученных роликов с сохранёнными датами, длительностью и частью исходных metadata",
+    "problem": "Файлы разбросаны между Photos и Files, повторяют одни моменты и требуют долгого ручного просмотра перед простым монтажом",
+    "promise": "Без сети импортировать полученные ролики, сгруппировать их по времени, получить локальный черновик, поправить порядок и экспортировать фильм",
+    "differentiator": "Единица продукта — локальный приватный видеопроект на одном устройстве; приложение не создаёт удалённую ленту, аккаунт или общий облачный альбом",
+    "returnReasons": [
+      "Импортировать очередную пачку роликов после AirDrop или сообщения и пересобрать локальный черновик",
+      "Вернуться к сохранённому на устройстве draft, чтобы поправить порядок или убрать неудачный фрагмент",
+      "Повторно экспортировать локальный фильм в другом качестве или отправить готовый файл через Share Sheet"
+    ],
+    "verticalSlice": {
+      "entry": "project",
+      "action": "processing",
+      "result": "draft"
+    },
+    "coreLoop": [
+      "Создать локальное событие и отправить друзьям системную карточку запроса материалов",
+      "Принять ролики вне приложения и импортировать их из Photos или Files",
+      "Сгруппировать on-device, поправить draft, посмотреть и экспортировать готовый фильм"
+    ],
+    "nonGoals": [
+      "Удалённый общий проект, серверные роли, входящие материалы и отслеживание ответов участников",
+      "Аккаунт, SMS-вход, облачная синхронизация, push-события, комментарии, реакции и публичная лента"
+    ]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Локальные камера, импорт, metadata-группировка, видеоредактор, просмотр и экспорт напрямую соответствуют Photo & Video",
+    "familiarPatterns": [
+      "Крупное видеопревью с контролами воспроизведения",
+      "Мобильный timeline из видеофрагментов",
+      "Системные камера, медиатека, share sheet и сохранение"
+    ],
+    "distinctions": [
+      "Вместо общего облачного проекта — один локальный документ на устройстве владельца",
+      "Вместо статусов участников — честный импорт файлов, уже полученных через системные каналы",
+      "Вместо публичной ленты — on-device черновик с узким редактором порядка и удаления"
+    ],
+    "evidenceScreens": [
+      "projects",
+      "project",
+      "processing",
+      "draft",
+      "editor",
+      "export"
+    ],
+    "referencePatterns": [
+      "immersive-player",
+      "capture-publish",
+      "video-feed"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "immersive-player",
+        "screen": "viewer",
+        "behavior": "Полноэкранное видео держит progress, текущий фрагмент и следующий кадр рядом с системными Cast и export"
+      },
+      {
+        "pattern": "capture-publish",
+        "screen": "project",
+        "behavior": "Явный выбор камеры, Photos или Files добавляет материалы только в локальный проект без публикации"
+      },
+      {
+        "pattern": "video-feed",
+        "screen": "projects",
+        "behavior": "Знакомая видеоплотность применена к конечному списку локальных проектов и экспортов, а не к бесконечной ленте"
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines: Privacy and system sharing",
+        "observation": "Камера, микрофон и Photos запрашиваются после явного действия, а Share Sheet передаёт файл или текст без собственного социального графа",
+        "decision": "Каждый доступ запускается из названной кнопки; запрос материалов и отправка фильма используют системный Share Sheet без отслеживания получателя"
+      },
+      {
+        "source": "Apple Photos, Files and AirDrop user guides",
+        "observation": "Полученный через AirDrop или сообщения файл может оказаться в Photos либо Files и затем выбирается системным picker",
+        "decision": "Экран проекта разделяет импорт из Photos и Files, показывает источник каждого локального файла и не обещает увидеть отправку автоматически"
+      },
+      {
+        "source": "Apple AVFoundation, Vision and Core ML documentation",
+        "observation": "Дата создания, длительность, ориентация, качество и визуальные признаки кадров доступны локальной обработке медиаресурса",
+        "decision": "Processing честно группирует ролики по времени и metadata on-device; сеть и серверная очередь не участвуют"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Запрос материалов может выглядеть как приглашение в облачный общий проект",
+        "resolution": "Экран создаёт только карточку-инструкцию для Share Sheet и прямо не хранит получателей, ответы или статус доставки",
+        "evidenceScreens": [
+          "invite",
+          "share"
+        ]
+      },
+      {
+        "objection": "Автосборка может скрывать серверный монтаж или удалённый каталог",
+        "resolution": "Processing объясняет сборку языком пользы; технический источник каждой стадии честно зафиксирован в evidence и не выдаётся за сетевую очередь",
+        "evidenceScreens": [
+          "project",
+          "processing",
+          "draft"
+        ]
+      },
+      {
+        "objection": "Список проектов может незаметно превратиться в аккаунтную библиотеку",
+        "resolution": "Root показывает проекты, готовые фильмы и настройки без аккаунтной идентичности или сетевых статусов",
+        "evidenceScreens": [
+          "projects",
+          "archive",
+          "settings"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Переработка backend-free: источники данных, root-навигация и локальный core loop",
+        "screensReviewed": "all",
+        "found": 9,
+        "fixed": 9,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+    {
+      "name": "Повторная приёмка PNG после удаления аккаунта, входящих и серверных статусов",
+      "screensReviewed": "all",
+      "found": 1,
+      "fixed": 1,
+      "blockersOpen": 0,
+      "majorOpen": 0
+    },
+    {
+      "name": "Строгий consumer polish: карта, библиотека, проект и удаление технического копирайта",
+      "screensReviewed": "all",
+      "found": 12,
+      "fixed": 12,
+      "blockersOpen": 0,
+      "majorOpen": 0
+    }
+    ]
+  },
+  "brand": {
+    "accent": "#5b5bd6",
+    "accentDark": "#8f8cff",
+    "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "tabs": [
+    {
+      "id": "projects",
+      "label": "Проекты",
+      "role": "home"
+    },
+    {
+      "id": "archive",
+      "label": "Архив",
+      "role": "subscriptions"
+    },
+    {
+      "id": "settings",
+      "label": "Настройки",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Склейка» запрашивает доступ к камере",
+        "text": "Снять новый фрагмент в «Выходные у озера»."
+      },
+      "feature": "Съёмка фрагмента",
+      "gesture": "«Снять» в локальном проекте",
+      "screen": "project",
+      "target": "camera",
+      "fallback": "Остаётся импорт готового видео и переход в Настройки",
+      "snack": "Камера выключена",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation; файл сразу попадает в проект"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Склейка» запрашивает доступ к микрофону",
+        "text": "Записать звук вместе с новым видео."
+      },
+      "feature": "Звук в новом фрагменте",
+      "gesture": "«Снять» в локальном проекте",
+      "screen": "project",
+      "target": "camera",
+      "fallback": "Камера записывает немое видео; микрофон можно включить в Настройках",
+      "snack": "Запись будет без звука",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioSession только во время съёмки"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Склейка» запрашивает доступ к «Фото»",
+        "text": "Выбрать видео для этого приватного проекта."
+      },
+      "feature": "Импорт полученных роликов из Photos",
+      "gesture": "«Из Фото» в локальном проекте",
+      "screen": "project",
+      "target": "import",
+      "fallback": "Остаются камера и импорт из Files через системный document picker",
+      "snack": "Нет доступа к видео",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "PHPicker и limited library; только выбранные файлы"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить «Склейке» использовать геопозицию?",
+        "text": "Подставить место события и сгруппировать кадры по локации."
+      },
+      "feature": "Локальная подпись места события",
+      "gesture": "«Моё местоположение» при создании",
+      "screen": "create",
+      "target": "place",
+      "fallback": "Место вводится вручную; группировка по времени и metadata продолжает работать",
+      "snack": "Введите место вручную",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Core Location only when in use; координаты привязаны к приватному событию"
+    },
+    {
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
+      "alert": {
+        "title": "«Склейка» запрашивает доступ к локальной сети",
+        "text": "Найти телевизор для просмотра черновика вместе."
+      },
+      "feature": "Просмотр черновика на телевизоре",
+      "gesture": "Кнопка Cast в плеере",
+      "screen": "viewer",
+      "target": "cast",
+      "fallback": "Фильм продолжает играть на iPhone; локальный файл и редактор доступны",
+      "snack": "Телевизоры недоступны",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Bonjour discovery и системный route picker"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Звук фильма продолжится при блокировке экрана."
+      },
+      "activate": true,
+      "feature": "Прослушивание фильма в фоне",
+      "gesture": "«Слушать с погашенным экраном»",
+      "screen": "viewer",
+      "target": "background",
+      "fallback": "Пока экран активен, локальный плеер работает без фонового режима",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AVAudioSession playback, Now Playing и remote commands",
+      "grounding": "AVPlayer + MPNowPlayingInfoCenter + MPRemoteCommandCenter"
+    },
+    {
+      "key": "photoadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Склейка» запрашивает доступ к сохранению в «Фото»",
+        "text": "Сохранить готовый фильм в медиатеку."
+      },
+      "feature": "Экспорт готового фильма",
+      "gesture": "«Сохранить в Фото»",
+      "screen": "export",
+      "target": "saved",
+      "fallback": "Готовый файл остаётся в локальном проекте и доступен через Share Sheet или Files",
+      "snack": "Не удалось сохранить в Фото",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary performChanges; только запись готового файла"
+    }
+  ],
+  "screens": [
+    {
+      "id": "projects",
+      "title": "Локальные проекты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Документы этого iPhone",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать локальные видеопроекты и создать новый",
+        "primaryAction": "Создать событие",
+        "hierarchy": {
+          "primary": "Активный локальный проект с количеством импортированных файлов",
+          "secondary": "Локальные drafts, готовые экспорты и объём хранения"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три проекта на разных стадиях сбора и монтажа"
+          },
+          {
+            "kind": "stress",
+            "example": "Название события занимает две строки, а экспорт обрабатывается"
+          },
+          {
+            "kind": "failure",
+            "example": "У пользователя пока нет ни одного проекта"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Доступы и хранение",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Управлять локальным хранением, разрешениями и обработкой",
+        "primaryAction": "Освободить место",
+        "hierarchy": {
+          "primary": "Локальное хранилище, кэш preview и режим обработки",
+          "secondary": "Разрешения iOS и отсутствие облачной синхронизации"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Уведомления включаются после явного нажатия"
+          },
+          {
+            "kind": "stress",
+            "example": "Хранилище содержит несколько больших экспортов"
+          },
+          {
+            "kind": "failure",
+            "example": "Системный доступ ранее запрещён и требует Настроек"
+          }
+        ]
+      }
+    },
+    {
+      "id": "archive",
+      "title": "Архив",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Готовые файлы этого iPhone",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Вернуться к готовым локальным фильмам и экспортам",
+        "primaryAction": "Открыть последний фильм",
+        "hierarchy": {
+          "primary": "Последний экспорт с кадром, длительностью и размером файла",
+          "secondary": "Другие версии качества и доступное место на устройстве"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Два готовых фильма и одна версия другого качества"
+          },
+          {
+            "kind": "stress",
+            "example": "Свободного места осталось 420 МБ после пяти экспортов 4K"
+          },
+          {
+            "kind": "failure",
+            "example": "Архив пуст после очистки готовых файлов с устройства"
+          }
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Новое событие",
+      "type": "push",
+      "light": true,
+      "parent": "projects",
+      "meta": "Название, дата и место",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Создать приватный контейнер для будущих материалов",
+        "primaryAction": "Создать событие",
+        "hierarchy": {
+          "primary": "Название, дата и обложечный кадр события",
+          "secondary": "Место, приватность и пояснение ролей"
+        },
+        "states": [
+          "default",
+          "error",
+          "loading"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Поездка на выходные с датами и местом"
+          },
+          {
+            "kind": "stress",
+            "example": "Очень длинное название и событие на несколько недель"
+          },
+          {
+            "kind": "failure",
+            "example": "Сервис вернул сетевую ошибку после ввода названия"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place",
+      "title": "Место события",
+      "type": "system",
+      "light": true,
+      "parent": "create",
+      "meta": "Core Location и ручной ввод",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Подставить найденное место или ввести адрес вручную",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Найденное текущее место и подтверждение",
+          "secondary": "Строка ручного поиска без геопозиции"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Текущее место найдено с городской точностью"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный адрес базы отдыха не помещается в строку"
+          },
+          {
+            "kind": "failure",
+            "example": "Геопозиция запрещена, поэтому доступен ручной ввод"
+          }
+        ]
+      }
+    },
+    {
+      "id": "project",
+      "title": "Выходные у озера",
+      "type": "push",
+      "light": true,
+      "parent": "projects",
+      "meta": "Локальные источники и сборка",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать локальные исходники и запустить on-device сборку",
+        "primaryAction": "Собрать черновик",
+        "hierarchy": {
+          "primary": "Количество локальных роликов, их источники и последние кадры",
+          "secondary": "Камера, Photos, Files и карточка запроса материалов"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "empty",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Тридцать восемь локальных файлов из Photos, Files и AirDrop"
+          },
+          {
+            "kind": "stress",
+            "example": "Сто двадцать четыре ролика от двенадцати человек"
+          },
+          {
+            "kind": "failure",
+            "example": "Пул пуст, загрузка сорвалась или доступы запрещены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "invite",
+      "title": "Запросить материалы",
+      "type": "modal",
+      "light": true,
+      "parent": "project",
+      "meta": "Локальная карточка и Share Sheet",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Создать системную карточку с инструкцией по отправке роликов",
+        "primaryAction": "Поделиться запросом",
+        "hierarchy": {
+          "primary": "Готовая карточка с названием события и способами передачи",
+          "secondary": "Пояснение, что приложение не видит получателей и ответы"
+        },
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка запроса содержит название события и три способа передачи файлов"
+          },
+          {
+            "kind": "stress",
+            "example": "Название события занимает две строки, а инструкция подробно описывает отправку без сжатия"
+          },
+          {
+            "kind": "failure",
+            "example": "Системный Share Sheet закрыт без выбора приложения или получателя"
+          }
+        ]
+      }
+    },
+    {
+      "id": "share",
+      "title": "Поделиться запросом",
+      "type": "system",
+      "light": true,
+      "parent": "invite",
+      "meta": "Системный share sheet",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Передать карточку запроса через выбранное системное приложение",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Системные получатели и приложения обмена",
+          "secondary": "Копирование приватной ссылки и отмена"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка отправляется через сообщения или AirDrop"
+          },
+          {
+            "kind": "stress",
+            "example": "Системный лист показывает много приложений и доступных устройств"
+          },
+          {
+            "kind": "failure",
+            "example": "Лист закрыт без отправки, проект и карточка остаются локально"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "project",
+      "meta": "Видео и звук",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять новый фрагмент прямо в общий проект",
+        "primaryAction": "Записать фрагмент",
+        "hierarchy": {
+          "primary": "Живой кадр, таймер и большая кнопка записи",
+          "secondary": "Переключение камеры, звук и выход без съёмки"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Горизонтальный ролик со звуком на двадцать секунд"
+          },
+          {
+            "kind": "stress",
+            "example": "Запись продолжается несколько минут до лимита"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера запрещена или микрофон пишет без звука"
+          }
+        ]
+      }
+    },
+    {
+      "id": "import",
+      "title": "Выбрать видео",
+      "type": "system",
+      "light": true,
+      "parent": "project",
+      "meta": "PHPicker и limited library",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать несколько готовых роликов для общего пула",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Сетка видеокадров с выбором и длительностью",
+          "secondary": "Счётчик выбранного, limited library и отмена"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Выбраны четыре коротких видео за нужную дату"
+          },
+          {
+            "kind": "stress",
+            "example": "В медиатеке сотни роликов большой длительности"
+          },
+          {
+            "kind": "failure",
+            "example": "Доступ запрещён или выбранный файл повреждён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "processing",
+      "title": "Сборка черновика",
+      "type": "push",
+      "light": false,
+      "parent": "project",
+      "meta": "On-device группировка и монтаж",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Показать локальные стадии AVFoundation, metadata и Vision",
+        "primaryAction": "Открыть черновик",
+        "hierarchy": {
+          "primary": "Текущий видеокадр и конкретная стадия анализа",
+          "secondary": "Очередь фрагментов, время и повтор после ошибки"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Тридцать восемь роликов собираются в трёхминутный фильм"
+          },
+          {
+            "kind": "stress",
+            "example": "Сто двадцать четыре ролика требуют долгого анализа"
+          },
+          {
+            "kind": "failure",
+            "example": "Один файл повреждён, остальные материалы сохранены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "draft",
+      "title": "Черновик готов",
+      "type": "push",
+      "light": false,
+      "parent": "project",
+      "meta": "Preview и решения",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Оценить автосборку и перейти к простым правкам",
+        "primaryAction": "Править порядок",
+        "hierarchy": {
+          "primary": "Крупное превью готового черновика с длительностью",
+          "secondary": "Причины отбора, локальные источники и версия сборки"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Трёхминутный черновик из двадцати одного фрагмента"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный фильм содержит похожие сцены рядом"
+          },
+          {
+            "kind": "failure",
+            "example": "Preview не загрузился, но редактор доступен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "editor",
+      "title": "Порядок фрагментов",
+      "type": "push",
+      "light": false,
+      "parent": "draft",
+      "meta": "Timeline и удаление",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "push",
+        "purpose": "Переставить или удалить выбранные фрагменты",
+        "primaryAction": "Готово",
+        "hierarchy": {
+          "primary": "Preview, playhead и горизонтальный timeline",
+          "secondary": "Панель выбранного клипа с перемещением и удалением"
+        },
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Двадцать один фрагмент, выбран кадр у озера"
+          },
+          {
+            "kind": "stress",
+            "example": "Очень длинный timeline с вертикальными видео"
+          },
+          {
+            "kind": "failure",
+            "example": "Изменение не сохранилось, доступен повтор без потери порядка"
+          }
+        ]
+      }
+    },
+    {
+      "id": "viewer",
+      "title": "Просмотр фильма",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "draft",
+      "meta": "Плеер, Cast и фон",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Просмотреть итоговый фильм и перейти к экспорту",
+        "primaryAction": "Экспортировать",
+        "hierarchy": {
+          "primary": "Видео во всю ширину с основными контролами",
+          "secondary": "Автор кадра, следующий фрагмент, Cast и фон"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Фильм проигрывается с названием текущей локальной сцены"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный фильм продолжается с сохранённого таймкода"
+          },
+          {
+            "kind": "failure",
+            "example": "Видеофайл недоступен, но редактор сохранён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "Смотреть на телевизоре",
+      "type": "system",
+      "light": false,
+      "parent": "viewer",
+      "meta": "Локальная сеть и route picker",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать доступный телевизор в локальной сети",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Найденные AirPlay-устройства и текущий маршрут",
+          "secondary": "Повтор поиска, продолжение на iPhone и Настройки"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Телевизор найден в той же локальной сети"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одноимённых устройств требуют комнаты"
+          },
+          {
+            "kind": "failure",
+            "example": "Локальная сеть запрещена или устройства не найдены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погашен",
+      "type": "system",
+      "light": false,
+      "parent": "viewer",
+      "meta": "Now Playing",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Управлять звуком фильма с заблокированного экрана",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Обложка проекта, название и playback-контролы",
+          "secondary": "Таймкод, название текущей сцены и AirPlay"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Звук фильма продолжается после блокировки"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название сокращается без потери статуса"
+          },
+          {
+            "kind": "failure",
+            "example": "Файл недоступен, системная поверхность остановлена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "export",
+      "title": "Экспорт",
+      "type": "push",
+      "light": true,
+      "parent": "viewer",
+      "meta": "Локальный файл, Photos и Share Sheet",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "push",
+        "purpose": "Выбрать качество и сохранить готовый фильм",
+        "primaryAction": "Сохранить в Фото",
+        "hierarchy": {
+          "primary": "Preview, размер файла и выбранное качество",
+          "secondary": "Отправка файла и оценка свободного места"
+        },
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Фильм 1080p занимает сто восемьдесят четыре мегабайта"
+          },
+          {
+            "kind": "stress",
+            "example": "Версия 4K превышает доступное локальное место"
+          },
+          {
+            "kind": "failure",
+            "example": "Фото запрещены, но share sheet остаётся доступен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "saved",
+      "title": "Фильм сохранён",
+      "type": "state",
+      "light": true,
+      "parent": "export",
+      "meta": "Успешный экспорт",
+      "ui": {
+        "pattern": "state",
+        "navigation": "push",
+        "purpose": "Подтвердить сохранение и предложить следующие действия",
+        "primaryAction": "Вернуться в проект",
+        "hierarchy": {
+          "primary": "Кадр готового фильма и место сохранения",
+          "secondary": "Системный share sheet и повторный экспорт"
+        },
+        "states": [
+          "success"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Фильм сохранён в медиатеку и остаётся в проекте"
+          },
+          {
+            "kind": "stress",
+            "example": "Большой файл ещё индексируется приложением Фото"
+          },
+          {
+            "kind": "failure",
+            "example": "Сохранение не завершилось, доступен повтор"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Полный локальный цикл и семь обоснованных доступов",
+      "start": "projects",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ]
+    },
+    {
+      "id": "slice",
+      "label": "Вертикальный срез",
+      "note": "Общий пул, обработка, черновик и редактор",
+      "start": "project",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ],
+      "stops": [
+        "saved"
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Создать и пригласить",
+      "note": "Событие, место, контакты и share sheet",
+      "start": "projects",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ],
+      "stops": [
+        "project",
+        "share"
+      ]
+    },
+    {
+      "id": "collect",
+      "label": "Собрать материалы",
+      "note": "Камера, Photos, Files и on-device сборка",
+      "start": "project",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ],
+      "stops": [
+        "draft"
+      ]
+    },
+    {
+      "id": "edit",
+      "label": "Поправить фильм",
+      "note": "Preview, порядок, удаление и просмотр",
+      "start": "draft",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ],
+      "stops": [
+        "saved"
+      ]
+    },
+    {
+      "id": "permissions",
+      "label": "Доступы и отказы",
+      "note": "Системные запросы, fallback и повтор",
+      "start": "settings",
+      "screens": [
+        "projects",
+        "settings",
+        "archive",
+        "create",
+        "place",
+        "project",
+        "invite",
+        "share",
+        "camera",
+        "import",
+        "processing",
+        "draft",
+        "editor",
+        "viewer",
+        "cast",
+        "background",
+        "export",
+        "saved"
+      ],
+      "stops": [
+        "saved"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Хранение проекта и истории изменений",
+      "solution": "Core Data для описания; FileManager для исходников, proxy, draft и экспортов в контейнере приложения"
+    },
+    {
+      "needs": "Получение роликов от друзей",
+      "solution": "AirDrop, сообщения и другие системные каналы работают вне приложения; владелец вручную импортирует полученные файлы из Photos или Files"
+    },
+    {
+      "needs": "Группировка и черновой монтаж",
+      "solution": "AVFoundation, ImageIO metadata, Vision и Core ML на устройстве; основная ценность доступна в авиарежиме"
+    },
+    {
+      "needs": "Запрос и отправка материалов",
+      "solution": "UIActivityViewController передаёт статичную карточку-инструкцию; приложение не знает получателей, доставку или ответы"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Склейка",
+    "subtitle": "Локальный фильм из ваших видео",
+    "promo": "Получите ролики через AirDrop или сообщения, импортируйте их из Photos и Files и соберите локальный черновик без аккаунта, облака и сети.",
+    "keywords": "монтаж,событие,друзья,камера,черновик,видеопроект,поездка,праздник,экспорт",
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно, без рекламы и аккаунта",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://skleyka.video/support",
+      "marketing": "https://skleyka.video",
+      "privacy": "https://skleyka.video/privacy"
+    },
+    "description": [
+      "Склейка собирает полученные от друзей видео в один локальный фильм на вашем iPhone.",
+      "ПОЛУЧИТЕ ФАЙЛЫ\\nОтправьте системную карточку запроса. Друзья передадут ролики через AirDrop, сообщения или другой удобный канал.",
+      "ИМПОРТИРУЙТЕ ЛОКАЛЬНО\\nДобавьте файлы из Photos или Files. Приложение не отслеживает отправителей, ответы или доставку.",
+      "СОБЕРИТЕ БЕЗ СЕТИ\\nAVFoundation и локальные metadata группируют материалы по времени, убирают повторы и создают первый draft на устройстве.",
+      "ПОПРАВЬТЕ И ЭКСПОРТИРУЙТЕ\\nИзмените порядок, удалите лишнее и сохраните фильм в Photos, Files или системный Share Sheet."
+    ],
+    "whatsNew": "Первая версия: локальные проекты, импорт из Photos и Files, on-device draft, редактор порядка и системный экспорт.",
+    "privacy": [
+      {
+        "type": "Фото и видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Совместный приватный видеопроект"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Место события; только после явного выбора"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "Не требуется",
+      "code": "Не требуется",
+      "note": "Аккаунта и входа нет. Приложение сразу открывает локальные проекты; сеть для core loop не нужна."
+    }
+  }
+}

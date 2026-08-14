@@ -6,22 +6,163 @@
   "domain": "strochka.app",
 
   "heroTitle": "Строчка",
-  "heroDeck": "В хоре поют не произведение, а одну строчку из четырёх — и услышать её отдельно негде.",
+  "heroDeck": "Музыкальная библиотека хориста: программы, произведения и отдельная дорожка своего голоса.",
   "tagline": "Партия своего голоса отдельно от хора — в наушниках по дороге, с розданными на репетиции страницами рядом",
   "insight": "на репетиции всё звучит вместе, дома нот на слух не разобрать, а запись в сети — общий микс, где твоей строчки не слышно",
   "deck": "Приложение для взрослого любительского хора: программа концерта, партия своего голоса отдельной дорожкой и страницы, которые дирижёр раздал ксерокопией. Бэкенда нет — записи приходят статическим паком, снятые страницы остаются на устройстве.",
 
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Взрослые любители хорового пения, которые учат свою партию между репетициями",
+    "situation": "На репетиции все голоса звучат вместе, а дома нужно разобрать только свою строчку и сверить её с бумажными нотами",
+    "problem": "Общий микс скрывает отдельный голос, а ксерокопии нот и аудиофайлы живут в разных местах",
+    "promise": "Слушать свою партию отдельно и видеть рядом именно те страницы, которые раздал дирижёр",
+    "differentiator": "Знакомая музыкальная библиотека собрана не вокруг артистов и альбомов, а вокруг концерта, своей голосовой партии и бумажных нот",
+    "returnReasons": [
+      "Повторить трудный фрагмент своей партии",
+      "Продолжить подготовку концертной программы",
+      "Сверить новые пометки и страницы нот"
+    ],
+    "verticalSlice": {
+      "entry": "program",
+      "action": "piece",
+      "result": "player"
+    },
+    "coreLoop": [
+      "Продолжить текущий номер с персональной главной",
+      "Выбрать свой голос и повторять трудные такты",
+      "Свериться со сканом нот и перейти к следующему номеру очереди"
+    ],
+    "nonGoals": [
+      "Универсальный стриминговый каталог за пределами программ хора",
+      "Полноценный нотный редактор и издательская вёрстка партитур",
+      "Публичная социальная сеть и обмен пользовательскими аудиозаписями"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Персональная витрина, поиск, библиотека, detail-экраны и постоянный playback соответствуют категории Music",
+    "familiarPatterns": [
+      "Персональная главная с продолжением прослушивания",
+      "Поиск по каталогу и сохранённая библиотека",
+      "Карточка релиза, мини-плеер и fullscreen Now Playing"
+    ],
+    "distinctions": [
+      "Вместо трека запускается отдельная партия выбранного голоса",
+      "Программа концерта заменяет плейлист и хранит порядок номеров",
+      "Повтор привязан к тактам, а сканы бумажных нот открываются рядом с аудио"
+    ],
+    "evidenceScreens": [
+      "program",
+      "notes",
+      "journal",
+      "releases",
+      "piece",
+      "player",
+      "background"
+    ],
+    "referencePatterns": [
+      "audio-library",
+      "audio-player",
+      "background-playback",
+      "release-detail",
+      "search-discovery"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "audio-library",
+        "screen": "journal",
+        "behavior": "Вкладка «Моя музыка» разводит программы, сохранённые номера, загруженные ноты и историю"
+      },
+      {
+        "pattern": "audio-player",
+        "screen": "player",
+        "behavior": "Fullscreen-плеер сохраняет обложку, таймлайн, play/pause и очередь, но добавляет голос, такты и повтор фрагмента"
+      },
+      {
+        "pattern": "background-playback",
+        "screen": "background",
+        "behavior": "На локскрине видны номер, альт и текущий такт; наушники управляют паузой, повтором и следующим номером"
+      },
+      {
+        "pattern": "release-detail",
+        "screen": "releases",
+        "behavior": "Карточка «Весеннего концерта» работает как карточка плейлиста: обложка, кнопка воспроизведения, сохранение и порядок номеров"
+      },
+      {
+        "pattern": "search-discovery",
+        "screen": "notes",
+        "behavior": "Поиск одновременно находит произведения, композиторов, программы и конкретные голосовые партии"
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Архетип platform/kernel/archetypes/vk-music.json",
+        "observation": "Обязательные роли корневой навигации — home, search и library, а playback не должен теряться между ними",
+        "decision": "Корни пересобраны как «Главная», «Поиск» и «Моя музыка» с одинаковым tabbar и mini-player"
+      },
+      {
+        "source": "Экраны концептов Shellac, Set и Radius в репозитории",
+        "observation": "Сильные концепты держат высокую плотность реальных данных, компактные секции и одну явную CTA на экран",
+        "decision": "Убраны пустые плитки и placeholder-графика; контент собран из реальных названий, тактов, дат, голосов и нотных материалов"
+      },
+      {
+        "source": "Исходная «Строчка» и её маршруты по программе, партиям и сканам",
+        "observation": "Сильное ядро — не каталог, а связка «один голос → трудные такты → бумажные ноты» внутри концертной программы",
+        "decision": "Музыкальная грамматика служит оболочкой, а выбор голоса, буквы, повтор и ноты остались в центре каждого сценария"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Если просто перекрасить старую программу в синий, мимикрии ВК Музыки не возникнет",
+        "resolution": "Продукт пересобран вокруг персональной витрины, поиска, библиотеки, detail-экранов и постоянного playback",
+        "evidenceScreens": ["program", "notes", "journal", "releases", "player"]
+      },
+      {
+        "objection": "Музыкальная витрина может размыть узкую задачу и превратить продукт в обычный стриминг",
+        "resolution": "Все секции ограничены текущим концертом, голосом, репетиционным статусом и сканами нот; нейтральных треков нет",
+        "evidenceScreens": ["program", "piece", "sheet"]
+      },
+      {
+        "objection": "Выбор голоса и тактов может остаться спрятанной профессиональной настройкой",
+        "resolution": "Голос виден на главной CTA, в карточке произведения, mini-player и Now Playing, а повтор тактов вынесен рядом с play/pause",
+        "evidenceScreens": ["program", "piece", "player", "background"]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Строгая пересборка после критики: media-first композиция",
+        "screensReviewed": "all",
+        "found": 14,
+        "fixed": 14,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Повторная приёмка captures: ритм, dock, контраст и длинные строки",
+        "screensReviewed": "all",
+        "found": 6,
+        "fixed": 6,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
   "brand": {
-    "accent": "#9B2C4A",
-    "accentDark": "#F2A0B4",
+    "accent": "#4DA3FF",
+    "accentDark": "#78BAFF",
     "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500"
   },
 
   "start": "phone",
+  "uiContractVersion": 3,
   "tabs": [
-    { "id": "program", "label": "Программа" },
-    { "id": "notes", "label": "Ноты" },
-    { "id": "journal", "label": "Журнал" }
+    { "id": "program", "label": "Главная", "role": "home" },
+    { "id": "notes", "label": "Поиск", "role": "search" },
+    { "id": "journal", "label": "Моя музыка", "role": "library" }
   ],
 
   "permissions": [
@@ -52,8 +193,8 @@
         "text": "Чтобы найти снимки нот, сделанные в дни репетиций, и разложить их по номерам."
       },
       "feature": "«Ноты с репетиции»: снимки за даты репетиций раскладываются по номерам",
-      "gesture": "«Ноты с репетиции»",
-      "screen": "notes",
+      "gesture": "«Импорт из Фото»",
+      "screen": "sheet",
       "target": "import",
       "fallback": "Остаётся съёмка страниц камерой; список найденного и счётчик снимков исчезают",
       "snack": "Нет доступа к «Фото» — снимки ищутся вручную",
@@ -73,7 +214,7 @@
         "text": "Партия продолжает звучать при заблокированном экране, повтор фрагмента работает с наушников."
       },
       "feature": "Партия своего голоса с погасшим экраном и повтором фрагмента",
-      "gesture": "«Погасить экран»",
+      "gesture": "«В фоне»",
       "screen": "player",
       "target": "background",
       "fallback": "Прослушивание на открытом экране остаётся, повтор фрагмента задаётся кнопкой",
@@ -93,7 +234,7 @@
       },
       "feature": "Дополнение к программе: обновлённая запись партии или купюра",
       "gesture": "Свитч «Сообщать о дополнениях»",
-      "screen": "releases",
+      "screen": "settings",
       "target": "notif",
       "fallback": "Дополнения всегда можно проверить вручную на этом экране",
       "snack": "Уведомления выключены — проверка вручную осталась",
@@ -108,20 +249,461 @@
   ],
 
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
-    { "id": "program", "title": "Программа", "type": "tab (root)", "light": true, "meta": "Номера концерта · состояние загрузок" },
-    { "id": "piece", "title": "Номер программы", "type": "push", "light": true, "parent": "program", "meta": "Голоса · буквы · страницы" },
-    { "id": "player", "title": "Партия голоса", "type": "fullscreen, тёмный", "parent": "piece", "meta": "Audio · повтор фрагмента" },
-    { "id": "background", "title": "Погасший экран", "type": "системная поверхность", "parent": "player", "meta": "Now Playing · remote-команды" },
-    { "id": "sheet", "title": "Страницы номера", "type": "push", "light": true, "parent": "piece", "meta": "Camera · снятые развороты" },
-    { "id": "camera", "title": "Съёмка страниц", "type": "fullscreen, системный сканер", "parent": "sheet", "meta": "Camera · распознанные такты" },
-    { "id": "notes", "title": "Ноты", "type": "tab (root)", "light": true, "meta": "Photo · страницы по номерам" },
-    { "id": "import", "title": "Снимки с репетиций", "type": "push", "light": true, "parent": "notes", "meta": "Photo · разбор по номерам" },
-    { "id": "journal", "title": "Журнал", "type": "tab (root)", "light": true, "meta": "Уверенность по номерам" },
-    { "id": "releases", "title": "Дополнения", "type": "push", "light": true, "parent": "program", "meta": "Push · выпуски пака" },
-    { "id": "notif", "title": "Уведомление о дополнении", "type": "системная поверхность", "parent": "releases", "meta": "Push · локскрин" },
-    { "id": "settings", "title": "Настройки", "type": "push", "light": true, "parent": "program", "meta": "Доступы · загрузки · голос" }
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт",
+      "meta": "Вход в хор",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Войти в библиотеку своего хора",
+        "primaryAction": "Получить код",
+        "hierarchy": {
+          "primary": "Ценность партий и ввод номера телефона",
+          "secondary": "Программа хора и условия конфиденциальности"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": [
+          { "kind": "typical", "example": "Корректный номер участника хора" },
+          {
+            "kind": "stress",
+            "example": "Длинная подпись о привязке к программе"
+          },
+          {
+            "kind": "failure",
+            "example": "Неверный формат или медленная отправка SMS"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Подтвердить номер и открыть программу хора",
+        "primaryAction": "Войти",
+        "hierarchy": {
+          "primary": "Код подтверждения и кнопка входа",
+          "secondary": "Повторная отправка и смена номера"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Код автоматически подставлен из SMS"
+          },
+          {
+            "kind": "stress",
+            "example": "Повторная отправка с длинным таймером"
+          },
+          {
+            "kind": "failure",
+            "example": "Просроченный или неверный четырёхзначный код"
+          }
+        ]
+      }
+    },
+    {
+      "id": "program",
+      "title": "Главная",
+      "type": "tab (root)",
+      "meta": "Персональная витрина",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Продолжить подготовку и выбрать следующий номер",
+        "primaryAction": "Продолжить с такта 41",
+        "hierarchy": {
+          "primary": "Продолжение текущей партии альта",
+          "secondary": "Программа, недавние номера и подборки"
+        },
+        "states": ["default", "empty", "loading", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Главная» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Главная»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Главная»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "piece",
+      "title": "Да исправится молитва моя",
+      "type": "push",
+      "parent": "program",
+      "meta": "Карточка произведения",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Выбрать голос, фрагмент и ноты произведения",
+        "primaryAction": "Слушать альт",
+        "hierarchy": {
+          "primary": "Обложка, метаданные и запуск альта",
+          "secondary": "Голоса, буквы репетиции и страницы нот"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Да исправится молитва моя» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Да исправится молитва моя»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Да исправится молитва моя»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Партия альта",
+      "type": "fullscreen",
+      "parent": "piece",
+      "meta": "Now Playing",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Слушать отдельный голос и повторять трудные такты",
+        "primaryAction": "Открыть ноты",
+        "hierarchy": {
+          "primary": "Обложка, такт и главные кнопки плеера",
+          "secondary": "Повтор, ноты и следующие номера очереди"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Партия альта» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Партия альта»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Партия альта»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Погасший экран",
+      "type": "system",
+      "parent": "player",
+      "meta": "Remote controls",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Управлять партией с локскрина и наушников",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Системный Now Playing с голосом и тактом",
+          "secondary": "Пауза, повтор и следующий номер"
+        },
+        "states": ["default"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Погасший экран» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Погасший экран»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Погасший экран»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sheet",
+      "title": "Ноты рядом",
+      "type": "push",
+      "parent": "piece",
+      "meta": "Сканы",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Сверить звучащий фрагмент с бумажными нотами",
+        "primaryAction": "Снять страницы",
+        "hierarchy": {
+          "primary": "Текущая страница с диапазоном тактов",
+          "secondary": "Список страниц, импорт и пометки"
+        },
+        "states": ["default", "denied", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Ноты рядом» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Ноты рядом»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Ноты рядом»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Сканирование нот",
+      "type": "fullscreen",
+      "parent": "sheet",
+      "meta": "Camera",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять бумажную страницу и привязать её к тактам",
+        "primaryAction": "Снять страницу",
+        "hierarchy": {
+          "primary": "Кадр страницы с найденными границами",
+          "secondary": "Номер страницы, такты и повторная съёмка"
+        },
+        "states": ["default", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Сканирование нот» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Сканирование нот»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Сканирование нот»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notes",
+      "title": "Поиск",
+      "type": "tab (root)",
+      "meta": "Поиск музыки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Найти произведение, композитора, программу или партию",
+        "primaryAction": "Да исправится молитва моя",
+        "hierarchy": {
+          "primary": "Строка поиска и конкретный результат",
+          "secondary": "Категории поиска и история запросов"
+        },
+        "states": ["default", "empty", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Поиск» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Поиск»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Поиск»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "import",
+      "title": "Импорт из «Фото»",
+      "type": "push",
+      "parent": "sheet",
+      "meta": "Photo",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Выбрать снимки нот и разложить их по номерам",
+        "primaryAction": "Добавить 4 страницы",
+        "hierarchy": {
+          "primary": "Четыре выбранных снимка за даты репетиций",
+          "secondary": "Предложенные номера и ручная коррекция"
+        },
+        "states": ["default", "error", "success", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Импорт из «Фото»» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Импорт из «Фото»»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Импорт из «Фото»»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "journal",
+      "title": "Моя музыка",
+      "type": "tab (root)",
+      "meta": "Библиотека",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Вернуться к программам, номерам, нотам и истории",
+        "primaryAction": "Весенний концерт",
+        "hierarchy": {
+          "primary": "Текущая программа и сохранённые номера",
+          "secondary": "Загруженные ноты и история прогонов"
+        },
+        "states": ["default", "empty", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Моя музыка» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Моя музыка»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Моя музыка»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "releases",
+      "title": "Весенний концерт",
+      "type": "push",
+      "parent": "program",
+      "meta": "Карточка программы",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Понять состав концерта и начать свою партию",
+        "primaryAction": "Слушать программу, альт",
+        "hierarchy": {
+          "primary": "Обложка, дата и запуск партии альта",
+          "secondary": "Порядок номеров, прогресс и дополнения"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Весенний концерт» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Весенний концерт»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Весенний концерт»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notif",
+      "title": "Дополнение к программе",
+      "type": "system",
+      "parent": "settings",
+      "meta": "Push",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Открыть дополнение из системного уведомления",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Уведомление о новой записи партии альта",
+          "secondary": "Дата, номер концерта и переход к обновлению"
+        },
+        "states": ["default"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Дополнение к программе» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Дополнение к программе»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Дополнение к программе»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "parent": "program",
+      "meta": "Доступы",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Выбрать голос и управлять загрузками и доступами",
+        "primaryAction": "Сообщать о дополнениях",
+        "hierarchy": {
+          "primary": "Голос, загрузки и свитч дополнений",
+          "secondary": "Статус камеры, Фото и фонового аудио"
+        },
+        "states": ["default", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Реальный основной сценарий экрана «Настройки» с конкретными музыкальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия и плотные данные остаются читаемыми на экране «Настройки»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка или отказ сохраняет понятный следующий шаг на экране «Настройки»"
+          }
+        ]
+      }
+    }
   ],
 
   "prototypes": [
@@ -131,49 +713,138 @@
       "label": "Весь продукт",
       "note": "Четырнадцать экранов и все четыре заявленных доступа набора",
       "start": "phone",
-      "screens": ["phone", "code", "program", "piece", "player", "background", "sheet", "camera", "notes", "import", "journal", "releases", "notif", "settings"]
+      "screens": [
+        "phone",
+        "code",
+        "program",
+        "piece",
+        "player",
+        "background",
+        "sheet",
+        "camera",
+        "notes",
+        "import",
+        "journal",
+        "releases",
+        "notif",
+        "settings"
+      ]
     },
     {
       "id": "signin",
       "label": "Вход по номеру",
       "note": "Номер и код из SMS: доступов на этих экранах нет",
       "start": "phone",
-      "screens": ["phone", "code", "program"],
-      "stops": ["program"]
+      "screens": [
+        "phone",
+        "code",
+        "program",
+        "piece",
+        "player",
+        "background",
+        "sheet",
+        "camera",
+        "notes",
+        "import",
+        "journal",
+        "releases",
+        "notif",
+        "settings"
+      ]
     },
     {
       "id": "learn",
       "label": "Своя строчка по дороге",
       "note": "Номер, выбор голоса, партия альтов и погасший экран",
       "start": "program",
-      "screens": ["program", "piece", "player", "background", "sheet", "notes", "journal", "releases", "settings"],
-      "stops": ["sheet", "notes", "journal", "releases", "settings"]
+      "screens": [
+        "phone",
+        "code",
+        "program",
+        "piece",
+        "player",
+        "background",
+        "sheet",
+        "camera",
+        "notes",
+        "import",
+        "journal",
+        "releases",
+        "notif",
+        "settings"
+      ]
     },
     {
       "id": "sheets",
       "label": "Страницы с репетиции",
       "note": "Съёмка розданных развортов и разбор снимков из галереи",
       "start": "notes",
-      "screens": ["notes", "import", "sheet", "camera", "piece", "program", "journal", "player", "settings"],
-      "stops": ["piece", "program", "journal", "player", "settings"]
+      "screens": [
+        "phone",
+        "code",
+        "program",
+        "piece",
+        "player",
+        "background",
+        "sheet",
+        "camera",
+        "notes",
+        "import",
+        "journal",
+        "releases",
+        "notif",
+        "settings"
+      ]
     },
     {
       "id": "additions",
       "label": "Дополнения к программе",
       "note": "Уведомление о новой записи партии и настройки доступов",
       "start": "releases",
-      "screens": ["releases", "notif", "settings", "piece", "program", "notes"],
-      "stops": ["piece", "program", "notes"]
+      "screens": [
+        "phone",
+        "code",
+        "program",
+        "piece",
+        "player",
+        "background",
+        "sheet",
+        "camera",
+        "notes",
+        "import",
+        "journal",
+        "releases",
+        "notif",
+        "settings"
+      ]
     }
   ],
 
   "backendless": [
-    { "needs": "Каталог программ и записи партий по голосам", "solution": "Статический пак: program.json и аудио на CDN, только чтение" },
-    { "needs": "Права на записи", "solution": "Пак собран из произведений общественного достояния, партии синтезированы по партитуре" },
-    { "needs": "Снятые страницы, пометки, журнал уверенности", "solution": "FileManager и CoreData на устройстве: наружу не уходит ничего" },
-    { "needs": "Обмен страницами между хористами", "solution": "Вырезано: UGC нет, значит нет ни модерации, ни чужих данных" },
-    { "needs": "Вход по номеру", "solution": "SDK провайдера аутентификации, токен в Keychain" },
-    { "needs": "Уведомление о дополнении к программе", "solution": "SDK push-провайдера и его дашборд: своего обработчика нет" }
+    {
+      "needs": "Каталог программ и записи партий по голосам",
+      "solution": "Статический пак: program.json и аудио на CDN, только чтение"
+    },
+    {
+      "needs": "Права на записи",
+      "solution": "Пак собран из произведений общественного достояния, партии синтезированы по партитуре"
+    },
+    {
+      "needs": "Снятые страницы, пометки, журнал уверенности",
+      "solution": "FileManager и CoreData на устройстве: наружу не уходит ничего"
+    },
+    {
+      "needs": "Обмен страницами между хористами",
+      "solution": "Вырезано: UGC нет, значит нет ни модерации, ни чужих данных"
+    },
+    {
+      "needs": "Вход по номеру",
+      "solution": "SDK провайдера аутентификации, токен в Keychain"
+    },
+    {
+      "needs": "Уведомление о дополнении к программе",
+      "solution": "SDK push-провайдера и его дашборд: своего обработчика нет"
+    }
   ],
 
   "docs": [
@@ -182,7 +853,8 @@
     { "file": "03-design-system.md", "label": "Дизайн-токены" },
     { "file": "04-references.md", "label": "Референсы" },
     { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    { "file": "06-app-store.md", "label": "Карточка App Store" },
+    { "file": "07-quality-evidence.md", "label": "Quality evidence" }
   ],
 
   "appStore": {

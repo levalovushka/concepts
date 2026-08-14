@@ -9,20 +9,41 @@
   "tagline": "Наведите камеру на этикетку пластинки — и она заиграет",
   "insight": "пластинка на руках есть, а проигрывателя нет — при том что сама запись давно лежит в открытом архиве",
   "deck": "Архив шеллачных пластинок общественного достояния: этикетка распознаётся камерой на устройстве, сторона играет целиком при погасшем экране, а ненайденное уходит в «Розыск». Клиентское приложение — своего бэкенда нет. Все 5 доступов запрашиваются в момент действия.",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "product": {
+    "audience": "Коллекционеры шеллачных пластинок 78 об/мин и исследователи архивных записей",
+    "situation": "Пластинка есть в руках, но проигрывателя нет, а цифровая копия может уже лежать в открытом архиве",
+    "problem": "Название, лейбл и матричный номер нужно вручную сопоставить с несколькими архивами",
+    "promise": "Навести камеру на этикетку и сразу услышать найденную сторону",
+    "differentiator": "Камера связывает физический артефакт с архивной записью; это не обычный музыкальный каталог",
+    "returnReasons": ["Распознать новую найденную пластинку","Дослушать сохранённую архивную сторону","Пополнить и проверить личную полку"],
+    "verticalSlice": { "entry": "archive", "action": "scan", "result": "player" },
+    "coreLoop": ["Навести камеру на этикетку", "Подтвердить совпадение в архиве", "Дослушать сторону или добавить экземпляр на полку"],
+    "nonGoals": ["Музыкальный стриминг общего назначения", "Маркетплейс пластинок", "Публичная соцсеть коллекционеров"]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Главная, музыкальная библиотека, карточка релиза и фоновый плеер обосновывают основную категорию Music",
+    "familiarPatterns": ["Главная с продолжением и новыми релизами", "«Моя музыка» с сохранённым и историей", "Карточка релиза и плеер с очередью", "Поиск и открытие архивной музыки"],
+    "distinctions": ["Камера распознаёт этикетку пластинки", "Единица каталога — сторона и матрица", "Физическая полка связана с открытым архивом"],
+    "evidenceScreens": ["archive","record","player","shelf","background"],
+    "referencePatterns": ["audio-library","audio-player","background-playback","release-detail","search-discovery"]
+  },
   "brand": {
-    "accent": "#a8631d",
-    "accentDark": "#e8a75e",
-    "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
+    "accent": "#9c7cff",
+    "accentDark": "#b9a6ff",
+    "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
   "start": "phone",
   "tabs": [
     {
       "id": "archive",
-      "label": "Архив"
+      "label": "Главная"
     },
     {
       "id": "shelf",
-      "label": "Полка"
+      "label": "Моя музыка"
     },
     {
       "id": "settings",
@@ -132,32 +153,36 @@
       "id": "phone",
       "title": "Вход по номеру",
       "type": "старт, без таб-бара",
-      "light": true,
-      "meta": "Первый экран приложения"
+      "light": false,
+      "meta": "Первый экран приложения",
+      "ui": { "pattern":"auth", "purpose":"Сохранить полку и розыск при смене телефона", "primaryAction":"Получить код", "states":["default","loading","error"], "density":"low", "contentCases":["валидный номер","неполный номер","нет сети при отправке"] }
     },
     {
       "id": "code",
       "title": "Код из SMS",
       "type": "push",
-      "light": true,
+      "light": false,
       "parent": "phone",
-      "meta": "OTP · автоподстановка"
+      "meta": "OTP · автоподстановка",
+      "ui": { "pattern":"auth", "purpose":"Подтвердить номер одноразовым кодом", "primaryAction":"Войти", "states":["default","loading","error"], "density":"low", "contentCases":["код из SMS","автоподстановка iOS","неверный или просроченный код"] }
     },
     {
       "id": "archive",
-      "title": "Архив",
+      "title": "Главная",
       "type": "tab (root, старт)",
-      "light": true,
+      "light": false,
       "meta": "Каталог оцифрованного",
-      "parent": "code"
+      "parent": "code",
+      "ui": { "pattern":"collection", "purpose":"Продолжить слушать или открыть запись из архива", "primaryAction":"Найти пластинку", "states":["default","empty"], "density":"high", "contentCases":["недавно слушали","новые оцифровки","пустой архив без сети"] }
     },
     {
       "id": "record",
       "title": "Пластинка",
       "type": "push",
-      "light": true,
+      "light": false,
       "parent": "archive",
-      "meta": "Стороны A и B · матрица"
+      "meta": "Стороны A и B · матрица",
+      "ui": { "pattern":"detail", "purpose":"Проверить релиз и выбрать сторону", "primaryAction":"Поставить сторону A", "states":["default"], "density":"high", "contentCases":["две оцифрованные стороны","только одна найденная сторона","длинное дореформенное название"] }
     },
     {
       "id": "player",
@@ -165,7 +190,8 @@
       "type": "fullscreen",
       "light": false,
       "parent": "record",
-      "meta": "Background audio"
+      "meta": "Background audio",
+      "ui": { "pattern":"player", "purpose":"Дослушать сторону целиком и управлять звуком", "primaryAction":"Слушать при погасшем экране", "states":["default","loading","error"], "density":"low", "contentCases":["играет реставрированная дорожка","играет дорожка с шумом иглы","аудиофайл не загрузился"] }
     },
     {
       "id": "background",
@@ -173,7 +199,8 @@
       "type": "system",
       "light": false,
       "parent": "player",
-      "meta": "Now Playing"
+      "meta": "Now Playing",
+      "ui": { "pattern":"system", "purpose":"Управлять воспроизведением с заблокированного экрана", "primaryAction":null, "states":["default"], "density":"low", "contentCases":["сторона играет","воспроизведение на паузе","длинное имя исполнителя"] }
     },
     {
       "id": "scan",
@@ -181,31 +208,35 @@
       "type": "fullscreen",
       "light": false,
       "parent": "archive",
-      "meta": "Camera · on-device"
+      "meta": "Camera · on-device",
+      "ui": { "pattern":"capture", "purpose":"Распознать этикетку и матрицу на пластинке", "primaryAction":"Из галереи", "states":["default","denied"], "density":"low", "contentCases":["чистая этикетка в кадре","стёртая этикетка","камера запрещена"] }
     },
     {
       "id": "scanfound",
       "title": "Совпадение в архиве",
       "type": "modal",
-      "light": true,
+      "light": false,
       "parent": "scan",
-      "meta": "Распознано с этикетки"
+      "meta": "Распознано с этикетки",
+      "ui": { "pattern":"task", "purpose":"Подтвердить найденное совпадение перед прослушиванием", "primaryAction":"Поставить сторону A", "states":["default","error"], "density":"low", "contentCases":["точное совпадение","две похожие матрицы","неполные данные этикетки"] }
     },
     {
       "id": "scanfail",
       "title": "Этикетка не читается",
       "type": "modal (ошибка)",
-      "light": true,
+      "light": false,
       "parent": "scan",
-      "meta": "OCR не справился · ввод вручную"
+      "meta": "OCR не справился · ввод вручную",
+      "ui": { "pattern":"state", "purpose":"Восстановиться после неудачного распознавания", "primaryAction":"Искать в архиве", "states":["error"], "density":"low", "contentCases":["этикетка стёрта","блик на шеллаке","неизвестный алфавит"] }
     },
     {
       "id": "notfound",
       "title": "Нет в архиве",
       "type": "modal (ошибка)",
-      "light": true,
+      "light": false,
       "parent": "scanfail",
-      "meta": "Не оцифровано · в «Розыск»"
+      "meta": "Не оцифровано · в «Розыск»",
+      "ui": { "pattern":"state", "purpose":"Сохранить ненайденную матрицу для будущей проверки", "primaryAction":"Положить в «Розыск»", "states":["error"], "density":"low", "contentCases":["матрица не оцифрована","запись ещё под правами","в номере возможна ошибка"] }
     },
     {
       "id": "pick",
@@ -213,45 +244,51 @@
       "type": "system picker",
       "light": true,
       "parent": "scan",
-      "meta": "Photo Library · PHPicker"
+      "meta": "Photo Library · PHPicker",
+      "ui": { "pattern":"system", "purpose":"Выбрать снимок этикетки или конверта", "primaryAction":null, "states":["default"], "density":"medium", "contentCases":["один снимок этикетки","фото конверта","пустая медиатека"] }
     },
     {
       "id": "shelf",
-      "title": "Полка",
+      "title": "Моя музыка",
       "type": "tab (root)",
-      "light": true,
-      "meta": "Свои пластинки и «Розыск»"
+      "light": false,
+      "meta": "Свои пластинки и «Розыск»",
+      "ui": { "pattern":"collection", "purpose":"Вернуться к сохранённым пластинкам, истории и розыску", "primaryAction":null, "states":["default","empty"], "density":"high", "contentCases":["пластинки на полке","номера в розыске","новая пустая библиотека"] }
     },
     {
       "id": "copy",
       "title": "Экземпляр",
       "type": "push",
-      "light": true,
+      "light": false,
       "parent": "shelf",
-      "meta": "Состояние · фото конверта"
+      "meta": "Состояние · фото конверта",
+      "ui": { "pattern":"detail", "purpose":"Сверить физический экземпляр с оцифровкой и заметками", "primaryAction":"Слушать оцифровку", "states":["default"], "density":"high", "contentCases":["экземпляр с конвертом","экземпляр без фото","длинная заметка о состоянии"] }
     },
     {
       "id": "want",
       "title": "Розыск",
       "type": "push",
-      "light": true,
+      "light": false,
       "parent": "shelf",
-      "meta": "Матрицы, которых нет в архиве"
+      "meta": "Матрицы, которых нет в архиве",
+      "ui": { "pattern":"collection", "purpose":"Проверить, появились ли в архиве разыскиваемые матрицы", "primaryAction":"Пройти путь ссылки целиком", "states":["default","empty"], "density":"medium", "contentCases":["матрица со сканера","матрица по ссылке","найденная оцифровка"] }
     },
     {
       "id": "settings",
       "title": "Профиль",
       "type": "tab (root)",
-      "light": true,
-      "meta": "Push · ссылки · фон"
+      "light": false,
+      "meta": "Push · ссылки · фон",
+      "ui": { "pattern":"settings", "purpose":"Управлять музыкальным профилем, фоном, ссылками и уведомлениями", "primaryAction":null, "states":["default"], "density":"high", "contentCases":["пуши включены","фоновый звук выключен","архив требует обновления"] }
     },
     {
       "id": "deeplink",
       "title": "Universal Link",
       "type": "modal",
-      "light": true,
+      "light": false,
       "parent": "settings",
-      "meta": "shellac.app/rec/…"
+      "meta": "shellac.app/rec/…",
+      "ui": { "pattern":"detail", "purpose":"Открыть архивную запись по прямой ссылке", "primaryAction":"Поставить сторону A", "states":["default"], "density":"medium", "contentCases":["ссылка на сторону","ссылка в розыск","приложение не установлено"] }
     },
     {
       "id": "web",
@@ -259,7 +296,8 @@
       "type": "чужое приложение",
       "light": true,
       "parent": "want",
-      "meta": "Момент тапа по ссылке"
+      "meta": "Момент тапа по ссылке",
+      "ui": { "pattern":"system", "purpose":"Передать матрицу из веб-ссылки в приложение", "primaryAction":null, "states":["default"], "density":"medium", "contentCases":["ссылка на запись","ссылка в розыск","невалидный номер матрицы"] }
     }
   ],
   "prototypes": [
@@ -267,7 +305,7 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все пятнадцать экранов и все пять доступов",
+      "note": "Все семнадцать экранов и все пять доступов",
       "start": "phone",
       "screens": [
         "phone",

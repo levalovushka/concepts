@@ -1,0 +1,21 @@
+<!-- @overview:vision -->
+<p class="deck">Один iPhone хранит весь проект: полученные через системные каналы файлы импортируются вручную, а {{INSIGHT}}.</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+{{FEAT_GRID}}
+<!-- @end -->
+
+<!-- @overview:arch -->
+<p class="deck">Core Data + FileManager + AVFoundation/Vision. Аккаунта, удалённого проекта, BaaS/CloudKit и server code нет; основной цикл работает в авиарежиме.</p>
+<div class="flow"><span class="chip">Локальное событие</span><span class="arr">→</span><span class="chip">Photos / Files</span><span class="arr">→</span><span class="chip">On-device draft</span><span class="arr">→</span><span class="chip">Export</span></div>
+<div class="arch">
+  <div class="arch-layer"><h3>UI</h3><p>Projects · Archive · Settings · Camera · Pickers · Timeline · Player · Share Sheet.</p></div>
+  <div class="arch-layer"><h3>Domain</h3><p>LocalProject · LocalClip · Draft · EditHistory · ExportFile.</p></div>
+  <div class="arch-layer"><h3>Services</h3><p>AVFoundation · PhotoKit · Document Picker · Vision/Core ML · Permissions.</p></div>
+  <div class="arch-layer"><h3>Data</h3><p>Core Data — описание и порядок. FileManager — исходники, proxy, draft и export.</p></div>
+  <div class="arch-layer"><h3>System only</h3><p>AirDrop, Messages, Photos, Files, Share Sheet, AirPlay. Получатели и доставка приложению неизвестны.</p></div>
+</div>
+<!-- @end -->
+
+<section class="section" id="perm-matrix"><h2>Матрица доступов</h2><p class="deck">Каждый доступ вызывается после явного действия; отказ оставляет локальный альтернативный путь.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Backend-free contract</h2><p class="deck">Источники данных и локальная замена удалённым возможностям.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и источники</h2><p class="deck">Root хранит только документы этого iPhone. System surfaces получают выбранные пользователем локальные файлы.</p>{{SCREEN_TABLE}}</section>

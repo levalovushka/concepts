@@ -1,13 +1,43 @@
 <div class="screen rd-screen" id="scr-code">
-  <div class="body-scroll rd-auth">
-    <div class="rd-auth-top"><div class="rd-back" data-back aria-label="Назад"><svg class="rd-icon"><use href="#i-chevron-left"/></svg></div><span class="rd-kicker">ШАГ 2 ИЗ 2</span></div>
-    <div class="rd-auth-copy" style="margin-top:52px">
+  <div class="rd-safe"></div>
+  <div class="body-scroll rd-auth rd-auth-vk">
+    <div class="rd-auth-top">
+      <div class="rd-back" data-back aria-label="Назад">
+        <svg class="rd-icon"><use href="#i-chevron-left" /></svg>
+      </div>
+    </div>
+    <div class="rd-auth-copy">
       <h1>Введите код</h1>
       <p>Мы отправили его на +7 900 123-45-67.</p>
     </div>
-    <div class="rd-otp" aria-label="Код из четырёх цифр"><span>4</span><span>8</span><span>1</span><span class="active"></span></div>
-    <div class="rd-kicker" style="margin-top:18px">ОТПРАВИТЬ ЕЩЁ РАЗ ЧЕРЕЗ 0:42</div>
-    <div class="rd-auth-foot"><div class="rd-primary" data-go="ads">Войти</div></div>
+    <div class="rd-otp" aria-label="Код из SMS">
+      <input
+        id="rd-code-1"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="1"
+        value="4"
+      />
+      <input
+        inputmode="numeric"
+        maxlength="1"
+        value="8"
+        aria-label="Вторая цифра"
+      />
+      <input
+        inputmode="numeric"
+        maxlength="1"
+        value="1"
+        aria-label="Третья цифра"
+      />
+      <input inputmode="numeric" maxlength="1" aria-label="Четвёртая цифра" />
+    </div>
+    <button class="rd-resend" type="button" disabled>
+      Отправить снова через 0:42
+    </button>
+    <div class="rd-auth-foot">
+      <div class="rd-primary" data-go="ads">Войти</div>
+    </div>
   </div>
   <div class="home-ind" aria-hidden="true"></div>
 </div>

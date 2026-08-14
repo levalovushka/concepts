@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 /**
- * Сборка всех концептов + галерея в корне.
+ * Сборка всех концептов + лаунчера в корне.
  *
- * Один сайт, концепты по подпутям: /petlya/, /<slug>/. Ссылку на конкретный
- * концепт можно отдавать отдельно, но деплой и операционка — одни на всех.
+ * Один сайт, концепты по подпутям: /petlya/, /<slug>/.
  *
  *   node scripts/build-all.mjs
  */
 import { writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
-import { DIST, ROOT, conceptDir, readSpec, listConcepts, esc } from './lib.mjs';
+import { DIST, conceptDir, listConcepts, esc, TARGET_PRODUCTS, POSITIONING_MODES } from './lib.mjs';
 import { build } from './build.mjs';
 
 /**
@@ -30,57 +28,197 @@ function countKit(slug) {
   };
 }
 
-const gallery = (items) => `<!doctype html>
-<html lang="ru" data-theme="light">
+const APP_STORE_CATEGORIES = {
+  Education: 'Образование',
+  'Health & Fitness': 'Здоровье и фитнес',
+  Lifestyle: 'Образ жизни',
+  Music: 'Музыка',
+  'Photo & Video': 'Фото и видео',
+  Productivity: 'Продуктивность',
+  Reference: 'Справочники',
+  'Social Networking': 'Социальные сети',
+  Sports: 'Спорт',
+  Utilities: 'Утилиты',
+};
+
+const targetSetMeta = (targetSet) => TARGET_PRODUCTS[targetSet]
+  || { label: targetSet || 'Без набора', short: targetSet || 'Другое' };
+const categoryLabel = (category) => APP_STORE_CATEGORIES[category] || category || 'Без категории';
+const pluralRu = (n, one, few, many) => {
+  const lastTwo = n % 100;
+  if (lastTwo >= 11 && lastTwo <= 14) return many;
+  if (n % 10 === 1) return one;
+  if (n % 10 >= 2 && n % 10 <= 4) return few;
+  return many;
+};
+
+const gallery = (items) => {
+  const filters = [...new Set(items.map((item) => item.targetSet))]
+    .sort((a, b) => targetSetMeta(a).label.localeCompare(targetSetMeta(b).label, 'ru'));
+  const plural = items.length % 10 === 1 && items.length % 100 !== 11 ? 'концепт' : 'концептов';
+  const card = (item) => `    <a class="card" href="./${item.slug}/index.html" data-target-set="${esc(item.targetSet)}" data-mode="${item.mode}" aria-label="${esc(item.name)} — ${esc(item.modeLabel)}, ${esc(item.category)}">
+      <div class="shot"><img src="./${item.slug}/assets/screenshots/${item.start}.png" alt="Экран «${esc(item.name)}»" loading="lazy"></div>
+      <div class="meta">
+        <div class="card-kicker"><span class="category">${esc(item.category)}</span><span class="mode-badge ${item.mode}">${esc(item.modeLabel)}</span></div>
+        <div class="name-row"><div class="name">${esc(item.name)}</div><span class="arrow" aria-hidden="true">→</span></div>
+        <div class="tag">${esc(item.tagline)}</div>
+        <div class="chips"><span class="chip">${item.perms} ${pluralRu(item.perms, 'доступ', 'доступа', 'доступов')}</span><span class="chip">${item.screens} ${pluralRu(item.screens, 'экран', 'экрана', 'экранов')}</span><span class="chip secondary">${esc(item.targetSetLabel)}</span></div>
+      </div>
+    </a>`;
+  const group = (mode) => {
+    const meta = POSITIONING_MODES[mode];
+    const selected = items.filter((item) => item.mode === mode);
+    return `  <section class="concept-group" data-mode-group="${mode}">
+    <header class="group-head"><div><h2>${meta.label}</h2><p>${meta.description}</p></div><span data-group-count>${selected.length}</span></header>
+    <div class="grid">${selected.map(card).join('\n')}</div>
+  </section>`;
+  };
+
+  return `<!doctype html>
+<html lang="ru">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Концепты iOS</title>
+<meta name="description" content="Каталог iOS-концептов под целевые наборы доступов">
+<meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#e8f3f0; --card:#fff; --ink:#14181a; --dim:#667078; --line:#d8e0e2; --accent:#0d8a7a;
-          --face:'Outfit',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0c1211; --card:#171b1d; --ink:#eef2f3; --dim:#93a0a6; --line:#2a3134; --accent:#3dd6c0; } }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:400 15.5px/1.6 var(--face); }
-  .wrap { max-width:1100px; margin:0 auto; padding:56px 20px 96px; }
-  .eyebrow { font:600 11px/1.3 var(--mono); letter-spacing:.09em; text-transform:uppercase; color:var(--dim); }
-  h1 { font:700 clamp(28px,4vw,40px)/1.08 var(--face); letter-spacing:-.026em; margin:12px 0 10px; }
-  .deck { margin:0 0 44px; color:var(--dim); max-width:64ch; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:24px; }
-  .card { display:block; text-decoration:none; color:inherit; border:1px solid var(--line);
-          border-radius:22px; background:var(--card); overflow:hidden; transition:border-color .15s, transform .15s; }
-  .card:hover { border-color:var(--accent); transform:translateY(-2px); }
-  /* 340, а не 300: на 300 срез приходился на поле ввода номера у концептов,
-     где над ним есть своя шапка — в кадр попадала верхняя половина цифр. */
-  .shot { height:340px; background:#0f0f0f; overflow:hidden; }
+  :root {
+    --accent:#0d8a7a; --page-bg:#fff; --page-card:#fff; --page-ink:#0a0a0a;
+    --page-ink-dim:#666; --page-ink-mute:#999; --page-line:#eaeaea;
+    --page-chip:#fafafa; --r-device:32px;
+    --face:'Geist',system-ui,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark) { :root {
+    --accent:#3dd6c0; --page-bg:#000; --page-card:#000; --page-ink:#ededed;
+    --page-ink-dim:#a1a1a1; --page-ink-mute:#707070; --page-line:#2e2e2e;
+    --page-chip:#0d0d0d;
+  } }
+  *, *::before, *::after { box-sizing:border-box; }
+  body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px/1.6 var(--face); -webkit-font-smoothing:antialiased; letter-spacing:-.005em; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .topbar { position:sticky; top:0; z-index:10; height:56px; padding:0 24px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; border-bottom:1px solid var(--page-line); background:color-mix(in srgb,var(--page-bg) 82%,transparent); backdrop-filter:blur(12px) saturate(180%); -webkit-backdrop-filter:blur(12px) saturate(180%); }
+  .brand { font:600 15px/1.2 var(--face); letter-spacing:-.02em; }
+  .section-name { color:var(--page-ink); font:500 14px/1.2 var(--face); }
+  .concept-count { justify-self:end; color:var(--page-ink-dim); font:400 13px/1.2 var(--face); }
+  .wrap { max-width:1180px; margin:0 auto; padding:48px 24px 120px; }
+  .hero { margin-bottom:40px; }
+  .eyebrow { font:600 11px/1.3 var(--mono); letter-spacing:.09em; text-transform:uppercase; color:var(--page-ink-mute); }
+  h1 { font:600 clamp(32px,4vw,44px)/1.06 var(--face); letter-spacing:-.045em; margin:12px 0 14px; }
+  .deck { margin:0; color:var(--page-ink-dim); max-width:68ch; font-size:16px; line-height:1.5; }
+  .controls { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:32px; margin-bottom:40px; padding-bottom:14px; border-bottom:1px solid var(--page-line); }
+  .control-label { display:block; margin-bottom:7px; color:var(--page-ink-mute); font:600 10px/1.2 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+  .mode-tabs { display:flex; gap:22px; }
+  .mode-tab { position:relative; min-height:36px; padding:6px 0 10px; border:0; background:transparent; color:var(--page-ink-dim); cursor:pointer; font:500 14px/1.2 var(--face); }
+  .mode-tab::after { content:''; position:absolute; left:0; right:0; bottom:-15px; height:2px; background:transparent; }
+  .mode-tab:hover { color:var(--page-ink); }
+  .mode-tab.is-on { color:var(--page-ink); font-weight:600; }
+  .mode-tab.is-on::after { background:var(--page-ink); }
+  .set-picker { min-width:210px; }
+  .set-picker select { width:100%; min-height:40px; padding:8px 38px 8px 12px; border:1px solid var(--page-line); border-radius:10px; appearance:none; background:var(--page-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; color:var(--page-ink); cursor:pointer; font:500 13px/1.2 var(--face); }
+  .set-picker select:hover { border-color:var(--page-ink-mute); }
+  .concept-group + .concept-group { margin-top:56px; }
+  .concept-group[hidden] { display:none; }
+  .group-head { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--page-line); }
+  .group-head h2 { margin:0; font:600 22px/1.2 var(--face); letter-spacing:-.035em; }
+  .group-head p { margin:5px 0 0; color:var(--page-ink-dim); font-size:13px; }
+  .group-head>span { color:var(--page-ink-mute); font:600 11px/1 var(--mono); }
+  .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  .card { min-width:0; display:flex; flex-direction:column; text-decoration:none; color:inherit; border:1px solid var(--page-line); border-radius:var(--r-device); background:var(--page-card); overflow:hidden; overflow:clip; isolation:isolate; transition:border-color 120ms,transform 120ms; }
+  .card:hover { border-color:var(--page-ink-mute); transform:translateY(-2px); }
+  .card[hidden] { display:none; }
+  /* PNG сняты из .device с радиусом 32px. Одинаковый внешний радиус убирает светлые ступеньки в углах на тёмной теме. */
+  .shot { aspect-ratio:375/500; overflow:hidden; background:var(--page-chip); border-bottom:1px solid var(--page-line); }
   .shot img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
-  .meta { padding:16px 18px 18px; }
-  .name { font:700 19px/1.2 var(--face); letter-spacing:-.02em; }
-  .tag { font:400 13px/1.4 var(--face); color:var(--dim); margin-top:6px; }
-  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
-  .chip { font:600 10px/1.4 var(--mono); letter-spacing:.04em; padding:4px 8px; border-radius:999px;
-          background:color-mix(in srgb, var(--accent) 12%, transparent); color:var(--accent); }
-  .empty { color:var(--dim); }
+  .meta { flex:1; display:flex; flex-direction:column; padding:18px; }
+  .card-kicker { min-height:20px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .category { color:var(--page-ink-mute); font:600 10px/1.3 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+  .mode-badge { padding:3px 7px; border-radius:6px; color:var(--page-ink-dim); background:var(--page-chip); font:600 9px/1.3 var(--mono); letter-spacing:.04em; text-transform:uppercase; }
+  .mode-badge.mimicry { color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,transparent); }
+  .name-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:7px; }
+  .name { font:600 20px/1.2 var(--face); letter-spacing:-.03em; }
+  .arrow { color:var(--page-ink-mute); font:400 20px/1 var(--face); transition:color 120ms,transform 120ms; }
+  .card:hover .arrow { color:var(--page-ink); transform:translateX(2px); }
+  .tag { flex:1; color:var(--page-ink-dim); margin-top:7px; font:400 13px/1.45 var(--face); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:16px; }
+  .chip { padding:4px 8px; border-radius:999px; background:color-mix(in srgb,var(--accent) 12%,transparent); color:var(--accent); font:600 10px/1.4 var(--mono); letter-spacing:.03em; }
+  .chip.secondary { background:var(--page-chip); color:var(--page-ink-dim); }
+  .empty { color:var(--page-ink-dim); }
+  @media (max-width:860px) { .controls { grid-template-columns:minmax(0,1fr) minmax(180px,220px); gap:20px; } .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:560px) { .topbar { grid-template-columns:1fr auto; padding:0 16px; } .section-name { display:none; } .wrap { padding:32px 16px 80px; } .hero { margin-bottom:32px; } .controls { grid-template-columns:1fr; align-items:start; gap:20px; margin-bottom:32px; padding:14px; border:1px solid var(--page-line); border-radius:14px; } .mode-tabs { gap:18px; border-bottom:1px solid var(--page-line); } .mode-tab { flex:1; } .mode-tab::after { bottom:-1px; } .set-picker { width:100%; } .grid { grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion:reduce) { .card,.arrow { transition:none; } }
 </style>
+<header class="topbar">
+  <div class="brand">Camo</div>
+  <div class="section-name">Концепты</div>
+  <div class="concept-count">${items.length} ${plural}</div>
+</header>
 <div class="wrap">
-  <div class="eyebrow">iOS · концепты под целевые наборы доступов</div>
-  <h1>Концепты</h1>
-  <p class="deck">Каждый концепт — нишевое приложение, где каждый доступ заслужен фичей, достижимой за 2–3 тапа. Все клиентские: своего бэкенда нет.</p>
-  <div class="grid">
-${items.length ? items.map((i) => `    <a class="card" href="./${i.slug}/">
-      <div class="shot"><img src="./${i.slug}/assets/screenshots/${i.start}.png" alt="${esc(i.name)}" loading="lazy"></div>
-      <div class="meta">
-        <div class="name">${esc(i.name)}</div>
-        <div class="tag">${esc(i.tagline)}</div>
-        <div class="chips"><span class="chip">${i.perms} доступов</span><span class="chip">${i.screens} экранов</span><span class="chip">${esc(i.targetSet)}</span></div>
-      </div>
-    </a>`).join('\n') : '    <p class="empty">Пока ни одного концепта.</p>'}
+  <section class="hero">
+    <div>
+      <div class="eyebrow">iOS · целевые наборы доступов</div>
+      <h1>Концепты</h1>
+      <p class="deck">Нишевые приложения, где каждый доступ заслужен достижимой фичей. Без своего бэкенда.</p>
+    </div>
+  </section>
+  <div class="controls">
+    <div>
+      <span class="control-label">Стратегия</span>
+      <nav class="mode-tabs" aria-label="Стратегия концепта">
+        <button class="mode-tab is-on" type="button" data-mode-filter="all" aria-pressed="true">Все</button>
+        <button class="mode-tab" type="button" data-mode-filter="mimicry" aria-pressed="false">Мимикрия</button>
+        <button class="mode-tab" type="button" data-mode-filter="differentiation" aria-pressed="false">Отстройка</button>
+      </nav>
+    </div>
+    <label class="set-picker">
+      <span class="control-label">Набор доступов</span>
+      <select data-set-filter aria-label="Набор доступов">
+        <option value="all">Все наборы · ${items.length}</option>
+${filters.map((targetSet) => `        <option value="${esc(targetSet)}">${esc(targetSetMeta(targetSet).label)} · ${items.filter((item) => item.targetSet === targetSet).length}</option>`).join('\n')}
+      </select>
+    </label>
   </div>
+  <main id="concept-grid">
+${items.length ? ['mimicry', 'differentiation'].map(group).join('\n') : '    <p class="empty">Пока ни одного концепта.</p>'}
+  </main>
 </div>
+<script>
+  const modeButtons = [...document.querySelectorAll('[data-mode-filter]')];
+  const setSelect = document.querySelector('[data-set-filter]');
+  const cards = [...document.querySelectorAll('[data-target-set]')];
+  const groups = [...document.querySelectorAll('[data-mode-group]')];
+  const applyFilters = (mode, set, updateUrl = true) => {
+    const selectedMode = mode === 'all' || cards.some((card) => card.dataset.mode === mode) ? mode : 'all';
+    const selectedSet = set === 'all' || cards.some((card) => card.dataset.targetSet === set) ? set : 'all';
+    modeButtons.forEach((button) => {
+      const active = button.dataset.modeFilter === selectedMode;
+      button.classList.toggle('is-on', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    setSelect.value = selectedSet;
+    cards.forEach((card) => { card.hidden = (selectedMode !== 'all' && card.dataset.mode !== selectedMode) || (selectedSet !== 'all' && card.dataset.targetSet !== selectedSet); });
+    groups.forEach((group) => {
+      const visible = group.querySelectorAll('.card:not([hidden])').length;
+      group.hidden = visible === 0;
+      group.querySelector('[data-group-count]').textContent = visible;
+    });
+    if (updateUrl) {
+      const url = new URL(location.href);
+      selectedMode === 'all' ? url.searchParams.delete('mode') : url.searchParams.set('mode', selectedMode);
+      selectedSet === 'all' ? url.searchParams.delete('set') : url.searchParams.set('set', selectedSet);
+      history.replaceState(null, '', url);
+    }
+  };
+  modeButtons.forEach((button) => button.addEventListener('click', () => applyFilters(button.dataset.modeFilter, setSelect.value)));
+  setSelect.addEventListener('change', () => applyFilters(document.querySelector('[data-mode-filter].is-on').dataset.modeFilter, setSelect.value));
+  const initial = new URL(location.href).searchParams;
+  applyFilters(initial.get('mode') || 'all', initial.get('set') || 'all', false);
+</script>
 </html>
 `;
+};
 
 const slugs = listConcepts();
 if (!slugs.length) { console.error('нет концептов в concepts/'); process.exit(1); }
@@ -93,8 +231,17 @@ for (const slug of slugs) {
   const { spec, bytes } = build(slug);
   const n = countKit(slug);
   items.push({
-    slug, name: spec.name, tagline: spec.tagline, start: spec.start,
-    perms: spec.permissions.length, screens: spec.screens.length, targetSet: spec.targetSet || '—',
+    slug,
+    name: spec.name,
+    tagline: spec.tagline,
+    start: spec.start,
+    perms: spec.permissions.length,
+    screens: spec.screens.length,
+    targetSet: spec.targetSet || '',
+    targetSetLabel: targetSetMeta(spec.targetSet).short,
+    mode: spec.positioning.mode,
+    modeLabel: POSITIONING_MODES[spec.positioning.mode].label,
+    category: categoryLabel(spec.appStore?.category?.primary),
   });
   const archive = n ? ` · архив: доки ${n.docs}, скриншоты ${n.shots}` : '';
   console.log(`  ${slug}: ${(bytes / 1024).toFixed(0)} КБ · ${spec.screens.length} экранов · ${spec.permissions.length} доступов${archive}`);

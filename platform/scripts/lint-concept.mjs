@@ -97,6 +97,20 @@ function lint(slug) {
   for (const m of markup.matchAll(/class="([^"]+)"/g)) m[1].split(/\s+/).forEach((c) => c && used.add(c));
   for (const c of used) if (!declared.has(c)) P(`класс без стиля: .${c}`);
 
+  /* —— anti-slop contract новых концептов —— */
+  if (spec.uiContractVersion >= 3 && spec.readiness?.status === 'reviewed') {
+    for (const screen of spec.screens) {
+      const source = read(join(dir, 'screens', `${screen.id}.html`));
+      if (/\sstyle="/.test(source)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
+      if (/class="[^"]*\bph\b/.test(source)) P(`${screen.id}: placeholder .ph запрещён в готовом интерфейсе`);
+      if (/\p{Extended_Pictographic}/u.test(source.replace(/<svg[\s\S]*?<\/svg>/g, ''))) P(`${screen.id}: emoji нельзя использовать как продуктовый ассет или иконку`);
+      for (const button of source.matchAll(/<(?:button|div)\b([^>]*(?:data-go|data-ask|data-back|data-activate)[^>]*)>([\s\S]*?)<\/(?:button|div)>/g)) {
+        const attrs = button[1], body = button[2].replace(/<[^>]+>/g, '').trim();
+        if (/<svg\b/.test(button[2]) && !body && !/aria-label="[^"]+"/.test(attrs)) P(`${screen.id}: icon-only control без aria-label`);
+      }
+    }
+  }
+
   /* —— карточка App Store —— */
   /* Лимиты Apple жёсткие: перебор ловится только при загрузке в App Store Connect,
      то есть в самый неудобный момент. Считаем здесь. */
@@ -138,10 +152,20 @@ function lint(slug) {
   }
 
   /* —— следы других концептов —— */
+  /* Комментарии попадают в собранный HTML вместе с CSS/JS, но не являются
+     пользовательским интерфейсом. Не считаем совпадения внутри них утечкой
+     бренда: иначе экран «Сегодня» даёт ложный конфликт с одноимённым концептом. */
+  const renderedHtml = html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|\n)\s*\/\/[^\n]*/g, '$1');
   for (const other of listConcepts()) {
     if (other === slug) continue;
     const o = readSpec(other);
-    if (html.includes(o.name) || html.includes(o.domain)) P(`след другого концепта: ${o.name} / ${o.domain}`);
+    /* Обычное слово может совпасть с именем концепта («радиус карточки»).
+       Имя считаем брендом только в кавычках; домен остаётся точным маркером. */
+    const brandedName = renderedHtml.includes(`«${o.name}»`) || renderedHtml.includes(`“${o.name}”`);
+    if (brandedName || (o.domain && renderedHtml.includes(o.domain))) P(`след другого концепта: ${o.name} / ${o.domain}`);
   }
 
   /* —— числа сходятся —— */

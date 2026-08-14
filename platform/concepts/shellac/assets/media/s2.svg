@@ -60,7 +60,7 @@
       stroke="#81765f" stroke-opacity="0.133" stroke-width="1.2"/>
   <circle cx="200" cy="200" r="160" fill="none" stroke="#796f5a" stroke-width="4.8" stroke-opacity=".3"/>
   <circle cx="200" cy="200" r="158" fill="none" stroke="#d4cbb8" stroke-width="1.4" stroke-opacity=".4"/>
-  <circle cx="200" cy="200" r="79" fill="#18100e"/>
+  <circle cx="200" cy="200" r="79" fill="#020203"/>
   
   <defs>
     <radialGradient id="lpV" cx="42%" cy="34%" r="72%">
@@ -68,29 +68,42 @@
       <stop offset="72%" stop-color="#2b6454"/>
       <stop offset="100%" stop-color="#245447"/>
     </radialGradient>
+    <filter id="paperV" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComposite in="gray" in2="SourceAlpha" operator="in" result="maskedNoise"/>
+      <feComponentTransfer in="maskedNoise" result="softNoise"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softNoise" mode="soft-light"/>
+    </filter>
     <path id="atV" d="M139.95999999999998 200 A60.040000000000006 60.040000000000006 0 0 1 260.04 200" fill="none"/>
     <path id="abV" d="M138.44 200 A61.56 61.56 0 0 0 261.56 200" fill="none"/>
   </defs>
-  <circle cx="200" cy="200" r="76" fill="url(#lpV)"/>
+  <circle cx="200" cy="200" r="76" fill="url(#lpV)" filter="url(#paperV)"/>
   <circle cx="200" cy="200" r="69.2" fill="none" stroke="#0a1f19" stroke-width="1.1" stroke-opacity=".5"/>
   <circle cx="200" cy="200" r="66.1" fill="none" stroke="#0a1f19" stroke-width="0.5" stroke-opacity=".3"/>
-  <text font-family="Geist, system-ui, sans-serif" font-size="10.2" font-weight="700" fill="#0a1f19"
+  <circle cx="200" cy="200" r="54.7" fill="none" stroke="#0a1f19" stroke-width="0.4" stroke-opacity=".18"/>
+  <text font-family="Inter, system-ui, sans-serif" font-size="10.2" font-weight="700" fill="#0a1f19"
     letter-spacing=".2em"><textPath href="#atV" startOffset="50%" text-anchor="middle">ГРАМОФОНЪ</textPath></text>
-  <text font-family="Geist, system-ui, sans-serif" font-size="7.3" font-weight="600" fill="#0f2921"
+  <text font-family="Inter, system-ui, sans-serif" font-size="7.3" font-weight="600" fill="#0f2921"
     letter-spacing=".14em"><textPath href="#abV" startOffset="50%" text-anchor="middle">1841-Б · 1925</textPath></text>
-  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#0a1f19">
-    <text x="200" y="181.8" font-size="11.7" font-weight="700" letter-spacing="-.01em">Прощай, радость</text>
+  <g text-anchor="middle" font-family="Inter, system-ui, sans-serif" fill="#0a1f19">
+    <text x="200" y="181.8" font-family="Iowan Old Style, Georgia, serif" font-size="12.3" font-weight="700" letter-spacing="-.015em">Прощай, радость</text>
     <text x="200" y="225.8" font-size="8.3" font-weight="500" letter-spacing=".01em"
       fill="#0e2720">Хоръ Кузнецова</text>
     <text x="200" y="240.3" font-size="6.3" font-weight="600"
       letter-spacing=".1em" fill="#14342b">78 ОБ/МИН · ЭЛЕКТРО</text>
   </g>
+  <g fill="#0a1f19" opacity=".52">
+    <path d="M186.3 158.2 h7.8 l3.9 3.9 l-3.9 3.9 h-7.8 l-3.9 -3.9z"/>
+    <path d="M213.7 158.2 h-7.8 l-3.9 3.9 l3.9 3.9 h7.8 l3.9 -3.9z"/>
+  </g>
+  <text x="200" y="254.7" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="4.5" font-weight="600" letter-spacing=".13em" fill="#0a1f19" opacity=".55">ЗАПИСАНО ВЪ С.-ПЕТЕРБУРГѢ</text>
   <path d="M174.2 190.1 H225.8" stroke="#0a1f19" stroke-width="0.6" stroke-opacity=".28"/>
   <path d="M178.7 233.4 H221.3" stroke="#0a1f19" stroke-width="0.5" stroke-opacity=".2"/>
-  <circle cx="200" cy="200" r="4.2" fill="#160e0d"/>
+  <circle cx="200" cy="200" r="4.2" fill="#020202"/>
   <circle cx="200" cy="200" r="4.2" fill="none" stroke="#1e463b" stroke-width="0.6"/>
   <circle cx="200" cy="200" r="77.5" fill="none" stroke="#000" stroke-opacity=".34" stroke-width="4.8"/>
-  <g text-anchor="middle" font-family="Geist, system-ui, sans-serif" fill="#4d4739">
+  <g text-anchor="middle" font-family="Inter, system-ui, sans-serif" fill="#4d4739">
     <text x="200" y="46" font-size="17.2" font-weight="700" letter-spacing=".22em">ГРАМОФОНЪ</text>
     <text x="200" y="62" font-size="10.4" font-weight="500" letter-spacing=".1em" opacity=".8">ПЛАСТИНКА 10″ · 78 ОБ/МИН</text>
     <text x="200" y="370" font-size="11.2" font-weight="500" font-family="Geist Mono, ui-monospace, monospace" letter-spacing=".04em" opacity=".75">1841-Б</text>

@@ -19,6 +19,7 @@ async function run(slug) {
 
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1200, height: 1000 } });
+  page.setDefaultTimeout(5000);
   const errs = [];
   page.on('console', (m) => { if (m.type() === 'error' || /нет экрана|нет доступа/.test(m.text())) errs.push(m.text()); });
   page.on('pageerror', (e) => errs.push('PAGEERROR ' + e.message));
@@ -86,6 +87,58 @@ async function run(slug) {
   for (const p of spec.permissions) ok(`доступ ${p.key} достижим из UI`, reachable.includes(p.key));
   const stray = reachable.filter((k) => !spec.permissions.some((p) => p.key === k));
   ok('в разметке нет доступов вне спеки' + (stray.length ? ` → ${stray}` : ''), !stray.length);
+
+  /* Галерея экранов не считается пользовательским маршрутом. Строим граф
+     реальных переходов от start и убеждаемся, что для каждого доступа есть
+     хотя бы один достижимый UI-триггер. Иначе permission формально лежит в
+     разметке, но получить его внутри продукта невозможно. */
+  const routePermissions = await page.evaluate(({ h, start, parent }) => {
+    const root = document.querySelector(h);
+    const screens = [...root.querySelectorAll('[data-screen]')];
+    const known = new Set(screens.map((e) => e.dataset.screen));
+    const graph = Object.fromEntries([...known].map((id) => [id, new Set()]));
+    const add = (from, to) => { if (from && known.has(to)) graph[from].add(to); };
+
+    for (const screen of screens) {
+      const from = screen.dataset.screen;
+      screen.querySelectorAll('[data-go],[data-jump]').forEach((e) => add(from, e.dataset.go || e.dataset.jump));
+      screen.querySelectorAll('[data-ask]').forEach((e) => {
+        const [, grant, deny] = e.dataset.ask.split('|');
+        add(from, grant); add(from, deny);
+      });
+      screen.querySelectorAll('[data-activate]').forEach((e) => add(from, e.dataset.activate.split('|')[1]));
+      screen.querySelectorAll('[data-toast]').forEach((e) => add(from, e.dataset.toast.split('|')[1]));
+      if (screen.querySelector('[data-back]')) add(from, parent[from]);
+    }
+
+    const reached = new Set([start]);
+    const queue = [start];
+    while (queue.length) {
+      const from = queue.shift();
+      for (const to of graph[from] || []) if (!reached.has(to)) { reached.add(to); queue.push(to); }
+    }
+
+    const triggers = {};
+    for (const screen of screens) {
+      const id = screen.dataset.screen;
+      screen.querySelectorAll('[data-ask]').forEach((e) => {
+        e.dataset.ask.split('|')[0].split('+').forEach((key) => (triggers[key] ||= new Set()).add(id));
+      });
+      screen.querySelectorAll('[data-activate]').forEach((e) => {
+        const key = e.dataset.activate.split('|')[0];
+        (triggers[key] ||= new Set()).add(id);
+      });
+    }
+    return {
+      reached: [...reached],
+      triggers: Object.fromEntries(Object.entries(triggers).map(([key, ids]) => [key, [...ids]])),
+    };
+  }, { h: H, start: spec.start, parent: Object.fromEntries(spec.screens.map((s) => [s.id, s.parent])) });
+  for (const p of spec.permissions) {
+    const triggerScreens = routePermissions.triggers[p.key] || [];
+    const available = triggerScreens.filter((id) => routePermissions.reached.includes(id));
+    ok(`${p.key}: UI-триггер достижим от «${spec.start}»` + (available.length ? ` через «${available.join(', ')}»` : ` → триггеры только на: ${triggerScreens.join(', ') || 'нет'}`), available.length > 0);
+  }
 
   /* —— доступы: отказ ведёт на видимый fallback —— */
   for (const p of spec.permissions) {
@@ -209,6 +262,51 @@ async function run(slug) {
   }, H);
   ok('хит-таргеты ≥ 44pt' + (small.length ? ` → ${small.slice(0, 4)}` : ''), !small.length);
   ok('консоль чистая' + (errs.length ? ` → ${errs.slice(0, 3)}` : ''), !errs.length);
+
+  /* —— сквозной пользовательский маршрут без служебных переходов ——
+     Предыдущие проверки открывают экраны через галерею и поэтому не ловят
+     недостижимые доступы и потерянный back-stack в реальном продукте. */
+  if (slug === 'radius' || slug === 'liga') {
+    await reset();
+    const click = async (selector) => {
+      await page.click(`${H} .screen.is-on${selector}, ${H} .screen.is-on ${selector}`);
+      await page.waitForTimeout(60);
+    };
+    await click('[data-go="code"]');
+    await click('[data-go="ads"]');
+    await click('[data-ask^="tracking|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-ask^="location|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-go="watch"]');
+    await click('[data-ask^="localnet|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-ask^="photoadd|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-activate^="audio|"]');
+    await click('[data-go="watch"]');
+    await click('[data-activate^="domains|"]');
+    await click('[data-go="watch"]');
+    await click('[data-back]');
+    await click('[data-go="create"]');
+    await click('[data-ask^="photo|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    await click('[data-back]');
+    await click('[data-ask^="camera+mic|"]');
+    await answer('grant'); await page.waitForTimeout(40);
+    await answer('grant'); await page.waitForTimeout(60);
+    if (slug === 'liga') await click('[data-go="create"]');
+    else await click('[data-back]');
+    await click('[data-go="subscriptions"]');
+    await click('[data-ask^="push|"]');
+    await answer('grant'); await page.waitForTimeout(60);
+    const askedKeys = await page.evaluate(() =>
+      [...document.querySelectorAll('#perms .perm:not([data-state="idle"])')]
+        .map((e) => e.querySelector('.perm-name')?.textContent));
+    ok('сквозной маршрут достигает всех 10 доступов', askedKeys.length === 10);
+  }
 
   await browser.close();
   return res;

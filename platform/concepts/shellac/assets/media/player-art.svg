@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="pa" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#342d3a"/>
+      <stop offset="52%" stop-color="#201b24"/>
+      <stop offset="100%" stop-color="#100f12"/>
+    </linearGradient>
+    <radialGradient id="pal" cx="24%" cy="16%" r="78%">
+      <stop offset="0%" stop-color="#d2baff" stop-opacity=".2"/>
+      <stop offset="100%" stop-color="#d2baff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="pash" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".55"/>
+    </filter>
+    <filter id="dsh" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+  <rect width="400" height="400" fill="url(#pa)"/>
+  <rect width="400" height="400" fill="url(#pal)"/>
+  <g transform="rotate(5 287 197)" filter="url(#pash)">
+    <rect x="172" y="70" width="250" height="250" rx="5" fill="#c7b18f"/>
+    <circle cx="297" cy="195" r="100" fill="none" stroke="#77634d" stroke-width="5" stroke-opacity=".22"/>
+    <circle cx="297" cy="195" r="50" fill="#020203"/>
+    
+  <defs>
+    <radialGradient id="lpPA" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#a44e50"/>
+      <stop offset="72%" stop-color="#932c2f"/>
+      <stop offset="100%" stop-color="#7b2527"/>
+    </radialGradient>
+    <filter id="paperPA" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComposite in="gray" in2="SourceAlpha" operator="in" result="maskedNoise"/>
+      <feComponentTransfer in="maskedNoise" result="softNoise"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softNoise" mode="soft-light"/>
+    </filter>
+    <path id="atPA" d="M259.87 195 A37.13 37.13 0 0 1 334.13 195" fill="none"/>
+    <path id="abPA" d="M258.93 195 A38.07 38.07 0 0 0 335.07 195" fill="none"/>
+  </defs>
+  <circle cx="297" cy="195" r="47" fill="url(#lpPA)" filter="url(#paperPA)"/>
+  <circle cx="297" cy="195" r="42.8" fill="none" stroke="#300b0c" stroke-width="0.7" stroke-opacity=".5"/>
+  <circle cx="297" cy="195" r="40.9" fill="none" stroke="#300b0c" stroke-width="0.3" stroke-opacity=".3"/>
+  <circle cx="297" cy="195" r="33.8" fill="none" stroke="#300b0c" stroke-width="0.3" stroke-opacity=".18"/>
+  <text font-family="Inter, system-ui, sans-serif" font-size="6.3" font-weight="700" fill="#300b0c"
+    letter-spacing=".2em"><textPath href="#atPA" startOffset="50%" text-anchor="middle">ЛИРА</textPath></text>
+  <text font-family="Inter, system-ui, sans-serif" font-size="4.5" font-weight="600" fill="#3e1011"
+    letter-spacing=".14em"><textPath href="#abPA" startOffset="50%" text-anchor="middle">2213-А · 1927</textPath></text>
+  <g text-anchor="middle" font-family="Inter, system-ui, sans-serif" fill="#300b0c">
+    <text x="297" y="183.7" font-family="Iowan Old Style, Georgia, serif" font-size="7.6" font-weight="700" letter-spacing="-.015em">Чёрные глаза</text>
+    <text x="297" y="211" font-size="5.1" font-weight="500" letter-spacing=".01em"
+      fill="#3c0f10">А. Вертинскій</text>
+    <text x="297" y="219.9" font-size="3.9" font-weight="600"
+      letter-spacing=".1em" fill="#4e1517">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <g fill="#300b0c" opacity=".52">
+    <path d="M288.5 169.2 h4.8 l2.4 2.4 l-2.4 2.4 h-4.8 l-2.4 -2.4z"/>
+    <path d="M305.5 169.2 h-4.8 l-2.4 2.4 l2.4 2.4 h4.8 l2.4 -2.4z"/>
+  </g>
+  <text x="297" y="228.8" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="2.8" font-weight="600" letter-spacing=".13em" fill="#300b0c" opacity=".55">ЗАПИСАНО ВЪ С.-ПЕТЕРБУРГѢ</text>
+  <path d="M281 188.9 H313" stroke="#300b0c" stroke-width="0.4" stroke-opacity=".28"/>
+  <path d="M283.8 215.7 H310.2" stroke="#300b0c" stroke-width="0.3" stroke-opacity=".2"/>
+  <circle cx="297" cy="195" r="2.6" fill="#020202"/>
+  <circle cx="297" cy="195" r="2.6" fill="none" stroke="#671f21" stroke-width="0.4"/>
+    <text x="297" y="98" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing=".18em" fill="#514231">ЛИРА</text>
+  </g>
+  <g transform="rotate(-7 145 218)"><g filter="url(#dsh)">
+    <circle cx="145" cy="218" r="166" fill="#020203"/>
+    <circle cx="145" cy="218" r="166" fill="none" stroke="#353535" stroke-width="1.6" stroke-opacity=".7"/>
+  </g>
+  <g clip-path="url(#dclipPA2)"><circle cx="145" cy="218" r="73" fill="none" stroke="#c9b7a6" stroke-opacity="0.034" stroke-width="1"/><circle cx="145" cy="218" r="75.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.026" stroke-width="1"/><circle cx="145" cy="218" r="77.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.027" stroke-width="1"/><circle cx="145" cy="218" r="79.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.044" stroke-width="1"/><circle cx="145" cy="218" r="81.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.020" stroke-width="1"/><circle cx="145" cy="218" r="83.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.029" stroke-width="1"/><circle cx="145" cy="218" r="85.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.041" stroke-width="1"/><circle cx="145" cy="218" r="87.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.015" stroke-width="1"/><circle cx="145" cy="218" r="89.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.015" stroke-width="1"/><circle cx="145" cy="218" r="91.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.042" stroke-width="1"/><circle cx="145" cy="218" r="94" fill="none" stroke="#c9b7a6" stroke-opacity="0.021" stroke-width="1"/><circle cx="145" cy="218" r="96.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.022" stroke-width="1"/><circle cx="145" cy="218" r="98.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.032" stroke-width="1"/><circle cx="145" cy="218" r="100.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.035" stroke-width="1"/><circle cx="145" cy="218" r="102.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.019" stroke-width="1"/><circle cx="145" cy="218" r="104.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.029" stroke-width="1"/><circle cx="145" cy="218" r="106.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.024" stroke-width="1"/><circle cx="145" cy="218" r="108.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.020" stroke-width="1"/><circle cx="145" cy="218" r="110.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.030" stroke-width="1"/><circle cx="145" cy="218" r="112.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.042" stroke-width="1"/><circle cx="145" cy="218" r="115" fill="none" stroke="#c9b7a6" stroke-opacity="0.029" stroke-width="1"/><circle cx="145" cy="218" r="117.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.031" stroke-width="1"/><circle cx="145" cy="218" r="119.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.040" stroke-width="1"/><circle cx="145" cy="218" r="121.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.013" stroke-width="1"/><circle cx="145" cy="218" r="123.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.023" stroke-width="1"/><circle cx="145" cy="218" r="125.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.026" stroke-width="1"/><circle cx="145" cy="218" r="127.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.030" stroke-width="1"/><circle cx="145" cy="218" r="129.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.040" stroke-width="1"/><circle cx="145" cy="218" r="131.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.021" stroke-width="1"/><circle cx="145" cy="218" r="133.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.012" stroke-width="1"/><circle cx="145" cy="218" r="136" fill="none" stroke="#c9b7a6" stroke-opacity="0.022" stroke-width="1"/><circle cx="145" cy="218" r="138.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.020" stroke-width="1"/><circle cx="145" cy="218" r="140.2" fill="none" stroke="#c9b7a6" stroke-opacity="0.019" stroke-width="1"/><circle cx="145" cy="218" r="142.3" fill="none" stroke="#c9b7a6" stroke-opacity="0.040" stroke-width="1"/><circle cx="145" cy="218" r="144.4" fill="none" stroke="#c9b7a6" stroke-opacity="0.023" stroke-width="1"/><circle cx="145" cy="218" r="146.5" fill="none" stroke="#c9b7a6" stroke-opacity="0.035" stroke-width="1"/><circle cx="145" cy="218" r="148.6" fill="none" stroke="#c9b7a6" stroke-opacity="0.019" stroke-width="1"/><circle cx="145" cy="218" r="150.7" fill="none" stroke="#c9b7a6" stroke-opacity="0.013" stroke-width="1"/><circle cx="145" cy="218" r="152.8" fill="none" stroke="#c9b7a6" stroke-opacity="0.025" stroke-width="1"/><circle cx="145" cy="218" r="154.9" fill="none" stroke="#c9b7a6" stroke-opacity="0.044" stroke-width="1"/><circle cx="145" cy="218" r="157" fill="none" stroke="#c9b7a6" stroke-opacity="0.018" stroke-width="1"/><circle cx="145" cy="218" r="159.1" fill="none" stroke="#c9b7a6" stroke-opacity="0.024" stroke-width="1"/><circle cx="145" cy="218" r="94.2" fill="none" stroke="#b9b0cf" stroke-opacity=".1" stroke-width="2"/><circle cx="145" cy="218" r="128.5" fill="none" stroke="#b9b0cf" stroke-opacity=".1" stroke-width="2"/></g>
+  <defs><clipPath id="dclipPA2"><circle cx="145" cy="218" r="166"/></clipPath></defs>
+  <g transform="translate(-21 52) scale(0.8)">
+    <svg width="400" height="400" viewBox="0 0 400 400" overflow="visible">
+      
+  <defs>
+    <radialGradient id="lpPA2" cx="42%" cy="34%" r="72%">
+      <stop offset="0%" stop-color="#a44e50"/>
+      <stop offset="72%" stop-color="#932c2f"/>
+      <stop offset="100%" stop-color="#7b2527"/>
+    </radialGradient>
+    <filter id="paperPA2" x="-12%" y="-12%" width="124%" height="124%">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" seed="17" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="gray"/>
+      <feComposite in="gray" in2="SourceAlpha" operator="in" result="maskedNoise"/>
+      <feComponentTransfer in="maskedNoise" result="softNoise"><feFuncA type="table" tableValues="0 .18"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="softNoise" mode="soft-light"/>
+    </filter>
+    <path id="atPA2" d="M136.8 200 A63.2 63.2 0 0 1 263.2 200" fill="none"/>
+    <path id="abPA2" d="M135.2 200 A64.80000000000001 64.80000000000001 0 0 0 264.8 200" fill="none"/>
+  </defs>
+  <circle cx="200" cy="200" r="80" fill="url(#lpPA2)" filter="url(#paperPA2)"/>
+  <circle cx="200" cy="200" r="72.8" fill="none" stroke="#300b0c" stroke-width="1.1" stroke-opacity=".5"/>
+  <circle cx="200" cy="200" r="69.6" fill="none" stroke="#300b0c" stroke-width="0.5" stroke-opacity=".3"/>
+  <circle cx="200" cy="200" r="57.6" fill="none" stroke="#300b0c" stroke-width="0.5" stroke-opacity=".18"/>
+  <text font-family="Inter, system-ui, sans-serif" font-size="10.8" font-weight="700" fill="#300b0c"
+    letter-spacing=".2em"><textPath href="#atPA2" startOffset="50%" text-anchor="middle">ЛИРА</textPath></text>
+  <text font-family="Inter, system-ui, sans-serif" font-size="7.7" font-weight="600" fill="#3e1011"
+    letter-spacing=".14em"><textPath href="#abPA2" startOffset="50%" text-anchor="middle">2213-А · 1927</textPath></text>
+  <g text-anchor="middle" font-family="Inter, system-ui, sans-serif" fill="#300b0c">
+    <text x="200" y="180.8" font-family="Iowan Old Style, Georgia, serif" font-size="12.9" font-weight="700" letter-spacing="-.015em">Чёрные глаза</text>
+    <text x="200" y="227.2" font-size="8.7" font-weight="500" letter-spacing=".01em"
+      fill="#3c0f10">А. Вертинскій</text>
+    <text x="200" y="242.4" font-size="6.7" font-weight="600"
+      letter-spacing=".1em" fill="#4e1517">78 ОБ/МИН · ЭЛЕКТРО</text>
+  </g>
+  <g fill="#300b0c" opacity=".52">
+    <path d="M185.6 156 h8.2 l4.1 4.1 l-4.1 4.1 h-8.2 l-4.1 -4.1z"/>
+    <path d="M214.4 156 h-8.2 l-4.1 4.1 l4.1 4.1 h8.2 l4.1 -4.1z"/>
+  </g>
+  <text x="200" y="257.6" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="4.7" font-weight="600" letter-spacing=".13em" fill="#300b0c" opacity=".55">ЗАПИСАНО ВЪ С.-ПЕТЕРБУРГѢ</text>
+  <path d="M172.8 189.6 H227.2" stroke="#300b0c" stroke-width="0.6" stroke-opacity=".28"/>
+  <path d="M177.6 235.2 H222.4" stroke="#300b0c" stroke-width="0.5" stroke-opacity=".2"/>
+  <circle cx="200" cy="200" r="4.4" fill="#020202"/>
+  <circle cx="200" cy="200" r="4.4" fill="none" stroke="#671f21" stroke-width="0.6"/>
+    </svg>
+  </g></g>
+  <path d="M-8 286 Q104 226 267 118" fill="none" stroke="#d8ccff" stroke-width="30" stroke-linecap="round" opacity=".07"/>
+  <path d="M-10 330 Q145 265 410 150" fill="none" stroke="#d9c8ff" stroke-width="38" stroke-linecap="round" opacity=".045"/>
+  <rect width="400" height="400" fill="none" stroke="#fff" stroke-opacity=".06"/>
+</svg>

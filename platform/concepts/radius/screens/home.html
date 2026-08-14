@@ -1,40 +1,109 @@
 <div class="screen rd-screen is-on" id="scr-home">
   <div class="rd-safe"></div>
-  <div class="rd-topbar">
+  <header class="rd-vk-head">
     <div class="rd-wordmark"><span class="rd-mark"></span>Радиус</div>
-    <div class="rd-hit" aria-label="Трансляция"><svg class="rd-icon"><use href="#i-cast"/></svg></div>
-    <div class="rd-hit" aria-label="Уведомления"><svg class="rd-icon"><use href="#i-bell"/></svg></div>
-  </div>
-  <div class="rd-chiprail">
-    <div class="rd-chip active">Для вас</div>
-    <div class="rd-chip place" data-ask="location|nearby|home"><svg class="rd-icon sm"><use href="#i-map-pin"/></svg>Рядом · 20 мин</div>
-    <div class="rd-chip">Документальное</div>
-    <div class="rd-chip">Еда</div>
-  </div>
-  <div class="body-scroll rd-feed">
-    <div class="rd-fallback perm-hidden" data-show-denied="location">Не удалось определить район. Выберите его вручную.</div>
-    <div class="rd-fallback perm-hidden" data-show-denied="tracking">Будем показывать обычную рекламу без учёта ваших интересов.</div>
-    <article class="rd-video-card" data-go="watch" aria-label="Открыть видео Летний кинотеатр">
-      <div class="rd-thumb cinema"><span class="rd-placeflag"><svg class="rd-icon sm"><use href="#i-map-pin"/></svg>380 м от вас</span><span class="rd-duration">18:42</span></div>
-      <div class="rd-video-info"><div class="rd-channel-mark">СП</div><div><h2 class="rd-video-title">Кино во дворе: как один экран собрал четыре дома</h2><div class="rd-video-meta">Соседи показывают · 24 тыс. просмотров · 2 дня назад</div></div><div class="rd-hit" style="min-width:32px"><svg class="rd-icon sm"><use href="#i-ellipsis"/></svg></div></div>
-    </article>
-    <div class="rd-section-head"><h2>В вашем городе</h2><span>Сегодня</span></div>
+    <div class="rd-vk-head-actions">
+      <button class="rd-hit" type="button" aria-label="Уведомления">
+        <svg class="rd-icon"><use href="#i-bell" /></svg></button
+      ><button class="rd-hit" type="button" data-go="nearby" aria-label="Поиск">
+        <svg class="rd-icon"><use href="#i-search" /></svg>
+      </button>
+    </div>
+  </header>
+  <nav class="rd-chiprail rd-vk-categories" aria-label="Разделы ленты">
+    <button class="rd-chip active" type="button">Для вас</button
+    ><button class="rd-chip tap" type="button" data-ask="location|nearby|home">
+      Рядом</button
+    ><button class="rd-chip" type="button">Популярное</button
+    ><button class="rd-chip" type="button">Документальное</button>
+  </nav>
+  <div class="body-scroll rd-feed rd-vk-feed">
+    <div class="rd-fallback perm-hidden" data-show-denied="location">
+      Выберите район вручную — лента продолжит работать.
+    </div>
+    <div class="rd-fallback perm-hidden" data-show-denied="tracking">
+      Показываем обычную рекламу без персонализации.
+    </div>
     <article class="rd-video-card" data-go="watch">
-      <div class="rd-thumb bakery"><span class="rd-placeflag"><svg class="rd-icon sm"><use href="#i-map-pin"/></svg>Старый центр</span><span class="rd-duration">12:08</span></div>
-      <div class="rd-video-info"><div class="rd-channel-mark blue">УТ</div><div><h2 class="rd-video-title">До открытия: первое утро маленькой пекарни</h2><div class="rd-video-meta">Улица Тихая · 81 тыс. просмотров · неделю назад</div></div><div class="rd-hit" style="min-width:32px"><svg class="rd-icon sm"><use href="#i-ellipsis"/></svg></div></div>
+      <div class="rd-thumb cinema"><span class="rd-duration">18:42</span></div>
+      <div class="rd-video-info">
+        <div class="rd-channel-mark">СП</div>
+        <div class="rd-video-text">
+          <h2 class="rd-video-title">
+            Кино во дворе: как один экран собрал четыре дома
+          </h2>
+          <div class="rd-video-meta">
+            Соседи показывают · 24 тыс. · 2 дня назад
+          </div>
+        </div>
+        <div class="rd-hit rd-more">
+          <svg class="rd-icon"><use href="#i-ellipsis" /></svg>
+        </div>
+      </div>
     </article>
-    <div class="rd-ad-row"><div><span class="rd-kicker">РЕКЛАМА</span><strong>Карта независимых кофеен</strong><p>Найдите новое место по пути.</p></div><div class="rd-ad-poster"></div></div>
     <article class="rd-video-card" data-go="watch">
-      <div class="rd-thumb sea"><span class="rd-placeflag"><svg class="rd-icon sm"><use href="#i-map-pin"/></svg>Северное побережье</span><span class="rd-duration">27:10</span></div>
-      <div class="rd-video-info"><div class="rd-channel-mark green">КР</div><div><h2 class="rd-video-title">Дорога вдоль холодного моря — без туристического маршрута</h2><div class="rd-video-meta">Край · 116 тыс. просмотров · 3 недели назад</div></div><div class="rd-hit" style="min-width:32px"><svg class="rd-icon sm"><use href="#i-ellipsis"/></svg></div></div>
+      <div class="rd-thumb bakery"><span class="rd-duration">12:08</span></div>
+      <div class="rd-video-info">
+        <div class="rd-channel-mark blue">УТ</div>
+        <div class="rd-video-text">
+          <h2 class="rd-video-title">
+            До открытия: первое утро маленькой пекарни
+          </h2>
+          <div class="rd-video-meta">Улица Тихая · 81 тыс. · неделю назад</div>
+        </div>
+        <div class="rd-hit rd-more">
+          <svg class="rd-icon"><use href="#i-ellipsis" /></svg>
+        </div>
+      </div>
+    </article>
+    <div class="rd-ad-row">
+      <div>
+        <span class="rd-kicker">РЕКЛАМА</span
+        ><strong>Карта независимых кофеен</strong>
+        <p>Новое место по пути.</p>
+      </div>
+      <div class="rd-ad-poster"></div>
+    </div>
+    <article class="rd-video-card" data-go="watch">
+      <div class="rd-thumb sea"><span class="rd-duration">27:10</span></div>
+      <div class="rd-video-info">
+        <div class="rd-channel-mark green">КР</div>
+        <div class="rd-video-text">
+          <h2 class="rd-video-title">Дорога вдоль холодного моря</h2>
+          <div class="rd-video-meta">Край · 116 тыс. · 3 недели назад</div>
+        </div>
+        <div class="rd-hit rd-more">
+          <svg class="rd-icon"><use href="#i-ellipsis" /></svg>
+        </div>
+      </div>
     </article>
   </div>
-  <div class="tabbar light rd-tabs" aria-label="Основная навигация">
-    <div class="tab is-on" data-go="home"><span class="ico"><svg class="rd-icon"><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div>
-    <div class="tab" data-go="clips"><span class="ico"><svg class="rd-icon"><use href="#i-video"/></svg></span><span class="tab-label">Клипы</span></div>
-    <div class="tab" data-go="create"><span class="ico rd-create-ico"><svg class="rd-icon"><use href="#i-plus"/></svg></span><span class="tab-label">Создать</span></div>
-    <div class="tab" data-go="subscriptions"><span class="ico"><svg class="rd-icon"><use href="#i-users"/></svg></span><span class="tab-label">Подписки</span></div>
-    <div class="tab" data-go="profile"><span class="ico"><svg class="rd-icon"><use href="#i-user"/></svg></span><span class="tab-label">Профиль</span></div>
+  <div class="tabbar rd-tabs" aria-label="Основная навигация">
+    <div class="tab is-on" data-go="home">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab" data-go="clips">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-video" /></svg></span
+      ><span class="tab-label">Клипы</span>
+    </div>
+    <div class="tab" data-go="create">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-plus" /></svg></span
+      ><span class="tab-label">Создать</span>
+    </div>
+    <div class="tab" data-go="subscriptions">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Подписки</span>
+    </div>
+    <div class="tab" data-go="profile">
+      <span class="ico"
+        ><svg class="rd-icon"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </div>
   </div>
-  <div class="home-ind" aria-hidden="true"></div>
+  <div class="home-ind"></div>
 </div>

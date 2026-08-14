@@ -1,0 +1,21 @@
+{
+  "id": "vk-video",
+  "label": "ВК Видео",
+  "category": "Photo & Video",
+  "contentModel": ["video", "clip", "channel", "subscription"],
+  "navigation": ["home", "clips", "create", "subscriptions", "profile"],
+  "requiredNavigationRoles": ["home", "subscriptions", "profile"],
+  "productInvariants": [
+    "Первый полезный ролик или эфир виден на первом экране",
+    "Плеер сохраняет автора, контекст и очевидный следующий контент",
+    "Короткое видео, длинное видео и канал не смешиваются в одну сущность"
+  ],
+  "patterns": {
+    "video-feed": "Контентная главная с быстрым входом в просмотр",
+    "vertical-clips": "Полноэкранная последовательность коротких видео",
+    "immersive-player": "Плеер с действиями, автором и продолжением просмотра",
+    "channels": "Автор или команда как подписная единица",
+    "capture-publish": "Создание, выбор медиа и публикация"
+  },
+  "density": "content-heavy"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "vkontakte",
+  "label": "ВКонтакте",
+  "category": "Social Networking",
+  "contentModel": ["person", "post", "conversation", "community"],
+  "navigation": ["feed", "messages", "communities", "profile"],
+  "requiredNavigationRoles": ["feed", "messages", "profile"],
+  "productInvariants": [
+    "Лента состоит из публикаций узнаваемых авторов или сообществ, а не из редакционных карточек",
+    "Профиль показывает идентичность, связи и собственную активность",
+    "Сообщения, сообщества и создание публикации доступны из устойчивой социальной навигации"
+  ],
+  "patterns": {
+    "social-feed": "Лента обновлений от знакомого графа",
+    "messaging": "Личные и групповые разговоры",
+    "profile": "Идентичность, связи и собственная активность",
+    "create-post": "Создание публикации с медиа",
+    "communities": "Группа как отдельный социальный контекст"
+  },
+  "density": "social-dense"
+}

@@ -1,0 +1,688 @@
+{
+  "slug": "loop",
+  "name": "Луп",
+  "targetSet": "vk-music",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "brand": {
+    "accent": "#ff5e94",
+    "accentDark": "#ff5e94",
+    "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
+  },
+  "deck": "Музыкальный конструктор: находите лупы, собирайте ремиксы и сохраняйте идею без тяжёлой DAW. Все 6 доступов запрашиваются точно в момент функции.",
+  "eyebrow": "Луп · Music · iOS",
+  "heroTitle": "Луп",
+  "heroDeck": "Выбрать луп, наложить слои и собрать цельный ремикс",
+  "tagline": "Короткий звук — готовый слой для ремикса",
+  "insight": "самый ценный музыкальный момент часто длится восемь секунд, но его негде сохранить как самостоятельную идею",
+  "domain": "loop.audio",
+  "start": "home",
+  "tabs": [
+    { "id": "home", "label": "Главная" },
+    { "id": "discover", "label": "Поиск" },
+    { "id": "studio", "label": "Студия" },
+    { "id": "library", "label": "Моя" },
+    { "id": "profile", "label": "Профиль" }
+  ],
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Персональная главная, поиск в шапке, плотная коллекция и полноэкранный плеер следуют грамматике VK Музыки; студия переводит её в создание ремиксов",
+    "familiarPatterns": [
+      "персональная витрина и рекомендательные полки",
+      "поиск в верхней части экрана",
+      "сохранённая коллекция и полноэкранный плеер"
+    ],
+    "distinctions": [
+      "Каталог строится вокруг совместимых лупов с BPM и тональностью",
+      "Плеер раскрывается в четырёхслойный редактор",
+      "Собственный звук сразу становится материалом для ремикса"
+    ],
+    "evidenceScreens": [
+      "home",
+      "detail",
+      "player",
+      "studio",
+      "background"
+    ],
+    "referencePatterns": [
+      "audio-library",
+      "audio-player",
+      "background-playback",
+      "release-detail",
+      "search-discovery"
+    ]
+  },
+  "product": {
+    "audience": "Начинающие битмейкеры, музыканты и любители коротких звуковых зарисовок",
+    "situation": "В дороге или дома хочется быстро собрать музыкальную идею без DAW",
+    "problem": "Стриминги не дают миксовать, а профессиональные DAW слишком тяжелы для момента",
+    "promise": "Выбрать луп, наложить слои и услышать цельный ремикс",
+    "differentiator": "Каталог строится вокруг лупов с BPM и тональностью, а плеер сразу склеивает их в микс",
+    "returnReasons": [
+      "Открыть новое",
+      "Вернуться к сохранённому",
+      "Продолжить в фоне"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "detail",
+      "result": "player"
+    },
+    "coreLoop": [
+      "Выбрать подходящий материал",
+      "Собрать ремикс из совместимых слоёв",
+      "Сохранить черновик или продолжить позже"
+    ],
+    "nonGoals": [
+      "Публичная соцсеть",
+      "Универсальный каталог всей музыки"
+    ]
+  },
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Луп» запрашивает доступ к камере",
+        "text": "Снимите источник звука или выберите обложку для лупа."
+      },
+      "feature": "Снять обложку источника",
+      "gesture": "«Снять и записать»",
+      "screen": "studio",
+      "target": "capture",
+      "fallback": "Ручной ввод и выбор из «Фото» остаются доступны",
+      "snack": "Камера выключена",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation; обработка на устройстве"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Луп» запрашивает доступ к «Фото»",
+        "text": "Выбрать обложку"
+      },
+      "feature": "Выбрать обложку",
+      "gesture": "Выбрать обложку",
+      "screen": "studio",
+      "target": "pick",
+      "fallback": "Камера и ручная настройка остаются",
+      "snack": "Нет доступа к «Фото»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker: только выбранный снимок"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить «Лупу» доступ к микрофону?",
+        "text": "Чтобы записать короткий звук и превратить его в луп. Запись обрабатывается на устройстве."
+      },
+      "feature": "Записать собственный луп",
+      "gesture": "«Записать без камеры» или «Снять источник звука»",
+      "screen": "studio",
+      "target": "capture",
+      "fallback": "Каталог и конструктор из готовых лупов остаются доступны",
+      "snack": "Микрофон выключен",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioEngine записывает до 16 секунд; обработка остаётся на устройстве"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Звук продолжится при погашенном экране."
+      },
+      "activate": true,
+      "feature": "Непрерывная сессия в фоне",
+      "gesture": "«Фоновый режим» в редакторе",
+      "screen": "player",
+      "target": "background",
+      "fallback": "Плеер предупредит, что экран должен оставаться активным",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession .playback + Now Playing + remote commands",
+      "grounding": "AVPlayer + MPNowPlayingInfoCenter + MPRemoteCommandCenter"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Луп» запрашивает разрешение на уведомления",
+        "text": "Только выбранные новинки и напоминания."
+      },
+      "feature": "Персональные новинки",
+      "gesture": "Свитч «Новое для меня»",
+      "screen": "profile",
+      "target": "profile",
+      "fallback": "Новинки видны в главной витрине",
+      "snack": "Уведомления выключены",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Реальная регистрация APNs",
+      "grounding": "APNs через SDK провайдера"
+    },
+    {
+      "key": "domains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Universal Links",
+        "text": "Ссылки loop.audio открываются в приложении."
+      },
+      "activate": true,
+      "feature": "Прямая ссылка на контент",
+      "gesture": "«Проверить ссылку» в профиле",
+      "screen": "profile",
+      "target": "deeplink",
+      "fallback": "Та же страница откроется в Safari",
+      "risk": "high",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Статический AASA на loop.audio; только applinks"
+    }
+  ],
+  "screens": [
+    {
+      "id": "home",
+      "title": "Главная",
+      "type": "tab (root, start)",
+      "light": false,
+      "meta": "Персональная витрина",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти подходящий контент",
+        "primaryAction": "Velvet Steps",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "discover",
+      "title": "Поиск",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Категории и поиск",
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Открыть новое",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "detail",
+      "title": "Velvet Steps",
+      "type": "push",
+      "light": false,
+      "meta": "Карточка контента",
+      "parent": "home",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Понять контекст и начать",
+        "primaryAction": "Добавить в новый микс",
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Velvet Steps",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Now Playing",
+      "parent": "detail",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Управлять живым звуком",
+        "primaryAction": "Фоновый режим",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "meta": "Background audio",
+      "parent": "player",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Управлять звуком с локскрина",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Моя музыка",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Сохранённое",
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к сохранённому",
+        "primaryAction": "Velvet Steps",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "studio",
+      "title": "Студия",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Камера и «Фото»",
+      "parent": "home",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Снимите источник звука или выберите обложку для лупа.",
+        "primaryAction": "Начать микс",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "capture",
+      "title": "Источник звука",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Camera",
+      "parent": "studio",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Использовать камеру в якорной фиче",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "pick",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "meta": "Photo Library",
+      "parent": "studio",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать один снимок",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "result",
+      "title": "Луп готов",
+      "type": "modal",
+      "light": false,
+      "meta": "Ценный результат",
+      "parent": "capture",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Показать результат действия",
+        "primaryAction": "Сохранить",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Push, links, audio",
+      "parent": "home",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять доступами",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "deeplink",
+      "title": "Открыто по ссылке",
+      "type": "modal",
+      "light": false,
+      "meta": "Universal Link",
+      "parent": "profile",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Открыть прямую ссылку",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "denied",
+      "title": "Нужен доступ",
+      "type": "state",
+      "light": false,
+      "meta": "Permission fallback",
+      "parent": "studio",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Восстановиться после отказа",
+        "primaryAction": "Открыть Настройки",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    },
+    {
+      "id": "search",
+      "title": "Результаты",
+      "type": "push",
+      "light": false,
+      "meta": "Search results",
+      "parent": "discover",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Сузить выбор",
+        "primaryAction": "Velvet Steps",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "основной сценарий",
+          "длинный контент",
+          "нет сети или доступ запрещён"
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "14 экранов и 6 доступов",
+      "start": "home",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "core",
+      "label": "Главный цикл",
+      "note": "Выбрать луп, наложить ещё два и услышать цельную зарисовку",
+      "start": "home",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Новый звук",
+      "note": "Снимите источник звука или выберите обложку для лупа.",
+      "start": "studio",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    },
+    {
+      "id": "permissions",
+      "label": "Все доступы",
+      "note": "Явные триггеры и fallback",
+      "start": "profile",
+      "screens": [
+        "home",
+        "discover",
+        "detail",
+        "player",
+        "background",
+        "library",
+        "studio",
+        "capture",
+        "pick",
+        "result",
+        "profile",
+        "deeplink",
+        "denied",
+        "search"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Каталог и аудио",
+      "solution": "Подписанный статический content pack + CDN"
+    },
+    {
+      "needs": "Личная библиотека",
+      "solution": "CoreData и CloudKit private database"
+    },
+    {
+      "needs": "Обработка камеры",
+      "solution": "Vision/Core Image на устройстве; кадр не уходит в сеть"
+    },
+    {
+      "needs": "Push",
+      "solution": "APNs через дашборд провайдера"
+    },
+    {
+      "needs": "Universal Links",
+      "solution": "Статический AASA на loop.audio"
+    }
+  ],
+  "appStore": {
+    "name": "Луп: Короткий звук",
+    "subtitle": "Короткий звук — готовая музыка",
+    "promo": "Выбрать луп, наложить ещё два и услышать цельную зарисовку",
+    "keywords": "луп,сэмпл,бит,bpm,микс,зарисовка,ритм,слои",
+    "category": {
+      "primary": "Music",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://loop.audio/support",
+      "marketing": "https://loop.audio",
+      "privacy": "https://loop.audio/privacy"
+    },
+    "description": [
+      "Короткий звук — готовая музыкальная идея",
+      "Выбрать луп, наложить ещё два и услышать цельную зарисовку",
+      "Каталог строится вокруг лупов с BPM и тональностью, а плеер сразу склеивает их в микс"
+    ],
+    "whatsNew": "Первая версия.",
+    "reviewAccount": {
+      "phone": "Не требуется",
+      "code": "Не требуется",
+      "note": "Приложение открывается сразу на главной; аккаунт не нужен."
+    },
+    "privacy": [
+      {
+        "type": "Фото",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Выбранный кадр обрабатывается на устройстве"
+      }
+    ]
+  },
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ]
+}

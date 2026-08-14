@@ -1,52 +1,19 @@
-<div class="screen ios-surface" id="scr-record" style="background:#f2f2f7">
-            <div class="navbar bar-blur">
-              <div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Назад в архив">‹ Архив</div></div>
-              <div class="title">Пластинка</div>
-              <div class="nav-trailing"><div class="btn-plain tap" data-toast="Ссылка скопирована · shellac.app/rec/2213-А" aria-label="Поделиться ссылкой"><svg class="ico-svg" style="width:20px;height:20px"><use href="#i-share"/></svg></div></div>
-            </div>
-            <div class="body-scroll pad-screen">
-              <div class="rec-cover art-d1" role="img" aria-label="Пластинка «Чёрные глаза», лейбл ЛИРА"></div>
+<div class="screen sm-screen sm-detail-screen" id="scr-record">
+  <header class="sm-detail-head"><button class="sm-icon-btn tap" data-back aria-label="Назад на главную"><svg class="ico-svg"><use href="#i-chevron-left"/></svg></button><span>Релиз</span><button class="sm-icon-btn tap" data-toast="Меню релиза" aria-label="Ещё"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></button></header>
+  <div class="body-scroll sm-detail-scroll">
+    <div class="sm-album-art art-s1" role="img" aria-label="Конверт пластинки «Чёрные глаза», лейбл ЛИРА"></div>
+    <div class="sm-album-copy"><span class="sm-kicker">ПЛАСТИНКА · 1927</span><h1>Чёрные глаза</h1><p>А. Вертинскій · ЛИРА</p><span class="sm-matrix">2213-А / 2213-Б</span></div>
+    <div class="sm-album-actions"><button class="sm-primary tap" data-go="player"><svg><use href="#i-play"/></svg>Поставить сторону A</button><button class="sm-round tap" data-toast="Добавлено в «Мою музыку»" aria-label="Добавить в мою музыку"><svg><use href="#i-plus"/></svg></button></div>
 
-              <h2 class="t-title" style="text-align:center;font-size:26px;line-height:32px">Чёрные глаза</h2>
-              <div class="t-subhead" style="text-align:center;margin-top:6px">А. Вертинскій</div>
-              <div style="text-align:center;margin-top:10px">
-                <span class="mono-chip">ЛИРА · 2213-А · 1927</span>
-              </div>
+    <section class="sm-tracklist">
+      <article class="tap" data-go="player"><span class="sm-track-num is-on">A</span><div class="grow"><strong>Чёрные глаза</strong><span>Сторона A · играли 4 раза</span></div><time>3:04</time></article>
+      <article class="tap" data-go="player"><span class="sm-track-num">B</span><div class="grow"><strong>Danse macabre</strong><span>Сторона B · не слушали</span></div><time>2:47</time></article>
+    </section>
 
-              <div class="ios-list mt24">
-                <div class="row tap" data-go="player">
-                  <div class="side-badge is-on">A</div>
-                  <div class="grow">
-                    <div class="t-body">Чёрные глаза</div>
-                    <div class="t-caption">Сторона A · играли 4 раза</div>
-                  </div>
-                  <div class="row-value">3:04</div>
-                </div>
-                <div class="row tap" data-go="player">
-                  <div class="side-badge">B</div>
-                  <div class="grow">
-                    <div class="t-body">Danse macabre</div>
-                    <div class="t-caption">Сторона B · не слушали</div>
-                  </div>
-                  <div class="row-value">2:47</div>
-                </div>
-              </div>
+    <section class="sm-release-note"><strong>Как играет шеллак</strong><p>Сторона звучит целиком — дорожек внутри нет. В плеере можно вернуть шум иглы.</p></section>
 
-              <div class="btn-filled block mt20 tap" data-go="player">Поставить сторону A</div>
-              <p class="t-footnote" style="text-align:center;margin:10px 0 0">
-                Сторона играет целиком — дорожек внутри нет.
-              </p>
-
-              <div class="sec-label mt24">Об экземпляре в архиве</div>
-              <div class="read-list">
-                <div class="read-row"><b>Матрица</b><span>2213-А</span></div>
-                <div class="read-row"><b>Лейбл</b><span>ЛИРА</span></div>
-                <div class="read-row"><b>Запись</b><span>1927, электро</span></div>
-                <div class="read-row"><b>Оцифровка</b><span>2024, 24 бит / 96 кГц</span></div>
-              </div>
-              <p class="t-footnote mt12">
-                Запись в общественном достоянии. В паке две дорожки: реставрированная и с сохранённым шумом иглы — переключается в плеере.
-              </p>
-            </div>
-            <div class="home-ind" aria-hidden="true"></div>
-          </div>
+    <div class="sm-section-head"><h2>О релизе</h2></div>
+    <dl class="sm-meta"><div><dt>Матрица</dt><dd>2213-А</dd></div><div><dt>Запись</dt><dd>1927 · электро</dd></div><div><dt>Оцифровка</dt><dd>24 бит / 96 кГц</dd></div><div><dt>Права</dt><dd>Общественное достояние</dd></div></dl>
+  </div>
+  <div class="home-ind"></div>
+</div>
