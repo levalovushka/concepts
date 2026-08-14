@@ -1,0 +1,96 @@
+<div class="screen ios-surface pm-page" id="scr-netqr">
+  <div class="navbar">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к отметке"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Отметка</span></div>
+    </div>
+    <div class="title">Сеть точки</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll pm-scroll">
+    <p class="t-subhead" style="padding:4px 2px 0">Отметка засчитывается, только когда телефон в сети заведения. На чужой точке сеть подключается по коду из подсобки.</p>
+
+    <div class="pm-card">
+      <div class="pm-row tap" data-ask="camera|scan|netqr" aria-label="Считать QR из подсобки">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-qr-code"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Считать QR из подсобки</div>
+          <div class="pm-row-s wrap">Код с листа у входа в зал — в нём имя сети и пароль</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="camera">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без камеры QR не считать. Имя сети и пароль лежат ниже — их можно ввести в Настройках вручную.</span>
+      </div>
+      <div class="pm-row tap" data-ask="hotspot|netqr|netqr" aria-label="Подключиться к сети Gogol7-Staff">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Подключиться</div>
+          <div class="pm-ssid">Gogol7-Staff · WPA2</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="hotspot">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Подключение не настроилось. Имя <b>Gogol7-Staff</b>, пароль <b>gogol-7-2024</b> — введите в Настройках Wi-Fi.</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Сети ваших точек</div>
+      <div class="pm-sec-n">3</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Кофейня на Гоголя, 7</div>
+          <div class="pm-ssid">Gogol7-Staff</div>
+        </div>
+        <span class="pm-row-v accent">рядом</span>
+      </div>
+      <div class="pm-row">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Пекарня «Батон»</div>
+          <div class="pm-ssid">Baton-Cash</div>
+        </div>
+        <span class="pm-row-v">не видно</span>
+      </div>
+      <div class="pm-row">
+        <span class="pm-bul warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-triangle-alert"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Столовая №3</div>
+          <div class="pm-ssid">stolovaya_guest</div>
+        </div>
+        <span class="pm-row-v warn">пароль сменили</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Отметки без сети</div>
+      <div class="pm-sec-n">за месяц</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row">
+        <span class="pm-bul warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-log-in"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">6 мая · Столовая №3</div>
+          <div class="pm-row-s">пароль сети сменили, отметка вручную</div>
+        </div>
+        <span class="pm-row-v warn">ждёт</span>
+      </div>
+      <div class="pm-row">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-circle-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">28 апреля · Батон</div>
+          <div class="pm-row-s">роутер перезагружали, закрыл старший</div>
+        </div>
+        <span class="pm-row-v">закрыта</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

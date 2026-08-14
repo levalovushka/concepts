@@ -1,0 +1,1130 @@
+{
+  "slug": "peresmenka",
+  "name": "Пересменка",
+  "eyebrow": "Пересменка · Сеть сменного персонала · iOS",
+  "targetSet": "vkontakte",
+  "domain": "peresmenka.app",
+  "heroTitle": "Пересменка — кто выйдет вместо вас",
+  "heroDeck": "Профессиональная сеть линейного персонала: подмена находится за двадцать минут, а телефон при этом не уходит в чужой чат.",
+  "tagline": "Не резюме и не биржа вакансий, а сеть вокруг одного вопроса: кто встанет на вашу смену в четверг в ночь",
+  "insight": "у бариста, повара и кассира вся карьера состоит из смен, но нигде не записано, кто выходил, когда обещал, — а меняются сменами в чатах, раздавая личный номер незнакомым людям",
+  "deck": "Сеть сменного персонала кафе и ритейла: 21 доступ набора ВКонтакте, ни одного своего сервера — только SDK провайдеров.",
+  "brand": {
+    "accent": "#4D7C0F",
+    "accentDark": "#A3E635",
+    "fonts": "Onest:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "shifts",
+      "label": "Смены"
+    },
+    {
+      "id": "swaps",
+      "label": "Подмены"
+    },
+    {
+      "id": "people",
+      "label": "Люди"
+    },
+    {
+      "id": "menu",
+      "label": "Меню"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к геопозиции",
+        "text": "Чтобы найти заведения вокруг вас и считать, сколько добираться до чужой смены."
+      },
+      "feature": "Точки рядом при устройстве и время в пути до открытой подмены",
+      "gesture": "«Найти заведения рядом» и «Сначала ближние»",
+      "screen": "join",
+      "target": "join",
+      "fallback": "Точка выбирается по коду от управляющего, подмены сортируются по времени начала",
+      "snack": "Нет доступа к геопозиции",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CLLocationManager whenInUse: без него iOS не отдаёт имя текущей сети, на котором держится отметка смены",
+      "grounding": "MKLocalSearch по категории заведений, расстояние и время в пути — MKDirections.ETA, трек не ведётся",
+      "reviewNote": "Геопозиция нужна дважды: подобрать заведение при устройстве на работу и посчитать время в пути до чужой смены — линейный персонал берёт подработку в шаговой доступности. Она же открывает чтение имени сети: iOS не отдаёт SSID без разрешения на геопозицию. Координаты не сохраняются, маршрут не пишется."
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Чтение имени сети",
+        "text": "Entitlement без системного запроса: имя текущей сети сверяется с сетью, записанной в карточке точки."
+      },
+      "feature": "Отметка смены засчитывается сетью заведения, а не словом сотрудника",
+      "gesture": "«Отметиться на смене»",
+      "screen": "checkin",
+      "target": "checkin",
+      "activate": true,
+      "fallback": "Остаётся отметка вручную — её подтверждает старший смены, и в табеле она помечена как неподтверждённая",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CNCopyCurrentNetworkInfo плюс выданная геопозиция — иначе SSID приходит пустым",
+      "grounding": "CNCopyCurrentNetworkInfo, SSID сверяется с записанным в карточке точки на устройстве",
+      "reviewNote": "Имя сети читается в момент отметки прихода и ухода и сравнивается с сохранённым в карточке точки. Отметка «был на смене» — единственная запись, из которой считаются часы, поэтому она подтверждается сетью заведения. SSID не отправляется и не логируется, ключ работает только вместе с разрешением на геопозицию."
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "«Пересменка» подключит вас к сети точки",
+        "text": "Приложение настроит подключение к рабочей сети заведения по параметрам из QR-кода в подсобке."
+      },
+      "feature": "Подключение к сети незнакомой точки по QR из подсобки — без него отметка не засчитается",
+      "gesture": "«Подключиться»",
+      "screen": "netqr",
+      "target": "netqr",
+      "fallback": "Имя сети и пароль показываются текстом — вводятся руками в Настройках",
+      "snack": "Не удалось настроить подключение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfigurationManager, параметры сети приходят из QR-кода — сервер не участвует"
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к камере",
+        "text": "Чтобы снять зал и витрину при сдаче смены и считать QR рабочей сети."
+      },
+      "feature": "Фото витрины, кассы и холодильника в акт передачи смены плюс сканер QR",
+      "gesture": "«Снять» и «Считать QR»",
+      "screen": "handover",
+      "target": "shoot",
+      "fallback": "Акт передачи заполняется галочками без снимков, сеть вводится руками",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVFoundation для съёмки, DataScannerViewController для QR — распознавание на устройстве"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к медиатеке",
+        "text": "Чтобы найти среди ваших скриншотов присланный график и разобрать его на смены."
+      },
+      "feature": "График из скриншота: приложение находит снимки экрана с расписанием и раскладывает их на смены",
+      "gesture": "«Найти график в скриншотах»",
+      "screen": "shifts",
+      "target": "import",
+      "fallback": "Смены заводятся вручную или считываются с QR-кода на распечатке графика",
+      "snack": "Нет доступа к медиатеке",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHAsset с фильтром photoScreenshot за 14 дней, разбор текста — Vision VNRecognizeTextRequest на устройстве",
+      "reviewNote": "Нужен полный доступ, а не PHPicker: график присылают картинкой в рабочий чат, и человек не помнит, какой из сотни скриншотов свежий. Приложение само отбирает снимки экрана за две недели и распознаёт их на устройстве через Vision. Библиотека не выгружается: в график попадают только те смены, которые сотрудник подтвердил."
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к микрофону",
+        "text": "Чтобы записать брифинг смены голосом: сорок секунд быстрее, чем печатать на баре."
+      },
+      "feature": "Голосовой брифинг смены: что кончилось, что по акции, что передать вечерним",
+      "gesture": "«Записать брифинг»",
+      "screen": "brief",
+      "target": "record",
+      "fallback": "Брифинг остаётся текстовым — набирается на клавиатуре",
+      "snack": "Нет доступа к микрофону",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, файл уходит в Firebase Storage через SDK"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к распознаванию речи",
+        "text": "Чтобы рядом с брифингом появилась расшифровка — в зале шумно, наушников может не быть."
+      },
+      "feature": "Расшифровка брифинга в текст рядом с записью",
+      "gesture": "«Записать брифинг» — цепочкой с микрофоном",
+      "screen": "brief",
+      "target": "record",
+      "fallback": "Брифинг отправляется без расшифровки, слушать придётся звуком",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true",
+      "reviewNote": "Распознавание идёт на устройстве, аудио не уходит в сервис распознавания. Расшифровка нужна, чтобы брифинг читали в зале, где шумно, и чтобы по нему работал поиск: «когда меняли поставщика молока»."
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Entitlement без системного запроса: брифинг продолжает играть с погашенным экраном и управляется с локскрина."
+      },
+      "feature": "Брифинги слушают по дороге на смену: экран в кармане, на локскрине — Now Playing и ±15 секунд",
+      "gesture": "«Слушать»",
+      "screen": "brief",
+      "target": "player",
+      "activate": true,
+      "fallback": "Без режима звук обрывается при блокировке — брифинг придётся слушать с открытым экраном",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession категории playback, заполненный MPNowPlayingInfoCenter и обработанные remote-команды — без них режим не защитить на review",
+      "grounding": "AVAudioSession playback, MPNowPlayingInfoCenter, MPRemoteCommandCenter; файлы брифингов из Firebase Storage",
+      "reviewNote": "Брифинг слушают ровно в тот момент, когда экран погашен: в метро, за рулём, пока идёшь к точке. Поэтому фоновое воспроизведение — не довесок, а сама фича. Now Playing заполнен названием точки и датой смены, работают пауза, ±15 секунд и следующая запись. Как проверить: демо-аккаунт → Смены → любая смена → Брифинг → «Слушать» → заблокировать экран."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Пересменка» запрашивает разрешение на уведомления",
+        "text": "Пришлём, когда на вашу смену найдётся сменщик или сорвётся уже согласованная подмена."
+      },
+      "feature": "Уведомление, когда на выставленную смену откликнулись",
+      "gesture": "«Искать подмену»",
+      "screen": "shift",
+      "target": "shift",
+      "fallback": "Отклики видны при открытии, на вкладке «Подмены» стоит счётчик",
+      "snack": "Уведомления отключены — включить можно в Настройках",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "регистрация в APNs через Firebase Cloud Messaging и отправка из консоли — своего сервера нет",
+      "grounding": "FCM SDK, подписка на документ смены в Firestore, рассылка из консоли провайдера",
+      "reviewNote": "Уведомления приходят по конкретной смене, которую сотрудник сам выставил кнопкой «Искать подмену», и по подмене, на которую откликнулся. Отправка — из консоли Firebase Cloud Messaging, своего сервера нет."
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Entitlement без системного запроса: сообщение сменщика показывается с его аватаром."
+      },
+      "feature": "Сообщение сменщика приходит с аватаром и попадает в сводку Focus",
+      "gesture": "«Показывать как сообщение»",
+      "screen": "chat",
+      "target": "lockscreen",
+      "activate": true,
+      "fallback": "Без entitlement уведомление обычное: имя в тексте, без аватара и вне сводки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "донат INSendMessageIntent и Notification Service Extension, подставляющий аватар",
+      "grounding": "INSendMessageIntent, Notification Service Extension, аватар из общего контейнера App Group",
+      "reviewNote": "Entitlement запрашивается под переписку о подмене: договариваются за час до смены, и уведомление должно пройти через Focus «Не беспокоить» как сообщение человека, а не как рассылка приложения."
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Звонок сменщику",
+        "text": "Entitlement без системного запроса: входящий вызов поднимает приложение через PushKit и показывается в CallKit."
+      },
+      "feature": "Звонок по смене без обмена номерами: телефон остаётся у владельца",
+      "gesture": "«Позвонить»",
+      "screen": "person",
+      "target": "call",
+      "activate": true,
+      "fallback": "Без режима вызов приходит обычным уведомлением, и на него надо успеть открыть приложение",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "PushKit плюс CallKit и реальный звонок: без CallKit режим не защитить на review",
+      "grounding": "сигнализация через SDK провайдера (LiveKit / Agora), адресация по профилю — номер в ней не участвует",
+      "reviewNote": "Личный номер линейного сотрудника расходится по рабочим чатам и остаётся там после увольнения. Поэтому вызов адресуется профилю, а не телефону: номера обеих сторон не раскрываются. Входящий приходит через PushKit и показывается системным CallKit — за час до смены на него отвечают с локскрина. Аудио не записывается. Как проверить: демо-аккаунт → Люди → Игорь Пахомов → «Позвонить»."
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихие уведомления",
+        "text": "Entitlement без системного запроса: тихий пуш переписывает смену на виджете, пока приложение закрыто."
+      },
+      "feature": "Перенос или отмена смены доезжает до виджета при закрытом приложении",
+      "gesture": "«Следить за изменениями»",
+      "screen": "shift",
+      "target": "background",
+      "activate": true,
+      "fallback": "Без режима смена на виджете обновляется только после открытия приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "обработчик didReceiveRemoteNotification, который переписывает снапшот виджета",
+      "grounding": "silent push из консоли FCM, снапшот в контейнере App Group"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Обновление в фоне",
+        "text": "Entitlement без системного запроса: график на неделю и свежие подмены подтягиваются к утру."
+      },
+      "feature": "График и открытые подмены готовы к первому открытию — до смены их читают на ходу",
+      "gesture": "«Обновление в фоне»",
+      "screen": "settings",
+      "target": "background",
+      "activate": true,
+      "fallback": "Без режима график и подмены обновляются в момент открытия",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "BGAppRefreshTask, который реально читает график своих точек и открытые подмены из Firestore",
+      "grounding": "BGAppRefreshTask, чтение Firestore через SDK, запись снапшота для виджета",
+      "reviewNote": "В фоне обновляются два предмета: смены своих точек на неделю вперёд и список открытых подмен в радиусе. Обе строки видны на виджете и на вкладке «Смены» сразу после запуска — проверяется без ожидания."
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Идентификатор фоновой задачи",
+        "text": "Entitlement без системного запроса: app.peresmenka.refresh объявлен в Info.plist и зарегистрирован в коде."
+      },
+      "feature": "Идентификатор app.peresmenka.refresh — под ним планируется обновление графика",
+      "gesture": "«Проверить задачу»",
+      "screen": "background",
+      "target": "shifts",
+      "activate": true,
+      "fallback": "Незарегистрированный идентификатор — задача не запустится вообще",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "строка в Info.plist совпадает с BGTaskScheduler.register — иначе падение при регистрации",
+      "grounding": "один идентификатор app.peresmenka.refresh под BGAppRefreshTask"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Entitlement без системного запроса: виджет и расширения читают данные приложения."
+      },
+      "feature": "Виджет «Ближайшая смена» и Share Extension видят данные приложения",
+      "gesture": "«Виджет на экран „Домой“»",
+      "screen": "settings",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Без группы виджет пустой, а пересланная в рабочий чат смена не доходит — не ship",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "контейнер group.app.peresmenka: снапшот смены в JSON плюс аватары для Notification Service Extension"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая связка ключей",
+        "text": "Entitlement без системного запроса: одна сессия на приложение, виджет и расширения."
+      },
+      "feature": "Одна сессия: из виджета приложение открывается уже войденным",
+      "gesture": "«Открыть смену» из виджета",
+      "screen": "widget",
+      "target": "shifts",
+      "activate": true,
+      "fallback": "Без общей группы вход придётся повторять в каждом расширении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с расширениями"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Автозаполнение паролей",
+        "text": "Entitlement без системного запроса: рабочие логины точки подставляются в Safari системным автозаполнением."
+      },
+      "feature": "Логины точки — планшет доставки, табельный портал — подставляются в Safari без пересылки в чат",
+      "gesture": "«Включить автозаполнение»",
+      "screen": "passwords",
+      "target": "fill",
+      "activate": true,
+      "fallback": "Логин остаётся копировать руками из карточки точки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, записи в Keychain общей группы; публикует их управляющий точкой",
+      "reviewNote": "Рабочие логины сейчас живут в закреплённом сообщении рабочего чата и уходят вместе с уволившимися. Здесь они лежат в Keychain, выдаются на время работы на точке и подставляются системным автозаполнением — сотруднику не нужно их видеть и пересылать."
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к контактам",
+        "text": "Чтобы показать, с кем из ваших знакомых вы уже работали. Книга не покидает устройство."
+      },
+      "feature": "Кто из ваших контактов уже здесь: с ними подмена закрывается первой",
+      "gesture": "«Найти среди контактов»",
+      "screen": "people",
+      "target": "mates",
+      "fallback": "Остаётся поиск по точке и по общим сменам",
+      "snack": "Нет доступа к контактам",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CNContactStore, сверка локально со списком людей своих точек, уже загруженным на устройство",
+      "reviewNote": "Адресная книга не покидает устройство: номера сверяются локально со списком людей своих точек, который к этому моменту уже загружен. Ничего не выгружается и не сохраняется, совпадения живут в памяти до выхода с экрана."
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает доступ к календарю",
+        "text": "Чтобы положить смены в календарь, а при переносе — поправить уже добавленное событие."
+      },
+      "feature": "Смены в системном календаре, с правкой при переносе и удалением при отмене",
+      "gesture": "«Добавить в Календарь»",
+      "screen": "shift",
+      "target": "shift",
+      "fallback": "Смена остаётся внутри «Пересменки», с напоминанием за час в приложении",
+      "snack": "Нет доступа к календарю",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit локально; для iOS ниже 17 в Info.plist остаётся NSCalendarsUsageDescription",
+      "reviewNote": "Нужен полный доступ, а не write-only: смены переносят и отменяют, и приложение правит либо удаляет ранее созданное событие. Write-only не позволяет найти своё событие, чтобы его изменить."
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Пересменка» запрашивает использование Face ID",
+        "text": "Чтобы закрыть раздел заработка: там ставка за час, отработанные часы и долги по сменам."
+      },
+      "feature": "Замок на разделе «Заработок»: ставка и часы не видны через плечо",
+      "gesture": "«Открыть заработок»",
+      "screen": "menu",
+      "target": "lock",
+      "fallback": "Остаётся код-пароль устройства",
+      "snack": "Face ID недоступен — останется код-пароль",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LocalAuthentication, политика deviceOwnerAuthentication — код-пароль как запасной путь"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Пересменке» отслеживать действия?",
+        "text": "Тогда в ленте подмен будут объявления работодателей рядом с вами, а не случайные баннеры.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
+      "feature": "Объявления работодателей вместо платной подписки",
+      "gesture": "«Продолжить»",
+      "screen": "ads",
+      "target": "menu",
+      "fallback": "Объявления остаются, но неперсонализированные — не по вашим точкам и специальности",
+      "snack": "Отслеживание запрещено — объявления будут обычными",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "рекламный SDK в сборке, IDFA действительно уходит в SDK — иначе промпт нечем оправдать",
+      "grounding": "AppTrackingTransparency плюс рекламный SDK; ставки и креативы на стороне сети",
+      "reviewNote": "ATT показывается только после экрана с объяснением, никогда на старте. Отказ ничего не отключает: объявления остаются, но без интересов — это написано на самом экране до промпта."
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP · автоподстановка"
+    },
+    {
+      "id": "join",
+      "title": "Где вы работаете",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Location · точки рядом"
+    },
+    {
+      "id": "manual",
+      "title": "Код точки",
+      "type": "push",
+      "light": true,
+      "parent": "join",
+      "meta": "Fallback отказа в геопозиции"
+    },
+    {
+      "id": "shifts",
+      "title": "Смены",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "График недели · Photo Library"
+    },
+    {
+      "id": "import",
+      "title": "График из скриншотов",
+      "type": "push",
+      "light": true,
+      "parent": "shifts",
+      "meta": "Photo Library · Vision OCR"
+    },
+    {
+      "id": "shift",
+      "title": "Смена",
+      "type": "push",
+      "light": true,
+      "parent": "shifts",
+      "meta": "Push · Calendar · Remote notification"
+    },
+    {
+      "id": "checkin",
+      "title": "Отметка на смене",
+      "type": "sheet",
+      "light": true,
+      "parent": "shift",
+      "meta": "Wi-Fi Info · табель"
+    },
+    {
+      "id": "netqr",
+      "title": "Сеть точки",
+      "type": "push",
+      "light": true,
+      "parent": "checkin",
+      "meta": "Hotspot · Camera"
+    },
+    {
+      "id": "scan",
+      "title": "Сканер QR",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "netqr",
+      "meta": "DataScanner"
+    },
+    {
+      "id": "handover",
+      "title": "Сдача смены",
+      "type": "push",
+      "light": true,
+      "parent": "shift",
+      "meta": "Camera · акт передачи"
+    },
+    {
+      "id": "shoot",
+      "title": "Камера",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "handover",
+      "meta": "AVFoundation"
+    },
+    {
+      "id": "brief",
+      "title": "Брифинг смены",
+      "type": "push",
+      "light": true,
+      "parent": "shift",
+      "meta": "Audio · Microphone · Speech"
+    },
+    {
+      "id": "record",
+      "title": "Запись брифинга",
+      "type": "sheet",
+      "light": true,
+      "parent": "brief",
+      "meta": "Microphone · Speech"
+    },
+    {
+      "id": "player",
+      "title": "Брифинг в фоне",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "brief",
+      "meta": "Now Playing · фоновое аудио"
+    },
+    {
+      "id": "swaps",
+      "title": "Подмены",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Открытые смены · Location"
+    },
+    {
+      "id": "swap",
+      "title": "Открытая смена",
+      "type": "push",
+      "light": true,
+      "parent": "swaps",
+      "meta": "Отклик на подмену"
+    },
+    {
+      "id": "people",
+      "title": "Люди",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "С кем работали · Contacts"
+    },
+    {
+      "id": "mates",
+      "title": "Знакомые в сети",
+      "type": "push",
+      "light": true,
+      "parent": "people",
+      "meta": "Contacts · локальная сверка"
+    },
+    {
+      "id": "person",
+      "title": "Карточка человека",
+      "type": "push",
+      "light": true,
+      "parent": "people",
+      "meta": "Смены вместе · VoIP"
+    },
+    {
+      "id": "call",
+      "title": "Звонок по смене",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "person",
+      "meta": "CallKit · VoIP"
+    },
+    {
+      "id": "chat",
+      "title": "Переписка",
+      "type": "push",
+      "light": true,
+      "parent": "person",
+      "meta": "Communication notification"
+    },
+    {
+      "id": "lockscreen",
+      "title": "Экран блокировки",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "chat",
+      "meta": "Уведомление с аватаром"
+    },
+    {
+      "id": "menu",
+      "title": "Меню",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Разделы · Face ID"
+    },
+    {
+      "id": "lock",
+      "title": "Замок Face ID",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "menu",
+      "meta": "LocalAuthentication"
+    },
+    {
+      "id": "money",
+      "title": "Заработок",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Часы и ставка за период"
+    },
+    {
+      "id": "passwords",
+      "title": "Логины точки",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "AutoFill Credential Provider"
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение в Safari",
+      "type": "системная поверхность",
+      "light": true,
+      "parent": "passwords",
+      "meta": "ASCredentialProvider"
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Фон · виджет · реклама"
+    },
+    {
+      "id": "background",
+      "title": "Обновление в фоне",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "Background fetch · BGTaskScheduler"
+    },
+    {
+      "id": "widget",
+      "title": "Виджет на экране «Домой»",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "App Groups · Keychain"
+    },
+    {
+      "id": "ads",
+      "title": "Объявления",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT после объяснения"
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все 32 экрана и все 21 доступ набора",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "join",
+        "manual",
+        "shifts",
+        "import",
+        "shift",
+        "checkin",
+        "netqr",
+        "scan",
+        "handover",
+        "shoot",
+        "brief",
+        "record",
+        "player",
+        "swaps",
+        "swap",
+        "people",
+        "mates",
+        "person",
+        "call",
+        "chat",
+        "lockscreen",
+        "menu",
+        "lock",
+        "money",
+        "passwords",
+        "fill",
+        "settings",
+        "background",
+        "widget",
+        "ads"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход и первая точка",
+      "note": "Номер, код из SMS и выбор заведения — по геопозиции или по коду от управляющего",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "join",
+        "manual",
+        "shifts"
+      ],
+      "stops": [
+        "shifts"
+      ]
+    },
+    {
+      "id": "shiftday",
+      "label": "День смены",
+      "note": "Отметка по сети точки, подключение по QR и акт передачи со снимками",
+      "start": "shifts",
+      "screens": [
+        "shifts",
+        "shift",
+        "checkin",
+        "netqr",
+        "scan",
+        "handover",
+        "shoot",
+        "brief",
+        "import",
+        "person",
+        "background"
+      ],
+      "stops": [
+        "brief",
+        "import",
+        "person",
+        "background"
+      ]
+    },
+    {
+      "id": "briefing",
+      "label": "Брифинг по дороге",
+      "note": "Запись голосом с расшифровкой и прослушивание с погашенным экраном",
+      "start": "brief",
+      "screens": [
+        "brief",
+        "record",
+        "player",
+        "shift",
+        "shifts"
+      ],
+      "stops": [
+        "shift",
+        "shifts"
+      ]
+    },
+    {
+      "id": "swapflow",
+      "label": "Найти подмену",
+      "note": "Открытые смены рядом, отклик и звонок без обмена номерами",
+      "start": "swaps",
+      "screens": [
+        "swaps",
+        "swap",
+        "person",
+        "call",
+        "chat",
+        "lockscreen",
+        "shift"
+      ],
+      "stops": [
+        "lockscreen",
+        "shift"
+      ]
+    },
+    {
+      "id": "peopleflow",
+      "label": "Люди и контакты",
+      "note": "Локальная сверка адресной книги, карточка человека и уведомление с аватаром",
+      "start": "people",
+      "screens": [
+        "people",
+        "mates",
+        "person",
+        "chat",
+        "lockscreen",
+        "call",
+        "shift",
+        "swap"
+      ],
+      "stops": [
+        "shift",
+        "lockscreen",
+        "swap"
+      ]
+    },
+    {
+      "id": "schedule",
+      "label": "График из скриншота",
+      "note": "Разбор присланной картинки на смены и выгрузка в системный календарь",
+      "start": "shifts",
+      "screens": [
+        "shifts",
+        "import",
+        "shift",
+        "checkin",
+        "brief",
+        "handover",
+        "person",
+        "background"
+      ],
+      "stops": [
+        "checkin",
+        "brief",
+        "handover",
+        "person",
+        "background"
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Доступы, виджет, замок",
+      "note": "Фон, виджет, ATT после объяснения, логины точки и Face ID на заработке",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "background",
+        "widget",
+        "ads",
+        "menu",
+        "lock",
+        "money",
+        "passwords",
+        "fill",
+        "shifts",
+        "netqr"
+      ],
+      "stops": [
+        "shifts",
+        "netqr"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Вход по номеру телефона и сессия",
+      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+    },
+    {
+      "needs": "Профили, точки, график смен, отклики на подмены",
+      "solution": "Firestore со security rules: смену точки правят только те, кто к ней привязан. Правила — конфигурация, не серверный код"
+    },
+    {
+      "needs": "Табель: кто и когда был на смене",
+      "solution": "Клиент: отметка пишется, только если SSID текущей сети совпал с сетью точки; часы считаются на устройстве, спорные отметки помечаются флагом"
+    },
+    {
+      "needs": "Брифинги смены и их расшифровки",
+      "solution": "Firebase Storage для аудио, <code>SFSpeechRecognizer</code> на устройстве для текста — сервис распознавания не участвует"
+    },
+    {
+      "needs": "Разбор присланного графика",
+      "solution": "<code>PHAsset</code> по подтипу «снимок экрана» и Vision OCR на устройстве; парсер таблицы — клиентский"
+    },
+    {
+      "needs": "Уведомления об откликах и переносах",
+      "solution": "Firebase Cloud Messaging, рассылка из консоли провайдера; аватар подставляет Notification Service Extension"
+    },
+    {
+      "needs": "Звонок сменщику без раскрытия номера",
+      "solution": "SDK провайдера звонков (LiveKit / Agora): адресация по идентификатору профиля, PushKit и CallKit на клиенте"
+    },
+    {
+      "needs": "Поиск заведений и расстояний",
+      "solution": "<code>MKLocalSearch</code> и <code>MKDirections</code> — карты Apple, своего геосервиса нет"
+    },
+    {
+      "needs": "Знакомые среди людей своих точек",
+      "solution": "Локальная сверка <code>CNContactStore</code> со списком, уже загруженным на устройство"
+    },
+    {
+      "needs": "Рабочие логины точки",
+      "solution": "Keychain общей группы плюс Credential Provider extension; записи публикует управляющий точкой"
+    },
+    {
+      "needs": "Заработок за период",
+      "solution": "CoreData на устройстве: часы из табеля умножаются на ставку, записанную в карточке точки. Расчётного листа приложение не выдаёт"
+    },
+    {
+      "needs": "Монетизация без подписки",
+      "solution": "Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Пересменка — смены и люди",
+    "subtitle": "Кто выйдет вместо вас",
+    "promo": "Подмена находится за двадцать минут, а личный номер не уходит в чужой чат. Отметка на смене подтверждается сетью заведения, брифинг слушается по дороге.",
+    "keywords": "бариста,официант,повар,кассир,график,табель,подработка,сменный,общепит,ритейл,персонал",
+    "category": {
+      "primary": "Business",
+      "secondary": "Social Networking"
+    },
+    "ageRating": "17+",
+    "price": "Бесплатно, объявления работодателей, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS через SDK провайдеров",
+    "urls": {
+      "support": "https://peresmenka.app/support",
+      "marketing": "https://peresmenka.app",
+      "privacy": "https://peresmenka.app/privacy"
+    },
+    "description": [
+      "«Пересменка» — сеть тех, кто работает сменами: бариста, поваров, кассиров, официантов. Здесь нет резюме и откликов на вакансии. Есть один вопрос, вокруг которого всё построено: кто встанет на вашу смену в четверг в ночь.",
+      "ПОДМЕНА БЕЗ РАЗДАЧИ НОМЕРА\nВыставьте смену — её увидят люди, с которыми вы уже работали, и те, кто рядом. Договориться можно в переписке или звонком прямо из приложения: телефоны сторон друг другу не показываются и не передаются.",
+      "ОТМЕТКА, КОТОРУЮ ПОДТВЕРЖДАЕТ ЗАВЕДЕНИЕ\nПриход и уход отмечаются, когда телефон в рабочей сети точки. Из этих отметок складываются часы за период. Отметка вручную тоже возможна — она помечена как неподтверждённая, и её видит старший смены.",
+      "БРИФИНГ, КОТОРЫЙ СЛУШАЮТ ПО ДОРОГЕ\nСтарший записывает сорок секунд голосом: что кончилось, что по акции, что передать вечерним. Запись играет с погашенным экраном и управляется с локскрина, а рядом лежит расшифровка — в зале шумно.",
+      "ГРАФИК ИЗ СКРИНШОТА\nГрафик присылают картинкой в рабочий чат. Приложение находит нужный снимок среди ваших скриншотов и раскладывает его на смены — распознавание идёт на устройстве.",
+      "АКТ ПЕРЕДАЧИ СМЕНЫ\nВитрина, касса, холодильник — снимки и галочки в акте. Спорные пересменки закрываются не памятью, а карточкой смены.",
+      "ЛОГИНЫ ТОЧКИ ВМЕСТО ЗАКРЕПА В ЧАТЕ\nДоступы к планшету доставки и табельному порталу подставляются в Safari системным автозаполнением. Их не нужно видеть и пересылать.",
+      "СВОЕГО СЕРВЕРА У НАС НЕТ\nВход, база и уведомления работают на SDK провайдеров, карта точек — на MapKit, табель и заработок — на устройстве. Все доступы запрашиваются в момент действия, и у каждого есть работающий отказ."
+    ],
+    "whatsNew": "Первая версия: подмены рядом, отметка по сети заведения, голосовой брифинг с расшифровкой и фоновым прослушиванием, разбор графика из скриншота, акт передачи смены, звонок без обмена номерами.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации, токен лежит в Keychain. Другим людям в приложении номер не показывается"
+      },
+      {
+        "type": "Точное местоположение",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Поиск заведений рядом и время в пути до открытой подмены. Координаты не сохраняются, маршрут не пишется"
+      },
+      {
+        "type": "Место работы и график смен",
+        "apple": "User Content → Other User Content",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Точка, роль, смены и отметки прихода — это и есть профиль. Видны людям своих точек и тем, кому предложена подмена"
+      },
+      {
+        "type": "Отработанные часы и ставка",
+        "apple": "Financial Info → Other Financial Info",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Считается на устройстве из отметок табеля и ставки точки. Раздел закрыт Face ID, наружу не уходит"
+      },
+      {
+        "type": "Переписка о подменах",
+        "apple": "User Content → Emails or Text Messages",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Сообщения хранятся в Firestore, доступ ограничен security rules: только участники переписки"
+      },
+      {
+        "type": "Фотографии и видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Снимки в акте передачи смены и подтверждённый график со скриншота. Отбор скриншотов и распознавание идут на устройстве, библиотека не выгружается"
+      },
+      {
+        "type": "Аудиозаписи",
+        "apple": "User Content → Audio Data",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Брифинги смены. Расшифровка делается на устройстве, в сервис распознавания аудио не уходит. Аудио звонков не записывается"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Сверка идёт локально со списком людей своих точек. Адресная книга не покидает устройство и не сохраняется"
+      },
+      {
+        "type": "Токен уведомлений",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Push-токен FCM: по нему приходят отклики на подмену и переносы смен. Трекингом не используется"
+      },
+      {
+        "type": "Рекламный идентификатор",
+        "apple": "Identifiers → Advertising Data",
+        "purpose": "Сторонняя реклама",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA уходит в рекламный SDK только после разрешения в ATT. Отказ оставляет неперсонализированные объявления. Это единственная строка с трекингом"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Вход по номеру: тестовый номер принимает любой код, SMS не отправляется. Аккаунт привязан к демо-точке «Кофейня на Гоголя, 7», в графике есть смена сегодня и выставленная подмена на четверг. Отметка по сети доступна повторно из карточки смены."
+    }
+  },
+  "qualityContractVersion": 1,
+  "product": {
+    "audience": "Линейный персонал кафе и ритейла: бариста, повара, кассиры, официанты на сменном графике",
+    "situation": "Вечер перед сменой: выйти нельзя, а график и договорённости живут в рабочем чате",
+    "problem": "Подмену ищут в общем чате через личные номера, а кто выходил и вовремя ли — нигде не записано",
+    "promise": "Найти сменщика за двадцать минут и не отдать при этом свой телефон",
+    "differentiator": "Единица содержания — смена, а не пост: репутация складывается из отметок табеля, а связь адресуется профилю, а не номеру",
+    "returnReasons": [
+      "Отметить приход и уход по сети заведения — из этих отметок считаются часы",
+      "Послушать брифинг смены по дороге на работу",
+      "Закрыть подмену на день, когда выйти не получается",
+      "Свести часы и сумму за период по двум точкам"
+    ],
+    "verticalSlice": {
+      "entry": "shifts",
+      "action": "checkin",
+      "result": "money"
+    },
+    "coreLoop": [
+      "Открыть смену на сегодня и послушать брифинг",
+      "Отметить приход, когда телефон в сети заведения",
+      "Сдать смену актом с кадрами зала",
+      "Выставить подмену на день, когда не выйти, и закрыть её сменщиком",
+      "Свести часы и сумму за период"
+    ],
+    "nonGoals": [
+      "Публичная лента и подписки",
+      "Отзывы и оценки людей вместо фактов из смен",
+      "Обмен телефонами между сотрудниками",
+      "Расчётный лист вместо бухгалтерии работодателя"
+    ]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Business как основная категория: продукт про работу, табель и часы. Social Networking вторична — соцграф здесь служебный, он нужен, чтобы закрыть смену",
+    "familiarPatterns": [
+      "Профили людей и общие связи между ними",
+      "Переписка и звонок внутри приложения",
+      "Уведомление о сообщении человека с аватаром"
+    ],
+    "distinctions": [
+      "Ленты и подписок нет: единица содержания — смена, а не пост",
+      "Репутация — факты выходов из табеля, а не отзывы и оценки",
+      "Телефон не виден никому: вызов адресуется профилю",
+      "Отметка о смене подтверждается сетью заведения, а не словом сотрудника"
+    ],
+    "evidenceScreens": [
+      "shifts",
+      "checkin",
+      "swaps",
+      "person",
+      "brief",
+      "money"
+    ]
+  }
+}

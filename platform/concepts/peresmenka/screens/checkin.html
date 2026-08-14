@@ -1,0 +1,89 @@
+<div class="screen pm-page" id="scr-checkin">
+  <div class="body-scroll pm-scroll" aria-hidden="true" style="padding-top:calc(var(--safe-top) + 8px)">
+    <div class="pm-card pad" style="margin-top:4px">
+      <div class="pm-shift-time" style="font-size:26px;line-height:30px">07:45 → 16:00</div>
+      <div class="pm-shift-s">Кофейня на Гоголя, 7 · бариста</div>
+      <div class="pm-band">
+        <i class="gap" style="flex:7"></i><i class="past" style="flex:19"></i><i class="on" style="flex:20"></i><i class="gap" style="flex:54"></i>
+      </div>
+    </div>
+  </div>
+
+  <div aria-hidden="true" style="position:absolute;inset:0;background-color:rgba(10,12,10,.45)"></div>
+  <div class="tap" data-back aria-label="Закрыть отметку" style="position:absolute;left:0;right:0;top:0;height:16%"></div>
+
+  <div class="sheet light">
+    <div class="grabber tap" data-back aria-label="Свернуть"></div>
+    <div class="sheet-body tight-top">
+      <div class="pm-punch">
+        <div class="pm-punch-clock">11:48</div>
+        <div class="pm-punch-sub">Вторник, 19 мая · перерыв закончился</div>
+
+        <div class="pm-net tap" data-activate="wifiinfo|checkin" aria-label="Проверить сеть точки">
+          <svg class="ico-svg"><use href="#i-wifi"/></svg>
+          <div class="pm-net-main">
+            <div class="pm-net-t">Проверить сеть точки</div>
+            <div class="pm-row-s">сверим с сетью, записанной в карточке точки</div>
+          </div>
+          <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+        </div>
+
+        <div class="pm-net is-ok perm-hidden" data-show-granted="wifiinfo">
+          <svg class="ico-svg"><use href="#i-badge-check"/></svg>
+          <div class="pm-net-main">
+            <div class="pm-net-t">Вы в сети заведения</div>
+            <div class="pm-ssid">Gogol7-Staff · совпала с карточкой точки</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pm-card" style="margin-top:14px">
+        <div class="pm-tape">
+          <div class="pm-punchrow">
+            <span class="pm-punch-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-log-in"/></svg></span>
+            <div class="pm-row-main">
+              <div class="pm-punch-t">Приход</div>
+              <div class="pm-punch-s">подтверждён сетью</div>
+            </div>
+            <span class="pm-punch-v">07:41</span>
+          </div>
+          <div class="pm-punchrow">
+            <span class="pm-punch-ico mute" aria-hidden="true"><svg class="ico-svg"><use href="#i-coffee"/></svg></span>
+            <div class="pm-row-main">
+              <div class="pm-punch-t">Перерыв</div>
+              <div class="pm-punch-s">28 мин · не оплачивается</div>
+            </div>
+            <span class="pm-punch-v">11:20</span>
+          </div>
+          <div class="pm-punchrow">
+            <span class="pm-punch-ico warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-log-out"/></svg></span>
+            <div class="pm-row-main">
+              <div class="pm-punch-t">Уход</div>
+              <div class="pm-punch-s">по графику в 16:00</div>
+            </div>
+            <span class="pm-punch-v">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pm-card">
+        <div class="pm-row tap" data-go="netqr" aria-label="Сети точки не видно">
+          <span class="pm-bul warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></span>
+          <div class="pm-row-main">
+            <div class="pm-row-t">Сети точки не видно</div>
+            <div class="pm-row-s wrap">Подключиться по QR из подсобки или отметиться вручную</div>
+          </div>
+          <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+        </div>
+      </div>
+
+      <p class="t-footnote" style="padding:10px 2px 0">Ручная отметка уходит в табель с пометкой «не подтверждена» — её закрывает старший смены.</p>
+    </div>
+
+    <div class="sheet-footer">
+      <div class="btn-filled block tap" data-toast="Уход отмечен в 11:48 · сеть подтвердила|shift" aria-label="Отметить уход">Отметить уход</div>
+      <div class="btn-quiet tap" data-toast="Отметка отправлена старшему смены|shift" aria-label="Отметиться вручную">Отметиться вручную</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

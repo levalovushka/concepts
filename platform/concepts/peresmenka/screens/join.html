@@ -1,0 +1,129 @@
+<div class="screen ios-surface pm-page" id="scr-join">
+  <div class="navbar">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к коду"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Код</span></div>
+    </div>
+    <div class="title">Место работы</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll pm-scroll">
+    <h1 class="t-title" style="font-size:26px;line-height:32px;margin-top:6px">Где вы работаете</h1>
+    <p class="t-subhead mt8">Точка нужна, чтобы график и подмены были ваши, а не чужого города. Точек может быть несколько.</p>
+
+    <div class="searchfield mt16" aria-label="Поиск заведения по названию">
+      <svg class="ico-svg" style="width:16px;height:16px"><use href="#i-search"/></svg>
+      <span class="sf-text sf-placeholder">Название или адрес</span>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-row tap" data-ask="location|join|join" aria-label="Найти заведения рядом">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-navigation"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Найти заведения рядом</div>
+          <div class="pm-row-s wrap">Список составится по адресу, где вы сейчас</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="location">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без геопозиции заведения рядом не подобрать. Точка добавляется по коду — его выдаёт управляющий или он висит в подсобке.</span>
+      </div>
+    </div>
+
+    <div class="pm-sec perm-hidden" data-show-granted="location">
+      <div class="pm-sec-t">Рядом с вами</div>
+      <div class="pm-sec-n">7 заведений</div>
+    </div>
+    <div class="pm-card perm-hidden" data-show-granted="location">
+      <div class="pm-row tap" data-go="manual" aria-label="Кофейня на Гоголя, 7">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-coffee"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Кофейня на Гоголя, 7</div>
+          <div class="pm-row-s">4 человека уже здесь · Гоголя, 7</div>
+        </div>
+        <span class="pm-row-v">140 м</span>
+      </div>
+      <div class="pm-row tap" data-go="manual" aria-label="Пекарня Батон на Кирова">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-store"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Пекарня «Батон»</div>
+          <div class="pm-row-s">Кирова, 41 · ночная выпечка</div>
+        </div>
+        <span class="pm-row-v">620 м</span>
+      </div>
+      <div class="pm-row tap" data-go="manual" aria-label="Столовая номер 3 на Заводской">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-utensils"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Столовая №3</div>
+          <div class="pm-row-s">Заводская, 2, корп. 4</div>
+        </div>
+        <span class="pm-row-v">1,3 км</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Если точки нет в списке</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" data-go="manual" aria-label="Ввести код точки">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-key"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Ввести код точки</div>
+          <div class="pm-row-s wrap">Шесть символов от управляющего</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="shifts" aria-label="Пока без точки: смотреть открытые подмены">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-arrow-left-right"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Пока без точки</div>
+          <div class="pm-row-s wrap">Останутся открытые подмены и люди — график будет пустым</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Сети города</div>
+      <div class="pm-sec-n">кто уже здесь</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" data-go="manual" aria-label="Сеть Циферблат, 6 точек">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-coffee"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Циферблат</div>
+          <div class="pm-row-s">6 кофеен · 34 человека в «Пересменке»</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="manual" aria-label="Пекарни Батон">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-store"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Пекарни «Батон»</div>
+          <div class="pm-row-s">2 точки · ночные смены с 22:00</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="manual" aria-label="Кондитерская Мука">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-utensils"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Кондитерская «Мука»</div>
+          <div class="pm-row-s">4 точки · берут на подмены без кода</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="manual" aria-label="Комбинат школьного питания">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-utensils"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Комбинат питания №2</div>
+          <div class="pm-row-s">11 столовых · график на месяц вперёд</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+    </div>
+
+    <p class="t-footnote mt16" style="padding:0 2px">Роль подтверждает старший смены: обычно в тот же день. До подтверждения график открыт только на чтение.</p>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

@@ -1,0 +1,152 @@
+<div class="screen ios-surface pm-page" id="scr-swaps">
+  <div class="navbar is-large">
+    <div class="nav-top"></div>
+    <div class="title large">Подмены</div>
+  </div>
+
+  <div class="body-scroll pm-scroll">
+    <div class="pm-tabs" aria-label="Фильтры открытых смен">
+      <span class="pm-pill is-on tap">Все<span class="pm-pill-n">14</span></span>
+      <span class="pm-pill tap">Мои точки<span class="pm-pill-n">5</span></span>
+      <span class="pm-pill tap">Ночные</span>
+      <span class="pm-pill tap">Сегодня</span>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-row tap" data-ask="location|swaps|swaps" aria-label="Сначала ближние подмены">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-navigation"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Сначала ближние</div>
+          <div class="pm-row-s wrap">Посчитаем, сколько добираться до каждой точки</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="location">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без геопозиции время в пути не посчитать — список идёт по времени начала смены, адреса указаны в карточках.</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Открытые смены</div>
+      <div class="pm-sec-n">14 · до 26 мая</div>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-swap tap" data-go="swap" aria-label="Подмена сегодня в 16:00, кофейня на Гоголя">
+        <div class="pm-swap-top">
+          <div class="grow">
+            <div class="pm-swap-t">Сегодня, 16:00 → 23:00</div>
+            <div class="pm-swap-s">Кофейня на Гоголя, 7 · бариста · Ксюша не выйдет</div>
+          </div>
+          <div class="pm-swap-rate"><b>2 210 ₽</b><span>7 ч · 260/ч + вечер</span></div>
+        </div>
+        <div class="pm-facts">
+          <span class="pm-fact hot"><svg class="ico-svg"><use href="#i-alarm-clock"/></svg>до начала <b>4 ч 12 мин</b></span>
+          <span class="pm-fact" data-hide-denied="location"><svg class="ico-svg"><use href="#i-route"/></svg><b>9 мин</b> пешком</span>
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-user-check"/></svg>вы тут работаете</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-swap tap" data-go="swap" aria-label="Ночная подмена 21 мая в пекарне Батон">
+        <div class="pm-swap-top">
+          <div class="grow">
+            <div class="pm-swap-t">Чт 21 мая, 22:00 → 07:00</div>
+            <div class="pm-swap-s">Пекарня «Батон» · ночная выпечка · нужен допуск к печи</div>
+          </div>
+          <div class="pm-swap-rate"><b>3 780 ₽</b><span>9 ч · ночной ×1,4</span></div>
+        </div>
+        <div class="pm-facts">
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-moon"/></svg>ночная</span>
+          <span class="pm-fact" data-hide-denied="location"><svg class="ico-svg"><use href="#i-route"/></svg><b>14 мин</b> на автобусе</span>
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-users"/></svg>откликнулись <b>3</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-swap tap" data-go="swap" aria-label="Подмена 22 мая в столовой номер 3">
+        <div class="pm-swap-top">
+          <div class="grow">
+            <div class="pm-swap-t">Пт 22 мая, 07:00 → 15:30</div>
+            <div class="pm-swap-s">Столовая №3 · раздача · Марат ищет замену на весь день</div>
+          </div>
+          <div class="pm-swap-rate"><b>1 955 ₽</b><span>8 ч 30 · 230/ч</span></div>
+        </div>
+        <div class="pm-facts">
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-triangle-alert"/></svg>пересекается с вашей сменой</span>
+          <span class="pm-fact" data-hide-denied="location"><svg class="ico-svg"><use href="#i-route"/></svg><b>26 мин</b> на автобусе</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-swap tap" data-go="swap" aria-label="Подмена 24 мая, кондитерская Мука, новая точка">
+        <div class="pm-swap-top">
+          <div class="grow">
+            <div class="pm-swap-t">Вс 24 мая, 09:00 → 18:00</div>
+            <div class="pm-swap-s">Кондитерская «Мука» · касса · точка, где вы не работали</div>
+          </div>
+          <div class="pm-swap-rate"><b>2 520 ₽</b><span>9 ч · 280/ч</span></div>
+        </div>
+        <div class="pm-facts">
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-key"/></svg>нужен код точки</span>
+          <span class="pm-fact" data-hide-denied="location"><svg class="ico-svg"><use href="#i-route"/></svg><b>31 мин</b> на метро</span>
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-users"/></svg>Аня уже брала тут смену</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Ваша смена в подмене</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-swap tap" data-go="swap" aria-label="Ваша смена 22 мая, откликнулись два человека">
+        <div class="pm-swap-top">
+          <div class="grow">
+            <div class="pm-swap-t">Пт 22 мая, 08:00 → 17:00</div>
+            <div class="pm-swap-s">Гоголя, 7 · выставлена вчера в 21:07</div>
+          </div>
+          <span class="pm-chip warn"><svg class="ico-svg"><use href="#i-arrow-left-right"/></svg>2 отклика</span>
+        </div>
+        <div class="pm-facts">
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-user-check"/></svg>Игорь Пахомов · 6 смен вместе</span>
+          <span class="pm-fact"><svg class="ico-svg"><use href="#i-user"/></svg>Настя К. · без общих смен</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Ваши отклики</div>
+      <div class="pm-sec-n">2</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" data-go="swap" aria-label="Отклик на смену 21 мая ждёт ответа">
+        <span class="pm-bul warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-timer"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Чт 21 мая · Батон, ночь</div>
+          <div class="pm-row-s">ждёт ответа 40 минут</div>
+        </div>
+        <span class="pm-row-v warn">в очереди 3-й</span>
+      </div>
+      <div class="pm-row tap" data-go="swap" aria-label="Отклик на смену 16 мая отклонён">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-circle-x"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">16 мая · Мука, касса</div>
+          <div class="pm-row-s">взяли того, у кого был код точки</div>
+        </div>
+        <span class="pm-row-v">закрыта</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabbar light" aria-label="Основная навигация">
+    <div class="tab" data-go="shifts"><span class="ico"><svg class="ico-svg"><use href="#i-calendar"/></svg></span><span class="tab-label">Смены</span></div>
+    <div class="tab is-on" aria-current="page" data-go="swaps"><span class="ico"><svg class="ico-svg"><use href="#i-arrow-left-right"/></svg></span><span class="tab-label">Подмены</span></div>
+    <div class="tab" data-go="people"><span class="ico"><svg class="ico-svg"><use href="#i-users"/></svg></span><span class="tab-label">Люди</span></div>
+    <div class="tab" data-go="menu"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span><span class="tab-label">Меню</span></div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
