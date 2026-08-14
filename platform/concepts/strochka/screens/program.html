@@ -1,25 +1,21 @@
 <div class="screen st-dark" id="scr-program">
-  <div class="st-rootbar">
-    <div class="st-brand">
-      <div class="st-mark">
-        <svg class="ico-svg"><use href="#i-volume-2" /></svg>
-      </div>
-      Строчка
-    </div>
+  <div class="st-rootbar vm-head">
+    <button class="st-mark vm-avatar" data-go="settings" aria-label="Профиль">С</button>
+    <div class="st-brand">Музыка</div>
     <div class="st-root-actions">
       <div class="icon-btn tap" data-go="settings" aria-label="Уведомления">
         <svg class="ico-svg"><use href="#i-bell" /></svg>
       </div>
       <div class="icon-btn tap" data-go="settings" aria-label="Профиль">
-        <svg class="ico-svg"><use href="#i-user" /></svg>
+        <svg class="ico-svg"><use href="#i-menu" /></svg>
       </div>
     </div>
   </div>
-  <div class="st-chips">
-    <div class="st-chip is-on">Для вас</div>
-    <div class="st-chip">Весенний концерт</div>
-    <div class="st-chip">Альт</div>
-    <div class="st-chip">Шаткие места</div>
+  <div class="st-chips vm-segments">
+    <div class="st-chip is-on">Главная</div>
+    <div class="st-chip" data-go="journal">Моя музыка</div>
+    <div class="st-chip" data-go="releases">Радио</div>
+    <div class="st-chip" data-go="notes">Обзор</div>
   </div>
   <div class="body-scroll st-scroll">
     <div class="st-stack">
@@ -29,7 +25,7 @@
           <span>После репетиции</span>
         </div>
         <div class="st-hero tap" data-primary data-go="piece">
-          <div class="st-hero-media st-sprite st-rehearsal st-q2"></div>
+          <div class="st-hero-media st-score-hero" aria-hidden="true"><span>41</span><i></i><i></i><i></i><i></i><i></i></div>
           <div class="st-hero-shade"></div>
           <div class="st-play">
             <svg class="ico-svg"><use href="#i-play" /></svg>

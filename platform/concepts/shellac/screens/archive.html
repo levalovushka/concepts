@@ -1,11 +1,10 @@
 <div class="screen sm-screen" id="scr-archive">
-  <header class="sm-header">
-    <div><h1>Главная</h1></div>
-    <div class="sm-head-actions"><button class="sm-icon-btn" aria-label="Поиск"><svg><use href="#i-search"/></svg></button><button class="sm-avatar" aria-label="Профиль">В</button></div>
+  <header class="sm-header vm-head">
+    <button class="sm-avatar vm-avatar" data-toast="Профиль" aria-label="Профиль">В</button><h1>Музыка</h1>
+    <div class="sm-head-actions vm-head-actions"><button class="sm-icon-btn" aria-label="Поиск"><svg><use href="#i-search"/></svg></button><button class="sm-icon-btn" data-toast="Моя музыка" aria-label="Моя музыка"><svg><use href="#i-menu"/></svg></button></div>
   </header>
   <div class="body-scroll sm-scroll">
-    <div class="sm-search"><svg><use href="#i-search"/></svg><span>Название, лейбл или матрица</span></div>
-
+    <nav class="vm-segments" aria-label="Разделы музыки"><button class="is-on">Главная</button><button data-toast="Моя музыка">Моя музыка</button><button data-toast="Радио">Радио</button><button data-toast="Обзор">Обзор</button></nav>
     <section class="sm-mix tap" data-go="record">
       <div class="sm-mix-copy"><span class="sm-kicker">ПРОДОЛЖИТЬ</span><h2>Прощай,<br>радость</h2><p>Хоръ Кузнецова · 1925</p><span class="sm-play" aria-label="Продолжить сторону B"><svg><use href="#i-play"/></svg></span></div>
       <div class="sm-mix-art art-s2"></div>

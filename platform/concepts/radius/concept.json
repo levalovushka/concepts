@@ -30,8 +30,8 @@
     "referencePatterns": ["video-feed","vertical-clips","channels","capture-publish"]
   },
   "brand": {
-    "accent": "#d64028",
-    "accentDark": "#ff7a62",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },
   "start": "phone",

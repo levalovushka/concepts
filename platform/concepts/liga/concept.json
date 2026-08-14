@@ -29,7 +29,7 @@
     "evidenceScreens": ["home","watch","clips","camera","moments"],
     "referencePatterns": ["video-feed","vertical-clips","immersive-player","capture-publish"]
   },
-  "brand": { "accent": "#d93624", "accentDark": "#ff6856", "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600" },
+  "brand": { "accent": "#0077FF", "accentDark": "#0077FF", "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600" },
   "start": "phone",
   "tabs": [
     { "id": "home", "label": "Главная" },

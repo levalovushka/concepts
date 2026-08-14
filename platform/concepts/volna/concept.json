@@ -62,7 +62,7 @@
       { "name": "Fullscreen player polish: icon-only save, metadata rhythm и flat secondary toolbar", "screensReviewed": "all", "found": 3, "fixed": 3, "blockersOpen": 0, "majorOpen": 0 }
     ]
   },
-  "brand": { "accent": "#6558f5", "accentDark": "#a8a0ff", "fonts": "Inter:wght@400;500;600;700" },
+  "brand": { "accent": "#0077FF", "accentDark": "#0077FF", "fonts": "Inter:wght@400;500;600;700" },
   "start": "home",
   "uiContractVersion": 3,
   "tabs": [{ "id": "home", "label": "Главное", "role": "home" }, { "id": "search", "label": "Поиск", "role": "search" }, { "id": "library", "label": "Моя музыка", "role": "library" }],
