@@ -59,7 +59,7 @@
     "visualPasses": [
       { "name": "Music-service перекомпоновка: personalized home, discovery search, library и album detail", "screensReviewed": "all", "found": 6, "fixed": 6, "blockersOpen": 0, "majorOpen": 0 },
       { "name": "Повторная приёмка: medium typography, 44pt targets, long metadata, permissions и offline playback", "screensReviewed": "all", "found": 4, "fixed": 4, "blockersOpen": 0, "majorOpen": 0 },
-      { "name": "Fullscreen player polish: icon-only save, metadata rhythm и grouped secondary controls", "screensReviewed": "all", "found": 3, "fixed": 3, "blockersOpen": 0, "majorOpen": 0 }
+      { "name": "Fullscreen player polish: icon-only save, metadata rhythm и flat secondary toolbar", "screensReviewed": "all", "found": 3, "fixed": 3, "blockersOpen": 0, "majorOpen": 0 }
     ]
   },
   "brand": { "accent": "#6558f5", "accentDark": "#a8a0ff", "fonts": "Inter:wght@400;500;600;700" },

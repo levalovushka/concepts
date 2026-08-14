@@ -122,16 +122,11 @@
 .vl-transport svg{height:29px;width:29px}
 .vl-pause{background-color:#fff!important;border-radius:50%;color:#11131b!important;height:58px!important;width:58px!important}
 .vl-pause svg{height:28px;width:28px}
-.vl-player-tools{align-items:center;background-color:rgba(255,255,255,.055);border-radius:15px;display:grid;grid-template-columns:50px minmax(0,1fr) 50px;margin-top:8px;padding:0 4px}
-.vl-player-tools>button{align-items:center;display:flex;justify-content:center;min-height:54px}
-.vl-player-tools>button:nth-child(2){font-size:11px;gap:8px;white-space:nowrap}
-.vl-player-tools svg{height:18px;width:18px}
-.vl-background{align-items:center;background-color:rgba(255,255,255,.055)!important;border-radius:15px;display:grid!important;gap:10px;grid-template-columns:28px minmax(0,1fr) 20px;margin-top:10px;min-height:62px;padding:0 12px!important;width:100%}
-.vl-background>span{display:flex;flex-direction:column}
-.vl-background strong{font-size:12px;line-height:16px}
-.vl-background small{color:#a8a9b5;font-size:11px;line-height:15px;margin-top:2px}
-.vl-background>svg{height:18px;width:18px}
-.vl-player-denied{background-color:rgba(255,255,255,.09);border-radius:10px;color:#ffcfaa;font-size:11px;line-height:16px;padding:9px}
+.vl-player-tools{align-items:center;display:grid;grid-template-columns:repeat(4,1fr);margin:9px 0 0}
+.vl-player-tools>button{align-items:center;color:#d5d5df;display:flex;justify-content:center;min-height:50px;position:relative}
+.vl-player-tools svg{height:20px;width:20px}
+.vl-player-source{color:#858692;font-size:11px;line-height:15px;margin:0;text-align:center}
+.vl-player-denied{color:#ffcfaa;font-size:11px;line-height:16px;margin-top:8px;text-align:center}
 .vl-queue{background-color:#f7f7f9}
 .vl-sheet-head{align-items:center;background-color:#fff;display:grid;grid-template-columns:70px minmax(0,1fr) 70px;height:calc(var(--safe-top) + 58px);padding:var(--safe-top) 12px 0}
 .vl-sheet-head>button{color:var(--vl-accent);font-size:13px;min-height:44px}
