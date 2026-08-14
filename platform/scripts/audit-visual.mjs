@@ -11,7 +11,7 @@
 import { chromium } from 'playwright';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, listConcepts } from './lib.mjs';
+import { DIST, listConcepts, readSpec } from './lib.mjs';
 
 const MIN_FONT = 11;      // ios-chrome.md §8: «минимум читаемого текста — 11 pt»
 const MIN_TAP = 44;       // HIG
@@ -76,6 +76,25 @@ function probe(scr, cfg) {
     }
   }
 
+  if (cfg.uiV3) {
+    const primary = [...s.querySelectorAll('[data-primary]')].filter((el) => {
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      return r.width && r.height && cs.display !== 'none' && cs.visibility !== 'hidden';
+    });
+    if (cfg.primaryAction && primary.length !== 1) out.push({ kind: 'primary-count', what: scr, detail: `найдено ${primary.length}` });
+    const bars = s.querySelectorAll('.tabbar').length;
+    if (cfg.navigation === 'root' && bars !== 1) out.push({ kind: 'tabbar-contract', what: scr, detail: `root: tabbar ${bars}` });
+    if (cfg.navigation !== 'root' && bars) out.push({ kind: 'tabbar-contract', what: scr, detail: `${cfg.navigation}: tabbar ${bars}` });
+
+    for (const el of s.querySelectorAll('.card,.ios-card,.tile,[class*="-card"]')) {
+      const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+      if (r.height < 220 || cs.display === 'none') continue;
+      const text = (el.textContent || '').trim().replace(/\s+/g, ' ');
+      const hasMedia = el.querySelector('img,video,canvas') || (cs.backgroundImage && cs.backgroundImage !== 'none');
+      if (text.length < 32 && !hasMedia) out.push({ kind: 'empty-monolith', what: label(el), detail: `${Math.round(r.height)}px / ${text.length} chars` });
+    }
+  }
+
   // 6. подписи одного списка, написанные по одному шаблону
   //
   // Таблица данных ОБЯЗАНА быть однородной: «41 сторона · 1907–1928» рядом с
@@ -131,6 +150,9 @@ const KIND = {
   'small-tap': 'хит-таргет < 44',
   'dock-overlap': 'подвал перекрывает список',
   'formula-prose': 'подписи по одному шаблону',
+  'primary-count': 'главное действие не единственное',
+  'tabbar-contract': 'нарушен контракт навигации',
+  'empty-monolith': 'крупный малосодержательный блок',
 };
 
 const slugs = process.argv.slice(2).length ? process.argv.slice(2) : listConcepts();
@@ -138,6 +160,7 @@ const browser = await chromium.launch();
 let total = 0;
 
 for (const slug of slugs) {
+  const spec = readSpec(slug);
   const file = join(DIST, slug, 'index.html');
   if (!existsSync(file)) { console.log(`\n=== ${slug} ===\n  не собран — сначала npm run build -- ${slug}`); continue; }
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 }, deviceScaleFactor: 1 });
@@ -150,9 +173,16 @@ for (const slug of slugs) {
   for (const scr of screens) {
     const hits = await page.evaluate(
       ([s, cfg, src]) => new Function('return ' + src)()(s, cfg),
-      [scr, { minFont: MIN_FONT, minTap: MIN_TAP, w: W, h: H }, probe.toString()],
+      [scr, { minFont: MIN_FONT, minTap: MIN_TAP, w: W, h: H, uiV3: spec.uiContractVersion >= 3, navigation: spec.screens.find((s) => s.id === scr)?.ui?.navigation, primaryAction: spec.screens.find((s) => s.id === scr)?.ui?.primaryAction }, probe.toString()],
     );
     for (const h of hits) found.push({ scr, ...h });
+  }
+  if (spec.uiContractVersion >= 3) {
+    const signatures = await page.evaluate(() => [...document.querySelectorAll('.device [data-screen]')]
+      .filter((screen) => screen.querySelector('.tabbar'))
+      .map((screen) => ({ id: screen.dataset.screen, signature: [...screen.querySelectorAll('.tabbar .tab')].map((tab) => `${tab.dataset.go}:${(tab.textContent || '').trim()}`).join('|') })));
+    const unique = new Set(signatures.map((item) => item.signature));
+    if (unique.size > 1) found.push({ scr: 'root', kind: 'tabbar-contract', what: signatures.map((item) => item.id).join(', '), detail: `${unique.size} разных tabbar` });
   }
   await page.close();
 

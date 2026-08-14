@@ -54,11 +54,11 @@ mkdirSync(join(dir, 'assets', 'screenshots'), { recursive: true });
 console.log(`создан ${dir}
 
 дальше по PLAYBOOK.md:
-  1. заменить учебный вертикальный срез phone → code → home на три продуктовых экрана
-  2. заполнить concept.json  — причины вернуться, позиционирование, UI v2, доступы и бренд
-  3. написать screens/*.html — сначала только вертикальный срез
-  4. media.mjs, styles.css, sections.html, docs/
-  5. npm run proof -- ${slug}
+  1. НЕ расширять учебный phone → code → home: сначала переписать product brief и вертикальный срез
+  2. заполнить referenceResearch, productCritique и pattern → screen → behavior
+  3. написать только три экрана среза по UI v3 и проверить их в полном размере
+  4. только после принятия среза развернуть IA, медиа, стили и состояния
+  5. внести два visualPasses, поставить readiness.status=reviewed и запустить npm run proof -- ${slug}
      node scripts/build.mjs ${slug}
      node scripts/capture.mjs ${slug} --sheet
      npm run check                           # единый приёмочный цикл всех концептов`);
