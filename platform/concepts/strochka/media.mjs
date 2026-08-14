@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 /**
- * Медиа концепта «Строчка». Своих ассетов нет: всё, что было бы фотографией
- * (страница нот, обложка номера, снимок с репетиции), — плейсхолдер .ph.
- * Данные, которые нужно видеть, нарисованы в разметке и CSS: линейка тактов
- * по репетиционным буквам, рамка сканера, столбцы прогонов по неделям.
- *
- *   node concepts/strochka/media.mjs
+ * Медиа «Строчки» — единый растровый sprite реалистичных хоровых материалов:
+ * ноты на фортепиано, папка программы, репетиционный зал и крупный фрагмент партитуры.
  */
-import { mkdirSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const out = join(new URL('.', import.meta.url).pathname, 'assets', 'media');
-mkdirSync(out, { recursive: true });
-
-console.log('медиа готово:', out);
+const asset = join(new URL('.', import.meta.url).pathname, 'assets', 'media', 'choir-materials.png');
+if (!existsSync(asset)) throw new Error('Нет assets/media/choir-materials.png');
+console.log('медиа готово:', asset);

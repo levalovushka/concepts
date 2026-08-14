@@ -1,97 +1,12 @@
-<div class="screen ios-surface" id="scr-sheet" style="background:#fff">
-  <div class="navbar bar-blur">
-    <div class="nav-leading">
-      <div class="btn-plain tap" data-back aria-label="Назад к номеру"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">№5</span></div>
-    </div>
-    <div class="title">Страницы №5</div>
-    <div class="nav-spacer"></div>
-  </div>
-
-  <div class="body-scroll st-pad">
-    <div class="st-meta st-meta-top">4 страницы · т. 1–96 · 18 февр.</div>
-
-    <div class="st-list">
-      <div class="row has-thumb" aria-label="Страница 1, такты 1–24">
-        <div class="lrow-thumb st-page-thumb ph"></div>
-        <div class="grow">
-          <div class="t-headline">с. 1 · т. 1–24</div>
-          <div class="st-meta">шапка с автором и опусом</div>
-        </div>
-      </div>
-      <div class="row has-thumb" aria-label="Страница 2, такты 25–48">
-        <div class="lrow-thumb st-page-thumb ph"></div>
-        <div class="grow">
-          <div class="t-headline">с. 2 · т. 25–48</div>
-          <div class="st-meta">дыхание перед В обведено</div>
-        </div>
-      </div>
-      <div class="row has-thumb tap" data-ask="camera|camera|sheet" aria-label="Страница 3, переснять">
-        <div class="lrow-thumb st-page-thumb ph"></div>
-        <div class="grow">
-          <div class="t-headline">с. 3 · т. 49–70</div>
-          <div class="st-meta">край срезан</div>
-          <div class="st-flags"><span class="st-flag is-soft">переснять</span></div>
-        </div>
-        <span class="ios-disclosure" aria-hidden="true"></span>
-      </div>
-      <div class="row has-thumb" aria-label="Страница 4, такты 73–96">
-        <div class="lrow-thumb st-page-thumb ph"></div>
-        <div class="grow">
-          <div class="t-headline">с. 4 · т. 73–96</div>
-          <div class="st-meta">«не спешить» над последним тактом</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="btn-filled block mt16 tap" data-ask="camera|camera|sheet">
-      <svg class="ico-svg"><use href="#i-camera"/></svg>
-      Снять страницы
-    </div>
-
-    <div class="st-quiet mt12 perm-hidden" data-show-denied="camera">
-      Нет доступа к камере. Страницы можно взять из снимков в галерее.
-      <div class="btn-tinted block mt8 tap" data-go="notes">Открыть снимки</div>
-    </div>
-
-    <div class="st-group">
-      <div class="sec-head">
-        <div class="t-headline">Чего не хватает</div>
-      </div>
-      <div class="st-list">
-        <div class="row tap" data-ask="camera|camera|sheet" aria-label="Такты 71 и 72">
-          <div class="grow"><div class="t-body">т. 71–72</div><div class="st-meta">срезаны на с. 3</div></div>
-          <span class="st-flag is-none">нет снимка</span>
-        </div>
-        <div class="row tap" data-go="notes" aria-label="Разворот с купюрой">
-          <div class="grow"><div class="t-body">Лист с купюрой</div><div class="st-meta">25 февр. · без номера</div></div>
-          <span class="st-flag is-new">в снимках</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="st-group">
-      <div class="sec-head">
-        <div class="t-headline">Ещё по номеру</div>
-      </div>
-      <div class="st-list">
-        <div class="row has-lead tap" data-go="player" aria-label="Слушать альтов">
-          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-play"/></svg></div>
-          <div class="grow">
-            <div class="t-body">Слушать альтов</div>
-            <div class="st-meta">с буквы В · т. 41</div>
-          </div>
-          <span class="ios-disclosure" aria-hidden="true"></span>
-        </div>
-        <div class="row has-lead tap" data-go="notes" aria-label="Все снимки нот">
-          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-images"/></svg></div>
-          <div class="grow">
-            <div class="t-body">Все снимки нот</div>
-            <div class="st-meta">37 страниц · 8 номеров</div>
-          </div>
-          <span class="ios-disclosure" aria-hidden="true"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="home-ind" aria-hidden="true"></div>
+<div class="screen ios-surface" id="scr-sheet">
+  <div class="navbar"><div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="title">Ноты рядом</div><div class="nav-trailing"><div class="icon-btn tap" data-ask="camera|camera|sheet" aria-label="Снять страницы"><svg class="ico-svg"><use href="#i-camera"/></svg></div></div></div>
+  <div class="body-scroll st-pad"><div class="st-stack">
+    <div class="st-sheet-preview st-sprite st-art-page"><div class="st-sheet-badge">с. 3 · т. 41–64 · сейчас т. 63</div></div>
+    <div class="st-primary tap" data-primary data-ask="camera|camera|sheet"><svg class="ico-svg"><use href="#i-scan-line"/></svg>Снять страницы</div>
+    <div class="st-denied perm-hidden" data-show-denied="camera,photo">Камера или «Фото» выключены. Можно выбрать другой способ или разрешить доступ в системных настройках.<span class="st-link tap" data-go="settings">Открыть настройки</span></div>
+    <div class="st-import-actions"><div class="st-primary tap" data-ask="photo|import|sheet"><svg class="ico-svg"><use href="#i-images"/></svg>Импорт из «Фото»</div></div>
+    <section class="st-section"><div class="st-head"><h2>Страницы номера</h2><span>4</span></div><div class="st-page-row"><div class="st-page-thumb st-sprite st-art-score"></div><div class="st-page-thumb st-sprite st-art-page"></div><div class="st-page-thumb st-sprite st-art-page"></div><div class="st-page-thumb st-sprite st-art-score"></div></div></section>
+    <section class="st-section"><div class="st-head"><h2>Пометки дирижёра</h2><span>2</span></div><div class="st-list"><div class="st-list-row"><div class="st-list-index">40</div><div class="st-list-copy"><div class="st-list-title">Дыхание перед В, а не на В</div></div></div><div class="st-list-row"><div class="st-list-index">52</div><div class="st-list-copy"><div class="st-list-title">Ре не тянем, снимаем с тенорами</div></div></div></div></section>
+  </div></div>
+  <div class="miniplayer tap" data-go="player"><div class="st-mini-art st-sprite st-art-score"></div><div class="miniplayer-text"><div class="miniplayer-title">Да исправится молитва моя</div><div class="miniplayer-sub">Альт · т. 63 · ноты с. 3</div></div><div class="st-mini-pause" aria-label="Пауза"><svg class="ico-svg"><use href="#i-pause"/></svg></div><div class="miniplayer-bar"><i class="st-mini-fill"></i></div></div><div class="home-ind"></div>
 </div>
