@@ -1,0 +1,21 @@
+<div class="screen vl-screen vl-import" id="scr-import">
+  <header class="vl-nav"><button class="vl-nav-button tap" data-back aria-label="Наза в медиатеку"><svg><use href="#i-chevron-left"/></svg></button><strong>Добавить музыку</strong><span class="vl-nav-spacer"></span></header>
+  <div class="body-scroll vl-import-scroll">
+    <section class="vl-import-hero"><span><svg><use href="#i-download"/></svg></span><h1>Ваши файлы — ваши волны</h1><p>Волна прочитает metadata, оценит tempo и energy на iPhone. Аудио никуда не отправляется.</p></section>
+    <button class="vl-primary" data-primary data-toast="Files picker открыт"><svg><use href="#i-paperclip"/></svg><span>Выбрать в Files</span></button>
+    <div class="vl-import-options">
+      <button data-ask="music|import|import"><span class="vl-action-icon"><svg><use href="#i-volume-2"/></svg></span><span><strong>Локальная медиатека</strong><small>Только скачанные на устройство треки</small></span><svg><use href="#i-chevron-right"/></svg></button>
+      <button data-toast="Demo pack восстановлен"><span class="vl-action-icon vl-demo-icon"><svg><use href="#i-download"/></svg></span><span><strong>Bundled demo pack</strong><small>12 треков для пустого старта</small></span><svg><use href="#i-chevron-right"/></svg></button>
+    </div>
+    <div class="vl-media-state perm-hidden" data-show-granted="music"><svg><use href="#i-check"/></svg><span>Локальная медиатека подключена · индекс строится на устройстве</span></div>
+    <div class="vl-media-state vl-media-denied perm-hidden" data-show-denied="music"><svg><use href="#i-lock"/></svg><span>Медиатека выключена. Files и demo pack доступны.</span><button data-toast="Открыты системные Настройки">Настройки</button></div>
+    <div class="vl-section-head"><h2>Сейчас</h2><span>12 из 12 импортировано</span></div>
+    <section class="vl-import-progress">
+      <div><span class="vl-progress-check"><svg><use href="#i-check"/></svg></span><p><strong>Metadata</strong><small>12 из 12 · title, artist, album, artwork</small></p></div>
+      <div><span class="vl-progress-check"><svg><use href="#i-check"/></svg></span><p><strong>Tempo и energy</strong><small>9 готово · 3 анализируются</small></p><span class="vl-download"><i></i></span></div>
+      <div><span class="vl-progress-alert"><svg><use href="#i-triangle-alert"/></svg></span><p><strong>Voice memo 2026-08-08.wav</strong><small>Нет artist и mood · добавлен как «Без автора»</small></p></div>
+    </section>
+    <p class="vl-import-foot"><svg><use href="#i-lock"/></svg><span>Security-scoped bookmarks · Core Data · FileManager. Сеть, аккаунт и облако не используются.</span></p>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
