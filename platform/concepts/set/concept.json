@@ -5,8 +5,8 @@
   "qualityContractVersion": 1,
   "uiContractVersion": 2,
   "brand": {
-    "accent": "#2688eb",
-    "accentDark": "#68aff9",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
   "deck": "Живые DJ-сеты с площадкой, датой и точным треклистом — от первого бита до последнего.",

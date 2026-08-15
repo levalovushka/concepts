@@ -1,8 +1,13 @@
 <div class="screen vl-screen vl-player" id="scr-player">
   <header class="vl-player-head"><button class="tap" data-back aria-label="Свернуть плеер"><svg><use href="#i-chevron-down"/></svg></button><div><small>ИГРАЕТ ВОЛНА</small><strong>В дорогу</strong></div><button class="tap" data-toast="Меню трека" aria-label="Меню трека"><svg><use href="#i-ellipsis"/></svg></button></header>
   <div class="vl-player-body">
-    <img class="vl-player-art" src="assets/media/artist-lina.png" alt="Обложка трека Soft Current">
+    <img class="vl-player-art" src="assets/media/cover-soft.svg" alt="Обложка трека Soft Current">
     <section class="vl-now"><div><h1>Soft Current</h1><button class="tap" data-go="artist">Лина Моро</button></div><button class="vl-save-track" data-primary data-toast="Трек сохранён" aria-label="Сохранить трек"><svg><use href="#i-heart"/></svg><span class="vl-sr">Сохранить трек</span></button></section>
+    <div class="vl-player-actions" aria-label="Действия с волной">
+      <button class="tap" data-toast="Меньше похожего"><svg><use href="#i-circle-x"/></svg><span>Не моё</span></button>
+      <button class="tap" data-go="station"><svg><use href="#i-settings"/></svg><span>Настроить</span></button>
+      <button class="tap" data-toast="Волна скачана"><svg><use href="#i-download"/></svg><span>Скачать</span></button>
+    </div>
     <div class="vl-timeline"><i><b></b></i><div><span>1:18</span><span>−2:23</span></div></div>
     <div class="vl-transport"><button class="tap" data-toast="Предыдущий трек" aria-label="Предыдущий трек"><svg><use href="#i-skip-back"/></svg></button><button class="vl-pause tap" data-toast="Пауза" aria-label="Пауза"><svg><use href="#i-pause"/></svg></button><button class="tap" data-toast="Следующий трек" aria-label="Следующий трек"><svg><use href="#i-skip-forward"/></svg></button></div>
     <div class="vl-player-tools"><button class="tap" data-toast="Поток перестроен" aria-label="Перемешать"><svg><use href="#i-shuffle"/></svg></button><button data-go="queue" aria-label="Очередь, 4 ближайших трека"><svg><use href="#i-menu"/></svg></button><button data-activate="audio|background" aria-label="Слушать в фоне"><svg><use href="#i-lock"/></svg></button><button class="tap" data-toast="Открыт Share Sheet" aria-label="Поделиться"><svg><use href="#i-share"/></svg></button></div>

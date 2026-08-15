@@ -1,19 +1,18 @@
 <div class="screen cx-screen lp-home" id="scr-home">
   <div class="cx-scroll">
-    <header class="lp-top">
-<div>
-<small>ДЛЯ ВАС</small>
+    <header class="lp-top vm-head">
+<button class="lp-avatar vm-avatar" data-go="profile" aria-label="Профиль">В</button>
 <h1>Музыка</h1>
-</div>
-<div class="lp-head-actions">
-<button data-go="discover" aria-label="Поиск">
+<div class="lp-head-actions vm-head-actions">
+<button data-go="search" aria-label="Поиск">
 <svg>
 <use href="#i-search"/>
 </svg>
 </button>
-<button class="lp-avatar" data-go="profile" aria-label="Профиль">В</button>
+<button data-go="studio" aria-label="Мои миксы"><svg><use href="#i-menu"/></svg></button>
 </div>
 </header>
+    <nav class="vm-segments" aria-label="Разделы музыки"><button class="on">Главная</button><button data-go="library">Моя музыка</button><button data-go="discover">Радио</button><button data-go="discover">Обзор</button></nav>
     <section class="lp-daily">
       <div class="cx-art art-1">
 </div>
@@ -28,12 +27,6 @@
 </svg>
 </button>
     </section>
-    <div class="lp-filter-row">
-<button class="on">Всё</button>
-<button>Спокойно</button>
-<button>Без слов</button>
-<button>Новинки</button>
-</div>
     <div class="cx-section">
 <h2>Собрано для тебя</h2>
 <button data-go="discover">Показать все</button>
@@ -96,6 +89,9 @@
 </button>
 </article>
   </div>
+  <button class="vm-mini-player" data-go="player" aria-label="Открыть плеер">
+    <span class="vm-mini-art cx-art art-1"></span><span><strong>Velvet Steps</strong><small>Черновик · 3 слоя</small></span><svg><use href="#i-plus"/></svg><svg><use href="#i-pause"/></svg>
+  </button>
   <nav class="cx-tabs">
 <button data-go="home" class="on">
 <svg>
@@ -107,7 +103,7 @@
 <svg>
 <use href="#i-search"/>
 </svg>
-<span>Поиск</span>
+<span>Обзор</span>
 </button>
 <button data-go="studio" class="make">
 <svg>

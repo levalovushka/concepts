@@ -1,12 +1,40 @@
-<div class="screen sc" id="scr-watch">
-  <div class="sc-player">
-    <div class="sc-video art-main"><div class="sc-video-shade"></div><div class="sc-playerbar"><button class="sc-circle" data-back aria-label="Назад"><svg class="sc-icon"><use href="#i-chevron-left"/></svg></button><button class="sc-circle tap" data-ask="localnet|cast|watch" aria-label="Смотреть на телевизоре"><svg class="sc-icon"><use href="#i-cast"/></svg></button></div><button class="sc-bigplay" aria-label="Воспроизвести"><svg class="sc-icon"><use href="#i-play"/></svg></button><div class="sc-video-bottom"><div class="sc-progress"><i></i></div><span>18:42</span><span>−1:05:18</span></div></div>
-    <div class="body-scroll sc-watchbody">
-      <div class="sc-fallback perm-hidden" data-show-denied="localnet">Телевизор недоступен — концерт продолжает играть на iPhone.</div>
-      <span class="sc-kicker">ПРЕМЬЕРА · 18 ТЫС. СМОТРЯТ</span><h1>Маяк: свет остаётся</h1><p class="sc-channel-line"><span class="sc-mini-avatar art-artist"></span><b>Маяк</b><span>240 тыс. подписчиков</span></p>
-      <div class="sc-watchactions"><button class="sc-action primary tap" data-go="moment"><svg class="sc-icon"><use href="#i-bookmark"/></svg><span>Момент</span></button><button class="sc-action tap" data-activate="audio|background"><svg class="sc-icon"><use href="#i-volume-2"/></svg><span>Фон</span></button><button class="sc-action tap" data-activate="domains|deeplink"><svg class="sc-icon"><use href="#i-share"/></svg><span>Поделиться</span></button></div>
-      <section class="sc-setlist"><div class="sc-section-head plain"><h2>Сетлист</h2><span>12 песен</span></div><article class="sc-track current tap" data-go="moment"><time>18:42</time><div><strong>Свет остаётся</strong><p>Играет сейчас</p></div><span class="sc-playing"><i></i><i></i><i></i></span></article><article class="sc-track"><time>23:08</time><div><strong>Тихий город</strong><p>Следующая</p></div><svg class="sc-icon"><use href="#i-chevron-right"/></svg></article><article class="sc-track"><time>28:51</time><div><strong>Воздух</strong><p>Акустическая версия</p></div><svg class="sc-icon"><use href="#i-chevron-right"/></svg></article><article class="sc-track"><time>34:16</time><div><strong>Линии</strong><p>Live edit</p></div><svg class="sc-icon"><use href="#i-chevron-right"/></svg></article></section>
+<div class="screen sc vk-video-watch" id="scr-watch">
+  <div class="vk-video-player art-main">
+    <div class="vk-video-player-top">
+      <button class="vk-video-hit" data-back aria-label="Назад"><svg class="sc-icon"><use href="#i-chevron-left"/></svg></button>
+      <button class="vk-video-hit" data-ask="localnet|cast|watch" aria-label="Смотреть на телевизоре"><svg class="sc-icon"><use href="#i-cast"/></svg></button>
     </div>
+    <button class="vk-video-play" aria-label="Воспроизвести"><svg class="sc-icon"><use href="#i-play"/></svg></button>
+  </div>
+  <div class="body-scroll vk-video-scroll">
+    <div class="sc-fallback perm-hidden" data-show-denied="localnet">Телевизор недоступен — концерт продолжает играть на iPhone.</div>
+    <section class="vk-video-copy">
+      <h1>Маяк: свет остаётся</h1>
+      <p class="vk-video-meta">18 тыс. просмотров · премьера сегодня · 1 ч 24 мин</p>
+      <div class="vk-video-channel" data-toast="Канал Маяка">
+        <span class="vk-video-avatar art-artist"></span>
+        <div><strong>Маяк</strong><p>240 тыс. подписчиков</p></div>
+        <button class="vk-video-follow">Подписаться</button>
+      </div>
+      <div class="vk-video-actions">
+        <button><svg class="sc-icon"><use href="#i-heart"/></svg><span>12 тыс.</span></button>
+        <button data-activate="domains|deeplink"><svg class="sc-icon"><use href="#i-share"/></svg></button>
+        <i></i>
+        <button data-primary data-go="moment" aria-label="Момент"><svg class="sc-icon"><use href="#i-download"/></svg><span class="vk-sr">Момент</span></button>
+        <button data-activate="audio|background"><svg class="sc-icon"><use href="#i-clock"/></svg></button>
+        <button><svg class="sc-icon"><use href="#i-ellipsis"/></svg></button>
+      </div>
+      <div class="vk-video-comment">
+        <span>Комментарии <b>128</b></span>
+        <div><i>А</i><p>Свет, звук и крупные планы — будто снова стою у самой сцены.</p></div>
+      </div>
+    </section>
+    <section class="sc-setlist vk-video-more">
+      <div class="sc-section-head plain"><h2>Сетлист</h2><span>12 песен</span></div>
+      <article class="sc-track current tap" data-go="moment"><time>18:42</time><div><strong>Свет остаётся</strong><p>Играет сейчас</p></div><span class="sc-playing"><i></i><i></i><i></i></span></article>
+      <article class="sc-track"><time>23:08</time><div><strong>Тихий город</strong><p>Следующая</p></div><svg class="sc-icon"><use href="#i-chevron-right"/></svg></article>
+      <article class="sc-track"><time>28:51</time><div><strong>Воздух</strong><p>Акустическая версия</p></div><svg class="sc-icon"><use href="#i-chevron-right"/></svg></article>
+    </section>
   </div>
   <div class="home-ind"></div>
 </div>

@@ -1,10 +1,10 @@
 :root {
-  --st-bg: #090a0c;
-  --st-panel: #17181c;
-  --st-soft: #24262b;
+  --st-bg: #19191b;
+  --st-panel: #232326;
+  --st-soft: #2b2b2f;
   --st-text: #f5f5f7;
   --st-sub: #8c919b;
-  --st-blue: #4da3ff;
+  --st-blue: #0077ff;
   --st-line: rgba(255, 255, 255, 0.1);
   --st-red: #ff4e45;
 }
@@ -504,7 +504,7 @@
 }
 .st-voice.is-on {
   background: #253a53;
-  color: #78baff;
+  color: #58a6ff;
 }
 .st-frags {
   display: flex;
@@ -756,10 +756,17 @@
   color: #f2c77d;
   font: 400 13px/18px var(--face);
 }
+
+/* VK Music shell: choir materials remain distinctive, interaction is VK blue. */
+.st-main-action{background:#0077ff!important;color:#fff!important;border-radius:12px!important}
+.st-dark .tabbar .tab.is-on{color:#0077ff!important}
+.st-pill.is-on,.st-chip.is-on{background:#0077ff!important;color:#fff!important}
+.st-hero-progress i,.st-mini-progress{background:#0077ff!important}
+.st-section-head span,.st-library-link{color:#58a6ff!important}
 .st-denied b {
   display: block;
   margin-top: 5px;
-  color: #78baff;
+  color: #58a6ff;
 }
 .st-camera {
   background: #050607;
@@ -959,16 +966,6 @@
   font: 400 16px/22px var(--face);
   color: var(--st-sub);
 }
-.st-field {
-  height: 52px;
-  margin-top: 24px;
-  border-radius: 12px;
-  background: var(--st-panel);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  font: 500 17px/22px var(--face);
-}
 .st-auth-foot {
   margin-top: auto;
   font: 400 12px/17px var(--face);
@@ -1061,3 +1058,72 @@
   margin-top: 3px;
   font: 400 13px/18px var(--face);
 }
+
+/* VK Music reference shell. */
+#scr-program{background:#19191b!important}
+.vm-head{min-height:calc(var(--safe-top) + 48px)!important;padding:var(--safe-top) 16px 0!important;display:grid!important;grid-template-columns:44px 1fr 88px!important;align-items:center!important;gap:6px!important}
+.vm-head .st-brand{font-size:30px!important;line-height:36px!important;font-weight:700!important;letter-spacing:-.04em!important}
+.vm-avatar{width:44px!important;height:44px!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:#0077ff!important;color:#fff!important;border:0;font:750 13px/1 var(--face);box-shadow:inset 0 0 0 4px #19191b}
+.vm-head .st-root-actions{margin:0!important;display:flex!important;justify-content:flex-end!important;gap:0!important}
+.vm-head .icon-btn{width:44px!important;height:44px!important;display:grid!important;place-items:center!important}
+.vm-head .ico-svg{width:25px!important;height:25px!important}
+.vm-segments{display:grid!important;grid-template-columns:repeat(4,max-content)!important;justify-content:space-between!important;gap:0!important;margin:4px 0 18px!important;padding:0 16px!important;overflow:hidden!important}
+.vm-segments::-webkit-scrollbar{display:none}
+.vm-segments .st-chip{min-width:max-content;height:44px!important;padding:0 10px!important;border-radius:13px!important;background:transparent!important;color:#8d8d93!important;font-size:14px!important;font-weight:550!important}
+.vm-segments .st-chip.is-on{background:#f5f5f7!important;color:#161618!important}
+.st-pill.is-on{background:#f5f5f7!important;color:#161618!important}
+.st-scroll{padding-bottom:160px!important}
+.st-stack{gap:28px!important}
+.st-section-head h2{font-size:21px!important;line-height:26px!important}
+.st-score-hero{background:linear-gradient(135deg,#2a2240 0,#101d36 52%,#0a0b0e 100%);padding:27px 24px;overflow:hidden}
+.st-score-hero::before{content:"СТРОЧКА · АЛЬТ";position:absolute;top:23px;left:24px;color:#83baff;font:700 11px/14px var(--face);letter-spacing:.12em}
+.st-score-hero span{position:absolute;right:24px;top:18px;color:rgba(255,255,255,.12);font:800 88px/1 var(--face)}
+.st-score-hero i{display:block;width:78%;height:3px;margin:21px 0;border-radius:3px;background:rgba(255,255,255,.18);box-shadow:72px 0 0 rgba(255,255,255,.08)}
+.st-score-hero i:nth-of-type(1){margin-top:58px;width:55%}.st-score-hero i:nth-of-type(2){width:88%}.st-score-hero i:nth-of-type(3){width:67%}.st-score-hero i:nth-of-type(4){width:82%}.st-score-hero i:nth-of-type(5){width:48%}
+.st-hero-shade{background:linear-gradient(transparent 20%,rgba(5,6,8,.96))!important}
+.miniplayer.on-dark{background:rgba(31,31,34,.97)!important;border-top:0!important}
+.st-dark .tabbar{background:rgba(25,25,27,.98)!important;border-top:1px solid rgba(255,255,255,.08)!important}
+.st-player{background:radial-gradient(circle at 42% 16%,#29394f 0,#0b0c10 46%,#050506 100%)!important}
+.st-player-cover{border-radius:16px!important;box-shadow:0 18px 44px rgba(0,0,0,.34)}
+.st-player .st-player-title{font-size:25px!important;line-height:30px!important}
+
+/* Final VK Music auth, tab and player contract. */
+.st-main-action{background:#0077ff!important;color:#fff!important}
+.st-main-action svg{color:#fff!important;stroke:currentColor!important}
+.st-auth-logo{background:#0077ff!important;color:#fff!important}
+.st-dark .tabbar .tab.is-on{color:#fff!important}
+#scr-phone .st-auth{padding:calc(var(--safe-top) + 18px) 24px calc(var(--safe-bottom) + 24px)!important}
+.st-auth-main{margin-top:72px!important}
+.st-auth h1{font-size:30px!important;line-height:35px!important}
+.st-auth-foot{max-width:305px;line-height:17px!important}
+#scr-code .st-nav-dark{background:#19191b!important;border:0!important}
+#scr-code .st-auth{padding:26px 24px calc(var(--safe-bottom) + 24px)!important}
+#scr-code .st-auth-foot{margin-top:18px!important;text-align:center}
+
+/* Mature SMS sign-in: same proven hierarchy as the Set entry flow. */
+[data-screen="phone"] .st-auth{padding:0!important;background:radial-gradient(100% 48% at 22% -5%,rgba(0,119,255,.26),transparent 66%),#19191b!important}
+.st-auth-head{height:calc(var(--safe-top) + 56px);padding:var(--safe-top) 12px 0;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center}
+.st-auth-head .st-auth-brand{justify-self:center;gap:8px}
+.st-auth-head .st-auth-logo{width:26px;height:26px;border-radius:8px}
+.st-auth-head .st-auth-logo .ico-svg{width:16px;height:16px}
+.st-auth-head .st-auth-name{font-size:18px;line-height:22px}
+[data-screen="phone"] .st-auth-main{position:absolute;inset:calc(var(--safe-top) + 56px) 24px 0;margin:0!important;padding:34px 0 calc(var(--safe-bottom) + 32px);display:flex;flex-direction:column}
+.st-auth-kicker{color:#58a6ff;font-size:11px;line-height:14px;font-weight:750;letter-spacing:.12em}
+[data-screen="phone"] .st-auth h1{margin:8px 0 9px;font-size:32px!important;line-height:36px!important;font-weight:780;letter-spacing:-.05em}
+[data-screen="phone"] .st-auth p{max-width:315px;font-size:14px;line-height:20px}
+.st-phone-field{margin-top:34px;padding:9px 14px 11px;border-radius:14px;display:grid;grid-template-columns:31px minmax(0,1fr);background:#232326}
+.st-phone-field>span{grid-column:1/-1;margin-bottom:4px;color:#8c919b;font-size:11px;line-height:13px;font-weight:580}
+.st-phone-field strong,.st-phone-field input{color:#fff;font:580 17px/22px var(--face)}
+.st-phone-field input{width:100%;border:0;outline:0;background:transparent}
+.st-auth-actions{position:absolute;left:0;right:0;bottom:calc(var(--safe-bottom) + 28px)}
+.st-auth-actions .st-main-action{width:100%;min-height:52px;border:0;border-radius:14px;background:#0077ff!important;color:#fff!important;display:grid;place-items:center;font-size:15px;font-weight:680}
+.st-auth-actions small{display:block;margin:11px 12px 0;color:#777b84;font-size:11px;line-height:15px;text-align:center}
+.st-player{background:radial-gradient(120% 52% at 50% 0,rgba(0,119,255,.18),transparent 68%),#090a0d!important}
+.st-player-body{padding:8px 24px calc(var(--safe-bottom) + 10px)!important}
+.st-player-cover{width:296px!important;height:296px!important;align-self:center}
+.st-player-title{margin-top:18px!important;font-size:24px!important;line-height:29px!important}
+.st-controls{margin:8px 28px 6px!important}
+.st-loop{margin-top:8px!important;background:#242426!important}
+.st-player-bottom{position:static!important;margin-top:14px!important;padding:0!important;background:transparent!important}
+.st-player-action.is-primary{background:#f5f5f7!important;color:#161618!important}
+.st-queue{margin-top:18px!important}

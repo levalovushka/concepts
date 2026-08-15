@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#0c2b55"/>
+      <stop offset=".52" stop-color="#111827"/>
+      <stop offset="1" stop-color="#9d3c24"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".02"/>
+    </linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="34"/></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <circle cx="476" cy="116" r="118" fill="#dbe7ff" fill-opacity=".34" filter="url(#blur)"/>
+  <circle cx="112" cy="536" r="150" fill="#ff6c37" fill-opacity=".28" filter="url(#blur)"/>
+  <path d="M-30 126L455-16l176 216L125 348z" fill="url(#glass)"/>
+  <g fill="none" stroke="#f5f7ff" stroke-opacity=".34" stroke-width="5">
+    <path d="M-38 405C82 302 159 484 278 369S459 276 650 351"/>
+    <path d="M-45 445C69 352 165 526 286 414S470 325 650 398"/>
+    <path d="M-38 488C93 395 167 560 304 460S479 382 650 446"/>
+  </g>
+  <g fill="#f7f8fb" font-family="Arial,Helvetica,sans-serif">
+    <text x="42" y="55" font-size="15" font-weight="700" letter-spacing="4">WAVE 021 · LINA MORO</text>
+    <text x="42" y="222" font-size="70" font-weight="700" letter-spacing="-3">SOFT</text>
+    <text x="42" y="282" font-size="70" font-weight="300" letter-spacing="-3">CURRENT</text>
+    <text x="42" y="548" font-size="15" font-weight="700" letter-spacing="3" opacity=".72">106—124 BPM / OFFLINE</text>
+  </g>
+  <circle cx="512" cy="512" r="42" fill="#f5f7ff"/>
+  <circle cx="512" cy="512" r="9" fill="#111827"/>
+</svg>
