@@ -966,16 +966,6 @@
   font: 400 16px/22px var(--face);
   color: var(--st-sub);
 }
-.st-field {
-  height: 52px;
-  margin-top: 24px;
-  border-radius: 12px;
-  background: var(--st-panel);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  font: 500 17px/22px var(--face);
-}
 .st-auth-foot {
   margin-top: auto;
   font: 400 12px/17px var(--face);
@@ -1096,3 +1086,44 @@
 .st-player{background:radial-gradient(circle at 42% 16%,#29394f 0,#0b0c10 46%,#050506 100%)!important}
 .st-player-cover{border-radius:16px!important;box-shadow:0 18px 44px rgba(0,0,0,.34)}
 .st-player .st-player-title{font-size:25px!important;line-height:30px!important}
+
+/* Final VK Music auth, tab and player contract. */
+.st-main-action{background:#0077ff!important;color:#fff!important}
+.st-main-action svg{color:#fff!important;stroke:currentColor!important}
+.st-auth-logo{background:#0077ff!important;color:#fff!important}
+.st-dark .tabbar .tab.is-on{color:#fff!important}
+#scr-phone .st-auth{padding:calc(var(--safe-top) + 18px) 24px calc(var(--safe-bottom) + 24px)!important}
+.st-auth-main{margin-top:72px!important}
+.st-auth h1{font-size:30px!important;line-height:35px!important}
+.st-auth-foot{max-width:305px;line-height:17px!important}
+#scr-code .st-nav-dark{background:#19191b!important;border:0!important}
+#scr-code .st-auth{padding:26px 24px calc(var(--safe-bottom) + 24px)!important}
+#scr-code .st-auth-foot{margin-top:18px!important;text-align:center}
+
+/* Mature SMS sign-in: same proven hierarchy as the Set entry flow. */
+[data-screen="phone"] .st-auth{padding:0!important;background:radial-gradient(100% 48% at 22% -5%,rgba(0,119,255,.26),transparent 66%),#19191b!important}
+.st-auth-head{height:calc(var(--safe-top) + 56px);padding:var(--safe-top) 12px 0;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center}
+.st-auth-head .st-auth-brand{justify-self:center;gap:8px}
+.st-auth-head .st-auth-logo{width:26px;height:26px;border-radius:8px}
+.st-auth-head .st-auth-logo .ico-svg{width:16px;height:16px}
+.st-auth-head .st-auth-name{font-size:18px;line-height:22px}
+[data-screen="phone"] .st-auth-main{position:absolute;inset:calc(var(--safe-top) + 56px) 24px 0;margin:0!important;padding:34px 0 calc(var(--safe-bottom) + 32px);display:flex;flex-direction:column}
+.st-auth-kicker{color:#58a6ff;font-size:11px;line-height:14px;font-weight:750;letter-spacing:.12em}
+[data-screen="phone"] .st-auth h1{margin:8px 0 9px;font-size:32px!important;line-height:36px!important;font-weight:780;letter-spacing:-.05em}
+[data-screen="phone"] .st-auth p{max-width:315px;font-size:14px;line-height:20px}
+.st-phone-field{margin-top:34px;padding:9px 14px 11px;border-radius:14px;display:grid;grid-template-columns:31px minmax(0,1fr);background:#232326}
+.st-phone-field>span{grid-column:1/-1;margin-bottom:4px;color:#8c919b;font-size:11px;line-height:13px;font-weight:580}
+.st-phone-field strong,.st-phone-field input{color:#fff;font:580 17px/22px var(--face)}
+.st-phone-field input{width:100%;border:0;outline:0;background:transparent}
+.st-auth-actions{position:absolute;left:0;right:0;bottom:calc(var(--safe-bottom) + 28px)}
+.st-auth-actions .st-main-action{width:100%;min-height:52px;border:0;border-radius:14px;background:#0077ff!important;color:#fff!important;display:grid;place-items:center;font-size:15px;font-weight:680}
+.st-auth-actions small{display:block;margin:11px 12px 0;color:#777b84;font-size:11px;line-height:15px;text-align:center}
+.st-player{background:radial-gradient(120% 52% at 50% 0,rgba(0,119,255,.18),transparent 68%),#090a0d!important}
+.st-player-body{padding:8px 24px calc(var(--safe-bottom) + 10px)!important}
+.st-player-cover{width:296px!important;height:296px!important;align-self:center}
+.st-player-title{margin-top:18px!important;font-size:24px!important;line-height:29px!important}
+.st-controls{margin:8px 28px 6px!important}
+.st-loop{margin-top:8px!important;background:#242426!important}
+.st-player-bottom{position:static!important;margin-top:14px!important;padding:0!important;background:transparent!important}
+.st-player-action.is-primary{background:#f5f5f7!important;color:#161618!important}
+.st-queue{margin-top:18px!important}

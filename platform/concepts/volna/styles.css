@@ -334,3 +334,24 @@
 .vl-icon{background:#27272a!important;color:#58a6ff!important}
 .device:has(.vl-root.is-on)>.status.dark-ink{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.45)!important}
 .vl-offline-icon{background:rgba(0,119,255,.16)!important;color:#58a6ff!important}
+
+/* Final VK Music control and player contract. */
+.vl-primary,.vl-search-field>button{background:#0077ff!important;color:#fff!important}
+.vl-primary svg,.vl-search-field>button svg{color:#fff!important;stroke:currentColor!important}
+.vl-tabs .tab.is-on{color:#fff!important}
+.vl-player{background:radial-gradient(120% 52% at 50% 0,rgba(0,119,255,.20),transparent 68%),#090a0d!important}
+.vl-player-head{height:calc(var(--safe-top) + 48px)!important}
+.vl-player-body{position:absolute!important;inset:calc(var(--safe-top) + 48px) 0 0;padding:10px 20px calc(var(--safe-bottom) + 14px)!important;display:flex;flex-direction:column}
+.vl-player-art{width:100%!important;height:auto!important;aspect-ratio:1/1!important;align-self:center;object-fit:cover!important;border-radius:18px!important}
+.vl-now{margin-top:17px!important;min-height:50px!important}
+.vl-now h1{font-size:24px!important;line-height:29px!important}
+.vl-save-track{color:#fff!important;background:transparent!important}
+.vl-player-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 12px;overflow:visible}
+.vl-player-actions button{min-width:0;min-height:44px;padding:0 10px!important;border-radius:12px;background:rgba(255,255,255,.09)!important;color:#f2f2f4!important;display:flex;align-items:center;justify-content:center;gap:6px}
+.vl-player-actions svg{width:18px!important;height:18px!important;flex:none}
+.vl-player-actions span{font-size:11px;font-weight:620;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vl-player-actions button:first-child span{display:inline}
+.vl-timeline{margin-top:0!important}
+.vl-transport{margin:9px auto 3px!important;width:270px}
+.vl-player-tools{margin-top:2px!important}
+.vl-player-source{margin-top:0!important}

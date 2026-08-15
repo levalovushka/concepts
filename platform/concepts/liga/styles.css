@@ -3500,3 +3500,14 @@
   font-size: 20px !important;
   line-height: 25px !important;
 }
+
+/* Final VK Video contrast and selection contract. */
+.lx-screen .lx-primary2,.lx-screen .lx-opbtn.primary,.lx-screen .lx-create-action.primary i{background:#0077ff!important;color:#fff!important}
+.lx-screen .lx-primary2 svg,.lx-screen .lx-opbtn.primary svg,.lx-screen .lx-create-action.primary i svg{color:#fff!important;stroke:currentColor!important}
+.lx-consent-options article:first-child{background:#f5f5f7!important;color:#161618!important;box-shadow:none!important;border:0!important}
+.lx-consent-options article:first-child p{color:#626269!important}
+.lx-consent-options article:first-child>.lx-icon{color:#161618!important}
+.lx-screen .lx-tabs .tab.is-on,.lx-clips .lx-tabs .tab.is-on{color:#fff!important}
+.lx-tabs .tab.is-on .lx-icon{color:#fff!important}
+.vk-video-follow{background:#f5f5f7!important;color:#161618!important}
+.vk-video-follow svg{color:#161618!important;stroke:currentColor!important}

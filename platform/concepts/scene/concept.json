@@ -41,7 +41,7 @@
   "prototypes":[
     {"id":"all","hero":true,"label":"Весь продукт","note":"Четыре раздела и все десять доступов","start":"phone","screens":["phone","code","ads","home","nearby","watch","moment","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","artist","profile"]},
     {"id":"concert","label":"Смотреть концерт","note":"Премьера, сетлист, момент, ТВ и фон","start":"home","screens":["home","nearby","watch","moment","cast","background","deeplink","artist","create","camera","upload","publish"],"stops":["artist","publish"]},
-    {"id":"clips","label":"Моменты","note":"Вертикальный фрагмент ведёт в полный концерт","start":"clips","screens":["clips","watch","moment","cast","background","deeplink"],"stops":["moment"]},
+    {"id":"clips","label":"Моменты","note":"Вертикальный фрагмент ведёт в полный концерт","start":"clips","screens":["clips","watch","moment","cast","background","deeplink","home","create","subscriptions","profile"],"stops":["moment","home","create","subscriptions","profile"]},
     {"id":"create","label":"Добавить момент","note":"Камера, микрофон, медиатека и публикация","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},
     {"id":"nearby","label":"Выступления рядом","note":"Геопозиция и площадки","start":"home","screens":["home","nearby","watch","moment","cast","background","deeplink","artist","create","camera","upload","publish"],"stops":["artist","publish"]},
     {"id":"follow","label":"Следить за артистом","note":"Канал и уведомления о премьерах","start":"subscriptions","screens":["subscriptions","artist","watch"],"stops":["watch"]}

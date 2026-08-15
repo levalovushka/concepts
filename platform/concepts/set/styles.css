@@ -607,6 +607,9 @@
 .vm-segments button{min-width:max-content!important;min-height:44px!important;padding:0 10px!important;border:0;border-radius:13px!important;background:transparent!important;color:#8d8d93!important;font-size:14px!important;white-space:nowrap}
 .vm-segments button.on{background:#f5f5f7!important;color:#161618!important}
 .cx-pills button.on{background:#f5f5f7!important;color:#161618!important}
+#scr-discover .cx-pills{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin:-2px 0 14px!important;padding:2px 0!important;overflow:visible!important}
+#scr-discover .cx-pills button{width:100%!important;min-width:0!important;padding:0 6px!important;font-size:12px!important}
+#scr-discover .cx-pills button:last-child{display:none!important}
 .cx-section h2{font-size:21px!important;line-height:26px!important}
 .cx-resume{background:#27272a!important;border-radius:14px!important}
 .cx-live-card{border-radius:18px!important;background:#232326!important}
@@ -621,3 +624,27 @@
 .vm-mini-player>span:nth-child(2){min-width:0}.vm-mini-player strong,.vm-mini-player small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.vm-mini-player strong{font-size:13px}.vm-mini-player small{margin-top:2px;color:#85858d;font-size:11px}
 .vm-mini-player>svg{width:21px;height:21px;justify-self:center}.vm-mini-player>svg:last-child{color:#58a6ff}
 #scr-home .cx-scroll{padding-bottom:165px!important}
+
+/* Final VK Music control and player contract. */
+.cx-screen .cx-primary,.cx-screen .cx-auth-primary{background:#0077ff!important;color:#fff!important}
+.cx-screen .cx-primary svg,.cx-screen .cx-auth-primary svg{color:#fff!important;stroke:currentColor!important}
+.cx-tabs .tab.on,.cx-tabs button.on{color:#fff!important}
+.cx-pills{display:flex!important;gap:8px!important;margin:-2px -18px 14px!important;padding:2px 18px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none}
+.cx-pills::-webkit-scrollbar{display:none}
+.cx-pills button{flex:0 0 auto!important;width:auto!important;height:44px!important;min-height:44px!important;min-width:max-content!important;padding:0 16px!important;border-radius:13px!important;background:#2b2b2f!important;color:#b7b7bc!important;font-size:13px!important;line-height:18px!important;white-space:nowrap!important;overflow:visible!important}
+.cx-pills button.on{background:#f5f5f7!important;color:#161618!important}
+.cx-resume{width:100%!important;min-height:70px!important;grid-template-columns:52px minmax(0,1fr) 44px!important;padding:9px 10px!important;background:#232326!important}
+.cx-resume>span{justify-self:end!important}
+.cx-player{background:radial-gradient(120% 52% at 50% 0,rgba(0,119,255,.18),transparent 68%),#090a0d!important}
+.cx-player-layout{padding-bottom:calc(var(--safe-bottom) + 8px)!important}
+.cx-player-art-zone{min-height:300px!important;padding:8px 20px!important}
+.cx-player-cover{width:296px!important;height:296px!important;border-radius:16px!important}
+.cx-playback{padding:0 20px 8px!important}
+.cx-now h1{font-size:24px!important;line-height:29px!important}
+.cx-player-controls{height:80px!important}
+.cx-player-actions button{color:#f2f2f4!important}
+
+/* Discover filters fit as one clean row; no cropped fifth chip. */
+[data-screen="discover"] .cx-pills{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin:-2px 0 14px!important;padding:2px 0!important;overflow:visible!important}
+[data-screen="discover"] .cx-pills button{display:block!important;width:100%!important;min-width:0!important;padding:0 6px!important;font-size:12px!important}
+[data-screen="discover"] .cx-pills button:last-child{display:none!important}

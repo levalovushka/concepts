@@ -3605,3 +3605,12 @@
 .rd-picker-cell.selected::after{box-shadow:inset 0 0 0 3px #0077ff!important}
 .rd-progress span{background:#0077ff!important}
 .screen[data-screen="ads"] .rd-consent-options>div.selected{box-shadow:inset 0 0 0 2px #0077ff!important}
+
+/* Final VK Video contrast and selection contract. */
+.rd-screen .rd-primary.accent,.rd-screen .rd-primary.blue{background:#0077ff!important;color:#fff!important}
+.rd-screen .rd-primary.accent svg,.rd-screen .rd-primary.blue svg{color:#fff!important;stroke:currentColor!important}
+.rd-tabs .tab.is-on,.rd-tabs.dark .tab.is-on{color:#fff!important}
+.screen[data-screen="ads"] .rd-consent-options>div.selected{background:#f5f5f7!important;color:#161618!important;border-color:transparent!important;box-shadow:none!important}
+.screen[data-screen="ads"] .rd-consent-options>div.selected span{color:#626269!important}
+.rd-follow{background:#f5f5f7!important;color:#161618!important}
+.rd-follow svg{color:#161618!important;stroke:currentColor!important}
