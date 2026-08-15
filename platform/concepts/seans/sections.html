@@ -1,0 +1,57 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">Кино на крыше, в сквере или в мастерской упирается в одно: после одиннадцати вечера звук включить нельзя, а картинку на стене видно всем. Из этого ограничения вытекает всё остальное: звук уходит в наушники каждого, синхронизирует его локальная сеть площадки, а живой аккомпанемент и голос куратора идут теми же каналами. Телефон здесь не второй экран, а наушники к общему изображению.</p>
+  <div class="utp-box"><strong>УТП.</strong> Картинка общая, звук личный: показ на стене, дорожка — в ваших наушниках, синхронно с проектором.</div>
+  {{FEAT_GRID}}
+  <div class="note-box" style="margin-top:var(--s-lg)">
+    <p><strong>Тест на подмену.</strong> Уберите синхронизацию по локальной сети, фоновую дорожку и живой микрофон куратора — останется каталог старого кино с плеером, то есть любой видеосервис. Значит эти три фичи и есть продукт.</p>
+    <p><strong>Зачем открывать на третий день.</strong> Показ — событие раз в неделю, но между показами остаются запись, аккомпанемент и голос куратора: их слушают в дороге. Плюс расписание площадок, которое меняется от погоды.</p>
+    <p><strong>Чем это не целевое приложение.</strong> Категория та же — «Развлечения», раскладка тоже: фид, вертикальные клипы, подписки, плеер. Ядро другое: большой видеосервис существует для просмотра в одиночку из дома, здесь просмотр коллективный и офлайновый, а половина функциональности живёт внутри Wi-Fi площадки и без интернета.</p>
+  </div>
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Обмен в зале идёт по локальной сети между устройствами, а не через сервер. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Бесплатно с рекламой · ATT</span><span class="arr">→</span><span class="chip">Главная</span></div>
+  <div class="flow"><span class="chip">Главная</span><span class="arr">→</span><span class="chip">Показ сегодня</span><span class="arr">→</span><span class="chip">Считать код · Camera</span><span class="arr">→</span><span class="chip">Подключение</span></div>
+  <div class="flow"><span class="chip">Показ сегодня</span><span class="arr">→</span><span class="chip">Найти точку показа · Local Network</span><span class="arr">→</span><span class="chip">Зал</span><span class="arr">→</span><span class="chip">Погасить экран · Audio</span></div>
+  <div class="flow"><span class="chip">Показ сегодня</span><span class="arr">→</span><span class="chip">Пульт показа</span><span class="arr">→</span><span class="chip">Взять микрофон · Microphone</span></div>
+  <div class="flow"><span class="chip">Главная</span><span class="arr">→</span><span class="chip">Рядом · Location</span><span class="arr">→</span><span class="chip">Площадки в 5 км</span></div>
+  <div class="flow"><span class="chip">Клипы</span><span class="arr">→</span><span class="chip">Снять · Camera</span><span class="arr">→</span><span class="chip">Сохранить в «Фото» · Photo Add</span></div>
+  <div class="flow"><span class="chip">Показ сегодня</span><span class="arr">→</span><span class="chip">Предложить видео · Photo Library</span><span class="arr">→</span><span class="chip">Очередь вечера</span></div>
+  <div class="flow"><span class="chip">Показы</span><span class="arr">→</span><span class="chip">Начало показов · Push</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>22 экрана, четыре вкладки, nav stack, системный ask и снекбар. Статусы доступов не хранит — только отображает. Две светлые поверхности (вход по номеру), остальные тёмные.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Площадка · показ (время, зал, погода) · фильм · дорожка (живая, записанная, аудиодескрипция, тишина) · точка показа с тайм-кодом · участник зала и его расхождение · метка на минуте · клип.</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · HallSync (Network.framework + Bonjour <code>_seans._tcp</code>: приём тайм-кода, раздача живой дорожки) · Playback (AVPlayer, background audio, MPNowPlayingInfoCenter, MPRemoteCommandCenter) · CuratorMic (AVAudioEngine → подключённые устройства) · CodeScanner (DataScannerViewController) · ClipRecorder (AVCaptureSession) · PhotoExport (PHPhotoLibrary) · MediaImport (PHPicker) · Nearby (Core Location + MKLocalSearch) · Push (SDK провайдера) · PhoneAuth (SDK провайдера) · Ads (рекламный SDK, IDFA только после ATT).</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — метки, заметки, прослушанное, история залов. FileManager — скачанные дорожки и снятые клипы. Keychain — токен входа. Пак каталога только на чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN пака каталога (фильмы общественного достояния, дорожки) · SDK входа по номеру · SDK push-провайдера и его дашборд · рекламный SDK. Внутри зала — только локальная сеть площадки, интернет там не нужен.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Девять ключей из десяти в наборе. Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Десятый ключ набора не заявлен.</strong> <code>com.apple.developer.associated-domains</code> остаётся неотработанным: диплинков в концептах не делаем принципиально, а доступ без видимой фичи заявлять нельзя. Причина записана в <a href="docs/06-app-store.md">карточке App Store</a>.</p>
+      <p><strong>Три якорных доступа лежат на одной фиче.</strong> Локальная сеть, фоновое аудио и микрофон — это один сценарий: зал, где картинка на стене, а звук в наушниках. Убрать любой из трёх — сценарий перестаёт работать, и это ровно то, чего требует правило «высокорисковый доступ сидит на самой сильной фиче».</p>
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Что потребовало бы сервера и чем это заменено на клиенте. Каталог собран из фильмов общественного достояния — это снимает и вопрос прав, и необходимость чужого API. Синхронизация зала сервера не требует по построению: тайм-код раздаёт точка показа внутри Wi-Fi площадки.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>

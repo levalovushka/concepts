@@ -1,0 +1,391 @@
+{
+  "slug": "seans",
+  "name": "Сеанс",
+  "eyebrow": "Сеанс · Показы кино и записи показов · iOS",
+  "targetSet": "vk-video",
+  "domain": "seans.video",
+
+  "heroTitle": "Сеанс — кино на стене, звук в наушниках",
+  "heroDeck": "Показы на крышах, в мастерских и читальных залах: телефон принимает тайм-код по локальной сети и играет звук синхронно с картинкой на стене.",
+  "tagline": "Картинка общая, звук личный",
+  "insight": "после одиннадцати вечера звук включить нельзя, а картинку на стене видно всем — значит звук уходит в наушники каждого, а не в колонку",
+  "deck": "Видеосервис вокруг офлайновых показов старого и немого кино. Гость подключает телефон к точке показа по локальной сети и слышит выбранную дорожку синхронно с проектором; куратор говорит в микрофон, и его голос идёт в те же наушники. Между показами остаются записи, дорожки и клипы — их слушают и смотрят дома. Бэкенда нет: каталог статический, зал держится на Bonjour, пуши идут через SDK провайдера.",
+
+  "qualityContractVersion": 1,
+  "product": {
+    "audience": "Организаторы и гости небольших офлайновых показов старого и немого кино: крыши, скверы, мастерские",
+    "situation": "Среда, 21:40, крыша на Автозаводской: колонку включить нельзя, а полотно на брандмауэре видно всем",
+    "problem": "После одиннадцати вечера звук перебудит три стороны жилых окон, а раздать его на двадцать телефонов в такт с проектором нечем",
+    "promise": "Картинка общая, звук личный: дорожка играет в ваших наушниках синхронно с проектором",
+    "differentiator": "Локальная сеть здесь транспорт основного звука, а не Cast сбоку: половина продукта живёт внутри Wi-Fi площадки, без интернета",
+    "returnReasons": [
+      "Дослушать в метро дорожку куратора с прошлого показа",
+      "Проверить расписание площадки, когда дождь отменяет показ",
+      "Забрать клип и метки, поставленные в зале",
+      "Выбрать дорожку с тапёром перед входом в следующий зал"
+    ],
+    "verticalSlice": {
+      "entry": "session",
+      "action": "join",
+      "result": "hall"
+    },
+    "coreLoop": [
+      "Найти точку показа по локальной сети и подключиться к залу",
+      "Выбрать дорожку: оригинал, фортепиано или голос куратора",
+      "Погасить экран — звук идёт дальше и держит тайм-код проектора",
+      "После показа забрать записи, дорожки и метки"
+    ],
+    "nonGoals": [
+      "Лента и подписки на людей: подписка есть только на площадку",
+      "Комментарии: метки лежат на устройстве",
+      "Продажа билетов",
+      "Приём чужих ссылок на показ"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Entertainment первична — та же полка, что у целевого приложения; Photo & Video вторична, потому что зал, клипы и плеер устроены как в большом видеосервисе",
+    "referencePatterns": [
+      "video-feed",
+      "vertical-clips",
+      "immersive-player",
+      "channels",
+      "capture-publish"
+    ],
+    "familiarPatterns": [
+      "Главная с лентой видео и продолжением недосмотренного",
+      "Вертикальные клипы отдельной вкладкой",
+      "Полноэкранный плеер с Cast на телевизор",
+      "Площадка как канал с подпиской"
+    ],
+    "distinctions": [
+      "Просмотр коллективный и офлайновый, а не в одиночку из дома",
+      "Звук основного видео уходит в наушники зала по локальной сети, а не в динамик",
+      "Тайм-код задаёт проектор площадки, а телефон подстраивается под него",
+      "Живой голос куратора идёт отдельной дорожкой поверх фильма"
+    ],
+    "evidenceScreens": [
+      "session",
+      "join",
+      "hall",
+      "curator",
+      "clips",
+      "venue"
+    ]
+  },
+  "brand": {
+    "accent": "#3E8BFF",
+    "accentDark": "#7FB2FF",
+    "fonts": "Golos+Text:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
+  },
+
+  "start": "phone",
+  "tabs": [
+    { "id": "home", "label": "Главная" },
+    { "id": "clips", "label": "Клипы" },
+    { "id": "shows", "label": "Показы" },
+    { "id": "profile", "label": "Профиль" }
+  ],
+
+  "permissions": [
+    {
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
+      "alert": {
+        "title": "Разрешить «Сеансу» находить устройства в локальной сети?",
+        "text": "Чтобы принять тайм-код показа и играть звук синхронно с проектором."
+      },
+      "feature": "Синхронный звук показа в наушниках",
+      "gesture": "«Найти точку показа» на карточке показа",
+      "screen": "session",
+      "target": "join",
+      "fallback": "Остаётся звук из колонки площадки и запись показа после",
+      "snack": "Без локальной сети синхронизация недоступна",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Точка показа объявляет себя по Bonjour (_seans._tcp), тайм-код и дорожка идут по локальной сети",
+      "grounding": "Network.framework + NSBonjourServices, обмен только внутри Wi-Fi площадки"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Дорожка играет с погашенным экраном",
+        "text": "Звук продолжает идти, когда экран телефона погас, — смотрят на стену, не в телефон."
+      },
+      "activate": true,
+      "feature": "Дорожка показа в фоне и Now Playing",
+      "gesture": "«Погасить экран» в зале",
+      "screen": "hall",
+      "target": "background",
+      "fallback": "Без capability дорожка обрывается при блокировке экрана",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession .playback, заполненный MPNowPlayingInfoCenter, remote-команды пауза и ±15 с",
+      "grounding": "AVPlayer играет локальный файл, тайм-код правится поправками из локальной сети"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» доступ к микрофону?",
+        "text": "Чтобы ваш голос шёл в наушники зала отдельной дорожкой."
+      },
+      "feature": "Живой голос куратора в наушниках зала",
+      "gesture": "«Взять микрофон» на пульте показа",
+      "screen": "curator",
+      "target": "talk",
+      "fallback": "Остаётся дорожка, записанная до показа",
+      "snack": "Без микрофона играет записанная дорожка",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioEngine отдаёт поток подключённым устройствам по локальной сети"
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» доступ к камере?",
+        "text": "Чтобы считать код точки показа и снять клип на показе."
+      },
+      "feature": "Код показа и клип с показа",
+      "gesture": "«Считать код показа»",
+      "screen": "session",
+      "target": "scan",
+      "fallback": "Код показа вводится шестью цифрами",
+      "snack": "Нет доступа к камере — введите код цифрами",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "DataScannerViewController читает код на устройстве; AVCaptureSession пишет клип локально"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» использовать геопозицию?",
+        "text": "Чтобы показать площадки и время начала рядом с вами."
+      },
+      "feature": "Показы на площадках рядом",
+      "gesture": "«Рядом» на главной",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Остаётся расписание по выбранному городу, без расстояний",
+      "snack": "Показываем расписание по городу",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Запрос только после нажатия «Рядом», не на старте",
+      "grounding": "Core Location сравнивает адреса площадок из пака, адреса ищет MKLocalSearch"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» доступ к медиатеке?",
+        "text": "Чтобы предложить своё видео в программу показа."
+      },
+      "feature": "Своё видео в программу площадки",
+      "gesture": "«Предложить своё видео»",
+      "screen": "session",
+      "target": "pick",
+      "fallback": "Видео можно снять камерой на месте",
+      "snack": "Нет доступа к медиатеке — снимите видео камерой",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранный файл, полный доступ не нужен"
+    },
+    {
+      "key": "photoadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» добавлять видео в «Фото»?",
+        "text": "Чтобы сохранить снятый клип в медиатеку iPhone."
+      },
+      "feature": "Экспорт клипа в «Фото»",
+      "gesture": "«Сохранить в «Фото»» после съёмки",
+      "screen": "record",
+      "target": "record",
+      "fallback": "Клип остаётся в «Моих записях»",
+      "snack": "Клип остался в «Моих записях»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary.performChanges создаёт новый видео-asset"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment (Push Notifications capability)",
+      "alert": {
+        "title": "Разрешить «Сеансу» отправлять уведомления?",
+        "text": "Сообщим о начале показа и о переносе из-за дождя."
+      },
+      "feature": "Начало показа и перенос",
+      "gesture": "Свитч «Начало показов»",
+      "screen": "shows",
+      "target": "shows",
+      "fallback": "Время начала остаётся в расписании вкладки",
+      "snack": "Напоминания выключены — расписание останется в приложении",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "APNs topics по подписанным площадкам, отправка из дашборда провайдера",
+      "grounding": "FCM/APNs topics, контакты не хранятся"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сеансу» отслеживать ваши действия в приложениях и на сайтах других компаний?",
+        "text": "Данные будут использоваться для показа релевантной рекламы."
+      },
+      "feature": "Бесплатный доступ с рекламой",
+      "gesture": "«Продолжить бесплатно» после входа",
+      "screen": "ads",
+      "target": "home",
+      "fallback": "Реклама остаётся, но становится неперсонализированной",
+      "snack": "Будем показывать неперсонализированную рекламу",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Рекламный SDK в сборке, IDFA уходит только после согласия",
+      "grounding": "SDK работает контекстно при отказе, IDFA не запрашивается"
+    }
+  ],
+
+  "screens": [
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Вход" },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP" },
+    { "id": "ads", "title": "Бесплатно с рекламой", "type": "onboarding", "light": false, "parent": "code", "meta": "ATT" },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": false, "meta": "Показ сегодня, записи, дорожки" },
+    { "id": "nearby", "title": "Площадки рядом", "type": "push", "light": false, "parent": "home", "meta": "Core Location" },
+    { "id": "search", "title": "Поиск", "type": "push", "light": false, "parent": "home", "meta": "Фильмы, площадки, дорожки" },
+    { "id": "film", "title": "Запись показа", "type": "push", "light": false, "parent": "home", "meta": "Плеер, дорожки, ТВ" },
+    { "id": "cast", "title": "Смотреть на телевизоре", "type": "sheet", "light": false, "parent": "film", "meta": "Local Network" },
+    { "id": "session", "title": "Показ сегодня", "type": "push", "light": false, "parent": "home", "meta": "Как попасть в зал" },
+    { "id": "scan", "title": "Код точки показа", "type": "fullscreen", "light": false, "parent": "session", "meta": "Camera · DataScanner" },
+    { "id": "join", "title": "Подключение к залу", "type": "push", "light": false, "parent": "session", "meta": "Local Network · выбор дорожки" },
+    { "id": "hall", "title": "Вы в зале", "type": "push", "light": false, "parent": "join", "meta": "Синхронизация и дорожка" },
+    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "hall", "meta": "Now Playing" },
+    { "id": "curator", "title": "Пульт показа", "type": "push", "light": false, "parent": "session", "meta": "Очередь и наушники зала" },
+    { "id": "talk", "title": "Микрофон куратора", "type": "push", "light": false, "parent": "curator", "meta": "Microphone" },
+    { "id": "pick", "title": "Выбор видео", "type": "system picker", "light": false, "parent": "session", "meta": "Photo Library" },
+    { "id": "clips", "title": "Клипы", "type": "tab (root)", "light": false, "meta": "Вертикальные клипы с показов" },
+    { "id": "record", "title": "Клип с показа", "type": "fullscreen", "light": false, "parent": "clips", "meta": "Camera + сохранение в «Фото»" },
+    { "id": "shows", "title": "Показы", "type": "tab (root)", "light": false, "meta": "Расписание и площадки" },
+    { "id": "venue", "title": "Площадка", "type": "push", "light": false, "parent": "shows", "meta": "Расписание и записи" },
+    { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": false, "meta": "Роль, доступы, номер" },
+    { "id": "saved", "title": "Мои записи", "type": "push", "light": false, "parent": "profile", "meta": "Клипы, дорожки, загрузки" }
+  ],
+
+  "prototypes": [
+    {
+      "id": "all", "hero": true, "label": "Весь продукт",
+      "note": "Четыре вкладки и все девять заявленных доступов",
+      "start": "phone",
+      "screens": ["phone","code","ads","home","nearby","search","film","cast","session","scan","join","hall","background","curator","talk","pick","clips","record","shows","venue","profile","saved"]
+    },
+    {
+      "id": "guest", "label": "Прийти на показ",
+      "note": "Код точки показа, локальная сеть, дорожка и погасший экран",
+      "start": "session",
+      "screens": ["session","scan","join","hall","background","pick","venue","curator"],
+      "stops": ["pick","venue","curator"]
+    },
+    {
+      "id": "host", "label": "Провести показ",
+      "note": "Пульт, живой голос в наушники зала и своё видео в программе",
+      "start": "curator",
+      "screens": ["curator","talk","pick","session"],
+      "stops": ["session"]
+    },
+    {
+      "id": "near", "label": "Найти показ рядом",
+      "note": "Геопозиция, площадки и расписание на неделю",
+      "start": "home",
+      "screens": ["home","nearby","venue","search","session","saved","film","shows","clips"],
+      "stops": ["search","session","saved","film","shows","clips"]
+    },
+    {
+      "id": "watch", "label": "Смотреть запись дома",
+      "note": "Дорожки записи и телевизор в локальной сети",
+      "start": "film",
+      "screens": ["film","cast","saved","clips","venue"],
+      "stops": ["clips","venue"]
+    },
+    {
+      "id": "clip", "label": "Снять клип с показа",
+      "note": "Камера в зале и экспорт клипа в «Фото»",
+      "start": "clips",
+      "screens": ["clips","record","venue","film"],
+      "stops": ["venue","film"]
+    },
+    {
+      "id": "subs", "label": "Подписки, пуши и доступы",
+      "note": "Расписание площадок, напоминания и состояние доступов",
+      "start": "shows",
+      "screens": ["shows","profile","search","nearby","session","venue","saved","curator"],
+      "stops": ["search","nearby","session","venue","saved","curator"]
+    }
+  ],
+
+  "backendless": [
+    { "needs": "Каталог фильмов и дорожек", "solution": "Статический пак catalog.json + файлы на CDN, только чтение; фильмы — общественное достояние" },
+    { "needs": "Расписание показов и площадки", "solution": "Тот же пак в демо; production — Firestore на SDK провайдера, своего обработчика нет" },
+    { "needs": "Синхронизация зала и живой голос", "solution": "Bonjour + Network.framework внутри Wi-Fi площадки: точка показа объявляет тайм-код, устройства слушают. Сервера в схеме нет по построению" },
+    { "needs": "Заметки к дорожке и отметки о прослушанном", "solution": "CoreData на устройстве" },
+    { "needs": "Уведомления о начале и переносе", "solution": "APNs topics через SDK провайдера, отправка из дашборда" },
+    { "needs": "Публикация клипа", "solution": "Системный share sheet и запись в «Фото» через PHPhotoLibrary" }
+  ],
+
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" },
+    { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
+    { "file": "06-app-store.md", "label": "Карточка App Store" }
+  ],
+
+  "appStore": {
+    "name": "Сеанс",
+    "subtitle": "Показы кино со своим звуком",
+    "promo": "Приходите на показ, подключите наушники к точке показа — и слушайте свою дорожку синхронно с картинкой на стене. Записи и дорожки остаются в приложении.",
+    "keywords": "немое,короткометражки,киноклуб,проектор,наушники,фильмы,ретро,синхронно",
+    "category": { "primary": "Entertainment", "secondary": "Photo & Video" },
+    "ageRating": "12+",
+    "price": "Бесплатно, с рекламой",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS и обмен внутри локальной сети",
+    "urls": {
+      "support": "https://seans.video/support",
+      "marketing": "https://seans.video",
+      "privacy": "https://seans.video/privacy"
+    },
+    "description": [
+      "«Сеанс» — приложение вокруг офлайновых показов старого и немого кино: на крышах, в мастерских, читальных залах и гаражных кооперативах.",
+      "ЗВУК В НАУШНИКАХ\nТелефон подключается к точке показа по локальной сети и играет выбранную дорожку синхронно с проектором. Поздним вечером колонку включить нельзя — картинка остаётся общей, звук становится личным.",
+      "ЖИВОЙ ГОЛОС КУРАТОРА\nВедущий показа говорит в микрофон своего телефона, и его голос идёт отдельной дорожкой в наушники зала.",
+      "ЗАПИСИ И ДОРОЖКИ\nПосле показа остаются запись, аккомпанемент и комментарий. Их слушают дома и в дороге с погашенным экраном.",
+      "ПЛОЩАДКИ РЯДОМ\nРасписание ближайших показов, подписки на площадки и уведомление, если показ перенесли из-за дождя."
+    ],
+    "whatsNew": "Первая версия: подключение к залу по локальной сети, дорожки, живой голос куратора, записи показов и клипы.",
+    "privacy": [
+      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход через SDK провайдера аутентификации" },
+      { "type": "Геопозиция", "apple": "Location → Coarse Location", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Площадки и время начала рядом" },
+      { "type": "Пользовательский контент", "apple": "User Content → Photos or Videos", "purpose": "Функциональность", "linked": true, "tracking": false, "why": "Клипы с показа и видео, предложенные в программу" },
+      { "type": "Аудио", "apple": "User Content → Audio Data", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Голос куратора уходит в наушники зала и не сохраняется" },
+      { "type": "Идентификатор устройства", "apple": "Identifiers → Device ID", "purpose": "Реклама", "linked": false, "tracking": true, "why": "IDFA передаётся рекламному SDK только после согласия по ATT" }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Тестовый номер принимает код 0000, SMS не отправляется. Точка показа в демо объявляется приложением на этом же устройстве, поэтому подключение к залу проверяется без второго телефона."
+    }
+  }
+}

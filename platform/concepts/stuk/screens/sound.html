@@ -1,0 +1,120 @@
+<div class="screen sk-screen" id="scr-sound">
+  <div class="sk-safe"></div>
+  <div class="sk-topbar">
+    <div class="sk-wordmark"><span class="sk-mark"></span>Звук</div>
+    <div class="sk-hit" data-go="symptom" aria-label="Каталог симптомов"><svg class="sk-icon"><use href="#i-book-open"/></svg></div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="sk-mic-cta">
+      <h1>Стук нельзя показать пальцем</h1>
+      <p>Запишите десять секунд там, где слышно, — и поставьте рядом эталон из каталога. Совпало — откроется разбор.</p>
+      <div class="sk-mic-btn tap" data-ask="mic|record|sound" aria-label="Записать звук"><svg class="sk-icon"><use href="#i-mic"/></svg>Записать звук</div>
+    </div>
+
+    <div class="sk-fallback perm-hidden" data-show-denied="mic">Без микрофона запись недоступна. Симптом можно найти по описанию: где слышно, на какой скорости, в каком режиме.</div>
+
+    <div class="sk-sec-head"><h2>Мои записи</h2><span>5 · 1,8 МБ</span></div>
+    <div class="sk-take" data-go="compare" aria-label="Открыть запись от 6 августа">
+      <div class="sk-take-wave"></div>
+      <div class="sk-take-body">
+        <div class="sk-take-title">Стук спереди, левая арка · 0:12</div>
+        <div class="sk-take-sub">6 августа, до ремонта · на скорости до 40</div>
+      </div>
+      <span class="sk-tag match">совпало</span>
+    </div>
+    <div class="sk-take" data-go="compare" aria-label="Открыть запись от 12 августа">
+      <div class="sk-take-wave quiet"></div>
+      <div class="sk-take-body">
+        <div class="sk-take-title">Та же кочка после замены втулок · 0:09</div>
+        <div class="sk-take-sub">12 августа, после ремонта · пиков не осталось</div>
+      </div>
+      <span class="sk-tag ok">тихо</span>
+    </div>
+    <div class="sk-take" data-go="compare" aria-label="Открыть запись гула на трассе">
+      <div class="sk-take-wave hum"></div>
+      <div class="sk-take-body">
+        <div class="sk-take-title">Гул на трассе, 80 км/ч · 0:21</div>
+        <div class="sk-take-sub">2 августа · не сравнивалась ни с чем</div>
+      </div>
+      <svg class="sk-icon sm sk-dim"><use href="#i-chevron-right"/></svg>
+    </div>
+    <div class="sk-take" data-go="compare" aria-label="Открыть запись цокота на холодную">
+      <div class="sk-take-wave tick"></div>
+      <div class="sk-take-body">
+        <div class="sk-take-title">Цокот на холодную, первые 3 минуты · 0:14</div>
+        <div class="sk-take-sub">28 июля · сравнивала с форсунками — не то</div>
+      </div>
+      <span class="sk-tag">не совпало</span>
+    </div>
+    <div class="sk-take" data-go="compare" aria-label="Открыть запись скрипа сзади">
+      <div class="sk-take-wave quiet"></div>
+      <div class="sk-take-body">
+        <div class="sk-take-title">Скрип у заднего колеса после дождя · 0:07</div>
+        <div class="sk-take-sub">19 июля · запись обрезана, слышно плохо</div>
+      </div>
+      <svg class="sk-icon sm sk-dim"><use href="#i-chevron-right"/></svg>
+    </div>
+
+    <div class="sk-sec-head" style="padding-top:18px"><h2>Каталог симптомов</h2><span>48 эталонов</span></div>
+    <div class="sk-sec-note">Эталон — чужая запись, к которой уже нашли причину.</div>
+
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: металлический стук спереди">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Металлический стук спереди на мелких кочках</div>
+        <div class="sk-sym-sub">2–4 удара в секунду, до 40 км/ч · 7 разборов</div>
+      </div>
+      <div class="sk-sym-hz">220 Гц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: хруст на выкруте">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Хруст только в повороте на полном выкруте</div>
+        <div class="sk-sym-sub">Скорость не важна, на прямой пропадает · 4 разбора</div>
+      </div>
+      <div class="sk-sym-hz">900 Гц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: гул, меняющийся при перестроении">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Гул, который меняется при перестроении</div>
+        <div class="sk-sym-sub">Появляется после 60, громче под нагрузкой · 5 разборов</div>
+      </div>
+      <div class="sk-sym-hz">380 Гц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: цокот на холодную">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Цокот на холостых, уходит через три минуты</div>
+        <div class="sk-sym-sub">Только на холодном моторе · 9 разборов</div>
+      </div>
+      <div class="sk-sym-hz">1,2 кГц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: скрип на первых метрах">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Скрип на первых метрах после дождя</div>
+        <div class="sk-sym-sub">Пропадает после двух-трёх торможений · 3 разбора</div>
+      </div>
+      <div class="sk-sym-hz">3,4 кГц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Симптом: одиночный щелчок при трогании">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Один щелчок при трогании и больше ничего</div>
+        <div class="sk-sym-sub">Первый метр вперёд и первый назад · 6 разборов</div>
+      </div>
+      <div class="sk-sym-hz">140 Гц</div>
+    </div>
+  </div>
+
+  <div class="tabbar light" aria-label="Основная навигация">
+    <div class="tab" data-go="home"><span class="ico"><svg class="sk-icon"><use href="#i-house"/></svg></span><span class="tab-label">Главная</span></div>
+    <div class="tab" data-go="clips"><span class="ico"><svg class="sk-icon"><use href="#i-video"/></svg></span><span class="tab-label">Приёмы</span></div>
+    <div class="tab" data-go="create"><span class="ico"><svg class="sk-icon"><use href="#i-plus"/></svg></span><span class="tab-label">Снять</span></div>
+    <div class="tab is-on" data-go="sound"><span class="ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></span><span class="tab-label">Звук</span></div>
+    <div class="tab" data-go="profile"><span class="ico"><svg class="sk-icon"><use href="#i-user"/></svg></span><span class="tab-label">Профиль</span></div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

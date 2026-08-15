@@ -1,0 +1,352 @@
+/* «Стук» — концепт-специфичные компоненты. Системный iOS-хром — в kernel/base.css.
+   Все имена с префиксом sk-, чтобы не столкнуться с ядром. */
+
+:root {
+  --sk-ink: #141210;
+  --sk-muted: #6f6a64;
+  --sk-faint: #a09a92;
+  --sk-line: #e6e2dc;
+  --sk-soft: #f5f2ec;
+  --sk-warm: #fdf1e0;
+  --sk-accent: #b4610a;
+  --sk-steel: #3a5a78;
+  --sk-ok: #2c7a4b;
+}
+
+.sk-screen { background-color: #fff; color: var(--sk-ink); font-family: Manrope, -apple-system, BlinkMacSystemFont, sans-serif; }
+.sk-screen * { box-sizing: border-box; }
+.sk-screen .body-scroll { scrollbar-width: none; }
+.sk-screen .body-scroll::-webkit-scrollbar { display: none; }
+.sk-safe { padding-top: calc(var(--safe-top) + 8px); flex: none; }
+.sk-icon { width: 22px; height: 22px; display: block; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.sk-icon.sm { width: 17px; height: 17px; }
+.sk-icon.lg { width: 27px; height: 27px; }
+.sk-hit { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.sk-dim { color: var(--sk-muted); }
+.sk-kicker { color: var(--sk-muted); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .02em; }
+
+/* —— шапка и марка —— */
+
+.sk-wordmark { display: flex; align-items: center; gap: 8px; font-size: 21px; line-height: 26px; font-weight: 800; letter-spacing: -.04em; }
+.sk-mark { width: 24px; height: 24px; position: relative; display: block; border-radius: 7px; background-color: var(--sk-ink); flex: none; }
+.sk-mark::before,
+.sk-mark::after { content: ""; position: absolute; border-radius: 999px; background-color: var(--sk-accent); }
+.sk-mark::before { width: 3px; height: 11px; left: 7px; top: 6px; }
+.sk-mark::after { width: 3px; height: 7px; left: 13px; top: 10px; }
+.sk-mark.inverse { background-color: #fff; }
+.sk-mark.inverse::before,
+.sk-mark.inverse::after { background-color: var(--sk-ink); }
+
+.sk-topbar { min-height: 52px; display: flex; align-items: center; gap: 2px; padding: 0 8px 0 16px; flex: none; }
+.sk-topbar .sk-wordmark { margin-right: auto; }
+
+.sk-chiprail { display: flex; gap: 8px; overflow-x: auto; padding: 4px 16px 12px; flex: none; scrollbar-width: none; }
+.sk-chiprail::-webkit-scrollbar { display: none; }
+.sk-chip { flex: none; min-height: 34px; display: flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 999px; background-color: var(--sk-soft); font-size: 14px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+.sk-chip.active { background-color: var(--sk-ink); color: #fff; }
+.sk-chip.mine { background-color: var(--sk-warm); color: var(--sk-accent); }
+
+/* —— лента разборов —— */
+
+.sk-feed { padding-bottom: 18px; }
+.sk-card { display: block; margin-bottom: 20px; }
+.sk-thumb { position: relative; height: 200px; overflow: hidden; }
+.sk-thumb.sm { height: 168px; border-radius: 12px; margin-left: 16px; margin-right: 16px; }
+.sk-flag { position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border-radius: 8px; background-color: rgba(20, 18, 16, .74); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: -.01em; }
+.sk-flag.match { background-color: var(--sk-accent); }
+.sk-dur { position: absolute; right: 8px; bottom: 8px; padding: 2px 6px; border-radius: 5px; background-color: rgba(20, 18, 16, .82); color: #fff; font: 600 12px/16px "IBM Plex Mono", ui-monospace, monospace; }
+.sk-card-body { display: flex; gap: 12px; padding: 11px 16px 0; }
+.sk-avatar { width: 36px; height: 36px; border-radius: 50%; flex: none; background-color: var(--sk-soft); color: var(--sk-muted); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; letter-spacing: -.02em; }
+.sk-avatar.warm { background-color: var(--sk-warm); color: var(--sk-accent); }
+.sk-avatar.steel { background-color: #e6edf4; color: var(--sk-steel); }
+.sk-title { margin: 0; font-size: 16px; line-height: 21px; font-weight: 700; letter-spacing: -.02em; }
+.sk-meta { margin-top: 4px; font-size: 13px; line-height: 18px; color: var(--sk-muted); }
+.sk-meta b { font-weight: 600; color: var(--sk-ink); }
+
+.sk-sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 6px 16px 12px; }
+.sk-sec-head h2 { margin: 0; font-size: 19px; line-height: 24px; font-weight: 800; letter-spacing: -.03em; }
+.sk-sec-head span { font-size: 13px; color: var(--sk-muted); }
+.sk-sec-note { margin: -6px 16px 12px; font-size: 13px; line-height: 18px; color: var(--sk-muted); }
+
+.sk-ad-row { display: flex; align-items: center; gap: 12px; margin: 0 16px 20px; padding: 12px; border-radius: 14px; background-color: var(--sk-soft); }
+.sk-ad-row strong { display: block; margin-top: 3px; font-size: 15px; letter-spacing: -.02em; }
+.sk-ad-row p { margin: 3px 0 0; font-size: 13px; line-height: 17px; color: var(--sk-muted); }
+.sk-ad-poster { width: 66px; height: 66px; border-radius: 10px; flex: none; }
+
+.sk-fallback { margin: 0 16px 16px; padding: 11px 13px; border-radius: 12px; background-color: var(--sk-warm); color: #8a4a08; font-size: 13px; line-height: 18px; }
+.sk-fallback.flat { margin-left: 0; margin-right: 0; }
+
+/* —— продолжить смотреть —— */
+
+.sk-resume { display: flex; gap: 12px; align-items: center; margin: 0 16px 20px; padding: 10px; border-radius: 14px; background-color: var(--sk-soft); }
+.sk-resume-thumb { width: 96px; height: 62px; border-radius: 9px; flex: none; }
+.sk-resume-bar { height: 3px; border-radius: 2px; margin-top: 7px; background-color: rgba(20, 18, 16, .14); overflow: hidden; }
+.sk-resume-bar i { display: block; height: 100%; background-color: var(--sk-accent); }
+
+/* —— строка списка «разбор» —— */
+
+.sk-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 16px; }
+.sk-row + .sk-row { border-top: 1px solid var(--sk-line); }
+.sk-row-thumb { width: 108px; height: 68px; border-radius: 9px; flex: none; position: relative; overflow: hidden; }
+.sk-row-body { flex: 1; min-width: 0; }
+.sk-row-title { font-size: 15px; line-height: 20px; font-weight: 700; letter-spacing: -.02em; }
+.sk-row-meta { margin-top: 4px; font-size: 12px; line-height: 17px; color: var(--sk-muted); }
+
+/* —— плеер разбора —— */
+
+.sk-player { position: relative; height: calc(211px + var(--safe-top)); flex: none; background-color: #17140f; }
+.sk-player .ph { height: 100%; border-radius: 0; }
+.sk-player-top { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 4px; padding: calc(var(--safe-top) + 4px) 8px 0; color: #fff; }
+.sk-player-top .sk-hit { color: #fff; }
+.sk-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 62px; height: 62px; border-radius: 50%; background-color: rgba(20, 18, 16, .55); color: #fff; display: flex; align-items: center; justify-content: center; }
+.sk-play svg { margin-left: 3px; fill: currentColor; }
+.sk-scrub { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 12px 10px; color: #fff; }
+.sk-scrub-time { display: flex; justify-content: space-between; font: 600 11px/16px "IBM Plex Mono", ui-monospace, monospace; margin-bottom: 5px; }
+.sk-scrub-bar { height: 3px; border-radius: 2px; background-color: rgba(255, 255, 255, .3); overflow: hidden; }
+.sk-scrub-bar i { display: block; height: 100%; background-color: var(--sk-accent); }
+
+.sk-actions { display: flex; gap: 8px; overflow-x: auto; padding: 14px 16px 4px; scrollbar-width: none; }
+.sk-actions::-webkit-scrollbar { display: none; }
+.sk-act { flex: none; min-height: 44px; display: flex; align-items: center; gap: 7px; padding: 0 15px; border-radius: 999px; background-color: var(--sk-soft); font-size: 14px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.sk-act.primary { background-color: var(--sk-accent); color: #fff; }
+.sk-act.on { background-color: var(--sk-ink); color: #fff; }
+
+.sk-head { padding: 14px 16px 0; }
+.sk-head h1 { margin: 0; font-size: 21px; line-height: 27px; font-weight: 800; letter-spacing: -.035em; }
+.sk-head p { margin: 7px 0 0; font-size: 13px; line-height: 18px; color: var(--sk-muted); }
+
+.sk-author { display: flex; align-items: center; gap: 11px; padding: 14px 16px; }
+.sk-author-name { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+.sk-author-sub { margin-top: 2px; font-size: 12px; color: var(--sk-muted); }
+.sk-sub-btn { margin-left: auto; min-height: 36px; display: flex; align-items: center; padding: 0 15px; border-radius: 999px; background-color: var(--sk-ink); color: #fff; font-size: 14px; font-weight: 700; }
+.sk-sub-btn.on { background-color: var(--sk-soft); color: var(--sk-ink); }
+
+/* —— шаги разбора —— */
+
+.sk-block { padding: 6px 16px 18px; }
+.sk-block h2 { margin: 0 0 4px; font-size: 17px; line-height: 22px; font-weight: 800; letter-spacing: -.03em; }
+.sk-block .sk-dim { font-size: 13px; line-height: 18px; }
+
+.sk-step { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--sk-line); }
+.sk-step:last-child { border-bottom: 0; }
+.sk-time { flex: none; width: 46px; font: 600 13px/20px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-accent); }
+.sk-step-body { flex: 1; min-width: 0; }
+.sk-step-title { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -.015em; }
+.sk-step-sub { margin-top: 3px; font-size: 13px; line-height: 18px; color: var(--sk-muted); }
+.sk-step-mark { flex: none; width: 22px; color: var(--sk-ok); }
+
+.sk-part { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--sk-line); }
+.sk-part:last-child { border-bottom: 0; }
+.sk-part-body { flex: 1; min-width: 0; }
+.sk-part-name { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -.015em; }
+.sk-part-code { margin-top: 3px; font: 500 12px/16px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-muted); }
+.sk-part-price { flex: none; text-align: right; font: 600 14px/18px "IBM Plex Mono", ui-monospace, monospace; }
+.sk-part-price span { display: block; font: 400 11px/15px Manrope, sans-serif; color: var(--sk-faint); }
+
+.sk-note { margin-top: 12px; padding: 12px 13px; border-radius: 12px; background-color: var(--sk-soft); font-size: 13px; line-height: 19px; }
+.sk-note strong { display: block; margin-bottom: 3px; font-size: 12px; letter-spacing: .02em; text-transform: uppercase; color: var(--sk-muted); }
+
+/* —— звук: дорожки и сравнение —— */
+
+.sk-wave { height: 74px; border-radius: 10px; background-color: var(--sk-soft); background-image: url(assets/media/wave-mine.svg); background-size: 100% 74%; background-position: center; background-repeat: no-repeat; }
+.sk-wave.ref { background-image: url(assets/media/wave-ref.svg); background-color: #eef2f6; }
+.sk-wave.live { background-image: url(assets/media/wave-live.svg); background-color: rgba(255, 255, 255, .07); border-radius: 0; height: 128px; background-size: 100% 96%; }
+
+.sk-ab { display: flex; padding: 3px; border-radius: 12px; background-color: var(--sk-soft); }
+.sk-ab > div { flex: 1; min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 9px; font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: var(--sk-muted); }
+.sk-ab > div.on { background-color: #fff; color: var(--sk-ink); box-shadow: 0 1px 3px rgba(20, 18, 16, .12); }
+
+.sk-cmp { padding: 0 16px; }
+.sk-cmp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
+.sk-cmp-head b { font-size: 14px; letter-spacing: -.015em; }
+.sk-cmp-head span { flex: none; font: 500 12px/16px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-muted); white-space: nowrap; }
+.sk-cmp-block { margin-bottom: 16px; }
+
+.sk-verdict { display: flex; gap: 10px; margin: 0 16px 18px; }
+.sk-verdict > div { flex: 1; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 13px; font-size: 15px; font-weight: 700; letter-spacing: -.015em; }
+.sk-verdict .yes { background-color: var(--sk-ink); color: #fff; }
+.sk-verdict .no { background-color: var(--sk-soft); }
+
+/* —— запись —— */
+
+.sk-rec-screen { flex: 1; min-height: 0; display: flex; flex-direction: column; background-color: #17140f; color: #fff; }
+.sk-rec-top { padding: calc(var(--safe-top) + 12px) 20px 0; flex: none; }
+.sk-rec-top h1 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 800; letter-spacing: -.03em; }
+.sk-rec-top p { margin: 8px 0 0; font-size: 14px; line-height: 20px; color: rgba(255, 255, 255, .6); }
+.sk-rec-mid { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 0 20px; }
+.sk-rec-count { text-align: center; font: 600 46px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: -.04em; }
+.sk-rec-count span { display: block; margin-top: 8px; font: 500 13px/18px Manrope, sans-serif; color: rgba(255, 255, 255, .55); letter-spacing: 0; }
+.sk-rec-tips { display: flex; flex-direction: column; gap: 9px; padding: 14px 16px; border-radius: 14px; background-color: rgba(255, 255, 255, .07); }
+.sk-rec-tip { display: flex; gap: 10px; font-size: 13px; line-height: 18px; color: rgba(255, 255, 255, .78); }
+.sk-rec-tip svg { flex: none; color: #ffa63d; }
+.sk-rec-bottom { flex: none; padding: 0 20px calc(var(--safe-bottom) + 14px); display: flex; align-items: center; justify-content: space-between; }
+.sk-rec-btn { width: 76px; height: 76px; border-radius: 50%; border: 4px solid rgba(255, 255, 255, .85); display: flex; align-items: center; justify-content: center; }
+.sk-rec-btn::after { content: ""; width: 28px; height: 28px; border-radius: 6px; background-color: #ff3b30; }
+.sk-rec-side { width: 76px; font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, .8); }
+.sk-rec-side.right { text-align: right; }
+
+/* —— вкладка «Звук» —— */
+
+.sk-mic-cta { margin: 0 16px 20px; padding: 18px; border-radius: 18px; background-color: var(--sk-ink); color: #fff; }
+.sk-mic-cta h1 { margin: 0; font-size: 22px; line-height: 27px; font-weight: 800; letter-spacing: -.035em; max-width: 15ch; }
+.sk-mic-cta p { margin: 8px 0 0; font-size: 13px; line-height: 19px; color: rgba(255, 255, 255, .62); }
+.sk-mic-btn { margin-top: 15px; min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 9px; border-radius: 14px; background-color: var(--sk-accent); color: #fff; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+
+.sk-take { display: flex; align-items: center; gap: 12px; padding: 11px 16px; }
+.sk-take + .sk-take { border-top: 1px solid var(--sk-line); }
+.sk-take-wave { width: 82px; height: 44px; border-radius: 8px; flex: none; background-color: var(--sk-soft); background-image: url(assets/media/wave-thumb-mine.svg); background-size: 100% 74%; background-position: center; background-repeat: no-repeat; }
+.sk-take-wave.ref { background-image: url(assets/media/wave-ref.svg); background-color: #eef2f6; }
+.sk-take-wave.quiet { background-image: url(assets/media/wave-thumb-quiet.svg); }
+.sk-take-wave.hum { background-image: url(assets/media/wave-thumb-hum.svg); }
+.sk-take-wave.tick { background-image: url(assets/media/wave-thumb-tick.svg); }
+.sk-take-body { flex: 1; min-width: 0; }
+.sk-take-title { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -.015em; }
+.sk-take-sub { margin-top: 3px; font-size: 12px; line-height: 17px; color: var(--sk-muted); }
+.sk-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 6px; background-color: var(--sk-soft); font-size: 11px; font-weight: 700; color: var(--sk-muted); }
+.sk-tag.match { background-color: var(--sk-warm); color: var(--sk-accent); }
+.sk-tag.ok { background-color: #e7f3ec; color: var(--sk-ok); }
+
+.sk-sym { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+.sk-sym + .sk-sym { border-top: 1px solid var(--sk-line); }
+.sk-sym-ico { width: 40px; height: 40px; border-radius: 11px; flex: none; display: flex; align-items: center; justify-content: center; background-color: #eef2f6; color: var(--sk-steel); }
+.sk-sym-body { flex: 1; min-width: 0; }
+.sk-sym-title { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -.015em; }
+.sk-sym-sub { margin-top: 3px; font-size: 12px; line-height: 17px; color: var(--sk-muted); }
+.sk-sym-hz { flex: none; font: 500 12px/16px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-faint); }
+
+/* —— карточка симптома —— */
+
+.sk-hero { padding: 16px 16px 0; }
+.sk-hero h1 { margin: 0; font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -.04em; }
+.sk-hero p { margin: 9px 0 0; font-size: 14px; line-height: 20px; color: var(--sk-muted); }
+.sk-facts { display: flex; gap: 8px; margin-top: 14px; }
+.sk-fact { flex: 1; padding: 11px 12px; border-radius: 13px; background-color: var(--sk-soft); }
+.sk-fact b { display: block; font: 600 15px/20px "IBM Plex Mono", ui-monospace, monospace; }
+.sk-fact span { display: block; margin-top: 2px; font-size: 11px; line-height: 15px; color: var(--sk-muted); }
+.sk-check { display: flex; gap: 10px; padding: 9px 0; }
+.sk-check-num { flex: none; width: 22px; height: 22px; border-radius: 50%; background-color: var(--sk-warm); color: var(--sk-accent); font: 700 12px/22px "IBM Plex Mono", ui-monospace, monospace; text-align: center; }
+.sk-check p { margin: 0; font-size: 14px; line-height: 20px; }
+
+/* —— где взять деталь —— */
+
+.sk-map { height: 218px; flex: none; position: relative; overflow: hidden; background-color: #f4f1ea; background-image: url(assets/media/map.svg); background-size: cover; background-position: center; }
+.sk-map::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; background-image: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff); }
+.sk-pin { position: absolute; width: 24px; height: 24px; border-radius: 50% 50% 50% 0; background-color: var(--sk-accent); border: 3px solid #fff; box-shadow: 0 4px 12px rgba(20, 18, 16, .28); transform: translate(-50%, -50%) rotate(-45deg); z-index: 2; }
+.sk-pin.me { background-color: #0a84ff; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%); }
+.sk-shop { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
+.sk-shop + .sk-shop { border-top: 1px solid var(--sk-line); }
+.sk-shop-body { flex: 1; min-width: 0; }
+.sk-shop-name { font-size: 15px; line-height: 20px; font-weight: 700; letter-spacing: -.02em; }
+.sk-shop-sub { margin-top: 3px; font-size: 12px; line-height: 17px; color: var(--sk-muted); }
+.sk-shop-dist { flex: none; text-align: right; font: 600 14px/18px "IBM Plex Mono", ui-monospace, monospace; }
+.sk-shop-dist span { display: block; font: 400 11px/15px Manrope, sans-serif; color: var(--sk-faint); }
+
+/* —— приёмы (вертикальные видео) —— */
+
+.sk-clip { position: absolute; inset: 0; background-color: #17140f; }
+.sk-clip .ph { height: 100%; border-radius: 0; }
+.sk-clip-top { position: absolute; left: 0; right: 0; top: calc(var(--safe-top) + 4px); display: flex; align-items: center; justify-content: center; gap: 18px; color: rgba(255, 255, 255, .55); font-size: 15px; font-weight: 700; }
+.sk-clip-top .on { color: #fff; }
+.sk-clip-side { position: absolute; right: 10px; bottom: calc(var(--tab-h) + var(--safe-bottom) + 26px); display: flex; flex-direction: column; align-items: center; gap: 14px; color: #fff; }
+.sk-clip-side i { display: block; margin-top: 3px; font-size: 11px; font-style: normal; font-weight: 700; text-align: center; }
+.sk-clip-foot { position: absolute; left: 16px; right: 78px; bottom: calc(var(--tab-h) + var(--safe-bottom) + 18px); color: #fff; }
+.sk-clip-foot h2 { margin: 0; font-size: 16px; line-height: 21px; font-weight: 700; letter-spacing: -.02em; }
+.sk-clip-foot p { margin: 6px 0 0; font-size: 13px; line-height: 18px; color: rgba(255, 255, 255, .72); }
+.sk-clip-link { margin-top: 11px; display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 14px; border-radius: 999px; background-color: rgba(255, 255, 255, .18); font-size: 14px; font-weight: 700; }
+
+/* —— съёмка и публикация —— */
+
+.sk-pick { display: flex; gap: 12px; margin: 0 16px 12px; padding: 16px; border-radius: 16px; background-color: var(--sk-soft); align-items: center; }
+.sk-pick-ico { width: 46px; height: 46px; border-radius: 13px; flex: none; display: flex; align-items: center; justify-content: center; background-color: var(--sk-ink); color: #fff; }
+.sk-pick-ico.warm { background-color: var(--sk-accent); }
+.sk-pick-body { flex: 1; min-width: 0; }
+.sk-pick-title { font-size: 16px; line-height: 21px; font-weight: 700; letter-spacing: -.02em; }
+.sk-pick-sub { margin-top: 3px; font-size: 13px; line-height: 18px; color: var(--sk-muted); }
+
+.sk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 0 3px; }
+.sk-cell { position: relative; aspect-ratio: 1; }
+.sk-cell .sk-dur { right: 4px; bottom: 4px; font-size: 11px; }
+
+.sk-field { padding: 12px 16px; border-bottom: 1px solid var(--sk-line); }
+.sk-field-label { font-size: 12px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--sk-muted); }
+.sk-field-value { margin-top: 5px; font-size: 16px; line-height: 22px; letter-spacing: -.02em; }
+.sk-field-value.dim { color: var(--sk-faint); }
+
+/* —— профиль —— */
+
+.sk-car { display: flex; align-items: center; gap: 13px; margin: 4px 16px 18px; padding: 14px; border-radius: 16px; background-color: var(--sk-soft); }
+.sk-car-ico { width: 46px; height: 46px; border-radius: 13px; flex: none; display: flex; align-items: center; justify-content: center; background-color: #fff; color: var(--sk-ink); }
+.sk-car-body { flex: 1; min-width: 0; }
+.sk-car-name { font-size: 17px; line-height: 22px; font-weight: 800; letter-spacing: -.03em; }
+.sk-car-sub { margin-top: 3px; font: 500 12px/17px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-muted); }
+
+.sk-stats { display: flex; gap: 8px; margin: 0 16px 20px; }
+.sk-stat { flex: 1; padding: 12px; border-radius: 13px; background-color: var(--sk-soft); }
+.sk-stat b { display: block; font: 600 19px/24px "IBM Plex Mono", ui-monospace, monospace; letter-spacing: -.03em; }
+.sk-stat span { display: block; margin-top: 2px; font-size: 11px; line-height: 15px; color: var(--sk-muted); }
+
+.sk-link { display: flex; align-items: center; gap: 12px; padding: 13px 16px; }
+.sk-link + .sk-link { border-top: 1px solid var(--sk-line); }
+.sk-link-ico { width: 30px; flex: none; color: var(--sk-muted); display: flex; align-items: center; }
+.sk-link-body { flex: 1; min-width: 0; font-size: 16px; letter-spacing: -.02em; }
+.sk-link-value { flex: none; font-size: 15px; color: var(--sk-muted); }
+.sk-link-value.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; }
+
+/* —— подписки —— */
+
+.sk-chan { display: flex; align-items: center; gap: 12px; padding: 11px 16px; }
+.sk-chan + .sk-chan { border-top: 1px solid var(--sk-line); }
+.sk-chan-body { flex: 1; min-width: 0; }
+.sk-chan-name { font-size: 15px; line-height: 20px; font-weight: 700; letter-spacing: -.02em; }
+.sk-chan-sub { margin-top: 3px; font-size: 12px; line-height: 17px; color: var(--sk-muted); }
+
+/* —— офлайн-библиотека —— */
+
+.sk-dlrow { display: flex; align-items: center; gap: 12px; padding: 11px 16px; }
+.sk-dlrow + .sk-dlrow { border-top: 1px solid var(--sk-line); }
+.sk-dlrow-body { flex: 1; min-width: 0; }
+.sk-dlrow-title { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: -.015em; }
+.sk-dlrow-sub { margin-top: 4px; font: 500 12px/16px "IBM Plex Mono", ui-monospace, monospace; color: var(--sk-muted); }
+
+/* —— вход и реклама —— */
+
+.sk-auth-brand { display: flex; align-items: center; justify-content: space-between; }
+.sk-ad-hero { margin: 18px 0 0; border-radius: 22px; background-color: var(--sk-ink); color: #fff; padding: 22px 20px; }
+.sk-ad-hero h1 { margin: 0; font-size: 27px; line-height: 32px; font-weight: 800; letter-spacing: -.04em; max-width: 13ch; }
+.sk-ad-hero p { margin: 11px 0 0; font-size: 14px; line-height: 20px; color: rgba(255, 255, 255, .66); }
+.sk-ad-list { margin-top: 18px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, .16); display: flex; flex-direction: column; gap: 11px; }
+.sk-ad-item { display: flex; gap: 10px; font-size: 13px; line-height: 18px; color: rgba(255, 255, 255, .82); }
+.sk-ad-item svg { flex: none; color: #ffa63d; }
+
+/* —— экран погас —— */
+
+.sk-lock-head { text-align: center; font: 500 15px/20px Manrope, sans-serif; color: rgba(255, 255, 255, .6); }
+.sk-lock-time { text-align: center; font: 600 74px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: -.05em; margin-top: 4px; }
+.sk-np { margin-top: auto; padding: 16px; border-radius: 18px; background-color: rgba(255, 255, 255, .12); }
+.sk-np-row { display: flex; gap: 12px; align-items: center; }
+.sk-np-art { width: 52px; height: 52px; border-radius: 9px; flex: none; }
+.sk-np-title { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+.sk-np-sub { margin-top: 3px; font-size: 13px; color: rgba(255, 255, 255, .6); }
+.sk-np-bar { height: 3px; border-radius: 2px; margin-top: 14px; background-color: rgba(255, 255, 255, .25); overflow: hidden; }
+.sk-np-bar i { display: block; height: 100%; background-color: #fff; }
+.sk-np-time { display: flex; justify-content: space-between; margin-top: 6px; font: 500 11px/15px "IBM Plex Mono", ui-monospace, monospace; color: rgba(255, 255, 255, .55); }
+.sk-np-ctl { display: flex; align-items: center; justify-content: center; gap: 26px; margin-top: 14px; color: #fff; }
+.sk-np-ctl .big { width: 46px; height: 46px; }
+
+/* —— подложка под шторкой: тот же разбор, только затемнённый —— */
+
+.sk-backdrop { position: absolute; inset: 0; background-color: #fff; display: flex; flex-direction: column; }
+.sk-backdrop-video { height: calc(211px + var(--safe-top)); flex: none; }
+.sk-backdrop-line { height: 13px; border-radius: 4px; margin: 0 16px 10px; background-color: #e9e5dd; }
+.sk-backdrop-line.first { margin-top: 22px; }
+.sk-backdrop-line.w70 { width: 62%; }
+.sk-backdrop-line.w45 { width: 40%; background-color: #efece5; }
+.sk-scrim { position: absolute; inset: 0; background-color: rgba(20, 18, 16, .5); z-index: 1; }
+
+/* —— лист устройств —— */
+
+.sk-dev { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--sk-line); }
+.sk-dev:last-child { border-bottom: 0; }
+.sk-dev-body { flex: 1; min-width: 0; }
+.sk-dev-name { font-size: 16px; letter-spacing: -.02em; }
+.sk-dev-sub { margin-top: 2px; font-size: 12px; color: var(--sk-muted); }

@@ -1,0 +1,49 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">У линейного персонала вся карьера состоит из смен, но {{INSIGHT}}. Из этого ограничения вытекает всё остальное: единица содержания — смена, а не пост; репутация — не отзывы, а факты выходов; связь адресуется профилю, потому что номер отдавать нельзя.</p>
+  <div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего бэкенда нет, PermissionsService — единственная точка запроса доступов. Ниже — пути, по которым пойдёт ревьюер: каждый упирается в фичу, а не в объяснение.</p>
+  <div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Код из SMS</span><span class="arr">→</span><span class="chip">Место работы</span><span class="arr">→</span><span class="chip">Location</span><span class="arr">→</span><span class="chip">Смены</span></div>
+  <div class="flow"><span class="chip">Смена</span><span class="arr">→</span><span class="chip">Отметка</span><span class="arr">→</span><span class="chip">Wi-Fi Info</span><span class="arr">→</span><span class="chip">часы в табеле</span></div>
+  <div class="flow"><span class="chip">Смена</span><span class="arr">→</span><span class="chip">Брифинг</span><span class="arr">→</span><span class="chip">Audio</span><span class="arr">→</span><span class="chip">Now Playing с погашенным экраном</span></div>
+  <div class="flow"><span class="chip">Смена</span><span class="arr">→</span><span class="chip">Брифинг</span><span class="arr">→</span><span class="chip">Mic + Speech</span><span class="arr">→</span><span class="chip">запись с расшифровкой</span></div>
+  <div class="flow"><span class="chip">Подмены</span><span class="arr">→</span><span class="chip">Открытая смена</span><span class="arr">→</span><span class="chip">VoIP</span><span class="arr">→</span><span class="chip">звонок без номера</span></div>
+  <div class="flow"><span class="chip">Смены</span><span class="arr">→</span><span class="chip">Photo Library</span><span class="arr">→</span><span class="chip">график из скриншота</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>32 экрана: четыре корня вкладок, карточки смены и человека, шиты отметки и записи, системные поверхности (камера, локскрин, CallKit, Face ID, Safari, экран «Домой»). Статусы доступов не хранит — только отображает.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Точка · Смена · Отметка · Подмена и отклик · Человек и общие смены · Брифинг с расшифровкой · Акт передачи · Ставка и период.</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · PhoneAuth (SDK провайдера) · Timesheet (SSID ↔ карточка точки) · Nearby (<code>MKLocalSearch</code>, <code>MKDirections</code>) · ScheduleOCR (<code>PHAsset</code> + Vision) · Briefing (<code>AVAudioRecorder</code>, <code>SFSpeechRecognizer</code>, <code>AVAudioSession</code>) · Calls (PushKit + CallKit) · Notifications (FCM + NSE) · Refresh (<code>BGAppRefreshTask</code>) · Credentials (Keychain + AutoFill).</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — табель, часы, акты, ставки. Keychain общей группы — токен входа и логины точек. App Group <code>group.app.peresmenka</code> — снапшот для виджета и аватары для Notification Service Extension. Firestore и Storage через SDK: смены, отклики, переписка, файлы брифингов. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>SDK входа по номеру · Firebase (Firestore, Storage, Cloud Messaging) · SDK звонков (LiveKit / Agora) · рекламный SDK · карты Apple. Serverless-правила — конфигурация, не серверный код.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">21 ключ из набора «ВКонтакте». Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+      <p><strong>Что не заявлено.</strong> <code>com.apple.developer.associated-domains</code>: диплинков в концептах не делаем — не проектируем, не рисуем, ключ не заявляем. Он остаётся неотработанным, решение по нему принимает человек.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Что потребовало бы сервера и чем это заменено на клиенте. Граница простая: BaaS-SDK и security rules — конфигурация, а строка, требующая написать и развернуть свой обработчик, — повод переделать фичу.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>

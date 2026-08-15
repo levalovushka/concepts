@@ -1,0 +1,75 @@
+<div class="screen sk-screen" id="scr-compare">
+  <div class="navbar bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к записям"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Звук</span></div>
+    </div>
+    <div class="title">Сравнение</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll">
+    <div class="sk-cmp" style="padding-top:12px">
+      <div class="sk-ab">
+        <div class="on"><svg class="sk-icon sm"><use href="#i-play"/></svg>Мой звук</div>
+        <div><svg class="sk-icon sm"><use href="#i-play"/></svg>Эталон</div>
+      </div>
+      <p class="sk-sec-note" style="margin:10px 0 16px">Переключайте на одном и том же месте дорожки — разница слышна на удар, а не на глаз.</p>
+
+      <div class="sk-cmp-block">
+        <div class="sk-cmp-head"><b>Моя запись, 6 августа</b><span>0:12 · 2,8 удара/с</span></div>
+        <div class="sk-wave"></div>
+      </div>
+
+      <div class="sk-cmp-block">
+        <div class="sk-cmp-head"><b>Эталон каталога</b><span>0:10 · 3,1 удара/с</span></div>
+        <div class="sk-wave ref"></div>
+        <div class="sk-sec-note" style="margin:7px 0 0">Стук спереди на мелких кочках · 7 разборов</div>
+      </div>
+    </div>
+
+    <div class="sk-facts" style="margin:0 16px 18px">
+      <div class="sk-fact"><b>2,8 / 3,1</b><span>ударов в секунду</span></div>
+      <div class="sk-fact"><b>214 / 220</b><span>основная частота, Гц</span></div>
+      <div class="sk-fact"><b>до 40</b><span>скорость, км/ч</span></div>
+    </div>
+
+    <div class="sk-verdict">
+      <div class="yes tap" data-go="symptom" aria-label="Похоже, открыть карточку симптома"><svg class="sk-icon sm"><use href="#i-check"/></svg>Похоже</div>
+      <div class="no tap" data-back aria-label="Не то, вернуться к записям">Не то</div>
+    </div>
+
+    <div class="sk-sec-head"><h2>С чем ещё сравнить</h2><span>3 близких эталона</span></div>
+    <div class="sk-sym" data-go="symptom" aria-label="Эталон: стойки стабилизатора">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Стойки стабилизатора, а не втулки</div>
+        <div class="sk-sym-sub">Удар звонче и одиночный, чаще на скорости выше 50</div>
+      </div>
+      <div class="sk-sym-hz">340 Гц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Эталон: опорный подшипник">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Опорный подшипник стойки</div>
+        <div class="sk-sym-sub">Слышно при повороте руля на месте, кузов при этом молчит</div>
+      </div>
+      <div class="sk-sym-hz">190 Гц</div>
+    </div>
+    <div class="sk-sym" data-go="symptom" aria-label="Эталон: незатянутый подрамник">
+      <div class="sk-sym-ico"><svg class="sk-icon"><use href="#i-audio-lines"/></svg></div>
+      <div class="sk-sym-body">
+        <div class="sk-sym-title">Незатянутый болт подрамника</div>
+        <div class="sk-sym-sub">Редкий глухой удар после ремонта, повторить трудно</div>
+      </div>
+      <div class="sk-sym-hz">96 Гц</div>
+    </div>
+
+    <div class="sk-block" style="padding-top:16px">
+      <div class="sk-note">
+        <strong>История этой записи</strong>
+        6 августа — записана, сравнена с четырьмя эталонами. 12 августа — сделана повторная запись после замены втулок: удары ушли, остался фон дороги.
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

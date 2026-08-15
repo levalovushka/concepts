@@ -1,0 +1,502 @@
+/* ==========================================================================
+   «Сеанс» — визуальная система концепта.
+
+   Целевое приложение набора — видеосервис, и задача здесь обратная той, что
+   решали предыдущие концепты на этом же языке: не отстроиться от
+   первоисточника, а попасть в его категорию и в его манеру. Поэтому взята
+   тёмная поверхность (у Base Kit это §11: background.page темнее
+   background.content), синий акцент того же семейства и раскладка
+   видеосервиса — фид с 16:9, вертикальные клипы, мини-плеер над таб-баром.
+   Отличают продукт не приёмы вёрстки, а предметные компоненты: точка показа
+   в локальной сети, дорожки, уровень микрофона.
+
+   Системный iOS-хром (статус-бар, permission-алерт, снекбар, sheet, локскрин,
+   камера, home indicator, свитч, компоненты входа по номеру) берётся из ядра
+   без правок. Светлыми остаются только два экрана входа: разметка входа
+   копируется из концепта в концепт без изменений.
+
+   Все свои классы с префиксом se-: в base.css такого префикса нет, коллизия
+   имён исключена по построению. Шорткаты background и margin не используются —
+   только background-color и margin-top/-bottom, иначе гасятся утилиты ядра.
+   ========================================================================== */
+
+:root {
+  --face: 'Golos Text', system-ui, -apple-system, sans-serif;
+  --mono: 'Roboto Mono', ui-monospace, monospace;
+
+  --se-page: #121317;     /* страница: темнее блоков, как в первоисточнике */
+  --se-card: #1D1F25;     /* блок на странице */
+  --se-quiet: #262931;    /* тихая поверхность внутри блока */
+  --se-ink: #FFFFFF;
+  --se-sub: #A7AEB9;      /* второстепенный текст: 7.4:1 на странице */
+  --se-mute: #8A919C;     /* третичный: мета-строки, 5.0:1 на странице.
+                             #99A2AD из набора на тёмной странице даёт 6.6:1
+                             и годился бы, но он же в наборе — цвет иконки,
+                             а через этот токен идёт почти вся мета. */
+  --se-dim: #6C737E;      /* выключенное: там, где нажать нельзя */
+  --se-line: rgba(255,255,255,.10);   /* separator.primary на тёмном */
+  --se-red: #FF3347;
+  --se-green: #4BB34B;
+  --se-warn: #F8A01C;
+  --se-r-card: 16px;
+  --se-r-ctl: 10px;       /* скругление контрола из набора, не капсула ядра */
+  --se-r-tile: 12px;
+}
+
+/* Скругление контрола 10 вместо капсулы ядра — только внутри устройства:
+   страница документа живёт своими токенами. */
+.screen { --r-btn: 10px; }
+
+/* Страховка: styles.css подключается ПОСЛЕ base.css, и любой свой класс с
+   display на корне экрана перебил бы `.screen{display:none}` — экран был бы
+   виден поверх всех прототипов. Правило гасит невыбранный экран при любом
+   наборе классов и не выглядит «голым» селектором для линтера. */
+.screen:not(.is-on) { display: none; }
+
+/* —— полотно —— */
+.se-page { background-color: var(--se-page); color: var(--se-ink); }
+.se-scroll { padding: 0 16px 20px; }
+/* Экран, у которого кнопки прижаты к низу: .push из ядра работает только
+   внутри флекс-колонки, а .body-scroll ею не является. */
+.se-scroll.se-fill { display: flex; flex-direction: column; }
+.screen:not(:has(.tabbar)) .se-scroll { padding-bottom: calc(var(--safe-bottom) + 18px); }
+
+/* Шапка корня вкладки: вордмарк и одно действие. Живёт под статус-баром,
+   а не в его строке — иначе изображала бы элемент, которого в сборке нет. */
+.se-top {
+  flex: none; display: flex; align-items: center; justify-content: space-between;
+  padding: calc(var(--safe-top) + 6px) 12px 6px 16px;
+}
+.se-mark { font: 800 17px/22px var(--face); letter-spacing: .04em; }
+.se-act {
+  width: 40px; height: 40px; flex: none; display: flex; align-items: center; justify-content: center;
+  color: var(--se-ink);
+}
+.se-act .ico-svg { width: 22px; height: 22px; }
+
+/* —— типографика экрана —— */
+.se-h1 { font: 700 24px/29px var(--face); letter-spacing: -.02em; margin: 0; }
+.se-kick { font: 500 13px/17px var(--face); color: var(--se-mute); padding-top: 14px; }
+.se-lede { font: 400 15px/20px var(--face); color: var(--se-sub); margin-top: 8px; margin-bottom: 0; }
+.se-legal { font: 400 12px/16px var(--face); color: var(--se-dim); text-align: center; margin: 0; }
+.se-t0 { font: 600 17px/22px var(--face); letter-spacing: -.01em; }
+.se-t1 { font: 500 16px/20px var(--face); letter-spacing: -.01em; }
+.se-t2 { font: 400 13px/17px var(--face); color: var(--se-mute); }
+.se-t3 { font: 400 12px/16px var(--face); color: var(--se-dim); }
+.se-t1.is-dim, .se-t2.is-dim { color: var(--se-dim); }
+.se-t3.accent { color: var(--accent-fill); }
+.se-t1.destructive { color: var(--se-red); }
+.se-num { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+
+/* Мета-значение секции из ядра на тёмном: --ios-secondary здесь не читается */
+.se-page .sec-more.is-plain { color: var(--se-mute); }
+.se-page .dl { color: var(--se-mute); }
+.se-page .dl.is-ready { color: var(--accent-fill); }
+.se-page .dl-bar { background-color: rgba(255,255,255,.14); }
+.se-sec { margin-top: 24px; }
+.se-sec .sec-head { padding-bottom: 10px; }
+
+/* —— чипы фильтров —— */
+.se-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 14px 0 2px; }
+.se-chips::-webkit-scrollbar { display: none; }
+.se-chip {
+  flex: none; padding: 7px 13px; border-radius: var(--se-r-ctl);
+  background-color: var(--se-quiet); color: var(--se-sub);
+  font: 500 14px/18px var(--face); letter-spacing: -.01em; white-space: nowrap;
+}
+.se-chip.is-on { background-color: var(--se-ink); color: #0F1115; }
+
+/* —— fallback при отказе —— */
+.se-fb {
+  margin-top: 12px; padding: 11px 13px; border-radius: var(--se-r-ctl);
+  background-color: rgba(248,160,28,.14);
+  box-shadow: inset 0 0 0 .5px rgba(248,160,28,.32);
+  font: 400 13px/17px var(--face); color: #F6D9A5;
+}
+.se-fb-float { position: absolute; z-index: 9; top: calc(var(--safe-top) + 52px); left: 12px; right: 12px; }
+
+/* —— герой главной: карточка показа сегодня —— */
+.se-hero {
+  display: block; margin-top: 14px; border-radius: var(--se-r-card); overflow: hidden;
+  background-color: var(--se-card);
+}
+.se-hero-media { aspect-ratio: 16 / 9; position: relative; }
+.se-hero-body { padding: 12px 14px 14px; }
+.se-hero-kick { font: 500 12px/16px var(--face); color: var(--accent-fill); }
+.se-hero-title { font: 700 20px/25px var(--face); letter-spacing: -.02em; margin-top: 4px; }
+.se-hero-note { font: 400 13px/18px var(--face); color: var(--se-sub); margin-top: 6px; margin-bottom: 0; }
+.se-hero-foot {
+  display: flex; align-items: center; gap: 8px; margin-top: 10px;
+  font: 500 13px/17px var(--face); color: var(--se-mute);
+}
+.se-hero-foot i { width: 3px; height: 3px; border-radius: 50%; background-color: var(--se-dim); flex: none; }
+
+/* Обложка карточки показа: тот же кадр, но без карточки вокруг */
+.se-cover { aspect-ratio: 16 / 9; position: relative; border-radius: var(--se-r-card); margin-top: 8px; }
+
+/* Плашки поверх медиа */
+.se-badge {
+  position: absolute; left: 10px; top: 10px; z-index: 2;
+  padding: 4px 8px; border-radius: 6px;
+  background-color: rgba(0,0,0,.62); backdrop-filter: blur(6px);
+  font: 700 11px/14px var(--face); letter-spacing: .06em; color: #fff;
+}
+.se-badge.is-soon { background-color: var(--accent-fill); }
+.se-dur {
+  position: absolute; right: 8px; bottom: 8px; z-index: 2;
+  padding: 2px 5px; border-radius: 5px; background-color: rgba(0,0,0,.66);
+  font: 500 11px/14px var(--mono); font-variant-numeric: tabular-nums; color: #fff;
+}
+
+/* —— горизонтальные ленты —— */
+.se-vc { width: 214px; }
+.se-vc-face { aspect-ratio: 16 / 9; border-radius: var(--se-r-tile); position: relative; }
+.se-vc-bar { height: 3px; border-radius: 0 0 3px 3px; background-color: rgba(255,255,255,.16); overflow: hidden; }
+.se-vc-bar > i { display: block; height: 100%; background-color: var(--accent-fill); }
+.se-vc-title { font: 500 14px/18px var(--face); letter-spacing: -.01em; margin-top: 8px; }
+.se-vc-sub { font: 400 12px/16px var(--face); color: var(--se-mute); margin-top: 2px; }
+
+.se-tc { width: 150px; }
+.se-tc-face { aspect-ratio: 1; border-radius: var(--se-r-tile); }
+.se-tc-title { font: 500 14px/18px var(--face); letter-spacing: -.01em; margin-top: 8px; }
+.se-tc-sub { font: 400 12px/16px var(--face); color: var(--se-mute); margin-top: 2px; }
+
+.se-cl { width: 116px; }
+.se-cl-face { aspect-ratio: 9 / 16; border-radius: var(--se-r-tile); position: relative; }
+.se-cl-title { font: 400 12px/16px var(--face); color: var(--se-sub); margin-top: 6px; }
+
+/* —— список на тёмной странице —— */
+.se-list { margin-top: 2px; }
+.se-row {
+  display: flex; align-items: center; gap: 12px; min-height: 44px;
+  padding: 10px 0; position: relative;
+}
+.se-row + .se-row::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: .5px;
+  background-color: var(--se-line);
+}
+/* Выбранная строка: подложка внутри той же сетки, без отдельного слоя —
+   отрицательные margin гасятся паддингом, разделитель сверху остаётся. */
+.se-row.is-sel {
+  background-color: rgba(255,255,255,.05); border-radius: var(--se-r-ctl);
+  margin-left: -8px; margin-right: -8px; padding-left: 8px; padding-right: 8px;
+}
+.se-row-flat { margin-top: 24px; }
+.se-row .grow { min-width: 0; }
+.se-row .grow > * + * { margin-top: 2px; }
+
+.se-thumb {
+  width: 106px; aspect-ratio: 16 / 9; border-radius: 8px; flex: none; position: relative; overflow: hidden;
+}
+.se-thumb.is-gone { opacity: .45; }
+.se-crest {
+  width: 40px; height: 40px; border-radius: 10px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--se-quiet); color: var(--se-sub);
+  font: 700 13px/1 var(--face); letter-spacing: .02em;
+}
+.se-crest.sm { width: 28px; height: 28px; border-radius: 8px; font-size: 11px; }
+.se-crest.lg { width: 56px; height: 56px; border-radius: 14px; font-size: 17px; }
+.se-row-ico {
+  width: 34px; height: 34px; border-radius: 9px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: var(--se-quiet); color: var(--se-sub);
+}
+.se-row-ico .ico-svg { width: 17px; height: 17px; }
+.se-row-ico.is-live { background-color: rgba(62,139,255,.18); color: #8FBAFF; }
+.se-row-ico.is-warn { background-color: rgba(248,160,28,.18); color: #F3BE79; }
+.se-row-ico.is-off { background-color: rgba(255,255,255,.06); color: var(--se-dim); }
+.se-chev { width: 18px; height: 18px; flex: none; color: var(--se-dim); }
+.se-chev .ico-svg { width: 18px; height: 18px; }
+.se-val { font: 400 15px/20px var(--face); color: var(--se-mute); flex: none; }
+
+.se-time { width: 46px; flex: none; font-size: 13px; line-height: 17px; color: var(--se-mute); }
+.se-time.is-on { color: var(--accent-fill); }
+.se-dist {
+  width: 44px; flex: none; text-align: center;
+  font-size: 17px; line-height: 20px; color: var(--se-sub);
+}
+.se-dist span { display: block; font-size: 11px; line-height: 14px; color: var(--se-dim); }
+.se-date {
+  width: 38px; flex: none; text-align: center;
+  padding: 5px 0; border-radius: 9px; background-color: var(--se-quiet);
+}
+.se-date b { display: block; font: 500 17px/20px var(--mono); }
+.se-date span { display: block; font: 400 11px/14px var(--face); color: var(--se-mute); }
+
+.se-flag {
+  flex: none; padding: 3px 7px; border-radius: 6px;
+  background-color: rgba(255,255,255,.07); color: var(--se-mute);
+  font: 500 11px/14px var(--face); white-space: nowrap;
+}
+.se-flag.is-live { background-color: rgba(62,139,255,.18); color: #8FBAFF; }
+.se-flag.is-warn { background-color: rgba(248,160,28,.16); color: #F3BE79; }
+.se-follow { flex: none; font: 500 13px/17px var(--face); color: var(--accent-fill); }
+.se-follow.is-off { color: var(--se-mute); }
+.se-radio {
+  width: 21px; height: 21px; border-radius: 50%; flex: none;
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.28);
+}
+.se-radio.is-on { box-shadow: inset 0 0 0 6px var(--accent-fill); }
+
+/* —— числовые блоки —— */
+.se-stats {
+  display: flex; margin-top: 16px;
+  border-top: .5px solid var(--se-line); border-bottom: .5px solid var(--se-line);
+}
+.se-stat { flex: 1; padding: 11px 0; text-align: center; position: relative; }
+.se-stat + .se-stat::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: .5px;
+  background-color: var(--se-line);
+}
+.se-stat b { display: block; font: 500 17px/22px var(--mono); font-variant-numeric: tabular-nums; }
+.se-stat span { display: block; font: 400 11px/15px var(--face); color: var(--se-mute); margin-top: 1px; }
+
+.se-note {
+  margin-top: 16px; padding: 13px 14px; border-radius: var(--se-r-card);
+  background-color: var(--se-card);
+}
+.se-note-t { font: 500 14px/18px var(--face); }
+.se-note-b { font: 400 13px/18px var(--face); color: var(--se-sub); margin-top: 4px; }
+.se-cta { margin-top: 16px; padding-left: 0; padding-right: 0; }
+
+.se-panel { margin-top: 20px; border-radius: var(--se-r-card); background-color: var(--se-card); padding: 4px 14px; }
+.se-panel-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; position: relative; }
+.se-panel-row + .se-panel-row::before {
+  content: ""; position: absolute; left: 46px; right: 0; top: 0; height: .5px; background-color: var(--se-line);
+}
+.se-panel-ico {
+  width: 34px; height: 34px; border-radius: 9px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(62,139,255,.16); color: #8FBAFF;
+}
+.se-panel-ico .ico-svg { width: 17px; height: 17px; }
+
+/* —— плеер записи —— */
+.se-player { flex: none; position: relative; background-color: #000; }
+.se-player-media { aspect-ratio: 16 / 9; }
+.se-player-top {
+  position: absolute; top: var(--safe-top); left: 0; right: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: space-between; padding: 4px 8px;
+}
+.se-player-acts { display: flex; gap: 2px; }
+.se-player-play {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); z-index: 3;
+  width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background-color: rgba(0,0,0,.5); color: #fff;
+}
+.se-player-play .ico-svg { width: 24px; height: 24px; }
+.se-player-foot { position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 3; }
+.se-player-bar { height: 3px; border-radius: 2px; background-color: rgba(255,255,255,.28); overflow: hidden; }
+.se-player-bar > i { display: block; height: 100%; background-color: var(--accent-fill); }
+.se-player-time {
+  display: flex; justify-content: space-between; margin-top: 5px;
+  font: 500 11px/14px var(--mono); color: rgba(255,255,255,.8);
+}
+
+/* —— зал —— */
+.se-inhall {
+  display: flex; align-items: center; gap: 7px; margin-top: 10px;
+  font: 500 13px/17px var(--face); color: #8FBAFF;
+}
+.se-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background-color: var(--accent-fill); }
+.se-dot.is-rec { background-color: var(--se-red); box-shadow: 0 0 0 4px rgba(255,51,71,.22); }
+.se-nowbig { margin-top: 14px; }
+.se-nowbig-t { font: 700 22px/27px var(--face); letter-spacing: -.02em; }
+.se-nowbig-s { font: 400 14px/19px var(--face); color: var(--se-sub); margin-top: 3px; }
+
+.se-prog { margin-top: 18px; }
+.se-prog-bar { height: 4px; border-radius: 2px; background-color: rgba(255,255,255,.16); overflow: hidden; }
+.se-prog-bar > i { display: block; height: 100%; background-color: var(--accent-fill); }
+.se-prog-time {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 7px;
+  font: 500 12px/16px var(--mono); color: var(--se-mute);
+}
+.se-prog-lock { font: 400 11px/15px var(--face); color: var(--se-dim); }
+
+.se-vol { display: flex; align-items: center; gap: 10px; margin-top: 16px; color: var(--se-sub); }
+.se-vol .ico-svg { width: 18px; height: 18px; }
+.se-vol-bar { flex: 1; height: 4px; border-radius: 2px; background-color: rgba(255,255,255,.16); overflow: hidden; }
+.se-vol-bar > i { display: block; height: 100%; background-color: rgba(255,255,255,.72); }
+.se-vol .se-num { font-size: 12px; color: var(--se-mute); }
+
+.se-live {
+  display: flex; align-items: center; gap: 12px; margin-top: 16px;
+  padding: 12px 14px; border-radius: var(--se-r-card); background-color: var(--se-card);
+}
+.se-live-ico {
+  width: 34px; height: 34px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(255,51,71,.18); color: #FF8492;
+}
+.se-live-ico .ico-svg { width: 17px; height: 17px; }
+.se-level { display: flex; align-items: flex-end; gap: 3px; height: 26px; flex: none; }
+.se-level > i {
+  display: block; width: 3px; border-radius: 2px; background-color: var(--accent-fill);
+}
+.se-level.lg { height: 92px; gap: 6px; margin-top: 18px; justify-content: center; }
+.se-level.lg > i { width: 6px; }
+
+/* —— микрофон куратора —— */
+.se-mic { margin-top: 14px; padding: 18px 16px 20px; border-radius: var(--se-r-card); background-color: var(--se-card); }
+.se-mic-state {
+  display: flex; align-items: center; gap: 8px; justify-content: center;
+  font: 500 14px/19px var(--face); color: #FF8492;
+}
+.se-mic-meta {
+  display: flex; margin-top: 20px; border-top: .5px solid var(--se-line); padding-top: 14px;
+}
+.se-mic-meta > div { flex: 1; text-align: center; }
+.se-mic-meta b { display: block; font: 500 16px/21px var(--mono); }
+.se-mic-meta span { display: block; font: 400 11px/15px var(--face); color: var(--se-mute); margin-top: 1px; }
+
+/* —— локальная сеть: сводка синхронизации —— */
+.se-sync { margin-top: 18px; border-radius: var(--se-r-card); background-color: var(--se-card); padding: 2px 14px; }
+.se-sync-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 0; position: relative; font: 400 14px/19px var(--face); color: var(--se-sub);
+}
+.se-sync-row + .se-sync-row::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: .5px; background-color: var(--se-line);
+}
+.se-sync-row b { font: 500 14px/19px var(--mono); color: var(--se-ink); }
+
+/* —— сканер кода показа —— */
+.se-frame {
+  position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%);
+  width: 210px; height: 210px; border-radius: 18px; z-index: 2;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 0 0 2000px rgba(0,0,0,.58);
+}
+.se-scanhint {
+  position: absolute; left: 24px; right: 24px; top: calc(42% + 130px); z-index: 3; text-align: center;
+}
+.se-scanhint-t { font: 500 15px/20px var(--face); color: #fff; }
+.se-scanhint-b { font: 400 13px/18px var(--face); color: rgba(255,255,255,.66); margin-top: 5px; }
+.se-found {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  border-radius: var(--se-r-card); background-color: rgba(28,30,36,.92);
+  backdrop-filter: blur(12px); color: #fff;
+}
+.se-found-ico {
+  width: 34px; height: 34px; border-radius: 9px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(62,139,255,.2); color: #8FBAFF;
+}
+.se-found-ico .ico-svg { width: 17px; height: 17px; }
+.se-rec-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 7px;
+  background-color: rgba(0,0,0,.5); font: 700 11px/14px var(--face); letter-spacing: .06em; color: #fff;
+}
+.se-cam-hint {
+  position: absolute; left: 24px; right: 24px; bottom: calc(var(--safe-bottom) + 186px); z-index: 3;
+  text-align: center; font: 400 13px/18px var(--face); color: rgba(255,255,255,.7);
+}
+
+/* —— локскрин и Now Playing —— */
+.se-lock-clock { text-align: center; flex: none; }
+.se-lock-date { font: 500 13px/17px var(--face); letter-spacing: .06em; color: rgba(255,255,255,.7); }
+.se-lock-time { font: 300 74px/80px var(--face); letter-spacing: -.03em; margin-top: 2px; }
+.se-np {
+  margin-top: 30px; padding: 14px 15px 16px; border-radius: 18px;
+  background-color: rgba(255,255,255,.13); backdrop-filter: blur(18px);
+  box-shadow: inset 0 0 0 .5px rgba(255,255,255,.14);
+}
+.se-np-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.se-np-app { font: 600 12px/16px var(--face); letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+.se-np-state { font: 400 12px/16px var(--face); color: rgba(255,255,255,.6); }
+.se-np-body { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.se-np-face { width: 52px; height: 52px; border-radius: 8px; flex: none; }
+.se-np-title { font: 600 16px/20px var(--face); letter-spacing: -.01em; }
+.se-np-sub { font: 400 13px/17px var(--face); color: rgba(255,255,255,.66); margin-top: 2px; }
+.se-np-bar { height: 4px; border-radius: 2px; background-color: rgba(255,255,255,.22); overflow: hidden; margin-top: 14px; }
+.se-np-bar > i { display: block; height: 100%; background-color: rgba(255,255,255,.9); }
+.se-np-time {
+  display: flex; justify-content: space-between; margin-top: 5px;
+  font: 500 11px/14px var(--mono); color: rgba(255,255,255,.6);
+}
+.se-np-controls { display: flex; align-items: center; justify-content: center; gap: 44px; margin-top: 12px; }
+.se-np-foot {
+  display: flex; align-items: center; gap: 7px; margin-top: 14px;
+  padding-top: 11px; border-top: .5px solid rgba(255,255,255,.16);
+  font: 400 12px/16px var(--face); color: rgba(255,255,255,.6);
+}
+.se-np-foot .ico-svg { width: 14px; height: 14px; }
+
+/* —— sheet вывода картинки —— */
+/* Под шитом — та же запись, поставленная на паузу, а не чёрный ничей кусок:
+   пустая подложка читается как провал вёрстки. */
+.se-under { position: absolute; inset: 0; background-color: var(--se-page); }
+.se-under-media { aspect-ratio: 16 / 9; margin-top: var(--safe-top); }
+.se-under-txt {
+  padding: 14px 16px 0; font: 500 16px/20px var(--face); color: var(--se-sub);
+}
+.se-backdrop { position: absolute; inset: 0; background-color: rgba(0,0,0,.55); }
+.se-sheet { background-color: var(--se-card); color: var(--se-ink); }
+.se-sheet-title { font: 600 18px/23px var(--face); letter-spacing: -.01em; padding-top: 2px; }
+.se-sheet-sub { font: 400 13px/17px var(--face); color: var(--se-mute); margin-top: 4px; }
+.se-sheet-note { font-size: 11px; line-height: 15px; color: var(--se-dim); margin-top: 14px; }
+
+/* —— выбор видео из медиатеки —— */
+.se-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 14px; }
+.se-cell { aspect-ratio: 1; position: relative; border-radius: 3px; }
+.se-cell.is-on { box-shadow: inset 0 0 0 3px var(--accent-fill); }
+.se-cell-check {
+  position: absolute; top: 6px; right: 6px; z-index: 2;
+  width: 22px; height: 22px; border-radius: 50%; background-color: var(--accent-fill); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.se-cell-check .ico-svg { width: 13px; height: 13px; stroke-width: 3; }
+
+/* —— вертикальные клипы —— */
+.se-clips { background-color: #000; color: #fff; }
+/* Клип занимает весь экран, а таб-бар — обычный элемент потока: без auto-отбивки
+   он всплывает под статус-бар. Это уже случилось один раз. */
+.se-clips > .tabbar { margin-top: auto; }
+.se-clip-media { position: absolute; inset: 0; }
+.se-clip-top {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 3;
+  padding: calc(var(--safe-top) + 4px) 16px 0;
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+}
+.se-clip-tabs { display: flex; gap: 18px; font: 500 15px/20px var(--face); color: rgba(255,255,255,.6); }
+.se-clip-tabs .is-on { color: #fff; }
+.se-clip-body {
+  position: absolute; left: 16px; right: 84px; z-index: 3;
+  bottom: calc(var(--tab-h) + var(--safe-bottom) + 14px);
+}
+.se-clip-venue { display: flex; align-items: center; gap: 8px; font: 500 14px/18px var(--face); }
+.se-clip-title { font: 600 17px/22px var(--face); letter-spacing: -.01em; margin-top: 10px; }
+.se-clip-note { font: 400 13px/18px var(--face); color: rgba(255,255,255,.76); margin-top: 5px; margin-bottom: 0; }
+.se-clip-meta { font-size: 11px; line-height: 15px; color: rgba(255,255,255,.56); margin-top: 8px; }
+.se-clip-acts {
+  position: absolute; right: 10px; z-index: 3;
+  bottom: calc(var(--tab-h) + var(--safe-bottom) + 14px);
+  display: flex; flex-direction: column; gap: 18px; align-items: center;
+}
+.se-clip-act { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 52px; }
+.se-clip-act > span {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background-color: rgba(255,255,255,.16); backdrop-filter: blur(8px); color: #fff;
+}
+.se-clip-act > span.is-brand { background-color: var(--accent-fill); }
+.se-clip-act > span .ico-svg { width: 21px; height: 21px; }
+.se-clip-act b { font: 500 11px/14px var(--face); color: rgba(255,255,255,.9); }
+
+/* —— поиск —— */
+.se-search {
+  display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px;
+  margin-top: 8px; border-radius: var(--se-r-ctl);
+  background-color: var(--se-quiet); color: var(--se-mute);
+}
+.se-search .ico-svg { width: 17px; height: 17px; flex: none; }
+.se-search-val { flex: 1; min-width: 0; font: 400 15px/20px var(--face); color: var(--se-ink); }
+.se-search-x { width: 22px; height: 22px; flex: none; display: flex; align-items: center; justify-content: center; }
+
+/* —— площадка и профиль —— */
+.se-venue { display: flex; align-items: center; gap: 14px; padding-top: 16px; }
+.se-venue-name { font: 700 20px/25px var(--face); letter-spacing: -.02em; }
+.se-venue .se-t2 { margin-top: 4px; }
+.se-me { padding-top: 16px; }
+.se-me-num { font-size: 20px; line-height: 25px; font-weight: 500; }
+.se-me .se-t2 { margin-top: 5px; }

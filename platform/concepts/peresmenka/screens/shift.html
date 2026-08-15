@@ -1,0 +1,151 @@
+<div class="screen ios-surface pm-page" id="scr-shift">
+  <div class="navbar">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к сменам"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Смены</span></div>
+    </div>
+    <div class="title">19 мая, вт</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll pm-scroll">
+    <div class="pm-card pad" style="margin-top:4px">
+      <div class="pm-shift-time" style="font-size:26px;line-height:30px">07:45 → 16:00</div>
+      <div class="pm-shift-s">Кофейня на Гоголя, 7 · бариста · ставка 260 ₽/ч</div>
+      <div class="pm-band">
+        <i class="gap" style="flex:7"></i><i class="past" style="flex:19"></i><i class="on" style="flex:20"></i><i class="gap" style="flex:54"></i>
+      </div>
+      <div class="pm-band-marks"><span>06:00</span><span>24:00</span></div>
+      <div class="pm-shift-foot">
+        <span class="pm-chip ok"><svg class="ico-svg"><use href="#i-circle-check"/></svg>отмечен в 07:41</span>
+        <span class="pm-chip"><svg class="ico-svg"><use href="#i-users"/></svg>4 на смене</span>
+      </div>
+    </div>
+
+    <div class="pm-card">
+      <div class="pm-row tap" data-go="checkin" aria-label="Отметка на смене">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-log-in"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Отметка на смене</div>
+          <div class="pm-row-s">приход 07:41 · сеть Gogol7-Staff</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="brief" aria-label="Брифинг смены">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Брифинг от Лены</div>
+          <div class="pm-row-s">0:38 · записан в 07:12</div>
+        </div>
+        <span class="pm-row-v accent">не прослушан</span>
+      </div>
+      <div class="pm-row tap" data-go="handover" aria-label="Сдача смены и акт передачи">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-clipboard-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Сдача смены</div>
+          <div class="pm-row-s">6 пунктов акта · открывается в 15:30</div>
+        </div>
+        <span class="pm-row-v">0 / 6</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Если не выйдете</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" data-ask="push|shift|shift" aria-label="Искать подмену на эту смену">
+        <span class="pm-bul warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-arrow-left-right"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Искать подмену</div>
+          <div class="pm-row-s wrap">Смену увидят люди ваших точек и те, кто рядом. Пришлём, когда откликнутся</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="push">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без уведомлений отклики видны при открытии — счётчик появится на вкладке «Подмены».</span>
+      </div>
+      <div class="pm-row tap" data-activate="remotenotif|background" aria-label="Следить за изменениями смены">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-rotate-cw"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Следить за изменениями</div>
+          <div class="pm-row-s wrap">Перенос и отмена доедут до виджета при закрытом приложении</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-ask="calendar|shift|shift" aria-label="Добавить смену в Календарь">
+        <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-calendar-plus"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Добавить в Календарь</div>
+          <div class="pm-row-s wrap">При переносе поправим событие, при отмене — удалим</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="calendar">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без календаря смена остаётся здесь: напомним за час до выхода.</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Кто ещё на смене</div>
+      <div class="pm-sec-n">4 человека</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" data-go="person" aria-label="Лена Дробот, старший смены">
+        <span class="pm-ava" aria-hidden="true"><span class="ph"></span></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Лена Дробот</div>
+          <div class="pm-row-s">старший смены · 07:00–16:00</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="person" aria-label="Аня Ким, бариста">
+        <span class="pm-ava" aria-hidden="true"><span class="ph"></span></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Аня Ким</div>
+          <div class="pm-row-s">бариста · 07:45–16:00 · 23 смены вместе</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-go="person" aria-label="Марат Юсупов, кассир, вышел на подмену">
+        <span class="pm-ava" aria-hidden="true"><span class="ph"></span></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Марат Юсупов</div>
+          <div class="pm-row-s">кассир · подмена за Ксюшу · 12:00–20:00</div>
+        </div>
+        <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">История смены</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-tape">
+        <div class="pm-punchrow">
+          <span class="pm-punch-ico mute" aria-hidden="true"><svg class="ico-svg"><use href="#i-file-text"/></svg></span>
+          <div class="pm-row-main">
+            <div class="pm-punch-t">Поставлена в график</div>
+            <div class="pm-punch-s">Лена Дробот · 6 мая</div>
+          </div>
+        </div>
+        <div class="pm-punchrow">
+          <span class="pm-punch-ico warn" aria-hidden="true"><svg class="ico-svg"><use href="#i-clock"/></svg></span>
+          <div class="pm-row-main">
+            <div class="pm-punch-t">Начало сдвинули на 07:45</div>
+            <div class="pm-punch-s">было 08:00 · 14 мая, 19:26</div>
+          </div>
+        </div>
+        <div class="pm-punchrow">
+          <span class="pm-punch-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-log-in"/></svg></span>
+          <div class="pm-row-main">
+            <div class="pm-punch-t">Приход подтверждён сетью</div>
+            <div class="pm-punch-s">Gogol7-Staff · сегодня, 07:41</div>
+          </div>
+          <span class="pm-punch-v">07:41</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

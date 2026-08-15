@@ -1,0 +1,111 @@
+<div class="screen se-page" id="scr-session">
+  <div class="navbar on-dark bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain on-dark tap" data-back aria-label="Назад на главную"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Главная</span></div>
+    </div>
+    <div class="title">Показ сегодня</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll se-scroll">
+    <div class="se-fb perm-hidden" data-show-denied="camera">Камера недоступна, сканера кода нет. Шестизначный код показа объявляют у входа — введите его вручную.</div>
+    <div class="se-fb perm-hidden" data-show-denied="localnet">Точки показа не ищем: без локальной сети синхронизации нет. Звук идёт из колонки у экрана, запись показа появится к утру.</div>
+    <div class="se-fb perm-hidden" data-show-denied="photo">Медиатека закрыта. Своё видео можно снять камерой прямо на площадке.</div>
+
+    <div class="se-cover ph on-dark">
+      <span class="se-badge is-soon">НАЧАЛО ЧЕРЕЗ 40 МИН</span>
+      <span class="se-dur">1:08:15</span>
+    </div>
+
+    <div class="se-kick">Крыша на Автозаводской · 6-й этаж, лифт до конца</div>
+    <h1 class="se-h1">Человек с киноаппаратом</h1>
+    <p class="se-lede">Вертов, 1929. Немое, интертитров нет. Тапёр Ким играет живьём с 21:40, его дорожку получают только те, кто в зале.</p>
+
+    <div class="se-stats">
+      <div class="se-stat"><b class="se-num">21:40</b><span>начало</span></div>
+      <div class="se-stat"><b class="se-num">14</b><span>наушников</span></div>
+      <div class="se-stat"><b class="se-num">6</b><span>мест свободно</span></div>
+    </div>
+
+    <div class="se-note">
+      <div class="se-note-t">Возьмите свои наушники</div>
+      <div class="se-note-b">Колонок на крыше нет — с трёх сторон жилые окна. Картинка идёт на брандмауэр соседнего дома.</div>
+    </div>
+
+    <div class="cta-col se-cta">
+      <div class="btn-filled block tap" data-ask="camera|scan|session">
+        <svg class="ico-svg"><use href="#i-qr-code"/></svg>
+        Считать код показа
+      </div>
+      <div class="btn-tinted on-dark block tap" data-ask="localnet|join|session">
+        <svg class="ico-svg"><use href="#i-wifi"/></svg>
+        Найти точку показа
+      </div>
+    </div>
+
+    <div class="se-sec">
+      <div class="sec-head">
+        <div class="se-t0">Программа вечера</div>
+        <span class="sec-more is-plain">1 ч 40 мин</span>
+      </div>
+      <div class="se-list">
+        <div class="se-row" aria-label="21:40, Прибытие поезда">
+          <div class="se-time se-num">21:40</div>
+          <div class="grow">
+            <div class="se-t1">Прибытие поезда</div>
+            <div class="se-t2">0:50 · пока все рассаживаются</div>
+          </div>
+        </div>
+        <div class="se-row" aria-label="21:50, Человек с киноаппаратом">
+          <div class="se-time se-num is-on">21:50</div>
+          <div class="grow">
+            <div class="se-t1">Человек с киноаппаратом</div>
+            <div class="se-t2">1:08:15 · тапёр играет без перерыва</div>
+            <div class="se-t3">дорожки: тапёр, разбор киноведа, аудиодескрипция</div>
+          </div>
+        </div>
+        <div class="se-row tap" data-ask="photo|pick|session" aria-label="После кино: короткий метр из зала, предложить своё видео">
+          <div class="se-time se-num">23:05</div>
+          <div class="grow">
+            <div class="se-t1">Короткий метр из зала</div>
+            <div class="se-t2">3 видео приняты, до 12 минут каждое</div>
+            <div class="se-t3 accent">Предложить своё видео</div>
+          </div>
+          <span class="se-chev" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="se-sec">
+      <div class="sec-head">
+        <div class="se-t0">Площадка</div>
+      </div>
+      <div class="se-list">
+        <div class="se-row tap" data-go="venue" aria-label="Крыша на Автозаводской, 14 показов за лето">
+          <div class="se-crest">КА</div>
+          <div class="grow">
+            <div class="se-t1">Крыша на Автозаводской</div>
+            <div class="se-t2">14 показов за лето · следующий 19 августа</div>
+          </div>
+          <span class="se-chev" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+        </div>
+        <div class="se-row" aria-label="Wi-Fi площадки">
+          <div class="se-row-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-wifi"/></svg></div>
+          <div class="grow">
+            <div class="se-t1">Wi-Fi «krysha-guest»</div>
+            <div class="se-t2">Без пароля. Интернета в нём нет — только зал</div>
+          </div>
+        </div>
+        <div class="se-row tap" data-go="curator" aria-label="Я провожу этот показ">
+          <div class="se-row-ico" aria-hidden="true"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+          <div class="grow">
+            <div class="se-t1">Я провожу этот показ</div>
+            <div class="se-t2">Пульт, очередь и микрофон в наушники зала</div>
+          </div>
+          <span class="se-chev" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

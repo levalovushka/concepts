@@ -1,0 +1,114 @@
+<div class="screen ios-surface pm-page" id="scr-handover">
+  <div class="navbar">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад к смене"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Смена</span></div>
+    </div>
+    <div class="title">Сдача смены</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll pm-scroll">
+    <div class="pm-card pad" style="margin-top:4px">
+      <div class="pm-row-t">Передаёте Ане Ким</div>
+      <div class="pm-row-s" style="margin-top:2px">в 16:00 · вечерняя смена до 23:00</div>
+      <div class="pm-facts">
+        <span class="pm-fact"><svg class="ico-svg"><use href="#i-camera"/></svg><b>2</b> из 6 кадров</span>
+        <span class="pm-fact"><svg class="ico-svg"><use href="#i-list-checks"/></svg><b>4</b> из 6 пунктов</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Кадры зала</div>
+      <div class="pm-sec-n">2 из 6</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-grid3">
+        <div class="ph" aria-label="Снимок витрины в 15:41"></div>
+        <div class="ph" aria-label="Снимок кассовой зоны в 15:44"></div>
+        <div class="pm-slot tap" data-ask="camera|shoot|handover" aria-label="Снять следующий пункт акта">
+          <svg class="ico-svg"><use href="#i-camera"/></svg>
+          Холодильник
+        </div>
+        <div class="pm-slot tap" data-ask="camera|shoot|handover" aria-label="Снять кофемашину">
+          <svg class="ico-svg"><use href="#i-camera"/></svg>
+          Кофемашина
+        </div>
+        <div class="pm-slot tap" data-ask="camera|shoot|handover" aria-label="Снять склад">
+          <svg class="ico-svg"><use href="#i-camera"/></svg>
+          Склад
+        </div>
+        <div class="pm-slot tap" data-ask="camera|shoot|handover" aria-label="Снять зал">
+          <svg class="ico-svg"><use href="#i-camera"/></svg>
+          Зал
+        </div>
+      </div>
+      <div class="pm-note perm-hidden" data-show-denied="camera">
+        <svg class="ico-svg"><use href="#i-circle-alert"/></svg>
+        <span>Без камеры акт закрывается галочками — они уходят в карточку смены, но спор по витрине разбирать будет нечем.</span>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">Что проверить</div>
+      <div class="pm-sec-n">4 из 6</div>
+    </div>
+    <div class="pm-card">
+      <div class="pm-row tap" aria-label="Касса сведена, пункт выполнен">
+        <span class="pm-check is-on" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Касса сведена</div>
+          <div class="pm-row-s">расхождение 40 ₽ · внесено в журнал</div>
+        </div>
+      </div>
+      <div class="pm-row tap" aria-label="Кофемашина промыта, пункт выполнен">
+        <span class="pm-check is-on" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Кофемашина промыта</div>
+          <div class="pm-row-s">15:22 · таблетка последняя, заказать</div>
+        </div>
+      </div>
+      <div class="pm-row tap" aria-label="Остатки списаны, пункт выполнен">
+        <span class="pm-check is-on" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Остатки списаны</div>
+          <div class="pm-row-s">7 круассанов, 2 чизкейка</div>
+        </div>
+      </div>
+      <div class="pm-row tap" aria-label="Молоко пересчитано, пункт выполнен">
+        <span class="pm-check is-on" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Молоко пересчитано</div>
+          <div class="pm-row-s">11 л обычного, 4 л безлактозного</div>
+        </div>
+      </div>
+      <div class="pm-row tap" aria-label="Витрина убрана, пункт не выполнен">
+        <span class="pm-check" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Витрина убрана</div>
+          <div class="pm-row-s">нижняя полка ещё в работе</div>
+        </div>
+      </div>
+      <div class="pm-row tap" aria-label="Ключи от склада переданы, пункт не выполнен">
+        <span class="pm-check" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Ключи от склада</div>
+          <div class="pm-row-s">у Марата, отдаст к 15:50</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pm-sec">
+      <div class="pm-sec-t">С прошлой пересменки</div>
+    </div>
+    <div class="pm-card pad">
+      <p class="t-footnote" style="margin:0">Лена, 18 мая: «Сдавали без кадра холодильника — утром нашли размороженную камеру, спорили полдня. Снимайте, пожалуйста.»</p>
+    </div>
+
+    <div class="push"></div>
+    <div class="pm-cta" style="padding-top:18px">
+      <div class="btn-filled block tap" data-toast="Акт передан Ане Ким · 4 из 6 пунктов|shift" aria-label="Передать смену">Передать смену</div>
+      <div class="pm-cta-note">Аня подтвердит приём в своей карточке смены. Незакрытые пункты останутся видны обоим.</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

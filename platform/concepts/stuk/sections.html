@@ -1,0 +1,65 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">Поиск в видеосервисе устроен вокруг слов, а у неисправности слов нет: {{INSIGHT}}. «Стук» берёт привычную модель большого видеосервиса — разборы, короткие приёмы, авторы, подписки — и заводит в неё второй способ найти нужное: собственную запись звука.</p>
+  <div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: своего API нет, PermissionsService — единственная точка запроса доступов. Каждый ключ набора появляется за конкретным действием, а не на старте.</p>
+  <div class="flow"><span class="chip">Вход</span><span class="arr">→</span><span class="chip">Звук</span><span class="arr">→</span><span class="chip">Запись 0:10</span><span class="arr">→</span><span class="chip">Сравнение с эталоном</span><span class="arr">→</span><span class="chip">Разбор</span></div>
+  <div class="flow"><span class="chip">Разбор</span><span class="arr">→</span><span class="chip">Слушать в фоне</span><span class="arr">→</span><span class="chip">Телевизор</span><span class="arr">→</span><span class="chip">Где взять деталь</span></div>
+  <div class="flow"><span class="chip">Снять</span><span class="arr">→</span><span class="chip">Камера с микрофоном</span><span class="arr">→</span><span class="chip">Черновик на телефоне</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Teardown (разбор) · Clip · Symptom · Reference (эталон) · Take (своя запись) · Repair · Part · Channel · Draft.</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · PhoneAuth · Playback · AudioCapture · Capture · MediaPicker · Location · Cast · Notifications.</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — свои записи, ремонты и заметки. Keychain — токен входа. FileManager — m4a и видеочерновики. Статический контент-пак только на чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака и эталонных записей · SDK входа по номеру · Cast SDK · рекламный SDK · FCM/APNs · MapKit.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в сборке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть, но спрятана, по последствиям равна её отсутствию.</p>
+    </div>
+  </section>
+
+  <section class="section" id="sound-limits">
+    <h2>Что делает сравнение звука и чего оно не делает</h2>
+    <p class="deck">Самая заметная фича концепта — и самое лёгкое место, где можно соврать ревьюеру и пользователю. Граница проведена явно.</p>
+    <div class="doc-table table-wrap">
+      <table>
+        <thead><tr><th>Делает</th><th>Не делает</th></tr></thead>
+        <tbody>
+          <tr><td>Пишет 10 секунд в m4a на устройство</td><td>Не отправляет запись никуда, включая рекламный SDK</td></tr>
+          <tr><td>Рисует дорожку и ставит её рядом с эталонной</td><td>Не распознаёт неисправность и не ставит диагноз</td></tr>
+          <tr><td>Переключает источник A/B на одной позиции</td><td>Не считает «процент совпадения» — такого числа в интерфейсе нет</td></tr>
+          <tr><td>Показывает частоту и число ударов у обеих записей</td><td>Не обещает, что совпадение частот означает ту же причину</td></tr>
+          <tr><td>Хранит историю «до ремонта / после ремонта»</td><td>Не заменяет осмотр: порядок проверки в карточке начинается с самого дешёвого</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Почему это важно для ревью.</strong> Заявленное назначение микрофона — «записать звук неисправности и поставить рядом с эталоном». Ровно это фича и делает. Если бы в интерфейсе стояло «определим поломку по звуку», доступ пришлось бы защищать обещанием, которого нет в сборке.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Что потребовало бы сервера и чем это заменено на клиенте.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>

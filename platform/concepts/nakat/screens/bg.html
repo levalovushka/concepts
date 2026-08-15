@@ -1,0 +1,86 @@
+<div class="screen ios-surface" id="scr-bg" style="background:#fff">
+  <div class="navbar bar-blur">
+    <div class="nav-leading">
+      <div class="btn-plain tap" data-back aria-label="Назад в раздел «Ещё»"><svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Ещё</span></div>
+    </div>
+    <div class="title">Фон</div>
+    <div class="nav-spacer"></div>
+  </div>
+
+  <div class="body-scroll nk-pad">
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Что обновляется до открытия</div>
+      </div>
+      <div class="nk-list">
+        <div class="row has-lead tap" data-activate="fetch|lessons" aria-label="Обновление расписания в фоне">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-clock"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Расписание к утру</div>
+            <div class="nk-meta">перенос занятия и освободившиеся слоты · последний раз в 6:12</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead tap" data-activate="remotenotif|widget" aria-label="Тихие обновления виджета">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Виджет тихим пушем</div>
+            <div class="nk-meta">когда инструктор меняет время · последний раз в 6:41</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead tap" data-activate="bgtask|theory" aria-label="Идентификаторы фоновых задач">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-download"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Догрузка разборов ночью</div>
+            <div class="nk-meta">только по Wi-Fi и на зарядке · 13 авг, 3:14 — 2 файла</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Идентификаторы задач</div>
+        <span class="sec-more is-plain">Info.plist</span>
+      </div>
+      <div class="nk-list">
+        <div class="row">
+          <div class="grow"><div class="t-body mono">app.nakat.refresh</div><div class="nk-meta">BGAppRefreshTask · расписание и слоты</div></div>
+          <span class="row-value">раз в час</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body mono">app.nakat.audio</div><div class="nk-meta">BGProcessingTask · аудио-разборы</div></div>
+          <span class="row-value">ночью</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nk-group">
+      <div class="sec-head">
+        <div class="t-headline">Что скачано</div>
+        <span class="sec-more is-plain">412 МБ</span>
+      </div>
+      <div class="nk-list">
+        <div class="row">
+          <div class="grow"><div class="t-body">Разборы билетов</div><div class="nk-meta">27 из 40 · один качается</div></div>
+          <span class="dl is-busy">62 %</span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Треки экзаменационных маршрутов</div><div class="nk-meta">5 из 5 · обновлены 3 февраля</div></div>
+          <span class="dl is-ready"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        </div>
+        <div class="row">
+          <div class="grow"><div class="t-body">Записи ваших заметок</div><div class="nk-meta">31 файл, только на этом телефоне</div></div>
+          <span class="row-value mono">86 МБ</span>
+        </div>
+        <div class="row tap" data-toast="Разборы удалены · 412 МБ освободилось|bg" aria-label="Удалить скачанные разборы">
+          <div class="grow"><div class="t-body destructive">Удалить скачанные разборы</div></div>
+        </div>
+      </div>
+      <div class="group-foot wide">На устройстве занято 498 МБ, свободно 12,4 ГБ.</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

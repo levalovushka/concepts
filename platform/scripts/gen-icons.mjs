@@ -39,6 +39,13 @@ export const ICONS = [
   'heart', 'eye', 'repeat-2', 'pin', 'send', 'paperclip', 'badge-check', 'chevron-down',
   // звонок: CallKit-поверхность
   'phone', 'phone-off', 'phone-incoming', 'mic-off',
+  // ремонт и звук как данные
+  'wrench', 'car', 'audio-lines', 'headphones',
+  // курс вождения: маршрут, ведомость, документы, отсчёт
+  'route', 'list-checks', 'id-card', 'file-text', 'navigation', 'timer', 'clipboard-check',
+  // сменная работа: заведение, смена, табель, заработок
+  'coffee', 'utensils', 'store', 'arrow-left-right', 'alarm-clock', 'sunrise', 'moon',
+  'banknote', 'log-in', 'log-out', 'user-check', 'circle-check',
 ];
 
 /** Иконки берём из локального lucide-static: сборка не ходит в сеть. */

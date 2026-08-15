@@ -1,0 +1,108 @@
+<div class="screen" id="scr-reschedule" style="background:#f2f2f7">
+  <div class="nk-backdrop" aria-hidden="true">
+    <div class="navbar bar-blur">
+      <div class="nav-leading">
+        <div class="btn-plain"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">Занятия</span></div>
+      </div>
+      <div class="title">7:20, маршрут №3</div>
+      <div class="nav-spacer"></div>
+    </div>
+    <div class="nk-pad">
+      <div class="nk-lead">
+        <div class="nk-lead-when">Завтра, ср 15 августа · 7:20 — 8:50</div>
+        <div class="nk-lead-what">Маршрут №3: Кабельная — Гвардейская — площадь Победы</div>
+      </div>
+      <div class="nk-list">
+        <div class="row has-avatar">
+          <div class="row-avatar"></div>
+          <div class="grow">
+            <div class="t-headline">Гущин Сергей Валентинович</div>
+            <div class="nk-meta">инструктор с 2009 · 14 занятий вместе</div>
+          </div>
+        </div>
+        <div class="row has-lead">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-phone"/></svg></div>
+          <div class="grow"><div class="t-body">Позвонить инструктору</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="nk-backdrop-dim"></div>
+  </div>
+  <div class="sheet light">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-body">
+      <div class="nk-sheet-head">
+        <div class="t-title" style="font-size:24px;line-height:30px">Перенести занятие</div>
+        <div class="nk-meta">Сейчас: ср 15 августа, 7:20 · Гущин, Rio В 412 УМ</div>
+      </div>
+
+      <div class="nk-list mt16">
+        <div class="row has-lead tap" aria-label="Слот четверг 6:00, Гущин">
+          <div class="nk-slot-mini mono">чт<b>6:00</b></div>
+          <div class="grow">
+            <div class="t-body">Гущин, та же машина</div>
+            <div class="nk-meta">до работы, маршрут №3 успеете целиком</div>
+          </div>
+          <span class="row-check perm-hidden"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        </div>
+        <div class="row has-lead tap" aria-label="Слот четверг 13:30, Гущин, выбран">
+          <div class="nk-slot-mini mono is-on">чт<b>13:30</b></div>
+          <div class="grow">
+            <div class="t-body">Гущин, та же машина</div>
+            <div class="nk-meta">днём на Гвардейской пробка — на неё и попадёте</div>
+          </div>
+          <span class="row-check"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        </div>
+        <div class="row has-lead tap" aria-label="Слот пятница 9:15, инструктор Ким">
+          <div class="nk-slot-mini mono">пт<b>9:15</b></div>
+          <div class="grow">
+            <div class="t-body">Ким А. Б., Granta</div>
+            <div class="nk-meta">другая машина: сцепление жёстче, привыкать заново</div>
+          </div>
+          <span class="row-check perm-hidden"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        </div>
+        <div class="row has-lead tap" aria-label="Слот суббота 7:20, Гущин">
+          <div class="nk-slot-mini mono">сб<b>7:20</b></div>
+          <div class="grow">
+            <div class="t-body">Гущин, та же машина</div>
+            <div class="nk-meta">последнее окно перед внутренним экзаменом</div>
+          </div>
+          <span class="row-check perm-hidden"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        </div>
+      </div>
+
+      <div class="group-foot wide">Ваш слот 7:20 сразу освободится для группы — его увидят 23 человека.</div>
+
+      <div class="nk-list mt16">
+        <div class="row has-lead tap" data-ask="calendar|reschedule|reschedule" aria-label="Перенести и поправить событие в Календаре">
+          <div class="lead-ico red"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Поправить событие в Календаре</div>
+            <div class="nk-meta">то же событие, новое время — второго в календаре не появится</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-denied="calendar">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Событие в календаре не тронем</div>
+            <div class="nk-meta">Старое время придётся поправить руками; напоминание останется в «Накате»</div>
+          </div>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-granted="calendar">
+          <div class="lead-ico green"><svg class="ico-svg"><use href="#i-check"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Событие исправлено: чт, 13:30</div>
+            <div class="nk-meta">напоминание за час перенеслось вместе с ним</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-footer">
+      <div class="btn-filled tap" data-toast="Занятие перенесено на чт, 13:30|lesson">Перенести на чт, 13:30</div>
+      <div class="btn-quiet tap" data-back>Оставить как есть</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
