@@ -167,6 +167,15 @@
       "ui": { "pattern":"auth", "purpose":"Подтвердить номер одноразовым кодом", "primaryAction":"Войти", "states":["default","loading","error"], "density":"low", "contentCases":["код из SMS","автоподстановка iOS","неверный или просроченный код"] }
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": { "pattern":"auth", "purpose":"Показать ошибку кода и дать ввести заново", "primaryAction":"Войти", "states":["default","loading","error"], "density":"low", "contentCases":["неверный код","просроченный код","повторная отправка"] }
+    },
+    {
       "id": "archive",
       "title": "Главная",
       "type": "tab (root, старт)",
@@ -310,6 +319,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "archive",
         "record",
         "player",
@@ -335,6 +345,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "archive"
       ],
       "stops": [

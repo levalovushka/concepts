@@ -484,6 +484,14 @@
       "meta": "OTP · автоподстановка"
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP"
+    },
+    {
       "id": "lessons",
       "title": "Занятия",
       "type": "tab (root)",
@@ -708,6 +716,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "lessons",
         "lesson",
         "call",
@@ -746,6 +755,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "lessons"
       ],
       "stops": [

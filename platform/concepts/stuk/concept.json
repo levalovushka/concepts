@@ -230,6 +230,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Вход" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "ads", "title": "Бесплатная версия", "type": "onboarding", "light": true, "parent": "code", "meta": "ATT после объяснения" },
     { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "Разборы по вашему автомобилю" },
     { "id": "watch", "title": "Разбор", "type": "push", "light": false, "parent": "home", "meta": "Плеер · шаги · детали" },
@@ -256,7 +257,7 @@
       "label": "Весь продукт",
       "note": "Пять вкладок и все девять доступов набора",
       "start": "phone",
-      "screens": ["phone", "code", "ads", "home", "watch", "background", "cast", "parts", "clips", "create", "camera", "upload", "publish", "sound", "record", "compare", "symptom", "subscriptions", "profile", "saved"]
+      "screens": ["phone", "code", "codefail", "ads", "home", "watch", "background", "cast", "parts", "clips", "create", "camera", "upload", "publish", "sound", "record", "compare", "symptom", "subscriptions", "profile", "saved"]
     },
     {
       "id": "sound",

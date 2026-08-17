@@ -793,6 +793,11 @@
     text-align: right;
   }
   .field-input::placeholder { color: var(--ios-tertiary); }
+  .field-label.is-error { color: #d70015; }
+  .field-input.is-error { color: #d70015; }
+  .field-input.is-error::placeholder { color: rgba(215,0,21,.4); }
+  .field-caption { margin: 6px 2px 0; font: 400 13px/16px var(--face); color: var(--ios-secondary); }
+  .field-caption.is-error { color: #d70015; }
 
   .switch {
     width: 51px;
@@ -4190,6 +4195,70 @@
           </div>
         </div>
 
+        <!-- Invalid field -->
+        <div class="specimen">
+          <h3>Invalid field</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading"><button type="button" class="btn-plain">Отмена</button></div>
+              <div class="title">Новый проект</div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="display:flex;flex-direction:column;padding-bottom:34px">
+              <div class="ios-list">
+                <div class="row">
+                  <div class="field-label is-error">Название</div>
+                  <input class="field-input is-error" type="text" placeholder="Обязательное поле">
+                </div>
+              </div>
+              <p class="field-caption is-error">Название нужно, чтобы найти проект в списке</p>
+              <button type="button" class="btn-filled block" style="margin-top:auto">Создать</button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Invalid code -->
+        <div class="specimen">
+          <h3>Invalid code</h3>
+          <div class="phone mid grouped">
+            <div class="sb-status dark-ink">
+              <span class="time">9:41</span>
+              <span class="icons" aria-hidden="true">
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0.6" y="1" width="21" height="10" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22.2" y="3.8" width="1.8" height="4.4" rx="0.5"/><rect x="2.2" y="3" width="14.5" height="6" rx="1"/></svg>
+              </span>
+            </div>
+            <div class="sb-navbar">
+              <div class="nav-leading">
+                <button type="button" class="btn-plain">
+                  <svg class="ios-back" viewBox="0 0 12 21" fill="none" aria-hidden="true"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="back-label">Номер</span>
+                </button>
+              </div>
+              <div class="nav-spacer"></div>
+            </div>
+            <div class="nav-content" style="display:flex;flex-direction:column;padding-bottom:34px">
+              <h1 class="t-title" style="font-size:28px;line-height:34px">Код из SMS</h1>
+              <p class="t-subhead" style="margin-top:8px">Отправили на +7 900 123-45-67.</p>
+              <div class="otp" style="margin-top:24px;display:flex;gap:10px" aria-label="Код из четырёх цифр">
+                <span class="otp-cell is-error">4</span>
+                <span class="otp-cell is-error">8</span>
+                <span class="otp-cell is-error">0</span>
+                <span class="otp-cell is-error">3</span>
+              </div>
+              <p class="field-caption is-error" style="margin-top:10px">Неверный код. Проверьте цифры или запросите новый</p>
+              <button type="button" class="btn-plain" style="align-self:center;margin-top:24px">Отправить ещё раз через 0:42</button>
+            </div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+
         <!-- Anatomy -->
         <div class="specimen">
           <h3>Anatomy</h3>
@@ -4200,6 +4269,8 @@
               <div><span style="color:var(--page-ink);font-weight:600">Hard</span> — red fill 9% · ico #d70015</div>
               <div><span style="color:var(--page-ink);font-weight:600">Copy</span> — headline 17/22 · footnote 13/18 · без кодов</div>
               <div><span style="color:var(--page-ink);font-weight:600">Form</span> — field-label 88 · value right · тот же набор полей, что даёт автомат</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Field error</span> — не баннер: текст/рамка поля в #d70015 + 13pt caption под ним — `.is-error` / `.field-caption`</div>
+              <div><span style="color:var(--page-ink);font-weight:600">Code error</span> — все `.otp-cell` в #d70015 + тот же caption, без отдельного экрана</div>
             </div>
           </div>
         </div>

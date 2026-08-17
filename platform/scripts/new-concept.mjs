@@ -27,6 +27,13 @@ if (!/^[a-z][a-z0-9-]*$/.test(slug)) { console.error('slug: только стр�
 if (!POSITIONING_MODES[requestedMode]) { console.error(`неизвестная стратегия: ${requestedMode}`); process.exit(1); }
 if (requestedMode === 'mimicry' && !TARGET_PRODUCTS[targetSet]) { console.error(`для мимикрии неизвестен продукт-референс: ${targetSet}`); process.exit(1); }
 
+/* Мимикрия читается с первого экрана как участник категории референса (см.
+   positioning-contract.md) — вход по номеру уже даёт этот сигнал синим
+   акцентом ВКонтакте (#0077FF), как у большинства mimicry-концептов в репо.
+   Отстройка держит нейтральный дефолт шаблона — на разницу с референсом
+   работает не akцент, а собственная категория и IA. */
+const [accent, accentDark] = requestedMode === 'mimicry' ? ['#0077FF', '#0077FF'] : ['#0d8a7a', '#3dd6c0'];
+
 const dir = conceptDir(slug);
 if (existsSync(dir)) { console.error(`концепт ${slug} уже существует: ${dir}`); process.exit(1); }
 
@@ -43,6 +50,8 @@ for (const f of walk(dir)) {
     .replaceAll('__TARGET_SET__', targetSet || 'не задан')
     .replaceAll('__POSITIONING_MODE__', requestedMode)
     .replaceAll('__APP_STORE_CATEGORY__', requestedMode === 'mimicry' ? archetypeFor(targetSet).category : 'Utilities')
+    .replaceAll('__ACCENT__', accent)
+    .replaceAll('__ACCENT_DARK__', accentDark)
     .replaceAll('__REFERENCE_PATTERN_1__', referencePatterns[0])
     .replaceAll('__REFERENCE_PATTERN_2__', referencePatterns[1])
     .replaceAll('__REFERENCE_PATTERN_3__', referencePatterns[2]);

@@ -2960,37 +2960,44 @@
 }
 
 .screen[data-screen="phone"] .rd-auth-vk,
-.screen[data-screen="code"] .rd-auth-vk {
+.screen[data-screen="code"] .rd-auth-vk ,
+.screen[data-screen="codefail"] .rd-auth-vk {
   padding: 0 16px calc(var(--safe-bottom) + 18px) !important;
   background: #0a0a0a !important;
 }
 .screen[data-screen="phone"] .rd-auth-top,
-.screen[data-screen="code"] .rd-auth-top {
+.screen[data-screen="code"] .rd-auth-top ,
+.screen[data-screen="codefail"] .rd-auth-top {
   min-height: 52px !important;
   padding: 0 !important;
   display: flex !important;
   align-items: center !important;
 }
-.screen[data-screen="code"] .rd-auth-top {
+.screen[data-screen="code"] .rd-auth-top ,
+.screen[data-screen="codefail"] .rd-auth-top {
   display: grid !important;
   grid-template-columns: 44px 1fr 44px !important;
 }
-.screen[data-screen="code"] .rd-auth-top .rd-wordmark {
+.screen[data-screen="code"] .rd-auth-top .rd-wordmark ,
+.screen[data-screen="codefail"] .rd-auth-top .rd-wordmark {
   justify-self: center !important;
 }
 .screen[data-screen="phone"] .rd-auth-top .rd-wordmark,
-.screen[data-screen="code"] .rd-auth-top .rd-wordmark {
+.screen[data-screen="code"] .rd-auth-top .rd-wordmark ,
+.screen[data-screen="codefail"] .rd-auth-top .rd-wordmark {
   font-size: 20px !important;
   line-height: 24px !important;
   font-weight: 600 !important;
 }
 .screen[data-screen="phone"] .rd-auth-copy,
-.screen[data-screen="code"] .rd-auth-copy {
+.screen[data-screen="code"] .rd-auth-copy ,
+.screen[data-screen="codefail"] .rd-auth-copy {
   margin-top: 54px !important;
   max-width: 320px !important;
 }
 .screen[data-screen="phone"] .rd-auth-copy h1,
-.screen[data-screen="code"] .rd-auth-copy h1 {
+.screen[data-screen="code"] .rd-auth-copy h1 ,
+.screen[data-screen="codefail"] .rd-auth-copy h1 {
   margin: 0 !important;
   font-size: 28px !important;
   line-height: 34px !important;
@@ -2998,7 +3005,8 @@
   letter-spacing: -0.6px !important;
 }
 .screen[data-screen="phone"] .rd-auth-copy p,
-.screen[data-screen="code"] .rd-auth-copy p {
+.screen[data-screen="code"] .rd-auth-copy p ,
+.screen[data-screen="codefail"] .rd-auth-copy p {
   margin: 10px 0 0 !important;
   color: rgba(235, 235, 245, 0.6) !important;
   font-size: 15px !important;
@@ -3045,12 +3053,14 @@
   border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
   color: rgba(235, 235, 245, 0.72) !important;
 }
-.screen[data-screen="code"] .rd-otp {
+.screen[data-screen="code"] .rd-otp,
+.screen[data-screen="codefail"] .rd-otp {
   display: grid !important;
   grid-template-columns: repeat(4, 52px) !important;
   gap: 10px !important;
 }
-.screen[data-screen="code"] .rd-otp input {
+.screen[data-screen="code"] .rd-otp input,
+.screen[data-screen="codefail"] .rd-otp input {
   width: 52px !important;
   height: 56px !important;
   padding: 0 !important;
@@ -3066,8 +3076,26 @@
   text-align: center !important;
   caret-color: #f2f3f5 !important;
 }
-.screen[data-screen="code"] .rd-otp input:focus {
+.screen[data-screen="code"] .rd-otp input:focus,
+.screen[data-screen="codefail"] .rd-otp input:focus {
   border-color: rgba(255, 255, 255, 0.72) !important;
+}
+.screen[data-screen="code"] .rd-otp input.is-error,
+.screen[data-screen="codefail"] .rd-otp input.is-error {
+  border-color: #d70015 !important;
+  background: rgba(215, 0, 21, 0.12) !important;
+  color: #d70015 !important;
+}
+.screen[data-screen="code"] .rd-field-caption,
+.screen[data-screen="codefail"] .rd-field-caption {
+  margin: 10px 0 0 !important;
+  font-size: 13px !important;
+  line-height: 17px !important;
+  color: rgba(235, 235, 245, 0.6) !important;
+}
+.screen[data-screen="code"] .rd-field-caption.is-error,
+.screen[data-screen="codefail"] .rd-field-caption.is-error {
+  color: #d70015 !important;
 }
 
 /* Borders only where they communicate a real container boundary. */
@@ -3104,7 +3132,8 @@
 .screen[data-screen="create"] .rd-create-sheet-row + .rd-create-sheet-row {
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
-.screen[data-screen="code"] .rd-resend {
+.screen[data-screen="code"] .rd-resend ,
+.screen[data-screen="codefail"] .rd-resend {
   min-height: 44px !important;
   margin-top: 8px !important;
   padding: 0 !important;
@@ -3115,11 +3144,13 @@
   text-align: left !important;
 }
 .screen[data-screen="phone"] .rd-auth-foot,
-.screen[data-screen="code"] .rd-auth-foot {
+.screen[data-screen="code"] .rd-auth-foot ,
+.screen[data-screen="codefail"] .rd-auth-foot {
   margin-top: auto !important;
 }
 .screen[data-screen="phone"] .rd-auth-foot .rd-primary,
-.screen[data-screen="code"] .rd-auth-foot .rd-primary {
+.screen[data-screen="code"] .rd-auth-foot .rd-primary ,
+.screen[data-screen="codefail"] .rd-auth-foot .rd-primary {
   min-height: 52px !important;
   border-radius: 12px !important;
   background: #f2f3f5 !important;
@@ -3137,7 +3168,8 @@
 
 /* Authentication shares one vertical anchor; product navigation stays untouched. */
 .screen[data-screen="phone"] .rd-auth-copy,
-.screen[data-screen="code"] .rd-auth-copy { margin-top: 52px !important; }
+.screen[data-screen="code"] .rd-auth-copy,
+.screen[data-screen="codefail"] .rd-auth-copy { margin-top: 52px !important; }
 
 /* Final optical pass: native story previews with quiet watched/unwatched states. */
 .screen[data-screen="subscriptions"] .rd-storyrail {
@@ -3391,23 +3423,28 @@
 }
 
 /* Login and verification are utility screens, not branded marketing pages. */
-.screen[data-screen="code"] .rd-auth-top {
+.screen[data-screen="code"] .rd-auth-top ,
+.screen[data-screen="codefail"] .rd-auth-top {
   display: flex !important;
   min-height: 44px !important;
   margin-left: -10px !important;
 }
-.screen[data-screen="code"] .rd-auth-top .rd-back {
+.screen[data-screen="code"] .rd-auth-top .rd-back ,
+.screen[data-screen="codefail"] .rd-auth-top .rd-back {
   justify-content: flex-start !important;
   padding-left: 4px !important;
 }
-.screen[data-screen="code"] .rd-auth-copy {
+.screen[data-screen="code"] .rd-auth-copy ,
+.screen[data-screen="codefail"] .rd-auth-copy {
   margin-top: 44px !important;
 }
-.screen[data-screen="code"] .rd-otp {
+.screen[data-screen="code"] .rd-otp ,
+.screen[data-screen="codefail"] .rd-otp {
   margin-top: 32px !important;
 }
 .screen[data-screen="phone"] .rd-auth-foot,
-.screen[data-screen="code"] .rd-auth-foot {
+.screen[data-screen="code"] .rd-auth-foot ,
+.screen[data-screen="codefail"] .rd-auth-foot {
   margin-bottom: calc(var(--safe-bottom) - 4px) !important;
   padding-bottom: 0 !important;
 }
@@ -3437,17 +3474,21 @@
   border: 0 !important;
   border-radius: 2px !important;
 }
-.screen[data-screen="publish"] .rd-publish {
+.screen[data-screen="publish"] .rd-publish ,
+.screen[data-screen="publishfail"] .rd-publish {
   padding: 12px 16px calc(var(--safe-bottom) + 20px) !important;
 }
-.screen[data-screen="publish"] .rd-publish-preview {
+.screen[data-screen="publish"] .rd-publish-preview ,
+.screen[data-screen="publishfail"] .rd-publish-preview {
   border-radius: var(--rd-card-radius) !important;
   overflow: hidden !important;
 }
-.screen[data-screen="publish"] .rd-field {
+.screen[data-screen="publish"] .rd-field ,
+.screen[data-screen="publishfail"] .rd-field {
   padding: 16px 0 14px !important;
 }
-.screen[data-screen="publish"] .rd-field label {
+.screen[data-screen="publish"] .rd-field label ,
+.screen[data-screen="publishfail"] .rd-field label {
   margin-bottom: 7px !important;
   color: var(--rd-secondary-label) !important;
   font-size: 12px !important;
@@ -3457,7 +3498,9 @@
   text-transform: none !important;
 }
 .screen[data-screen="publish"] .rd-field input,
-.screen[data-screen="publish"] .rd-field textarea {
+.screen[data-screen="publishfail"] .rd-field input,
+.screen[data-screen="publish"] .rd-field textarea ,
+.screen[data-screen="publishfail"] .rd-field textarea {
   width: 100% !important;
   padding: 0 !important;
   border: 0 !important;
@@ -3469,20 +3512,39 @@
   font-size: 15px !important;
   line-height: 21px !important;
 }
-.screen[data-screen="publish"] .rd-publish-options {
+.screen[data-screen="publish"] .rd-field.is-error label,
+.screen[data-screen="publishfail"] .rd-field.is-error label,
+.screen[data-screen="publish"] .rd-field.is-error input,
+.screen[data-screen="publishfail"] .rd-field.is-error input,
+.screen[data-screen="publish"] .rd-field.is-error textarea ,
+.screen[data-screen="publishfail"] .rd-field.is-error textarea {
+  color: #d70015 !important;
+}
+.screen[data-screen="publish"] .rd-field-caption ,
+.screen[data-screen="publishfail"] .rd-field-caption {
+  margin: -8px 0 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: #d70015;
+}
+.screen[data-screen="publish"] .rd-publish-options ,
+.screen[data-screen="publishfail"] .rd-publish-options {
   margin-top: 8px !important;
   padding: 2px 12px !important;
   border-radius: var(--rd-card-radius) !important;
   background: var(--rd-surface) !important;
 }
-.screen[data-screen="publish"] .rd-place-row {
+.screen[data-screen="publish"] .rd-place-row ,
+.screen[data-screen="publishfail"] .rd-place-row {
   min-height: 64px !important;
   padding: 8px 0 !important;
 }
-.screen[data-screen="publish"] .rd-place-row + .rd-place-row {
+.screen[data-screen="publish"] .rd-place-row + .rd-place-row ,
+.screen[data-screen="publishfail"] .rd-place-row + .rd-place-row {
   border: 0 !important;
 }
-.screen[data-screen="publish"] .rd-card-icon {
+.screen[data-screen="publish"] .rd-card-icon ,
+.screen[data-screen="publishfail"] .rd-card-icon {
   width: 38px !important;
   height: 38px !important;
   border-radius: 10px !important;
@@ -3563,6 +3625,7 @@
   margin-bottom: 2px !important;
 }
 .screen[data-screen="publish"] .rd-publish,
+.screen[data-screen="publishfail"] .rd-publish,
 .screen[data-screen="upload"] .rd-picker,
 .screen[data-screen="saved"] .rd-saved,
 .screen[data-screen="deeplink"] .body-scroll {

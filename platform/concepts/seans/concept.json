@@ -262,6 +262,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Вход" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "ads", "title": "Бесплатно с рекламой", "type": "onboarding", "light": false, "parent": "code", "meta": "ATT" },
     { "id": "home", "title": "Главная", "type": "tab (root)", "light": false, "meta": "Показ сегодня, записи, дорожки" },
     { "id": "nearby", "title": "Площадки рядом", "type": "push", "light": false, "parent": "home", "meta": "Core Location" },
@@ -289,7 +290,7 @@
       "id": "all", "hero": true, "label": "Весь продукт",
       "note": "Четыре вкладки и все девять заявленных доступов",
       "start": "phone",
-      "screens": ["phone","code","ads","home","nearby","search","film","cast","session","scan","join","hall","background","curator","talk","pick","clips","record","shows","venue","profile","saved"]
+      "screens": ["phone","code","codefail","ads","home","nearby","search","film","cast","session","scan","join","hall","background","curator","talk","pick","clips","record","shows","venue","profile","saved"]
     },
     {
       "id": "guest", "label": "Прийти на показ",

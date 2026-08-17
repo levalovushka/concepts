@@ -382,6 +382,30 @@
       }
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Показать ошибку OTP и вернуть к вводу",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "неверный код",
+          "повтор",
+          "нет сети"
+        ]
+      }
+    },
+    {
       "id": "home",
       "title": "Лента",
       "type": "tab (root)",
@@ -707,6 +731,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "home",
         "pet",
         "nearby",
@@ -731,6 +756,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "home",
         "pet",
         "nearby",
@@ -755,6 +781,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "home",
         "pet",
         "nearby",
@@ -779,6 +806,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "home",
         "pet",
         "nearby",

@@ -465,6 +465,22 @@
       }
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Показать ошибку кода и дать ввести заново",
+        "primaryAction": "Войти",
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": ["неверный код", "просроченный код", "повторная отправка"]
+      }
+    },
+    {
       "id": "deeplink",
       "title": "Открыто по ссылке",
       "type": "modal",
@@ -553,6 +569,7 @@
         "profile",
         "phone",
         "code",
+        "codefail",
         "deeplink",
         "denied",
         "search"
@@ -577,6 +594,7 @@
         "profile",
         "phone",
         "code",
+        "codefail",
         "deeplink",
         "denied",
         "search"
@@ -601,6 +619,7 @@
         "profile",
         "phone",
         "code",
+        "codefail",
         "deeplink",
         "denied",
         "search"
@@ -625,6 +644,7 @@
         "profile",
         "phone",
         "code",
+        "codefail",
         "deeplink",
         "denied",
         "search"

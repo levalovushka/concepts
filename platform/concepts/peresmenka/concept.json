@@ -457,6 +457,14 @@
       "meta": "OTP · автоподстановка"
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP"
+    },
+    {
       "id": "join",
       "title": "Где вы работаете",
       "type": "push",
@@ -703,6 +711,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "join",
         "manual",
         "shifts",
@@ -743,6 +752,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "join",
         "manual",
         "shifts"

@@ -82,6 +82,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "season", "title": "Сейчас рядом", "type": "сезонная колода", "light": true, "parent": "code", "meta": "Старт без системных запросов доступов" },
     { "id": "identify", "title": "Определить птицу", "type": "bottom sheet", "light": true, "parent": "season", "meta": "Выбор Camera / Photo / справочник" },
     { "id": "camera", "title": "Навести камеру", "type": "fullscreen camera", "light": false, "parent": "identify", "meta": "Vision · on-device" },
@@ -94,8 +95,8 @@
     { "id": "releases", "title": "Сезонные выпуски", "type": "settings detail", "light": true, "parent": "season", "meta": "Push · ручная проверка" }
   ],
   "prototypes": [
-    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Двенадцать экранов и четыре системные возможности", "start": "phone", "screens": ["phone","code","season","identify","camera","photos","result","bird","player","background","library","releases"] },
-    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к сезонной подборке", "start": "phone", "screens": ["phone","code","season"], "stops": ["season"] },
+    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Двенадцать экранов и четыре системные возможности", "start": "phone", "screens": ["phone","code","codefail","season","identify","camera","photos","result","bird","player","background","library","releases"] },
+    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к сезонной подборке", "start": "phone", "screens": ["phone","code","codefail","season"], "stops": ["season"] },
     { "id": "recognize", "label": "Определить в поле", "note": "Колода, выбор способа, камера или снимок и локальный результат", "start": "season", "screens": ["season","identify","camera","photos","result","bird","library","releases"], "stops": ["bird","library","releases"] },
     { "id": "listen", "label": "Сравнить голос", "note": "Карточка вида, полноэкранное аудио и Now Playing", "start": "bird", "screens": ["bird","player","background"], "stops": ["background"] },
     { "id": "browse", "label": "Найти без распознавания", "note": "Автономный справочник ведёт прямо к виду", "start": "library", "screens": ["library","bird","season"], "stops": ["bird","season"] },

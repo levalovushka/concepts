@@ -53,6 +53,7 @@
   "screens": [
     {"id":"phone","title":"Вход по номеру","type":"старт, без таб-бара","light":false,"meta":"Вход"},
     {"id":"code","title":"Код из SMS","type":"push","light":false,"parent":"phone","meta":"OTP"},
+    {"id":"codefail","title":"Неверный код","type":"push","light":true,"parent":"code","meta":"Состояние ошибки OTP"},
     {"id":"ads","title":"Бесплатный просмотр","type":"onboarding","light":false,"parent":"code","meta":"ATT"},
     {"id":"home","title":"Главная","type":"tab (root)","light":false,"meta":"Эфиры, видео и моменты"},
     {"id":"nearby","title":"Матчи рядом","type":"push","light":false,"parent":"home","meta":"Площадки рядом"},
@@ -74,7 +75,7 @@
     {"id":"search","title":"Поиск","type":"push","light":false,"parent":"home","meta":"Команды, матчи и турниры"}
   ],
   "prototypes": [
-    {"id":"all","hero":true,"label":"Весь продукт","note":"Пять вкладок и все десять доступов","start":"phone","screens":["phone","code","ads","home","nearby","watch","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","channel","profile","saved","moments","teams","search"]},
+    {"id":"all","hero":true,"label":"Весь продукт","note":"Пять вкладок и все десять доступов","start":"phone","screens":["phone","code","codefail","ads","home","nearby","watch","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","channel","profile","saved","moments","teams","search"]},
     {"id":"watch","label":"Смотреть матч","note":"Эфир, ТВ, фон, сохранение и ссылка","start":"home","screens":["home","search","nearby","watch","cast","background","deeplink","channel"]},
     {"id":"clips","label":"Смотреть моменты","note":"Вертикальные клипы из протокола","start":"clips","screens":["clips","channel","watch","deeplink"],"stops":["watch","deeplink"]},
     {"id":"create","label":"Добавить видео","note":"Трансляция, короткий момент или импорт записи","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},

@@ -1,0 +1,46 @@
+<div class="screen rd-screen" id="scr-codefail">
+  <div class="rd-safe"></div>
+  <div class="body-scroll rd-auth rd-auth-vk">
+    <div class="rd-auth-top">
+      <div class="rd-back" data-back aria-label="Назад">
+        <svg class="rd-icon"><use href="#i-chevron-left" /></svg>
+      </div>
+    </div>
+    <div class="rd-auth-copy">
+      <h1>Введите код</h1>
+      <p>Мы отправили его на +7 900 123-45-67.</p>
+    </div>
+    <div class="rd-otp" aria-label="Код из SMS">
+      <input
+        class="is-error"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="1"
+        value="4"
+      />
+      <input
+        class="is-error"
+        inputmode="numeric"
+        maxlength="1"
+        value="8"
+        aria-label="Вторая цифра"
+      />
+      <input
+        class="is-error"
+        inputmode="numeric"
+        maxlength="1"
+        value="1"
+        aria-label="Третья цифра"
+      />
+      <input class="is-error" inputmode="numeric" maxlength="1" aria-label="Четвёртая цифра" />
+    </div>
+    <p class="rd-field-caption is-error">Неверный код. Проверьте цифры или запросите новый</p>
+    <button class="rd-resend" type="button" disabled>
+      Отправить снова через 0:42
+    </button>
+    <div class="rd-auth-foot">
+      <div class="rd-primary" data-back>Ввести код ещё раз</div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
