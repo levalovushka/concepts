@@ -25,7 +25,10 @@
     <button type="button" data-tab="screens">Экраны</button>
     <button type="button" data-tab="docs">Документы</button>
   </nav>
-  <a class="topbar-dl" href="docs/{{SLUG}}-docs.zip" download>Скачать файлы</a>
+  <div class="topbar-actions">
+    {{VIEW_TOGGLE}}
+    <a class="topbar-dl" href="docs/{{SLUG}}-docs.zip" download>Скачать файлы</a>
+  </div>
 </header>
 
 <main class="doc">

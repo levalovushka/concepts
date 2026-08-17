@@ -13,6 +13,44 @@
      входами приоритет у presentedFrom, зафиксированного в момент открытия. */
   var PARENT = C.parent;
 
+  /* Preview-режим не является частью приложения: это инструмент витрины.
+     Состояние сохраняется отдельно для каждого концепта и остаётся ссылочным
+     через ?view=ipad — удобно для ревью конкретного планшетного экрана. */
+  function initViewport() {
+    var toggle = document.querySelector('[data-view-switch]');
+    if (!toggle) return;
+    var key = 'camo:view:' + C.slug;
+    var params = new URLSearchParams(location.search);
+    var stored = localStorage.getItem(key);
+    var initial = params.get('view') === 'ipad' ? 'ipad' : (stored === 'ipad' ? 'ipad' : 'phone');
+    function apply(view, syncUrl) {
+      document.querySelectorAll('.device').forEach(function (device) {
+        device.classList.toggle('is-ipad', view === 'ipad');
+        device.querySelectorAll('.screen').forEach(function (screen) {
+          screen.classList.toggle('has-ipad-tabbar', !!screen.querySelector('.tabbar'));
+        });
+        device.querySelectorAll('.tabbar > [data-go="create"]').forEach(function (action) {
+          action.classList.add('is-create-action');
+        });
+      });
+      toggle.querySelectorAll('[data-view]').forEach(function (button) {
+        button.setAttribute('aria-pressed', String(button.dataset.view === view));
+      });
+      localStorage.setItem(key, view);
+      if (syncUrl) {
+        var next = new URL(location.href);
+        if (view === 'ipad') next.searchParams.set('view', 'ipad');
+        else next.searchParams.delete('view');
+        history.replaceState(null, '', next.pathname + next.search + next.hash);
+      }
+    }
+    toggle.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-view]');
+      if (button) apply(button.dataset.view, true);
+    });
+    apply(initial, false);
+  }
+
   function permByKey(key) {
     for (var i = 0; i < PERMS.length; i++) if (PERMS[i][0] === key) return PERMS[i];
     return null;
@@ -366,6 +404,7 @@
   document.querySelectorAll('[data-proto]').forEach(function (root) {
     protos[root.dataset.proto] = mount(root);
   });
+  initViewport();
 
   /* —— вкладки документа —— */
   var nav = document.querySelector('.topnav');
