@@ -128,6 +128,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "home", "title": "Сегодня", "type": "tab (root, старт после входа)", "light": true, "meta": "Вечерняя практика" },
     { "id": "scan", "title": "Скан карты", "type": "fullscreen", "light": false, "parent": "home", "meta": "Camera · on-device" },
     { "id": "scanfail", "title": "Номер вручную", "type": "modal (ошибка)", "light": true, "parent": "scan", "meta": "Метка не прочиталась · fallback" },
@@ -149,14 +150,14 @@
       "label": "Весь продукт",
       "note": "Все экраны и все четыре доступа набора",
       "start": "phone",
-      "screens": ["phone", "code", "home", "scan", "scanfail", "cards", "card", "player", "background", "deck", "diary", "entry", "gallery", "profile"]
+      "screens": ["phone", "code", "codefail", "home", "scan", "scanfail", "cards", "card", "player", "background", "deck", "diary", "entry", "gallery", "profile"]
     },
     {
       "id": "signin",
       "label": "Вход по номеру",
       "note": "Первые два экрана: номер и код из SMS. Ни одного промпта",
       "start": "phone",
-      "screens": ["phone", "code", "home"],
+      "screens": ["phone", "code", "codefail", "home"],
       "stops": ["home"]
     },
     {

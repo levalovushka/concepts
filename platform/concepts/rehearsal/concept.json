@@ -63,6 +63,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "today", "title": "Сегодня", "type": "корневая рабочая поверхность", "light": false, "parent": "code", "meta": "Старт без запросов доступов" },
     { "id": "setup", "title": "Настройка", "type": "push", "light": false, "parent": "today", "meta": "Цель и длительность" },
     { "id": "frame", "title": "Проверка кадра", "type": "полноэкранная камера", "light": false, "parent": "setup", "meta": "Camera · без фото" },
@@ -75,8 +76,8 @@
     { "id": "settings", "title": "Настройки", "type": "sheet из navigation bar", "light": false, "parent": "today", "meta": "Приватность и данные" }
   ],
   "prototypes": [
-    { "id": "all", "hero": true, "label": "Весь продукт", "note": "12 экранов и 4 системные возможности", "start": "phone", "screens": ["phone", "code", "today", "setup", "frame", "recording", "paused", "analysis", "moment", "history", "session", "settings"] },
-    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к плану", "start": "phone", "screens": ["phone", "code", "today"], "stops": ["today"] },
+    { "id": "all", "hero": true, "label": "Весь продукт", "note": "12 экранов и 4 системные возможности", "start": "phone", "screens": ["phone", "code", "codefail", "today", "setup", "frame", "recording", "paused", "analysis", "moment", "history", "session", "settings"] },
+    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к плану", "start": "phone", "screens": ["phone", "code", "codefail", "today"], "stops": ["today"] },
     { "id": "run", "label": "Новый прогон", "note": "Настройка → кадр → таймер → разбор", "start": "setup", "screens": ["setup", "frame", "recording", "paused", "analysis", "moment"], "stops": ["moment"] },
     { "id": "review", "label": "Разбор момента", "note": "Временная шкала и точечный повтор", "start": "analysis", "screens": ["analysis", "moment", "setup", "frame", "recording", "session"], "stops": ["recording"] },
     { "id": "archive", "label": "История и импорт", "note": "Локальные прогоны и один файл из «Фото»", "start": "history", "screens": ["history", "session", "analysis", "moment", "setup", "frame", "recording"], "stops": ["moment", "recording"] },

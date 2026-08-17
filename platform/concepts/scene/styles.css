@@ -287,6 +287,21 @@
     600 24px/1 "IBM Plex Mono",
     monospace;
 }
+.sc-otp span.is-error {
+  box-shadow: inset 0 0 0 1.5px #d70015;
+  background: rgba(215, 0, 21, 0.12);
+  color: #d70015;
+}
+.sc-field-caption {
+  margin: 10px 2px 0;
+  font-family: Manrope, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+}
+.sc-field-caption.is-error {
+  color: #d70015;
+}
 .sc-ad-poster {
   width: 176px;
   height: 196px;

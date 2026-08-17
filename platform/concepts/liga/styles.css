@@ -2479,6 +2479,20 @@
 .lx-auth-v2 .lx-otp2 input:focus {
   border-color: #5aa7ff;
 }
+.lx-auth-v2 .lx-otp2 input.is-error {
+  border-color: #d70015;
+  background: rgba(215, 0, 21, 0.08);
+  color: #d70015;
+}
+.lx-field-caption {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--lx-tertiary);
+}
+.lx-field-caption.is-error {
+  color: #d70015;
+}
 .lx-resend {
   min-height: 44px;
   margin-top: 8px !important;

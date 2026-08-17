@@ -43,8 +43,8 @@
     "visualPasses": []
   },
   "brand": {
-    "accent": "#0d8a7a",
-    "accentDark": "#3dd6c0",
+    "accent": "__ACCENT__",
+    "accentDark": "__ACCENT_DARK__",
     "fonts": "Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
   },
 

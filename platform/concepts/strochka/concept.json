@@ -312,6 +312,40 @@
       }
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Показать ошибку кода и дать ввести заново",
+        "primaryAction": "Войти",
+        "hierarchy": {
+          "primary": "Ячейки кода с ошибкой и подпись причины",
+          "secondary": "Повторная отправка и возврат к вводу"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Неверный четырёхзначный код после ввода"
+          },
+          {
+            "kind": "stress",
+            "example": "Код истёк, пока пользователь набирал цифры"
+          },
+          {
+            "kind": "failure",
+            "example": "Повторная ошибка подряд после второй попытки"
+          }
+        ]
+      }
+    },
+    {
       "id": "program",
       "title": "Главная",
       "type": "tab (root)",
@@ -716,6 +750,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "program",
         "piece",
         "player",
@@ -738,6 +773,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "program",
         "piece",
         "player",
@@ -760,6 +796,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "program",
         "piece",
         "player",
@@ -782,6 +819,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "program",
         "piece",
         "player",
@@ -804,6 +842,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "program",
         "piece",
         "player",

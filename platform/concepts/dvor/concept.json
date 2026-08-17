@@ -458,6 +458,14 @@
       "meta": "OTP · автоподстановка"
     },
     {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP"
+    },
+    {
       "id": "join",
       "title": "Найдите свой дом",
       "type": "push",
@@ -688,6 +696,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "join",
         "verify",
         "manual",
@@ -726,6 +735,7 @@
       "screens": [
         "phone",
         "code",
+        "codefail",
         "join",
         "verify",
         "manual",

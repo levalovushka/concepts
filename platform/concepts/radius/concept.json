@@ -204,6 +204,7 @@
   "screens": [
     { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": false, "meta": "Вход" },
     { "id": "code", "title": "Код из SMS", "type": "push", "light": false, "parent": "phone", "meta": "OTP" },
+    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
     { "id": "ads", "title": "Бесплатная версия", "type": "onboarding", "light": false, "parent": "code", "meta": "ATT после объяснения" },
     { "id": "home", "title": "Главная", "type": "tab (root)", "light": false, "meta": "Длинные видео и места" },
     { "id": "nearby", "title": "Рядом", "type": "push", "light": false, "parent": "home", "meta": "20 минут пешком" },
@@ -216,16 +217,17 @@
     { "id": "camera", "title": "Камера", "type": "fullscreen", "light": false, "parent": "create", "meta": "Camera + microphone" },
     { "id": "upload", "title": "Выбор видео", "type": "system picker", "light": false, "parent": "create", "meta": "Photo Library" },
     { "id": "publish", "title": "Публикация", "type": "push", "light": false, "parent": "camera", "meta": "Название и место" },
+    { "id": "publishfail", "title": "Слишком длинное название", "type": "push", "light": false, "parent": "publish", "meta": "Состояние ошибки поля" },
     { "id": "subscriptions", "title": "Подписки", "type": "tab (root)", "light": false, "meta": "Авторы и места" },
     { "id": "channel", "title": "Канал", "type": "push", "light": false, "parent": "subscriptions", "meta": "Страница автора" },
     { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": false, "meta": "История и библиотека" },
     { "id": "saved", "title": "Сохранённые", "type": "push", "light": false, "parent": "profile", "meta": "Локальная коллекция" }
   ],
   "prototypes": [
-    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Пять вкладок и все десять доступов", "start": "phone", "screens": ["phone", "code", "ads", "home", "nearby", "watch", "background", "cast", "deeplink", "clips", "create", "camera", "upload", "publish", "subscriptions", "channel", "profile", "saved"] },
+    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Пять вкладок и все десять доступов", "start": "phone", "screens": ["phone", "code", "codefail", "ads", "home", "nearby", "watch", "background", "cast", "deeplink", "clips", "create", "camera", "upload", "publish", "publishfail", "subscriptions", "channel", "profile", "saved"] },
     { "id": "watch", "label": "Смотреть видео", "note": "Плеер, ТВ, фон, сохранение и ссылка", "start": "home", "screens": ["home", "nearby", "watch", "cast", "background", "deeplink", "channel"] },
     { "id": "clips", "label": "Клипы", "note": "Полноэкранная вертикальная лента", "start": "clips", "screens": ["clips", "channel", "watch"], "stops": ["watch"] },
-    { "id": "create", "label": "Создать", "note": "Камера, микрофон, медиатека и публикация", "start": "create", "screens": ["create", "camera", "upload", "publish"], "stops": ["publish"] },
+    { "id": "create", "label": "Создать", "note": "Камера, микрофон, медиатека и публикация", "start": "create", "screens": ["create", "camera", "upload", "publish", "publishfail"], "stops": ["publish"] },
     { "id": "places", "label": "Видео рядом", "note": "Геолента в двадцати минутах пешком", "start": "home", "screens": ["home", "nearby", "watch"], "stops": ["watch"] },
     { "id": "subscriptions", "label": "Подписки", "note": "Авторы, места и точечные уведомления", "start": "subscriptions", "screens": ["subscriptions", "channel", "watch"], "stops": ["watch"] }
   ],
