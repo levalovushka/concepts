@@ -13,6 +13,7 @@
    ========================================================================== */
 
 :root {
+  --accent-fill: #0077FF;
   --face: 'Manrope', system-ui, -apple-system, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, monospace;
 
@@ -169,7 +170,7 @@
 /* Цвет плашки означает ровно одно: насыщенная заливка — строка запрашивает
    доступ, тинт — обычная строка, зелёная и оранжевая — статус. Пока акцентом
    красили всё подряд, цвет не различал ничего. */
-.d-bul { background-color: rgba(91, 76, 224, .1); color: var(--accent-fill); }
+.d-bul { background-color: rgba(0, 119, 255, .10); color: var(--accent-fill); }
 .d-bul.accent { background-color: var(--accent-fill); color: #fff; }
 .d-bul.green { background-color: var(--d-green); color: #fff; }
 .d-bul.orange { background-color: var(--d-orange); color: #fff; }
@@ -323,7 +324,7 @@
 .d-tagrow { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 .d-tag {
   font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 7px;
-  background-color: rgba(91, 76, 224, .1); color: var(--accent-fill);
+  background-color: rgba(0, 119, 255, .10); color: var(--accent-fill);
 }
 .d-tag.warn { background-color: rgba(248, 160, 28, .14); color: #A8690A; }
 .d-tag.mute { background-color: var(--d-quiet); color: var(--d-sub); }
@@ -363,7 +364,7 @@
 .d-mini {
   display: inline-flex; align-items: center; justify-content: center;
   height: 24px; padding: 0 12px; border-radius: 5px;
-  background-color: rgba(91, 76, 224, .1); color: var(--accent-fill);
+  background-color: rgba(0, 119, 255, .10); color: var(--accent-fill);
   font-size: 12px; font-weight: 700; flex: none;
 }
 .d-mini.on { background-color: var(--accent-fill); color: #fff; }
@@ -389,6 +390,9 @@
 }
 .d-field-lab { font-size: 13px; color: var(--d-mute); }
 .d-field-val { font-size: 16px; font-weight: 600; color: var(--d-ink); }
+.d-email-field { min-height:64px; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; padding:10px 14px; }
+.d-email-field .d-field-lab { font-size:12px; line-height:16px; }
+.d-email-field .d-field-val { font-size:17px; line-height:22px; letter-spacing:-.1px; }
 .d-fieldrow { display: flex; gap: 8px; padding: 0 var(--d-ins) 10px; }
 .d-fieldrow > .d-field { flex: 1; }
 .d-fieldrow > .d-field.cc { flex: none; width: 74px; justify-content: center; }
@@ -581,7 +585,7 @@
   display: flex; align-items: center; justify-content: center;
 }
 .d-flat.here { background-color: var(--accent-fill); color: #fff; font-weight: 600; }
-.d-flat.joined { background-color: rgba(91, 76, 224, .22); color: #3B2FB0; }
+.d-flat.joined { background-color: rgba(0, 119, 255, .16); color: #0066D6; }
 
 /* ——— служебные блоки ———————————————————————————————————————————— */
 
@@ -610,6 +614,8 @@
 .d-hero { padding: 20px var(--d-ins) 14px; text-align: center; }
 .d-hero-t { font-size: 22px; line-height: 28px; font-weight: 800; letter-spacing: -.5px; }
 .d-hero-d { font-size: 15px; line-height: 21px; color: var(--d-sub); margin-top: 8px; }
+.d-auth-google { gap: 10px; }
+.d-google-mark { width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px #D9DCE4; display: inline-grid; place-items: center; color: #4285F4; font-size: 12px; font-weight: 800; font-family: Arial, sans-serif; }
 
 /* ——— тёмные системные поверхности ————————————————————————————————
    Текстовые классы разрешаются в тёмный ink, поэтому на d-night и на карточке
@@ -758,7 +764,7 @@
   border: 1px solid #D1D1D6; display: flex; align-items: center; padding: 0 12px;
   font-size: 16px; color: var(--d-ink); margin-bottom: 10px;
 }
-.d-safari-input.focus { border-color: var(--accent-fill); box-shadow: 0 0 0 3px rgba(91, 76, 224, .16); }
+.d-safari-input.focus { border-color: var(--accent-fill); box-shadow: 0 0 0 3px rgba(0, 119, 255, .16); }
 .d-safari-input.dots { letter-spacing: 3px; color: var(--d-sub); }
 .d-keybar {
   margin-top: auto; display: flex; align-items: center; gap: 8px;

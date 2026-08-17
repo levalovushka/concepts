@@ -128,7 +128,7 @@ function lint(slug) {
     const titleWords = new Set(`${a.name} ${a.subtitle}`.toLowerCase().match(/[а-яёa-z]{4,}/g) || []);
     const dupes = (a.keywords || '').split(',').map((k) => k.trim().toLowerCase()).filter((k) => titleWords.has(k));
     if (dupes.length) P(`appStore.keywords дублирует Name/Subtitle: ${dupes.join(', ')}`);
-    if (!a.reviewAccount?.phone) P('нет appStore.reviewAccount — ревьюер упрётся в экран входа');
+    if (!a.reviewAccount?.phone && !a.reviewAccount?.email && !a.reviewAccount?.provider) P('нет appStore.reviewAccount — ревьюер упрётся в экран входа');
     /* Трекинг в лейблах обязан совпадать с наличием ключа ATT. */
     const hasATT = spec.permissions.some((p) => p.key === 'tracking');
     const labelsTrack = (a.privacy || []).some((x) => x.tracking);
