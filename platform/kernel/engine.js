@@ -29,6 +29,9 @@
         device.querySelectorAll('.screen').forEach(function (screen) {
           screen.classList.toggle('has-ipad-tabbar', !!screen.querySelector('.tabbar'));
         });
+        device.querySelectorAll('.tabbar > [data-go="create"]').forEach(function (action) {
+          action.classList.add('is-create-action');
+        });
       });
       toggle.querySelectorAll('[data-view]').forEach(function (button) {
         button.setAttribute('aria-pressed', String(button.dataset.view === view));
