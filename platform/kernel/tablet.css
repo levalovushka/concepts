@@ -71,12 +71,15 @@
 .device.is-ipad .tabbar > :is(.tab,button,div).is-create-action {
   order:10 !important;
   margin-top:auto !important;
-  color:#fff !important;
-  background:#0077ff !important;
-  box-shadow:0 8px 20px rgba(0,119,255,.24) !important;
+  color:inherit !important;
+  background:transparent !important;
+  box-shadow:none !important;
 }
+.device.is-ipad .tabbar > :is(.tab,button,div).is-create-action:hover { background:rgba(255,255,255,.08) !important; }
+.device.is-ipad .tabbar.light > :is(.tab,button,div).is-create-action:hover { background:rgba(0,0,0,.06) !important; }
 .device.is-ipad .tabbar > :is(.tab,button,div).is-create-action .ico,
 .device.is-ipad .tabbar > :is(.tab,button,div).is-create-action .sc-create-tab { background:transparent !important; color:inherit !important; }
+.device.is-ipad .tabbar > :is(.tab,button,div).is-create-action .ico svg { background:transparent !important; color:inherit !important; }
 .device.is-ipad .tabbar .ico { width:24px !important; height:24px !important; }
 .device.is-ipad .tabbar .ico svg { width:22px !important; height:22px !important; }
 .device.is-ipad .tabbar .tab-label { display:block !important; max-width:none !important; overflow:visible !important; text-align:left !important; white-space:nowrap !important; font-size:13px !important; line-height:18px !important; }
