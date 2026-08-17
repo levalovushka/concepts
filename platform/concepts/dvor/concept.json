@@ -32,8 +32,8 @@
     "referencePatterns": ["social-feed","messaging","profile","create-post"]
   },
   "brand": {
-    "accent": "#5B4CE0",
-    "accentDark": "#A99BFF",
+    "accent": "#0077FF",
+    "accentDark": "#529EF5",
     "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
   },
   "start": "phone",
@@ -444,14 +444,14 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
+      "title": "Вход по почте или Google",
       "type": "старт, без таб-бара",
       "light": true,
       "meta": "Первый экран приложения"
     },
     {
       "id": "code",
-      "title": "Код из SMS",
+      "title": "Код из письма",
       "type": "push",
       "light": true,
       "parent": "phone",
@@ -860,8 +860,8 @@
   ],
   "backendless": [
     {
-      "needs": "Вход по номеру телефона и сессия",
-      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+      "needs": "Вход по почте или Google и сессия",
+      "solution": "OAuth-провайдер: <code>VK ID</code> или Google Sign-In, токен в Keychain общей группы"
     },
     {
       "needs": "Ветки домов, профили жильцов, соцграф",
@@ -1037,9 +1037,9 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Вход по номеру: тестовый номер принимает любой код, SMS не отправляется. Аккаунт привязан к демо-дому «Полевая, 12», подтверждение по сети уже пройдено — экран «Проверка сети» доступен повторно из «Настройки → Мой дом»."
+      "email": "marina@inbox.ru",
+      "code": "2600",
+      "note": "Вход по почте: тестовый адрес принимает код 2600; альтернативно доступен вход с Google. После входа выберите демо-дом «Полевая, 12» или добавьте адрес через справочник."
     }
   }
 }
