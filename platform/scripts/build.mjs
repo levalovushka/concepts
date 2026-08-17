@@ -268,6 +268,10 @@ export function build(slug, { outDir } = {}) {
     return m ? m[1].trim() : '';
   };
   const sections = rawSections.replace(/<!-- @overview:[a-z]+ -->[\s\S]*?<!-- @end -->/g, '').trim();
+  const viewToggle = spec.targetSet === 'vk-video' ? `<div class="view-switch" data-view-switch role="group" aria-label="Размер устройства">
+    <button type="button" data-view="phone" aria-pressed="true">Phone</button>
+    <button type="button" data-view="ipad" aria-pressed="false">iPad</button>
+  </div>` : '';
 
   const html = fill(read(join(KERNEL, 'page.html')), {
     NAME: esc(spec.name),
@@ -277,9 +281,10 @@ export function build(slug, { outDir } = {}) {
     EYEBROW: esc(spec.eyebrow || spec.name),
     DECK: esc(spec.deck || spec.tagline),
     FONT_QUERY: spec.brand.fonts,
-    CSS: [read(join(KERNEL, 'base.css')), brandCss(spec.brand), styles].join('\n'),
+    CSS: [read(join(KERNEL, 'base.css')), brandCss(spec.brand), styles, read(join(KERNEL, 'tablet.css'))].join('\n'),
     ICON_SPRITE: read(join(KERNEL, 'icons.svg')).trim(),
     HERO_DEVICE: heroDevice,
+    VIEW_TOGGLE: viewToggle,
     PROTO_CARDS: protoCards,
     VISION_BODY: grab('vision'),
     PRODUCT_CONTRACT: productContract(spec),

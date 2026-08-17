@@ -1,0 +1,130 @@
+/* ── VK Video iPad preview ───────────────────────────────────────────────
+   The tablet mode is deliberately a shell-level adaptation. Screen markup
+   remains the single source of truth: every permission path and interaction
+   works in both dimensions rather than drifting into a second static mockup. */
+.device.is-ipad {
+  width:min(1024px, calc(100vw - 48px));
+  height:auto;
+  aspect-ratio:4 / 3;
+  --safe-top:32px;
+  --safe-bottom:20px;
+  --r-device:22px;
+  --margin:24px;
+  --tab-h:52px;
+}
+.overview-hero:has(.device.is-ipad) { grid-template-columns:1fr; justify-items:center; gap:var(--s-xl); text-align:center; }
+.overview-hero:has(.device.is-ipad) .hero-device { width:min(1024px, calc(100vw - 48px)); }
+.overview-hero:has(.device.is-ipad) .hero-text { max-width:680px; }
+.overview-hero:has(.device.is-ipad) .ledger { text-align:left; }
+.proto-grid:has(.device.is-ipad) { grid-template-columns:1fr; }
+.device.is-ipad .status { height:32px; padding:10px 24px 0; font-size:14px; }
+.device.is-ipad .home-ind { bottom:7px; width:116px; height:4px; }
+.device.is-ipad .screen { min-width:0; }
+.device.is-ipad .screen.has-ipad-tabbar { padding-left:220px; }
+.device.is-ipad .screen.has-ipad-tabbar > :not(.tabbar):not(.home-ind) { min-width:0; }
+
+/* A persistent leading rail gives the wider canvas a clear hierarchy. The
+   familiar bottom tab items remain exactly the same actions, only repositioned
+   for a landscape touch target. `!important` is intentional here: individual
+   concept styles place phone tabbars absolutely. */
+.device.is-ipad .tabbar {
+  position:absolute !important;
+  z-index:40 !important;
+  inset:0 auto 0 0 !important;
+  width:220px !important;
+  height:100% !important;
+  min-height:0 !important;
+  padding:calc(var(--safe-top) + 18px) 12px calc(var(--safe-bottom) + 12px) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  justify-content:flex-start !important;
+  gap:4px !important;
+  border:0 !important;
+  border-right:1px solid rgba(255,255,255,.12) !important;
+  background:rgba(19,19,21,.92) !important;
+  backdrop-filter:blur(28px) saturate(160%) !important;
+  -webkit-backdrop-filter:blur(28px) saturate(160%) !important;
+}
+.device.is-ipad .tabbar.light {
+  border-right-color:rgba(0,0,0,.1) !important;
+  background:rgba(248,248,250,.94) !important;
+}
+.device.is-ipad .tabbar > :is(.tab,button,div) {
+  width:100% !important;
+  min-height:48px !important;
+  padding:0 12px !important;
+  flex:0 0 48px !important;
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:12px !important;
+  border-radius:12px !important;
+  text-align:left !important;
+}
+.device.is-ipad .tabbar > :is(.tab,button,div).is-on {
+  color:#fff !important;
+  background:rgba(255,255,255,.14) !important;
+}
+.device.is-ipad .tabbar.light > :is(.tab,button,div).is-on { color:var(--accent-fill) !important; background:rgba(0,119,255,.1) !important; }
+.device.is-ipad .tabbar .ico { width:24px !important; height:24px !important; }
+.device.is-ipad .tabbar .ico svg { width:22px !important; height:22px !important; }
+.device.is-ipad .tabbar .tab-label { display:block !important; max-width:none !important; overflow:visible !important; text-align:left !important; white-space:nowrap !important; font-size:13px !important; line-height:18px !important; }
+.device.is-ipad .tabbar .badge { top:5px !important; left:32px !important; }
+
+/* Root content uses a readable measure instead of merely stretching phone
+   columns across 1024px. Horizontal rows can still consume the full content
+   width, and every touch target stays at least 44px. */
+.device.is-ipad .body-scroll { scrollbar-width:none; }
+.device.is-ipad .body-scroll::-webkit-scrollbar { display:none; }
+.device.is-ipad .screen.has-ipad-tabbar .body-scroll,
+.device.is-ipad .screen.has-ipad-tabbar > main {
+  width:100%;
+  max-width:804px;
+}
+.device.is-ipad .screen.has-ipad-tabbar .navbar,
+.device.is-ipad .screen.has-ipad-tabbar > header { padding-left:24px; padding-right:24px; }
+.device.is-ipad .screen.has-ipad-tabbar .body-scroll :is(.sc-row,.rd-row,.lx-row,.se-row,.db-row,.sk-project-row) { max-width:none; }
+
+/* Full-bleed player, camera and clip screens keep their image-led composition:
+   no desktop rail overlays a live image or steals its primary action. */
+.device.is-ipad .screen:has(.db-deep),
+.device.is-ipad .screen:has(.sk-scrub) { padding-left:0; }
+
+/* Scene clips are an edge-to-edge player, so their phone controls were
+   absolutely positioned from x=0. On iPad that would place the title under
+   the leading rail. Give the video and its primary copy one shared content
+   edge; the actions keep their familiar right-side rhythm. */
+.device.is-ipad .sc-clipscene { padding-left:0 !important; }
+.device.is-ipad .sc-clipscene .sc-clipmedia { left:220px !important; }
+.device.is-ipad .sc-clipscene .sc-clips-top { left:232px !important; }
+.device.is-ipad .sc-clipscene .sc-clip-copy-vk { left:236px !important; }
+
+/* The other full-screen clip feeds use the same geometry under different
+   concept prefixes. Keep their video canvas, title and centered brand inside
+   the content pane rather than letting the rail hide the first 220px. */
+.device.is-ipad .lx-clips,
+.device.is-ipad .rd-clipscene,
+.device.is-ipad .se-clips,
+.device.is-ipad .screen:has(.sk-clip) { padding-left:0 !important; }
+.device.is-ipad .lx-clips .lx-clipmedia,
+.device.is-ipad .rd-clipscene .rd-clipmedia,
+.device.is-ipad .se-clips .se-clip-media,
+.device.is-ipad .screen:has(.sk-clip) .sk-clip { left:220px !important; }
+.device.is-ipad .lx-clips .lx-cliphead,
+.device.is-ipad .lx-clips .lx-clipcopy,
+.device.is-ipad .rd-clipscene .rd-clips-top,
+.device.is-ipad .rd-clipscene .rd-clip-copy,
+.device.is-ipad .se-clips .se-clip-top,
+.device.is-ipad .se-clips .se-clip-body { left:236px !important; }
+.device.is-ipad .lx-clips .lx-clipbrand,
+.device.is-ipad .rd-clipscene .rd-clip-brand { left:calc(220px + (100% - 220px) / 2) !important; }
+
+@media (max-width:760px) {
+  .device.is-ipad { width:calc(100vw - 32px); }
+  .device.is-ipad .screen.has-ipad-tabbar { padding-left:166px; }
+  .device.is-ipad .tabbar { width:166px !important; padding-left:8px !important; padding-right:8px !important; }
+  .device.is-ipad .tabbar > :is(.tab,button,div) { padding:0 9px !important; gap:8px !important; }
+  .device.is-ipad .tabbar .tab-label { font-size:11px !important; }
+}
