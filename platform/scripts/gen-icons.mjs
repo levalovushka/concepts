@@ -21,6 +21,8 @@ export const ICONS = [
   // навигация и системное
   'chevron-left', 'chevron-right', 'x', 'check', 'plus', 'minus', 'ellipsis',
   'search', 'settings', 'info', 'external-link', 'share', 'lock', 'menu', 'copy',
+  // вход по почте
+  'mail',
   // медиа
   'play', 'pause', 'tv-minimal', 'cast', 'volume-2', 'picture-in-picture-2',
   'rotate-ccw', 'rotate-cw', 'mic', 'video',
