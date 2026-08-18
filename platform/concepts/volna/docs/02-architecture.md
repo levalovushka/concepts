@@ -9,15 +9,15 @@
 <!-- @generated:ia-tree -->
 ```
 Главное (home) — tab root · открывается: старт
-    └─ В дорогу (station) — push detail · открывается: «В дорогу», «Фокус» …
+    └─ В дорогу (station) — push detail · открывается: «Радио», «Обзор» …
         └─ Плеер (player) — fullscreen · открывается: «Soft Current», «Current Affairs» … · audio
-            ├─ Очередь (queue) — modal · открывается: «Очередь», «Очередь · 4 ближайших»
+            ├─ Очередь (queue) — modal · открывается: «Очередь», «Очередь, 4 ближайших трека»
             └─ Экран погас (background) — system · открывается: «Слушать в фоне» (audio)
 
-Поиск (search) — tab root · открывается: вкладка таб-бара
+Поиск (search) — tab root · открывается: «Поиск»
     └─ Лина Моро (artist) — push detail · открывается: «Лина Моро»
 
-Моя музыка (library) — tab root · открывается: «Все»
+Моя музыка (library) — tab root · открывается: «Профиль», «Моя музыка» …
     ├─ Still / Moving (album) — push detail · открывается: «Still / Moving», «Red Hours» …
     └─ Добавить музыку (import) — push task · открывается: «Добавить музыку», «Добавить» … · music
 ```
@@ -47,9 +47,10 @@
 <!-- @generated:transitions -->
 | Экран | Что можно сделать | Ведёт на | Доступ | Тип перехода |
 |---|---|---|---|---|
-| `home` | «Добавить музыку» | `import` | — | переход |
-| `home` | «В дорогу», «Фокус» … | `station` | — | переход |
-| `home` | «Все» | `library` | — | переход |
+| `home` | «Профиль», «Моя музыка» … | `library` | — | переход |
+| `home` | «Поиск» | `search` | — | переход |
+| `home` | «Очередь» | `queue` | — | переход |
+| `home` | «Радио», «Обзор» … | `station` | — | переход |
 | `home` | «Still / Moving», «Red Hours» | `album` | — | переход |
 | `home` | «Soft Current» | `player` | — | переход |
 | `search` | «Лина Моро» | `artist` | — | переход |
@@ -72,7 +73,8 @@
 | `album` | «Слушать», «1» … | `player` | — | переход |
 | `player` | «Свернуть плеер» | `station` | — | возврат по IA |
 | `player` | «Лина Моро» | `artist` | — | переход |
-| `player` | «Очередь · 4 ближайших» | `queue` | — | переход |
+| `player` | «Настроить» | `station` | — | переход |
+| `player` | «Очередь, 4 ближайших трека» | `queue` | — | переход |
 | `player` | «Слушать в фоне» | `background` | `UIBackgroundModes: audio` | entitlement, без alert |
 | `queue` | «1», «2» … | `player` | — | переход |
 | `background` | «Вернуться в плеер» | `player` | — | возврат по IA |

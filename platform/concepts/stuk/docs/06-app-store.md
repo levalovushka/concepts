@@ -80,3 +80,41 @@ URL: `stuk.video` — маркетинг, `/support`, `/privacy`.
 4. **Разбор** — шаги с таймкодами и артикулы.
 5. **Экран погас** — Now Playing поверх локскрина.
 6. **Скачано** — офлайн-библиотека в гараж без сети.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Стук | 4 / 30 |
+| Subtitle | Разборы поломок по звуку | 24 / 30 |
+| Promotional Text | Записали десять секунд стука — поставили рядом эталон — открыли разбор именно этой неисправности. Каталог симптомов, офлайн и голос в фоне. | 139 / 170 |
+| Keywords | ремонт,авто,машина,гараж,подвеска,двигатель,запчасти,диагностика,своими руками | 78 / 100 |
+| Primary Category | Photo & Video | — |
+| Secondary Category | Utilities | — |
+| Age Rating | 12+ | — |
+| Price | Бесплатно, с рекламой | — |
+| Support URL | https://stuk.video/support | — |
+| Marketing URL | https://stuk.video | — |
+| Privacy Policy URL | https://stuk.video/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO — только HTTPS | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Номер телефона | `Contact Info → Phone Number` | Вход через SDK провайдера аутентификации | Да | Нет |
+| Аудиозаписи | `User Content → Audio Data` | Записи звука хранятся на устройстве и наружу не передаются | Нет | Нет |
+| Пользовательский контент | `User Content → Photos or Videos` | Снятое или выбранное видео ремонта | Да | Нет |
+| Геопозиция | `Location → Coarse Location` | Поиск точек с деталью поблизости | Нет | Нет |
+| Идентификатор устройства | `Identifiers → Device ID` | Передаётся рекламному SDK только после разрешения ATT | Нет | **Да** |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->

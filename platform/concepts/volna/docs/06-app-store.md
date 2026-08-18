@@ -11,3 +11,37 @@
 5. Авиарежим: home, search, library, player, queue и background playback не выполняют сетевых запросов.
 
 Camera, Photo Library, APNs/FCM, Associated Domains, CloudKit, BaaS и SMS-вход не входят в сборку.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Такт — музыка офлайн | 20 / 30 |
+| Subtitle | Волны из ваших треков | 21 / 30 |
+| Promotional Text | Добавьте музыку из Files, выберите дорогу, работу или тихий вечер — локальная волна запустится сразу. | 101 / 170 |
+| Keywords | треки,плеер,станции,файлы,альбом,настроение,дорога,фокус,аудио | 62 / 100 |
+| Primary Category | Music | — |
+| Secondary Category | Lifestyle | — |
+| Age Rating | 4+ | — |
+| Price | Бесплатно, без встроенных покупок | — |
+| Support URL | https://volna.local/support | — |
+| Marketing URL | https://volna.local | — |
+| Privacy Policy URL | https://volna.local/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO — сетевых функций нет | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Пользовательский контент | `User Content → Audio Data` | Выбранные аудиофайлы и metadata остаются на устройстве и никуда не передаются | Нет | Нет |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->

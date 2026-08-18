@@ -20,3 +20,40 @@
 ## Приватность
 
 Грубая геопозиция используется только для расстояния до мест и не применяется для рекламы. Видео остаётся локальным черновиком до явной публикации. IDFA передаётся рекламному SDK только после разрешения ATT.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Радиус | 6 / 30 |
+| Subtitle | Видео о местах рядом | 20 / 30 |
+| Promotional Text | Узнайте район через длинные истории и посмотрите в клипах, что происходит рядом прямо сейчас. | 93 / 170 |
+| Keywords | город,прогулки,район,авторы,истории,путешествия,места,клипы | 59 / 100 |
+| Primary Category | Photo & Video | — |
+| Secondary Category | Lifestyle | — |
+| Age Rating | 12+ | — |
+| Price | Бесплатно, с рекламой | — |
+| Support URL | https://radius.video/support | — |
+| Marketing URL | https://radius.video | — |
+| Privacy Policy URL | https://radius.video/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO — только HTTPS | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Номер телефона | `Contact Info → Phone Number` | Вход через SDK провайдера | Да | Нет |
+| Геопозиция | `Location → Coarse Location` | Лента мест в пешей доступности | Нет | Нет |
+| Пользовательский контент | `User Content → Photos or Videos` | Публикация выбранного или снятого видео | Да | Нет |
+| Идентификатор устройства | `Identifiers → Device ID` | Передаётся рекламному SDK только после ATT | Нет | **Да** |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->

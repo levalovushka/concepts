@@ -11,3 +11,37 @@
 5. «Все детали в одной группе» — чат конкретной встречи.
 
 Privacy label описывает геопозицию, выбранных участников и пользовательские медиа. Медиа не используется для рекламы или публичной рекомендации; обложка видна только приглашённым. Маркетинговые материалы не обещают поиск людей поблизости или discovery незнакомцев.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Сегодня | 7 / 30 |
+| Subtitle | Планы с друзьями сейчас | 23 / 30 |
+| Promotional Text | Отметьте желание, найдите совпавших друзей и договоритесь о месте без бесконечного чата. | 88 / 170 |
+| Keywords | компания,вечер,встречи,рядом,спонтанно | 38 / 100 |
+| Primary Category | Social Networking | — |
+| Secondary Category | Lifestyle | — |
+| Age Rating | 4+ | — |
+| Price | Бесплатно | — |
+| Support URL | https://today.place/support | — |
+| Marketing URL | https://today.place | — |
+| Privacy Policy URL | https://today.place/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Медиа и геопозиция | `User Content · Location` | Публикации и планы рядом | Да | Нет |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->
