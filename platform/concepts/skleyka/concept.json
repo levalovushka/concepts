@@ -138,22 +138,22 @@
         "blockersOpen": 0,
         "majorOpen": 0
       },
-    {
-      "name": "Повторная приёмка PNG после удаления аккаунта, входящих и серверных статусов",
-      "screensReviewed": "all",
-      "found": 1,
-      "fixed": 1,
-      "blockersOpen": 0,
-      "majorOpen": 0
-    },
-    {
-      "name": "Строгий consumer polish: карта, библиотека, проект и удаление технического копирайта",
-      "screensReviewed": "all",
-      "found": 12,
-      "fixed": 12,
-      "blockersOpen": 0,
-      "majorOpen": 0
-    }
+      {
+        "name": "Повторная приёмка PNG после удаления аккаунта, входящих и серверных статусов",
+        "screensReviewed": "all",
+        "found": 1,
+        "fixed": 1,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Строгий consumer polish: карта, библиотека, проект и удаление технического копирайта",
+        "screensReviewed": "all",
+        "found": 12,
+        "fixed": 12,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
     ]
   },
   "brand": {
@@ -1013,19 +1013,12 @@
       "note": "Общий пул, обработка, черновик и редактор",
       "start": "project",
       "screens": [
-        "projects",
-        "settings",
-        "archive",
-        "create",
-        "place",
         "project",
         "invite",
-        "share",
-        "camera",
         "import",
+        "camera",
         "processing",
-        "draft",
-        "editor",
+        "projects",
         "viewer",
         "cast",
         "background",
@@ -1033,6 +1026,11 @@
         "saved"
       ],
       "stops": [
+        "invite",
+        "processing",
+        "projects",
+        "viewer",
+        "export",
         "saved"
       ]
     },
@@ -1040,58 +1038,38 @@
       "id": "create",
       "label": "Создать и пригласить",
       "note": "Событие, место, контакты и share sheet",
-      "start": "projects",
+      "start": "create",
       "screens": [
-        "projects",
-        "settings",
-        "archive",
         "create",
         "place",
         "project",
-        "invite",
-        "share",
+        "projects",
         "camera",
         "import",
         "processing",
-        "draft",
-        "editor",
-        "viewer",
-        "cast",
-        "background",
-        "export",
-        "saved"
+        "draft"
       ],
       "stops": [
         "project",
-        "share"
+        "projects",
+        "draft"
       ]
     },
     {
       "id": "collect",
       "label": "Собрать материалы",
       "note": "Камера, Photos, Files и on-device сборка",
-      "start": "project",
+      "start": "invite",
       "screens": [
-        "projects",
-        "settings",
-        "archive",
-        "create",
-        "place",
-        "project",
         "invite",
         "share",
-        "camera",
+        "project",
         "import",
         "processing",
-        "draft",
-        "editor",
-        "viewer",
-        "cast",
-        "background",
-        "export",
-        "saved"
+        "draft"
       ],
       "stops": [
+        "project",
         "draft"
       ]
     },
@@ -1101,26 +1079,17 @@
       "note": "Preview, порядок, удаление и просмотр",
       "start": "draft",
       "screens": [
-        "projects",
-        "settings",
-        "archive",
-        "create",
-        "place",
-        "project",
-        "invite",
-        "share",
-        "camera",
-        "import",
-        "processing",
         "draft",
-        "editor",
         "viewer",
-        "cast",
-        "background",
+        "editor",
+        "project",
         "export",
         "saved"
       ],
       "stops": [
+        "viewer",
+        "project",
+        "export",
         "saved"
       ]
     },
@@ -1130,27 +1099,19 @@
       "note": "Системные запросы, fallback и повтор",
       "start": "settings",
       "screens": [
-        "projects",
         "settings",
         "archive",
-        "create",
-        "place",
-        "project",
-        "invite",
-        "share",
         "camera",
         "import",
-        "processing",
-        "draft",
-        "editor",
-        "viewer",
         "cast",
-        "background",
-        "export",
-        "saved"
+        "place"
       ],
       "stops": [
-        "saved"
+        "archive",
+        "camera",
+        "import",
+        "cast",
+        "place"
       ]
     }
   ],

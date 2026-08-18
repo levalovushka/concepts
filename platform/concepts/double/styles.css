@@ -51,3 +51,7 @@
 
 /* Nearby, progress, profile */
 .db-map{border-radius:18px}.db-pin{background:var(--db-accent)}.db-place+.db-place{border-color:var(--db-line)}.db-week,.db-stat{border-radius:16px;box-shadow:0 1px 2px rgba(20,24,34,.035)}.db-day.done span{background:#353843}.db-day.today span{background:var(--db-accent)}.db-stat strong{font-size:25px}.db-reminder{margin:14px 0 22px;padding:10px 14px;background:var(--db-surface)!important;border-radius:16px;min-height:62px}.db-switch{background:var(--db-accent)}.db-avatar{background:linear-gradient(145deg,#4c8be5,#286ed2);border-radius:18px}.db-group-title{font-size:12px;font-weight:550;text-transform:uppercase;letter-spacing:.045em;color:#8a8f99}.db-settings-group{border-radius:16px;padding:0 14px;box-shadow:0 1px 2px rgba(20,24,34,.035)}.db-setting{min-height:55px}.db-setting span{font-weight:500}.db-privacy-note{background:#eaf3ff;color:#3f5976;border-radius:14px}.db-resume-badge{left:14px;bottom:14px;color:#fff!important;font-size:11px!important}.db-resume-copy{padding:15px 16px 16px}.db-top:not(.center)>.db-hit:last-child{margin-left:auto}.db-auth-foot .db-primary{width:100%}.db-round{color:#fff}.db-shutter{width:66px;height:66px;background:var(--db-accent)!important;box-shadow:0 0 0 4px #fff!important}.db-moves-title{margin-top:0}.db-reminder .db-row-mark{width:40px;height:40px;border-radius:12px}.db-reminder .db-switch{margin-left:4px}
+
+/* Заголовок разбора лежит на тёмной подложке плеера: без явного цвета он
+   наследует тёмный и сливается с фоном. */
+.db-refbody h1{color:#fff}

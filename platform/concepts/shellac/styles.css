@@ -639,3 +639,7 @@
 .sm-player-options button.is-on svg{color:#161618!important}
 .sm-shortcut-icon,.sm-shortcut-icon.is-violet{background:rgba(0,119,255,.16)!important;color:#58a6ff!important}
 .sm-library-list small{color:#85858d!important}
+
+/* Неактивный бейдж стороны на тёмных экранах: базовый цвет светлой темы
+   сливается с подложкой, и буква «B» не читается. */
+[id$="-scanfound"] .side-badge:not(.is-on),[id$="-record"] .side-badge:not(.is-on),[id$="-want"] .side-badge:not(.is-on),[id$="-copy"] .side-badge:not(.is-on){background:rgba(235,235,245,.14);color:rgba(235,235,245,.72)}

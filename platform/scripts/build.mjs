@@ -150,7 +150,32 @@ function screenFor(proto, id, markup, own, isStop) {
 }
 
 /** Вкладки таб-бара, отключённые в срезе, не считаются переходами. */
-const stripTabbar = (markup) => markup.replace(/<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, '');
+/**
+ * Убрать таб-бар из сценарного среза. Вкладки чужих разделов — структура
+ * приложения, а не шаг сценария, и тянуть за собой весь продукт они не должны.
+ * Разметка таб-бара в концептах разная: `div.tabbar`, `nav.tabbar`, `nav.xx-tabs`,
+ * — поэтому вырезаем по балансу тегов, а не шаблоном.
+ */
+const stripTabbar = (markup) => {
+  const re = /<(div|nav)\b[^>]*class="[^"]*(?:\btabbar\b|[a-z]+-tabs\b)[^"]*"[^>]*>/g;
+  let out = markup, m;
+  while ((m = re.exec(out))) {
+    const tag = m[1];
+    const open = new RegExp(`<${tag}\\b`, 'g');
+    const close = new RegExp(`</${tag}>`, 'g');
+    let depth = 1, i = m.index + m[0].length;
+    while (depth > 0 && i < out.length) {
+      open.lastIndex = i; close.lastIndex = i;
+      const o = open.exec(out), c = close.exec(out);
+      if (!c) break;
+      if (o && o.index < c.index) { depth++; i = o.index + o[0].length; }
+      else { depth--; i = c.index + c[0].length; }
+    }
+    out = out.slice(0, m.index) + out.slice(i);
+    re.lastIndex = 0;
+  }
+  return out;
+};
 
 /**
  * Тупиковый экран сценария: показываем, куда ведёт строка, но дальше не пускаем.

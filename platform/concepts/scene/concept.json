@@ -1,53 +1,944 @@
 {
-  "slug":"scene","name":"Сцена","eyebrow":"Сцена · концерты и премьеры · iOS","targetSet":"vk-video","domain":"scene.video",
-  "heroTitle":"Сцена — концерт остаётся с вами","heroDeck":"Полные выступления, живые премьеры и лучшие моменты артистов в одном видеосервисе.","tagline":"Смотрите концерт целиком и сохраняйте момент, к которому хочется вернуться","insight":"любимый концерт живёт сразу в трёх масштабах: премьера сегодня, полная запись на вечер и один момент на повторе","deck":"Сцена — видеосервис живой музыки. Он соединяет концертные записи, клипы-моменты, артистов и площадки в знакомой архитектуре современного видеопродукта.",
-  "qualityContractVersion":1,"uiContractVersion":2,
-  "product":{"audience":"Зрители концертов и поклонники артистов 18–35 лет","situation":"Пользователь хочет прожить выступление целиком или быстро вернуться к любимому номеру","problem":"Полные концерты, короткие фрагменты и анонсы разбросаны по разным площадкам","promise":"Найти выступление, смотреть его на любом экране и сохранить точный музыкальный момент","differentiator":"Каталог организован вокруг выступления, сетлиста, артиста и площадки, а не вокруг общего видеопотока","returnReasons":["Новые премьеры подписанных артистов","Сохранённые моменты любимых песен","Ближайшие выступления и площадки рядом"],"verticalSlice":{"entry":"home","action":"watch","result":"moment"},"coreLoop":["Выбрать премьеру или концерт","Смотреть целиком и открыть сетлист","Сохранить момент и продолжить с любого экрана"],"nonGoals":["Продажа билетов","Общий музыкальный стриминг","Социальная сеть музыкантов"]},
-  "positioning":{"mode":"mimicry","categoryFit":"Полные видео, клипы и прямые премьеры соответствуют Photo & Video","familiarPatterns":["Контентная видеовитрина","Вертикальные клипы-моменты","Каналы, подписки и иммерсивный плеер"],"distinctions":["Сетлист встроен в таймлайн","Подписная единица — артист или площадка","Момент сохраняется вместе с песней и концертом"],"evidenceScreens":["home","watch","clips","artist","create"],"referencePatterns":["video-feed","vertical-clips","immersive-player","channels","capture-publish"]},
-  "brand":{"accent":"#0077FF","accentDark":"#0077FF","fonts":"Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"},"start":"phone",
-  "tabs":[{"id":"home","label":"Главная"},{"id":"clips","label":"Клипы"},{"id":"subscriptions","label":"Подписки"},{"id":"profile","label":"Профиль"}],
-  "permissions":[
-    {"key":"photoadd","plist":"NSPhotoLibraryAddUsageDescription","alert":{"title":"Разрешить «Сцене» сохранять видео в «Фото»?","text":"Чтобы экспортировать выбранный момент концерта."},"feature":"Экспорт концертного момента","gesture":"«Сохранить в Фото» в моменте","screen":"moment","target":"moment","fallback":"Момент остаётся в коллекции «Сцены»","snack":"Момент сохранён внутри приложения","risk":"low","anchor":false,"conditional":false,"grounding":"PHPhotoLibrary.performChanges создаёт видео-asset"},
-    {"key":"localnet","plist":"NSLocalNetworkUsageDescription (+ NSBonjourServices)","alert":{"title":"Разрешить «Сцене» находить телевизоры?","text":"Чтобы продолжить концерт на большом экране."},"feature":"Просмотр концерта на телевизоре","gesture":"Кнопка Cast в плеере","screen":"watch","target":"cast","fallback":"Концерт продолжает играть на iPhone","snack":"Телевизоры недоступны без локальной сети","risk":"low","anchor":true,"conditional":false,"grounding":"Bonjour + Cast SDK"},
-    {"key":"mic","plist":"NSMicrophoneUsageDescription","alert":{"title":"Разрешить «Сцене» доступ к микрофону?","text":"Чтобы записать живой звук вашего выступления."},"feature":"Живой звук авторского клипа","gesture":"«Снять клип» после разрешения камеры","screen":"create","target":"camera","fallback":"Можно импортировать готовое видео","snack":"Нет микрофона — выберите готовое видео","risk":"low","anchor":false,"conditional":false,"grounding":"AVCaptureAudioDataOutput пишет дорожку локально"},
-    {"key":"location","plist":"NSLocationWhenInUseUsageDescription","alert":{"title":"Разрешить «Сцене» использовать геопозицию?","text":"Чтобы показать выступления и площадки рядом."},"feature":"Афиша площадок рядом","gesture":"Чип «Рядом» на главной","screen":"home","target":"nearby","fallback":"Показывается афиша выбранного города","snack":"Показываем городскую афишу","risk":"low","anchor":false,"conditional":true,"requires":"JIT-запрос после выбора Рядом","grounding":"Core Location сопоставляет статический каталог площадок"},
-    {"key":"tracking","plist":"NSUserTrackingUsageDescription","alert":{"title":"Разрешить персонализацию рекламы?","text":"Данные помогут показывать релевантные анонсы партнёров."},"feature":"Бесплатный просмотр с рекламой","gesture":"«Смотреть бесплатно» после входа","screen":"ads","target":"home","fallback":"Контекстная реклама без трекинга","snack":"Показываем неперсонализированную рекламу","snackOnce":true,"risk":"medium","anchor":false,"conditional":true,"requires":"ATT после объяснения","grounding":"Рекламный SDK работает контекстно при отказе"},
-    {"key":"camera","plist":"NSCameraUsageDescription","alert":{"title":"Разрешить «Сцене» доступ к камере?","text":"Чтобы снять живой момент выступления."},"feature":"Съёмка концертного момента","gesture":"«Снять клип» в экране создания","screen":"create","target":"camera","fallback":"Остаётся импорт готовой записи","snack":"Нет камеры — выберите видео","risk":"low","anchor":false,"conditional":false,"grounding":"AVCaptureSession сохраняет локальный черновик"},
-    {"key":"photo","plist":"NSPhotoLibraryUsageDescription","alert":{"title":"Разрешить «Сцене» выбрать видео?","text":"Чтобы добавить готовую запись выступления."},"feature":"Импорт записи","gesture":"«Выбрать из медиатеки»","screen":"create","target":"upload","fallback":"Можно снять новый момент камерой","snack":"Нет доступа — снимите новое видео","risk":"low","anchor":false,"conditional":false,"grounding":"PHPicker отдаёт выбранный файл"},
-    {"key":"audio","plist":"UIBackgroundModes: audio","alert":{"title":"Слушать концерт в фоне?","text":"Звук продолжит играть при заблокированном экране."},"activate":true,"feature":"Фоновое прослушивание концерта","gesture":"«Слушать в фоне» в плеере","screen":"watch","target":"background","fallback":"Видео останавливается при блокировке","risk":"high","anchor":true,"conditional":true,"requires":"AVPlayer, Now Playing и remote-команды","grounding":"AVAudioSession playback + MPNowPlayingInfoCenter"},
-    {"key":"push","plist":"aps-environment (Push Notifications capability)","alert":{"title":"Разрешить «Сцене» уведомления?","text":"Сообщим о премьерах выбранных артистов."},"feature":"Напоминания о премьерах","gesture":"Свитч «Премьеры» в подписках","screen":"subscriptions","target":"subscriptions","fallback":"Премьеры отмечаются внутри вкладки","snack":"Премьеры останутся в расписании","snackOnce":true,"risk":"low","anchor":false,"conditional":true,"requires":"APNs topics артистов","grounding":"FCM/APNs topics без своего сервера"},
-    {"key":"domains","plist":"com.apple.developer.associated-domains","alert":{"title":"Открывать ссылки в «Сцене»?","text":"Концерты и моменты будут открываться сразу в приложении."},"activate":true,"feature":"Ссылка на концерт и момент","gesture":"«Поделиться» в плеере","screen":"watch","target":"deeplink","fallback":"Открывается публичная веб-страница","risk":"medium","anchor":false,"conditional":true,"requires":"AASA для /show/* и /moment/*","grounding":"Associated Domains: applinks:scene.video"}
+  "slug": "scene",
+  "name": "Сцена",
+  "eyebrow": "Сцена · концерты и премьеры · iOS",
+  "targetSet": "vk-video",
+  "domain": "scene.video",
+  "heroTitle": "Сцена — концерт остаётся с вами",
+  "heroDeck": "Полные выступления, живые премьеры и лучшие моменты артистов в одном видеосервисе.",
+  "tagline": "Смотрите концерт целиком и сохраняйте момент, к которому хочется вернуться",
+  "insight": "любимый концерт живёт сразу в трёх масштабах: премьера сегодня, полная запись на вечер и один момент на повторе",
+  "deck": "Сцена — видеосервис живой музыки. Он соединяет концертные записи, клипы-моменты, артистов и площадки в знакомой архитектуре современного видеопродукта.",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "product": {
+    "audience": "Зрители концертов и поклонники артистов 18–35 лет",
+    "situation": "Пользователь хочет прожить выступление целиком или быстро вернуться к любимому номеру",
+    "problem": "Полные концерты, короткие фрагменты и анонсы разбросаны по разным площадкам",
+    "promise": "Найти выступление, смотреть его на любом экране и сохранить точный музыкальный момент",
+    "differentiator": "Каталог организован вокруг выступления, сетлиста, артиста и площадки, а не вокруг общего видеопотока",
+    "returnReasons": [
+      "Новые премьеры подписанных артистов",
+      "Сохранённые моменты любимых песен",
+      "Ближайшие выступления и площадки рядом"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "watch",
+      "result": "moment"
+    },
+    "coreLoop": [
+      "Выбрать премьеру или концерт",
+      "Смотреть целиком и открыть сетлист",
+      "Сохранить момент и продолжить с любого экрана"
+    ],
+    "nonGoals": [
+      "Продажа билетов",
+      "Общий музыкальный стриминг",
+      "Социальная сеть музыкантов"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Полные видео, клипы и прямые премьеры соответствуют Photo & Video",
+    "familiarPatterns": [
+      "Контентная видеовитрина",
+      "Вертикальные клипы-моменты",
+      "Каналы, подписки и иммерсивный плеер"
+    ],
+    "distinctions": [
+      "Сетлист встроен в таймлайн",
+      "Подписная единица — артист или площадка",
+      "Момент сохраняется вместе с песней и концертом"
+    ],
+    "evidenceScreens": [
+      "home",
+      "watch",
+      "clips",
+      "artist",
+      "create"
+    ],
+    "referencePatterns": [
+      "video-feed",
+      "vertical-clips",
+      "immersive-player",
+      "channels",
+      "capture-publish"
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "clips",
+      "label": "Клипы"
+    },
+    {
+      "id": "subscriptions",
+      "label": "Подписки"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
-  "screens":[
-    {"id":"phone","title":"Вход","type":"старт","light":false,"meta":"Номер телефона","ui":{"pattern":"auth","purpose":"Войти и синхронизировать подписки","primaryAction":"Продолжить","states":["default","loading","error"],"density":"low","contentCases":["Корректный номер","Ошибка формата","Медленный ответ"]}},
-    {"id":"code","title":"Код из SMS","type":"push","light":false,"parent":"phone","meta":"OTP","ui":{"pattern":"auth","purpose":"Подтвердить номер","primaryAction":"Войти","states":["default","loading","error"],"density":"low","contentCases":["Код пришёл","Неверный код","Повторная отправка"]}},
-    {"id":"codefail","title":"Неверный код","type":"push","light":true,"parent":"code","meta":"Состояние ошибки OTP","ui":{"pattern":"auth","purpose":"Показать ошибку кода","primaryAction":"Войти","states":["default","loading","error"],"density":"low","contentCases":["Код неверен","Повторная отправка","Ввод нового кода"]}},
-    {"id":"ads","title":"Бесплатный просмотр","type":"onboarding","light":false,"parent":"code","meta":"ATT","ui":{"pattern":"task","purpose":"Объяснить рекламную модель","primaryAction":"Смотреть бесплатно","states":["default","error"],"density":"low","contentCases":["Согласие","Отказ","SDK недоступен"]}},
-    {"id":"home","title":"Главная","type":"tab (root)","light":false,"meta":"Премьеры и концерты","ui":{"pattern":"collection","purpose":"Быстро открыть актуальный концерт","primaryAction":"Маяк: свет остаётся","states":["default","empty","denied"],"density":"high","contentCases":["Живая премьера","Продолжить просмотр","Нет рекомендаций"]}},
-    {"id":"nearby","title":"Рядом","type":"push","light":false,"parent":"home","meta":"Площадки","ui":{"pattern":"collection","purpose":"Найти выступления рядом","primaryAction":"Ада Мороз","states":["default","empty","denied"],"density":"medium","contentCases":["Три площадки","Нет событий","Гео запрещено"]}},
-    {"id":"watch","title":"Концерт","type":"push","light":false,"parent":"home","meta":"Плеер и сетлист","ui":{"pattern":"player","purpose":"Смотреть выступление и двигаться по сетлисту","primaryAction":"Момент","states":["default","loading","error"],"density":"medium","contentCases":["Премьера","Запись","Ошибка потока"]}},
-    {"id":"moment","title":"Момент","type":"push","light":false,"parent":"watch","meta":"Сохранённая песня","ui":{"pattern":"detail","purpose":"Сохранить точный музыкальный момент","primaryAction":"Сохранить в Фото","states":["default"],"density":"medium","contentCases":["Полный фрагмент","Короткий фрагмент","Экспорт недоступен"]}},
-    {"id":"background","title":"Экран погас","type":"system","light":false,"parent":"watch","meta":"Now Playing","ui":{"pattern":"system","purpose":"Продолжить слушать концерт","primaryAction":"Маяк: свет остаётся","states":["default"],"density":"low","contentCases":["Воспроизведение","Пауза","Поток завершён"]}},
-    {"id":"cast","title":"На телевизоре","type":"sheet","light":false,"parent":"watch","meta":"Local Network","ui":{"pattern":"system","purpose":"Выбрать экран для просмотра","primaryAction":"Продолжить на iPhone","states":["default"],"density":"low","contentCases":["Телевизор найден","Нет устройств","Сеть запрещена"]}},
-    {"id":"deeplink","title":"По ссылке","type":"system handoff","light":false,"parent":"watch","meta":"Universal Link","ui":{"pattern":"state","purpose":"Открыть конкретный концерт","primaryAction":"Открыть в «Сцене»","states":["default","error"],"density":"low","contentCases":["Концерт найден","Момент найден","Ссылка устарела"]}},
-    {"id":"clips","title":"Клипы","type":"tab (root)","light":false,"meta":"Вертикальные клипы","ui":{"pattern":"player","purpose":"Смотреть лучшие фрагменты","primaryAction":"Свет остаётся — финал","states":["default","loading","error"],"density":"low","contentCases":["Соло","Припев","Недоступный клип"]}},
-    {"id":"create","title":"Создать клип","type":"modal task","light":false,"parent":"home","meta":"Камера или импорт","ui":{"pattern":"task","purpose":"Начать публикацию момента","primaryAction":"Снять клип","states":["default","error"],"density":"low","contentCases":["Камера","Импорт","Доступы запрещены"]}},
-    {"id":"camera","title":"Камера","type":"fullscreen","light":false,"parent":"create","meta":"Camera + mic","ui":{"pattern":"capture","purpose":"Записать живой момент","primaryAction":null,"states":["default","denied"],"density":"low","contentCases":["Сцена в кадре","Тёмный зал","Камера запрещена"]}},
-    {"id":"upload","title":"Выбор видео","type":"system picker","light":true,"parent":"create","meta":"Photo Library","ui":{"pattern":"system","purpose":"Выбрать готовую запись","primaryAction":"Далее","states":["default"],"density":"medium","contentCases":["Недавние видео","Нет видео","Доступ ограничен"]}},
-    {"id":"publish","title":"Публикация","type":"push","light":false,"parent":"create","meta":"Метаданные","ui":{"pattern":"editor","purpose":"Привязать момент к артисту и песне","primaryAction":"Опубликовать клип","states":["default","error","success"],"density":"medium","contentCases":["Все данные","Без площадки","Ошибка экспорта"]}},
-    {"id":"subscriptions","title":"Подписки","type":"tab (root)","light":false,"meta":"Артисты и премьеры","ui":{"pattern":"collection","purpose":"Следить за премьерами","primaryAction":"Напоминания о премьерах","states":["default","empty"],"density":"medium","contentCases":["Артисты","Ближайшие премьеры","Нет подписок"]}},
-    {"id":"artist","title":"Артист","type":"push","light":false,"parent":"subscriptions","meta":"Канал","ui":{"pattern":"detail","purpose":"Открыть выступления артиста","primaryAction":"Подписаться","states":["default"],"density":"high","contentCases":["Богатый каталог","Одна запись","Нет ближайших дат"]}},
-    {"id":"profile","title":"Профиль","type":"tab (root)","light":false,"meta":"История и коллекция","ui":{"pattern":"settings","purpose":"Управлять просмотренным и сохранённым","primaryAction":"Сохранённые моменты","states":["default"],"density":"medium","contentCases":["Есть история","Пустая история","Офлайн"]}}
+  "permissions": [
+    {
+      "key": "photoadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сцене» сохранять видео в «Фото»?",
+        "text": "Чтобы экспортировать выбранный момент концерта."
+      },
+      "feature": "Экспорт концертного момента",
+      "gesture": "«Сохранить в Фото» в моменте",
+      "screen": "moment",
+      "target": "moment",
+      "fallback": "Момент остаётся в коллекции «Сцены»",
+      "snack": "Момент сохранён внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary.performChanges создаёт видео-asset"
+    },
+    {
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
+      "alert": {
+        "title": "Разрешить «Сцене» находить телевизоры?",
+        "text": "Чтобы продолжить концерт на большом экране."
+      },
+      "feature": "Просмотр концерта на телевизоре",
+      "gesture": "Кнопка Cast в плеере",
+      "screen": "watch",
+      "target": "cast",
+      "fallback": "Концерт продолжает играть на iPhone",
+      "snack": "Телевизоры недоступны без локальной сети",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Bonjour + Cast SDK"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сцене» доступ к микрофону?",
+        "text": "Чтобы записать живой звук вашего выступления."
+      },
+      "feature": "Живой звук авторского клипа",
+      "gesture": "«Снять клип» после разрешения камеры",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Можно импортировать готовое видео",
+      "snack": "Нет микрофона — выберите готовое видео",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVCaptureAudioDataOutput пишет дорожку локально"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сцене» использовать геопозицию?",
+        "text": "Чтобы показать выступления и площадки рядом."
+      },
+      "feature": "Афиша площадок рядом",
+      "gesture": "Чип «Рядом» на главной",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Показывается афиша выбранного города",
+      "snack": "Показываем городскую афишу",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "JIT-запрос после выбора Рядом",
+      "grounding": "Core Location сопоставляет статический каталог площадок"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить персонализацию рекламы?",
+        "text": "Данные помогут показывать релевантные анонсы партнёров."
+      },
+      "feature": "Бесплатный просмотр с рекламой",
+      "gesture": "«Смотреть бесплатно» после входа",
+      "screen": "ads",
+      "target": "home",
+      "fallback": "Контекстная реклама без трекинга",
+      "snack": "Показываем неперсонализированную рекламу",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "ATT после объяснения",
+      "grounding": "Рекламный SDK работает контекстно при отказе"
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сцене» доступ к камере?",
+        "text": "Чтобы снять живой момент выступления."
+      },
+      "feature": "Съёмка концертного момента",
+      "gesture": "«Снять клип» в экране создания",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Остаётся импорт готовой записи",
+      "snack": "Нет камеры — выберите видео",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVCaptureSession сохраняет локальный черновик"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Разрешить «Сцене» выбрать видео?",
+        "text": "Чтобы добавить готовую запись выступления."
+      },
+      "feature": "Импорт записи",
+      "gesture": "«Выбрать из медиатеки»",
+      "screen": "create",
+      "target": "upload",
+      "fallback": "Можно снять новый момент камерой",
+      "snack": "Нет доступа — снимите новое видео",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт выбранный файл"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Слушать концерт в фоне?",
+        "text": "Звук продолжит играть при заблокированном экране."
+      },
+      "activate": true,
+      "feature": "Фоновое прослушивание концерта",
+      "gesture": "«Слушать в фоне» в плеере",
+      "screen": "watch",
+      "target": "background",
+      "fallback": "Видео останавливается при блокировке",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVPlayer, Now Playing и remote-команды",
+      "grounding": "AVAudioSession playback + MPNowPlayingInfoCenter"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment (Push Notifications capability)",
+      "alert": {
+        "title": "Разрешить «Сцене» уведомления?",
+        "text": "Сообщим о премьерах выбранных артистов."
+      },
+      "feature": "Напоминания о премьерах",
+      "gesture": "Свитч «Премьеры» в подписках",
+      "screen": "subscriptions",
+      "target": "subscriptions",
+      "fallback": "Премьеры отмечаются внутри вкладки",
+      "snack": "Премьеры останутся в расписании",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "APNs topics артистов",
+      "grounding": "FCM/APNs topics без своего сервера"
+    },
+    {
+      "key": "domains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Открывать ссылки в «Сцене»?",
+        "text": "Концерты и моменты будут открываться сразу в приложении."
+      },
+      "activate": true,
+      "feature": "Ссылка на концерт и момент",
+      "gesture": "«Поделиться» в плеере",
+      "screen": "watch",
+      "target": "deeplink",
+      "fallback": "Открывается публичная веб-страница",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AASA для /show/* и /moment/*",
+      "grounding": "Associated Domains: applinks:scene.video"
+    }
   ],
-  "prototypes":[
-    {"id":"all","hero":true,"label":"Весь продукт","note":"Четыре раздела и все десять доступов","start":"phone","screens":["phone","code","codefail","ads","home","nearby","watch","moment","background","cast","deeplink","clips","create","camera","upload","publish","subscriptions","artist","profile"]},
-    {"id":"concert","label":"Смотреть концерт","note":"Премьера, сетлист, момент, ТВ и фон","start":"home","screens":["home","nearby","watch","moment","cast","background","deeplink","artist","create","camera","upload","publish"],"stops":["artist","publish"]},
-    {"id":"clips","label":"Моменты","note":"Вертикальный фрагмент ведёт в полный концерт","start":"clips","screens":["clips","watch","moment","cast","background","deeplink","home","create","subscriptions","profile"],"stops":["moment","home","create","subscriptions","profile"]},
-    {"id":"create","label":"Добавить момент","note":"Камера, микрофон, медиатека и публикация","start":"create","screens":["create","camera","upload","publish"],"stops":["publish"]},
-    {"id":"nearby","label":"Выступления рядом","note":"Геопозиция и площадки","start":"home","screens":["home","nearby","watch","moment","cast","background","deeplink","artist","create","camera","upload","publish"],"stops":["artist","publish"]},
-    {"id":"follow","label":"Следить за артистом","note":"Канал и уведомления о премьерах","start":"subscriptions","screens":["subscriptions","artist","watch"],"stops":["watch"]}
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход",
+      "type": "старт",
+      "light": false,
+      "meta": "Номер телефона",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Войти и синхронизировать подписки",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный номер",
+          "Ошибка формата",
+          "Медленный ответ"
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": false,
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить номер",
+        "primaryAction": "Войти",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Код пришёл",
+          "Неверный код",
+          "Повторная отправка"
+        ]
+      }
+    },
+    {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Показать ошибку кода",
+        "primaryAction": "Войти",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Код неверен",
+          "Повторная отправка",
+          "Ввод нового кода"
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Бесплатный просмотр",
+      "type": "onboarding",
+      "light": false,
+      "parent": "code",
+      "meta": "ATT",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Объяснить рекламную модель",
+        "primaryAction": "Смотреть бесплатно",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Согласие",
+          "Отказ",
+          "SDK недоступен"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Главная",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Премьеры и концерты",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Быстро открыть актуальный концерт",
+        "primaryAction": "Маяк: свет остаётся",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          "Живая премьера",
+          "Продолжить просмотр",
+          "Нет рекомендаций"
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Рядом",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Площадки",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти выступления рядом",
+        "primaryAction": "Ада Мороз",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Три площадки",
+          "Нет событий",
+          "Гео запрещено"
+        ]
+      }
+    },
+    {
+      "id": "watch",
+      "title": "Концерт",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Плеер и сетлист",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Смотреть выступление и двигаться по сетлисту",
+        "primaryAction": "Момент",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Премьера",
+          "Запись",
+          "Ошибка потока"
+        ]
+      }
+    },
+    {
+      "id": "moment",
+      "title": "Момент",
+      "type": "push",
+      "light": false,
+      "parent": "watch",
+      "meta": "Сохранённая песня",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Сохранить точный музыкальный момент",
+        "primaryAction": "Сохранить в Фото",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Полный фрагмент",
+          "Короткий фрагмент",
+          "Экспорт недоступен"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "parent": "watch",
+      "meta": "Now Playing",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Продолжить слушать концерт",
+        "primaryAction": "Маяк: свет остаётся",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Воспроизведение",
+          "Пауза",
+          "Поток завершён"
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "На телевизоре",
+      "type": "sheet",
+      "light": false,
+      "parent": "watch",
+      "meta": "Local Network",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать экран для просмотра",
+        "primaryAction": "Продолжить на iPhone",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Телевизор найден",
+          "Нет устройств",
+          "Сеть запрещена"
+        ]
+      }
+    },
+    {
+      "id": "deeplink",
+      "title": "По ссылке",
+      "type": "system handoff",
+      "light": false,
+      "parent": "watch",
+      "meta": "Universal Link",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Открыть конкретный концерт",
+        "primaryAction": "Открыть в «Сцене»",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Концерт найден",
+          "Момент найден",
+          "Ссылка устарела"
+        ]
+      }
+    },
+    {
+      "id": "clips",
+      "title": "Клипы",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Вертикальные клипы",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Смотреть лучшие фрагменты",
+        "primaryAction": "Свет остаётся — финал",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Соло",
+          "Припев",
+          "Недоступный клип"
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Создать клип",
+      "type": "modal task",
+      "light": false,
+      "parent": "home",
+      "meta": "Камера или импорт",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Начать публикацию момента",
+        "primaryAction": "Снять клип",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Камера",
+          "Импорт",
+          "Доступы запрещены"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Camera + mic",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Записать живой момент",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Сцена в кадре",
+          "Тёмный зал",
+          "Камера запрещена"
+        ]
+      }
+    },
+    {
+      "id": "upload",
+      "title": "Выбор видео",
+      "type": "system picker",
+      "light": true,
+      "parent": "create",
+      "meta": "Photo Library",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать готовую запись",
+        "primaryAction": "Далее",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Недавние видео",
+          "Нет видео",
+          "Доступ ограничен"
+        ]
+      }
+    },
+    {
+      "id": "publish",
+      "title": "Публикация",
+      "type": "push",
+      "light": false,
+      "parent": "create",
+      "meta": "Метаданные",
+      "ui": {
+        "pattern": "editor",
+        "purpose": "Привязать момент к артисту и песне",
+        "primaryAction": "Опубликовать клип",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Все данные",
+          "Без площадки",
+          "Ошибка экспорта"
+        ]
+      }
+    },
+    {
+      "id": "subscriptions",
+      "title": "Подписки",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Артисты и премьеры",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Следить за премьерами",
+        "primaryAction": "Напоминания о премьерах",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Артисты",
+          "Ближайшие премьеры",
+          "Нет подписок"
+        ]
+      }
+    },
+    {
+      "id": "artist",
+      "title": "Артист",
+      "type": "push",
+      "light": false,
+      "parent": "subscriptions",
+      "meta": "Канал",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Открыть выступления артиста",
+        "primaryAction": "Подписаться",
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          "Богатый каталог",
+          "Одна запись",
+          "Нет ближайших дат"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "История и коллекция",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять просмотренным и сохранённым",
+        "primaryAction": "Сохранённые моменты",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Есть история",
+          "Пустая история",
+          "Офлайн"
+        ]
+      }
+    }
   ],
-  "backendless":[{"needs":"Каталог выступлений","solution":"Статический редакционный пакет и CDN только на чтение"},{"needs":"Публикация моментов","solution":"Локальный черновик и системный share sheet"},{"needs":"Подписки и премьеры","solution":"Core Data и APNs topics провайдера"},{"needs":"Ссылки","solution":"Статические страницы scene.video и AASA"}],
-  "docs":[{"file":"01-product-vision.md","label":"Вижен"},{"file":"02-architecture.md","label":"Архитектура"},{"file":"03-design-system.md","label":"Дизайн-токены"},{"file":"04-references.md","label":"Референсы"},{"file":"05-visual-audit.md","label":"Визуальный аудит"},{"file":"06-app-store.md","label":"Карточка App Store"}],
-  "appStore":{"name":"Сцена","subtitle":"Концерты и живые моменты","promo":"Смотрите выступления целиком, открывайте песни по сетлисту и сохраняйте любимые моменты.","keywords":"выступления,артисты,премьеры,клипы,фестивали,площадки,сетлист,видео","category":{"primary":"Photo & Video","secondary":"Music"},"ageRating":"12+","price":"Бесплатно, с рекламой","encryption":"ITSAppUsesNonExemptEncryption = NO — только HTTPS","urls":{"support":"https://scene.video/support","marketing":"https://scene.video","privacy":"https://scene.video/privacy"},"description":["Сцена — видеосервис живых выступлений.","КОНЦЕРТЫ ЦЕЛИКОМ\nСмотрите премьеры и полные записи.","МОМЕНТЫ\nСохраняйте любимую песню вместе с местом в сетлисте.","АРТИСТЫ И ПЛОЩАДКИ\nПодписывайтесь и не пропускайте новые выступления."],"whatsNew":"Первая версия: концерты, моменты, сетлисты, подписки и просмотр на ТВ.","privacy":[{"type":"Геопозиция","apple":"Location → Coarse Location","purpose":"Функциональность","linked":false,"tracking":false,"why":"Площадки рядом"},{"type":"Видео","apple":"User Content → Photos or Videos","purpose":"Функциональность","linked":true,"tracking":false,"why":"Публикация моментов"},{"type":"Идентификатор","apple":"Identifiers → Device ID","purpose":"Реклама","linked":false,"tracking":true,"why":"Только после ATT"}],"reviewAccount":{"phone":"+7 900 000-00-00","code":"0000","note":"Тестовый номер принимает 0000."}}
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Четыре раздела и все десять доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "codefail",
+        "ads",
+        "home",
+        "nearby",
+        "watch",
+        "moment",
+        "background",
+        "cast",
+        "deeplink",
+        "clips",
+        "create",
+        "camera",
+        "upload",
+        "publish",
+        "subscriptions",
+        "artist",
+        "profile"
+      ]
+    },
+    {
+      "id": "concert",
+      "label": "Смотреть концерт",
+      "note": "Премьера, сетлист, момент, ТВ и фон",
+      "start": "home",
+      "screens": [
+        "home",
+        "create",
+        "watch",
+        "clips",
+        "subscriptions",
+        "profile",
+        "nearby",
+        "background",
+        "cast",
+        "moment"
+      ],
+      "stops": [
+        "create",
+        "watch",
+        "subscriptions",
+        "nearby"
+      ]
+    },
+    {
+      "id": "clips",
+      "label": "Моменты",
+      "note": "Вертикальный фрагмент ведёт в полный концерт",
+      "start": "clips",
+      "screens": [
+        "clips",
+        "watch",
+        "moment",
+        "cast",
+        "background",
+        "deeplink",
+        "home",
+        "create",
+        "subscriptions",
+        "profile"
+      ],
+      "stops": [
+        "moment",
+        "home",
+        "create",
+        "subscriptions",
+        "profile"
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Добавить момент",
+      "note": "Камера, микрофон, медиатека и публикация",
+      "start": "create",
+      "screens": [
+        "create",
+        "camera",
+        "upload",
+        "publish"
+      ],
+      "stops": [
+        "publish"
+      ]
+    },
+    {
+      "id": "nearby",
+      "label": "Выступления рядом",
+      "note": "Геопозиция и площадки",
+      "start": "nearby",
+      "screens": [
+        "nearby",
+        "artist",
+        "home",
+        "watch",
+        "moment"
+      ],
+      "stops": [
+        "artist",
+        "home",
+        "watch"
+      ]
+    },
+    {
+      "id": "follow",
+      "label": "Следить за артистом",
+      "note": "Канал и уведомления о премьерах",
+      "start": "subscriptions",
+      "screens": [
+        "subscriptions",
+        "artist",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Каталог выступлений",
+      "solution": "Статический редакционный пакет и CDN только на чтение"
+    },
+    {
+      "needs": "Публикация моментов",
+      "solution": "Локальный черновик и системный share sheet"
+    },
+    {
+      "needs": "Подписки и премьеры",
+      "solution": "Core Data и APNs topics провайдера"
+    },
+    {
+      "needs": "Ссылки",
+      "solution": "Статические страницы scene.video и AASA"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Сцена",
+    "subtitle": "Концерты и живые моменты",
+    "promo": "Смотрите выступления целиком, открывайте песни по сетлисту и сохраняйте любимые моменты.",
+    "keywords": "выступления,артисты,премьеры,клипы,фестивали,площадки,сетлист,видео",
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Music"
+    },
+    "ageRating": "12+",
+    "price": "Бесплатно, с рекламой",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS",
+    "urls": {
+      "support": "https://scene.video/support",
+      "marketing": "https://scene.video",
+      "privacy": "https://scene.video/privacy"
+    },
+    "description": [
+      "Сцена — видеосервис живых выступлений.",
+      "КОНЦЕРТЫ ЦЕЛИКОМ\nСмотрите премьеры и полные записи.",
+      "МОМЕНТЫ\nСохраняйте любимую песню вместе с местом в сетлисте.",
+      "АРТИСТЫ И ПЛОЩАДКИ\nПодписывайтесь и не пропускайте новые выступления."
+    ],
+    "whatsNew": "Первая версия: концерты, моменты, сетлисты, подписки и просмотр на ТВ.",
+    "privacy": [
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Площадки рядом"
+      },
+      {
+        "type": "Видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность",
+        "linked": true,
+        "tracking": false,
+        "why": "Публикация моментов"
+      },
+      {
+        "type": "Идентификатор",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Тестовый номер принимает 0000."
+    }
+  }
 }

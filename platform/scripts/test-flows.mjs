@@ -263,49 +263,78 @@ async function run(slug) {
   ok('хит-таргеты ≥ 44pt' + (small.length ? ` → ${small.slice(0, 4)}` : ''), !small.length);
   ok('консоль чистая' + (errs.length ? ` → ${errs.slice(0, 3)}` : ''), !errs.length);
 
-  /* —— сквозной пользовательский маршрут без служебных переходов ——
-     Предыдущие проверки открывают экраны через галерею и поэтому не ловят
-     недостижимые доступы и потерянный back-stack в реальном продукте. */
-  if (slug === 'radius' || slug === 'liga') {
-    await reset();
-    const click = async (selector) => {
-      await page.click(`${H} .screen.is-on${selector}, ${H} .screen.is-on ${selector}`);
-      await page.waitForTimeout(60);
+  /* —— сквозной маршрут кликами, без служебных переходов ——
+     Проверки выше открывают экраны через галерею и поэтому не ловят доступ,
+     до которого в живом продукте не дойти. Здесь маршрут строится из самой
+     разметки: обход в ширину от старта, затем клик по каждому шагу пути.
+     Раньше такой маршрут был выписан руками для двух концептов — остальные
+     оставались без него, а выписанный расходился с разметкой при первой правке. */
+  {
+    const plan = await page.evaluate(({ h, start }) => {
+      const r = document.querySelector(h);
+      const screens = [...r.querySelectorAll('[data-screen]')];
+      const known = new Set(screens.map((e) => e.dataset.screen));
+      const sel = (e) => {
+        const s = e.closest('.screen').dataset.screen;
+        const a = ['data-go', 'data-jump', 'data-ask', 'data-activate', 'data-toast'].find((x) => e.hasAttribute(x));
+        return `[data-screen="${s}"] [${a}="${e.getAttribute(a)}"]`;
+      };
+      const edges = {};
+      for (const s of screens) {
+        const from = s.dataset.screen; edges[from] ||= [];
+        const add = (to, e) => { if (known.has(to)) edges[from].push({ to, sel: sel(e) }); };
+        s.querySelectorAll('[data-go],[data-jump]').forEach((e) => add(e.dataset.go || e.dataset.jump, e));
+        s.querySelectorAll('[data-ask]').forEach((e) => add(e.dataset.ask.split('|')[1], e));
+        s.querySelectorAll('[data-activate]').forEach((e) => add(e.dataset.activate.split('|')[1], e));
+        s.querySelectorAll('[data-toast]').forEach((e) => { const t = e.dataset.toast.split('|')[1]; if (t) add(t, e); });
+      }
+      const prev = { [start]: null }; const queue = [start];
+      while (queue.length) {
+        const from = queue.shift();
+        for (const { to, sel } of edges[from] || []) if (!(to in prev)) { prev[to] = { from, sel }; queue.push(to); }
+      }
+      const route = (id) => { const out = []; let c = id; while (prev[c]) { out.unshift(prev[c].sel); c = prev[c].from; } return out; };
+      const trig = {};
+      for (const s of screens) {
+        s.querySelectorAll('[data-ask]').forEach((e) => e.dataset.ask.split('|')[0].split('+')
+          .forEach((k) => (trig[k] ||= []).push({ s: s.dataset.screen, sel: sel(e) })));
+        s.querySelectorAll('[data-activate]').forEach((e) => {
+          const k = e.dataset.activate.split('|')[0];
+          (trig[k] ||= []).push({ s: s.dataset.screen, sel: sel(e) });
+        });
+      }
+      const out = {};
+      for (const k of Object.keys(trig)) {
+        const t = trig[k].find((x) => x.s in prev);
+        out[k] = t ? { route: route(t.s), sel: t.sel } : null;
+      }
+      return out;
+    }, { h: H, start: spec.start });
+
+    const grantAll = async () => {
+      for (let i = 0; i < 4; i++) {
+        if (!(await alertOn())) return;
+        await answer('grant'); await page.waitForTimeout(50);
+      }
     };
-    await click('[data-go="code"]');
-    await click('[data-go="ads"]');
-    await click('[data-ask^="tracking|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-ask^="location|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-back]');
-    await click('[data-go="watch"]');
-    await click('[data-ask^="localnet|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-back]');
-    await click('[data-ask^="photoadd|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-activate^="audio|"]');
-    await click('[data-go="watch"]');
-    await click('[data-activate^="domains|"]');
-    await click('[data-go="watch"]');
-    await click('[data-back]');
-    await click('[data-go="create"]');
-    await click('[data-ask^="photo|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    await click('[data-back]');
-    await click('[data-ask^="camera+mic|"]');
-    await answer('grant'); await page.waitForTimeout(40);
-    await answer('grant'); await page.waitForTimeout(60);
-    if (slug === 'liga') await click('[data-go="create"]');
-    else await click('[data-back]');
-    await click('[data-go="subscriptions"]');
-    await click('[data-ask^="push|"]');
-    await answer('grant'); await page.waitForTimeout(60);
-    const askedKeys = await page.evaluate(() =>
-      [...document.querySelectorAll('#perms .perm:not([data-state="idle"])')]
-        .map((e) => e.querySelector('.perm-name')?.textContent));
-    ok('сквозной маршрут достигает всех 10 доступов', askedKeys.length === 10);
+    for (const perm of spec.permissions) {
+      const step = plan[perm.key];
+      if (!step) { ok(`${perm.key}: маршрут кликами доходит до запроса`, false); continue; }
+      await reset();
+      let broke = false;
+      for (const s of [...step.route, step.sel]) {
+        const el = await page.$(`${H} ${s}`);
+        if (!el) { broke = true; break; }
+        await el.click(); await page.waitForTimeout(45); await grantAll();
+      }
+      const granted = broke ? false : await page.evaluate((t) => {
+        const row = [...document.querySelectorAll('#perms .perm')]
+          .find((e) => e.querySelector('.perm-name')?.textContent.trim() === t);
+        return row?.dataset.state === 'granted';
+      }, perm.plist);
+      ok(`${perm.key}: маршрут кликами доходит до запроса`, granted);
+    }
+    await reset();
   }
 
   await browser.close();
@@ -313,13 +342,26 @@ async function run(slug) {
 }
 
 const slugs = process.argv[2] ? [process.argv[2]] : listConcepts();
+/* Каждый концепт поднимает свой браузер: последовательно это двадцать минут
+   на полном наборе. Пул держит несколько прогонов разом, вывод по-прежнему
+   идёт в порядке слагов, чтобы отчёт не превращался в чересполосицу. */
+const LANES = Math.min(Number(process.env.LANES) || 4, slugs.length || 1);
+const results = new Array(slugs.length);
+let next = 0;
+await Promise.all(Array.from({ length: LANES }, async () => {
+  while (next < slugs.length) {
+    const i = next++;
+    try { results[i] = await run(slugs[i]); }
+    catch (e) { results[i] = [{ name: `прогон упал: ${e.message}`, pass: false }]; }
+  }
+}));
 let failed = 0;
-for (const slug of slugs) {
-  const res = await run(slug);
+slugs.forEach((slug, i) => {
+  const res = results[i] || [];
   const bad = res.filter((r) => !r.pass);
   console.log(`\n=== ${slug} · ${res.length - bad.length}/${res.length} ===`);
   for (const r of res) if (!r.pass) console.log('  FAIL  ' + r.name);
   if (!bad.length) console.log('  всё зелёное');
   failed += bad.length;
-}
+});
 process.exit(failed ? 1 : 0);

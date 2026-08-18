@@ -25,6 +25,17 @@ const BLOCKS = {
      чтобы не выяснять назначение кнопок и вкладок по разметке руками. */
   'actions': (spec, g, markup) => screenActionsMd(spec, markup),
 
+  /* Таблица концептов в корневом README: держалась руками, отставала от кода
+     на десяток концептов и врала числами. Выводим из спек. */
+  'concepts': () => {
+    const rows = listConcepts().map((s) => readSpec(s));
+    return [
+      '| Концепт | Слаг | Целевой набор | Доступов | Экранов | Прототипов | УТП |',
+      '|---|---|---|---|---|---|---|',
+      ...rows.map((c) => `| ${cell(c.name)} | \`${c.slug}\` | \`${c.targetSet}\` | ${c.permissions.length} | ${c.screens.length} | ${(c.prototypes || []).length} | ${cell(c.tagline || '')} |`),
+    ];
+  },
+
   'screen-map': (spec) => [
     '| ID | Название | Тип | Доступы |',
     '|---|---|---|---|',
@@ -104,8 +115,21 @@ function sync(slug) {
   return touched;
 }
 
+/* Корневой README живёт вне концептов, но таблица в нём — те же данные. */
+function syncRoot() {
+  const path = join(conceptDir('_template'), '..', '..', '..', 'README.md');
+  if (!existsSync(path)) return false;
+  const src = readFileSync(path, 'utf8');
+  const re = /(<!-- @generated:concepts -->\n)[\s\S]*?(<!-- @end -->)/g;
+  const out = src.replace(re, (_m, head, tail) => head + BLOCKS.concepts().join('\n') + '\n' + tail);
+  if (out === src) return false;
+  writeFileSync(path, out);
+  return true;
+}
+
 const slugs = process.argv[2] ? [process.argv[2]] : listConcepts();
 for (const slug of slugs) {
   const touched = sync(slug);
   console.log(`${slug}: ${touched.length ? 'обновлены ' + touched.join(', ') : 'таблицы уже в актуальном виде'}`);
 }
+if (!process.argv[2]) console.log(syncRoot() ? 'README: таблица концептов обновлена' : 'README: таблица уже в актуальном виде');
