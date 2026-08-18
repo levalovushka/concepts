@@ -2,7 +2,7 @@
 
 Документ согласован с [01-product-vision.md](./01-product-vision.md). Приложение клиентское: серверного кода не пишется, общая база и чат закрыты SDK провайдера с security rules. Все доступы — just-in-time, после входа по номеру. Background Modes — только `fetch` и `remote-notification`, оба под одну фоновую задачу `app.dvor.refresh`.
 
-Числа, которые должны совпадать во всех разделах: **20 заявленных ключей · 30 экранов · 4 вкладки дока · 8 прототипов**.
+Числа, которые должны совпадать во всех разделах: **20 заявленных ключей · 31 экран · 4 вкладки дока · 8 прототипов**.
 
 Блоки `@generated:*` пересобираются командой `npm run docs -- dvor` из `concept.json` и разметки экранов — внутрь них руками не пишем.
 
@@ -452,7 +452,7 @@ flowchart TD
 
 | Слой | Содержимое |
 |---|---|
-| **UI** | 30 экранов, док из четырёх разделов, nav stack, system ask, снекбар, семь системных поверхностей. Статусы доступов не хранит — только отображает |
+| **UI** | 31 экран, док из четырёх разделов, nav stack, system ask, снекбар, семь системных поверхностей. Статусы доступов не хранит — только отображает |
 | **Domain** | `House` · `Resident` · `HouseVerification` · `Thread` · `Post` · `Issue` · `Chat` · `Message` · `VoiceNote` · `Meter` · `MeterReading` · `HouseEvent` · `GuestNetwork` · `HousePassword` · `ChronicleItem` · `AdConsent` |
 | **Services** | `Permissions` · `HouseVerification` (CLLocationManager + CNCopyCurrentNetworkInfo) · `Capture` (AVFoundation) · `QRScanner` (DataScanner) · `MediaLibrary` (PHAsset + PHPicker) · `VoiceRecorder` (AVAudioRecorder) · `Transcriber` (SFSpeechRecognizer, on-device) · `Push` (FCM) · `NotificationService` (INSendMessageIntent + NSE) · `BackgroundRefresh` (BGTaskScheduler, `app.dvor.refresh`) · `HotspotSetup` (NEHotspotConfigurationManager) · `ContactsMatch` (CNContactStore) · `Calendar` (EventKit) · `AppLock` (LocalAuthentication) · `CredentialProvider` (ASCredentialProviderViewController) · `WidgetSnapshot` · `PhoneAuth` (SDK провайдера) · `AdsAttribution` (ATT) |
 | **Data** | CoreData — показания, хроника, черновики заявок, список жильцов своего дома. Keychain общей группы — токен сессии и записи паролей дома. Контейнер `group.app.dvor` — снапшот виджета в JSON и аватары для NSE. FileManager — кадры и аудио до отправки |
@@ -501,7 +501,7 @@ flowchart TD
 9. **Фоновые режимы — приложить журнал.** В фоне обновляются два конкретных предмета: объявления своего дома и срок передачи показаний. Обе строки видны на «Счётчиках» и в виджете сразу после запуска — проверяется без ожидания. Идентификатор `app.dvor.refresh` совпадает в Info.plist и в `BGTaskScheduler.register`.
 10. **Пуши.** Приходят только по темам, на которые житель подписался кнопкой «Следить за темой». Отправка — из консоли Firebase Cloud Messaging, своего сервера нет.
 11. **ATT — только после экрана-объяснения**, никогда на старте. Отказ ничего не отключает: реклама остаётся, но без интересов, и это написано на самом экране до промпта.
-12. **Проверить перед сдачей:** каждый из 19 ключей имеет экран, до которого два-три тапа; ни один ключ не заявлен «про запас»; `associated-domains` и `webcredentials` в entitlements отсутствуют; `UIBackgroundModes` содержит ровно `fetch` и `remote-notification`; StoreKit в сборке нет, потому что покупок нет.
+12. **Проверить перед сдачей:** каждый из 20 ключей имеет экран, до которого два-три тапа; ни один ключ не заявлен «про запас»; `associated-domains` и `webcredentials` в entitlements отсутствуют; `UIBackgroundModes` содержит ровно `fetch` и `remote-notification`; StoreKit в сборке нет, потому что покупок нет.
 
 ## Граница «без бэкенда»
 
