@@ -68,8 +68,8 @@
     ]
   },
   "brand": {
-    "accent": "#FF6B3D",
-    "accentDark": "#FF8561",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },
   "start": "phone",
@@ -335,6 +335,179 @@
       "conditional": true,
       "grounding": "CNCopyCurrentNetworkInfo после выданной геопозиции",
       "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Хвосты» запрашивают доступ к контактам",
+        "text": "Чтобы показать, кто из ваших контактов уже гуляет по соседству."
+      },
+      "feature": "Кто из ваших контактов уже гуляет рядом",
+      "gesture": "«Найти среди контактов»",
+      "screen": "profile",
+      "target": "mates",
+      "fallback": "Остаётся поиск по кличке и ссылка-приглашение",
+      "snack": "Нет доступа к контактам",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactStore, номера сверяются хешами на устройстве",
+      "reviewNote": "Книга контактов не выгружается: номера хешируются на устройстве, на сервер уходят только совпадения, остальные хеши стираются после сверки."
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить отслеживание?",
+        "text": "Так объявления кормов и ветклиник будут к месту, а приложение останется бесплатным."
+      },
+      "feature": "Реклама зоомагазинов, кормов и ветклиник вместо платной подписки",
+      "gesture": "«Продолжить»",
+      "screen": "ads",
+      "target": "profile",
+      "fallback": "Реклама остаётся, но перестаёт быть персональной",
+      "snack": "Отслеживание выключено",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ATTrackingManager: IDFA читается только после явного согласия",
+      "reviewNote": "Запрос показывается после экрана, который объясняет обмен: реклама вместо подписки. Отказ ничего не отключает — объявления просто перестают подбираться."
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Хвосты» запрашивают доступ к Face ID",
+        "text": "Чтобы ветпаспорт и адрес выгула открывались только вам."
+      },
+      "feature": "Замок на ветпаспорте: диагнозы, номер чипа и адрес выгула",
+      "gesture": "«Замок Face ID»",
+      "screen": "settings",
+      "target": "lock",
+      "fallback": "Остаётся код-пароль устройства",
+      "snack": "Face ID недоступен",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LAContext, deviceOwnerAuthenticationWithBiometrics с фолбэком на пароль устройства; биометрия не покидает Secure Enclave",
+      "reviewNote": "Под замком лежит то, по чему находят и опознают животное: номер чипа, диагнозы и постоянное место выгула."
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Хвосты» запрашивают доступ к распознаванию речи",
+        "text": "Чтобы надиктованная заметка о самочувствии стала текстом в карточке питомца."
+      },
+      "feature": "Заметка о самочувствии голосом: текст ложится в карточку питомца и ищется словом",
+      "gesture": "«Надиктовать заметку» — цепочкой с микрофоном",
+      "screen": "pet",
+      "target": "vetnote",
+      "fallback": "Заметка остаётся звуком: её можно слушать, но не искать словом",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true",
+      "reviewNote": "Распознавание идёт на устройстве, аудио никуда не отправляется. Владельцы диктуют на улице, когда одна рука занята поводком."
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Занятие продолжит звучать, когда экран погаснет."
+      },
+      "activate": true,
+      "feature": "Курс послушания слушают на прогулке: руки заняты поводком, на локскрине — Now Playing и ±15 секунд",
+      "gesture": "«Слушать»",
+      "screen": "course",
+      "target": "background",
+      "fallback": "Без entitlement звук обрывается — не ship",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Реальный playback, заполненный MPNowPlayingInfoCenter и remote-команды",
+      "grounding": "AVAudioSession категории playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter",
+      "reviewNote": "Сценарий: владелец отрабатывает команды на улице, телефон в кармане, обе руки заняты поводком и лакомством. Приложить видео с локскрином: название занятия и работающие ±15 секунд."
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Звонки в приложении",
+        "text": "Входящий звонок догситтера поднимется обычным экраном вызова."
+      },
+      "activate": true,
+      "feature": "Созвон с догситтером и передержкой без обмена номерами",
+      "gesture": "«Позвонить»",
+      "screen": "chat",
+      "target": "call",
+      "fallback": "Остаётся переписка в чате",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit + CallKit: входящий звонок поднимается системным экраном вызова, иначе ключ не заявляется",
+      "grounding": "PushKit VoIP push поднимает CallKit, медиапоток идёт через SDK провайдера",
+      "reviewNote": "Звонок нужен, чтобы договориться о передержке и забрать животное, не раскрывая номер: стороны видят профиль и питомца, но не телефон. Каждый VoIP-push поднимает CallKit — фонового опроса на этом ключе нет."
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription + NSCalendarsUsageDescription",
+      "alert": {
+        "title": "«Хвосты» запрашивают доступ к календарю",
+        "text": "Чтобы прививка попала в календарь и сдвинулась, если приём перенесут."
+      },
+      "feature": "Прививки и обработка от клещей в системном календаре, с правкой при переносе и удалением при отмене",
+      "gesture": "«Добавить в Календарь»",
+      "screen": "vaccine",
+      "target": "vaccine",
+      "fallback": "Срок остаётся в карточке питомца и в напоминании приложения",
+      "snack": "Нет доступа к календарю",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit: EKEvent с сохранённым identifier; на iOS 16 и ниже действует legacy-ключ NSCalendarsUsageDescription",
+      "reviewNote": "Нужен полный доступ, а не только запись: приложение правит и удаляет ранее созданное им событие, когда клиника переносит или отменяет приём. Чужие события не читаются и не меняются."
+    },
+    {
+      "key": "shareext",
+      "plist": "NSExtensionPointIdentifier: com.apple.share-services",
+      "alert": {
+        "title": "Расширение «Поделиться»",
+        "text": "Отдельный target: «Хвосты» появятся в системном меню «Поделиться»."
+      },
+      "activate": true,
+      "feature": "Поделиться в «Хвосты» из Safari и «Фото» — объявление о найденной собаке падает в черновик",
+      "gesture": "«Поделиться» в другом приложении",
+      "screen": "settings",
+      "target": "shareext",
+      "fallback": "Остаётся создание записи внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Отдельный target расширения; черновик кладётся в общий контейнер App Group",
+      "grounding": "Share Extension пишет вложение в App Group, приложение забирает его в черновик записи",
+      "reviewNote": "Расширение не открывает приложение и не ходит в сеть: оно кладёт ссылку или кадр в общий контейнер, разбор происходит при следующем запуске."
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "Подключение к сети",
+        "text": "«Хвосты» подключат телефон к гостевой сети площадки."
+      },
+      "feature": "Гостевая сеть дог-парка по QR — без неё отметка на площадке не проходит",
+      "gesture": "«Подключиться»",
+      "screen": "netqr",
+      "target": "netqr",
+      "fallback": "Сеть выбирается вручную в Настройках",
+      "snack": "Не удалось подключиться",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfigurationManager, имя сети и пароль приходят из QR-кода на стенде площадки"
     }
   ],
   "screens": [
@@ -722,6 +895,237 @@
           "нет сети"
         ]
       }
+    },
+    {
+      "id": "mates",
+      "title": "Контакты в «Хвостах»",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Contacts · совпадения",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти знакомых среди тех, кто уже гуляет рядом",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "9 совпадений",
+          "завёл профиль без питомца",
+          "контакты запрещены"
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Реклама вместо подписки",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT · обмен объяснён",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Объяснить обмен до системного запроса ATT",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "до запроса",
+          "после отказа",
+          "после согласия"
+        ]
+      }
+    },
+    {
+      "id": "lock",
+      "title": "Замок на ветпаспорте",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Face ID · чип и диагнозы",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Закрыть ветпаспорт и адрес выгула биометрией",
+        "primaryAction": "Замок Face ID",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "замок выключен",
+          "замок включён",
+          "Face ID недоступен"
+        ]
+      }
+    },
+    {
+      "id": "vetnote",
+      "title": "Заметка о самочувствии",
+      "type": "push",
+      "light": true,
+      "parent": "pet",
+      "meta": "Speech · распознавание на устройстве",
+      "ui": {
+        "pattern": "editor",
+        "purpose": "Надиктовать наблюдение и положить его в карточку питомца",
+        "primaryAction": "Сохранить в карточку",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "распознано 3 наблюдения",
+          "слово не разобрано",
+          "правка вручную"
+        ]
+      }
+    },
+    {
+      "id": "course",
+      "title": "Курс послушания",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Аудио · занятие на прогулке",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Слушать занятие и продолжать при погашенном экране",
+        "primaryAction": "Слушать",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "занятие 14:20, скачано",
+          "загружается 62 %",
+          "нет сети"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "course",
+      "meta": "Now Playing · локскрин",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Показать, что занятие продолжается при погашенном экране",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "играет 6:41 из 14:20",
+          "пауза с локскрина",
+          "−15 секунд"
+        ]
+      }
+    },
+    {
+      "id": "call",
+      "title": "Звонок догситтеру",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "chat",
+      "meta": "VoIP · номер не раскрыт",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Договориться о передержке, не раскрывая номер",
+        "primaryAction": null,
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "идёт вызов",
+          "связь слабая",
+          "звонок завершён"
+        ]
+      }
+    },
+    {
+      "id": "vaccine",
+      "title": "Прививки и обработки",
+      "type": "push",
+      "light": true,
+      "parent": "pet",
+      "meta": "Календарь · сроки и переносы",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Собрать сроки прививок и положить их в календарь",
+        "primaryAction": "Добавить в Календарь",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "ревакцинация через 11 дней",
+          "приём перенесли",
+          "обработка просрочена"
+        ]
+      }
+    },
+    {
+      "id": "netqr",
+      "title": "Сеть площадки по QR",
+      "type": "modal",
+      "light": true,
+      "parent": "walk",
+      "meta": "Hotspot · QR со стенда",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Подключиться к гостевой сети дог-парка",
+        "primaryAction": "Подключиться",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "QR со стенда",
+          "пароль не подошёл",
+          "уже подключены"
+        ]
+      }
+    },
+    {
+      "id": "shareext",
+      "title": "Поделиться в «Хвосты»",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "Share Extension · отдельный target",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Принять ссылку или кадр из другого приложения в черновик",
+        "primaryAction": "Сохранить в черновик",
+        "states": [
+          "default",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "ссылка из Safari",
+          "кадр из «Фото»",
+          "черновик уже есть"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -748,7 +1152,17 @@
         "voice",
         "profile",
         "settings",
-        "system"
+        "system",
+        "mates",
+        "ads",
+        "lock",
+        "vetnote",
+        "course",
+        "background",
+        "call",
+        "vaccine",
+        "netqr",
+        "shareext"
       ]
     },
     {
@@ -773,7 +1187,17 @@
         "voice",
         "profile",
         "settings",
-        "system"
+        "system",
+        "mates",
+        "ads",
+        "lock",
+        "vetnote",
+        "course",
+        "background",
+        "call",
+        "vaccine",
+        "netqr",
+        "shareext"
       ]
     },
     {
@@ -798,7 +1222,17 @@
         "voice",
         "profile",
         "settings",
-        "system"
+        "system",
+        "mates",
+        "ads",
+        "lock",
+        "vetnote",
+        "course",
+        "background",
+        "call",
+        "vaccine",
+        "netqr",
+        "shareext"
       ]
     },
     {
@@ -823,7 +1257,52 @@
         "voice",
         "profile",
         "settings",
-        "system"
+        "system",
+        "mates",
+        "ads",
+        "lock",
+        "vetnote",
+        "course",
+        "background",
+        "call",
+        "vaccine",
+        "netqr",
+        "shareext"
+      ]
+    },
+    {
+      "id": "care",
+      "label": "Забота о питомце",
+      "note": "Ветпаспорт под замком, прививки в календаре, заметка голосом и созвон с догситтером",
+      "start": "home",
+      "screens": [
+        "phone",
+        "code",
+        "codefail",
+        "home",
+        "pet",
+        "nearby",
+        "walk",
+        "create",
+        "camera",
+        "media",
+        "groups",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "system",
+        "mates",
+        "ads",
+        "lock",
+        "vetnote",
+        "course",
+        "background",
+        "call",
+        "vaccine",
+        "netqr",
+        "shareext"
       ]
     }
   ],
@@ -896,7 +1375,23 @@
         "purpose": "Функции приложения",
         "linked": true,
         "tracking": false,
-        "why": "Публикации и прогулки рядом"
+        "why": "Публикации, прогулки и площадки рядом"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts",
+        "purpose": "Функции приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Совпадения адресной книги: номера сверяются хешами, несовпавшие стираются"
+      },
+      {
+        "type": "Идентификаторы",
+        "apple": "Identifiers",
+        "purpose": "Сторонняя реклама",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA только после согласия в ATT — обмен объяснён на экране «Реклама вместо подписки»"
       }
     ],
     "reviewAccount": {
