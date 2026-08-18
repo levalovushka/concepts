@@ -11,7 +11,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { conceptDir, readSpec, readMarkup, RISK_LABEL, listConcepts } from './lib.mjs';
-import { screenGraph, iaTreeMd, transitionTableMd } from './screen-map.mjs';
+import { screenGraph, iaTreeMd, transitionTableMd, screenActionsMd } from './screen-map.mjs';
 
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/<code>|<\/code>/g, '`');
 
@@ -20,6 +20,10 @@ const BLOCKS = {
      расходится с прототипом первой же правкой, эта расходиться не умеет. */
   'ia-tree': (spec, g) => iaTreeMd(g),
   'transitions': (spec, g) => transitionTableMd(g),
+
+  /* Каждый элемент каждого экрана: что делает и куда ведёт. Нужен разработке,
+     чтобы не выяснять назначение кнопок и вкладок по разметке руками. */
+  'actions': (spec, g, markup) => screenActionsMd(spec, markup),
 
   'screen-map': (spec) => [
     '| ID | Название | Тип | Доступы |',
@@ -82,7 +86,8 @@ const BLOCKS = {
 
 function sync(slug) {
   const spec = readSpec(slug);
-  const graph = screenGraph(spec, readMarkup(slug, spec));
+  const markup = readMarkup(slug, spec);
+  const graph = screenGraph(spec, markup);
   const dir = join(conceptDir(slug), 'docs');
   if (!existsSync(dir)) return [];
   const touched = [];
@@ -92,7 +97,7 @@ function sync(slug) {
     let out = src;
     for (const [name, build] of Object.entries(BLOCKS)) {
       const re = new RegExp(`(<!-- @generated:${name} -->\\n)[\\s\\S]*?(<!-- @end -->)`, 'g');
-      out = out.replace(re, (_m, head, tail) => head + build(spec, graph).join('\n') + '\n' + tail);
+      out = out.replace(re, (_m, head, tail) => head + build(spec, graph, markup).join('\n') + '\n' + tail);
     }
     if (out !== src) { writeFileSync(path, out); touched.push(file); }
   }

@@ -28,16 +28,16 @@
 
 Уроки (lessons) — tab (root, старт) · открывается: «Войти», «Продолжить» (tracking)
     └─ Урок (lesson) — fullscreen · открывается: «Продолжить · урок 4», «9 ур.» …, «Гостиная», «Смотреть на ТВ» · speech, localnet, audio
-        ├─ Счётчик рядов (counter) — sheet · открывается: «Считать голосом» (speech + mic) · mic
-        ├─ Устройства (cast) — sheet · открывается: «Смотреть на ТВ», «Телевизор» (localnet)
-        ├─ Picture in Picture (pip) — system · открывается: «Picture in Picture» (audio)
-        └─ Фон / блокировка (background) — system · открывается: «Слушать в фоне», «Звук в фоне» (audio)
+        ├─ Счётчик рядов (counter) — sheet · открывается: «Считать голосом» (speech)
+        ├─ Устройства (cast) — sheet · открывается: «Смотреть на ТВ» (localnet), «Телевизор»
+        ├─ Picture in Picture (pip) — system · открывается: «Picture in Picture»
+        └─ Фон / блокировка (background) — system · открывается: «Слушать в фоне» (audio), «Звук в фоне»
 
 Проекты (projects) — tab (root) · открывается: вкладка таб-бара
     └─ Проект (project) — push · открывается: «Ажурный шарф», «Носки на пяти» …, «Сохранить со звуком» (mic), «Добавить в проект» · camera, photo, location
-        ├─ Свой ракурс (record) — fullscreen · открывается: «Снять», «Снять свой ракурс» (camera)
-        ├─ Этикетка (scan) — fullscreen · открывается: «Сканировать этикетку» (camera)
-        │   └─ Ввод вручную (scanfail) — modal (ошибка) · открывается: «Сканировать этикетку» (camera), «Не распознаётся — ввести вручную»
+        ├─ Свой ракурс (record) — fullscreen · открывается: «Снять», «Снять свой ракурс» (camera) · mic
+        ├─ Этикетка (scan) — fullscreen · открывается: «Сканировать этикетку»
+        │   └─ Ввод вручную (scanfail) — modal (ошибка) · открывается: «Не распознаётся — ввести вручную»
         ├─ Галерея (gallery) — system picker · открывается: «Прикрепить фото прогресса» (photo)
         └─ Магазины пряжи (yarn) — modal · открывается: «Магазины пряжи рядом» (location)
 
@@ -91,13 +91,13 @@
 | `codefail` | Неверный код | push | — |
 | `lessons` | Уроки | tab (root, старт) | — |
 | `lesson` | Урок | fullscreen | speech, localnet, audio (activate) |
-| `counter` | Счётчик рядов | sheet | mic |
+| `counter` | Счётчик рядов | sheet | — |
 | `cast` | Устройства | sheet | — |
 | `pip` | Picture in Picture | system | — |
 | `background` | Фон / блокировка | system | — |
 | `projects` | Проекты | tab (root) | — |
 | `project` | Проект | push | camera, photo, location |
-| `record` | Свой ракурс | fullscreen | — |
+| `record` | Свой ракурс | fullscreen | mic |
 | `scan` | Этикетка | fullscreen | — |
 | `scanfail` | Ввод вручную | modal (ошибка) | — |
 | `gallery` | Галерея | system picker | — |
@@ -120,23 +120,21 @@
 | `codefail` | «Назад к коду» | `code` | — | возврат по IA |
 | `lessons` | «Продолжить · урок 4», «9 ур.» … | `lesson` | — | переход |
 | `lesson` | «Назад к урокам» | `lessons` | — | возврат по IA |
-| `lesson` | «Picture in Picture» | `pip` | `UIBackgroundModes: audio` | entitlement, без alert |
+| `lesson` | «Picture in Picture» | `pip` | — | переход |
 | `lesson` | «Смотреть на ТВ» | `cast` | `NSLocalNetworkUsageDescription` | доступ разрешён |
 | `lesson` | «Смотреть на ТВ» | `lesson` | `NSLocalNetworkUsageDescription` | отказ → fallback |
 | `lesson` | «Слушать в фоне» | `background` | `UIBackgroundModes: audio` | entitlement, без alert |
-| `lesson` | «Считать голосом» | `counter` | `NSSpeechRecognitionUsageDescription + NSMicrophoneUsageDescription` | доступ разрешён |
-| `lesson` | «Считать голосом» | `lesson` | `NSSpeechRecognitionUsageDescription + NSMicrophoneUsageDescription` | отказ → fallback |
+| `lesson` | «Считать голосом» | `counter` | `NSSpeechRecognitionUsageDescription` | доступ разрешён |
+| `lesson` | «Считать голосом» | `lesson` | `NSSpeechRecognitionUsageDescription` | отказ → fallback |
 | `counter` | «Закрыть счётчик» | `lesson` | — | возврат по IA |
 | `cast` | «Закрыть» | `lesson` | — | возврат по IA |
 | `cast` | «Гостиная», «Смотреть на ТВ» | `lesson` | — | переход |
 | `pip` | «Раппорт ажура» | `lesson` | — | возврат по IA |
 | `background` | «Петля» | `lesson` | — | возврат по IA |
-| `projects` | «Снять» | `record` | `NSCameraUsageDescription` | доступ разрешён |
-| `projects` | «Снять» | `projects` | `NSCameraUsageDescription` | отказ → fallback |
+| `projects` | «Снять» | `record` | — | переход |
 | `projects` | «Ажурный шарф», «Носки на пяти» … | `project` | — | переход |
 | `project` | «Назад к проектам» | `projects` | — | возврат по IA |
-| `project` | «Сканировать этикетку» | `scan` | `NSCameraUsageDescription` | доступ разрешён |
-| `project` | «Сканировать этикетку» | `scanfail` | `NSCameraUsageDescription` | отказ → fallback |
+| `project` | «Сканировать этикетку» | `scan` | — | переход |
 | `project` | «Магазины пряжи рядом» | `yarn` | `NSLocationWhenInUseUsageDescription` | доступ разрешён |
 | `project` | «Прикрепить фото прогресса» | `gallery` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
 | `project` | «Прикрепить фото прогресса» | `project` | `NSPhotoLibraryUsageDescription` | отказ → fallback |
@@ -154,9 +152,70 @@
 | `ads` | «Продолжить» | `ads` | `NSUserTrackingUsageDescription` | отказ → fallback |
 | `settings` | «Новые уроки» | `settings` | `aps-environment` | доступ разрешён |
 | `settings` | «Отслеживание» | `ads` | — | переход |
-| `settings` | «Телевизор» | `cast` | `NSLocalNetworkUsageDescription` | доступ разрешён |
-| `settings` | «Телевизор» | `settings` | `NSLocalNetworkUsageDescription` | отказ → fallback |
-| `settings` | «Звук в фоне» | `background` | `UIBackgroundModes: audio` | entitlement, без alert |
+| `settings` | «Телевизор» | `cast` | — | переход |
+| `settings` | «Звук в фоне» | `background` | — | переход |
+<!-- @end -->
+
+## Действия на экранах
+
+Каждый интерактивный элемент прототипа: что он делает, куда ведёт и какой ключ при этом запрашивается. В отличие от таблицы переходов выше, вкладки таб-бара, кнопки возврата и подтверждения без перехода тоже здесь — раздел выводится из разметки и отвечает на вопрос «что делает эта кнопка», не заставляя открывать HTML.
+
+<!-- @generated:actions -->
+| Экран | Элемент | Роль | Что делает | Ведёт на | При отказе | Ключ |
+|---|---|---|---|---|---|---|
+| `phone` | Получить код | элемент экрана | открывает экран | Код из SMS (code) | — | — |
+| `phone` | Помощь | элемент экрана | показывает подтверждение «Помощь · petlya.app/help» | остаётся на экране | — | — |
+| `phone` | Поддержка | элемент экрана | показывает подтверждение «Поддержка · support@petlya.app» | остаётся на экране | — | — |
+| `phone` | Пользовательское соглашение | элемент экрана | показывает подтверждение «Соглашение · petlya.app/terms» | остаётся на экране | — | — |
+| `code` | Назад к номеру | кнопка «назад» | возвращает к родительскому экрану | Вход по номеру (phone) | — | — |
+| `code` | Код из четырёх цифр | элемент экрана | открывает экран | Неверный код (codefail) | — | — |
+| `code` | Войти | элемент экрана | открывает экран | Уроки (lessons) | — | — |
+| `codefail` | Назад к коду | кнопка «назад» | возвращает к родительскому экрану | Код из SMS (code) | — | — |
+| `lessons` | Продолжить · урок 4 | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `lessons` | 9 ур. | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `lessons` | 6 ур. | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `lessons` | 9 ур. | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `lessons` | Раздел Уроки | вкладка | переключает вкладку таб-бара | Уроки (lessons) | — | — |
+| `lessons` | Раздел Проекты | вкладка | переключает вкладку таб-бара | Проекты (projects) | — | — |
+| `lessons` | Раздел Профиль | вкладка | переключает вкладку таб-бара | Профиль (settings) | — | — |
+| `lesson` | Назад к урокам | кнопка «назад» | возвращает к родительскому экрану | Уроки (lessons) | — | — |
+| `lesson` | Picture in Picture | элемент экрана | открывает экран | Picture in Picture (pip) | — | — |
+| `lesson` | Смотреть на ТВ | элемент экрана | спрашивает доступ localnet | Устройства (cast) | Урок (lesson) | `NSLocalNetworkUsageDescription` |
+| `lesson` | Слушать в фоне | элемент экрана | включает entitlement audio, системного alert нет | Фон / блокировка (background) | — | `UIBackgroundModes: audio` |
+| `lesson` | Считать голосом | элемент экрана | спрашивает доступ speech | Счётчик рядов (counter) | Урок (lesson) | `NSSpeechRecognitionUsageDescription` |
+| `counter` | Закрыть счётчик | кнопка «назад» | возвращает к родительскому экрану | Урок (lesson) | — | — |
+| `cast` | Закрыть | кнопка «назад» | возвращает к родительскому экрану | Урок (lesson) | — | — |
+| `cast` | Гостиная | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `cast` | Смотреть на ТВ | элемент экрана | открывает экран | Урок (lesson) | — | — |
+| `pip` | Раппорт ажура | кнопка «назад» | возвращает к родительскому экрану | Урок (lesson) | — | — |
+| `background` | Петля | кнопка «назад» | возвращает к родительскому экрану | Урок (lesson) | — | — |
+| `projects` | Снять | элемент экрана | открывает экран | Свой ракурс (record) | — | — |
+| `projects` | Ажурный шарф | элемент экрана | открывает экран | Проект (project) | — | — |
+| `projects` | Носки на пяти | элемент экрана | открывает экран | Проект (project) | — | — |
+| `projects` | Косы и араны | элемент экрана | открывает экран | Проект (project) | — | — |
+| `projects` | Раздел Уроки | вкладка | переключает вкладку таб-бара | Уроки (lessons) | — | — |
+| `projects` | Раздел Проекты | вкладка | переключает вкладку таб-бара | Проекты (projects) | — | — |
+| `projects` | Раздел Профиль | вкладка | переключает вкладку таб-бара | Профиль (settings) | — | — |
+| `project` | Назад к проектам | кнопка «назад» | возвращает к родительскому экрану | Проекты (projects) | — | — |
+| `project` | Сканировать этикетку | элемент экрана | открывает экран | Этикетка (scan) | — | — |
+| `project` | Магазины пряжи рядом | элемент экрана | спрашивает доступ location | Магазины пряжи (yarn) | Магазины пряжи (yarn) | `NSLocationWhenInUseUsageDescription` |
+| `project` | Прикрепить фото прогресса | элемент экрана | спрашивает доступ photo | Галерея (gallery) | Проект (project) | `NSPhotoLibraryUsageDescription` |
+| `project` | Снять свой ракурс | элемент экрана | спрашивает доступ camera | Свой ракурс (record) | Проект (project) | `NSCameraUsageDescription` |
+| `record` | Закрыть | кнопка «назад» | возвращает к родительскому экрану | Проект (project) | — | — |
+| `record` | Сохранить со звуком | элемент экрана | спрашивает доступ mic | Проект (project) | Свой ракурс (record) | `NSMicrophoneUsageDescription` |
+| `scan` | Закрыть | кнопка «назад» | возвращает к родительскому экрану | Проект (project) | — | — |
+| `scan` | Не распознаётся — ввести вручную | элемент экрана | открывает экран | Ввод вручную (scanfail) | — | — |
+| `scanfail` | Добавить в проект | элемент экрана | открывает экран | Проект (project) | — | — |
+| `gallery` | — | — | интерактивных элементов нет | — | — | — |
+| `yarn` | — | — | интерактивных элементов нет | — | — | — |
+| `ads` | Продолжить | элемент экрана | спрашивает доступ tracking | Уроки (lessons) | Реклама (ads) | `NSUserTrackingUsageDescription` |
+| `settings` | Новые уроки | элемент экрана | спрашивает доступ push | Профиль (settings) | Профиль (settings) | `aps-environment` |
+| `settings` | Отслеживание | элемент экрана | открывает экран | Реклама (ads) | — | — |
+| `settings` | Телевизор | элемент экрана | открывает экран | Устройства (cast) | — | — |
+| `settings` | Звук в фоне | элемент экрана | открывает экран | Фон / блокировка (background) | — | — |
+| `settings` | Раздел Уроки | вкладка | переключает вкладку таб-бара | Уроки (lessons) | — | — |
+| `settings` | Раздел Проекты | вкладка | переключает вкладку таб-бара | Проекты (projects) | — | — |
+| `settings` | Раздел Профиль | вкладка | переключает вкладку таб-бара | Профиль (settings) | — | — |
 <!-- @end -->
 
 ---
@@ -167,7 +226,7 @@
 | Ключ | Жест пользователя | Экран | Если отказ | Риск Review |
 |---|---|---|---|---|
 | `NSSpeechRecognitionUsageDescription` | «Считать голосом» | Урок | Счёт кнопками ±, голосовая кнопка скрывается | Низкий |
-| `NSMicrophoneUsageDescription` | «Считать голосом» / «Сохранить со звуком» | Счётчик рядов | Кнопки ± / запись сохраняется без звука | Низкий |
+| `NSMicrophoneUsageDescription` | «Считать голосом» / «Сохранить со звуком» | Свой ракурс | Кнопки ± / запись сохраняется без звука | Низкий |
 | `NSLocalNetworkUsageDescription` | «Смотреть на ТВ» | Урок | Пустой список устройств + «Открыть Настройки» | Низкий |
 | `UIBackgroundModes: audio` | «Слушать в фоне» / PiP | Урок | Без entitlement звук обрывается — не ship | **Условный** — Реальный playback, заполненный MPNowPlayingInfoCenter и remote-команды |
 | `NSCameraUsageDescription` | «Снять свой ракурс» / «Сканировать этикетку» | Проект | Пустое состояние + «Открыть Настройки»; данные мотка вводятся вручную | Низкий |

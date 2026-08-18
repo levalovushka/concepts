@@ -12,7 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, POSITIONING_MODES, listConcepts } from './lib.mjs';
-import { screenGraph, iaTree, transitionTable } from './screen-map.mjs';
+import { screenGraph, iaTree, transitionTable, screenActionsHtml } from './screen-map.mjs';
 import { archetypeFor } from './concept-quality.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
@@ -297,6 +297,7 @@ export function build(slug, { outDir } = {}) {
     SCREEN_TABLE: screenTable(spec),
     IA_MAP: iaTree(graph),
     TRANSITIONS: transitionTable(graph),
+    SCREEN_ACTIONS: screenActionsHtml(spec, markup),
     FEAT_GRID: featGrid(spec),
     TAGLINE: esc(spec.tagline),
     INSIGHT: esc(spec.insight),

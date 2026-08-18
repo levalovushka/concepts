@@ -176,9 +176,9 @@
         "text": "Сообщим об ответах и прогулках, на которые вы записались."
       },
       "feature": "Ответы и изменения прогулки",
-      "gesture": "«Следить»",
-      "screen": "walk",
-      "target": "walk",
+      "gesture": "«Прогулки и ответы» в «Настройках»",
+      "screen": "settings",
+      "target": "settings",
       "fallback": "Обновления помечаются точкой внутри приложения",
       "snack": "Обновления будут отмечены в приложении",
       "risk": "low",
@@ -217,7 +217,7 @@
       "feature": "Актуальный состав прогулки",
       "gesture": "«Обновлять состав»",
       "screen": "walk",
-      "target": "system",
+      "target": "walk",
       "fallback": "Состав обновляется при открытии",
       "risk": "low",
       "anchor": false,
@@ -236,7 +236,7 @@
       "feature": "Свежая лента к запуску",
       "gesture": "«Обновлять ленту в фоне»",
       "screen": "settings",
-      "target": "system",
+      "target": "settings",
       "fallback": "Лента обновится после открытия",
       "risk": "medium",
       "anchor": false,
@@ -253,9 +253,9 @@
       },
       "activate": true,
       "feature": "Зарегистрированная задача обновления",
-      "gesture": "«Проверить фоновые функции»",
-      "screen": "system",
-      "target": "system",
+      "gesture": "«Проверить задачу»",
+      "screen": "refresh",
+      "target": "home",
       "fallback": "Без задачи обновление только вручную",
       "risk": "low",
       "anchor": false,
@@ -272,10 +272,10 @@
       },
       "activate": true,
       "feature": "Виджет ближайшей прогулки",
-      "gesture": "«Добавить виджет»",
-      "screen": "profile",
-      "target": "system",
-      "fallback": "Расписание остаётся внутри приложения",
+      "gesture": "«Виджет»",
+      "screen": "settings",
+      "target": "widget",
+      "fallback": "Прогулка остаётся внутри приложения",
       "risk": "low",
       "anchor": false,
       "conditional": false,
@@ -290,9 +290,9 @@
       },
       "activate": true,
       "feature": "Один вход для приложения и виджета",
-      "gesture": "«Добавить виджет»",
-      "screen": "system",
-      "target": "profile",
+      "gesture": "«Открыть „Хвосты“» с виджета",
+      "screen": "widget",
+      "target": "home",
       "fallback": "Виджет открывает приложение для входа",
       "risk": "low",
       "anchor": false,
@@ -307,11 +307,11 @@
         "text": "Системное автозаполнение подставит сохранённый аккаунт на сайте."
       },
       "activate": true,
-      "feature": "Автозаполнение аккаунта на веб-версии",
-      "gesture": "«Автозаполнение на сайте»",
+      "feature": "Вход на сайт сохранённой связкой",
+      "gesture": "«Вход на сайте»",
       "screen": "settings",
-      "target": "system",
-      "fallback": "Вход по коду из SMS",
+      "target": "fill",
+      "fallback": "Вход вручную почтой и паролем",
       "risk": "low",
       "anchor": false,
       "conditional": false,
@@ -513,14 +513,14 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход",
+      "title": "Вход по почте",
       "type": "старт",
       "light": true,
       "meta": "Номер телефона",
       "ui": {
         "pattern": "auth",
         "purpose": "Войти",
-        "primaryAction": "Получить код",
+        "primaryAction": "Продолжить с почтой",
         "states": [
           "default",
           "loading",
@@ -536,7 +536,7 @@
     },
     {
       "id": "code",
-      "title": "Код",
+      "title": "Код из письма",
       "type": "push",
       "light": true,
       "parent": "phone",
@@ -838,8 +838,8 @@
       "meta": "Мои питомцы",
       "ui": {
         "pattern": "settings",
-        "purpose": "Управлять профилем",
-        "primaryAction": "Добавить виджет",
+        "purpose": "Показать профиль питомца и его прогулки",
+        "primaryAction": "Редактировать",
         "states": [
           "default"
         ],
@@ -857,42 +857,85 @@
       "type": "push",
       "light": true,
       "parent": "profile",
-      "meta": "Фон и веб-вход",
+      "meta": "Доступы, фон и виджет",
       "ui": {
         "pattern": "settings",
-        "purpose": "Настроить системные функции",
+        "purpose": "Держать доступы и системные функции под рукой",
         "primaryAction": "Обновлять ленту в фоне",
         "states": [
           "default"
         ],
         "density": "medium",
         "contentCases": [
-          "фон",
-          "автозаполнение",
-          "нет сети"
+          "состояние семи доступов",
+          "фон и виджет включены",
+          "доступ выключен в iOS"
         ]
       }
     },
     {
-      "id": "system",
-      "title": "Системные функции",
-      "type": "task",
+      "id": "widget",
+      "title": "Виджет на экране «Домой»",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "settings",
+      "meta": "App Group · Keychain",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Поставить виджет ближайшей прогулки на экран «Домой»",
+        "primaryAction": "Открыть «Хвосты»",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "снимок обновлён ночью",
+          "виджет ещё не добавлен",
+          "снимок не обновился — нет сети"
+        ]
+      }
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение на сайте",
+      "type": "fullscreen",
       "light": true,
       "parent": "settings",
-      "meta": "Widget · Background",
+      "meta": "AutoFill · Safari",
       "ui": {
-        "pattern": "task",
-        "purpose": "Проверить системные функции",
-        "primaryAction": "Готово",
+        "pattern": "system",
+        "purpose": "Войти на сайт сохранённым в «Хвостах» входом",
+        "primaryAction": "Войти",
         "states": [
-          "default",
-          "error"
+          "default"
         ],
-        "density": "low",
+        "density": "medium",
         "contentCases": [
-          "виджет",
-          "фон",
-          "нет сети"
+          "вход подставлен из связки",
+          "пароль повторяется на двух сайтах",
+          "сайта нет в сохранённых"
+        ]
+      }
+    },
+    {
+      "id": "refresh",
+      "title": "Обновление в фоне",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "BGAppRefreshTask",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Проверить, что фоновое обновление работает",
+        "primaryAction": "Проверить задачу",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "ночной прогон",
+          "прогон пропущен из-за заряда",
+          "тихий push с переносом"
         ]
       }
     },
@@ -1152,7 +1195,9 @@
         "voice",
         "profile",
         "settings",
-        "system",
+        "widget",
+        "fill",
+        "refresh",
         "mates",
         "ads",
         "lock",
@@ -1187,7 +1232,9 @@
         "voice",
         "profile",
         "settings",
-        "system",
+        "widget",
+        "fill",
+        "refresh",
         "mates",
         "ads",
         "lock",
@@ -1222,7 +1269,9 @@
         "voice",
         "profile",
         "settings",
-        "system",
+        "widget",
+        "fill",
+        "refresh",
         "mates",
         "ads",
         "lock",
@@ -1257,7 +1306,9 @@
         "voice",
         "profile",
         "settings",
-        "system",
+        "widget",
+        "fill",
+        "refresh",
         "mates",
         "ads",
         "lock",
@@ -1292,7 +1343,9 @@
         "voice",
         "profile",
         "settings",
-        "system",
+        "widget",
+        "fill",
+        "refresh",
         "mates",
         "ads",
         "lock",
@@ -1395,9 +1448,9 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
+      "email": "review@tails.social",
       "code": "0000",
-      "note": "Демо-вход, SMS не отправляется"
+      "note": "Демо-вход, письмо не отправляется"
     }
   }
 }

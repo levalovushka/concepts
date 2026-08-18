@@ -1,1 +1,40 @@
-<div class="screen td" id="scr-settings"><div class="td-safe"></div><header class="td-head"><button class="td-hit" data-back aria-label="Назад"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>Настройки</strong><span></span></header><div class="body-scroll td-nav-list"><p class="td-form-label">Приватность</p><button class="td-nav-row" data-go="groups"><svg class="td-icon"><use href="#i-lock"/></svg><span>Кто видит мои планы</span><small>Близкие</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><button class="td-nav-row" data-ask="faceid|lock|lock"><svg class="td-icon"><use href="#i-scan-face"/></svg><span>Замок Face ID</span><small>Выключен</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><p class="td-form-label">Система</p><button class="td-nav-row" data-activate="fetch|system"><svg class="td-icon"><use href="#i-rotate-cw"/></svg><span>Обновлять планы в фоне</span><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><button class="td-nav-row" data-activate="autofill|system"><svg class="td-icon"><use href="#i-key"/></svg><span>Автозаполнение на сайте</span><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><button class="td-nav-row" data-activate="shareext|shareext"><svg class="td-icon"><use href="#i-share"/></svg><span>Поделиться в «Сегодня»</span><small>Карты, Safari</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><button class="td-nav-row" data-go="ads"><svg class="td-icon"><use href="#i-megaphone"/></svg><span>Реклама и подписка</span><small>Без подбора</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button><p class="td-form-label">О приложении</p><button class="td-nav-row"><svg class="td-icon"><use href="#i-badge-check"/></svg><span>Версия</span><small>1.0</small></button><p class="td-caption" style="margin-top:22px">«Сегодня» не создаёт публичный профиль и не показывает планы людям вне вашего выбранного круга.</p></div><div class="home-ind"></div></div>
+<div class="screen td" id="scr-settings">
+  <div class="td-safe"></div>
+  <header class="td-head"><button class="td-hit" data-back aria-label="Назад"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>Настройки</strong><span></span></header>
+  <div class="body-scroll td-nav-list">
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-mail"/></svg><span>vlada@inbox.ru</span></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-phone"/></svg><span>Устройства</span><small>iPhone 13 и ещё 1</small></div>
+
+    <p class="td-form-label">Уведомления</p>
+    <div class="td-nav-row" data-ask="push|settings|settings"><svg class="td-icon"><use href="#i-bell"/></svg><span>Совпадения по времени</span><i class="switch" data-switch="push"></i></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-message-circle"/></svg><span>Сообщения</span><i class="switch is-on"></i></div>
+
+    <p class="td-form-label">Планы</p>
+    <div class="td-nav-row" data-activate="fetch|settings"><svg class="td-icon"><use href="#i-rotate-cw"/></svg><span>Обновлять планы в фоне</span><i class="switch" data-switch="fetch"></i></div>
+    <button class="td-nav-row" data-go="refresh"><svg class="td-icon"><use href="#i-clock"/></svg><span>Фоновая задача</span><small>Запуск в 04:12</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button>
+
+    <p class="td-form-label">На устройстве</p>
+    <button class="td-nav-row" data-activate="appgroups|widget"><svg class="td-icon"><use href="#i-layout-grid"/></svg><span>Виджет</span><small>Не добавлен</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button>
+    <button class="td-nav-row" data-activate="autofill|fill"><svg class="td-icon"><use href="#i-key"/></svg><span>Вход на сайте</span><small>today.place</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button>
+    <button class="td-nav-row" data-activate="shareext|shareext"><svg class="td-icon"><use href="#i-share"/></svg><span>Поделиться в «Сегодня»</span><small>2 черновика</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button>
+
+    <p class="td-form-label">Приватность</p>
+    <button class="td-nav-row" data-go="groups"><svg class="td-icon"><use href="#i-lock"/></svg><span>Кто видит мои планы</span><small>Близкие</small><svg class="td-icon"><use href="#i-chevron-right"/></svg></button>
+    <div class="td-nav-row" data-ask="faceid|lock|lock"><svg class="td-icon"><use href="#i-scan-face"/></svg><span>Замок Face ID</span><i class="switch" data-switch="faceid"></i></div>
+    <button class="td-nav-row" data-go="ads"><svg class="td-icon"><use href="#i-megaphone"/></svg><span>Отслеживание</span><small>Без подбора</small><i class="switch" data-switch="tracking"></i></button>
+
+    <p class="td-form-label">Разрешения</p>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-camera"/></svg><span>Камера</span><small class="perm-hidden" data-show-granted="camera">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="camera">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-images"/></svg><span>Фото</span><small class="perm-hidden" data-show-granted="photos">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="photos">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-mic"/></svg><span>Микрофон</span><small class="perm-hidden" data-show-granted="mic">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="mic">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-audio-lines"/></svg><span>Распознавание речи</span><small class="perm-hidden" data-show-granted="speech">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="speech">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-map-pin"/></svg><span>Геопозиция</span><small class="perm-hidden" data-show-granted="location">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="location">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-id-card"/></svg><span>Контакты</span><small class="perm-hidden" data-show-granted="contacts">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="contacts">Запрещено</small></div>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-calendar"/></svg><span>Календарь</span><small class="perm-hidden" data-show-granted="calendar">Разрешено</small><small class="td-perm-off perm-hidden" data-show-denied="calendar">Запрещено</small></div>
+    <div class="td-fallback perm-hidden" data-show-denied="camera,photos,mic,speech,location,contacts,calendar">Выключенный доступ возвращается в «Настройках» iOS — «Сегодня».</div>
+
+    <p class="td-form-label">О приложении</p>
+    <div class="td-nav-row"><svg class="td-icon"><use href="#i-badge-check"/></svg><span>Версия</span><small>1.0</small></div>
+  </div>
+  <div class="home-ind"></div>
+</div>
