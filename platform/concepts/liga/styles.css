@@ -2732,9 +2732,16 @@
 .lx-screen .lx-protocol-head > span {
   color: var(--lx-secondary) !important;
 }
-.lx-screen .lx-eyebrow,
-.lx-screen .lx-rec {
+.lx-screen .lx-eyebrow {
   color: #0077ff !important;
+}
+/* Плашка прямого эфира красная везде в проекте — здесь она унаследовала синий
+   фон от переопределённого --lx-lime, и синий текст на нём не был виден.
+   Раньше правило стояло в одной группе с надзаголовком, поэтому цвет им
+   приходилось держать общим. */
+.lx-screen .lx-rec {
+  background: #ff3347 !important;
+  color: #fff !important;
 }
 
 /* The live card reads in three beats: status,match,supporting metadata. */

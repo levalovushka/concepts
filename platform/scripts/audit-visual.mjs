@@ -49,6 +49,51 @@ function probe(scr, cfg) {
         && !el.matches('.cam-shutter, .pt-shutter, .otp-cell')) {
       out.push({ kind: 'button-border', what: label(el), detail: cs.borderTopWidth + ' ' + cs.borderTopStyle });
     }
+    // 2а. текст, слившийся с подложкой
+    //     Светлый текст на белой карточке внутри тёмного экрана виден только
+    //     глазами на PNG: линтер про цвета ничего не знает, а тест кликает.
+    //     Текст поверх фотографии, градиента или с тенью не считаем: там
+    //     подложка не сплошная и вычислить её нечем.
+    if (own) {
+      /* rgb() отдаёт 0–255, а color(srgb …) от color-mix — доли: без нормализации
+         светлая подложка читается как чёрная и проверка врёт. */
+      const nums = (v) => {
+        const raw = (v.match(/[\d.]+/g) || []).map(Number);
+        if (/^color\(/.test(v)) return raw.slice(0, 3).map((x) => Math.round(x * 255)).concat(raw.slice(3));
+        return raw;
+      };
+      const lum = ([r, g, b]) => {
+        const f = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      /* Подложка складывается из слоёв: полупрозрачная плашка поверх серого
+         плейсхолдера читается иначе, чем каждый слой по отдельности. */
+      let overMedia = cs.textShadow !== 'none';
+      const layers = [];
+      for (let a = el; a && a !== s && !overMedia; a = a.parentElement) {
+        const c = getComputedStyle(a);
+        if (c.backgroundImage && c.backgroundImage !== 'none') { overMedia = true; break; }
+        const v = nums(c.backgroundColor);
+        if (v.length < 3) continue;
+        const alpha = v[3] ?? 1;
+        if (alpha <= 0.01) continue;
+        layers.unshift({ rgb: v.slice(0, 3), alpha });
+        if (alpha >= 0.99) break;
+      }
+      let bg = null;
+      if (layers.length && layers[0].alpha >= 0.99) {
+        bg = layers[0].rgb;
+        for (const l of layers.slice(1)) bg = bg.map((c, i) => l.rgb[i] * l.alpha + c * (1 - l.alpha));
+      }
+      if (bg && !overMedia) {
+        const fg = nums(cs.color).slice(0, 3);
+        if (fg.length === 3) {
+          const l1 = lum(fg), l2 = lum(bg);
+          const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+          if (ratio < 1.8) out.push({ kind: 'low-contrast', what: label(el), detail: ratio.toFixed(2) + ':1' });
+        }
+      }
+    }
     // 2. мелкий шрифт на видимом тексте
     if (own) {
       const px = parseFloat(cs.fontSize);

@@ -249,7 +249,7 @@
 .vl-recent-search button+button{margin-top:1px}
 .vl-recent-search img{border-radius:10px;height:50px;object-fit:cover;width:50px}
 .vl-recent-search span{display:flex;flex-direction:column;min-width:0}
-.vl-recent-search strong{font-size:13px;line-height:17px}
+.vl-recent-search strong{color:var(--vl-ink);font-size:13px;line-height:17px}
 .vl-recent-search small{color:var(--vl-muted);font-size:11px;line-height:15px;margin-top:2px}
 .vl-recent-search svg{color:#9a9aa4;height:17px;width:17px}
 .vl-browse-grid{display:grid;gap:10px;grid-template-columns:1fr 1fr}
