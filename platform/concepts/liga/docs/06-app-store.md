@@ -15,3 +15,40 @@
 ## Конфиденциальность
 
 Доступы запрашиваются в момент использования соответствующей функции. Отказ от геопозиции, уведомлений, персонализации или локальной сети не ограничивает просмотр публичных видео.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Лига | 4 / 30 |
+| Subtitle | Матчи, эфиры и моменты | 22 / 30 |
+| Promotional Text | Смотрите любительский спорт в прямом эфире, загружайте полные записи и сохраняйте лучшие моменты игры. | 102 / 170 |
+| Keywords | видео,трансляции,записи,спорт,футбол,баскетбол,голы,команды,турниры | 67 / 100 |
+| Primary Category | Photo & Video | — |
+| Secondary Category | Sports | — |
+| Age Rating | 4+ | — |
+| Price | Бесплатно, с рекламой | — |
+| Support URL | https://liga.video/support | — |
+| Marketing URL | https://liga.video | — |
+| Privacy Policy URL | https://liga.video/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO — только HTTPS | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Номер телефона | `Contact Info → Phone Number` | Вход через SDK провайдера | Да | Нет |
+| Геопозиция | `Location → Coarse Location` | Матчи и площадки рядом | Нет | Нет |
+| Пользовательский контент | `User Content → Photos or Videos` | Трансляции и загрузка записей | Да | Нет |
+| Идентификатор устройства | `Identifiers → Device ID` | Только после ATT | Нет | **Да** |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->

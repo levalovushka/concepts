@@ -1,4 +1,4 @@
-<div class="screen td" id="scr-walk">
+<div class="screen td" id="scr-plan">
   <div class="td-safe"></div>
   <header class="td-head"><button class="td-hit" data-back aria-label="Назад"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>План</strong><button class="td-hit" aria-label="Ещё"><svg class="td-icon"><use href="#i-ellipsis"/></svg></button></header>
   <div class="body-scroll" style="padding-bottom:40px">
@@ -10,8 +10,10 @@
       <button class="td-place is-on"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Севкабель Порт</strong><span>20:10 · всем до 24 минут</span></div><span class="td-votes">3</span></button>
       <button class="td-place"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Новая Голландия</strong><span>20:30 · всем до 31 минуты</span></div><span class="td-votes">1</span></button>
       <div class="td-fallback perm-hidden" data-show-denied="push">Изменения плана будут отмечены точкой внутри приложения.</div>
-      <button class="td-primary block" data-ask="push|walk|walk">Подтвердить план</button>
-      <div class="td-compact-actions"><button class="td-secondary" data-activate="wifiinfo|walk">Я на месте</button><button class="td-secondary" data-activate="remotenotif|system">Обновлять состав</button></div>
+      <button class="td-primary block" data-ask="push|plan|plan">Подтвердить план</button>
+      <button class="td-secondary block" data-ask="calendar|plan|plan"><svg class="td-icon" style="width:17px;height:17px"><use href="#i-calendar-plus"/></svg>Добавить в Календарь</button>
+      <div class="td-fallback perm-hidden" data-show-denied="calendar">Время остаётся в карточке плана и в напоминании приложения.</div>
+      <div class="td-compact-actions"><button class="td-secondary" data-activate="wifiinfo|plan">Я на месте</button><button class="td-secondary" data-activate="remotenotif|system">Обновлять состав</button><button class="td-secondary" style="grid-column:1/-1" data-go="netqr"><svg class="td-icon" style="width:17px;height:17px"><use href="#i-qr-code"/></svg>Подключиться к сети места</button><button class="td-secondary" style="grid-column:1/-1" data-go="onway"><svg class="td-icon" style="width:17px;height:17px"><use href="#i-audio-lines"/></svg>Голосовые по дороге · 4</button></div>
     </div>
   </div>
 </div>

@@ -55,3 +55,144 @@
 - Выбор фото — `PHPicker`, поэтому приложение получает только выбранный снимок.
 - Universal Links — статический AASA на `set.live`.
 - Push — APNs через провайдера; регистрация только после согласия.
+
+## Карта экранов
+
+<!-- @generated:screen-map -->
+| ID | Название | Тип | Доступы |
+|---|---|---|---|
+| `home` | Главная | tab (root, start) | — |
+| `discover` | Обзор | tab (root) | — |
+| `detail` | Neon Garden | push | — |
+| `player` | Neon Garden | fullscreen | audio (activate) |
+| `background` | Экран погас | system | — |
+| `library` | Моя музыка | tab (root) | — |
+| `studio` | Афиши | push | camera, photo |
+| `capture` | Сканировать афишу | fullscreen | — |
+| `pick` | Фото | system picker | — |
+| `result` | Сет найден | modal | — |
+| `profile` | Профиль | tab (root) | push, domains (activate) |
+| `phone` | Вход по номеру | modal | — |
+| `code` | Код из SMS | push | — |
+| `codefail` | Неверный код | push | — |
+| `deeplink` | Открыто по ссылке | modal | — |
+| `denied` | Нужен доступ | state | — |
+| `search` | Результаты | push | — |
+<!-- @end -->
+
+## Матрица доступов
+
+Каждая строка читается так: пользователь делает жест — система спрашивает — при отказе остаётся рабочий путь.
+
+<!-- @generated:perm-matrix -->
+| Ключ | Жест пользователя | Экран | Если отказ | Риск Review |
+|---|---|---|---|---|
+| `NSCameraUsageDescription` | Сканировать афишу | Афиши | Ручной ввод и выбор из «Фото» остаются доступны | Низкий |
+| `NSPhotoLibraryUsageDescription` | Выбрать афишу | Афиши | Камера и ручная настройка остаются | Низкий |
+| `UIBackgroundModes: audio` | «Слушать в фоне» в плеере | Neon Garden | Плеер предупредит, что экран должен оставаться активным | **Условный** — AVAudioSession .playback + Now Playing + remote commands |
+| `aps-environment` | Свитч «Новое для меня» | Профиль | Новинки видны в главной витрине | **Условный** — Реальная регистрация APNs |
+| `com.apple.developer.associated-domains` | «Проверить ссылку» в профиле | Профиль | Та же страница откроется в Safari | Высокий |
+<!-- @end -->
+
+## Информационная архитектура
+
+Дерево выведено из разметки экранов, а не нарисовано руками: рукописная схема расходится с прототипом первой же правкой.
+
+<!-- @generated:ia-tree -->
+```
+Главная (home) — tab (root, start) · открывается: старт
+    ├─ Обзор (discover) — tab (root) · открывается: «Радио», «Обзор» …
+    │   └─ Результаты (search) — push · открывается: «Поиск», «Диджей, клуб или жанр» …
+    ├─ Neon Garden (detail) — push · открывается: «LIVE · MUTABOR», «21:30» …
+    │   └─ Neon Garden (player) — fullscreen · открывается: «Neon Garden», «Слушать» … · audio
+    │       └─ Экран погас (background) — system · открывается: «Фоновый режим», «Фоновое аудио» (audio)
+    ├─ Моя музыка (library) — tab (root) · открывается: «Моя музыка», «Сохранить в мою музыку»
+    │   └─ Афиши (studio) — push · открывается: «Добавить сет», «Добавить по афише» … · camera, photo
+    │       ├─ Сканировать афишу (capture) — fullscreen · открывается: «Сканировать камерой» (camera)
+    │       │   └─ Сет найден (result) — modal · открывается: «Сканировать», «Добавить»
+    │       ├─ Фото (pick) — system picker · открывается: «Выбрать из «Фото»» (photo)
+    │       └─ Нужен доступ (denied) — state · открывается: «Как работают доступы», «Доступы приложения»
+    └─ Профиль (profile) — tab (root) · открывается: «Профиль», «Войти» · push, domains
+        ├─ Вход по номеру (phone) — modal · открывается: «В»
+        │   └─ Код из SMS (code) — push · открывается: «Получить код»
+        │       └─ Неверный код (codefail) — push · открывается: «Код из четырёх цифр»
+        └─ Открыто по ссылке (deeplink) — modal · открывается: «Проверить ссылку» (domains)
+```
+<!-- @end -->
+
+## Переходы
+
+<!-- @generated:transitions -->
+| Экран | Что можно сделать | Ведёт на | Доступ | Тип перехода |
+|---|---|---|---|---|
+| `home` | «Профиль» | `profile` | — | переход |
+| `home` | «Поиск» | `search` | — | переход |
+| `home` | «Моя музыка» | `library` | — | переход |
+| `home` | «Радио», «Обзор» … | `discover` | — | переход |
+| `home` | «Neon Garden», «Слушать» … | `player` | — | переход |
+| `home` | «LIVE · MUTABOR», «21:30» … | `detail` | — | переход |
+| `home` | «Главная» | `home` | — | переход |
+| `discover` | «Диджей, клуб или жанр», «После полуночи» … | `search` | — | переход |
+| `discover` | «ВЫБОР РЕДАКЦИИ», «Neon Garden» … | `detail` | — | переход |
+| `discover` | «Главная» | `home` | — | переход |
+| `discover` | «Обзор» | `discover` | — | переход |
+| `discover` | «Моя музыка» | `library` | — | переход |
+| `discover` | «Профиль» | `profile` | — | переход |
+| `detail` | «Назад» | `home` | — | возврат по IA |
+| `detail` | «Слушать сет» | `player` | — | переход |
+| `player` | «Свернуть плеер» | `detail` | — | возврат по IA |
+| `player` | «Фоновый режим» | `background` | `UIBackgroundModes: audio` | entitlement, без alert |
+| `background` | — | — | — | дальше переходов нет |
+| `library` | «Добавить сет» | `studio` | — | переход |
+| `library` | «Neon Garden», «Afterglow» … | `detail` | — | переход |
+| `library` | «Главная» | `home` | — | переход |
+| `library` | «Обзор» | `discover` | — | переход |
+| `library` | «Моя музыка» | `library` | — | переход |
+| `library` | «Профиль» | `profile` | — | переход |
+| `studio` | «Назад» | `library` | — | возврат по IA |
+| `studio` | «Сканировать камерой» | `capture` | `NSCameraUsageDescription` | доступ разрешён |
+| `studio` | «Сканировать камерой» | `studio` | `NSCameraUsageDescription` | отказ → fallback |
+| `studio` | «Выбрать из «Фото»» | `pick` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
+| `studio` | «Выбрать из «Фото»» | `studio` | `NSPhotoLibraryUsageDescription` | отказ → fallback |
+| `studio` | «Как работают доступы» | `denied` | — | переход |
+| `capture` | «Закрыть» | `studio` | — | возврат по IA |
+| `capture` | «Сканировать» | `result` | — | переход |
+| `pick` | «Добавить» | `result` | — | переход |
+| `result` | «Назад» | `capture` | — | возврат по IA |
+| `result` | «Сохранить в мою музыку» | `library` | — | переход |
+| `result` | «Открыть карточку сета» | `detail` | — | переход |
+| `profile` | «В» | `phone` | — | переход |
+| `profile` | «Новое для меня» | `profile` | `aps-environment` | доступ разрешён |
+| `profile` | «Фоновое аудио» | `background` | `UIBackgroundModes: audio` | entitlement, без alert |
+| `profile` | «Проверить ссылку» | `deeplink` | `com.apple.developer.associated-domains` | entitlement, без alert |
+| `profile` | «Добавить по афише» | `studio` | — | переход |
+| `profile` | «Доступы приложения» | `denied` | — | переход |
+| `profile` | «Главная» | `home` | — | переход |
+| `profile` | «Обзор» | `discover` | — | переход |
+| `profile` | «Моя музыка» | `library` | — | переход |
+| `profile` | «Профиль» | `profile` | — | переход |
+| `phone` | «Закрыть» | `profile` | — | возврат по IA |
+| `phone` | «Получить код» | `code` | — | переход |
+| `code` | «Назад» | `phone` | — | возврат по IA |
+| `code` | «Код из четырёх цифр» | `codefail` | — | переход |
+| `code` | «Войти» | `profile` | — | переход |
+| `codefail` | «Назад» | `code` | — | возврат по IA |
+| `deeplink` | «Назад» | `profile` | — | возврат по IA |
+| `deeplink` | «Открыть в «Сет»» | `detail` | — | переход |
+| `denied` | «Назад» | `studio` | — | возврат по IA |
+| `denied` | «Продолжить без доступа» | `studio` | — | переход |
+| `search` | «Назад» | `discover` | — | возврат по IA |
+| `search` | «Soft Focus», «Afterglow» … | `detail` | — | переход |
+<!-- @end -->
+
+## Граница «без бэкенда»
+
+<!-- @generated:backendless -->
+| Требовало бы сервера | Решение без сервера |
+|---|---|
+| Каталог и аудио | Подписанный статический content pack + CDN |
+| Личная библиотека | CoreData и CloudKit private database |
+| Обработка камеры | Vision/Core Image на устройстве; кадр не уходит в сеть |
+| Push | APNs через дашборд провайдера |
+| Universal Links | Статический AASA на set.live |
+<!-- @end -->

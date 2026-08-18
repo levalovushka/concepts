@@ -9,7 +9,7 @@
 <!-- @generated:ia-tree -->
 ```
 Локальные проекты (projects) — tab (root) · открывается: старт
-    ├─ Новое событие (create) — push · открывается: «Создать событие», «Выбрать место» …, «Повторить» (location) · location
+    ├─ Новое событие (create) — push · открывается: «Создать событие», «Выбрать место» … · location
     │   └─ Место события (place) — system · открывается: «Место», «Повторить» (location), «Ввести вручную»
     └─ Выходные у озера (project) — push · открывается: «38 ВИДЕО», «Алматы, длинные выходные» … · camera, mic, photo
         ├─ Запросить материалы (invite) — modal · открывается: «Попросить видео»
@@ -75,9 +75,7 @@
 | `create` | «Ввести вручную» | `place` | — | переход |
 | `create` | «Создать событие» | `project` | — | переход |
 | `place` | «Закрыть» | `create` | — | возврат по IA |
-| `place` | «Выбрать место», «Ввести адрес вручную» | `create` | — | переход |
-| `place` | «Повторить» | `place` | `NSLocationWhenInUseUsageDescription` | доступ разрешён |
-| `place` | «Повторить» | `create` | `NSLocationWhenInUseUsageDescription` | отказ → fallback |
+| `place` | «Выбрать место», «Ввести адрес вручную» … | `create` | — | переход |
 | `project` | «Назад» | `projects` | — | возврат по IA |
 | `project` | «Попросить видео» | `invite` | — | переход |
 | `project` | «Снять» | `camera` | `NSCameraUsageDescription + NSMicrophoneUsageDescription` | доступ разрешён |

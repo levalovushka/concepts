@@ -36,3 +36,37 @@
 4. Профиль → «Проверить ссылку» для Universal Link.
 
 Каждый отказ оставляет рабочий fallback. Для камеры и «Фото» доступен ручной код; без push новинки остаются на главной; без фонового режима плеер просит оставить экран активным.
+
+## Метаданные
+
+<!-- @generated:store-meta -->
+| Поле | Значение | Знаков |
+|---|---|---|
+| App Name | Сет: Живые сеты | 15 / 30 |
+| Subtitle | Живые DJ-сеты и площадки | 24 / 30 |
+| Promotional Text | Находите записи выступлений, слушайте длинные миксы без пауз и сохраняйте трек прямо по таймкоду. | 97 / 170 |
+| Keywords | микс,диджей,клуб,эфир,треклист,фон | 34 / 100 |
+| Primary Category | Music | — |
+| Secondary Category | Lifestyle | — |
+| Age Rating | 4+ | — |
+| Price | Бесплатно | — |
+| Support URL | https://set.live/support | — |
+| Marketing URL | https://set.live | — |
+| Privacy Policy URL | https://set.live/privacy | — |
+| Encryption | ITSAppUsesNonExemptEncryption = NO | — |
+<!-- @end -->
+
+## Privacy-лейблы
+
+<!-- @generated:store-privacy -->
+| Что собираем | Тип в App Privacy | Зачем | Связано с пользователем | Трекинг |
+|---|---|---|---|---|
+| Фото | `User Content → Photos or Videos` | Выбранный кадр обрабатывается на устройстве | Нет | Нет |
+<!-- @end -->
+
+## Заметки для ревью
+
+<!-- @generated:store-review -->
+| Ключ | Что написать ревьюеру |
+|---|---|
+<!-- @end -->

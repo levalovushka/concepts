@@ -1,50 +1,914 @@
 {
-  "slug":"double","name":"Дубль","eyebrow":"Дубль · движение в точности · iOS","targetSet":"vk-video","domain":"double.fit","heroTitle":"Дубль — повторите движение точно","heroDeck":"Референс, ваша попытка и слабый фрагмент на одном таймлайне.","tagline":"Снимите попытку, сравните с референсом и повторите только то, что не получилось","insight":"человеку не нужна ещё одна лента уроков — ему нужно увидеть конкретную секунду, где его движение разошлось с образцом","deck":"Дубль превращает видео в инструмент практики: накладывает референс на запись пользователя, локально оценивает фазы движения и собирает короткий повтор слабого фрагмента.","qualityContractVersion":1,"uiContractVersion":2,
-  "product":{"audience":"Люди, которые разучивают танцы, упражнения и трюки по коротким видео","situation":"Пользователь повторяет движение перед камерой и не понимает, где именно ошибается","problem":"Обычный видеоплеер заставляет бесконечно перематывать и сравнивать по памяти","promise":"За одну попытку показать слабую фазу и сразу дать повторить только её","differentiator":"Видео не публикуется в ленту: оно синхронизируется, накладывается и превращается в локальную тренировку","returnReasons":["Незавершённые движения и серии","Рост точности по каждой фазе","Новые референсы в выбранных дисциплинах"],"verticalSlice":{"entry":"home","action":"camera","result":"analysis"},"coreLoop":["Выбрать движение и калибровать кадр","Снять синхронную попытку","Разобрать слабый фрагмент и повторить"],"nonGoals":["Социальная лента","Медицинская диагностика","Соревнование по внешности"]},
-  "positioning":{"mode":"differentiation","categoryFit":"Камера, видеосравнение и экспорт результата соответствуют Photo & Video, тренировка — вторичной Sports","familiarPatterns":["Каталог видео-референсов","Полноэкранная камера","Таймлайн и системный экспорт"],"distinctions":["Два синхронных слоя вместо видеоленты","Слабая фаза как главный результат","Все записи и анализ остаются локально"],"evidenceScreens":["home","reference","camera","analysis","retry"],"referencePatterns":[]},
-  "brand":{"accent":"#ff5b35","accentDark":"#ff7658","fonts":"Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"},"start":"phone",
-  "tabs":[{"id":"home","label":"Практика"},{"id":"library","label":"Движения"},{"id":"progress","label":"Прогресс"},{"id":"profile","label":"Профиль"}],
-  "permissions":[
-    {"key":"photoadd","plist":"NSPhotoLibraryAddUsageDescription","alert":{"title":"Разрешить «Дублю» сохранять видео в «Фото»?","text":"Чтобы экспортировать сравнение вашей попытки."},"feature":"Экспорт видео до/после","gesture":"«Сохранить сравнение» в результате","screen":"analysis","target":"analysis","fallback":"Сравнение остаётся в истории практики","snack":"Сравнение сохранено в Дубле","risk":"low","anchor":false,"conditional":false,"grounding":"PHPhotoLibrary.performChanges создаёт локальный asset"},
-    {"key":"localnet","plist":"NSLocalNetworkUsageDescription (+ NSBonjourServices)","alert":{"title":"Разрешить «Дублю» найти экран?","text":"Чтобы тренироваться перед телевизором, оставив iPhone камерой."},"feature":"Референс на телевизоре, камера на iPhone","gesture":"«На экран» в референсе","screen":"reference","target":"cast","fallback":"Референс остаётся рядом с камерой на iPhone","snack":"Продолжаем на iPhone","risk":"low","anchor":true,"conditional":false,"grounding":"Bonjour + Cast SDK"},
-    {"key":"mic","plist":"NSMicrophoneUsageDescription","alert":{"title":"Разрешить «Дублю» слышать счёт?","text":"Чтобы начать запись по хлопку или голосовой команде."},"feature":"Старт попытки по хлопку","gesture":"«Снять попытку» в референсе","screen":"reference","target":"camera","fallback":"Запись запускается трёхсекундным таймером","snack":"Используем таймер 3 секунды","risk":"low","anchor":true,"conditional":false,"grounding":"AVAudioEngine локально определяет короткий импульс"},
-    {"key":"location","plist":"NSLocationWhenInUseUsageDescription","alert":{"title":"Разрешить «Дублю» использовать геопозицию?","text":"Чтобы подобрать безопасные места для уличной практики рядом."},"feature":"Площадки для практики рядом","gesture":"«Площадки рядом» на главной","screen":"home","target":"nearby","fallback":"Открывается список площадок выбранного города","snack":"Показываем городские площадки","risk":"low","anchor":false,"conditional":true,"requires":"JIT после явного выбора","grounding":"Core Location + статический каталог площадок"},
-    {"key":"tracking","plist":"NSUserTrackingUsageDescription","alert":{"title":"Разрешить персонализацию рекламы?","text":"Это поддержит бесплатные наборы движений."},"feature":"Бесплатные наборы с рекламой","gesture":"«Продолжить бесплатно» после входа","screen":"ads","target":"home","fallback":"Контекстные объявления по дисциплине","snack":"Реклама без персонализации","snackOnce":true,"risk":"medium","anchor":false,"conditional":true,"requires":"ATT после объяснения","grounding":"Рекламный SDK без IDFA при отказе"},
-    {"key":"camera","plist":"NSCameraUsageDescription","alert":{"title":"Разрешить «Дублю» доступ к камере?","text":"Чтобы записать вашу попытку и сравнить движение."},"feature":"Синхронная запись попытки","gesture":"«Снять попытку» в референсе","screen":"reference","target":"camera","fallback":"Можно импортировать готовую попытку","snack":"Выберите готовое видео","risk":"low","anchor":true,"conditional":false,"grounding":"AVCaptureSession пишет локальный файл"},
-    {"key":"photo","plist":"NSPhotoLibraryUsageDescription","alert":{"title":"Разрешить «Дублю» выбрать видео?","text":"Чтобы импортировать готовую попытку или свой референс."},"feature":"Импорт попытки и референса","gesture":"«Импортировать попытку» в референсе","screen":"reference","target":"upload","fallback":"Можно записать новую попытку камерой","snack":"Снимите новую попытку","risk":"low","anchor":false,"conditional":false,"grounding":"PHPicker отдаёт только выбранный файл"},
-    {"key":"audio","plist":"UIBackgroundModes: audio","alert":{"title":"Оставить счёт в фоне?","text":"Ритм и голосовые метки продолжат играть при погашенном экране."},"activate":true,"feature":"Ритмический счёт при тренировке","gesture":"«Счёт в фоне» в референсе","screen":"reference","target":"background","fallback":"Счёт останавливается при блокировке","risk":"high","anchor":true,"conditional":true,"requires":"AVAudioSession, Now Playing и remote-команды","grounding":"Локальный аудиотрек + MPNowPlayingInfoCenter"},
-    {"key":"push","plist":"aps-environment (Push Notifications capability)","alert":{"title":"Разрешить «Дублю» напоминания?","text":"Напомним закончить начатую серию практики."},"feature":"Напоминание о серии","gesture":"Свитч «Напоминать о серии» в прогрессе","screen":"progress","target":"progress","fallback":"Серия видна внутри приложения","snack":"Серия останется в Прогрессе","snackOnce":true,"risk":"low","anchor":false,"conditional":true,"requires":"Локальные уведомления и APNs для новых наборов","grounding":"UNUserNotificationCenter + APNs topics"},
-    {"key":"domains","plist":"com.apple.developer.associated-domains","alert":{"title":"Открывать движения в «Дубле»?","text":"Референс по ссылке сразу откроется в приложении."},"activate":true,"feature":"Ссылка на движение","gesture":"«Поделиться движением» в референсе","screen":"reference","target":"deeplink","fallback":"Открывается публичная страница движения","risk":"medium","anchor":false,"conditional":true,"requires":"AASA для /move/*","grounding":"Associated Domains: applinks:double.fit"}
+  "slug": "double",
+  "name": "Дубль",
+  "eyebrow": "Дубль · движение в точности · iOS",
+  "targetSet": "vk-video",
+  "domain": "double.fit",
+  "heroTitle": "Дубль — повторите движение точно",
+  "heroDeck": "Референс, ваша попытка и слабый фрагмент на одном таймлайне.",
+  "tagline": "Снимите попытку, сравните с референсом и повторите только то, что не получилось",
+  "insight": "человеку не нужна ещё одна лента уроков — ему нужно увидеть конкретную секунду, где его движение разошлось с образцом",
+  "deck": "Дубль превращает видео в инструмент практики: накладывает референс на запись пользователя, локально оценивает фазы движения и собирает короткий повтор слабого фрагмента.",
+  "qualityContractVersion": 1,
+  "uiContractVersion": 2,
+  "product": {
+    "audience": "Люди, которые разучивают танцы, упражнения и трюки по коротким видео",
+    "situation": "Пользователь повторяет движение перед камерой и не понимает, где именно ошибается",
+    "problem": "Обычный видеоплеер заставляет бесконечно перематывать и сравнивать по памяти",
+    "promise": "За одну попытку показать слабую фазу и сразу дать повторить только её",
+    "differentiator": "Видео не публикуется в ленту: оно синхронизируется, накладывается и превращается в локальную тренировку",
+    "returnReasons": [
+      "Незавершённые движения и серии",
+      "Рост точности по каждой фазе",
+      "Новые референсы в выбранных дисциплинах"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "camera",
+      "result": "analysis"
+    },
+    "coreLoop": [
+      "Выбрать движение и калибровать кадр",
+      "Снять синхронную попытку",
+      "Разобрать слабый фрагмент и повторить"
+    ],
+    "nonGoals": [
+      "Социальная лента",
+      "Медицинская диагностика",
+      "Соревнование по внешности"
+    ]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Камера, видеосравнение и экспорт результата соответствуют Photo & Video, тренировка — вторичной Sports",
+    "familiarPatterns": [
+      "Каталог видео-референсов",
+      "Полноэкранная камера",
+      "Таймлайн и системный экспорт"
+    ],
+    "distinctions": [
+      "Два синхронных слоя вместо видеоленты",
+      "Слабая фаза как главный результат",
+      "Все записи и анализ остаются локально"
+    ],
+    "evidenceScreens": [
+      "home",
+      "reference",
+      "camera",
+      "analysis",
+      "retry"
+    ],
+    "referencePatterns": []
+  },
+  "brand": {
+    "accent": "#3478dc",
+    "accentDark": "#6ea8f5",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Практика"
+    },
+    {
+      "id": "library",
+      "label": "Движения"
+    },
+    {
+      "id": "progress",
+      "label": "Прогресс"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
-  "screens":[
-    {"id":"phone","title":"Вход","type":"старт","light":true,"meta":"Синхронизация прогресса","ui":{"pattern":"auth","purpose":"Сохранить серию практики","primaryAction":"Получить код","states":["default","loading","error"],"density":"low","contentCases":["Номер корректен","Ошибка формата","Медленный ответ"]}},
-    {"id":"code","title":"Код","type":"push","light":true,"parent":"phone","meta":"OTP","ui":{"pattern":"auth","purpose":"Подтвердить номер","primaryAction":"Продолжить","states":["default","loading","error"],"density":"low","contentCases":["Код пришёл","Код неверен","Повторная отправка"]}},
-    {"id":"codefail","title":"Неверный код","type":"push","light":true,"parent":"code","meta":"Состояние ошибки OTP","ui":{"pattern":"auth","purpose":"Показать ошибку кода","primaryAction":"Ввести код ещё раз","states":["default","loading","error"],"density":"low","contentCases":["Код неверен","Повторная отправка","Ввод нового кода"]}},
-    {"id":"ads","title":"Бесплатные наборы","type":"onboarding","light":true,"parent":"code","meta":"ATT","ui":{"pattern":"task","purpose":"Объяснить бесплатную модель","primaryAction":"Продолжить бесплатно","states":["default","error"],"density":"low","contentCases":["Согласие","Отказ","SDK недоступен"]}},
-    {"id":"home","title":"Практика","type":"tab (root)","light":true,"meta":"Сегодня и продолжить","ui":{"pattern":"collection","purpose":"Вернуться к текущему движению","primaryAction":"Side step","states":["default","empty","denied"],"density":"medium","contentCases":["Есть серия","Первый запуск","Гео запрещено"]}},
-    {"id":"library","title":"Движения","type":"tab (root)","light":true,"meta":"Каталог референсов","ui":{"pattern":"collection","purpose":"Выбрать движение по уровню","primaryAction":"Side step","states":["default","empty"],"density":"high","contentCases":["Танец","Фитнес","Нет скачанного"]}},
-    {"id":"reference","title":"Референс","type":"push","light":false,"parent":"library","meta":"Фазы движения","ui":{"pattern":"player","purpose":"Изучить движение и начать попытку","primaryAction":"Снять попытку","states":["default","loading","error"],"density":"medium","contentCases":["Три фазы","Длинное движение","Видео недоступно"]}},
-    {"id":"camera","title":"Попытка","type":"fullscreen","light":false,"parent":"reference","meta":"Ghost overlay","ui":{"pattern":"capture","purpose":"Записать движение по силуэту","primaryAction":null,"states":["default","denied"],"density":"low","contentCases":["Человек в кадре","Плохой свет","Камера запрещена"]}},
-    {"id":"analysis","title":"Разбор","type":"push","light":true,"parent":"camera","meta":"Синхронное сравнение","ui":{"pattern":"editor","purpose":"Показать расхождение по фазам","primaryAction":"Повторить фрагмент","states":["default","error","success"],"density":"medium","contentCases":["Одна слабая фаза","Все фазы точны","Анализ не удался"]}},
-    {"id":"retry","title":"Повтор фрагмента","type":"fullscreen","light":false,"parent":"analysis","meta":"Loop practice","ui":{"pattern":"capture","purpose":"Перезаписать только слабую фазу","primaryAction":"Записать повтор","states":["default","denied"],"density":"low","contentCases":["Фрагмент 2 секунды","Фрагмент 8 секунд","Камера недоступна"]}},
-    {"id":"result","title":"Результат","type":"push","light":true,"parent":"retry","meta":"До и после","ui":{"pattern":"state","purpose":"Зафиксировать прогресс","primaryAction":"Готово","states":["default","success"],"density":"low","contentCases":["Точность выросла","Без изменений","Личный рекорд"]}},
-    {"id":"upload","title":"Импорт видео","type":"system picker","light":true,"parent":"reference","meta":"Photo Library","ui":{"pattern":"system","purpose":"Выбрать готовую попытку","primaryAction":"Далее","states":["default"],"density":"medium","contentCases":["Недавние видео","Нет видео","Ограниченный доступ"]}},
-    {"id":"cast","title":"На большой экран","type":"sheet","light":false,"parent":"reference","meta":"Local Network","ui":{"pattern":"system","purpose":"Выбрать экран для референса","primaryAction":"Продолжить на iPhone","states":["default"],"density":"low","contentCases":["Экран найден","Нет устройств","Сеть запрещена"]}},
-    {"id":"background","title":"Счёт в фоне","type":"system","light":false,"parent":"reference","meta":"Now Playing","ui":{"pattern":"system","purpose":"Управлять ритмом с экрана блокировки","primaryAction":"Side step · ритмический счёт","states":["default"],"density":"low","contentCases":["Счёт играет","Пауза","Серия завершена"]}},
-    {"id":"deeplink","title":"Движение по ссылке","type":"system handoff","light":true,"parent":"reference","meta":"Universal Link","ui":{"pattern":"state","purpose":"Открыть конкретный референс","primaryAction":"Начать практику","states":["default","error"],"density":"low","contentCases":["Референс найден","Набор не скачан","Ссылка устарела"]}},
-    {"id":"nearby","title":"Площадки рядом","type":"push","light":true,"parent":"home","meta":"Геопозиция","ui":{"pattern":"collection","purpose":"Найти безопасное место для практики","primaryAction":"Зал на Абая","states":["default","empty","denied"],"density":"medium","contentCases":["Зал рядом","Уличная площадка","Гео запрещено"]}},
-    {"id":"progress","title":"Прогресс","type":"tab (root)","light":true,"meta":"Серии и фазы","ui":{"pattern":"collection","purpose":"Показать измеримый рост","primaryAction":"Напоминать о серии","states":["default","empty"],"density":"medium","contentCases":["Серия 5 дней","Первая тренировка","Нет данных"]}},
-    {"id":"profile","title":"Профиль","type":"tab (root)","light":true,"meta":"Настройки и файлы","ui":{"pattern":"settings","purpose":"Управлять локальными видео","primaryAction":"Исходные попытки","states":["default"],"density":"medium","contentCases":["Много файлов","Нет файлов","Офлайн"]}}
+  "permissions": [
+    {
+      "key": "photoadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "Разрешить «Дублю» сохранять видео в «Фото»?",
+        "text": "Чтобы экспортировать сравнение вашей попытки."
+      },
+      "feature": "Экспорт видео до/после",
+      "gesture": "«Сохранить сравнение» в результате",
+      "screen": "analysis",
+      "target": "analysis",
+      "fallback": "Сравнение остаётся в истории практики",
+      "snack": "Сравнение сохранено в Дубле",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary.performChanges создаёт локальный asset"
+    },
+    {
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
+      "alert": {
+        "title": "Разрешить «Дублю» найти экран?",
+        "text": "Чтобы тренироваться перед телевизором, оставив iPhone камерой."
+      },
+      "feature": "Референс на телевизоре, камера на iPhone",
+      "gesture": "«На экран» в референсе",
+      "screen": "reference",
+      "target": "cast",
+      "fallback": "Референс остаётся рядом с камерой на iPhone",
+      "snack": "Продолжаем на iPhone",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Bonjour + Cast SDK"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить «Дублю» слышать счёт?",
+        "text": "Чтобы начать запись по хлопку или голосовой команде."
+      },
+      "feature": "Старт попытки по хлопку",
+      "gesture": "«Снять попытку» в референсе",
+      "screen": "reference",
+      "target": "camera",
+      "fallback": "Запись запускается трёхсекундным таймером",
+      "snack": "Используем таймер 3 секунды",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioEngine локально определяет короткий импульс"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить «Дублю» использовать геопозицию?",
+        "text": "Чтобы подобрать безопасные места для уличной практики рядом."
+      },
+      "feature": "Площадки для практики рядом",
+      "gesture": "«Площадки рядом» на главной",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Открывается список площадок выбранного города",
+      "snack": "Показываем городские площадки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "JIT после явного выбора",
+      "grounding": "Core Location + статический каталог площадок"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить персонализацию рекламы?",
+        "text": "Это поддержит бесплатные наборы движений."
+      },
+      "feature": "Бесплатные наборы с рекламой",
+      "gesture": "«Продолжить бесплатно» после входа",
+      "screen": "ads",
+      "target": "home",
+      "fallback": "Контекстные объявления по дисциплине",
+      "snack": "Реклама без персонализации",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "ATT после объяснения",
+      "grounding": "Рекламный SDK без IDFA при отказе"
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Разрешить «Дублю» доступ к камере?",
+        "text": "Чтобы записать вашу попытку и сравнить движение."
+      },
+      "feature": "Синхронная запись попытки",
+      "gesture": "«Снять попытку» в референсе",
+      "screen": "reference",
+      "target": "camera",
+      "fallback": "Можно импортировать готовую попытку",
+      "snack": "Выберите готовое видео",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession пишет локальный файл"
+    },
+    {
+      "key": "photo",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Разрешить «Дублю» выбрать видео?",
+        "text": "Чтобы импортировать готовую попытку или свой референс."
+      },
+      "feature": "Импорт попытки и референса",
+      "gesture": "«Импортировать попытку» в референсе",
+      "screen": "reference",
+      "target": "upload",
+      "fallback": "Можно записать новую попытку камерой",
+      "snack": "Снимите новую попытку",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранный файл"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Оставить счёт в фоне?",
+        "text": "Ритм и голосовые метки продолжат играть при погашенном экране."
+      },
+      "activate": true,
+      "feature": "Ритмический счёт при тренировке",
+      "gesture": "«Счёт в фоне» в референсе",
+      "screen": "reference",
+      "target": "background",
+      "fallback": "Счёт останавливается при блокировке",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession, Now Playing и remote-команды",
+      "grounding": "Локальный аудиотрек + MPNowPlayingInfoCenter"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment (Push Notifications capability)",
+      "alert": {
+        "title": "Разрешить «Дублю» напоминания?",
+        "text": "Напомним закончить начатую серию практики."
+      },
+      "feature": "Напоминание о серии",
+      "gesture": "Свитч «Напоминать о серии» в прогрессе",
+      "screen": "progress",
+      "target": "progress",
+      "fallback": "Серия видна внутри приложения",
+      "snack": "Серия останется в Прогрессе",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Локальные уведомления и APNs для новых наборов",
+      "grounding": "UNUserNotificationCenter + APNs topics"
+    },
+    {
+      "key": "domains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Открывать движения в «Дубле»?",
+        "text": "Референс по ссылке сразу откроется в приложении."
+      },
+      "activate": true,
+      "feature": "Ссылка на движение",
+      "gesture": "«Поделиться движением» в референсе",
+      "screen": "reference",
+      "target": "deeplink",
+      "fallback": "Открывается публичная страница движения",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AASA для /move/*",
+      "grounding": "Associated Domains: applinks:double.fit"
+    }
   ],
-  "prototypes":[
-    {"id":"all","hero":true,"label":"Весь продукт","note":"Полный цикл и все десять доступов","start":"phone","screens":["phone","code","codefail","ads","home","nearby","library","reference","camera","analysis","retry","result","upload","cast","background","deeplink","progress","profile"]},
-    {"id":"practice","label":"Разучить движение","note":"Референс, камера, разбор и повтор","start":"home","screens":["home","nearby","library","reference","camera","analysis","retry","result","upload","cast","background","deeplink"],"stops":["result"]},
-    {"id":"import","label":"Разобрать готовое видео","note":"Медиатека и синхронный анализ","start":"reference","screens":["reference","camera","upload","analysis","retry","result","cast","background","deeplink"],"stops":["result"]},
-    {"id":"screen","label":"Тренироваться с телевизором","note":"Cast и ритмический счёт в фоне","start":"reference","screens":["reference","cast","background","camera","upload","deeplink"],"stops":["camera","upload","deeplink"]},
-    {"id":"place","label":"Найти площадку","note":"Безопасные места рядом","start":"home","screens":["home","nearby","library","reference"],"stops":["reference"]},
-    {"id":"progress","label":"Поддержать серию","note":"Прогресс и напоминания","start":"progress","screens":["progress","home","nearby","library","reference"],"stops":["library","reference","nearby"]}
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход",
+      "type": "старт",
+      "light": true,
+      "meta": "Синхронизация прогресса",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Сохранить серию практики",
+        "primaryAction": "Получить код",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Номер корректен",
+          "Ошибка формата",
+          "Медленный ответ"
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить номер",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Код пришёл",
+          "Код неверен",
+          "Повторная отправка"
+        ]
+      }
+    },
+    {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Показать ошибку кода",
+        "primaryAction": "Ввести код ещё раз",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Код неверен",
+          "Повторная отправка",
+          "Ввод нового кода"
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Бесплатные наборы",
+      "type": "onboarding",
+      "light": true,
+      "parent": "code",
+      "meta": "ATT",
+      "ui": {
+        "pattern": "task",
+        "purpose": "Объяснить бесплатную модель",
+        "primaryAction": "Продолжить бесплатно",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Согласие",
+          "Отказ",
+          "SDK недоступен"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Практика",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Сегодня и продолжить",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к текущему движению",
+        "primaryAction": "Side step",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Есть серия",
+          "Первый запуск",
+          "Гео запрещено"
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Движения",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Каталог референсов",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Выбрать движение по уровню",
+        "primaryAction": "Side step",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "Танец",
+          "Фитнес",
+          "Нет скачанного"
+        ]
+      }
+    },
+    {
+      "id": "reference",
+      "title": "Референс",
+      "type": "push",
+      "light": false,
+      "parent": "library",
+      "meta": "Фазы движения",
+      "ui": {
+        "pattern": "player",
+        "purpose": "Изучить движение и начать попытку",
+        "primaryAction": "Снять попытку",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Три фазы",
+          "Длинное движение",
+          "Видео недоступно"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Попытка",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "reference",
+      "meta": "Ghost overlay",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Записать движение по силуэту",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Человек в кадре",
+          "Плохой свет",
+          "Камера запрещена"
+        ]
+      }
+    },
+    {
+      "id": "analysis",
+      "title": "Разбор",
+      "type": "push",
+      "light": true,
+      "parent": "camera",
+      "meta": "Синхронное сравнение",
+      "ui": {
+        "pattern": "editor",
+        "purpose": "Показать расхождение по фазам",
+        "primaryAction": "Повторить фрагмент",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Одна слабая фаза",
+          "Все фазы точны",
+          "Анализ не удался"
+        ]
+      }
+    },
+    {
+      "id": "retry",
+      "title": "Повтор фрагмента",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "analysis",
+      "meta": "Loop practice",
+      "ui": {
+        "pattern": "capture",
+        "purpose": "Перезаписать только слабую фазу",
+        "primaryAction": "Записать повтор",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Фрагмент 2 секунды",
+          "Фрагмент 8 секунд",
+          "Камера недоступна"
+        ]
+      }
+    },
+    {
+      "id": "result",
+      "title": "Результат",
+      "type": "push",
+      "light": true,
+      "parent": "retry",
+      "meta": "До и после",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Зафиксировать прогресс",
+        "primaryAction": "Готово",
+        "states": [
+          "default",
+          "success"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Точность выросла",
+          "Без изменений",
+          "Личный рекорд"
+        ]
+      }
+    },
+    {
+      "id": "upload",
+      "title": "Импорт видео",
+      "type": "system picker",
+      "light": true,
+      "parent": "reference",
+      "meta": "Photo Library",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать готовую попытку",
+        "primaryAction": "Далее",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Недавние видео",
+          "Нет видео",
+          "Ограниченный доступ"
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "На большой экран",
+      "type": "sheet",
+      "light": false,
+      "parent": "reference",
+      "meta": "Local Network",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Выбрать экран для референса",
+        "primaryAction": "Продолжить на iPhone",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Экран найден",
+          "Нет устройств",
+          "Сеть запрещена"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Счёт в фоне",
+      "type": "system",
+      "light": false,
+      "parent": "reference",
+      "meta": "Now Playing",
+      "ui": {
+        "pattern": "system",
+        "purpose": "Управлять ритмом с экрана блокировки",
+        "primaryAction": "Side step · ритмический счёт",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Счёт играет",
+          "Пауза",
+          "Серия завершена"
+        ]
+      }
+    },
+    {
+      "id": "deeplink",
+      "title": "Движение по ссылке",
+      "type": "system handoff",
+      "light": true,
+      "parent": "reference",
+      "meta": "Universal Link",
+      "ui": {
+        "pattern": "state",
+        "purpose": "Открыть конкретный референс",
+        "primaryAction": "Начать практику",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Референс найден",
+          "Набор не скачан",
+          "Ссылка устарела"
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Площадки рядом",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Геопозиция",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти безопасное место для практики",
+        "primaryAction": "Зал на Абая",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Зал рядом",
+          "Уличная площадка",
+          "Гео запрещено"
+        ]
+      }
+    },
+    {
+      "id": "progress",
+      "title": "Прогресс",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Серии и фазы",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Показать измеримый рост",
+        "primaryAction": "Напоминать о серии",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Серия 5 дней",
+          "Первая тренировка",
+          "Нет данных"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Настройки и файлы",
+      "ui": {
+        "pattern": "settings",
+        "purpose": "Управлять локальными видео",
+        "primaryAction": "Исходные попытки",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          "Много файлов",
+          "Нет файлов",
+          "Офлайн"
+        ]
+      }
+    }
   ],
-  "backendless":[{"needs":"Анализ позы","solution":"Vision и Core ML работают на устройстве"},{"needs":"Каталог движений","solution":"Подписанный статический пакет на CDN"},{"needs":"Хранение попыток","solution":"Файлы приложения и Core Data"},{"needs":"Ссылки","solution":"Статические страницы double.fit и AASA"}],
-  "docs":[{"file":"01-product-vision.md","label":"Вижен"},{"file":"02-architecture.md","label":"Архитектура"},{"file":"03-design-system.md","label":"Дизайн-токены"},{"file":"04-references.md","label":"Референсы"},{"file":"05-visual-audit.md","label":"Визуальный аудит"},{"file":"06-app-store.md","label":"Карточка App Store"}],
-  "appStore":{"name":"Дубль","subtitle":"Повторите движение точно","promo":"Снимите попытку, сравните её с референсом и повторите только слабый фрагмент.","keywords":"танцы,тренировка,видео,камера,сравнение,упражнения,техника,координация","category":{"primary":"Photo & Video","secondary":"Sports"},"ageRating":"4+","price":"Бесплатно, с рекламой","encryption":"ITSAppUsesNonExemptEncryption = NO — только HTTPS","urls":{"support":"https://double.fit/support","marketing":"https://double.fit","privacy":"https://double.fit/privacy"},"description":["Дубль помогает разучивать движения по видео.","СНИМИТЕ ПОПЫТКУ\nКамера показывает силуэт референса поверх кадра.","НАЙДИТЕ СЛАБУЮ ФАЗУ\nЛокальный анализ отмечает точный момент расхождения.","ПОВТОРИТЕ ТОЛЬКО ЕЁ\nКороткая петля экономит время практики."],"whatsNew":"Первая версия: референсы, ghost overlay, разбор фаз и локальная история.","privacy":[{"type":"Видео","apple":"User Content → Photos or Videos","purpose":"Функциональность","linked":false,"tracking":false,"why":"Локальный анализ попытки"},{"type":"Геопозиция","apple":"Location → Coarse Location","purpose":"Функциональность","linked":false,"tracking":false,"why":"Площадки рядом"},{"type":"Идентификатор","apple":"Identifiers → Device ID","purpose":"Реклама","linked":false,"tracking":true,"why":"Только после ATT"}],"reviewAccount":{"phone":"+7 900 000-00-00","code":"0000","note":"Тестовый номер принимает 0000."}}
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Полный цикл и все десять доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "codefail",
+        "ads",
+        "home",
+        "nearby",
+        "library",
+        "reference",
+        "camera",
+        "analysis",
+        "retry",
+        "result",
+        "upload",
+        "cast",
+        "background",
+        "deeplink",
+        "progress",
+        "profile"
+      ]
+    },
+    {
+      "id": "practice",
+      "label": "Разучить движение",
+      "note": "Референс, камера, разбор и повтор",
+      "start": "home",
+      "screens": [
+        "home",
+        "nearby",
+        "library",
+        "reference",
+        "camera",
+        "analysis",
+        "retry",
+        "result",
+        "upload",
+        "cast",
+        "background",
+        "deeplink"
+      ],
+      "stops": [
+        "result"
+      ]
+    },
+    {
+      "id": "import",
+      "label": "Разобрать готовое видео",
+      "note": "Медиатека и синхронный анализ",
+      "start": "reference",
+      "screens": [
+        "reference",
+        "camera",
+        "upload",
+        "analysis",
+        "retry",
+        "result",
+        "cast",
+        "background",
+        "deeplink"
+      ],
+      "stops": [
+        "result"
+      ]
+    },
+    {
+      "id": "screen",
+      "label": "Тренироваться с телевизором",
+      "note": "Cast и ритмический счёт в фоне",
+      "start": "reference",
+      "screens": [
+        "reference",
+        "cast",
+        "background",
+        "camera",
+        "upload",
+        "deeplink"
+      ],
+      "stops": [
+        "camera",
+        "upload",
+        "deeplink"
+      ]
+    },
+    {
+      "id": "place",
+      "label": "Найти площадку",
+      "note": "Безопасные места рядом",
+      "start": "home",
+      "screens": [
+        "home",
+        "nearby",
+        "library",
+        "reference"
+      ],
+      "stops": [
+        "reference"
+      ]
+    },
+    {
+      "id": "progress",
+      "label": "Поддержать серию",
+      "note": "Прогресс и напоминания",
+      "start": "progress",
+      "screens": [
+        "progress",
+        "home",
+        "nearby",
+        "library",
+        "reference"
+      ],
+      "stops": [
+        "library",
+        "reference",
+        "nearby"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Анализ позы",
+      "solution": "Vision и Core ML работают на устройстве"
+    },
+    {
+      "needs": "Каталог движений",
+      "solution": "Подписанный статический пакет на CDN"
+    },
+    {
+      "needs": "Хранение попыток",
+      "solution": "Файлы приложения и Core Data"
+    },
+    {
+      "needs": "Ссылки",
+      "solution": "Статические страницы double.fit и AASA"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Дубль",
+    "subtitle": "Повторите движение точно",
+    "promo": "Снимите попытку, сравните её с референсом и повторите только слабый фрагмент.",
+    "keywords": "танцы,тренировка,видео,камера,сравнение,упражнения,техника,координация",
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Sports"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно, с рекламой",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS",
+    "urls": {
+      "support": "https://double.fit/support",
+      "marketing": "https://double.fit",
+      "privacy": "https://double.fit/privacy"
+    },
+    "description": [
+      "Дубль помогает разучивать движения по видео.",
+      "СНИМИТЕ ПОПЫТКУ\nКамера показывает силуэт референса поверх кадра.",
+      "НАЙДИТЕ СЛАБУЮ ФАЗУ\nЛокальный анализ отмечает точный момент расхождения.",
+      "ПОВТОРИТЕ ТОЛЬКО ЕЁ\nКороткая петля экономит время практики."
+    ],
+    "whatsNew": "Первая версия: референсы, ghost overlay, разбор фаз и локальная история.",
+    "privacy": [
+      {
+        "type": "Видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Локальный анализ попытки"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Площадки рядом"
+      },
+      {
+        "type": "Идентификатор",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Тестовый номер принимает 0000."
+    }
+  }
 }
