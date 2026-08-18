@@ -139,6 +139,7 @@
 | `nearby` | «Миша · кино», «Аня · кино и поесть» | `match` | — | переход |
 | `plan` | «Назад» | `nearby` | — | возврат по IA |
 | `plan` | «Подтвердить план» | `plan` | `aps-environment` | доступ разрешён |
+| `plan` | «Добавить в Календарь» | `plan` | `NSCalendarsFullAccessUsageDescription + NSCalendarsUsageDescription` | доступ разрешён |
 | `plan` | «Я на месте» | `plan` | `com.apple.developer.networking.wifi-info` | entitlement, без alert |
 | `plan` | «Обновлять состав» | `system` | `UIBackgroundModes: remote-notification` | entitlement, без alert |
 | `plan` | «Подключиться к сети места» | `netqr` | — | переход |

@@ -2,7 +2,7 @@
 
 Блоки `@generated:*` пересобираются командой `npm run docs -- nakat` — внутрь них руками не пишем.
 
-30 экранов, три вкладки: **Занятия** · **Теория** · **Ещё**. Старт — вход по номеру (`phone` → `code`), permission-промптов на нём нет.
+31 экран, три вкладки: **Занятия** · **Теория** · **Ещё**. Старт — вход по номеру (`phone` → `code`), permission-промптов на нём нет.
 
 ## Информационная архитектура
 
@@ -230,7 +230,7 @@
 
 | Слой | Что внутри |
 |---|---|
-| UI | 30 экранов, три вкладки, nav stack, системный алерт и снекбар. Статусы доступов не хранит — отображает |
+| UI | 31 экран, три вкладки, nav stack, системный алерт и снекбар. Статусы доступов не хранит — отображает |
 | Domain | Курс (56 часов практики, 134 часа теории) · занятие: слот, инструктор, учебная машина, план · экзаменационный маршрут · билет из 20 вопросов и его аудио-разбор · алгоритм из пунктов · отметка присутствия · документ ученика |
 | Services | `Permissions` · `Playback` (AVAudioSession, MPNowPlayingInfoCenter, MPRemoteCommandCenter) · `Calls` (PushKit + CallKit + SDK связи) · `Scanner` (DataScannerViewController) · `Voice` (AVAudioRecorder + SFSpeechRecognizer on-device) · `Attendance` (CNCopyCurrentNetworkInfo + CLLocationManager) · `Hotspot` (NEHotspotConfigurationManager) · `Schedule` (Firestore SDK + BGAppRefreshTask) · `Credentials` (ASCredentialProviderViewController + Keychain) · `PhoneAuth` |
 | Data | CoreData — часы, ведомость, заметки и расшифровки, ошибки в билетах. FileManager — аудиозаметки и сканы документов. Keychain — токен входа и пароли группы. App Group — снапшот для виджета. Пак билетов, разборов и треков маршрутов — только чтение |
@@ -254,7 +254,7 @@
 
 | Прототип | Что показывает |
 |---|---|
-| `all` | все 30 экранов и все 20 доступов |
+| `all` | все 31 экран и все 20 доступов |
 | `signin` | вход по номеру: доступов нет |
 | `drive` | утреннее занятие: звонок, посадка, QR на стекле, разбор голосом, сообщение с локскрина |
 | `listen` | билет в наушниках: разбор, погашенный экран, Now Playing |
