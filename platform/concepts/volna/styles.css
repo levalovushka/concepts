@@ -193,7 +193,7 @@
 .vl-import-options>button>span:nth-child(2){display:flex;flex-direction:column;min-width:0}
 .vl-import-options strong{font-size:12px;line-height:16px}
 .vl-import-options small{color:var(--vl-muted);font-size:11px;line-height:15px;margin-top:2px}
-.vl-import-options>button>svg{color:#aaaab4;height:17px;width:17px}
+.vl-import-options>button>svg{color:#aaaab4;height:17px;width:17px}.vl-import-fix{background-color:#fff;border-radius:16px;margin-top:14px;overflow:hidden}.vl-import-fix>button{align-items:center;display:grid;gap:10px;grid-template-columns:38px minmax(0,1fr);min-height:56px;padding:7px 12px!important;width:100%}.vl-import-fix>button+button{margin-top:2px}.vl-import-fix>button>span:nth-child(2){display:flex;flex-direction:column;min-width:0;text-align:left}.vl-import-fix strong{font-size:12px;line-height:16px}.vl-import-fix small{color:var(--vl-muted);font-size:11px;line-height:15px;margin-top:2px}
 .vl-demo-icon{background-color:#fff0e7;color:#bd5d28}
 .vl-media-state{align-items:center;background-color:#e8f4ed;border-radius:13px;color:#236c4d;display:grid;font-size:11px;gap:8px;grid-template-columns:18px minmax(0,1fr);line-height:16px;margin-top:10px;padding:10px 12px}
 .vl-media-state>svg{height:16px;width:16px}

@@ -19,7 +19,7 @@
 
 Моя музыка (library) — tab root · открывается: «Профиль», «Моя музыка» …
     ├─ Still / Moving (album) — push detail · открывается: «Still / Moving», «Red Hours» …
-    └─ Добавить музыку (import) — push task · открывается: «Добавить музыку», «Добавить» … · music
+    └─ Добавить музыку (import) — push task · открывается: «Добавить музыку», «Добавить» … · music, camera, photo
 ```
 <!-- @end -->
 
@@ -37,7 +37,7 @@
 | `player` | Плеер | fullscreen | audio (activate) |
 | `queue` | Очередь | modal | — |
 | `background` | Экран погас | system | — |
-| `import` | Добавить музыку | push task | music |
+| `import` | Добавить музыку | push task | music, camera, photo |
 <!-- @end -->
 
 ## Переходы: откуда куда и чем
@@ -80,6 +80,8 @@
 | `background` | «Вернуться в плеер» | `player` | — | возврат по IA |
 | `import` | «Наза в медиатеку» | `library` | — | возврат по IA |
 | `import` | «Локальная медиатека» | `import` | `NSAppleMusicUsageDescription` | доступ разрешён |
+| `import` | «Сканировать этикетку» | `import` | `NSCameraUsageDescription` | доступ разрешён |
+| `import` | «Выбрать обложку» | `import` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
 <!-- @end -->
 
 ## Матрица доступов
@@ -89,6 +91,8 @@
 |---|---|---|---|---|
 | `NSAppleMusicUsageDescription` | «Локальная медиатека» на экране импорта | Добавить музыку | Files и bundled demo pack продолжают работать; доступ можно включить в системных Настройках | **Условный** — MPMediaLibraryAuthorization запрашивается только после явного выбора локальной медиатеки; сетевой Apple Music catalog не используется |
 | `UIBackgroundModes: audio` | «Слушать в фоне» в плеере | Плеер | Без capability локальный трек играет, пока «Такт» открыт; состояние очереди не теряется | **Условный** — AVAudioSession .playback активен только во время playback; MPNowPlayingInfoCenter и MPRemoteCommandCenter заполнены metadata локального asset |
+| `NSCameraUsageDescription` | «Сканировать этикетку» | Добавить музыку | Автор и альбом дозаполняются вручную в той же карточке | Низкий |
+| `NSPhotoLibraryUsageDescription` | «Выбрать обложку» | Добавить музыку | Трек остаётся с плейсхолдером обложки | Низкий |
 <!-- @end -->
 
 ## Почему здесь нет бэкенда

@@ -15,6 +15,12 @@
       <div><span class="vl-progress-check"><svg><use href="#i-check"/></svg></span><p><strong>Tempo и energy</strong><small>9 готово · 3 анализируются</small></p><span class="vl-download"><i></i></span></div>
       <div><span class="vl-progress-alert"><svg><use href="#i-triangle-alert"/></svg></span><p><strong>Voice memo 2026-08-08.wav</strong><small>Нет artist и mood · добавлен как «Без автора»</small></p></div>
     </section>
+    <div class="vl-import-fix">
+      <button class="tap" data-ask="camera|import|import"><span class="vl-action-icon"><svg><use href="#i-scan-line"/></svg></span><span><strong>Сканировать этикетку</strong><small>Дозаполнит автора и альбом трека без metadata</small></span></button>
+      <button class="tap" data-ask="photo|import|import"><span class="vl-action-icon"><svg><use href="#i-image"/></svg></span><span><strong>Выбрать обложку</strong><small>Из «Фото» — вместо плейсхолдера</small></span></button>
+    </div>
+    <div class="vl-media-state vl-media-denied perm-hidden" data-show-denied="camera"><svg><use href="#i-lock"/></svg><span>Камера недоступна — впишите автора и альбом вручную в карточке трека.</span></div>
+    <div class="vl-media-state vl-media-denied perm-hidden" data-show-denied="photo"><svg><use href="#i-lock"/></svg><span>Нет доступа к «Фото» — трек остаётся с плейсхолдером обложки.</span></div>
     <p class="vl-import-foot"><svg><use href="#i-lock"/></svg><span>Security-scoped bookmarks · Core Data · FileManager. Сеть, аккаунт и облако не используются.</span></p>
   </div>
   <div class="home-ind" aria-hidden="true"></div>
