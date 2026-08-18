@@ -80,7 +80,7 @@
     },
     {
       "id": "nearby",
-      "label": "Сообщества"
+      "label": "Рядом"
     },
     {
       "id": "chats",
@@ -606,24 +606,24 @@
     },
     {
       "id": "nearby",
-      "title": "Сообщества",
+      "title": "Рядом",
       "type": "tab (root)",
       "light": true,
       "parent": "home",
-      "meta": "Подписки и рекомендации",
+      "meta": "Свопы, встречи и авторы поблизости",
       "ui": {
         "pattern": "collection",
-        "purpose": "Найти своих",
-        "primaryAction": null,
+        "purpose": "Найти своп или автора поблизости",
+        "primaryAction": "Смотреть подборку",
         "states": [
           "default",
           "empty"
         ],
         "density": "high",
         "contentCases": [
-          "подписки",
-          "рекомендации",
-          "нет сети"
+          "три свопа на две недели",
+          "город не определён",
+          "в районе пусто"
         ]
       }
     },
@@ -714,29 +714,6 @@
         "contentCases": [
           "галерея",
           "пустое состояние",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "groups",
-      "title": "Сообщество",
-      "type": "push",
-      "light": true,
-      "parent": "nearby",
-      "meta": "Лента сообщества",
-      "ui": {
-        "pattern": "collection",
-        "purpose": "Найти своих",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "empty"
-        ],
-        "density": "high",
-        "contentCases": [
-          "описание",
-          "публикации",
           "нет сети"
         ]
       }
@@ -1169,7 +1146,6 @@
         "create",
         "camera",
         "media",
-        "groups",
         "chats",
         "chat",
         "voice",
@@ -1206,7 +1182,6 @@
         "create",
         "camera",
         "media",
-        "groups",
         "chats",
         "chat",
         "voice",
@@ -1243,7 +1218,6 @@
         "create",
         "camera",
         "media",
-        "groups",
         "chats",
         "chat",
         "voice",
@@ -1280,7 +1254,6 @@
         "create",
         "camera",
         "media",
-        "groups",
         "chats",
         "chat",
         "voice",
@@ -1317,7 +1290,6 @@
         "create",
         "camera",
         "media",
-        "groups",
         "chats",
         "chat",
         "voice",
@@ -1383,7 +1355,7 @@
     "name": "Образы",
     "subtitle": "Живой стиль реальных людей",
     "promo": "Сохраняйте сочетания, разбирайте образы на вещи и показывайте свои.",
-    "keywords": "гардероб,сочетания,примерка,авторы,сообщество",
+    "keywords": "гардероб,сочетания,примерка,авторы,своп",
     "category": {
       "primary": "Social Networking",
       "secondary": "Lifestyle"

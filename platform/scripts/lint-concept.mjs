@@ -134,6 +134,40 @@ function lint(slug) {
     }
   }
 
+  /* —— пустышки —— */
+  /* Шеврон в строке — обещание экрана. Строка без триггера, которая его рисует,
+     врёт: пользователь жмёт и ничего не происходит. Либо действие, либо без стрелки. */
+  {
+    const VOIDT = new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr','use','path','rect','circle','ellipse','line','polygon','polyline','stop']);
+    const TAGRE = /<(\/?)([a-z][a-z0-9-]*)((?:"[^"]*"|'[^']*'|[^>])*?)(\/?)>/gi;
+    const TRIGRE = /\bdata-(go|jump|ask|activate|toast|back|answer|act|switch|primary)\b/;
+    const CHEVRE = /i-chevron-right|ios-disclosure|caret/;
+    const ROWRE = /class="[^"]*\b(row|setting|nav-row|community-row|list-row|d-row|pm-row|tl-setting|td-nav-row|sk-project-row|lk-row)\b/;
+    for (const screen of spec.screens) {
+      const file = join(dir, 'screens', `${screen.id}.html`);
+      if (!existsSync(file)) continue;
+      const html = read(file);
+      const found = []; const stack = [];
+      let mm; TAGRE.lastIndex = 0;
+      while ((mm = TAGRE.exec(html))) {
+        const [full, closing, raw, attrs = '', self] = mm;
+        const tag = raw.toLowerCase();
+        if (closing) { while (stack.length) { const t = stack.pop(); if (t.rec) { t.rec.from = t.start; t.rec.to = mm.index; found.push(t.rec); } if (t.tag === tag) break; } continue; }
+        let rec = null;
+        if ((tag === 'button' || ROWRE.test(attrs)) && !TRIGRE.test(attrs)) rec = { attrs };
+        if (self || VOIDT.has(tag)) continue;
+        stack.push({ tag, rec, start: mm.index + full.length });
+      }
+      for (const r of found) {
+        const inner = html.slice(r.from, r.to);
+        if (!CHEVRE.test(inner) || ROWRE.test(inner)) continue;
+        const label = (r.attrs.match(/aria-label="([^"]+)"/) || [])[1]
+          || inner.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 40);
+        P(`${screen.id}: строка «${label}» рисует стрелку, но никуда не ведёт`);
+      }
+    }
+  }
+
   /* —— карточка App Store —— */
   /* Лимиты Apple жёсткие: перебор ловится только при загрузке в App Store Connect,
      то есть в самый неудобный момент. Считаем здесь. */
