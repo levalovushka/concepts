@@ -2,7 +2,7 @@
 
 Клиентское приложение без своего бэкенда: аккаунты, лента, сообщества и сообщения живут на SDK провайдера, медиа — в его же хранилище. Ни один заявленный ключ не требует писать и разворачивать свой обработчик.
 
-Набор доступов — ВКонтакте, заявлено 22 ключа. Правило, из которого выведена вся таблица ниже: **доступ заявляется только там, где за ним стоит фича, до которой пользователь доходит за 2–3 тапа.** Причина живёт в review-notes, фича — в сборке, а проверяют фичу.
+Набор доступов — ВКонтакте, заявлен 21 ключ из 22. `BGTaskSchedulerPermittedIdentifiers` не заявлен: фоновое обновление ленты включается тумблером в «Настройках», а отдельной фичи, до которой пользователь дошёл бы за 2–3 тапа, у зарегистрированной задачи не осталось — см. `06-app-store.md`. Правило, из которого выведена вся таблица ниже: **доступ заявляется только там, где за ним стоит фича, до которой пользователь доходит за 2–3 тапа.** Причина живёт в review-notes, фича — в сборке, а проверяют фичу.
 
 ---
 
@@ -11,8 +11,8 @@
 <!-- @generated:screen-map -->
 | ID | Название | Тип | Доступы |
 |---|---|---|---|
-| `phone` | Вход | старт | — |
-| `code` | Код | push | — |
+| `phone` | Вход по почте | старт | — |
+| `code` | Код из письма | push | — |
 | `codefail` | Неверный код | push | — |
 | `home` | Лента | tab (root) | location |
 | `post` | Публикация | push | — |
@@ -25,9 +25,10 @@
 | `chats` | Сообщения | tab (root) | — |
 | `chat` | Диалог | push | mic, commnotif (activate), voip (activate) |
 | `voice` | Голосовое сообщение | modal | — |
-| `profile` | Профиль автора | tab (root) | appgroups (activate), contacts |
-| `settings` | Настройки | push | remotenotif (activate), fetch (activate), autofill (activate), faceid, shareext (activate) |
-| `system` | Системные функции | task | bgtask (activate), keychain (activate) |
+| `profile` | Профиль автора | tab (root) | contacts |
+| `settings` | Настройки | push | remotenotif (activate), fetch (activate), appgroups (activate), autofill (activate), faceid, shareext (activate) |
+| `widget` | Виджет на экране «Домой» | fullscreen | keychain (activate) |
+| `fill` | Автозаполнение на сайте | fullscreen | — |
 | `mates` | Контакты в «Образах» | push | — |
 | `ads` | Реклама вместо подписки | modal | tracking |
 | `lock` | Замок на «Сохранённом» | push | — |
@@ -54,12 +55,11 @@
 | `NSLocationWhenInUseUsageDescription` | «Кто гуляет рядом» | Лента | Район выбирается вручную | Низкий |
 | `aps-environment` | «Следить» | Клип-примерка | Обновления помечаются точкой внутри приложения | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
 | `com.apple.developer.usernotifications.communication` | «Сообщения с аватаром» | Диалог | Обычное уведомление без аватара | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
-| `UIBackgroundModes: remote-notification` | «Обновление клипов» | Настройки | Состав обновляется при открытии | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
+| `UIBackgroundModes: remote-notification` | «Тихое обновление клипов» | Настройки | Состав обновляется при открытии | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
 | `UIBackgroundModes: fetch` | «Обновлять ленту в фоне» | Настройки | Лента обновится после открытия | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
-| `BGTaskSchedulerPermittedIdentifiers` | «Проверить фоновые функции» | Системные функции | Без задачи обновление только вручную | **Условный** — Функция активируется только явным действием пользователя и имеет видимый fallback |
-| `com.apple.security.application-groups` | «Добавить виджет» | Профиль автора | Расписание остаётся внутри приложения | Низкий |
-| `keychain-access-groups` | «Добавить виджет» | Системные функции | Виджет открывает приложение для входа | Низкий |
-| `com.apple.developer.authentication-services.autofill-credential-provider` | «Автозаполнение на сайте» | Настройки | Вход по коду из SMS | Низкий |
+| `com.apple.security.application-groups` | «Виджет на экране „Домой“» | Настройки | Сохранённое остаётся внутри приложения | Низкий |
+| `keychain-access-groups` | «Открыть „Образы“» с виджета | Виджет на экране «Домой» | Виджет открывает приложение для входа | Низкий |
+| `com.apple.developer.authentication-services.autofill-credential-provider` | «Вход на сайте» | Настройки | Вход вручную почтой и паролем | Низкий |
 | `com.apple.developer.networking.wifi-info` | «Отметиться на свопе» | Отметка на свопе | Остаётся отметка вручную — её подтверждает организатор | **Условный** — CNCopyCurrentNetworkInfo плюс выданная геопозиция — иначе SSID приходит пустым |
 | `NSContactsUsageDescription` | «Найти среди контактов» | Профиль автора | Остаётся поиск по имени и ссылка-приглашение | Низкий |
 | `NSUserTrackingUsageDescription` | «Продолжить» | Реклама вместо подписки | Реклама остаётся, но перестаёт быть персональной | Средний |
@@ -78,13 +78,13 @@
 
 <!-- @generated:ia-tree -->
 ```
-Вход (phone) — старт · открывается: старт
-    └─ Код (code) — push · открывается: «Продолжить»
+Вход по почте (phone) — старт · открывается: старт
+    └─ Код из письма (code) — push · открывается: «Продолжить с почтой»
         ├─ Неверный код (codefail) — push · открывается: «2»
-        └─ Лента (home) — tab (root) · открывается: «Продолжить», «Опубликовать» … · location
+        └─ Лента (home) — tab (root) · открывается: «G», «Продолжить» … · location
             ├─ Публикация (post) — push · открывается: «4 вещи отмечены», «Комментарии» …
             ├─ Сообщества (nearby) — tab (root) · открывается: «Рядом» (location)
-            │   ├─ Клип-примерка (clip) — push · открывается: «Уведомления», «Опубликовать клип» · push
+            │   ├─ Клип-примерка (clip) — push · открывается: переход, «Опубликовать клип» · push
             │   │   └─ Своп в Новой Голландии (swap) — push · открывается: «Своп в Новой Голландии» · calendar
             │   │       └─ Отметка на свопе (checkin) — push · открывается: «Отметиться на свопе», «Вернуться к отметке» · wifiinfo
             │   │           └─ Сеть площадки по QR (netqr) — modal · открывается: «Подключиться по QR» · hotspot
@@ -101,10 +101,11 @@
         ├─ Голосовое сообщение (voice) — modal · открывается: «Записать голосовое» (mic)
         └─ Звонок по свопу (call) — fullscreen · открывается: «Позвонить» (voip)
 
-Профиль автора (profile) — tab (root) · открывается: «Вернуться в профиль» (keychain), «Лера Савина», «Даша Ильина» …, «Продолжить» (tracking) · appgroups, contacts
-    ├─ Настройки (settings) — push · открывается: «Настройки» · remotenotif, fetch, autofill, faceid, shareext
-    │   ├─ Системные функции (system) — task · открывается: «Добавить виджет» (appgroups), «Фоновая лента» (fetch), «Обновление клипов» (remotenotif) … · bgtask, keychain
-    │   ├─ Реклама вместо подписки (ads) — modal · открывается: «Реклама и подписка» · tracking
+Профиль автора (profile) — tab (root) · открывается: «Открыть «Образы»» (keychain), «Лера Савина», «Даша Ильина» …, «Продолжить» (tracking) · contacts
+    ├─ Настройки (settings) — push · открывается: «Настройки» · remotenotif, fetch, appgroups, autofill, faceid, shareext
+    │   ├─ Виджет на экране «Домой» (widget) — fullscreen · открывается: «Виджет на экране «Домой»» (appgroups) · keychain
+    │   ├─ Автозаполнение на сайте (fill) — fullscreen · открывается: «Вход на сайте» (autofill)
+    │   ├─ Реклама вместо подписки (ads) — modal · открывается: «Реклама и отслеживание» · tracking
     │   ├─ Замок на «Сохранённом» (lock) — push · открывается: «Замок Face ID» (faceid)
     │   └─ Поделиться в «Образы» (shareext) — modal · открывается: «Поделиться в «Образы»» (shareext)
     └─ Контакты в «Образах» (mates) — push · открывается: «Найти среди контактов» (contacts)
@@ -116,7 +117,8 @@
 <!-- @generated:transitions -->
 | Экран | Что можно сделать | Ведёт на | Доступ | Тип перехода |
 |---|---|---|---|---|
-| `phone` | «Продолжить» | `code` | — | переход |
+| `phone` | «Продолжить с почтой» | `code` | — | переход |
+| `phone` | «G» | `home` | — | переход |
 | `code` | «Назад» | `phone` | — | возврат по IA |
 | `code` | «2» | `codefail` | — | переход |
 | `code` | «Продолжить» | `home` | — | переход |
@@ -155,23 +157,19 @@
 | `voice` | «Отправить» | `chat` | — | переход |
 | `profile` | «Создать публикацию» | `create` | — | переход |
 | `profile` | «Настройки» | `settings` | — | переход |
-| `profile` | «Добавить виджет» | `system` | `com.apple.security.application-groups` | entitlement, без alert |
 | `profile` | «Найти среди контактов» | `mates` | `NSContactsUsageDescription` | доступ разрешён |
 | `profile` | «Открыть публикацию» | `post` | — | переход |
 | `settings` | «Назад» | `profile` | — | возврат по IA |
-| `settings` | «Камера и фотографии» | `create` | — | переход |
-| `settings` | «Микрофон» | `chat` | — | переход |
-| `settings` | «Геопозиция» | `home` | — | переход |
-| `settings` | «Уведомления» | `clip` | — | переход |
-| `settings` | «Фоновая лента» | `system` | `UIBackgroundModes: fetch` | entitlement, без alert |
-| `settings` | «Обновление клипов» | `system` | `UIBackgroundModes: remote-notification` | entitlement, без alert |
-| `settings` | «Реклама и подписка» | `ads` | — | переход |
-| `settings` | «Замок Face ID» | `lock` | `NSFaceIDUsageDescription` | доступ разрешён |
+| `settings` | «Подписки» | `settings` | `aps-environment` | доступ разрешён |
+| `settings` | «Обновление клипов» | `settings` | `UIBackgroundModes: remote-notification` | entitlement, без alert |
+| `settings` | «Обновлять ленту в фоне» | `settings` | `UIBackgroundModes: fetch` | entitlement, без alert |
+| `settings` | «Виджет на экране «Домой»» | `widget` | `com.apple.security.application-groups` | entitlement, без alert |
+| `settings` | «Вход на сайте» | `fill` | `com.apple.developer.authentication-services.autofill-credential-provider` | entitlement, без alert |
 | `settings` | «Поделиться в «Образы»» | `shareext` | `NSExtensionPointIdentifier: com.apple.share-services` | entitlement, без alert |
-| `settings` | «Вход на сайте» | `system` | `com.apple.developer.authentication-services.autofill-credential-provider` | entitlement, без alert |
-| `system` | «Назад» | `settings` | — | возврат по IA |
-| `system` | «Проверить фоновую задачу» | `system` | `BGTaskSchedulerPermittedIdentifiers` | entitlement, без alert |
-| `system` | «Вернуться в профиль» | `profile` | `keychain-access-groups` | entitlement, без alert |
+| `settings` | «Замок Face ID» | `lock` | `NSFaceIDUsageDescription` | доступ разрешён |
+| `settings` | «Реклама и отслеживание» | `ads` | — | переход |
+| `widget` | «Открыть «Образы»» | `profile` | `keychain-access-groups` | entitlement, без alert |
+| `fill` | — | — | — | дальше переходов нет |
 | `mates` | «Назад» | `profile` | — | возврат по IA |
 | `mates` | «Лера Савина», «Даша Ильина» … | `profile` | — | переход |
 | `mates` | «Отправить в переписку» | `chats` | — | переход |
