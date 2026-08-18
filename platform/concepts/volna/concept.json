@@ -716,36 +716,37 @@
       "id": "listen",
       "label": "Локальная волна",
       "note": "Главное → станция → плеер → save/background",
-      "start": "home",
+      "start": "player",
       "screens": [
-        "home",
-        "search",
-        "library",
-        "station",
-        "artist",
-        "album",
         "player",
+        "artist",
+        "station",
         "queue",
         "background",
-        "import"
+        "home"
+      ],
+      "stops": [
+        "artist",
+        "home"
       ]
     },
     {
       "id": "catalog",
       "label": "Локальный каталог",
       "note": "Импорт, индекс, поиск, артист и альбом",
-      "start": "library",
+      "start": "search",
       "screens": [
-        "home",
         "search",
-        "library",
-        "station",
         "artist",
         "album",
+        "station",
+        "library",
         "player",
-        "queue",
-        "background",
         "import"
+      ],
+      "stops": [
+        "station",
+        "player"
       ]
     }
   ],

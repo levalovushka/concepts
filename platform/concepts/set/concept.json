@@ -443,9 +443,17 @@
         "pattern": "auth",
         "purpose": "Сохранить коллекцию между устройствами",
         "primaryAction": "Получить код",
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
-        "contentCases": ["номер заполнен", "ошибка номера", "вход пропущен"]
+        "contentCases": [
+          "номер заполнен",
+          "ошибка номера",
+          "вход пропущен"
+        ]
       }
     },
     {
@@ -459,9 +467,17 @@
         "pattern": "auth",
         "purpose": "Подтвердить номер телефона",
         "primaryAction": "Войти",
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
-        "contentCases": ["код подставлен", "неверный код", "повторная отправка"]
+        "contentCases": [
+          "код подставлен",
+          "неверный код",
+          "повторная отправка"
+        ]
       }
     },
     {
@@ -475,9 +491,17 @@
         "pattern": "auth",
         "purpose": "Показать ошибку кода и дать ввести заново",
         "primaryAction": "Войти",
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
-        "contentCases": ["неверный код", "просроченный код", "повторная отправка"]
+        "contentCases": [
+          "неверный код",
+          "просроченный код",
+          "повторная отправка"
+        ]
       }
     },
     {
@@ -579,25 +603,19 @@
       "id": "core",
       "label": "Главный цикл",
       "note": "Открыть сет, слушать его целиком в фоне и в один тап сохранить играющий трек",
-      "start": "home",
+      "start": "detail",
       "screens": [
-        "home",
-        "discover",
         "detail",
         "player",
+        "home",
         "background",
         "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
-        "profile",
-        "phone",
-        "code",
-        "codefail",
-        "deeplink",
-        "denied",
+        "discover",
         "search"
+      ],
+      "stops": [
+        "home",
+        "library"
       ]
     },
     {
@@ -606,48 +624,35 @@
       "note": "Отсканируйте QR на афише или выберите её из «Фото».",
       "start": "studio",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
         "studio",
+        "denied",
         "capture",
         "pick",
-        "result",
-        "profile",
-        "phone",
-        "code",
-        "codefail",
-        "deeplink",
-        "denied",
-        "search"
+        "library",
+        "result"
+      ],
+      "stops": [
+        "library",
+        "result"
       ]
     },
     {
       "id": "permissions",
       "label": "Все доступы",
       "note": "Явные триггеры и fallback",
-      "start": "profile",
+      "start": "phone",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
-        "profile",
         "phone",
         "code",
+        "profile",
         "codefail",
-        "deeplink",
         "denied",
-        "search"
+        "capture"
+      ],
+      "stops": [
+        "profile",
+        "denied",
+        "capture"
       ]
     }
   ],

@@ -18,11 +18,26 @@
   "domain": "loop.audio",
   "start": "home",
   "tabs": [
-    { "id": "home", "label": "Главная" },
-    { "id": "discover", "label": "Поиск" },
-    { "id": "studio", "label": "Студия" },
-    { "id": "library", "label": "Моя" },
-    { "id": "profile", "label": "Профиль" }
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "discover",
+      "label": "Поиск"
+    },
+    {
+      "id": "studio",
+      "label": "Студия"
+    },
+    {
+      "id": "library",
+      "label": "Моя"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
   "positioning": {
     "mode": "mimicry",
@@ -535,22 +550,19 @@
       "id": "core",
       "label": "Главный цикл",
       "note": "Выбрать луп, наложить ещё два и услышать цельную зарисовку",
-      "start": "home",
+      "start": "detail",
       "screens": [
-        "home",
-        "discover",
         "detail",
         "player",
+        "discover",
+        "home",
         "background",
         "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
-        "profile",
-        "deeplink",
-        "denied",
         "search"
+      ],
+      "stops": [
+        "discover",
+        "home"
       ]
     },
     {
@@ -559,20 +571,18 @@
       "note": "Снимите источник звука или выберите обложку для лупа.",
       "start": "studio",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
         "studio",
+        "profile",
+        "player",
+        "denied",
         "capture",
         "pick",
-        "result",
+        "result"
+      ],
+      "stops": [
         "profile",
-        "deeplink",
-        "denied",
-        "search"
+        "player",
+        "result"
       ]
     },
     {
@@ -581,20 +591,18 @@
       "note": "Явные триггеры и fallback",
       "start": "profile",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
         "profile",
+        "background",
         "deeplink",
         "denied",
-        "search"
+        "capture",
+        "pick"
+      ],
+      "stops": [
+        "deeplink",
+        "denied",
+        "capture",
+        "pick"
       ]
     }
   ],

@@ -4,13 +4,11 @@
   "eyebrow": "Строчка · iOS",
   "targetSet": "vk-music",
   "domain": "strochka.app",
-
   "heroTitle": "Строчка",
   "heroDeck": "Музыкальная библиотека хориста: программы, произведения и отдельная дорожка своего голоса.",
   "tagline": "Партия своего голоса отдельно от хора — в наушниках по дороге, с розданными на репетиции страницами рядом",
   "insight": "на репетиции всё звучит вместе, дома нот на слух не разобрать, а запись в сети — общий микс, где твоей строчки не слышно",
   "deck": "Приложение для взрослого любительского хора: программа концерта, партия своего голоса отдельной дорожкой и страницы, которые дирижёр раздал ксерокопией. Бэкенда нет — записи приходят статическим паком, снятые страницы остаются на устройстве.",
-
   "qualityContractVersion": 2,
   "product": {
     "audience": "Взрослые любители хорового пения, которые учат свою партию между репетициями",
@@ -119,17 +117,32 @@
       {
         "objection": "Если просто перекрасить старую программу в синий, мимикрии ВК Музыки не возникнет",
         "resolution": "Продукт пересобран вокруг персональной витрины, поиска, библиотеки, detail-экранов и постоянного playback",
-        "evidenceScreens": ["program", "notes", "journal", "releases", "player"]
+        "evidenceScreens": [
+          "program",
+          "notes",
+          "journal",
+          "releases",
+          "player"
+        ]
       },
       {
         "objection": "Музыкальная витрина может размыть узкую задачу и превратить продукт в обычный стриминг",
         "resolution": "Все секции ограничены текущим концертом, голосом, репетиционным статусом и сканами нот; нейтральных треков нет",
-        "evidenceScreens": ["program", "piece", "sheet"]
+        "evidenceScreens": [
+          "program",
+          "piece",
+          "sheet"
+        ]
       },
       {
         "objection": "Выбор голоса и тактов может остаться спрятанной профессиональной настройкой",
         "resolution": "Голос виден на главной CTA, в карточке произведения, mini-player и Now Playing, а повтор тактов вынесен рядом с play/pause",
-        "evidenceScreens": ["program", "piece", "player", "background"]
+        "evidenceScreens": [
+          "program",
+          "piece",
+          "player",
+          "background"
+        ]
       }
     ],
     "visualPasses": [
@@ -156,15 +169,25 @@
     "accentDark": "#0077FF",
     "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500"
   },
-
   "start": "phone",
   "uiContractVersion": 3,
   "tabs": [
-    { "id": "program", "label": "Главная", "role": "home" },
-    { "id": "notes", "label": "Поиск", "role": "search" },
-    { "id": "journal", "label": "Моя музыка", "role": "library" }
+    {
+      "id": "program",
+      "label": "Главная",
+      "role": "home"
+    },
+    {
+      "id": "notes",
+      "label": "Поиск",
+      "role": "search"
+    },
+    {
+      "id": "journal",
+      "label": "Моя музыка",
+      "role": "library"
+    }
   ],
-
   "permissions": [
     {
       "key": "camera",
@@ -247,7 +270,6 @@
       "reviewNote": "Одно редакционное уведомление на выпуск дополнения к паку: переписанная запись партии или купюра. Отправляется из дашборда провайдера, своего API у приложения нет; при отказе на экране остаётся строка «Проверить сейчас»."
     }
   ],
-
   "screens": [
     {
       "id": "phone",
@@ -263,10 +285,17 @@
           "primary": "Ценность партий и ввод номера телефона",
           "secondary": "Программа хора и условия конфиденциальности"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
         "contentCases": [
-          { "kind": "typical", "example": "Корректный номер участника хора" },
+          {
+            "kind": "typical",
+            "example": "Корректный номер участника хора"
+          },
           {
             "kind": "stress",
             "example": "Длинная подпись о привязке к программе"
@@ -293,7 +322,11 @@
           "primary": "Код подтверждения и кнопка входа",
           "secondary": "Повторная отправка и смена номера"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
         "contentCases": [
           {
@@ -327,7 +360,11 @@
           "primary": "Ячейки кода с ошибкой и подпись причины",
           "secondary": "Повторная отправка и возврат к вводу"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "low",
         "contentCases": [
           {
@@ -359,7 +396,12 @@
           "primary": "Продолжение текущей партии альта",
           "secondary": "Программа, недавние номера и подборки"
         },
-        "states": ["default", "empty", "loading", "error"],
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -392,7 +434,11 @@
           "primary": "Обложка, метаданные и запуск альта",
           "secondary": "Голоса, буквы репетиции и страницы нот"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -425,7 +471,11 @@
           "primary": "Обложка, такт и главные кнопки плеера",
           "secondary": "Повтор, ноты и следующие номера очереди"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "medium",
         "contentCases": [
           {
@@ -458,7 +508,9 @@
           "primary": "Системный Now Playing с голосом и тактом",
           "secondary": "Пауза, повтор и следующий номер"
         },
-        "states": ["default"],
+        "states": [
+          "default"
+        ],
         "density": "low",
         "contentCases": [
           {
@@ -491,7 +543,11 @@
           "primary": "Текущая страница с диапазоном тактов",
           "secondary": "Список страниц, импорт и пометки"
         },
-        "states": ["default", "denied", "error"],
+        "states": [
+          "default",
+          "denied",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -524,7 +580,10 @@
           "primary": "Кадр страницы с найденными границами",
           "secondary": "Номер страницы, такты и повторная съёмка"
         },
-        "states": ["default", "denied"],
+        "states": [
+          "default",
+          "denied"
+        ],
         "density": "low",
         "contentCases": [
           {
@@ -556,7 +615,11 @@
           "primary": "Строка поиска и конкретный результат",
           "secondary": "Категории поиска и история запросов"
         },
-        "states": ["default", "empty", "error"],
+        "states": [
+          "default",
+          "empty",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -589,7 +652,12 @@
           "primary": "Четыре выбранных снимка за даты репетиций",
           "secondary": "Предложенные номера и ручная коррекция"
         },
-        "states": ["default", "error", "success", "denied"],
+        "states": [
+          "default",
+          "error",
+          "success",
+          "denied"
+        ],
         "density": "medium",
         "contentCases": [
           {
@@ -621,7 +689,11 @@
           "primary": "Текущая программа и сохранённые номера",
           "secondary": "Загруженные ноты и история прогонов"
         },
-        "states": ["default", "empty", "error"],
+        "states": [
+          "default",
+          "empty",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -654,7 +726,11 @@
           "primary": "Обложка, дата и запуск партии альта",
           "secondary": "Порядок номеров, прогресс и дополнения"
         },
-        "states": ["default", "loading", "error"],
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -687,7 +763,9 @@
           "primary": "Уведомление о новой записи партии альта",
           "secondary": "Дата, номер концерта и переход к обновлению"
         },
-        "states": ["default"],
+        "states": [
+          "default"
+        ],
         "density": "low",
         "contentCases": [
           {
@@ -720,7 +798,10 @@
           "primary": "Голос, загрузки и свитч дополнений",
           "secondary": "Статус камеры, Фото и фонового аудио"
         },
-        "states": ["default", "denied"],
+        "states": [
+          "default",
+          "denied"
+        ],
         "density": "high",
         "contentCases": [
           {
@@ -739,7 +820,6 @@
       }
     }
   ],
-
   "prototypes": [
     {
       "id": "all",
@@ -774,64 +854,50 @@
         "phone",
         "code",
         "codefail",
-        "program",
-        "piece",
-        "player",
-        "background",
-        "sheet",
-        "camera",
-        "notes",
-        "import",
-        "journal",
-        "releases",
-        "notif",
-        "settings"
+        "program"
+      ],
+      "stops": [
+        "program"
       ]
     },
     {
       "id": "learn",
       "label": "Своя строчка по дороге",
       "note": "Номер, выбор голоса, партия альтов и погасший экран",
-      "start": "program",
+      "start": "piece",
       "screens": [
-        "phone",
-        "code",
-        "codefail",
-        "program",
         "piece",
-        "player",
-        "background",
         "sheet",
-        "camera",
-        "notes",
-        "import",
-        "journal",
-        "releases",
-        "notif",
-        "settings"
+        "player",
+        "program",
+        "background",
+        "journal"
+      ],
+      "stops": [
+        "sheet",
+        "program",
+        "journal"
       ]
     },
     {
       "id": "sheets",
       "label": "Страницы с репетиции",
       "note": "Съёмка розданных развортов и разбор снимков из галереи",
-      "start": "notes",
+      "start": "sheet",
       "screens": [
-        "phone",
-        "code",
-        "codefail",
-        "program",
-        "piece",
-        "player",
-        "background",
         "sheet",
+        "settings",
+        "player",
         "camera",
-        "notes",
         "import",
-        "journal",
-        "releases",
-        "notif",
-        "settings"
+        "piece",
+        "notes"
+      ],
+      "stops": [
+        "settings",
+        "player",
+        "piece",
+        "notes"
       ]
     },
     {
@@ -840,25 +906,22 @@
       "note": "Уведомление о новой записи партии и настройки доступов",
       "start": "releases",
       "screens": [
-        "phone",
-        "code",
-        "codefail",
-        "program",
-        "piece",
-        "player",
-        "background",
-        "sheet",
-        "camera",
-        "notes",
-        "import",
-        "journal",
         "releases",
+        "settings",
+        "player",
+        "piece",
+        "program",
         "notif",
-        "settings"
+        "journal"
+      ],
+      "stops": [
+        "player",
+        "piece",
+        "program",
+        "journal"
       ]
     }
   ],
-
   "backendless": [
     {
       "needs": "Каталог программ и записи партий по голосам",
@@ -885,23 +948,45 @@
       "solution": "SDK push-провайдера и его дашборд: своего обработчика нет"
     }
   ],
-
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" },
-    { "file": "07-quality-evidence.md", "label": "Quality evidence" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
   ],
-
   "appStore": {
     "name": "Строчка — партия для хора",
     "subtitle": "Голос отдельно, страницы рядом",
     "promo": "Весенняя программа: партии альтов и теноров переписаны после репетиции 25 февраля, в №3 появилась купюра. Дополнения приходят паком.",
     "keywords": "хор,партитура,альт,тенор,сопрано,репетиция,вокал,сольфеджио,клирос,регент",
-    "category": { "primary": "Music", "secondary": "Education" },
+    "category": {
+      "primary": "Music",
+      "secondary": "Education"
+    },
     "ageRating": "4+",
     "price": "Бесплатно, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка пака программы",

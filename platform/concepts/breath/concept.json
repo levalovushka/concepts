@@ -527,22 +527,21 @@
       "id": "core",
       "label": "Главный цикл",
       "note": "Выбрать состояние, включить музыку и пройти дыхательную сессию",
-      "start": "home",
+      "start": "detail",
       "screens": [
-        "home",
-        "discover",
         "detail",
         "player",
+        "studio",
+        "home",
         "background",
         "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
-        "profile",
-        "deeplink",
-        "denied",
+        "discover",
         "search"
+      ],
+      "stops": [
+        "player",
+        "studio",
+        "home"
       ]
     },
     {
@@ -551,20 +550,16 @@
       "note": "Камера и выбранное фото опционально задают оттенок визуала; кадры не сохраняются.",
       "start": "studio",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
         "studio",
+        "denied",
         "capture",
         "pick",
-        "result",
-        "profile",
-        "deeplink",
-        "denied",
-        "search"
+        "home",
+        "result"
+      ],
+      "stops": [
+        "home",
+        "result"
       ]
     },
     {
@@ -573,20 +568,17 @@
       "note": "Явные триггеры и fallback",
       "start": "profile",
       "screens": [
-        "home",
-        "discover",
-        "detail",
-        "player",
-        "background",
-        "library",
-        "studio",
-        "capture",
-        "pick",
-        "result",
         "profile",
+        "studio",
+        "background",
         "deeplink",
         "denied",
-        "search"
+        "capture",
+        "pick"
+      ],
+      "stops": [
+        "studio",
+        "deeplink"
       ]
     }
   ],
