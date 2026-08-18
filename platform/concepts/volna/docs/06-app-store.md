@@ -44,4 +44,5 @@ Camera, Photo Library, APNs/FCM, Associated Domains, CloudKit, BaaS и SMS-вх�
 <!-- @generated:store-review -->
 | Ключ | Что написать ревьюеру |
 |---|---|
+| `NSCameraUsageDescription` | Распознавание текста идёт на устройстве через Vision. Снимок этикетки нигде не сохраняется — только текст, который сразу разбирается на поля metadata. |
 <!-- @end -->
