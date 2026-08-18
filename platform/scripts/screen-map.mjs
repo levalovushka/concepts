@@ -44,7 +44,7 @@ const TRIGGER_ATTRS = ['data-go', 'data-jump', 'data-ask', 'data-activate', 'dat
  * известно, лежит ли элемент внутри таб-бара — вкладки чужих разделов это
  * структура, а не действие на экране, и в таблицу действий они не идут.
  */
-function triggersOf(screenId, html) {
+export function triggersOf(screenId, html) {
   const found = [];
   const stack = [];
   let m;
@@ -66,6 +66,9 @@ function triggersOf(screenId, html) {
       rec = {
         screen: screenId,
         attrs,
+        index: m.index,
+        openLength: full.length,
+        tagName: tag,
         label: attr(attrs, 'aria-label') || '',
         inTab: stack.some((s) => s.inTab),
         inner: '',
@@ -334,4 +337,129 @@ export function transitionTableMd(g) {
     }
   }
   return lines;
+}
+
+/* ——— действия экрана: каждый элемент, а не только переходы ——— */
+
+/**
+ * Таблица переходов схлопывает одинаковые по смыслу рёбра и намеренно
+ * выбрасывает вкладки: как карта это правильно, как справка разработчику — нет.
+ * Здесь наоборот: перечислены ВСЕ интерактивные элементы экрана в порядке
+ * разметки, включая вкладки чужих разделов, кнопку возврата и подтверждения,
+ * которые никуда не ведут. Иначе «что делает эта кнопка» приходится выяснять
+ * руками по разметке.
+ */
+const ROLE_WORD = {
+  tab: 'вкладка',
+  back: 'кнопка «назад»',
+  control: 'элемент экрана',
+};
+
+export function screenActions(spec, markup) {
+  const permByKey = new Map(spec.permissions.map((p) => [p.key, p]));
+  const titleOf = (id) => spec.screens.find((s) => s.id === id)?.title || id;
+  const out = [];
+  for (const s of spec.screens) {
+    const html = markup[s.id];
+    if (html == null) continue;
+    const rows = [];
+    for (const t of triggersOf(s.id, html)) {
+      const go = attr(t.attrs, 'data-go');
+      const jump = attr(t.attrs, 'data-jump');
+      const ask = attr(t.attrs, 'data-ask');
+      const activate = attr(t.attrs, 'data-activate');
+      const toast = attr(t.attrs, 'data-toast');
+      const isBack = /\bdata-back(=|[\s>])/.test(t.attrs);
+      const role = t.inTab ? 'tab' : isBack ? 'back' : 'control';
+      const label = t.label || (toast ? toast.split('|')[0] : '') || ROLE_WORD[role];
+
+      if (ask) {
+        const [keys, then, other] = ask.split('|');
+        const list = keys.split('+');
+        const plists = list.map((k) => permByKey.get(k)?.plist || k);
+        rows.push({
+          label, role,
+          does: list.length > 1
+            ? `спрашивает доступы цепочкой: ${list.join(' → ')}`
+            : `спрашивает доступ ${list[0]}`,
+          to: then ? `${titleOf(then)} (${then})` : '—',
+          onDeny: other && other !== then ? `${titleOf(other)} (${other})` : (then ? `${titleOf(then)} (${then})` : '—'),
+          keys: plists.join(' + '),
+        });
+        continue;
+      }
+      if (activate) {
+        const [key, to] = activate.split('|');
+        rows.push({
+          label, role,
+          does: `включает entitlement ${key}, системного alert нет`,
+          to: to === s.id ? 'остаётся на экране' : `${titleOf(to)} (${to})`,
+          onDeny: '—',
+          keys: permByKey.get(key)?.plist || key,
+        });
+        continue;
+      }
+      if (toast) {
+        const [msg, to] = toast.split('|');
+        rows.push({
+          label, role,
+          does: `показывает подтверждение «${msg}»`,
+          to: to ? `${titleOf(to)} (${to})` : 'остаётся на экране',
+          onDeny: '—', keys: '—',
+        });
+        continue;
+      }
+      if (go || jump) {
+        const to = go || jump;
+        rows.push({
+          label, role,
+          does: role === 'tab' ? 'переключает вкладку таб-бара' : 'открывает экран',
+          to: `${titleOf(to)} (${to})`,
+          onDeny: '—', keys: '—',
+        });
+        continue;
+      }
+      if (isBack) {
+        rows.push({
+          label, role,
+          does: 'возвращает к родительскому экрану',
+          to: s.parent ? `${titleOf(s.parent)} (${s.parent})` : '—',
+          onDeny: '—', keys: '—',
+        });
+      }
+    }
+    out.push({ screen: s, rows });
+  }
+  return out;
+}
+
+export function screenActionsMd(spec, markup) {
+  const lines = ['| Экран | Элемент | Роль | Что делает | Ведёт на | При отказе | Ключ |', '|---|---|---|---|---|---|---|'];
+  for (const { screen, rows } of screenActions(spec, markup)) {
+    if (!rows.length) { lines.push(`| \`${screen.id}\` | — | — | интерактивных элементов нет | — | — | — |`); continue; }
+    for (const r of rows) {
+      lines.push(`| \`${screen.id}\` | ${mdCell(r.label)} | ${ROLE_WORD[r.role]} | ${mdCell(r.does)} | ${mdCell(r.to)} | ${mdCell(r.onDeny)} | ${r.keys === '—' ? '—' : '`' + mdCell(r.keys) + '`'} |`);
+    }
+  }
+  return lines;
+}
+
+export function screenActionsHtml(spec, markup) {
+  const rowsHtml = [];
+  for (const { screen, rows } of screenActions(spec, markup)) {
+    const span = Math.max(rows.length, 1);
+    const head = `<th scope="row" rowspan="${span}"><span class="ia-cell-name">${esc(screen.title)}</span><code>${esc(screen.id)}</code></th>`;
+    if (!rows.length) { rowsHtml.push(`      <tr>${head}<td colspan="6" class="ia-cell-none">интерактивных элементов нет</td></tr>`); continue; }
+    rows.forEach((r, i) => {
+      rowsHtml.push(`      <tr>${i === 0 ? head : ''}<td>${esc(r.label)}</td><td>${esc(ROLE_WORD[r.role])}</td><td>${esc(r.does)}</td><td>${esc(r.to)}</td><td>${esc(r.onDeny)}</td><td>${r.keys === '—' ? '—' : `<code>${esc(r.keys)}</code>`}</td></tr>`);
+    });
+  }
+  return `<div class="table-wrap">
+  <table class="doc-table ia-table">
+    <thead><tr><th>Экран</th><th>Элемент</th><th>Роль</th><th>Что делает</th><th>Ведёт на</th><th>При отказе</th><th>Ключ</th></tr></thead>
+    <tbody>
+${rowsHtml.join('\n')}
+    </tbody>
+  </table>
+</div>`;
 }

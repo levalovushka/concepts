@@ -540,6 +540,33 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .auth-actions .btn-filled { width:100%; min-height:56px; }
 .auth-legal { margin:12px 0 0; text-align:center; text-wrap:balance; font:400 13px/18px var(--face); color:var(--ios-secondary); }
 .auth-resend { align-self:center; margin-top:20px; }
+/* Помощь, поддержка и соглашение на экране входа: ревьюер и пользователь
+   должны находить их до входа, а не после. Строка живёт в ядре, потому что
+   нужна всем концептам одинаково. */
+.auth-links { display:flex; flex-wrap:wrap; justify-content:center; gap:4px 18px; margin-top:14px; }
+/* Двойной класс намеренно: у части концептов свой `.xx button { color:inherit;
+   font:inherit }` перебивает одиночный класс по специфичности, и ссылка
+   рендерится обычным чёрным текстом. */
+.auth-links .auth-link {
+  min-height:44px; display:inline-flex; align-items:center; padding:0 2px; border:0; background:none;
+  color:var(--accent-fill); font:400 13px/18px var(--face); letter-spacing:-.01em; cursor:pointer;
+}
+.auth-links .auth-link:active { opacity:.55; }
+
+/* Вход по почте: часть концептов дорожит тем, что профиль переживает смену
+   телефона, — им нужен адрес, код в письме и кнопка провайдера. Разметка та же,
+   что у входа по номеру: меняется поле и добавляется вторая кнопка. */
+.auth-field.is-mail { min-height:64px; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; padding:10px 14px; }
+.auth-mail-label { font:400 12px/16px var(--face); color:var(--ios-secondary); }
+.auth-mail-value { font:400 17px/22px var(--face); color:#000; letter-spacing:-.1px; }
+.auth-google { width:100%; min-height:56px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; }
+.auth-google-mark {
+  width:20px; height:20px; border-radius:50%; flex:none;
+  background:#fff; box-shadow:0 0 0 1px rgba(60,60,67,.18);
+  display:inline-grid; place-items:center;
+  font:800 12px/1 Arial, sans-serif; color:#4285F4;
+}
+
 .otp { display:flex; gap:10px; }
 .otp-cell {
   flex:1; height:56px; border-radius:12px; background:rgba(118,118,128,.12);

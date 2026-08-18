@@ -18,7 +18,7 @@
 
 | Фича | API / SDK | Где в Apple Docs (по названию) |
 |---|---|---|
-| Вход по номеру | VK ID SDK либо Firebase Phone Auth, токен в Keychain общей группы | `ASAuthorization`-независимый флоу провайдера |
+| Вход по почте | VK ID SDK либо Firebase Email Link, токен в Keychain общей группы | `ASAuthorization`-независимый флоу провайдера |
 | Заведения рядом, время в пути | `MKLocalSearch`, `MKDirections.ETA` | MapKit |
 | Имя текущей сети | `CNCopyCurrentNetworkInfo` + entitlement `com.apple.developer.networking.wifi-info` | Network Extension: Wi-Fi Information |
 | Подключение к сети по QR | `NEHotspotConfigurationManager`, параметры из QR | Network Extension: Hotspot Configuration |

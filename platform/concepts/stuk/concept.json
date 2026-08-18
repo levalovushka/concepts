@@ -78,17 +78,35 @@
   },
   "start": "phone",
   "tabs": [
-    { "id": "home", "label": "Главная" },
-    { "id": "clips", "label": "Приёмы" },
-    { "id": "create", "label": "Снять" },
-    { "id": "sound", "label": "Звук" },
-    { "id": "profile", "label": "Профиль" }
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "clips",
+      "label": "Приёмы"
+    },
+    {
+      "id": "create",
+      "label": "Снять"
+    },
+    {
+      "id": "sound",
+      "label": "Звук"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
   "permissions": [
     {
       "key": "photoadd",
       "plist": "NSPhotoLibraryAddUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» добавлять видео в «Фото»?", "text": "Чтобы фрагмент разбора открывался в гараже, где нет сети и приложения под рукой." },
+      "alert": {
+        "title": "Разрешить «Стуку» добавлять видео в «Фото»?",
+        "text": "Чтобы фрагмент разбора открывался в гараже, где нет сети и приложения под рукой."
+      },
       "feature": "Экспорт фрагмента разбора в «Фото»",
       "gesture": "«Вырезать в „Фото“» под плеером",
       "screen": "watch",
@@ -103,7 +121,10 @@
     {
       "key": "localnet",
       "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
-      "alert": { "title": "Разрешить «Стуку» находить устройства в локальной сети?", "text": "Чтобы показать разбор на телевизоре, пока руки заняты." },
+      "alert": {
+        "title": "Разрешить «Стуку» находить устройства в локальной сети?",
+        "text": "Чтобы показать разбор на телевизоре, пока руки заняты."
+      },
       "feature": "Разбор на телевизоре",
       "gesture": "Кнопка телевизора в плеере",
       "screen": "watch",
@@ -118,11 +139,14 @@
     {
       "key": "mic",
       "plist": "NSMicrophoneUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» доступ к микрофону?", "text": "Чтобы записать звук неисправности и поставить его рядом с эталоном." },
+      "alert": {
+        "title": "Разрешить «Стуку» доступ к микрофону?",
+        "text": "Чтобы записать звук неисправности и поставить его рядом с эталоном."
+      },
       "feature": "Запись звука неисправности на десять секунд",
-      "gesture": "«Записать звук» на вкладке «Звук»",
-      "screen": "sound",
-      "target": "record",
+      "gesture": "«Снять ремонт» — цепочкой с камерой",
+      "screen": "create",
+      "target": "camera",
       "fallback": "Каталог симптомов открывается по описанию: где слышно, на какой скорости, в каком режиме",
       "snack": "Без микрофона запись недоступна — ищите по описанию",
       "risk": "low",
@@ -133,7 +157,10 @@
     {
       "key": "location",
       "plist": "NSLocationWhenInUseUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» использовать геопозицию?", "text": "Чтобы показать, где рядом взять эту деталь сегодня." },
+      "alert": {
+        "title": "Разрешить «Стуку» использовать геопозицию?",
+        "text": "Чтобы показать, где рядом взять эту деталь сегодня."
+      },
       "feature": "Магазины и разборки с этой деталью поблизости",
       "gesture": "«Где взять деталь» в разборе и в карточке симптома",
       "screen": "watch",
@@ -149,7 +176,12 @@
     {
       "key": "tracking",
       "plist": "NSUserTrackingUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» отслеживать ваши действия в приложениях и на сайтах других компаний?", "text": "Данные будут использоваться для показа релевантной рекламы.", "deny": "Запретить отслеживание", "grant": "Разрешить" },
+      "alert": {
+        "title": "Разрешить «Стуку» отслеживать ваши действия в приложениях и на сайтах других компаний?",
+        "text": "Данные будут использоваться для показа релевантной рекламы.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
       "feature": "Бесплатная версия с рекламой запчастей и сервисов",
       "gesture": "«Продолжить бесплатно» после входа",
       "screen": "ads",
@@ -166,7 +198,10 @@
     {
       "key": "camera",
       "plist": "NSCameraUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» доступ к камере?", "text": "Чтобы снять узел и свой ремонт." },
+      "alert": {
+        "title": "Разрешить «Стуку» доступ к камере?",
+        "text": "Чтобы снять узел и свой ремонт."
+      },
       "feature": "Съёмка узла и своего ремонта внутри приложения",
       "gesture": "«Снять ремонт» на вкладке «Снять»",
       "screen": "create",
@@ -181,7 +216,10 @@
     {
       "key": "photo",
       "plist": "NSPhotoLibraryUsageDescription",
-      "alert": { "title": "Разрешить «Стуку» доступ к медиатеке?", "text": "Чтобы выбрать видео, снятое раньше телефоном." },
+      "alert": {
+        "title": "Разрешить «Стуку» доступ к медиатеке?",
+        "text": "Чтобы выбрать видео, снятое раньше телефоном."
+      },
       "feature": "Импорт видео, снятого до установки приложения",
       "gesture": "«Выбрать из медиатеки» на вкладке «Снять»",
       "screen": "create",
@@ -196,7 +234,10 @@
     {
       "key": "audio",
       "plist": "UIBackgroundModes: audio",
-      "alert": { "title": "Фоновое воспроизведение", "text": "Голос разбора продолжит играть при заблокированном экране." },
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Голос разбора продолжит играть при заблокированном экране."
+      },
       "activate": true,
       "feature": "Голос разбора при погасшем экране, пока руки под машиной",
       "gesture": "«Слушать» в плеере",
@@ -212,7 +253,10 @@
     {
       "key": "push",
       "plist": "aps-environment (Push Notifications capability)",
-      "alert": { "title": "Разрешить «Стуку» отправлять уведомления?", "text": "Сообщим о новых разборах по вашему автомобилю и по отслеживаемым симптомам." },
+      "alert": {
+        "title": "Разрешить «Стуку» отправлять уведомления?",
+        "text": "Сообщим о новых разборах по вашему автомобилю и по отслеживаемым симптомам."
+      },
       "feature": "Уведомление о новом разборе по вашему автомобилю",
       "gesture": "Свитч «Новые разборы» в «Подписках»",
       "screen": "subscriptions",
@@ -228,27 +272,168 @@
     }
   ],
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Вход" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP" },
-    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
-    { "id": "ads", "title": "Бесплатная версия", "type": "onboarding", "light": true, "parent": "code", "meta": "ATT после объяснения" },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "Разборы по вашему автомобилю" },
-    { "id": "watch", "title": "Разбор", "type": "push", "light": false, "parent": "home", "meta": "Плеер · шаги · детали" },
-    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "watch", "meta": "Now Playing" },
-    { "id": "cast", "title": "Смотреть на телевизоре", "type": "sheet", "light": false, "parent": "watch", "meta": "Local Network" },
-    { "id": "parts", "title": "Где взять деталь", "type": "push", "light": true, "parent": "watch", "meta": "MKLocalSearch" },
-    { "id": "clips", "title": "Приёмы", "type": "tab (root)", "light": false, "meta": "Вертикальные видео" },
-    { "id": "create", "title": "Снять", "type": "tab (root)", "light": true, "meta": "Съёмка или импорт" },
-    { "id": "camera", "title": "Камера", "type": "fullscreen", "light": false, "parent": "create", "meta": "Camera + microphone" },
-    { "id": "upload", "title": "Выбор видео", "type": "system picker", "light": true, "parent": "create", "meta": "Photo Library" },
-    { "id": "publish", "title": "Публикация", "type": "push", "light": true, "parent": "camera", "meta": "Черновик локально" },
-    { "id": "sound", "title": "Звук", "type": "tab (root)", "light": true, "meta": "Записи и каталог симптомов" },
-    { "id": "record", "title": "Запись стука", "type": "fullscreen", "light": false, "parent": "sound", "meta": "Microphone" },
-    { "id": "compare", "title": "Сравнение с эталоном", "type": "push", "light": true, "parent": "sound", "meta": "A/B на слух" },
-    { "id": "symptom", "title": "Карточка симптома", "type": "push", "light": true, "parent": "sound", "meta": "Эталон и разборы" },
-    { "id": "subscriptions", "title": "Подписки", "type": "push", "light": true, "parent": "profile", "meta": "Авторы и уведомления" },
-    { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": true, "meta": "Автомобиль и история" },
-    { "id": "saved", "title": "Скачано", "type": "push", "light": true, "parent": "profile", "meta": "Офлайн-библиотека" }
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Вход"
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP"
+    },
+    {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP"
+    },
+    {
+      "id": "ads",
+      "title": "Бесплатная версия",
+      "type": "onboarding",
+      "light": true,
+      "parent": "code",
+      "meta": "ATT после объяснения"
+    },
+    {
+      "id": "home",
+      "title": "Главная",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Разборы по вашему автомобилю"
+    },
+    {
+      "id": "watch",
+      "title": "Разбор",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Плеер · шаги · детали"
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "parent": "watch",
+      "meta": "Now Playing"
+    },
+    {
+      "id": "cast",
+      "title": "Смотреть на телевизоре",
+      "type": "sheet",
+      "light": false,
+      "parent": "watch",
+      "meta": "Local Network"
+    },
+    {
+      "id": "parts",
+      "title": "Где взять деталь",
+      "type": "push",
+      "light": true,
+      "parent": "watch",
+      "meta": "MKLocalSearch"
+    },
+    {
+      "id": "clips",
+      "title": "Приёмы",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Вертикальные видео"
+    },
+    {
+      "id": "create",
+      "title": "Снять",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Съёмка или импорт"
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Camera + microphone"
+    },
+    {
+      "id": "upload",
+      "title": "Выбор видео",
+      "type": "system picker",
+      "light": true,
+      "parent": "create",
+      "meta": "Photo Library"
+    },
+    {
+      "id": "publish",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "parent": "camera",
+      "meta": "Черновик локально"
+    },
+    {
+      "id": "sound",
+      "title": "Звук",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Записи и каталог симптомов"
+    },
+    {
+      "id": "record",
+      "title": "Запись стука",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "sound",
+      "meta": "Microphone"
+    },
+    {
+      "id": "compare",
+      "title": "Сравнение с эталоном",
+      "type": "push",
+      "light": true,
+      "parent": "sound",
+      "meta": "A/B на слух"
+    },
+    {
+      "id": "symptom",
+      "title": "Карточка симптома",
+      "type": "push",
+      "light": true,
+      "parent": "sound",
+      "meta": "Эталон и разборы"
+    },
+    {
+      "id": "subscriptions",
+      "title": "Подписки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Авторы и уведомления"
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Автомобиль и история"
+    },
+    {
+      "id": "saved",
+      "title": "Скачано",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Офлайн-библиотека"
+    }
   ],
   "prototypes": [
     {
@@ -257,75 +442,182 @@
       "label": "Весь продукт",
       "note": "Пять вкладок и все девять доступов набора",
       "start": "phone",
-      "screens": ["phone", "code", "codefail", "ads", "home", "watch", "background", "cast", "parts", "clips", "create", "camera", "upload", "publish", "sound", "record", "compare", "symptom", "subscriptions", "profile", "saved"]
+      "screens": [
+        "phone",
+        "code",
+        "codefail",
+        "ads",
+        "home",
+        "watch",
+        "background",
+        "cast",
+        "parts",
+        "clips",
+        "create",
+        "camera",
+        "upload",
+        "publish",
+        "sound",
+        "record",
+        "compare",
+        "symptom",
+        "subscriptions",
+        "profile",
+        "saved"
+      ]
     },
     {
       "id": "sound",
       "label": "Найти разбор по звуку",
       "note": "Запись стука, сравнение с эталоном на слух, карточка симптома",
       "start": "sound",
-      "screens": ["sound", "record", "compare", "symptom", "parts", "watch"],
-      "stops": ["watch"]
+      "screens": [
+        "sound",
+        "record",
+        "compare",
+        "symptom",
+        "parts",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
     },
     {
       "id": "watch",
       "label": "Смотреть разбор",
       "note": "Плеер, телевизор, фон при погасшем экране и деталь поблизости",
       "start": "home",
-      "screens": ["home", "watch", "background", "cast", "parts", "symptom"],
-      "stops": ["symptom"]
+      "screens": [
+        "home",
+        "watch",
+        "background",
+        "cast",
+        "parts",
+        "symptom"
+      ],
+      "stops": [
+        "symptom"
+      ]
     },
     {
       "id": "create",
       "label": "Снять свой ремонт",
       "note": "Камера с микрофоном, импорт из медиатеки, локальный черновик",
       "start": "create",
-      "screens": ["create", "camera", "upload", "publish"],
-      "stops": ["publish"]
+      "screens": [
+        "create",
+        "camera",
+        "upload",
+        "publish"
+      ],
+      "stops": [
+        "publish"
+      ]
     },
     {
       "id": "clips",
       "label": "Приёмы",
       "note": "Вертикальные видео на минуту: один приём — одно видео",
       "start": "clips",
-      "screens": ["clips", "watch"],
-      "stops": ["watch"]
+      "screens": [
+        "clips",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
     },
     {
       "id": "profile",
       "label": "Офлайн и уведомления",
       "note": "Скачанные разборы в гараж без сети и точечные уведомления",
       "start": "home",
-      "screens": ["home", "profile", "saved", "subscriptions", "watch", "symptom", "sound"],
-      "stops": ["watch", "symptom", "sound"]
+      "screens": [
+        "home",
+        "profile",
+        "saved",
+        "subscriptions",
+        "watch",
+        "symptom",
+        "sound"
+      ],
+      "stops": [
+        "watch",
+        "symptom",
+        "sound"
+      ]
     }
   ],
   "backendless": [
-    { "needs": "Каталог разборов и эталонные звуки", "solution": "Статический контент-пак: JSON с разборами и симптомами, видео и эталонные m4a на CDN, только чтение" },
-    { "needs": "Сравнение записи с эталоном", "solution": "Полностью на устройстве и без ML: приложение рисует две дорожки и переключает источник, вывод делает ухо человека" },
-    { "needs": "Мои записи, заметки и история ремонтов", "solution": "Файлы в каталоге приложения плюс Core Data; из приложения никуда не уходят" },
-    { "needs": "Публикация своего ремонта", "solution": "В прототипе создаётся локальный черновик; production-версия отдаёт файл SDK видеопровайдера" },
-    { "needs": "Уведомления о новых разборах", "solution": "Темы FCM по кузову и по симптому, отправка из панели провайдера" },
-    { "needs": "Где взять деталь", "solution": "MKLocalSearch по картам Apple, расстояние считается на клиенте" }
+    {
+      "needs": "Каталог разборов и эталонные звуки",
+      "solution": "Статический контент-пак: JSON с разборами и симптомами, видео и эталонные m4a на CDN, только чтение"
+    },
+    {
+      "needs": "Сравнение записи с эталоном",
+      "solution": "Полностью на устройстве и без ML: приложение рисует две дорожки и переключает источник, вывод делает ухо человека"
+    },
+    {
+      "needs": "Мои записи, заметки и история ремонтов",
+      "solution": "Файлы в каталоге приложения плюс Core Data; из приложения никуда не уходят"
+    },
+    {
+      "needs": "Публикация своего ремонта",
+      "solution": "В прототипе создаётся локальный черновик; production-версия отдаёт файл SDK видеопровайдера"
+    },
+    {
+      "needs": "Уведомления о новых разборах",
+      "solution": "Темы FCM по кузову и по симптому, отправка из панели провайдера"
+    },
+    {
+      "needs": "Где взять деталь",
+      "solution": "MKLocalSearch по картам Apple, расстояние считается на клиенте"
+    }
   ],
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
   "appStore": {
     "name": "Стук",
     "subtitle": "Разборы поломок по звуку",
     "promo": "Записали десять секунд стука — поставили рядом эталон — открыли разбор именно этой неисправности. Каталог симптомов, офлайн и голос в фоне.",
     "keywords": "ремонт,авто,машина,гараж,подвеска,двигатель,запчасти,диагностика,своими руками",
-    "category": { "primary": "Photo & Video", "secondary": "Utilities" },
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Utilities"
+    },
     "ageRating": "12+",
     "price": "Бесплатно, с рекламой",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS",
-    "urls": { "support": "https://stuk.video/support", "marketing": "https://stuk.video", "privacy": "https://stuk.video/privacy" },
+    "urls": {
+      "support": "https://stuk.video/support",
+      "marketing": "https://stuk.video",
+      "privacy": "https://stuk.video/privacy"
+    },
     "description": [
       "«Стук» — видеосервис о ремонте своей машины, в котором разбор ищут не словами, а звуком.",
       "ЗАПИСЬ ЗВУКА\nДесять секунд у арки колеса или под капотом. Запись остаётся у вас: до ремонта и после.",
@@ -336,12 +628,51 @@
     ],
     "whatsNew": "Первая версия: запись звука, сравнение с эталоном, каталог симптомов, разборы офлайн и голос в фоне.",
     "privacy": [
-      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход через SDK провайдера аутентификации" },
-      { "type": "Аудиозаписи", "apple": "User Content → Audio Data", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Записи звука хранятся на устройстве и наружу не передаются" },
-      { "type": "Пользовательский контент", "apple": "User Content → Photos or Videos", "purpose": "Функциональность", "linked": true, "tracking": false, "why": "Снятое или выбранное видео ремонта" },
-      { "type": "Геопозиция", "apple": "Location → Coarse Location", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Поиск точек с деталью поблизости" },
-      { "type": "Идентификатор устройства", "apple": "Identifiers → Device ID", "purpose": "Реклама", "linked": false, "tracking": true, "why": "Передаётся рекламному SDK только после разрешения ATT" }
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход через SDK провайдера аутентификации"
+      },
+      {
+        "type": "Аудиозаписи",
+        "apple": "User Content → Audio Data",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Записи звука хранятся на устройстве и наружу не передаются"
+      },
+      {
+        "type": "Пользовательский контент",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность",
+        "linked": true,
+        "tracking": false,
+        "why": "Снятое или выбранное видео ремонта"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Поиск точек с деталью поблизости"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Передаётся рекламному SDK только после разрешения ATT"
+      }
     ],
-    "reviewAccount": { "phone": "+7 900 000-00-00", "code": "0000", "note": "Тестовый номер принимает код 0000, SMS не отправляется. Микрофон нужен на вкладке «Звук» → «Записать звук»: подойдёт любой шум, сравнение с эталоном откроется в любом случае." }
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Тестовый номер принимает код 0000, SMS не отправляется. Микрофон нужен на вкладке «Звук» → «Записать звук»: подойдёт любой шум, сравнение с эталоном откроется в любом случае."
+    }
   }
 }

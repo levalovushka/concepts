@@ -10,6 +10,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { DIST, KERNEL, conceptDir, readSpec, listConcepts } from './lib.mjs';
+import { screenActions } from './screen-map.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
 
@@ -107,6 +108,28 @@ function lint(slug) {
       for (const button of source.matchAll(/<(?:button|div)\b([^>]*(?:data-go|data-ask|data-back|data-activate)[^>]*)>([\s\S]*?)<\/(?:button|div)>/g)) {
         const attrs = button[1], body = button[2].replace(/<[^>]+>/g, '').trim();
         if (/<svg\b/.test(button[2]) && !body && !/aria-label="[^"]+"/.test(attrs)) P(`${screen.id}: icon-only control без aria-label`);
+      }
+    }
+  }
+
+  /* —— подписи интерактивных элементов —— */
+  /* Таблица «Действия на экранах» выводится из разметки, и подпись элемента в
+     ней — это его aria-label или первая строка текста. Кнопка, у которой ни
+     того ни другого нет, попадает в справку как «2» или «элемент экрана»:
+     разработке приходится лезть в разметку ровно за тем, что справка и должна
+     была ответить. Поэтому подпись обязательна. */
+  {
+    const markup = {};
+    for (const s of spec.screens) {
+      const f = join(dir, 'screens', `${s.id}.html`);
+      if (existsSync(f)) markup[s.id] = read(f);
+    }
+    for (const { screen, rows } of screenActions(spec, markup)) {
+      for (const r of rows) {
+        const l = String(r.label || '').trim();
+        if (!l || l.length < 3 || /^[\d\s·+\u2014-]+$/.test(l) || l === 'элемент экрана') {
+          P(`${screen.id}: элемент без внятной подписи («${l}») — добавьте aria-label`);
+        }
       }
     }
   }
