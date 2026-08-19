@@ -43,42 +43,63 @@
 .tl-setting > small{flex:none;margin-left:6px;text-align:right;white-space:nowrap;font-size:12px;color:var(--tl-muted)}
 .tl-setting > span > small{display:block;margin-top:2px;font-size:12px;line-height:16px;color:var(--tl-muted);text-align:left;white-space:normal}.tl-setting>.switch{margin-left:6px}.tl-settings-title{margin:16px 4px 7px;font-size:13px;color:var(--tl-muted);font-weight:500}.tl-log{padding:12px 14px;display:flex;flex-direction:column;gap:9px}.tl-log-line{font-size:12px;line-height:17px;color:var(--tl-muted);display:flex;gap:9px}.tl-log-line span{flex:none;width:38px;font-variant-numeric:tabular-nums}.tl-log-line b{color:var(--tl-ink);font-weight:600}.tl-dark{background-color:#0f1116;color:#fff}.tl-springboard{padding:calc(var(--safe-top) + 10px) 14px calc(var(--safe-bottom) + 8px);display:flex;flex-direction:column;background-image:linear-gradient(180deg,#151a24 0%,#22293a 46%,#0b0d13 100%)}.tl-sb-clock{text-align:center;margin-bottom:20px}.tl-sb-clock span{display:block;font-size:12px;opacity:.7}.tl-sb-clock b{display:block;font-size:52px;line-height:58px;letter-spacing:-.045em;font-weight:300}.tl-widget{border-radius:20px;padding:14px;background-color:rgba(255,255,255,.13)}.tl-widget-top{display:flex;align-items:center;gap:7px;margin-bottom:11px}.tl-widget-ico{width:22px;height:22px;border-radius:7px;background-color:var(--tl-accent);color:#fff;display:grid;place-items:center;flex:none}.tl-widget-ico .tl-icon{width:14px;height:14px}.tl-widget-name{font-size:11px;opacity:.72}.tl-widget-body{display:flex;align-items:center;gap:11px}.tl-widget-shot{width:54px;height:54px;border-radius:14px;flex:none}.tl-widget-copy strong{display:block;font-size:14px;line-height:19px;font-weight:650}.tl-widget-copy span{font-size:11px;opacity:.62}.tl-widget-foot{display:flex;justify-content:space-between;margin-top:12px;font-size:11px;opacity:.62}.tl-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:13px 8px;margin-top:22px}.tl-appicon{display:flex;flex-direction:column;align-items:center;gap:5px}.tl-appicon-sq{width:52px;height:52px;border-radius:13px;display:grid;place-items:center;background-color:#3a3f49}.tl-appicon-sq.is-mine{background-color:var(--tl-accent);color:#fff}.tl-appicon-l{font-size:11px;opacity:.75}.tl-night-group{background-color:rgba(255,255,255,.09);margin-top:18px}.tl-night-group .tl-setting small{color:rgba(255,255,255,.62)}.tl-night-group .tl-setting strong{color:#fff}.tl-night-group .tl-row-art{background-color:rgba(255,255,255,.12);color:#fff}.tl-night-quiet{margin-top:9px;background-color:rgba(255,255,255,.16)!important;color:#fff!important}.tl-springboard .tl-primary{margin-top:14px}.tl-safari{flex:1;min-height:0;display:flex;flex-direction:column;background-color:#fff}.tl-safari-bar{flex:none;height:44px;margin:0 12px 4px;padding:0 12px;border-radius:11px;background-color:var(--tl-surface);display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px}.tl-safari-bar .tl-icon{width:14px;height:14px;color:var(--tl-muted)}.tl-safari-page{padding:12px 18px 16px}.tl-safari-page h1{font-size:22px;line-height:27px;letter-spacing:-.03em;margin:0}.tl-safari-lede{font-size:13px;line-height:18px;color:var(--tl-muted);margin:6px 0 18px}.tl-safari-label{display:block;margin:0 0 6px 2px;font-size:11px;color:var(--tl-muted)}.tl-safari-input{height:48px;margin-bottom:14px;padding:0 13px;border-radius:11px;background-color:var(--tl-surface);display:flex;align-items:center;font-size:15px}.tl-safari-input.is-focus{background-color:#fff;box-shadow:inset 0 0 0 2px var(--tl-accent)}.tl-safari-back{margin-top:10px}.tl-safari-page .tl-settings-group{margin-top:18px}.tl-fillbar{flex:none;margin:0 12px 6px;padding:9px 13px;border-radius:12px;background-color:color-mix(in srgb, var(--tl-accent) 12%, #fff);display:flex;align-items:center;gap:10px}.tl-fillbar-key{flex:1;min-width:0}.tl-fillbar-key strong{display:block;font-size:13px;font-weight:650}.tl-fillbar-key span{font-size:11px;color:var(--tl-muted)}.tl-fillbar-mark{color:var(--tl-accent);display:grid;place-items:center;flex:none}.tl-keybar{flex:none;height:48px;padding:0 10px;background-color:#d1d3d9;display:flex;align-items:center;gap:8px}.tl-keysug{height:32px;padding:0 12px;border-radius:8px;background-color:#fff;display:flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap}.tl-keysug .tl-icon{width:15px;height:15px;color:var(--tl-accent)}
 
-/* ——— Белая поверхность ———
-   Было: белые карточки на сером экране, между ними серые промежутки. На
-   границах это читалось как случайные серые полосы между белыми блоками.
-   Экран стал белым, группы держатся воздухом и заголовком секции.
-   Разделитель ставим только там, где он отделяет одну независимую вещь от
-   другой: публикацию от публикации. Внутри группы строки разделяет отступ. */
+/* ——— Поверхности ———
+   Было: белые карточки на сером экране, между ними серые зазоры — на границах
+   это читалось как случайные серые полосы между белыми блоками. Стало три
+   уровня и никакой самодеятельности:
+     страница  — белая;
+     заливка   — поля ввода, плитки, карточки-объекты, чипы (--tl-surface);
+     список    — строки на белом, разделённые вставленной линией.
+   Тёмные экраны живут своей палитрой и правилами ниже не задеваются. */
 .tl:not(.tl-dark) { background: #fff; }
 .tl:not(.tl-dark) .tl-feed,
 .tl:not(.tl-dark) .tl-list,
-.tl:not(.tl-dark) .tl-detail-scroll { background: #fff; }
+.tl:not(.tl-dark) .tl-detail-scroll,
+.tl:not(.tl-dark) .tl-compose { background: #fff; }
+
+/* заливка: всё, что пользователь трогает или что является объектом */
+.tl:not(.tl-dark) .tl-compose-field,
+.tl:not(.tl-dark) .tl-choice,
+.tl:not(.tl-dark) .tl-walk-card,
+.tl:not(.tl-dark) .tl-feed-cta { background: var(--tl-surface); }
+.tl-compose-field { min-height: 124px; border-radius: 14px; padding: 16px; }
+.tl-choice { height: 116px; border-radius: 14px; padding: 14px; }
+.tl-choice-grid { gap: 10px; margin-top: 14px; }
+
+/* список: строки на белом, линия отделяет строку от строки */
+.tl:not(.tl-dark) .tl-settings-group,
+.tl:not(.tl-dark) .tl-list-section,
+.tl:not(.tl-dark) .tl-compose-tools,
+.tl:not(.tl-dark) .tl-profile-card,
+.tl:not(.tl-dark) .tl-info-card { background: #fff; border-radius: 0; margin-bottom: 0; box-shadow: none; }
+.tl-settings-group, .tl-list-section, .tl-compose-tools { padding: 0 16px; }
+.tl-settings-group .tl-setting + .tl-setting,
+.tl-list-section .tl-row + .tl-row,
+.tl-list-section .tl-row-button + .tl-row-button,
+.tl-list-section .tl-row + .tl-row-button,
+.tl-list-section .tl-row-button + .tl-row,
+.tl-compose-tools .tl-row + .tl-row { box-shadow: inset 0 1px 0 #edeff2; }
 
 /* лента: публикации — разные вещи, между ними линия */
 .tl-post { margin-bottom: 0; padding-bottom: 14px; }
 .tl-post + .tl-post { border-top: 1px solid #edeff2; padding-top: 4px; }
 .tl-stories { margin-bottom: 0; }
-.tl-feed-cta { margin: 14px 16px; padding: 14px; border-radius: 14px; background: var(--tl-surface); }
+.tl-feed-cta { margin: 14px 16px; padding: 14px; border-radius: 14px; }
 
-/* карточки профиля: воздух вместо серых зазоров */
-.tl-profile-card, .tl-info-card { margin-bottom: 0; }
-.tl-info-card { padding: 18px 16px 4px; }
-
-/* списки и настройки: группу держит заголовок и отступ */
-.tl:not(.tl-dark) .tl-settings-group,
-.tl:not(.tl-dark) .tl-list-section { background: #fff; border-radius: 0; margin-bottom: 0; padding: 0 16px; }
+/* ритм: одинаковые поля и одинаковые заголовки секций */
 .tl-settings { padding: 0 0 26px; }
-.tl-settings-title { margin: 26px 16px 4px; font-size: 12px; font-weight: 650; letter-spacing: .02em; text-transform: uppercase; color: var(--tl-faint); }
+.tl-settings-title { margin: 24px 16px 6px; font-size: 12px; font-weight: 650; letter-spacing: .02em; text-transform: uppercase; color: var(--tl-faint); }
 .tl-settings-note { margin: 18px 16px 0; }
 .tl-list { padding: 0 0 24px; }
-.tl-list-section + .tl-list-section { margin-top: 8px; }
-
-/* прогулки и площадки */
-.tl-walk-card { margin: 0 16px 12px; padding: 16px; border-radius: 14px; background: var(--tl-surface); }
-
-
-/* поиск живёт на белом, серое — только само поле */
 .tl-search { margin: 10px 16px 14px; }
+.tl-walk-card { margin: 0 16px 12px; padding: 16px; }
+.tl-compose { padding: 14px 16px 24px; }
+.tl-compose-author { margin-bottom: 14px; }
+.tl-compose-tools { margin-top: 16px; padding: 0; }
+.tl-fallback { margin: 12px 16px; }
+.tl-profile-card { padding: 18px 16px 20px; }
+.tl-info-card { padding: 18px 16px; }
+.tl-chip-row { padding: 4px 16px 12px; }
 
 /* ——— Курс: обложка, метаданные, плеер, занятия ———
    Было: квадратный плейсхолдер слева и заголовок справа — заголовок ломался
@@ -132,3 +153,17 @@
 .tl-route-row strong { display: block; font-size: 14px; line-height: 19px; }
 .tl-route-row span:not(.tl-row-art) { display: block; margin-top: 2px; font-size: 12px; line-height: 16px; color: var(--tl-muted); }
 .tl-route-row > div { min-width: 0; }
+
+/* Иконка внутри залитой плитки берёт белую подложку: на заливке того же
+   тона она пропадала. */
+.tl-choice .tl-row-art { background: #fff; }
+
+/* ——— Ритм ———
+   Вертикальные отступы задавались инлайново у каждого блока по-своему, и по
+   экранам они не совпадали. Теперь это правило, а не решение на месте. */
+.tl-primary.block, .tl-secondary.block { margin: 14px 16px 0; width: calc(100% - 32px); }
+.tl-primary.block + .tl-secondary.block, .tl-secondary.block + .tl-secondary.block { margin-top: 10px; }
+.errbox { margin: 16px 16px 0; }
+.tl-fallback { margin: 12px 16px 0; }
+.tl-field-caption { margin: 12px 16px 0; }
+.tl-section-head { padding: 0 16px; margin: 22px 0 8px; }
