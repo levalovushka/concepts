@@ -167,3 +167,30 @@
 .tl-fallback { margin: 12px 16px 0; }
 .tl-field-caption { margin: 12px 16px 0; }
 .tl-section-head { padding: 0 16px; margin: 22px 0 8px; }
+
+/* ——— Горизонтальная сетка ———
+   Одна на весь концепт: поле 16px, значок 44px, текст с 72px. Раньше каждая
+   строка приходила к этому по-своему — карточка прогулки заводила внутри
+   себя вторую сетку, и в одном списке текст стоял на 77px и на 86px. */
+.tl-setting, .tl-row, .tl-row-button, .tl-route-row, .tl-lesson { gap: 12px; }
+.tl-row-art, .tl-setting > .tl-row-art, .tl-route-row > .tl-row-art { width: 44px; height: 44px; flex: none; }
+.tl-list-section .tl-avatar, .tl-settings-group .tl-avatar { width: 44px; height: 44px; margin: 0; }
+
+/* прогулка в списке — такая же строка, а не карточка со своей сеткой */
+.tl-walk-card { margin: 0; padding: 12px 16px; background: transparent; border-radius: 0; }
+.tl-walk-card + .tl-walk-card { box-shadow: inset 0 1px 0 #edeff2; }
+.tl-walk-card .tl-avatar { width: 44px; height: 44px; }
+.tl-walk-card-top { gap: 12px; }
+.tl-walk-meta { margin-top: 10px; margin-left: 56px; }
+
+/* Системный padding кнопки не сбрасывался, и строка-кнопка стояла на шесть
+   пикселей правее строки-дива: в одном списке получались два текстовых
+   столбца. Заодно у аватара в карточке снимаем авто-поля из ядра. */
+.tl-setting, .tl-row, .tl-row-button, .tl-route-row, .tl-lesson { padding-left: 0; padding-right: 0; }
+.tl-walk-card .tl-avatar { margin: 0; }
+.errbox { gap: 12px; }
+.errbox > .errbox-ico { width: 44px; height: 44px; flex: none; display: grid; place-items: center; }
+
+/* Аватар в строке списка — по сетке 44px, как значок: иначе текст рядом
+   с ним встаёт на четыре пикселя правее соседней строки. */
+.tl-row .tl-avatar, .tl-row-button .tl-avatar { width: 44px; height: 44px; }
