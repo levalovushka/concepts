@@ -11,6 +11,7 @@ const stages = [
   ['Лаунчер', 'test-launcher.mjs'],
   ['Структура', 'lint-concept.mjs'],
   ['Визуал', 'audit-visual.mjs'],
+  ['Сетка списков', 'audit-grid.mjs'],
   ['Сценарии', 'test-flows.mjs'],
 ];
 
