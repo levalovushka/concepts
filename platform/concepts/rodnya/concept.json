@@ -339,16 +339,16 @@
     {
       "key": "localnetwork",
       "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)",
-      "feature": "Показ ленты и семейного видео на телевизоре",
+      "feature": "Показ семейного видео и записей архива на телевизоре",
       "gesture": "«Смотреть на телевизоре»",
       "screen": "tv",
       "target": "cast",
-      "fallback": "Остаётся просмотр на телефоне",
+      "fallback": "Остаётся просмотр и прослушивание на телефоне",
       "snack": "Нет доступа к локальной сети",
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "Bonjour-поиск устройств Google Cast в текущей сети, приём на стороне телевизора",
+      "grounding": "Bonjour-поиск устройств Google Cast в текущей сети, воспроизведение на стороне телевизора",
       "alert": {
         "title": "«Родня» запрашивает доступ к локальной сети",
         "text": "Чтобы найти телевизор в вашей сети и показать на нём альбом рода."
@@ -792,6 +792,43 @@
           {
             "kind": "failure",
             "example": "Отказ в сохранении снимка в галерею"
+          }
+        ]
+      }
+    },
+    {
+      "id": "films",
+      "title": "Видео",
+      "type": "push",
+      "light": true,
+      "parent": "voices",
+      "meta": "Семейное видео · показ на телевизоре",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Собрать семейное видео и отправить его на большой экран",
+        "primaryAction": "Смотреть на телевизоре",
+        "hierarchy": {
+          "primary": "Список семейного видео и кнопка показа",
+          "secondary": "Длительность, источник и состояние загрузки каждой записи"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Двенадцать записей, четыре из них оцифрованы с кассет"
+          },
+          {
+            "kind": "stress",
+            "example": "Видео на 21:36, склеенное из четырёх кассет"
+          },
+          {
+            "kind": "failure",
+            "example": "Запись, которая скачана лишь на 62 процента"
           }
         ]
       }
@@ -1541,8 +1578,8 @@
       "ui": {
         "pattern": "task",
         "navigation": "modal",
-        "purpose": "Выбрать телевизор в сети и отправить на него ленту",
-        "primaryAction": "Показать на телевизоре",
+        "purpose": "Выбрать телевизор в сети и отправить на него видео или запись",
+        "primaryAction": "Смотреть на телевизоре",
         "hierarchy": {
           "primary": "Список найденных устройств",
           "secondary": "Имя текущей сети и повтор поиска"
@@ -1732,6 +1769,7 @@
         "codefail",
         "feed",
         "post",
+        "films",
         "compose",
         "shoot",
         "picker",
@@ -1812,10 +1850,14 @@
         "voices",
         "voice",
         "player",
-        "background"
+        "background",
+        "films",
+        "tv"
       ],
       "stops": [
-        "voice"
+        "voice",
+        "films",
+        "tv"
       ]
     },
     {
@@ -1825,26 +1867,21 @@
       "start": "gather",
       "screens": [
         "gather",
-        "route",
-        "tv"
+        "route"
       ],
-      "stops": [
-        "tv"
-      ]
+      "stops": []
     },
     {
       "id": "bigscreen",
-      "label": "Показ на телевизоре",
-      "note": "Поиск устройств в сети и показ альбома на большом экране",
-      "start": "tv",
+      "label": "Видео на телевизоре",
+      "note": "Семейное видео на большом экране: поиск устройств в сети и показ",
+      "start": "films",
       "screens": [
+        "films",
         "tv",
-        "cast",
-        "post"
+        "cast"
       ],
-      "stops": [
-        "post"
-      ]
+      "stops": []
     },
     {
       "id": "kin",

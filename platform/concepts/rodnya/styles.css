@@ -1156,12 +1156,7 @@
   justify-content: center;
   gap: 16px;
 }
-.r-play-ctl .ctl {
-  width: 50px;
-  height: 50px;
-  flex: none;
-  border: 0;
-  border-radius: 50%;
+.r-play-ctl .r-ctl {
   background-color: rgba(60, 60, 67, 0.08);
   color: #14110f;
 }
@@ -1219,4 +1214,43 @@
 /* Ячейки кода отбиваются от подводки так же, как поле почты на входе. */
 .r-page .otp {
   margin-top: 24px;
+}
+
+/* Экраны входа белые: тёплая подложка держит белые карточки в разделах,
+   а на входе карточек нет — она читается как незакрашенный фон. */
+.r-page:has(> .auth) {
+  background-color: #fff;
+}
+
+/* Управление воспроизведением внутри экрана. Ядровой .ctl — класс страницы
+   документа, а не устройства: у него своя типографика и рамка. */
+.r-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.r-ctl {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.r-ctl .ico-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.r-album-cast {
+  width: 100%;
+  margin-top: 16px;
+  gap: 8px;
 }
