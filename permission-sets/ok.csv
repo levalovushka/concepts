@@ -1,47 +1,47 @@
 ❇️,Must have
-♿️,Nice to Have (50\50)
-❌,не делаем (правила проекта)
+♿️,Nice to Have (50\50) — заносим, если под ключ есть достижимая фича
+❌,не делаем
 ,
 ,[Источник — «OK iOS — системные разрешения» (Confluence)]
+,"[Решение: набор ОК несём целиком, включая ключи, запрещённые прежними правилами проекта]"
 ,
 ,[В итоге пытаемся занести]
 ,
 ❇️,aps-environment
 ❇️,com.apple.developer.usernotifications.communication
 ❇️,keychain-access-groups
+❇️,com.apple.developer.applesignin
+❇️,com.apple.developer.associated-domains
+❇️,com.apple.developer.networking.wifi-info
 ,
 ❇️,NSCameraUsageDescription
 ❇️,NSPhotoLibraryUsageDescription
 ❇️,NSPhotoLibraryAddUsageDescription
 ❇️,NSMicrophoneUsageDescription
-❇️,NSLocationWhenInUseUsageDescription
+❇️,NSContactsUsageDescription
+❇️,NSUserTrackingUsageDescription (ads / IDFA)
 ,
-❇️,UIBackgroundModes/fetch
+❇️,NSLocationWhenInUseUsageDescription
+❇️,NSLocationAlwaysAndWhenInUseUsageDescription
+❇️,NSLocationAlwaysUsageDescription
+,
+❇️,NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)
+,
+❇️,UIBackgroundModes/voip
+❇️,UIBackgroundModes/audio
 ❇️,UIBackgroundModes/remote-notification
+❇️,UIBackgroundModes/fetch
 ❇️,UIBackgroundModes/processing
 ❇️,BGTaskSchedulerPermittedIdentifiers
 ,
-❇️,com.apple.developer.networking.wifi-info
-❇️,NSUserTrackingUsageDescription (ads / IDFA)
-❇️,NSContactsUsageDescription
-,
-,[Nice to have — заносим, если под ключ есть достижимая фича]
+,[Nice to have — по концепту]
 ,
 ♿️,NSFaceIDUsageDescription + Biometry
-♿️,com.apple.developer.siri
+♿️,com.apple.developer.siri (+ NSSiriUsageDescription)
 ♿️,in-app purchase (StoreKit — OKPurchase)
+♿️,com.apple.developer.icloud-container-identifiers / icloud-services / ubiquity-*
 ,
-"[Убираем, так как заявлено в документе, но правила проекта запрещают]",
-,
-❌,com.apple.developer.associated-domains (диплинков не делаем вообще — CLAUDE.md)
-❌,NSLocationAlwaysAndWhenInUseUsageDescription / NSLocationAlwaysUsageDescription (гео в фоне — 5.1.1 без явного сценария)
-,
-"[Убираем по решению «Двора»: высокий риск 2.5.4, ядровой фичи под них не нашлось]",
-,
-❌,UIBackgroundModes/voip
-❌,UIBackgroundModes/audio
-,
-"[Убираем: тянут за собой отдельный домен фич, который вне области концептов]",
+,[Не делаем]
 ,
 ❌,com.apple.developer.healthkit
 ❌,com.apple.developer.healthkit.access
@@ -49,14 +49,15 @@
 ❌,NSHealthShareUsageDescription
 ❌,NSHealthUpdateUsageDescription
 ,
-❌,com.apple.developer.applesignin (вход в концептах один и общий — телефон+SMS)
-❌,com.apple.developer.icloud-container-identifiers / icloud-services / ubiquity-*
 ,
-"[Убираем: письменно запрашивается или требует реального сетевого сценария]",
+,Что этот набор требует от концепта:
 ,
-❌,NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp) — Chromecast
-,
-,
+,voip → реальные звонки через CallKit + PushKit
+,audio → фоновое воспроизведение + MPNowPlayingInfoCenter + экран Now Playing
+,NSLocalNetwork → выбор устройства и трансляция на ТВ (Chromecast)
+,associated-domains → Universal Links + статический AASA на домене концепта
+,Location Always → явный фоновый сценарий (5.1.1)
+,applesignin → «Войти с Apple» на экране входа
 ,
 ,Дополнительно к capabilities продумать:
 ,
