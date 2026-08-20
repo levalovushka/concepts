@@ -391,6 +391,12 @@
 /* —— переписка —— */
 .r-chat-scroll {
   padding: 10px var(--margin) 8px;
+  display: flex;
+  flex-direction: column;
+}
+/* Переписка прижата к низу: живой разговор начинается снизу, а не сверху. */
+.r-chat-scroll > :first-child {
+  margin-top: auto;
 }
 .r-daydiv {
   align-self: center;
@@ -718,4 +724,37 @@
 /* Карточка системного диалога на локскрине светлая — текст в ней тёмный. */
 .r-page .lock-bg .sysask-card .t-footnote {
   color: var(--ios-secondary);
+}
+
+/* Счётчик на вкладке сидит на иконке, а не под ней. */
+.r-dock .tab {
+  position: relative;
+}
+.r-dock .tab .r-count {
+  position: absolute;
+  top: 1px;
+  left: calc(50% + 4px);
+}
+
+/* Запись — не человек: миниатюра квадратная, а не круглая. */
+.r-row-face.is-art {
+  border-radius: 8px;
+}
+
+/* Строка со значком вместо лица: значок центрируется и получает подложку.
+   Без этого svg из спрайта рендерится обрезком в 44-пиксельном круге. */
+.r-row-face:has(> .ico-svg) {
+  display: grid;
+  place-items: center;
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.r-row-face > .ico-svg {
+  width: 22px;
+  height: 22px;
+}
+.r-mark .ico-svg,
+.r-way .ico-svg {
+  width: 20px;
+  height: 20px;
 }

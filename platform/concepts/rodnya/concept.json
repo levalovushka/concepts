@@ -162,7 +162,16 @@
         ]
       }
     ],
-    "visualPasses": []
+    "visualPasses": [
+      {
+        "name": "первый проход по отрендеренным экранам",
+        "screensReviewed": "feed, chat, voices, gather, tv",
+        "found": 6,
+        "fixed": 6,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
   },
   "brand": {
     "accent": "#EE7203",
@@ -261,7 +270,7 @@
         "text": "Чтобы записывать голосовые сообщения и голоса для архива рода."
       },
       "feature": "Голосовое сообщение в переписке и запись голоса в архив",
-      "gesture": "«Записать голосовое»",
+      "gesture": "«Голосовое»",
       "screen": "chat",
       "target": "voice",
       "fallback": "Остаётся текстовое сообщение и вложение",
@@ -1056,7 +1065,7 @@
         "pattern": "detail",
         "navigation": "push",
         "purpose": "Вести разговор с родственником текстом, голосом и звонком",
-        "primaryAction": "Записать голосовое",
+        "primaryAction": "Голосовое",
         "hierarchy": {
           "primary": "Лента сообщений разговора",
           "secondary": "Строка ввода с голосовым, звонок и связь по родству"
