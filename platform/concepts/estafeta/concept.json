@@ -1,0 +1,150 @@
+{
+  "slug": "estafeta",
+  "name": "Эстафета",
+  "eyebrow": "Эстафета · iOS",
+  "targetSet": "ok",
+  "domain": "estafeta.app",
+
+  "heroTitle": "Эстафета",
+  "heroDeck": "Одна фраза о продукте — та, что стоит под заголовком в Overview.",
+  "tagline": "Одна фраза УТП — узкая, явная, отличимая от больших игроков",
+  "insight": "ядровое ограничение, из которого вытекают якорные доступы",
+  "deck": "Абзац под заголовком: что это, для кого, и почему бэкенда нет.",
+
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Кто конкретно пользуется продуктом — без «всех, кто»",
+    "situation": "В какой наблюдаемой ситуации возникает потребность",
+    "problem": "Что сейчас мешает достичь результата",
+    "promise": "Какой наблюдаемый результат даёт продукт",
+    "differentiator": "Почему это не фича большого сервиса и не клон существующего приложения",
+    "returnReasons": ["Причина вернуться 1", "Причина вернуться 2", "Причина вернуться 3"],
+    "verticalSlice": { "entry": "phone", "action": "code", "result": "home" },
+    "coreLoop": ["Шаг 1: триггер", "Шаг 2: якорное действие", "Шаг 3: ценный результат"],
+    "nonGoals": ["Что продукт сознательно не делает", "Какая соседняя задача остаётся за пределами продукта"]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Почему выбранная категория App Store соответствует основной ценности",
+    "familiarPatterns": ["Знакомый паттерн 1", "Знакомый паттерн 2", "Знакомый паттерн 3"],
+    "distinctions": ["Ось отстройки 1", "Ось отстройки 2", "Ось отстройки 3"],
+    "evidenceScreens": ["phone", "code", "home"],
+    "referencePatterns": ["social-feed", "messaging", "profile"],
+    "referenceEvidence": [
+      { "pattern": "social-feed", "screen": "home", "behavior": "Как пользователь узнаёт паттерн по наблюдаемому поведению" },
+      { "pattern": "messaging", "screen": "home", "behavior": "Как пользователь узнаёт паттерн по наблюдаемому поведению" },
+      { "pattern": "profile", "screen": "home", "behavior": "Как пользователь узнаёт паттерн по наблюдаемому поведению" }
+    ]
+  },
+  "readiness": {
+    "status": "draft",
+    "referenceResearch": [],
+    "productCritique": [],
+    "visualPasses": []
+  },
+  "brand": {
+    "accent": "#0d8a7a",
+    "accentDark": "#3dd6c0",
+    "fonts": "Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
+  },
+
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [{ "id": "home", "label": "Главная", "role": "home" }],
+
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Эстафета» запрашивает доступ к камере",
+        "text": "Зачем именно здесь — одной фразой, без общих слов."
+      },
+      "feature": "Фича, которую видно в интерфейсе",
+      "gesture": "«Точное название кнопки»",
+      "screen": "home",
+      "target": "home",
+      "fallback": "Что остаётся работать при отказе",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Чем заземлено без бэкенда"
+    }
+  ],
+
+  "screens": [
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "hierarchy": { "primary": "Ценность продукта и ввод номера", "secondary": "Условия и политика конфиденциальности" }, "states": ["default", "error", "loading"], "density": "low", "contentCases": [{"kind":"typical","example":"Корректный российский номер"},{"kind":"stress","example":"Длинная локализованная подпись условий"},{"kind":"failure","example":"Неверный формат или медленный ответ"}] } },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "hierarchy": { "primary": "Код подтверждения и продолжение", "secondary": "Повторная отправка и смена номера" }, "states": ["default", "error", "loading"], "density": "low", "contentCases": [{"kind":"typical","example":"Код автоматически подставлен из SMS"},{"kind":"stress","example":"Повторная отправка с длинным таймером"},{"kind":"failure","example":"Неверный или просроченный код"}] } },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "navigation": "root", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "hierarchy": { "primary": "Первый полезный объект и якорное действие", "secondary": "Продолжение, история или соседний раздел" }, "states": ["default", "empty", "denied"], "density": "medium", "contentCases": [{"kind":"typical","example":"Три разных полезных объекта с реальными метаданными"},{"kind":"stress","example":"Длинные названия, плотный список и крупный Dynamic Type"},{"kind":"failure","example":"Пустая коллекция или отказ в якорном доступе"}] } }
+  ],
+
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все экраны и все доступы набора",
+      "start": "phone",
+      "screens": ["phone", "code", "home"]
+    },
+    {
+      "id": "signin",
+      "label": "Вход по номеру",
+      "note": "Первые два экрана: номер и код из SMS",
+      "start": "phone",
+      "screens": ["phone", "code", "home"],
+      "stops": ["home"]
+    }
+  ],
+
+  "backendless": [
+    { "needs": "Что потребовало бы сервера", "solution": "Клиентская или статическая замена" }
+  ],
+
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" },
+    { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
+    { "file": "06-app-store.md", "label": "Карточка App Store" },
+    { "file": "07-quality-evidence.md", "label": "Quality evidence" }
+  ],
+
+  "appStore": {
+    "name": "Эстафета",
+    "subtitle": "Три-четыре слова о пользе",
+    "promo": "До 170 символов: что нового и зачем скачивать. Текст можно менять без релиза, поэтому здесь живёт самое свежее.",
+    "keywords": "первое,второе,третье,четвёртое,пятое",
+    "category": { "primary": "Utilities", "secondary": "Lifestyle" },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://estafeta.app/support",
+      "marketing": "https://estafeta.app",
+      "privacy": "https://estafeta.app/privacy"
+    },
+    "description": [
+      "Первый абзац: что это и для кого. Без маркетингового шума — ревьюер читает его как описание функциональности.",
+      "ЗАГОЛОВОК БЛОКА\nОдна фича — один блок. Ровно те фичи, которыми заслужены доступы из набора."
+    ],
+    "whatsNew": "Первая версия: перечислить ключевые фичи одной строкой.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "0000",
+      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется."
+    }
+  }
+}
