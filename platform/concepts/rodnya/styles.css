@@ -1248,3 +1248,9 @@
   height: 24px;
   stroke-width: 1.8;
 }
+
+.r-album-cast {
+  width: 100%;
+  margin-top: 16px;
+  gap: 8px;
+}
