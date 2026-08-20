@@ -573,7 +573,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .auth-apple {
   width:100%; min-height:56px; margin-top:10px;
   display:flex; align-items:center; justify-content:center; gap:8px;
-  border-radius:12px; border:0; cursor:pointer;
+  border-radius:var(--r-btn); border:0; cursor:pointer;
   background:#000; color:#fff;
   font:500 17px/22px var(--face); letter-spacing:-.01em;
 }
@@ -598,7 +598,9 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
   display:flex; align-items:center; justify-content:center; color:rgba(60,60,67,.32);
 }
 .ph::after {
-  content:""; width:clamp(18px, 26%, 44px); aspect-ratio:1; background:currentColor;
+  /* Нижняя граница была 18px, и в аватаре 44px иконка занимала 41 % площади:
+     круглая обрезка превращала её в обрезок. Считаем от размера бокса. */
+  content:""; width:clamp(11px, 30%, 44px); aspect-ratio:1; background:currentColor;
   -webkit-mask:var(--ph-cam) center / contain no-repeat; mask:var(--ph-cam) center / contain no-repeat;
 }
 .ph.on-dark { background:#2c2c2e; color:rgba(235,235,245,.28); }

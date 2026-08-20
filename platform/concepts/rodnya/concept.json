@@ -732,7 +732,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Показать, что нового у родни, и дать повод ответить",
-        "primaryAction": "Написать в род",
+        "primaryAction": "Что нового?",
         "hierarchy": {
           "primary": "Публикации родных с оценками и ответами",
           "secondary": "Дни рождения, промо-блок и ветви"
@@ -956,7 +956,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Собрать ответы и вопросы рода в одном месте",
-        "primaryAction": "Открыть ветку",
+        "primaryAction": "Спросить",
         "hierarchy": {
           "primary": "Ветки с новыми ответами",
           "secondary": "Вопросы без ответа и упоминания"
@@ -1028,7 +1028,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Показать разговоры рода и непрочитанное",
-        "primaryAction": "Открыть переписку",
+        "primaryAction": "Написать",
         "hierarchy": {
           "primary": "Список разговоров с последней репликой",
           "secondary": "Непрочитанное, черновики и присутствие собеседника"
@@ -1320,7 +1320,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Показать человека, его место в роду и его публикации",
-        "primaryAction": "Открыть ветвь",
+        "primaryAction": "Моя ветвь",
         "hierarchy": {
           "primary": "Имя, фотография и родство",
           "secondary": "Связи, публикации и настройки"
@@ -1395,7 +1395,7 @@
         "pattern": "collection",
         "navigation": "push",
         "purpose": "Показать совпадения из записной книжки и связать их с ветвями",
-        "primaryAction": "Добавить в род",
+        "primaryAction": "Добавить",
         "hierarchy": {
           "primary": "Совпадения по номерам",
           "secondary": "Подсказка родства и пропуск"
@@ -1423,7 +1423,7 @@
     },
     {
       "id": "tree",
-      "title": "Ветвь",
+      "title": "Отцовская ветвь",
       "type": "push",
       "light": true,
       "meta": "Поколения · связи",
@@ -1432,10 +1432,10 @@
         "pattern": "detail",
         "navigation": "push",
         "purpose": "Показать ветвь рода и место человека в ней",
-        "primaryAction": "Открыть человека",
+        "primaryAction": "Иван Петрович",
         "hierarchy": {
-          "primary": "Ветвь по поколениям",
-          "secondary": "Кто жив, кто в архиве, кто не подписан"
+          "primary": "Поколения ветви со связями каждого человека",
+          "secondary": "Кто ещё не в приложении и где ветвь обрывается"
         },
         "states": [
           "default"
