@@ -381,7 +381,11 @@
       show(start, { back: true });
     }
 
-    var controls = root.parentNode.querySelector('.controls');
+    /* Только прямой ребёнок панели: `.controls` — ещё и ядровой класс блока
+       управления плеером, и у концепта со звонком или плеером внутри
+       прототипа обычный querySelector находит его раньше кнопок панели.
+       Тогда «Начать заново» молча перестаёт работать. */
+    var controls = root.parentNode.querySelector(':scope > .controls');
     if (controls) controls.addEventListener('click', function (e) {
       var btn = e.target.closest('button');
       if (!btn) return;

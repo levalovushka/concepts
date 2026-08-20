@@ -1,1 +1,721 @@
-/* Концепт-специфичные компоненты. Общий iOS-хром — в kernel/base.css. */
+/* «Родня» — соцсеть одного рода. Мимикрия под Одноклассники.
+   Токены взяты по наблюдениям kernel/archetypes/ok-observations.md:
+   тёплая подложка, белые карточки, оранжевые действия, зелёные счётчики. */
+
+.r-page {
+  background-color: #f2efec;
+  color: #14110f;
+}
+.r-scroll {
+  padding-bottom: 12px;
+}
+.r-safe {
+  padding-top: var(--safe-top);
+}
+
+/* —— верхняя панель раздела —— */
+.r-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px var(--margin) 10px;
+  background-color: #fff;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-top-title {
+  flex: 1;
+  min-width: 0;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-top-acts {
+  display: flex;
+  gap: 2px;
+}
+.r-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #14110f;
+  position: relative;
+}
+.r-icon .ico-svg {
+  width: 23px;
+  height: 23px;
+}
+.r-badge {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 11px/18px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— карточка раздела —— */
+.r-card {
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.r-card.pad {
+  padding: 14px;
+}
+.r-wrap {
+  padding: 10px var(--margin) 0;
+}
+
+/* —— повод дня: дни рождения —— */
+.r-dates {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px var(--margin);
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.r-date {
+  width: 74px;
+  flex: none;
+  text-align: center;
+}
+.r-date-ring {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  padding: 2px;
+  background-color: var(--accent-fill);
+}
+.r-date-ring.is-past {
+  background-color: rgba(60, 60, 67, 0.2);
+}
+.r-date-in {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 2px;
+}
+.r-date-add {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.1);
+  display: grid;
+  place-items: center;
+  color: #14110f;
+}
+.r-date-lab {
+  font: 400 12px/15px var(--face);
+  color: var(--ios-secondary);
+}
+.r-date-lab b {
+  display: block;
+  font: 600 12px/15px var(--face);
+  color: #14110f;
+}
+
+/* —— промо-блок: инвентарь под ATT —— */
+.r-promo {
+  position: relative;
+  padding: 14px;
+  border-radius: 14px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.r-promo-lab {
+  font: 500 11px/14px var(--face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ios-secondary);
+  margin-bottom: 6px;
+}
+.r-promo-t {
+  font: 600 16px/21px var(--face);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  max-width: 24ch;
+}
+.r-promo-d {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 12px;
+  max-width: 30ch;
+}
+.r-promo-more {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--ios-secondary);
+}
+.r-pill {
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 20px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 15px/1 var(--face);
+}
+.r-pill.quiet {
+  background-color: rgba(60, 60, 67, 0.1);
+  color: #14110f;
+}
+
+/* —— публикация —— */
+.r-post-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+.r-post-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.r-post-who {
+  flex: 1;
+  min-width: 0;
+}
+.r-post-name {
+  font: 600 15px/19px var(--face);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.r-kin {
+  font: 400 13px/17px var(--face);
+  color: var(--accent-fill);
+}
+.r-post-meta {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-post-text {
+  padding: 0 14px 10px;
+  font: 400 15px/21px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-year {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background-color: rgba(238, 114, 3, 0.12);
+  color: var(--accent-fill);
+  font: 600 12px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-media {
+  height: 214px;
+}
+.r-media.tall {
+  height: 268px;
+}
+.r-media-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  height: 168px;
+}
+.r-unnamed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-unnamed .ico-svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--accent-fill);
+}
+.r-acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 8px;
+}
+.r-act {
+  min-height: 44px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  color: var(--ios-secondary);
+  font: 400 14px/1 var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.r-act.is-on {
+  color: var(--accent-fill);
+}
+.r-act.last {
+  margin-left: auto;
+}
+
+/* —— секции и строки —— */
+.r-sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 2px 8px;
+}
+.r-sec-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 700 17px/22px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-sec-head span {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-row:last-child {
+  border-bottom: 0;
+}
+.r-row-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+  position: relative;
+}
+.r-online {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #4bb34b;
+  box-shadow: 0 0 0 2px #fff;
+}
+.r-row-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-row-t {
+  font: 500 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-row-s {
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+  text-wrap: pretty;
+}
+.r-end {
+  flex: none;
+  text-align: right;
+  color: var(--ios-secondary);
+  font: 400 13px/18px var(--face);
+}
+.r-count {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 12px/20px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— чипы разделов —— */
+.r-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px var(--margin);
+}
+.r-chip {
+  flex: none;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 14px/1 var(--face);
+  color: #14110f;
+}
+.r-chip.is-on {
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+/* —— переписка —— */
+.r-chat-scroll {
+  padding: 10px var(--margin) 8px;
+}
+.r-daydiv {
+  align-self: center;
+  margin: 6px auto 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background-color: rgba(60, 60, 67, 0.1);
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  width: fit-content;
+}
+.r-bub {
+  max-width: 76%;
+  margin-bottom: 8px;
+  padding: 9px 12px 7px;
+  border-radius: 16px;
+  background-color: #fff;
+  font: 400 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-bub.mine {
+  margin-left: auto;
+  background-color: rgba(238, 114, 3, 0.14);
+}
+.r-bub-time {
+  display: block;
+  margin-top: 2px;
+  text-align: right;
+  font: 400 11px/14px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.r-voicemsg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+.r-voicemsg .ico-svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  color: var(--accent-fill);
+}
+.r-wave {
+  flex: 1;
+  height: 22px;
+  border-radius: 3px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent-fill) 0 2px,
+    transparent 2px 5px
+  );
+  opacity: 0.55;
+}
+.r-kinbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: #fff;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-kinbar-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-kinbar-t {
+  font: 500 14px/19px var(--face);
+}
+.r-kinbar-s {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-inputbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px var(--margin);
+  background-color: #fff;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 20px;
+  background-color: rgba(118, 118, 128, 0.12);
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— плеер и аудиоархив —— */
+.r-player-art {
+  height: 232px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+.r-track {
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(60, 60, 67, 0.18);
+  margin-bottom: 6px;
+  position: relative;
+}
+.r-track-in {
+  position: absolute;
+  inset: 0 62% 0 0;
+  border-radius: 2px;
+  background-color: var(--accent-fill);
+}
+.r-times {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 14px;
+}
+.r-marks {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.r-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 6px 4px;
+  font: 400 15px/20px var(--face);
+}
+.r-mark-at {
+  font: 500 13px/18px var(--face);
+  color: var(--accent-fill);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  width: 48px;
+}
+
+/* —— сбор и дорога —— */
+.r-gather {
+  padding: 16px 14px;
+  border-radius: 14px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  margin-bottom: 10px;
+}
+.r-gather-when {
+  font: 500 13px/17px var(--face);
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+.r-gather-t {
+  font: 700 24px/29px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.r-gather-s {
+  font: 400 14px/19px var(--face);
+  opacity: 0.92;
+}
+.r-way {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-way:last-child {
+  border-bottom: 0;
+}
+.r-way-dot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.25);
+}
+.r-way-dot.is-moving {
+  background-color: var(--accent-fill);
+}
+.r-way-dot.is-here {
+  background-color: #4bb34b;
+}
+
+/* —— устройства в сети —— */
+.r-net {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-net .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+/* —— ветвь рода —— */
+.r-gen {
+  padding: 10px 0 4px;
+  font: 500 12px/16px var(--face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ios-secondary);
+}
+.r-kinline {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.r-kinface {
+  width: 78px;
+  flex: none;
+  text-align: center;
+}
+.r-kinface-img {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-kinface-n {
+  font: 500 12px/15px var(--face);
+}
+.r-kinface-r {
+  font: 400 11px/14px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— профиль —— */
+.r-prof {
+  padding: 18px 14px 14px;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.r-prof-face {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-prof-n {
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-prof-r {
+  margin-top: 3px;
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-prof-nums {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 14px;
+}
+.r-prof-num b {
+  display: block;
+  font: 700 18px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-prof-num span {
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— мелкие утилиты концепта —— */
+.r-note {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-note .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  margin-top: 1px;
+}
+.r-cta {
+  padding: 12px var(--margin) 6px;
+}
+.r-dock .tab .ico-svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* Карта дороги — плейсхолдер: визуал в концептах не рисуется,
+   данные несёт список ниже. */
+.r-map {
+  height: 214px;
+  flex: none;
+}
+
+/* Тёмные экраны концепта: ядро задаёт только цвет текста, подложку ставит концепт. */
+.r-page .lock-bg {
+  background-color: #17120e;
+}
+.r-page .lock-bg .miniplayer-title,
+.r-page .lock-bg .t-title,
+.r-page .lock-bg .t-headline {
+  color: #fff;
+}
+.r-page .lock-bg .t-subhead,
+.r-page .lock-bg .t-caption,
+.r-page .lock-bg .t-footnote,
+.r-page .lock-bg .miniplayer-sub {
+  color: rgba(255, 255, 255, 0.78);
+}
+.r-page .cam {
+  background-color: #0d0b09;
+}
+
+/* Карточка системного диалога на локскрине светлая — текст в ней тёмный. */
+.r-page .lock-bg .sysask-card .t-footnote {
+  color: var(--ios-secondary);
+}

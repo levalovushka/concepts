@@ -1,22 +1,23 @@
-<div class="screen ios-surface" id="scr-phone" style="background:#fff">
-            <div class="body-scroll" style="display:flex;flex-direction:column;padding:calc(var(--safe-top) + 24px) var(--margin) 0">
-              <div class="auth-mark" aria-hidden="true">
-                <svg class="ico-svg" style="width:32px;height:32px"><use href="#i-lock"/></svg>
-              </div>
-              <h1 class="t-title mt24" style="font-size:28px;line-height:34px">Вход в «Родня»</h1>
-              <p class="t-subhead mt8">Пришлём код в SMS. Одной фразой: зачем номер нужен именно этому приложению.</p><div class="ios-list mt24">
-                <div class="row">
-                  <div class="auth-cc">+7</div>
-                  <input class="field-input auth-num" type="text" value="900 123-45-67" readonly aria-label="Номер телефона">
-                </div>
-              </div>
-              <div class="group-foot wide">Оператор может взять плату за SMS.</div>
-
-              <div class="push"></div>
-              <div class="cta-col" style="padding-left:0;padding-right:0">
-                <div class="btn-filled block" data-primary data-go="code">Получить код</div>
-                <p class="t-footnote" style="text-align:center;margin:0">Продолжая, вы принимаете условия и политику конфиденциальности.</p><div class="auth-links"><button class="auth-link" data-toast="Помощь · rodnya.app/help">Помощь</button><button class="auth-link" data-toast="Поддержка · support@rodnya.app">Поддержка</button><button class="auth-link" data-toast="Соглашение · rodnya.app/terms">Пользовательское соглашение</button></div>
-              </div>
-            </div>
-            <div class="home-ind" aria-hidden="true"></div>
-          </div>
+<div class="screen r-page" id="scr-phone">
+  <div class="auth">
+    <div class="auth-mark" aria-hidden="true"><svg class="ico-svg"><use href="#i-users"/></svg></div>
+    <h1 class="auth-title">Вход в «Родню»</h1>
+    <p class="auth-lede">Войдите по почте — так ваше место в роду и подписи под снимками останутся с вами при смене телефона.</p>
+    <div class="auth-field is-mail">
+      <span class="auth-mail-label">Электронная почта</span>
+      <span class="auth-mail-value">marina.k@inbox.ru</span>
+    </div>
+    <p class="auth-hint">Код придёт письмом. Почта нужна только для входа.</p>
+    <div class="auth-actions">
+      <button class="btn-filled tap" data-primary data-go="code">Продолжить с почтой</button>
+      <button class="auth-apple tap" data-activate="applesignin|code" aria-label="Войти с Apple"><svg class="ico-svg auth-apple-mark"><use href="#i-apple"/></svg>Войти с Apple</button>
+      <p class="auth-legal">Продолжая, вы принимаете пользовательское соглашение и политику конфиденциальности.</p>
+      <div class="auth-links">
+        <button class="auth-link" data-toast="Помощь · rodnya.app/help">Помощь</button>
+        <button class="auth-link" data-toast="Поддержка · support@rodnya.app">Поддержка</button>
+        <button class="auth-link" data-toast="Соглашение · rodnya.app/terms">Пользовательское соглашение</button>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

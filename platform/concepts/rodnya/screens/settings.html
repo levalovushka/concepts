@@ -1,0 +1,66 @@
+<div class="screen r-page" id="scr-settings">
+  <div class="navbar">
+    <div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="title">Настройки</div>
+  </div>
+  <div class="body-scroll r-scroll">
+    <div class="r-wrap">
+      <div class="r-sec-head"><h2>Вход</h2></div>
+      <div class="r-card">
+        <div class="r-row"><div class="r-row-face"><svg class="ico-svg"><use href="#i-mail"/></svg></div><div class="r-row-copy"><div class="r-row-t">marina.k@inbox.ru</div><div class="r-row-s">вход по почте, код приходит письмом</div></div></div>
+        <div class="r-row tap" data-toast="Вход с Apple привязан к этому аккаунту" aria-label="Привязать вход с Apple">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-apple"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Вход с Apple</div><div class="r-row-s">не привязан · привяжите, чтобы входить без письма</div></div>
+          <div class="r-end">Привязать</div>
+        </div>
+        <div class="r-row tap" data-activate="keychain|settings" aria-label="Общая связка ключей">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-key"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Одна сессия на расширения</div><div class="r-row-s">уведомления и «Поделиться» не просят входить заново</div></div>
+          <div class="r-end"><span class="switch"></span></div>
+        </div>
+      </div>
+
+      <div class="r-sec-head"><h2>Фоновые задачи</h2><span>2</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-activate="fetch|settings" aria-label="Обновление ленты в фоне">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-loader-circle"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Лента к первому открытию</div><div class="r-row-s">app.rodnya.feed_refresh · последний прогон в 06:12</div></div>
+          <div class="r-end"><span class="switch"></span></div>
+        </div>
+        <div class="r-row tap" data-activate="processing|settings" aria-label="Разобрать архив">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-scan-face"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Разбор архива на зарядке</div><div class="r-row-s">app.rodnya.archive_index · разобрано 62 % из 1 840 снимков</div></div>
+          <div class="r-end"><div class="dl is-busy"><span class="dl-bar"></span></div></div>
+        </div>
+        <div class="r-row tap" data-activate="bgtask|settings" aria-label="Идентификаторы фоновых задач">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-list-checks"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Идентификаторы задач</div><div class="r-row-s">обе строки объявлены в Info.plist и зарегистрированы</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+
+      <div class="r-sec-head"><h2>Оповещения</h2></div>
+      <div class="r-card">
+        <div class="r-row tap" data-go="notif" aria-label="Настроить оповещения">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Что приходит</div><div class="r-row-s">сообщения, ответы и дни рождения · включено</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+
+      <div class="r-sec-head"><h2>Ссылки и домен</h2></div>
+      <div class="r-card">
+        <div class="r-row tap" data-activate="associateddomains|invite" aria-label="Ссылки открываются в приложении">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-link"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Ссылки rodnya.app</div><div class="r-row-s">приглашения открываются сразу здесь, чужие домены не принимаются</div></div>
+          <div class="r-end"><span class="switch"></span></div>
+        </div>
+      </div>
+
+      <div class="r-cta">
+        <button class="btn-quiet tap" data-primary data-toast="Разбор архива запущен · продолжится на зарядке" aria-label="Разобрать архив">Разобрать архив</button>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

@@ -223,7 +223,9 @@ for (const slug of slugs) {
     for (const h of hits) found.push({ scr, ...h });
   }
   if (spec.uiContractVersion >= 3) {
-    const signatures = await page.evaluate(() => [...document.querySelectorAll('.device [data-screen]')]
+    /* Только геройский прототип: в сценарных срезах сборка вырезает таб-бар,
+       снимая data-go, и сравнение ловило бы артефакт сборки, а не концепт. */
+    const signatures = await page.evaluate(() => [...document.querySelectorAll('.hero-device [data-screen]')]
       .filter((screen) => screen.querySelector('.tabbar'))
       .map((screen) => ({ id: screen.dataset.screen, signature: [...screen.querySelectorAll('.tabbar .tab')].map((tab) => `${tab.dataset.go}:${(tab.textContent || '').trim()}`).join('|') })));
     const unique = new Set(signatures.map((item) => item.signature));

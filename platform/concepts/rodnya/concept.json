@@ -405,9 +405,9 @@
       "key": "commnotif",
       "plist": "com.apple.developer.usernotifications.communication",
       "feature": "Сообщение и звонок приходят с именем и фотографией родственника",
-      "gesture": "«Открыть сообщение»",
-      "screen": "lockscreen",
-      "target": "chat",
+      "gesture": "«Лицо в баннере»",
+      "screen": "notif",
+      "target": "lockscreen",
       "fallback": "Уведомление остаётся, но без аватара и без учёта режима фокусирования",
       "snack": "Коммуникационные уведомления недоступны",
       "risk": "low",
@@ -425,8 +425,8 @@
       "plist": "UIBackgroundModes: voip",
       "feature": "Входящий звонок родственника поднимается на заблокированном экране",
       "gesture": "«Позвонить»",
-      "screen": "call",
-      "target": "lockscreen",
+      "screen": "chat",
+      "target": "call",
       "fallback": "Остаётся сообщение и обычный звонок по номеру телефона",
       "snack": "Звонки недоступны",
       "risk": "high",
@@ -485,9 +485,9 @@
       "key": "fetch",
       "plist": "UIBackgroundModes: fetch",
       "feature": "Лента и дни рождения подгружаются до того, как приложение открыли",
-      "gesture": "«Обновить ленту»",
-      "screen": "feed",
-      "target": "feed",
+      "gesture": "«Лента к первому открытию»",
+      "screen": "settings",
+      "target": "settings",
       "fallback": "Лента обновляется при открытии",
       "snack": "Фоновая загрузка выключена",
       "risk": "medium",
@@ -583,8 +583,8 @@
       "key": "associateddomains",
       "plist": "com.apple.developer.associated-domains",
       "feature": "Приглашение в род и ссылка на публикацию открываются прямо в приложении",
-      "gesture": "«Пригласить ссылкой»",
-      "screen": "invite",
+      "gesture": "«Ссылки rodnya.app»",
+      "screen": "settings",
       "target": "invite",
       "fallback": "Ссылка открывается на сайте с предложением установить приложение",
       "snack": "Universal Links недоступны",
@@ -1753,7 +1753,7 @@
     {
       "id": "signin",
       "label": "Вход в род",
-      "note": "Почта, код из письма и вход с Apple",
+      "note": "Почта, код письмом и вход с Apple",
       "start": "phone",
       "screens": [
         "phone",
@@ -1768,10 +1768,9 @@
     {
       "id": "publish",
       "label": "Публикация в род",
-      "note": "Камера, медиатека и место — от ленты до опубликованного снимка",
-      "start": "feed",
+      "note": "Камера, медиатека и место — от черновика до снимка в ленте",
+      "start": "compose",
       "screens": [
-        "feed",
         "compose",
         "shoot",
         "picker",
@@ -1793,10 +1792,6 @@
         "voice",
         "call",
         "lockscreen"
-      ],
-      "stops": [
-        "call",
-        "lockscreen"
       ]
     },
     {
@@ -1806,73 +1801,72 @@
       "start": "voices",
       "screens": [
         "voices",
+        "voice",
         "player",
         "background"
       ],
       "stops": [
-        "background"
+        "voice"
       ]
     },
     {
       "id": "gathering",
       "label": "Сбор рода",
-      "note": "Событие и фоновые отметки «в пути» на один день",
-      "start": "feed",
+      "note": "Событие и фоновые отметки дороги на один день",
+      "start": "gather",
       "screens": [
-        "feed",
         "gather",
-        "route"
+        "route",
+        "tv"
       ],
       "stops": [
-        "route"
+        "tv"
       ]
     },
     {
       "id": "bigscreen",
       "label": "Показ на телевизоре",
-      "note": "Поиск устройств в сети и показ ленты на большом экране",
-      "start": "post",
+      "note": "Поиск устройств в сети и показ альбома на большом экране",
+      "start": "tv",
       "screens": [
-        "post",
         "tv",
-        "cast"
+        "cast",
+        "post"
       ],
       "stops": [
-        "cast"
+        "post"
       ]
     },
     {
       "id": "kin",
       "label": "Собрать родню",
       "note": "Контакты, совпадения по номерам и приглашение ссылкой",
-      "start": "profile",
+      "start": "relatives",
       "screens": [
-        "profile",
         "relatives",
         "match",
         "tree",
         "invite"
       ],
       "stops": [
-        "match",
         "tree",
         "invite"
       ]
     },
     {
       "id": "keys",
-      "label": "Оповещения и фон",
-      "note": "Пуши, фоновые задачи и разбор архива",
-      "start": "feed",
+      "label": "Фон и оповещения",
+      "note": "Фоновые задачи, разбор архива, пуши и связанные домены",
+      "start": "settings",
       "screens": [
-        "feed",
+        "settings",
+        "invite",
         "notif",
-        "profile",
-        "settings"
+        "lockscreen"
       ],
       "stops": [
-        "notif",
-        "settings"
+        "invite",
+        "lockscreen"
       ]
     }
   ],
@@ -1952,7 +1946,7 @@
     "name": "Родня — соцсеть вашего рода",
     "subtitle": "Лента, голоса и ветви семьи",
     "promo": "Снимок 1974 года стоит в ленте рядом с сегодняшним, и любое лицо на нём можно подписать. Внутри — обсуждения, голосовые, звонки и аудиоархив рода.",
-    "keywords": "семья,род,родня,родословная,архив,фото,поколения,бабушка,династия,память",
+    "keywords": "семья,родословная,династия,поколения,архив,снимки,бабушка,дедушка,память,ветвь",
     "category": {
       "primary": "Social Networking",
       "secondary": "Lifestyle"
