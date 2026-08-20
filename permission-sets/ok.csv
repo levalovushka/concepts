@@ -1,0 +1,65 @@
+❇️,Must have
+♿️,Nice to Have (50\50) — заносим, если под ключ есть достижимая фича
+❌,не делаем
+,
+,[Источник — «OK iOS — системные разрешения» (Confluence)]
+,"[Решение: набор ОК несём целиком, включая ключи, запрещённые прежними правилами проекта]"
+,
+,[В итоге пытаемся занести]
+,
+❇️,aps-environment
+❇️,com.apple.developer.usernotifications.communication
+❇️,keychain-access-groups
+❇️,com.apple.developer.applesignin
+❇️,com.apple.developer.associated-domains
+❇️,com.apple.developer.networking.wifi-info
+,
+❇️,NSCameraUsageDescription
+❇️,NSPhotoLibraryUsageDescription
+❇️,NSPhotoLibraryAddUsageDescription
+❇️,NSMicrophoneUsageDescription
+❇️,NSContactsUsageDescription
+❇️,NSUserTrackingUsageDescription (ads / IDFA)
+,
+❇️,NSLocationWhenInUseUsageDescription
+❇️,NSLocationAlwaysAndWhenInUseUsageDescription
+❇️,NSLocationAlwaysUsageDescription
+,
+❇️,NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)
+,
+❇️,UIBackgroundModes/voip
+❇️,UIBackgroundModes/audio
+❇️,UIBackgroundModes/remote-notification
+❇️,UIBackgroundModes/fetch
+❇️,UIBackgroundModes/processing
+❇️,BGTaskSchedulerPermittedIdentifiers
+,
+,[Nice to have — по концепту]
+,
+♿️,NSFaceIDUsageDescription + Biometry
+♿️,com.apple.developer.siri (+ NSSiriUsageDescription)
+♿️,in-app purchase (StoreKit — OKPurchase)
+♿️,com.apple.developer.icloud-container-identifiers / icloud-services / ubiquity-*
+,
+,[Не делаем]
+,
+❌,com.apple.developer.healthkit
+❌,com.apple.developer.healthkit.access
+❌,com.apple.developer.healthkit.background-delivery
+❌,NSHealthShareUsageDescription
+❌,NSHealthUpdateUsageDescription
+,
+,
+,Что этот набор требует от концепта:
+,
+,voip → реальные звонки через CallKit + PushKit
+,audio → фоновое воспроизведение + MPNowPlayingInfoCenter + экран Now Playing
+,NSLocalNetwork → выбор устройства и трансляция на ТВ (Chromecast)
+,associated-domains → Universal Links + статический AASA на домене концепта
+,Location Always → явный фоновый сценарий (5.1.1)
+,applesignin → «Войти с Apple» на экране входа
+,
+,Дополнительно к capabilities продумать:
+,
+,NSE (Notification Service Extension) — для usernotifications.communication
+,ShareExtension (поделиться из вне приложения)

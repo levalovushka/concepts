@@ -16,6 +16,7 @@ export const TARGET_PRODUCTS = {
   'vk-music': { label: 'ВК Музыка', short: 'Музыка' },
   'vk-video': { label: 'ВК Видео', short: 'Видео' },
   vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте' },
+  ok: { label: 'Одноклассники', short: 'ОК' },
 };
 
 export const conceptDir = (slug) => join(CONCEPTS, slug);

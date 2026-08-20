@@ -54,7 +54,11 @@ function probe(scr, cfg) {
     //     глазами на PNG: линтер про цвета ничего не знает, а тест кликает.
     //     Текст поверх фотографии, градиента или с тенью не считаем: там
     //     подложка не сплошная и вычислить её нечем.
-    if (own) {
+    /* Подпись только для скринридера (clip в точку, бокс в пиксель) визуально
+       не существует: у неё нет ни подложки, ни контраста, который можно
+       оценить глазами. Такие узлы проверка контраста пропускает. */
+    const srOnly = r.width <= 2 || r.height <= 2 || cs.clip === 'rect(0px, 0px, 0px, 0px)';
+    if (own && !srOnly) {
       /* rgb() отдаёт 0–255, а color(srgb …) от color-mix — доли: без нормализации
          светлая подложка читается как чёрная и проверка врёт. */
       const nums = (v) => {
@@ -223,7 +227,9 @@ for (const slug of slugs) {
     for (const h of hits) found.push({ scr, ...h });
   }
   if (spec.uiContractVersion >= 3) {
-    const signatures = await page.evaluate(() => [...document.querySelectorAll('.device [data-screen]')]
+    /* Только геройский прототип: в сценарных срезах сборка вырезает таб-бар,
+       снимая data-go, и сравнение ловило бы артефакт сборки, а не концепт. */
+    const signatures = await page.evaluate(() => [...document.querySelectorAll('.hero-device [data-screen]')]
       .filter((screen) => screen.querySelector('.tabbar'))
       .map((screen) => ({ id: screen.dataset.screen, signature: [...screen.querySelectorAll('.tabbar .tab')].map((tab) => `${tab.dataset.go}:${(tab.textContent || '').trim()}`).join('|') })));
     const unique = new Set(signatures.map((item) => item.signature));
