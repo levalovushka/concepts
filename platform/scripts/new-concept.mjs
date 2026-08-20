@@ -17,6 +17,7 @@ const referencePatterns = {
   'vk-music': ['audio-library', 'audio-player', 'background-playback'],
   'vk-video': ['video-feed', 'vertical-clips', 'immersive-player'],
   vkontakte: ['social-feed', 'messaging', 'profile'],
+  ok: ['social-feed', 'messaging', 'profile'],
 }[targetSet] || ['Знакомый паттерн 1', 'Знакомый паттерн 2', 'Знакомый паттерн 3'];
 if (!slug || !name) {
   console.error('использование: node scripts/new-concept.mjs <slug> "<Название>" <целевой-набор> [mimicry|differentiation]');

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const readJson = (file) => JSON.parse(readFileSync(join(ROOT, 'kernel', file), 'utf8'));
 const RECIPES = readJson('screen-recipes.json');
-const ARCHETYPES = Object.fromEntries(['vk-music', 'vk-video', 'vkontakte'].map((id) => [id, readJson(`archetypes/${id}.json`)]));
+const ARCHETYPES = Object.fromEntries(['vk-music', 'vk-video', 'vkontakte', 'ok'].map((id) => [id, readJson(`archetypes/${id}.json`)]));
 
 export const POSITIONING_MODES = {
   mimicry: { label: 'Мимикрия', description: 'Знакомая грамматика продукта-референса в собственной нише' },

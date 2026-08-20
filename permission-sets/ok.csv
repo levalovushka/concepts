@@ -1,0 +1,64 @@
+❇️,Must have
+♿️,Nice to Have (50\50)
+❌,не делаем (правила проекта)
+,
+,[Источник — «OK iOS — системные разрешения» (Confluence)]
+,
+,[В итоге пытаемся занести]
+,
+❇️,aps-environment
+❇️,com.apple.developer.usernotifications.communication
+❇️,keychain-access-groups
+,
+❇️,NSCameraUsageDescription
+❇️,NSPhotoLibraryUsageDescription
+❇️,NSPhotoLibraryAddUsageDescription
+❇️,NSMicrophoneUsageDescription
+❇️,NSLocationWhenInUseUsageDescription
+,
+❇️,UIBackgroundModes/fetch
+❇️,UIBackgroundModes/remote-notification
+❇️,UIBackgroundModes/processing
+❇️,BGTaskSchedulerPermittedIdentifiers
+,
+❇️,com.apple.developer.networking.wifi-info
+❇️,NSUserTrackingUsageDescription (ads / IDFA)
+❇️,NSContactsUsageDescription
+,
+,[Nice to have — заносим, если под ключ есть достижимая фича]
+,
+♿️,NSFaceIDUsageDescription + Biometry
+♿️,com.apple.developer.siri
+♿️,in-app purchase (StoreKit — OKPurchase)
+,
+"[Убираем, так как заявлено в документе, но правила проекта запрещают]",
+,
+❌,com.apple.developer.associated-domains (диплинков не делаем вообще — CLAUDE.md)
+❌,NSLocationAlwaysAndWhenInUseUsageDescription / NSLocationAlwaysUsageDescription (гео в фоне — 5.1.1 без явного сценария)
+,
+"[Убираем по решению «Двора»: высокий риск 2.5.4, ядровой фичи под них не нашлось]",
+,
+❌,UIBackgroundModes/voip
+❌,UIBackgroundModes/audio
+,
+"[Убираем: тянут за собой отдельный домен фич, который вне области концептов]",
+,
+❌,com.apple.developer.healthkit
+❌,com.apple.developer.healthkit.access
+❌,com.apple.developer.healthkit.background-delivery
+❌,NSHealthShareUsageDescription
+❌,NSHealthUpdateUsageDescription
+,
+❌,com.apple.developer.applesignin (вход в концептах один и общий — телефон+SMS)
+❌,com.apple.developer.icloud-container-identifiers / icloud-services / ubiquity-*
+,
+"[Убираем: письменно запрашивается или требует реального сетевого сценария]",
+,
+❌,NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp) — Chromecast
+,
+,
+,
+,Дополнительно к capabilities продумать:
+,
+,NSE (Notification Service Extension) — для usernotifications.communication
+,ShareExtension (поделиться из вне приложения)
