@@ -1,29 +1,99 @@
 <div class="screen r-page" id="scr-passport">
   <div class="body-scroll r-scroll r-safe">
-    <div class="z-pass-head">
-      <div class="ph z-pass-face"></div><div class="grow"><div class="z-pass-kicker">паспорт земляка</div><div class="z-pass-name">Марина Ковалёва</div><div class="z-pass-home"><svg class="ico-svg"><use href="#i-map-pin"/></svg>Гдов · подтверждено</div></div>
-      <div class="r-icon tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></div>
+    <div class="r-top">
+      <div class="r-top-title">Профиль</div>
+      <div class="r-top-acts"><div class="r-icon tap" data-go="settings" aria-label="Настройки"><svg class="ico-svg"><use href="#i-settings"/></svg></div></div>
     </div>
-    <div class="z-current-place tap" data-primary data-go="places" aria-label="Открыть мои места">
-      <div><span>Мои места · родная точка</span><b>Садовая улица, дом 14</b><small>1988–2007 · 19 лет · 8 знакомых</small></div><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg>
-    </div>
-    <div class="z-pass-section"><div class="z-pass-title"><b>Линия мест</b><span>38 лет связи с городом</span></div>
-      <div class="z-timeline">
-        <div class="z-time tap" data-go="places" aria-label="Открыть место"><i></i><span>1988</span><div><b>Садовая, 14</b><small>дом · двор · первые соседи</small></div></div>
-        <div class="z-time tap" data-go="places" aria-label="Открыть место"><i></i><span>1995</span><div><b>Школа № 2</b><small>выпуск 2004 · нашли 18 из 27</small></div></div>
-        <div class="z-time tap" data-go="object" aria-label="Открыть объект вокзала"><i></i><span>2002</span><div><b>Старый вокзал</b><small>место встреч · 14 историй</small></div></div>
-        <div class="z-time is-now tap" data-go="meetup" aria-label="Открыть встречу"><i></i><span>2026</span><div><b>Возвращается на День города</b><small>12 сентября · в пути ещё восемь</small></div></div>
+    <div class="r-prof">
+      <div class="r-prof-face"><div class="ph"></div></div>
+      <div class="r-prof-n">Марина Ковалёва</div>
+      <div class="r-prof-r">Гдов · Садовая, 14 · жила здесь с 1988 по 2007</div>
+      <div class="r-prof-nums">
+        <div class="r-prof-num"><b>38</b><span>публикаций</span></div>
+        <div class="r-prof-num"><b>23</b><span>земляка</span></div>
+        <div class="r-prof-num"><b>112</b><span>подписей</span></div>
+      </div>
+      <div class="r-prof-acts">
+        <button class="r-pill tap" data-go="add" aria-label="Опубликовать">Опубликовать</button>
+        <button class="r-pill quiet tap" data-go="settings" aria-label="Изменить профиль">Изменить</button>
       </div>
     </div>
-    <div class="z-links-grid">
-      <div class="z-link-card tap" data-go="locals" aria-label="Земляки по общим местам"><svg class="ico-svg"><use href="#i-users"/></svg><b>23</b><span>земляка по общим местам</span></div>
-      <div class="z-link-card tap" data-go="places" aria-label="Подтверждённые места"><svg class="ico-svg"><use href="#i-map-pin"/></svg><b>3</b><span>подтверждённых места</span></div>
-      <div class="z-link-card tap" data-go="meetup" aria-label="Встреча в сентябре"><svg class="ico-svg"><use href="#i-calendar"/></svg><b>1</b><span>встреча в сентябре</span></div>
-    </div>
-    <div class="z-pass-section"><div class="z-pass-title"><b>Вклад по местам</b><span>38 объектов</span></div>
-      <div class="z-contrib tap" data-go="object" aria-label="Открыть вклад по месту"><span class="z-contrib-year">2026</span><div class="ph"></div><div class="grow"><b>Старая почта</b><small>2 снимка · 3 ответа · крыльцо</small></div></div>
-      <div class="z-contrib tap" data-go="object" aria-label="Открыть вклад по месту"><span class="z-contrib-year">1902</span><div class="ph"></div><div class="grow"><b>План старого вокзала</b><small>12 оценок · 8 уточнений</small></div></div>
-      <div class="z-contrib tap" data-go="object" aria-label="Открыть вклад по месту"><span class="z-contrib-year">1968</span><div class="ph"></div><div class="grow"><b>Выпуск школы № 2</b><small>подписаны 6 из 9 человек</small></div></div>
+    <div class="r-wrap">
+      <div class="r-card">
+        <div class="r-row tap" data-go="locals" aria-label="Земляки">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-users"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Земляки</div><div class="r-row-s">23 по общим местам, семеро уехали из города</div></div>
+          <div class="r-end"><span class="r-count">7</span></div>
+        </div>
+        <div class="r-row tap" data-primary data-go="places" aria-label="Мои места">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-map-pin"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Мои места</div><div class="r-row-s">Садовая 14, школа № 2 и старый вокзал</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-go="meetup" aria-label="День города">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">День города · 12 сентября</div><div class="r-row-s">вы приедете, ещё восемь земляков в пути</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+
+      <div class="r-sec-head"><h2>Мои публикации</h2><span>38</span></div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва <span class="r-kin">Старый центр</span></div>
+            <div class="r-post-meta">сегодня, 08:20</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про почту"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Крыльцо старой почты сняла с угла, как советовали: видно и ступени, и остатки козырька.</div>
+        <div class="r-media ph tap" data-go="object" aria-label="Открыть снимок крыльца почты"></div>
+        <div class="r-acts">
+          <div class="r-act tap" aria-label="Оценить публикацию про почту"><svg class="ico-svg"><use href="#i-heart"/></svg><span>11</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответы к публикации про почту"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>3</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры публикации про почту"><svg class="ico-svg"><use href="#i-eye"/></svg><span>47</span></div>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва <span class="r-kin">Вокзал</span></div>
+            <div class="r-post-meta">19 августа</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про план вокзала"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Из архива достали план старого вокзала: боковой вход был там, где сейчас глухая стена. <span class="r-year">1902</span></div>
+        <div class="r-media-pair">
+          <div class="ph tap" data-go="object" aria-label="Открыть план вокзала"></div>
+          <div class="ph tap" data-go="object" aria-label="Открыть современный снимок вокзала"></div>
+        </div>
+        <div class="r-acts">
+          <div class="r-act is-on tap" aria-label="Оценить публикацию про план вокзала"><svg class="ico-svg"><use href="#i-heart"/></svg><span>34</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответы к публикации про план вокзала"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>18</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры публикации про план вокзала"><svg class="ico-svg"><use href="#i-eye"/></svg><span>212</span></div>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва <span class="r-kin">Школа № 2</span></div>
+            <div class="r-post-meta">2 августа</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про выпуск школы"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Выпуск школы № 2: шестерых подписали в комментариях за вечер, трое в верхнем ряду пока без имени. <span class="r-year">1968</span></div>
+        <div class="r-acts">
+          <div class="r-act tap" aria-label="Оценить публикацию про выпуск школы"><svg class="ico-svg"><use href="#i-heart"/></svg><span>27</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответы к публикации про выпуск школы"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>22</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры публикации про выпуск школы"><svg class="ico-svg"><use href="#i-eye"/></svg><span>168</span></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="tabbar r-dock" aria-label="Основная навигация">

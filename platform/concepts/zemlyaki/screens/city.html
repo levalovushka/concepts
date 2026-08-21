@@ -1,30 +1,96 @@
 <div class="screen r-page" id="scr-city">
   <div class="body-scroll r-scroll r-safe">
-    <div class="z-place-head">
-      <div><div class="z-place-kicker">ваш город</div><div class="z-place-title">Гдов</div></div>
-      <div class="z-place-actions"><div class="r-icon tap" data-go="add" aria-label="Добавить в город"><svg class="ico-svg"><use href="#i-plus"/></svg></div><div class="r-icon tap" data-go="alerts" aria-label="Оповещения"><svg class="ico-svg"><use href="#i-bell"/></svg><span class="r-badge">4</span></div></div>
-    </div>
-    <div class="z-city-state">
-      <div class="z-state-top"><b>Город сейчас</b><span>обновлено 8 мин назад</span></div>
-      <div class="z-districts">
-        <div class="z-district tap" data-go="places" aria-label="Старый центр"><i class="is-live"></i><b>Старый центр</b><span>12 земляков · 3 истории</span></div>
-        <div class="z-district tap" data-go="places" aria-label="Садовая"><i class="is-warm"></i><b>Садовая</b><span>ищут дом на снимке</span></div>
-        <div class="z-district tap" data-go="places" aria-label="Заречье"><i></i><b>Заречье</b><span>новая запись эфира</span></div>
+    <div class="r-top">
+      <div class="r-top-title">Гдов</div>
+      <div class="r-top-acts">
+        <div class="r-icon tap" data-go="add" aria-label="Новая публикация"><svg class="ico-svg"><use href="#i-plus"/></svg></div>
+        <div class="r-icon tap" data-go="alerts" aria-label="Оповещения"><svg class="ico-svg"><use href="#i-bell"/></svg><span class="r-badge">4</span></div>
       </div>
     </div>
-    <div class="z-event tap" data-go="meetup" aria-label="День города, 12 сентября"><div class="z-event-date"><b>12</b><span>сен</span></div><div class="grow"><div class="z-event-t">День города · 80 лет</div><div class="z-event-s">14 подтвердили · 8 уже в пути</div></div><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
-    <div class="z-create tap" data-primary data-go="add" aria-label="Добавить городской объект"><div class="z-create-face"><div class="ph"></div></div><div class="grow"><b>Добавить в Гдов</b><span>снимок · место · вопрос · запись</span></div><div class="z-create-ico"><svg class="ico-svg"><use href="#i-camera"/></svg></div></div>
-    <div class="z-stream-head"><b>Новые объекты</b><span>по вашим местам</span></div>
-    <div class="z-object tap" data-go="object" aria-label="Двор на Садовой, снимок 1974 года">
-      <div class="z-object-side"><span class="z-year">1974</span><i></i><span>Садовая</span></div>
-      <div class="z-object-main"><div class="z-object-kind"><svg class="ico-svg"><use href="#i-map-pin"/></svg>Двор · дом 14</div><div class="z-object-body"><div class="grow"><b>Кто третий слева?</b><p>Нина Петровна добавила карточку. Двое уже подписаны.</p></div><div class="ph z-object-thumb"></div></div><div class="z-object-foot"><span><svg class="ico-svg"><use href="#i-heart"/></svg>14</span><span class="tap" data-go="topic"><svg class="ico-svg"><use href="#i-message-circle"/></svg>9 ответов</span><span class="is-new">новое</span></div></div>
+
+    <div class="r-wrap">
+      <div class="r-composer tap" data-primary data-go="add" aria-label="Что нового в городе?">
+        <div class="r-composer-face"><div class="ph"></div></div>
+        <div class="r-composer-hint">Что нового в городе?</div>
+        <div class="r-composer-act tap" data-go="add" aria-label="Снять фото"><svg class="ico-svg"><use href="#i-camera"/></svg></div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-row tap" data-go="meetup" aria-label="День города 12 сентября">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">День города · 12 сентября</div><div class="r-row-s">14 подтвердили, восьмеро уже в пути</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Нина Петровна <span class="r-kin">Садовая</span></div>
+            <div class="r-post-meta">вчера, 21:04</div>
+          </div>
+          <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о публикации про двор"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Нашла карточку с нашим двором: дом 14, за спинами ещё старый забор. Кто третий слева — не помню совсем. <span class="r-year">1974</span></div>
+        <div class="r-media ph tap" data-go="object" aria-label="Открыть снимок двора 1974 года"></div>
+        <div class="r-acts">
+          <div class="r-act is-on tap" aria-label="Оценить публикацию про двор"><svg class="ico-svg"><use href="#i-heart"/></svg><span>14</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответить в обсуждении про двор"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>9</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры публикации про двор"><svg class="ico-svg"><use href="#i-eye"/></svg><span>41</span></div>
+        </div>
+      </div>
+
+      <div class="r-promo">
+        <div class="r-promo-more tap" data-toast="Почему я это вижу · Скрыть рекламу" aria-label="О рекламном блоке"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        <div class="r-promo-lab">Реклама</div>
+        <div class="r-promo-t">Фотокнига о Гдове за семь дней</div>
+        <div class="r-promo-d">Типография на Советской, 60 страниц, макет соберут из городских снимков. Приложение бесплатное благодаря таким блокам.</div>
+        <button class="r-pill tap" data-ask="tracking|city|city" aria-label="Показывать подходящее">Показывать подходящее</button>
+        <div class="r-note" data-show-denied="tracking" hidden>
+          <svg class="ico-svg"><use href="#i-info"/></svg>
+          <span>Реклама остаётся, но перестала учитывать интересы: показываем общее по городу.</span>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Артём <span class="r-kin">Старый центр</span></div>
+            <div class="r-post-meta">сегодня, 09:12</div>
+          </div>
+          <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о публикации про почту"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Снял старую почту с двух сторон. Крыльцо держится на честном слове, до холодов бы перебрать.</div>
+        <div class="r-media-pair">
+          <div class="ph tap" data-go="object" aria-label="Открыть первый ракурс почты"></div>
+          <div class="ph tap" data-go="object" aria-label="Открыть второй ракурс почты"></div>
+        </div>
+        <div class="r-acts">
+          <div class="r-act tap" aria-label="Оценить публикацию про почту"><svg class="ico-svg"><use href="#i-heart"/></svg><span>6</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответить в обсуждении про почту"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>3</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры публикации про почту"><svg class="ico-svg"><use href="#i-eye"/></svg><span>28</span></div>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Валентина <span class="r-kin">Заречье</span></div>
+            <div class="r-post-meta">2 сентября</div>
+          </div>
+          <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о записи про мост"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Записала, как Пётр Ильич рассказывает про стройку моста: путается в годах, зато помнит все фамилии бригады. <span class="r-year">1987</span></div>
+        <div class="r-acts">
+          <div class="r-act tap" data-go="broadcast" aria-label="Слушать запись про мост"><svg class="ico-svg"><use href="#i-play"/></svg><span>12:41</span></div>
+          <div class="r-act tap" data-go="topic" aria-label="Ответить в обсуждении про мост"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>17</span></div>
+          <div class="r-act last tap" data-go="object" aria-label="Просмотры записи про мост"><svg class="ico-svg"><use href="#i-eye"/></svg><span>63</span></div>
+        </div>
+      </div>
     </div>
-    <div class="z-object tap" data-go="object" aria-label="Старая почта сегодня">
-      <div class="z-object-side"><span class="z-year">2026</span><i></i><span>центр</span></div>
-      <div class="z-object-main"><div class="z-object-kind"><svg class="ico-svg"><use href="#i-map-pin"/></svg>Старая почта</div><div class="z-object-body"><div class="grow"><b>Крыльцо до холодов</b><p>Артём отметил состояние здания и приложил два ракурса.</p></div><div class="z-pair"><div class="ph"></div><div class="ph"></div></div></div><div class="z-object-foot"><span><svg class="ico-svg"><use href="#i-heart"/></svg>6</span><span class="tap" data-go="topic"><svg class="ico-svg"><use href="#i-message-circle"/></svg>3 ответа</span><span class="tap" data-go="devices">На ТВ</span></div></div>
-    </div>
-    <div class="z-object tap" data-go="broadcast" aria-label="Запись с Дня города, 1987"><div class="z-object-side"><span class="z-year">1987</span><i></i><span>Заречье</span></div><div class="z-object-main"><div class="z-object-kind"><svg class="ico-svg"><use href="#i-audio-lines"/></svg>Городской эфир</div><b>Как строили мост</b><div class="z-wave" aria-hidden="true"></div><div class="z-object-foot"><span>12:41</span><span>4 метки</span><span class="tap" data-go="live">В эфир</span></div></div></div>
-    <div class="z-local-ad"><div><span>Местная реклама</span><b>Фотокнига о Гдове за 7 дней</b></div><button class="r-pill tap" data-ask="tracking|city|city" aria-label="Настроить рекомендации">Настроить</button><div class="r-note" data-show-denied="tracking" hidden><svg class="ico-svg"><use href="#i-info"/></svg><span>Показываем общие предложения по городу без учёта интересов.</span></div></div>
   </div>
   <div class="tabbar r-dock" aria-label="Основная навигация">
     <div class="tab is-on tap" aria-current="page" data-go="city" aria-label="Раздел Лента"><span class="ico" aria-label="Лента"><svg class="ico-svg"><use href="#i-house"/></svg></span><span class="tab-label">Лента</span></div>

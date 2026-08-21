@@ -164,15 +164,15 @@
     ],
     "visualPasses": [
       {
-      "name": "независимая place-first композиция и новый manifest",
+        "name": "независимая place-first композиция и новый manifest",
         "screensReviewed": "all",
-      "found": 67,
-      "fixed": 67,
+        "found": 67,
+        "fixed": 67,
         "blockersOpen": 0,
         "majorOpen": 0
       },
       {
-      "name": "повторный capture после правки safe-area, сеток и типографики",
+        "name": "повторный capture после правки safe-area, сеток и типографики",
         "screensReviewed": "all",
         "found": 0,
         "fixed": 0,
@@ -192,12 +192,12 @@
     {
       "id": "city",
       "label": "Лента",
-      "role": "city"
+      "role": "feed"
     },
     {
       "id": "topics",
       "label": "Обсуждения",
-      "role": "topics"
+      "role": "discussions"
     },
     {
       "id": "messages",
@@ -207,12 +207,12 @@
     {
       "id": "live",
       "label": "Эфир",
-      "role": "music"
+      "role": "media"
     },
     {
       "id": "passport",
       "label": "Профиль",
-      "role": "passport"
+      "role": "profile"
     }
   ],
   "permissions": [
@@ -260,7 +260,7 @@
         "text": "Чтобы сохранять снимки города в вашу галерею."
       },
       "feature": "Сохранение архивного снимка из ленты в галерею телефона",
-      "gesture": "«Сохранить в галерею»",
+      "gesture": "«Сохранить»",
       "screen": "object",
       "target": "object",
       "fallback": "Снимок остаётся в приложении, но не попадает в галерею телефона",
@@ -740,10 +740,10 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Начать со состояния места и провести к объектам, людям и разговорам района",
-        "primaryAction": "Добавить в Гдов",
+        "primaryAction": "Что нового в городе?",
         "hierarchy": {
-          "primary": "Состояние города, районы и объекты на временной оси",
-          "secondary": "Событие, вклад земляка и локальная реклама"
+          "primary": "Публикации земляков с оценками и ответами",
+          "secondary": "Ближайшая встреча и промо-блок"
         },
         "states": [
           "default",
@@ -1255,7 +1255,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Дать живой городской эфир и индекс записей по улицам, объектам и эпохам",
-        "primaryAction": "СЛУШАТЬ",
+        "primaryAction": "Слушать",
         "hierarchy": {
           "primary": "Записи историй и аудиописьма",
           "secondary": "Продолжить начатое и разобранное"
@@ -1367,8 +1367,8 @@
         "purpose": "Показать человека через периоды связи с местами, общий локальный граф и вклад по адресам",
         "primaryAction": "Мои места",
         "hierarchy": {
-          "primary": "Родная точка и линия мест",
-          "secondary": "Общие люди, вклад по адресам и настройки"
+          "primary": "Имя, фотография и связь с городом",
+          "secondary": "Земляки, места, встреча и свои публикации"
         },
         "states": [
           "default",

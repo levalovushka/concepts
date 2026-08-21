@@ -13,18 +13,22 @@
         <div class="r-prof-num"><b>23</b><span>родных</span></div>
         <div class="r-prof-num"><b>112</b><span>подписей</span></div>
       </div>
+      <div class="r-prof-acts">
+        <button class="r-pill tap" data-go="compose" aria-label="Опубликовать">Опубликовать</button>
+        <button class="r-pill quiet tap" data-go="settings" aria-label="Изменить профиль">Изменить</button>
+      </div>
     </div>
     <div class="r-wrap">
       <div class="r-card">
-        <div class="r-row tap" data-primary data-go="tree" aria-label="Моя ветвь">
-          <div class="r-row-face"><svg class="ico-svg"><use href="#i-users"/></svg></div>
-          <div class="r-row-copy"><div class="r-row-t">Моя ветвь</div><div class="r-row-s">четыре поколения, 19 человек, двое без родителей</div></div>
-          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
-        </div>
         <div class="r-row tap" data-go="relatives" aria-label="Родные">
           <div class="r-row-face"><svg class="ico-svg"><use href="#i-user-check"/></svg></div>
           <div class="r-row-copy"><div class="r-row-t">Родные</div><div class="r-row-s">23 в приложении, семерых ещё не позвали</div></div>
           <div class="r-end"><span class="r-count">7</span></div>
+        </div>
+        <div class="r-row tap" data-primary data-go="tree" aria-label="Моя ветвь">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-users"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Моя ветвь</div><div class="r-row-s">четыре поколения, 19 человек, двое без родителей</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
         </div>
         <div class="r-row tap" data-go="gather" aria-label="Сборы">
           <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
@@ -32,19 +36,62 @@
           <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
         </div>
       </div>
+
       <div class="r-sec-head"><h2>Мои публикации</h2><span>38</span></div>
+
       <div class="r-card">
-        <div class="r-row tap" data-go="post" aria-label="Публикация про крыльцо">
-          <div class="r-row-face"><div class="ph"></div></div>
-          <div class="r-row-copy"><div class="r-row-t">Крыльцо у деда</div><div class="r-row-s">сегодня · 6 оценок · 3 ответа</div></div>
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва</div>
+            <div class="r-post-meta">сегодня, 08:20</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про крыльцо"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
         </div>
-        <div class="r-row tap" data-go="post" aria-label="Публикация про метрики">
-          <div class="r-row-face"><div class="ph"></div></div>
-          <div class="r-row-copy"><div class="r-row-t">Метрики дошли до 1902 года</div><div class="r-row-s">2 сентября · 12 оценок · спорят до сих пор</div></div>
+        <div class="r-post-text">Крыльцо у деда перебрали до дождей. Доски взяли те же, только нижнюю ступень пришлось менять.</div>
+        <div class="r-media ph tap" data-go="post" aria-label="Открыть публикацию про крыльцо"></div>
+        <div class="r-acts">
+          <div class="r-act tap" aria-label="Оценить публикацию про крыльцо"><svg class="ico-svg"><use href="#i-heart"/></svg><span>6</span></div>
+          <div class="r-act tap" data-go="thread" aria-label="Ответы к публикации про крыльцо"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>3</span></div>
+          <div class="r-act last tap" data-go="post" aria-label="Просмотры публикации про крыльцо"><svg class="ico-svg"><use href="#i-eye"/></svg><span>19</span></div>
         </div>
-        <div class="r-row tap" data-go="post" aria-label="Архивная публикация 1968 года">
-          <div class="r-row-face"><div class="ph"></div></div>
-          <div class="r-row-copy"><div class="r-row-t">Свадьба на Садовой <span class="r-year">1968</span></div><div class="r-row-s">19 августа · подписали шестерых из девяти</div></div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва</div>
+            <div class="r-post-meta">19 августа</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про свадьбу"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Сканы со свадьбы на Садовой. Шестерых подписали, трое так и стоят без имени. <span class="r-year">1968</span></div>
+        <div class="r-media-pair">
+          <div class="ph tap" data-go="post" aria-label="Открыть первый скан со свадьбы"></div>
+          <div class="ph tap" data-go="post" aria-label="Открыть второй скан со свадьбы"></div>
+        </div>
+        <div class="r-acts">
+          <div class="r-act is-on tap" aria-label="Оценить публикацию про свадьбу"><svg class="ico-svg"><use href="#i-heart"/></svg><span>31</span></div>
+          <div class="r-act tap" data-go="thread" aria-label="Ответы к публикации про свадьбу"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>17</span></div>
+          <div class="r-act last tap" data-go="post" aria-label="Просмотры публикации про свадьбу"><svg class="ico-svg"><use href="#i-eye"/></svg><span>204</span></div>
+        </div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-post-head">
+          <div class="r-post-face"><div class="ph"></div></div>
+          <div class="r-post-who">
+            <div class="r-post-name">Марина Ковалёва</div>
+            <div class="r-post-meta">2 сентября</div>
+          </div>
+          <div class="r-icon tap" data-toast="Закрепить · Изменить · Удалить" aria-label="Ещё о публикации про метрики"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+        </div>
+        <div class="r-post-text">Метрики по материнской линии дошли до 1902 года. Дальше приход сгорел, спорим до сих пор.</div>
+        <div class="r-acts">
+          <div class="r-act tap" aria-label="Оценить публикацию про метрики"><svg class="ico-svg"><use href="#i-heart"/></svg><span>12</span></div>
+          <div class="r-act tap" data-go="thread" aria-label="Ответы к публикации про метрики"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>41</span></div>
+          <div class="r-act last tap" data-go="post" aria-label="Просмотры публикации про метрики"><svg class="ico-svg"><use href="#i-eye"/></svg><span>88</span></div>
         </div>
       </div>
     </div>

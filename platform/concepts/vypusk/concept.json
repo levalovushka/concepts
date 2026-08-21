@@ -483,7 +483,7 @@
       "key": "remotenotif",
       "plist": "UIBackgroundModes: remote-notification",
       "feature": "Тихие пуши обновляют счётчики разделов до открытия приложения",
-      "gesture": "«Обновить»",
+      "gesture": "«Обновлять счётчики в фоне»",
       "screen": "notif",
       "target": "notif",
       "fallback": "Счётчики обновляются при открытии приложения",
@@ -562,7 +562,7 @@
       "key": "keychain",
       "plist": "keychain-access-groups",
       "feature": "Общий вход у приложения, расширения уведомлений и «Поделиться»",
-      "gesture": "«Выйти»",
+      "gesture": "«Общая связка ключей»",
       "screen": "settings",
       "target": "settings",
       "fallback": "Расширения требуют отдельного входа",
@@ -743,7 +743,7 @@
         "primaryAction": "Добавить в хронику",
         "hierarchy": {
           "primary": "Публикации одноклассников с оценками и ответами",
-          "secondary": "Дни рождения, промо-блок и класса"
+          "secondary": "Встреча, состав выпуска и промо-блок"
         },
         "states": [
           "default",
@@ -1289,7 +1289,7 @@
       "meta": "Плеер · метки · скачивание",
       "parent": "archive",
       "ui": {
-          "pattern": "player",
+        "pattern": "player",
         "navigation": "push",
         "purpose": "Слушать запись из архива и переходить по её меткам",
         "primaryAction": "Слушать",
@@ -1365,7 +1365,7 @@
         "pattern": "collection",
         "navigation": "root",
         "purpose": "Показать человека, его учебные связи и вклад в восстановление состава",
-        "primaryAction": "Мой выпуск",
+        "primaryAction": "Состав выпуска",
         "hierarchy": {
           "primary": "Имя, фотография и учёба вместе",
           "secondary": "Связи, публикации и настройки"
@@ -1622,7 +1622,7 @@
       "meta": "Показ на телевизоре",
       "parent": "tv",
       "ui": {
-          "pattern": "player",
+        "pattern": "player",
         "navigation": "fullscreen",
         "purpose": "Управлять показом выбранного видео на телевизоре",
         "primaryAction": "Пауза",

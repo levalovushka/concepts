@@ -8,23 +8,6 @@
       </div>
     </div>
 
-    <div class="r-wrap v-feed-context">
-      <div class="v-cohort-card tap" data-go="cohort" aria-label="Открыть состав 11 Б">
-        <div><span>Школа № 57 · Казань</span><b>11 «Б» · выпуск 2004</b></div>
-        <div class="v-cohort-count"><b>23</b><span>из 28 нашлись</span></div>
-      </div>
-      <div class="v-reunion-progress tap" data-go="reunion" aria-label="Открыть встречу выпуска">
-        <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
-        <div class="r-row-copy"><div class="r-row-t">Встреча · 12 сентября</div><div class="r-row-s">14 подтвердили · трое уже в пути</div><div class="r-mini-track"><span></span></div></div>
-        <div class="r-end">14/23</div>
-      </div>
-    </div>
-    <div class="v-yearrail" aria-label="Годы хроники">
-      <div class="v-yearpoint is-on"><b>2026</b><span>сейчас</span></div>
-      <div class="v-yearpoint"><b>2014</b><span>встреча</span></div>
-      <div class="v-yearpoint"><b>2004</b><span>выпуск</span></div>
-      <div class="v-yearpoint"><b>2003</b><span>10 класс</span></div>
-    </div>
     <div class="r-wrap">
       <div class="r-composer tap" data-primary data-go="chronicleadd" aria-label="Добавить в хронику">
         <div class="r-composer-face"><div class="ph"></div></div>
@@ -33,6 +16,20 @@
       </div>
     </div>
 
+    <div class="r-wrap">
+      <div class="r-card">
+        <div class="r-row tap" data-go="reunion" aria-label="Встреча выпуска 12 сентября">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Встреча 12 сентября</div><div class="r-row-s">14 подтвердили из 23, трое уже в пути</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-go="cohort" aria-label="Состав 11 Б">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-users"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">11 «Б» · выпуск 2004</div><div class="r-row-s">нашлись 23 из 28, пятерых ищем</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+    </div>
     <div class="r-wrap">
       <div class="r-card">
         <div class="r-post-head">
@@ -44,11 +41,7 @@
           <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о публикации"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
         </div>
         <div class="r-post-text">Нашла фото с последнего звонка. Третья слева — новенькая, которая ушла после восьмого. Кто помнит имя? <span class="r-year">2004</span></div>
-        <div class="r-media-summary tap" data-go="memory" aria-label="Открыть публикацию со снимком 2004 года">
-          <div class="r-thumb74 ph"></div>
-          <div class="r-row-copy"><div class="r-row-t">Последний звонок</div><div class="r-row-s">1 снимок · 2004 · отмечены 24 из 28</div></div>
-          <svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg>
-        </div>
+        <div class="r-media ph tap" data-go="memory" aria-label="Открыть снимок последнего звонка 2004 года"></div>
         <div class="r-unnamed">
           <svg class="ico-svg"><use href="#i-scan-face"/></svg>
           <span>Двоих в составе ещё нет — узнаёте?</span>
@@ -60,7 +53,6 @@
         </div>
       </div>
 
-      <div class="v-feed-break" aria-hidden="true"></div>
       <div class="r-promo">
         <div class="r-promo-more tap" data-toast="Почему я это вижу · Скрыть рекламу" aria-label="О рекламном блоке"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
         <div class="r-promo-lab">Реклама</div>
@@ -89,8 +81,8 @@
         </div>
         <div class="r-acts">
           <div class="r-act tap" aria-label="Оценить публикацию Ильи"><svg class="ico-svg"><use href="#i-heart"/></svg><span>6</span></div>
-          <div class="r-act tap" data-go="answerthread" aria-label="Ответить Ильяу"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>3</span></div>
-          <div class="r-act last tap" data-go="tv" aria-label="Показать на телевизоре"><svg class="ico-svg"><use href="#i-cast"/></svg><span>На ТВ</span></div>
+          <div class="r-act tap" data-go="answerthread" aria-label="Ответить Илье"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>3</span></div>
+          <div class="r-act last tap" data-go="memory" aria-label="Просмотры публикации Ильи"><svg class="ico-svg"><use href="#i-eye"/></svg><span>28</span></div>
         </div>
       </div>
 
@@ -101,13 +93,13 @@
             <div class="r-post-name">Ольга <span class="r-kin">одноклассница</span></div>
             <div class="r-post-meta">2 сентября · Параллель 2004</div>
           </div>
-          <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о записи Валентины"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
+          <div class="r-icon tap" data-toast="Пожаловаться · Скрыть · Копировать ссылку" aria-label="Ещё о записи Ольги"><svg class="ico-svg"><use href="#i-ellipsis"/></svg></div>
         </div>
         <div class="r-post-text">Нашла кассету с выпускного вечера: тосты почти не слышны, зато все подпевают припев. <span class="r-year">2004</span></div>
         <div class="r-acts">
           <div class="r-act tap" data-go="recording" aria-label="Слушать запись 2004 года"><svg class="ico-svg"><use href="#i-play"/></svg><span>12:41</span></div>
-          <div class="r-act tap" data-go="answerthread" aria-label="Ответить Валентине"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>17</span></div>
-          <div class="r-act last tap" data-go="archive" aria-label="Открыть архив"><svg class="ico-svg"><use href="#i-audio-lines"/></svg><span>В архив</span></div>
+          <div class="r-act tap" data-go="answerthread" aria-label="Ответить Ольге"><svg class="ico-svg"><use href="#i-message-circle"/></svg><span>17</span></div>
+          <div class="r-act last tap" data-go="memory" aria-label="Просмотры записи Ольги"><svg class="ico-svg"><use href="#i-eye"/></svg><span>63</span></div>
         </div>
       </div>
 

@@ -313,31 +313,6 @@
 }
 
 /* —— чипы разделов —— */
-.r-chips {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 10px 16px;
-  background-color: #fff;
-  border-radius: 14px;
-  margin-bottom: 8px;
-}
-.r-chip {
-  flex: none;
-  min-height: 34px;
-  padding: 0 14px;
-  border-radius: 17px;
-  background-color: rgba(60, 60, 67, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 500 14px/1 var(--face);
-  color: #14110f;
-}
-.r-chip.is-on {
-  background-color: var(--accent-fill);
-  color: var(--on-accent);
-}
 
 /* —— переписка —— */
 .r-chat-scroll {
@@ -564,6 +539,17 @@
   background-color: #fff;
   margin-bottom: 10px;
 }
+.r-prof-face {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-prof-face > .ph {
+  width: 100%;
+  height: 100%;
+}
 .r-prof-n {
   font: 700 22px/27px var(--face);
   letter-spacing: -0.02em;
@@ -578,6 +564,17 @@
   justify-content: center;
   gap: 26px;
   margin-top: 14px;
+}
+.r-prof-acts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.r-prof-acts .r-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  max-width: 168px;
 }
 .r-prof-num b {
   display: block;
@@ -1186,6 +1183,9 @@
   border-top: 0.5px solid rgba(60, 60, 67, 0.12);
 }
 .r-media-summary .ios-disclosure { color: var(--ios-secondary); }
+.r-media {
+  height: 214px;
+}
 .r-media-pair.is-compact {
   display: flex;
   height: auto;
@@ -1292,93 +1292,5 @@
 [data-screen="chronicleadd"] .r-thumb { width: 74px; height: 56px; border-radius: 10px; }
 [data-screen="call"] .r-call-face { width: 44px; height: 44px; }
 
-/* Выпуск строится вокруг когорты и времени, а не вокруг person-first профиля. */
-.v-feed-context { display: grid; gap: 8px; }
-.v-cohort-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 13px 14px;
-  border-radius: 14px;
-  color: #fff;
-  background-color: #e96f00;
-}
-.v-cohort-card > div:first-child { display: grid; gap: 2px; }
-.v-cohort-card span { font: 500 12px/16px var(--face); opacity: .82; }
-.v-cohort-card b { font: 700 19px/23px var(--face); }
-.v-cohort-count { min-width: 64px; text-align: right; }
-.v-cohort-count b { display: block; font-size: 24px; line-height: 25px; }
-.v-cohort-count span { display: block; }
-.v-reunion-progress {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: 14px;
-  background-color: #fff;
-}
-.v-reunion-progress .r-row-copy { flex: 1; }
-.v-yearrail {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  margin: 0 16px 8px;
-  padding: 3px;
-  border-radius: 12px;
-  background-color: rgba(118,118,128,.12);
-}
-.v-yearpoint { padding: 7px 3px 6px; text-align: center; border-radius: 9px; color: var(--ios-secondary); }
-.v-yearpoint b,
-.v-yearpoint span { display: block; }
-.v-yearpoint b { font: 700 13px/16px var(--face); }
-.v-yearpoint span { font: 400 11px/14px var(--face); }
-.v-yearpoint.is-on { color: #14110f; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
-.v-feed-break { height: 32px; }
+/* Своё у «Выпуска» — состав и год публикации, а не отдельная композиция экрана. */
 
-.v-passport { margin-bottom: 10px; background-color: #fff; }
-.v-passport-band { padding: 14px 16px; color: #fff; background-color: #e96f00; }
-.v-passport-band span,
-.v-passport-band b,
-.v-passport-band em { display: block; }
-.v-passport-band span { font: 500 12px/16px var(--face); opacity: .8; }
-.v-passport-band b { margin-top: 2px; font: 800 24px/29px var(--face); }
-.v-passport-band em { margin-top: 3px; font: 500 13px/17px var(--face); font-style: normal; }
-.v-member { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-bottom: .5px solid rgba(60,60,67,.12); }
-.v-avatar { width: 44px; height: 44px; flex: none; border-radius: 50%; overflow: hidden; }
-.v-avatar > .ph { width: 100%; height: 100%; }
-.v-member > div:nth-child(2) { display: grid; flex: 1; min-width: 0; }
-.v-member b { font: 600 15px/20px var(--face); }
-.v-member span { font: 400 12px/16px var(--face); color: var(--ios-secondary); }
-.v-link { border: 0; padding: 7px 11px; border-radius: 16px; color: #fff; background-color: var(--accent-fill); font: 600 13px/16px var(--face); }
-.v-then-now { display: grid; grid-template-columns: 1fr 22px 1fr; align-items: center; padding: 11px 16px 13px; }
-.v-then-now > div { display: grid; }
-.v-then-now > div:last-child { text-align: right; }
-.v-then-now small { color: var(--ios-secondary); font: 500 11px/14px var(--face); text-transform: uppercase; }
-.v-then-now b { font: 700 15px/19px var(--face); }
-.v-then-now span { color: var(--ios-secondary); font: 400 12px/16px var(--face); }
-.v-then-now > .ico-svg { width: 18px; height: 18px; color: var(--ios-secondary); }
-.v-contribution,
-.v-reunion-card,
-.v-timeline { border-radius: 14px; background-color: #fff; }
-.v-contribution { padding: 13px 14px; }
-.v-section-title { margin: 12px 0 7px; font: 700 17px/22px var(--face); }
-[data-screen="member"] .v-section-title { margin-left: 16px; margin-right: 16px; }
-.v-contribution > .v-section-title { margin: 0 0 10px; }
-.v-metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
-.v-metrics div { min-width: 0; }
-.v-metrics b { display: block; font: 700 20px/24px var(--face); }
-.v-metrics span { display: block; color: var(--ios-secondary); font: 400 11px/14px var(--face); }
-.v-progress { height: 4px; margin-top: 11px; overflow: hidden; border-radius: 2px; background-color: rgba(60,60,67,.14); }
-.v-progress span { display: block; width: 82%; height: 100%; background-color: #4bb34b; }
-.v-contribution > small { display: block; margin-top: 6px; color: var(--ios-secondary); font: 400 11px/15px var(--face); }
-.v-reunion-card { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding: 12px 14px; }
-.v-reunion-card > div { display: grid; }
-.v-reunion-card small { color: var(--accent-fill); font: 600 11px/15px var(--face); }
-.v-reunion-card b { font: 700 16px/21px var(--face); }
-.v-reunion-card span { color: var(--ios-secondary); font: 400 12px/16px var(--face); }
-.v-timeline { padding: 10px 14px; }
-.v-timeline > div { display: grid; grid-template-columns: 38px 10px 1fr; gap: 8px; align-items: start; min-height: 48px; }
-.v-timeline time { color: var(--accent-fill); font: 700 12px/18px var(--face); }
-.v-timeline div > span { width: 8px; height: 8px; margin-top: 5px; border-radius: 50%; background-color: var(--accent-fill); box-shadow: 0 18px 0 -3px rgba(60,60,67,.22); }
-.v-timeline p { margin: 0; color: var(--ios-secondary); font: 400 12px/17px var(--face); }
-.v-timeline p b { color: #14110f; }
