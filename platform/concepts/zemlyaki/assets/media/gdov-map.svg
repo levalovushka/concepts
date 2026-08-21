@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="360" viewBox="0 0 750 360">
+  <rect width="750" height="360" fill="#eee9df"/>
+  <path d="M-20 47C120 79 213 37 319 65s209 88 451 35" fill="none" stroke="#fff" stroke-width="25"/>
+  <path d="M86-20c32 99 42 186 9 400M365-20c-2 86 22 182 74 400M592-20c-38 112-31 223 11 400" fill="none" stroke="#fff" stroke-width="20"/>
+  <path d="M-20 281c159-41 312-30 458 5s232 37 332 5" fill="none" stroke="#fff" stroke-width="17"/>
+  <path d="M0 322c134-38 249-30 370 4s263 27 380-10v44H0z" fill="#a9d9e5"/>
+  <path d="M0 317c134-38 249-30 370 4s263 27 380-10" fill="none" stroke="#6ab6ca" stroke-width="4"/>
+  <g fill="#d6ddc7">
+    <rect x="139" y="102" width="151" height="75" rx="12"/><rect x="477" y="113" width="81" height="112" rx="12"/><rect x="165" y="224" width="133" height="56" rx="12"/>
+  </g>
+  <g fill="#9b958c" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20">
+    <text x="19" y="43">ул. Карла Маркса</text><text x="375" y="47" transform="rotate(77 375 47)">Садовая ул.</text><text x="472" y="343">Чудское озеро</text>
+  </g>
+</svg>

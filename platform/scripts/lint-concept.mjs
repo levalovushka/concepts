@@ -103,13 +103,32 @@ function lint(slug) {
     for (const screen of spec.screens) {
       const source = read(join(dir, 'screens', `${screen.id}.html`));
       if (/\sstyle="/.test(source)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
-      if (/class="[^"]*\bph\b/.test(source)) P(`${screen.id}: placeholder .ph запрещён в готовом интерфейсе`);
+      /* Фотографии и иллюстрации в концептах намеренно не производятся:
+         обязательная поверхность для них — ядровой .ph. Визуальное правило
+         «placeholder не становится героем композиции» проверяется по captures,
+         а запрещать сам .ph здесь противоречило deliverable.md и PLAYBOOK.md. */
       if (/\p{Extended_Pictographic}/u.test(source.replace(/<svg[\s\S]*?<\/svg>/g, ''))) P(`${screen.id}: emoji нельзя использовать как продуктовый ассет или иконку`);
       for (const button of source.matchAll(/<(?:button|div)\b([^>]*(?:data-go|data-ask|data-back|data-activate)[^>]*)>([\s\S]*?)<\/(?:button|div)>/g)) {
         const attrs = button[1], body = button[2].replace(/<[^>]+>/g, '').trim();
         if (/<svg\b/.test(button[2]) && !body && !/aria-label="[^"]+"/.test(attrs)) P(`${screen.id}: icon-only control без aria-label`);
       }
     }
+  }
+
+  /* Навигационные шевроны — часть общего iOS chrome. Текстовые глифы и
+     обычный ico-svg дают другую толщину и посадку. */
+  for (const screen of spec.screens) {
+    const source = read(join(dir, 'screens', `${screen.id}.html`));
+    if (/[‹›❮❯〈〉＜＞]/.test(source)) P(`${screen.id}: текстовый шеврон запрещён — используйте SVG из ядра`);
+    if (/<svg class="ico-svg"><use href="#i-chevron-left"\/><\/svg>/.test(source)) {
+      P(`${screen.id}: back-chevron должен иметь класс .ios-back`);
+    }
+    if (/<svg class="ios-back"><use href="#i-chevron-left"\/><\/svg>/.test(source)) {
+      P(`${screen.id}: .ios-back должен использовать единую SF-геометрию 12×21, а не общий icon-symbol`);
+    }
+  }
+  if (/content\s*:\s*["'][‹›❮❯〈〉＜＞]["']/.test(ownCss)) {
+    P('styles.css: текстовый шеврон в CSS запрещён — используйте .ios-back');
   }
 
   /* —— подписи интерактивных элементов —— */
