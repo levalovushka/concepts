@@ -372,33 +372,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* —— чипы разделов —— */
-.r-chips {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 10px 16px;
-  background-color: #fff;
-  border-radius: 14px;
-  margin-bottom: 8px;
-}
-.r-chip {
-  flex: none;
-  min-height: 34px;
-  padding: 0 14px;
-  border-radius: 17px;
-  background-color: rgba(60, 60, 67, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font: 500 14px/1 var(--face);
-  color: #14110f;
-}
-.r-chip.is-on {
-  background-color: var(--accent-fill);
-  color: var(--on-accent);
-}
-
 /* —— переписка —— */
 .r-chat-scroll {
   padding: 10px var(--margin) 8px;
@@ -639,6 +612,17 @@
   margin-top: 3px;
   font: 400 14px/19px var(--face);
   color: var(--ios-secondary);
+}
+.r-prof-acts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.r-prof-acts .r-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  max-width: 168px;
 }
 .r-prof-nums {
   display: flex;

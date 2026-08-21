@@ -1,0 +1,34 @@
+<div class="screen r-page" id="scr-tv">
+  <div class="sheet">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-body">
+      <div class="r-top"><div class="r-top-title">Смотреть на телевизоре</div><div class="r-top-acts"><div class="r-icon tap" data-back aria-label="Закрыть"><svg class="ico-svg"><use href="#i-x"/></svg></div></div></div>
+      <div class="r-net">
+        <svg class="ico-svg"><use href="#i-wifi"/></svg>
+        <span>Сеть «Kovalev_5G» · ищем устройства в ней</span>
+        <div class="btn-plain tap" data-activate="wifiinfo|tv" aria-label="Обновить список">Обновить</div>
+      </div>
+      <div class="r-card">
+        <div class="r-row tap" data-primary data-ask="localnetwork|cast|tv" aria-label="Телевизор в гостиной">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-tv-minimal"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Телевизор в гостиной</div><div class="r-row-s">Google Cast · готов</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-toast="Кухонная приставка занята другим показом" aria-label="Телевизор на кухне">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-tv-minimal"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Кухня, приставка</div><div class="r-row-s">Google Cast · занят другим показом</div></div>
+        </div>
+      </div>
+      <div class="r-note">
+        <svg class="ico-svg"><use href="#i-info"/></svg>
+        <span>Телевизор виден, только если он в той же сети. В гостевой сети список останется пустым.</span>
+      </div>
+      <div class="state" data-show-denied="localnetwork" hidden>
+        <div class="state-ico"><svg class="ico-svg"><use href="#i-tv-minimal"/></svg></div>
+        <div class="t-headline">Устройства не найти</div>
+        <div class="t-body">Без доступа к локальной сети показ идёт на телефоне: альбом открывается как обычно.</div>
+        <div class="state-actions"><div class="btn-filled tap" data-toast="Альбом откроется на телефоне" aria-label="Смотреть на телефоне">Смотреть на телефоне</div></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+  <!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+  <!-- @overview:vision -->
+  <p class="deck">Чат выпуска хранит обрывки жизни, но не показывает живой состав: кого нашли, кого ещё ищут и кто будет на встрече.</p>
+  <div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+  {{FEAT_GRID}}
+  <!-- @end -->
+
+  <!-- @overview:arch -->
+  <p class="deck">Клиентское приложение: PermissionsService — единственная точка запроса доступов. Граф домена: заведение → год → класс/группа → участник. Каждый доступ сидит на достижимой фиче с fallback.</p>
+  <div class="flow"><span class="chip">Вход по почте / Apple</span><span class="arr">→</span><span class="chip">11 «Б»</span><span class="arr">→</span><span class="chip">Лента</span></div>
+  <div class="flow"><span class="chip">Лента</span><span class="arr">→</span><span class="chip">Публикация</span><span class="arr">→</span><span class="chip">Хроника / обсуждение</span><span class="arr">→</span><span class="chip">Состав</span></div>
+  <div class="flow"><span class="chip">Профиль</span><span class="arr">→</span><span class="chip">Встреча</span><span class="arr">→</span><span class="chip">Кто в пути</span></div>
+
+  <div class="arch" style="margin-top:var(--s-lg)">
+    <div class="arch-layer"><h3>UI</h3><p>Экраны, tab bar, nav stack, system ask, snackbar. Только отображение — статусы доступов не хранит.</p></div>
+    <div class="arch-layer"><h3>Domain</h3><p>Institution · Cohort · ClassGroup · Member · Post · Discussion · Reunion · Media.</p></div>
+    <div class="arch-layer"><h3>Services</h3><p>Permissions · Email/Apple Auth · Contacts Match · Media · Audio · CallKit · Location · Cast · Notifications · Background Tasks.</p></div>
+    <div class="arch-layer"><h3>Data</h3><p>CoreData — своё. Keychain — токен входа. FileManager — файлы пользователя. Статический контент-пак только на чтение. <strong>Своего бэкенда нет.</strong></p></div>
+    <div class="arch-layer"><h3>External</h3><p>CDN контент-пака · SDK входа по номеру · остальные SDK, если они реально в встречке.</p></div>
+  </div>
+  <!-- @end -->
+
+  <section class="section" id="perm-matrix">
+    <h2>Матрица доступов</h2>
+    <p class="deck">Столбец «риск» — честная оценка: «условные» доступы живут только за счёт того, что фича реально будет в встречке.</p>
+    {{PERM_MATRIX}}
+    <div class="note-box" style="margin-top:var(--s-lg)">
+      <p><strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер должен дойти сам за 2–3 тапа без инструкции. Фича, которая в встречке есть, но спрятана, по последствиям равна её отсутствию.</p>
+    </div>
+  </section>
+
+  <section class="section" id="no-backend">
+    <h2>Почему здесь нет бэкенда</h2>
+    <p class="deck">Что потребовало бы сервера и чем это заменено на клиенте.</p>
+    {{BACKENDLESS}}
+  </section>
+
+  <section class="section" id="screen-table">
+    <h2>Экраны и доступы</h2>
+    <p class="deck">Полный список экранов концепта с типом представления и доступами, которые запрашиваются именно на нём.</p>
+    {{SCREEN_TABLE}}
+  </section>
