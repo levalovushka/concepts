@@ -83,7 +83,7 @@ private struct OutfitCard: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
-    @State private var showTags = false
+    @State private var showTags = true
 
     var body: some View {
         Card {
@@ -119,7 +119,7 @@ private struct OutfitCard: View {
 
             // образ: медиа край в край + отметки вещей
             Button { nav.push(LooksRoute.outfit(outfit)) } label: {
-                ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .topLeading) {
                     OutfitMedia(items: outfit.items, seed: outfit.seed)
                         .overlay(alignment: .bottomLeading) {
                             if showTags { tagStack }
@@ -180,21 +180,25 @@ private struct OutfitCard: View {
         }
     }
 
+    /// Пины вещей на кадре — привязаны к углам, поэтому не вылезают за края.
     private var tagStack: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
-                HStack(spacing: 6) {
-                    Text("\(i + 1)")
-                        .font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
-                        .frame(width: 18, height: 18).background(.white, in: Circle())
-                    Text(g.title).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
-                }
-                .padding(.horizontal, 8).padding(.vertical, 5)
-                .background(.black.opacity(0.55), in: Capsule())
+        ZStack {
+            if outfit.items.indices.contains(0) {
+                pin(0).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+            }
+            if outfit.items.indices.contains(1) {
+                pin(1).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            }
+            if outfit.items.indices.contains(2) {
+                pin(2).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
         }
         .padding(12)
-        .transition(.opacity.combined(with: .offset(y: 8)))
+        .transition(.opacity)
+    }
+
+    private func pin(_ i: Int) -> some View {
+        ItemPin(index: i + 1, title: outfit.items[i].title, trailing: i != 0)
     }
 }
 
@@ -303,5 +307,39 @@ private struct NearbyPromoCard: View {
             }
             .buttonStyle(HighlightStyle())
         }
+    }
+}
+
+
+/// Пин вещи на кадре образа: точка привязки + подпись.
+private struct ItemPin: View {
+    let index: Int
+    let title: String
+    var trailing: Bool = false
+    @State private var shown = false
+
+    var body: some View {
+        HStack(spacing: 6) {
+            if trailing, shown { label }
+            Text("\(index)")
+                .font(.system(size: 10, weight: .bold)).foregroundStyle(.black)
+                .frame(width: 18, height: 18)
+                .background(.white, in: Circle())
+                .shadow(color: .black.opacity(0.3), radius: 3, y: 1)
+            if !trailing, shown { label }
+        }
+        .padding(.horizontal, 4).padding(.vertical, 4)
+        .background(.black.opacity(shown ? 0.55 : 0), in: Capsule())
+        .fixedSize()
+        .onAppear {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8).delay(Double(index) * 0.08)) {
+                shown = true
+            }
+        }
+    }
+    private var label: some View {
+        Text(title).font(.system(size: 12, weight: .medium))
+            .foregroundStyle(.white).lineLimit(1)
+            .padding(.horizontal, 3)
     }
 }
