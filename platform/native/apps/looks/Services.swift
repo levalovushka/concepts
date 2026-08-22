@@ -1,38 +1,42 @@
 import SwiftUI
 
-// «Сервисы» — вкладка ВК один в один: строка виджетов, сетка иконок,
-// секции с горизонтальными списками. Отличия продукта живут ВНУТРИ этой
-// знакомой оболочки: свопы, барахолки, гардероб, знакомые.
+// «Сервисы» — это «Меню» ВК: сетка плиток 64 радиус 18 с градиентом и белым
+// глифом, под ней секции с горизонтальными рядами. Настройки — шестерёнка
+// справа сверху, единственная дверь в них во всём приложении.
 
 struct ServicesScreen: View {
+    @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
 
     // каждая плитка отрабатывает заявленный доступ; «для красоты» плиток нет
-    private let services: [(String, String, String, LooksRoute?)] = [
-        ("Свопы", "arrow.left.arrow.right", "FF8A65", .nearby),
-        ("Гардероб", "hanger", "5B7CFA", .wardrobe),
-        ("Знакомые", "person.2.fill", "42B883", .mates),
-        ("Разбор голосом", "waveform", "A78BFA", .talk),
+    private let services: [(String, String, [String], LooksRoute)] = [
+        ("Свопы", "arrow.left.arrow.right", ["FF8A65", "F4511E"], .nearby),
+        ("Гардероб", "hanger", ["5B7CFA", "3D5AFE"], .wardrobe),
+        ("Знакомые", "person.2.fill", ["42B883", "1E9E63"], .mates),
+        ("Разбор голосом", "waveform", ["A78BFA", "7C4DFF"], .talk),
     ]
 
-    private let collections: [(String, String, String, String)] = [
-        ("Осенние образы", "leaf.fill", "E0834B", "34 образа"),
-        ("Секонд-находки", "tag.fill", "42B883", "нашли вчера"),
-        ("Капсула на неделю", "square.stack.3d.up.fill", "5B7CFA", "7 сочетаний"),
-        ("Кто рядом", "location.fill", "E0719A", "12 человек"),
-    ]
+    private var garments: [Garment] { store.outfits.flatMap(\.items) }
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Сервисы", avatar: "Ника Орлова") { EmptyView() }
-            ScrollView {
-                LazyVStack(spacing: t.cardGap) {
-                    grid
+            VKTabHeader(title: "Сервисы", avatar: "Ника Орлова",
+                        avatarAction: { nav.push(LooksRoute.profile) }) {
+                Button { nav.push(LooksRoute.settings) } label: {
+                    Image(systemName: "gearshape")
                 }
-                .padding(.top, t.cardGap)
-                .padding(.bottom, 72)
+                .accessibilityLabel("Настройки")
+            }
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    grid
+                    GroupGap()
+                    swaps
+                    GroupGap()
+                    wardrobe
+                    Color.clear.frame(height: 90)
+                }
             }
             .background(t.background)
         }
@@ -41,32 +45,91 @@ struct ServicesScreen: View {
 
     // сетка сервисов 4 в ряд
     private var grid: some View {
-        Card {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 4), spacing: 18) {
-                ForEach(services.indices, id: \.self) { i in
-                    let s = services[i]
-                    Button {
-                        if let route = s.3 { nav.push(route) } else { nav.toast("Скоро") }
-                    } label: {
-                        VStack(spacing: 7) {
-                            Image(systemName: s.1)
-                                .font(.system(size: 21))
-                                .foregroundStyle(Color(hex: s.2))
-                                .frame(width: 52, height: 52)
-                                .background(Color(hex: s.2).opacity(0.14),
-                                            in: RoundedRectangle(cornerRadius: 15, style: .continuous))
-                            Text(s.0).font(.dsCaption).foregroundStyle(t.textPrimary)
-                                .lineLimit(1).minimumScaleFactor(0.85)
-                        }
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 4),
+                  spacing: 16) {
+            ForEach(services.indices, id: \.self) { i in
+                let s = services[i]
+                Button { nav.push(s.3) } label: {
+                    VStack(spacing: 8) {
+                        Image(systemName: s.1)
+                            .font(.system(size: 26, weight: .medium))
+                            .foregroundStyle(.white)
+                            .frame(width: 64, height: 64)
+                            .background(
+                                LinearGradient(colors: s.2.map { Color(hex: $0) },
+                                               startPoint: .topLeading, endPoint: .bottomTrailing),
+                                in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                        Text(s.0).font(.vkCaption).foregroundStyle(t.textPrimary)
+                            .lineLimit(1).minimumScaleFactor(0.8)
                     }
-                    .pressable(scale: 0.94)
                 }
+                .pressable(scale: 0.94)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 16)
+        }
+        .padding(.horizontal, 10)
+        .padding(.top, 14).padding(.bottom, 18)
+    }
+
+    // Секция свопов: ряд карточек ведёт в те же встречи, что и «Свопы рядом».
+    private var swaps: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            VKSectionHeader(title: "Свопы недели", action: "Все") {
+                nav.push(LooksRoute.nearby)
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(store.events) { e in
+                        Button { nav.push(LooksRoute.event(e)) } label: {
+                            tile(glyph: "arrow.left.arrow.right", seed: e.going,
+                                 title: e.title, sub: e.when)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, t.pad)
+            }
+            .scrollClipDisabled()
+            .padding(.bottom, 16)
         }
     }
 
+    // Секция гардероба: состояния вещей разные — так и бывает у живого списка.
+    private var wardrobe: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            VKSectionHeader(title: "Гардероб", action: "86 вещей") {
+                nav.push(LooksRoute.wardrobe)
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(garments.prefix(8)) { g in
+                        Button { nav.push(LooksRoute.wardrobe) } label: {
+                            tile(glyph: g.glyph, seed: g.title.count,
+                                 title: g.title, sub: g.state.label)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal, t.pad)
+            }
+            .scrollClipDisabled()
+            .padding(.bottom, 16)
+        }
+    }
+
+    private func tile(glyph: String, seed: Int, title: String, sub: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VKMedia(glyph: glyph, height: 145, seed: seed)
+                .frame(width: 145)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                    .lineLimit(2).multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(sub).font(.vkMeta).foregroundStyle(t.textSecondary).lineLimit(1)
+            }
+            .frame(width: 145, alignment: .leading)
+        }
+    }
 }
 
 // MARK: - Клипы: вертикальные примерки (паттерн «Клипы» ВК)

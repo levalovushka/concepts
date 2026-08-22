@@ -322,6 +322,26 @@ struct SwapScreen: View {
                     }
                     .buttonStyle(HighlightStyle())
                 }
+                // Отметка на свопе живёт под обменом — как в спеке (parent: swap).
+                Card {
+                    Button { nav.push(LooksRoute.checkin) } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "mappin.circle").font(.system(size: 20))
+                                .foregroundStyle(t.accent).frame(width: 24)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Отметиться на месте").font(.vkRow)
+                                    .foregroundStyle(t.textPrimary)
+                                Text("34 человека уже отметились")
+                                    .font(.dsMeta).foregroundStyle(t.textSecondary)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right").font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(t.textTertiary)
+                        }
+                        .padding(.horizontal, 16).padding(.vertical, 12)
+                    }
+                    .buttonStyle(HighlightStyle())
+                }
             }
             .padding(.bottom, 88)
         }

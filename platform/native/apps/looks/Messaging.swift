@@ -115,7 +115,8 @@ struct ChatsScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Сообщения") {
+            VKTabHeader(title: "Сообщения", avatar: "Ника Орлова",
+                        avatarAction: { nav.push(LooksRoute.profile) }) {
                 Button {} label: { Image(systemName: "square.and.pencil") }
             }
             SearchField(placeholder: "Поиск по сообщениям", text: $query)

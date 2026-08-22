@@ -10,7 +10,8 @@ struct FeedScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            VKTabHeader(title: "Главная", avatar: "Ника Орлова", dropdown: true) {
+            VKTabHeader(title: "Главная", avatar: "Ника Орлова", dropdown: true,
+                        avatarAction: { nav.push(LooksRoute.profile) }) {
                 Button { nav.present(cover: LooksRoute.create) } label: {
                     Image(systemName: "plus.circle")
                 }
@@ -194,7 +195,7 @@ private struct PostCard: View {
 private struct NearbyRow: View {
     @Environment(Nav.self) private var nav
     var body: some View {
-        Button { nav.tab = 1; nav.push(LooksRoute.nearby) } label: {
+        Button { nav.push(LooksRoute.nearby) } label: {
             VKRow(title: "Свопы рядом с вами",
                   subtitle: "обмен вещами и встречи поблизости",
                   icon: "location")

@@ -27,6 +27,18 @@ const sh = (c, a) => execFileSync(c, a, { encoding: "utf8", stdio: ["ignore", "p
 const simctl = (...a) => { try { return sh("xcrun", ["simctl", ...a]); } catch (e) { return e.stdout || ""; } };
 const sleep = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 
+// Проект пересобирается из apps/<slug> ДО того, как заводится папка кадров:
+// gen-project чистит build/<slug> целиком и унёс бы её с собой.
+// Без этого шага xcodebuild честно собирал вчерашнюю копию исходников.
+console.log("• пересобираем проект из исходников");
+try {
+  execFileSync(process.execPath, [join(__dir, "gen-project.mjs"), slug],
+               { stdio: ["ignore", "pipe", "pipe"] });
+} catch (e) {
+  console.error("генерация проекта упала\n" + String(e.stdout || e));
+  process.exit(1);
+}
+
 if (existsSync(OUT)) rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 

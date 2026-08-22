@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum LooksRoute: Hashable {
-    case create, settings, mates, ads, nearby, wardrobe
+    case profile, create, settings, mates, ads, nearby, wardrobe
     case call, talk, checkin, lock, swap, netqr
     case outfit(Outfit)
     case chat(Dialog)
@@ -70,8 +70,6 @@ struct MainShell: View {
                 .accessibilityLabel("Мессенджер")
             Tab("", systemImage: "play.rectangle", value: 3) { tabContent(3) }
                 .accessibilityLabel("Клипы")
-            Tab("", systemImage: "person", value: 4) { tabContent(4) }
-                .accessibilityLabel("Профиль")
         }
         .overlay(alignment: .bottom) {
             ToastOverlay(text: nav.toastText).padding(.bottom, 96)
@@ -89,20 +87,20 @@ struct MainShell: View {
         case "services": nav.tab = 1
         case "chats": nav.tab = 2
         case "clips": nav.tab = 3
-        case "profile": nav.tab = 4
+        case "profile": nav.tab = 0; nav.push(LooksRoute.profile)
         case "chat": nav.tab = 2; nav.push(LooksRoute.chat(store.dialogs[0]))
         case "outfit": nav.tab = 0; nav.push(LooksRoute.outfit(store.outfits[0]))
         case "nearby": nav.tab = 1; nav.push(LooksRoute.nearby)
         case "wardrobe": nav.tab = 1; nav.push(LooksRoute.wardrobe)
         case "mates": nav.tab = 1; nav.push(LooksRoute.mates)
-        case "settings": nav.tab = 4; nav.push(LooksRoute.settings)
+        case "settings": nav.tab = 1; nav.push(LooksRoute.settings)
         case "event": nav.tab = 1; nav.push(LooksRoute.event(store.events[0]))
         case "create": nav.tab = 0; nav.present(cover: LooksRoute.create)
-        case "ads": nav.tab = 4; nav.push(LooksRoute.ads)
+        case "ads": nav.tab = 1; nav.push(LooksRoute.ads)
         case "call": nav.tab = 2; nav.push(LooksRoute.call)
         case "talk": nav.tab = 1; nav.push(LooksRoute.talk)
         case "checkin": nav.tab = 1; nav.push(LooksRoute.checkin)
-        case "lock": nav.tab = 4; nav.push(LooksRoute.lock)
+        case "lock": nav.tab = 1; nav.push(LooksRoute.lock)
         case "swap": nav.tab = 1; nav.push(LooksRoute.swap)
         case "netqr": nav.tab = 1; nav.push(LooksRoute.netqr)
         default: break
@@ -116,8 +114,7 @@ struct MainShell: View {
                 case 0: FeedScreen()
                 case 1: ServicesScreen()
                 case 2: ChatsScreen()
-                case 3: ClipsScreen()
-                default: ProfileScreen()
+                default: ClipsScreen()
                 }
             }
             .navigationDestination(for: LooksRoute.self) { destination($0) }
@@ -126,6 +123,7 @@ struct MainShell: View {
 
     @ViewBuilder private func destination(_ route: LooksRoute) -> some View {
         switch route {
+        case .profile: ProfileScreen()
         case .outfit(let o): OutfitScreen(outfit: o)
         case .chat(let d): ChatScreen(dialog: d)
         case .event(let e): EventScreen(event: e)

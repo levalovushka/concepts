@@ -49,12 +49,22 @@ struct VKTabHeader<Trailing: View>: View {
     let title: String
     var avatar: String? = nil
     var dropdown: Bool = false
+    /// Мини-аватар слева — вход в профиль (у ВК он единственный).
+    var avatarAction: (() -> Void)? = nil
     @ViewBuilder var trailing: Trailing
     @Environment(\.theme) private var t
 
     var body: some View {
         HStack(spacing: 10) {
-            if let avatar { Avatar(name: avatar, size: 32) }
+            if let avatar {
+                if let avatarAction {
+                    Button(action: avatarAction) { Avatar(name: avatar, size: 32) }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Профиль")
+                } else {
+                    Avatar(name: avatar, size: 32)
+                }
+            }
             HStack(spacing: 4) {
                 Text(title).font(.vkTabTitle).foregroundStyle(t.textPrimary)
                 if dropdown {

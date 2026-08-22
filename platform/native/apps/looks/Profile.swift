@@ -7,7 +7,9 @@ struct ProfileScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
+    @Environment(\.dismiss) private var dismiss
     @State private var tab = 0
+    @State private var showMenu = false
 
     private let name = "Ника Орлова"
     private var garments: [Garment] { store.outfits.flatMap(\.items) }
@@ -28,6 +30,11 @@ struct ProfileScreen: View {
             }
 
             circleButtons
+        }
+        .toolbar(.hidden, for: .navigationBar)
+        .confirmationDialog("", isPresented: $showMenu, titleVisibility: .hidden) {
+            Button("Поделиться профилем") { nav.toast("Ссылка на профиль скопирована") }
+            Button("Отмена", role: .cancel) {}
         }
     }
 
@@ -53,16 +60,16 @@ struct ProfileScreen: View {
 
     private var circleButtons: some View {
         HStack {
-            circleButton("chevron.left") {}
+            circleButton("chevron.left", label: "Назад") { dismiss() }
             Spacer()
-            circleButton("square.grid.2x2") { nav.tab = 1 }
-            circleButton("ellipsis") { nav.push(LooksRoute.settings) }
+            circleButton("ellipsis", label: "Ещё") { showMenu = true }
         }
         .padding(.horizontal, 16)
         .padding(.top, 4)
     }
 
-    private func circleButton(_ icon: String, action: @escaping () -> Void) -> some View {
+    private func circleButton(_ icon: String, label: String,
+                              action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon)
                 .font(.system(size: 17, weight: .medium))
@@ -71,6 +78,7 @@ struct ProfileScreen: View {
                 .background(Color.black.opacity(0.22), in: Circle())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(label)
     }
 
     // MARK: карточки
@@ -89,7 +97,7 @@ struct ProfileScreen: View {
                 Text("86 вещей в гардеробе").font(.system(size: 17))
                     .foregroundStyle(t.textPrimary)
                 Text("·").foregroundStyle(t.textSecondary)
-                Button { nav.tab = 1; nav.push(LooksRoute.wardrobe) } label: {
+                Button { nav.push(LooksRoute.wardrobe) } label: {
                     Text("Открыть").font(.system(size: 17)).foregroundStyle(t.accent)
                 }
                 .buttonStyle(.plain)
