@@ -1,40 +1,23 @@
 import SwiftUI
 
-// Компоненты-сигнатуры. Экраны компонуются из них свободно — это не набор
-// готовых экранов, а строительный материал.
+// Компоненты ВК. Геометрия — из vk-visual-profile.md, раздел «Компоненты».
 
-// MARK: - Карточка на сером фоне (главный ритм ВК)
-
-struct Card<Content: View>: View {
-    var padding: CGFloat? = nil
-    @ViewBuilder var content: Content
-    @Environment(\.theme) private var t
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) { content }
-            .padding(padding ?? 0)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(t.card)
-            .clipShape(RoundedRectangle(cornerRadius: t.cardRadius, style: .continuous))
-    }
-}
-
-// MARK: - Аватар: круг с инициалами (фото не используем)
+// MARK: - Аватар
 
 struct Avatar: View {
     let name: String
     var size: CGFloat = 40
-    var ring: Bool = false
+    var ring: Bool = false          // синяя обводка истории
+    var online: Bool = false
     @Environment(\.theme) private var t
 
     private var initials: String {
-        // только буквы: «Стиль-клуб «Пудра»» не должен давать «С«»
         let words = name.split(whereSeparator: { !$0.isLetter })
         let s = words.prefix(2).compactMap { $0.first }.map(String.init).joined()
         return s.isEmpty ? "?" : s.uppercased()
     }
-    // Сдержанная палитра: аватары различимы, но не превращают экран в радугу.
     private var tint: Color {
-        let palette = ["4C7DF0", "5AA9E6", "7C6BE0", "3FA88C", "E0719A", "E08A4B"]
+        let palette = ["4C7DF0", "5AA9E6", "7C6BE0", "3FA88C", "E0719A", "E0834B"]
         var h = 5381
         for u in name.unicodeScalars { h = (h &* 33) &+ Int(u.value) }
         return Color(hex: palette[abs(h) % palette.count])
@@ -44,163 +27,138 @@ struct Avatar: View {
         Circle()
             .fill(tint)
             .frame(width: size, height: size)
-            .overlay(
-                Text(initials)
-                    .font(.system(size: size * 0.38, weight: .semibold))
-                    .foregroundStyle(.white)
-            )
+            .overlay(Text(initials)
+                .font(.system(size: size * 0.36, weight: .medium))
+                .foregroundStyle(.white))
             .overlay {
-                if ring {
-                    Circle().stroke(t.accent, lineWidth: 2)
-                        .padding(-3)
+                if ring { Circle().stroke(t.accent, lineWidth: 3).padding(-5) }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if online {
+                    Circle().fill(Color(hex: "4BB34B"))
+                        .frame(width: max(12, size * 0.17), height: max(12, size * 0.17))
+                        .overlay(Circle().stroke(.white, lineWidth: 2))
                 }
             }
     }
 }
 
-// MARK: - Шапка экрана: крупный заголовок + действия справа
+// MARK: - Топбар вкладки: аватар · заголовок · действия справа
 
-struct ScreenHeader<Trailing: View>: View {
+struct VKTabHeader<Trailing: View>: View {
     let title: String
     var avatar: String? = nil
+    var dropdown: Bool = false
     @ViewBuilder var trailing: Trailing
     @Environment(\.theme) private var t
 
     var body: some View {
-        HStack(spacing: 12) {
-            if let avatar { Avatar(name: avatar, size: 36) }
-            Text(title).font(.dsScreenTitle).foregroundStyle(t.textPrimary)
+        HStack(spacing: 10) {
+            if let avatar { Avatar(name: avatar, size: 32) }
+            HStack(spacing: 4) {
+                Text(title).font(.vkTabTitle).foregroundStyle(t.textPrimary)
+                if dropdown {
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(t.textPrimary)
+                }
+            }
             Spacer()
-            HStack(spacing: 20) { trailing }
+            HStack(spacing: 18) { trailing }
                 .font(.system(size: 22, weight: .regular))
                 .foregroundStyle(t.accent)
         }
+        .frame(height: 52)
         .padding(.horizontal, t.pad)
-        .padding(.top, 4)
-        .padding(.bottom, 10)
-        .background(t.card)   // шапка всегда белая: иначе виден шов с серым фоном ленты
+        .background(t.background)
     }
 }
 
-// MARK: - Табы с подчёркиванием
+// MARK: - Серая полоса между группами
 
-struct UnderlineTabs: View {
-    let items: [String]
-    @Binding var selection: Int
+struct GroupGap: View {
+    var height: CGFloat = 9
     @Environment(\.theme) private var t
-    @Namespace private var ns
+    var body: some View { t.groupGap.frame(height: height) }
+}
+
+/// Разделитель внутри списка — начинается от текста, не от края.
+struct RowSeparator: View {
+    var leading: CGFloat = 68
+    @Environment(\.theme) private var t
+    var body: some View {
+        t.separator.frame(height: 0.5).padding(.leading, leading)
+    }
+}
+
+// MARK: - Строка списка: синяя контурная иконка · текст · шеврон
+
+struct VKRow: View {
+    let title: String
+    var subtitle: String? = nil
+    var icon: String? = nil
+    var value: String? = nil
+    var chevron: Bool = true
+    var toggle: Binding<Bool>? = nil
+    @Environment(\.theme) private var t
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 20) {
-                ForEach(items.indices, id: \.self) { i in
-                    Button {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.85)) { selection = i }
-                    } label: {
-                        VStack(spacing: 6) {
-                            Text(items[i])
-                                .font(.system(size: 17, weight: selection == i ? .semibold : .regular))
-                                .foregroundStyle(selection == i ? t.textPrimary : t.textSecondary)
-                            ZStack {
-                                Capsule().fill(.clear).frame(height: 3)
-                                if selection == i {
-                                    Capsule().fill(t.accent).frame(height: 3)
-                                        .matchedGeometryEffect(id: "tab", in: ns)
-                                }
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
+        HStack(spacing: 16) {
+            if let icon {
+                Image(systemName: icon)
+                    .font(.system(size: 22, weight: .light))
+                    .foregroundStyle(t.accent)
+                    .frame(width: 28, alignment: .center)
+            }
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title).font(.vkRow).foregroundStyle(t.textPrimary)
+                if let subtitle {
+                    Text(subtitle).font(.vkMeta).foregroundStyle(t.textSecondary)
                 }
             }
-            .padding(.horizontal, t.pad)
-        }
-        .background(t.card)
-    }
-}
-
-// MARK: - Пилюли-фильтры
-
-struct FilterPills: View {
-    let items: [(String, String?)]   // (заголовок, sf symbol)
-    @Binding var selection: Int
-    @Environment(\.theme) private var t
-
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(items.indices, id: \.self) { i in
-                    Button {
-                        withAnimation(.easeOut(duration: 0.18)) { selection = i }
-                    } label: {
-                        HStack(spacing: 6) {
-                            if let icon = items[i].1 {
-                                Image(systemName: icon).font(.system(size: 14, weight: .medium))
-                            }
-                            Text(items[i].0).font(.system(size: 15, weight: .medium))
-                        }
-                        .foregroundStyle(selection == i ? t.accent : t.textPrimary)
-                        .padding(.horizontal, 14)
-                        .frame(height: 36)
-                        .background(selection == i ? t.accentSoft : t.fieldFill, in: Capsule())
-                    }
-                    .pressable()
-                }
+            Spacer(minLength: 8)
+            if let value {
+                Text(value).font(.vkRow).foregroundStyle(t.textSecondary)
             }
-            .padding(.horizontal, t.pad)
-        }
-    }
-}
-
-// MARK: - Капсула действия поста (сигнатура ВК)
-
-struct ActionPill: View {
-    let icon: String
-    let count: String
-    var active: Bool = false
-    var activeColor: Color? = nil
-    let action: () -> Void
-    @Environment(\.theme) private var t
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 6) {
-                Image(systemName: active ? icon + ".fill" : icon)
-                    .font(.system(size: 15, weight: .medium))
-                    .symbolEffect(.bounce, value: active)
-                Text(count).font(.dsAction)
+            if let toggle {
+                Toggle("", isOn: toggle).labelsHidden()
+            } else if chevron {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color(hex: "C4C8CC"))
             }
-            .foregroundStyle(active ? (activeColor ?? t.accent) : t.textPrimary)
-            .padding(.horizontal, 12)
-            .frame(height: 32)
-            .background(t.fieldFill, in: Capsule())
         }
-        .pressable(scale: 0.94)
+        .padding(.horizontal, t.pad)
+        .frame(minHeight: 48)
+        .contentShape(Rectangle())
     }
 }
 
 // MARK: - Поле поиска
 
-struct SearchField: View {
+struct VKSearchField: View {
     let placeholder: String
     @Binding var text: String
     @Environment(\.theme) private var t
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass").foregroundStyle(t.textTertiary)
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 17)).foregroundStyle(t.textSecondary)
             TextField(placeholder, text: $text)
-                .font(.system(size: 16))
+                .textFieldStyle(.plain)
+                .font(.system(size: 17))
                 .foregroundStyle(t.textPrimary)
         }
-        .padding(.horizontal, 12)
-        .frame(height: 40)
-        .background(t.fieldFill, in: Capsule())
+        .padding(.horizontal, 14)
+        .frame(height: 44)
+        .background(t.fill, in: Capsule())
     }
 }
 
 // MARK: - Кнопки
 
-struct PrimaryButton: View {
+/// Основная синяя.
+struct VKButton: View {
     let title: String
     var icon: String? = nil
     let action: () -> Void
@@ -208,8 +166,8 @@ struct PrimaryButton: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 8) {
-                if let icon { Image(systemName: icon).font(.system(size: 16, weight: .semibold)) }
-                Text(title).font(.system(size: 16, weight: .semibold))
+                if let icon { Image(systemName: icon).font(.system(size: 16, weight: .medium)) }
+                Text(title).font(.system(size: 17, weight: .medium))
             }
             .foregroundStyle(.white)
             .frame(maxWidth: .infinity).frame(height: 44)
@@ -219,76 +177,215 @@ struct PrimaryButton: View {
     }
 }
 
-struct SquareButton: View {
-    let icon: String
+/// Серая капсула: «Подписаться», «Скрыть».
+struct VKPill: View {
+    let title: String
+    var action: () -> Void = {}
+    @Environment(\.theme) private var t
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundStyle(t.textPrimary)
+                .padding(.horizontal, 14).frame(height: 32)
+                .background(t.fill, in: Capsule())
+        }
+        .pressable(scale: 0.95)
+    }
+}
+
+/// Обводочная во всю ширину: синяя или нейтральная.
+struct VKOutlineButton: View {
+    let title: String
+    var icon: String? = nil
+    var tinted: Bool = true
     let action: () -> Void
     @Environment(\.theme) private var t
     var body: some View {
         Button(action: action) {
-            Image(systemName: icon)
-                .font(.system(size: 18, weight: .medium))
-                .foregroundStyle(t.accent)
-                .frame(width: 44, height: 44)
-                .background(t.fieldFill, in: RoundedRectangle(cornerRadius: t.controlRadius, style: .continuous))
+            HStack(spacing: 8) {
+                if let icon { Image(systemName: icon).font(.system(size: 16)) }
+                Text(title).font(.system(size: 17, weight: .medium))
+            }
+            .foregroundStyle(tinted ? t.accent : t.textPrimary)
+            .frame(maxWidth: .infinity).frame(height: 46)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(tinted ? t.accent.opacity(0.5) : t.separator, lineWidth: 1)
+            )
         }
         .pressable()
     }
 }
 
+// MARK: - Табы с подчёркиванием
+
+struct VKTabs: View {
+    let items: [String]
+    @Binding var selection: Int
+    @Environment(\.theme) private var t
+    @Namespace private var ns
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(items.indices, id: \.self) { i in
+                Button {
+                    withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) { selection = i }
+                } label: {
+                    VStack(spacing: 7) {
+                        Text(items[i])
+                            .font(.system(size: 17, weight: selection == i ? .semibold : .regular))
+                            .foregroundStyle(selection == i ? t.textPrimary : t.textSecondary)
+                        ZStack {
+                            Capsule().fill(.clear).frame(height: 2.5)
+                            if selection == i {
+                                Capsule().fill(t.accent).frame(height: 2.5)
+                                    .matchedGeometryEffect(id: "vktab", in: ns)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.top, 6)
+        .background(t.background)
+    }
+}
+
 // MARK: - Медиа-блок вместо фото (геометрия ВК сохраняется)
 
-struct MediaBlock: View {
+struct VKMedia: View {
     var glyph: String = "photo"
     var height: CGFloat = 300
     var seed: Int = 0
-    @Environment(\.theme) private var t
+    var pageBadge: String? = nil
 
-    private var colors: [Color] {
-        let palettes: [[String]] = [
-            ["6E8BFF", "9B6EFF"], ["FF7A9C", "FFB36E"], ["4FC3A1", "3EA6FF"],
-            ["FFB661", "FF7A5C"], ["8E7BFF", "5AC8FA"], ["5AC8FA", "34C6A2"],
-        ]
-        return palettes[abs(seed) % palettes.count].map { Color(hex: $0) }
+    private var tint: Color {
+        let p = ["5B7CFA", "E0719A", "3FA88C", "E0834B", "8B6EE0", "5AA9E6"]
+        return Color(hex: p[abs(seed) % p.count])
     }
 
     var body: some View {
-        LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
-            .frame(height: height)
-            .overlay(
-                Image(systemName: glyph)
-                    .font(.system(size: 44, weight: .light))
-                    .foregroundStyle(.white.opacity(0.9))
-            )
-            .clipped()
+        ZStack {
+            LinearGradient(colors: [tint.opacity(0.20), tint.opacity(0.42)],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+            Image(systemName: glyph)
+                .font(.system(size: 54, weight: .ultraLight))
+                .foregroundStyle(tint)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: height > 0 ? height : nil)
+        .clipped()
+        .overlay(alignment: .topTrailing) {
+            if let pageBadge {
+                Text(pageBadge)
+                    .font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                    .padding(.horizontal, 9).padding(.vertical, 4)
+                    .background(.black.opacity(0.4), in: Capsule())
+                    .padding(12)
+            }
+        }
     }
 }
 
-// MARK: - Разделитель внутри карточки
+// MARK: - Сетка сервисов: скруглённые квадраты с ярким градиентом
 
-struct RowDivider: View {
-    var leading: CGFloat = 0
-    @Environment(\.theme) private var t
-    var body: some View {
-        Rectangle().fill(t.separator).frame(height: 0.5).padding(.leading, leading)
-    }
-}
-
-// MARK: - Строка-ссылка «Показать всё ›»
-
-struct ShowAllRow: View {
+struct VKServiceTile: View {
     let title: String
+    let icon: String
+    let colors: [String]
     let action: () -> Void
     @Environment(\.theme) private var t
+
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 4) {
-                Text(title).font(.system(size: 15, weight: .medium))
-                Image(systemName: "chevron.right").font(.system(size: 12, weight: .semibold))
+            VStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(LinearGradient(colors: colors.map { Color(hex: $0) },
+                                         startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .frame(width: 64, height: 64)
+                    .overlay(Image(systemName: icon)
+                        .font(.system(size: 27, weight: .medium)).foregroundStyle(.white))
+                Text(title).font(.vkCaption).foregroundStyle(t.textPrimary)
+                    .lineLimit(1).minimumScaleFactor(0.85)
             }
-            .foregroundStyle(t.accent)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 13)
         }
-        .buttonStyle(HighlightStyle())
+        .pressable(scale: 0.94)
+    }
+}
+
+// MARK: - Заголовок секции со ссылкой справа
+
+struct VKSectionHeader: View {
+    let title: String
+    var action: String? = nil
+    var onTap: () -> Void = {}
+    @Environment(\.theme) private var t
+    var body: some View {
+        HStack {
+            Text(title).font(.vkSection).foregroundStyle(t.textPrimary)
+            Spacer()
+            if let action {
+                Button(action: onTap) {
+                    Text(action).font(.system(size: 17)).foregroundStyle(t.accent)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, t.pad)
+        .padding(.top, 16).padding(.bottom, 10)
+    }
+}
+
+// MARK: - Таб-бар ВК: плоский, край в край, пять иконок без подписей
+
+struct VKTabBar: View {
+    struct Item: Identifiable {
+        let id: Int
+        let icon: String
+        let iconActive: String
+        var badge: Int = 0
+        var dot: Bool = false
+    }
+    let items: [Item]
+    @Binding var selection: Int
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        HStack(spacing: 0) {
+            ForEach(items) { item in
+                Button {
+                    withAnimation(.easeOut(duration: 0.12)) { selection = item.id }
+                } label: {
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: selection == item.id ? item.iconActive : item.icon)
+                            .font(.system(size: 25, weight: .regular))
+                            .foregroundStyle(selection == item.id ? t.accent : Color(hex: "99A2AD"))
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 34)
+                        if item.badge > 0 {
+                            Text("\(item.badge)")
+                                .font(.system(size: 11, weight: .semibold)).foregroundStyle(.white)
+                                .padding(.horizontal, 5).padding(.vertical, 1)
+                                .background(t.badge, in: Capsule())
+                                .offset(x: -14, y: -2)
+                        } else if item.dot {
+                            Circle().fill(t.badge).frame(width: 8, height: 8)
+                                .offset(x: -18, y: 0)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.top, 8)
+        .background(
+            t.background.ignoresSafeArea(edges: .bottom)
+                .overlay(alignment: .top) { t.separator.frame(height: 0.5) }
+        )
     }
 }

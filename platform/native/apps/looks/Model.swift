@@ -54,10 +54,10 @@ struct Garment: Identifiable, Hashable {
         if s.contains("шапк") || s.contains("шляп") || s.contains("берет") { return "hat.widebrim.fill" }
         if s.contains("сумк") || s.contains("рюкзак") { return "handbag.fill" }
         if s.contains("очк") { return "eyeglasses" }
-        if s.contains("джинс") || s.contains("брюк") { return "figure.stand" }
-        if s.contains("юбк") || s.contains("платье") { return "figure.dress.line.vertical.figure" }
+        if s.contains("джинс") || s.contains("брюк") { return "rectangle.split.1x2" }
+        if s.contains("юбк") || s.contains("платье") { return "tshirt" }
         if s.contains("тренч") { return "coat" }
-        if s.contains("пиджак") || s.contains("жакет") { return "person.crop.square" }
+        if s.contains("пиджак") || s.contains("жакет") { return "coat" }
         if s.contains("шарф") { return "scribble.variable" }
         if s.contains("кед") || s.contains("кросс") { return "shoe.2.fill" }
         return "tshirt.fill"

@@ -1,46 +1,47 @@
 import SwiftUI
 
-// Дизайн-система: общая, но гибкая. Концепт задаёт палитру и плотность,
-// компоненты не форкаются. Значения выведены из vk-visual-profile.md.
-
-// MARK: - Тема концепта
+// Токены выведены из vk-visual-profile.md (разбор iOS-приложения ВК).
+// Главное: фон белый, серый — заливка полей и полос между группами.
 
 struct Theme: Sendable {
-    var accent: Color
-    var accentSoft: Color        // подложка активной пилюли
-    var background: Color        // фон экрана под карточками
-    var card: Color
-    var fieldFill: Color         // поиск, капсулы действий, пилюли
+    var accent: Color            // #0077FF
+    var background: Color        // белый фон экранов
+    var groupGap: Color          // серая полоса между группами
+    var fill: Color              // заливка полей, капсул, входящих баблов
+    var separator: Color         // линия внутри списка
     var textPrimary: Color
     var textSecondary: Color
-    var textTertiary: Color
-    var separator: Color
-    var positive: Color
-    var danger: Color
-    var cardRadius: CGFloat = 12
-    var controlRadius: CGFloat = 10
-    var cardGap: CGFloat = 8
-    var pad: CGFloat = 16
+    var badge: Color             // красный бейдж
+    var outgoing: [Color]        // градиент исходящего бабла
 
-    /// Профиль ВКонтакте — для концептов-мимикрий.
+    var controlRadius: CGFloat = 10
+    var pad: CGFloat = 16
+    /// Зазор между карточками на сером фоне профиля.
+    var cardGap: CGFloat = 8
+    var cardRadius: CGFloat = 16
+    /// Прежние имена, сведённые к палитре ВК.
+    var card: Color { .white }
+    var background2: Color { groupGap }
+    var fieldFill: Color { fill }
+    var accentSoft: Color { accent.opacity(0.12) }
+    var textTertiary: Color { Color(hex: "C4C8CC") }
+    var positive: Color { Color(hex: "4BB34B") }
+    var danger: Color { badge }
+
     static let vk = Theme(
         accent: Color(hex: "0077FF"),
-        accentSoft: Color(hex: "E5F0FF"),
-        background: Color(hex: "EDEEF0"),
-        card: .white,
-        fieldFill: Color(hex: "F2F3F5"),
+        background: .white,
+        groupGap: Color(hex: "F2F3F5"),
+        fill: Color(hex: "F2F3F5"),
+        separator: Color(hex: "E7E8EC"),
         textPrimary: Color(hex: "000000"),
         textSecondary: Color(hex: "818C99"),
-        textTertiary: Color(hex: "99A2AD"),
-        separator: Color(hex: "E7E8EC"),
-        positive: Color(hex: "4BB34B"),
-        danger: Color(hex: "E64646")
+        badge: Color(hex: "FF3347"),
+        outgoing: [Color(hex: "4B8BF5"), Color(hex: "A44BF5"), Color(hex: "F54BA4")]
     )
 }
 
-private struct ThemeKey: EnvironmentKey {
-    static let defaultValue = Theme.vk
-}
+private struct ThemeKey: EnvironmentKey { static let defaultValue = Theme.vk }
 extension EnvironmentValues {
     var theme: Theme {
         get { self[ThemeKey.self] }
@@ -48,28 +49,18 @@ extension EnvironmentValues {
     }
 }
 
-// MARK: - Типографика
+// MARK: - Типографика ВК
 
-// Одна шкала на всё приложение. Разнобой кеглей — первое, что читается как
-// «свёрстано на глаз», поэтому промежуточных размеров нет.
 extension Font {
-    static let dsScreenTitle = Font.system(size: 28, weight: .bold)      // заголовок экрана
-    static let dsSectionTitle = Font.system(size: 20, weight: .semibold) // заголовок блока
-    static let dsHeadline = Font.system(size: 16, weight: .semibold)     // имя автора, строка-действие
-    static let dsBody = Font.system(size: 16)                            // текст поста, строки списков
-    static let dsSubhead = Font.system(size: 15)                         // вторичный текст
-    static let dsMeta = Font.system(size: 13)                            // время, метаданные
-    static let dsCaption = Font.system(size: 12)                         // подписи под иконками
-    static let dsAction = Font.system(size: 14, weight: .medium)         // счётчики в капсулах
-    static let dsName = Font.system(size: 16, weight: .semibold)         // алиас имени
-    static let dsTab = Font.system(size: 10, weight: .medium)
-}
-
-extension View {
-    /// Интерлиньяж текста поста — 16/22, как в ВК.
-    func dsParagraph() -> some View {
-        font(.dsBody).lineSpacing(5)
-    }
+    static let vkTabTitle = Font.system(size: 24, weight: .bold)       // заголовок вкладки
+    static let vkNavTitle = Font.system(size: 17, weight: .semibold)   // заголовок навбара
+    static let vkSection = Font.system(size: 22, weight: .bold)        // заголовок секции
+    static let vkRow = Font.system(size: 17)                           // строка списка
+    static let vkName = Font.system(size: 15, weight: .semibold)       // имя в посте
+    static let vkBody = Font.system(size: 15)                          // текст поста
+    static let vkMeta = Font.system(size: 13)                          // время, подписи
+    static let vkCaption = Font.system(size: 13)                       // подпись под иконкой
+    static let vkBubbleTime = Font.system(size: 11)
 }
 
 // MARK: - Цвет из HEX
@@ -87,25 +78,23 @@ extension Color {
     }
 }
 
-// MARK: - Нажатия: без них интерфейс мёртвый
+// MARK: - Нажатия
 
 struct PressableStyle: ButtonStyle {
     var scale: CGFloat = 0.97
-    var dim: Double = 0.6
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? scale : 1)
-            .opacity(configuration.isPressed ? dim : 1)
+            .opacity(configuration.isPressed ? 0.65 : 1)
             .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
     }
 }
 
-/// Подсветка строки списка при нажатии — как в нативных списках.
 struct HighlightStyle: ButtonStyle {
     @Environment(\.theme) private var t
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .background(configuration.isPressed ? t.fieldFill : .clear)
+            .background(configuration.isPressed ? t.fill : .clear)
             .animation(.easeOut(duration: 0.1), value: configuration.isPressed)
     }
 }

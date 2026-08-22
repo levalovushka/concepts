@@ -1,13 +1,11 @@
 import SwiftUI
 
-// Профиль в структуре ВК: обложка → круглый аватар → имя по центру → синяя кнопка
-// на всю ширину + квадратные рядом → пилюли-табы → сетка 3 колонки.
-// Продукт «Образы»: профиль — живой гардероб автора.
+// Профиль ВК: серый фон, белые карточки радиус 16 с полем 8, круглые кнопки
+// поверх, аватар по центру, пилюли-табы с белой активной капсулой.
 
 struct ProfileScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     @State private var tab = 0
 
@@ -15,316 +13,219 @@ struct ProfileScreen: View {
     private var garments: [Garment] { store.outfits.flatMap(\.items) }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                // шапка профиля: обложка уходит под статус-бар, без скруглений
-                VStack(spacing: 0) {
-                    LinearGradient(colors: [Color(hex: "6E8BFF"), Color(hex: "B478FF")],
-                                   startPoint: .topLeading, endPoint: .bottomTrailing)
-                        .frame(height: 168)
-                        .overlay(alignment: .bottomTrailing) {
-                            Button {} label: {
-                                Image(systemName: "camera.fill").font(.system(size: 14))
-                                    .foregroundStyle(.white)
-                                    .frame(width: 32, height: 32)
-                                    .background(.black.opacity(0.28), in: Circle())
-                            }
-                            .buttonStyle(.plain)
-                            .padding(12)
-                        }
-                        .ignoresSafeArea(edges: .top)
+        ZStack(alignment: .top) {
+            t.groupGap.ignoresSafeArea()
 
-                    VStack(spacing: 0) {
-                        Avatar(name: name, size: 92)
-                            .overlay(Circle().stroke(t.card, lineWidth: 4))
-                            .offset(y: -46)
-                            .padding(.bottom, -38)
-
-                        Text(name)
-                            .font(.system(size: 23, weight: .bold)).foregroundStyle(t.textPrimary)
-                            .padding(.top, 4)
-                        Text("Крупная вязка, секонд и осень")
-                            .font(.system(size: 15)).foregroundStyle(t.textSecondary)
-                            .padding(.top, 3)
-                        HStack(spacing: 14) {
-                            Label("Москва", systemImage: "mappin.and.ellipse")
-                            Label("Подробнее", systemImage: "info.circle")
-                        }
-                        .font(.dsMeta).foregroundStyle(t.textSecondary)
-                        .padding(.top, 6)
-
-                        // это свой профиль — здесь редактирование, а не подписка
-                        HStack(spacing: 8) {
-                            PrimaryButton(title: "Редактировать", icon: "pencil") {
-                                nav.toast("Редактирование профиля")
-                            }
-                            SquareButton(icon: "square.and.arrow.up") { nav.toast("Ссылка скопирована") }
-                            SquareButton(icon: "gearshape.fill") { nav.push(LooksRoute.settings) }
-                        }
-                        .padding(.top, 14)
-                        .padding(.horizontal, 12)
-                        .padding(.bottom, 14)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .background(t.card)
+            ScrollView {
+                VStack(spacing: 8) {
+                    header
+                    cards
+                    tabsRow
+                    section
+                    Color.clear.frame(height: 120)
                 }
+                .padding(.horizontal, 8)
+            }
 
-                // счётчики
-                Card {
-                    HStack(spacing: 0) {
-                        stat("142", "образа")
-                        divider
-                        stat("1,3K", "подписчиков")
-                        divider
-                        stat("86", "вещей")
-                    }
-                    .padding(.vertical, 14)
+            circleButtons
+        }
+    }
+
+    // MARK: шапка
+
+    private var header: some View {
+        VStack(spacing: 10) {
+            Avatar(name: name, size: 128, online: true)
+                .padding(.top, 56)
+            Text(name).font(.system(size: 28, weight: .bold))
+                .foregroundStyle(t.textPrimary)
+            Button {} label: {
+                HStack(spacing: 5) {
+                    Text("Укажите информацию о себе").font(.system(size: 17))
+                    Image(systemName: "chevron.right.circle").font(.system(size: 15))
                 }
+                .foregroundStyle(t.accent)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.bottom, 6)
+    }
 
-                // знакомые по контактам
-                Card {
-                    Button { nav.push(LooksRoute.mates) } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "person.2.fill").font(.system(size: 17))
-                                .foregroundStyle(t.accent).frame(width: 28)
-                            Text("Кто из знакомых здесь").font(.dsBody).foregroundStyle(t.textPrimary)
-                            Spacer()
-                            Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(t.textTertiary)
-                        }
-                        .padding(.horizontal, 12).padding(.vertical, 13)
-                    }
-                    .buttonStyle(HighlightStyle())
-                    RowDivider(leading: 52)
-                    Button { nav.push(LooksRoute.settings) } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "gearshape.fill").font(.system(size: 17))
-                                .foregroundStyle(t.accent).frame(width: 28)
-                            Text("Настройки").font(.dsBody).foregroundStyle(t.textPrimary)
-                            Spacer()
-                            Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(t.textTertiary)
-                        }
-                        .padding(.horizontal, 12).padding(.vertical, 13)
-                    }
-                    .buttonStyle(HighlightStyle())
+    private var circleButtons: some View {
+        HStack {
+            circleButton("chevron.left") {}
+            Spacer()
+            circleButton("square.grid.2x2") { nav.tab = 1 }
+            circleButton("ellipsis") { nav.push(LooksRoute.settings) }
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 4)
+    }
+
+    private func circleButton(_ icon: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 17, weight: .medium))
+                .foregroundStyle(.white)
+                .frame(width: 44, height: 44)
+                .background(Color.black.opacity(0.22), in: Circle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: карточки
+
+    @ViewBuilder private var cards: some View {
+        statusCard
+        friendsCard
+        publishCard
+    }
+
+    private var statusCard: some View {
+        card {
+            HStack(spacing: 8) {
+                Image(systemName: "hanger").font(.system(size: 16))
+                    .foregroundStyle(t.textSecondary)
+                Text("86 вещей в гардеробе").font(.system(size: 17))
+                    .foregroundStyle(t.textPrimary)
+                Text("·").foregroundStyle(t.textSecondary)
+                Button { nav.tab = 1; nav.push(LooksRoute.wardrobe) } label: {
+                    Text("Открыть").font(.system(size: 17)).foregroundStyle(t.accent)
                 }
+                .buttonStyle(.plain)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 16).padding(.vertical, 14)
+        }
+    }
 
-                // гардероб: пилюли-табы + сетка
-                Card {
-                    HStack(spacing: 8) {
-                        pill("Образы", 0)
-                        pill("Вещи", 1)
-                        pill("Свопы", 2)
-                        Spacer()
+    private var friendsCard: some View {
+        card {
+            HStack(spacing: 8) {
+                Text("1,3K подписчиков").font(.system(size: 17, weight: .semibold)).lineLimit(1)
+                    .foregroundStyle(t.textPrimary)
+                Text("·").foregroundStyle(t.textSecondary)
+                Button { nav.push(LooksRoute.mates) } label: {
+                    Text("знакомые").font(.system(size: 17)).foregroundStyle(t.accent)
+                }
+                .buttonStyle(.plain)
+                Spacer(minLength: 8)
+                HStack(spacing: -10) {
+                    ForEach(["Аня Котова", "Марк Львов", "Даша Ким"], id: \.self) { n in
+                        Avatar(name: n, size: 30)
+                            .overlay(Circle().stroke(.white, lineWidth: 2))
                     }
-                    .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 10)
+                }
+            }
+            .padding(.horizontal, 16).padding(.vertical, 12)
+        }
+    }
 
-                    if tab == 1 {
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 3), spacing: 2) {
-                            ForEach(garments) { g in
-                                ZStack {
-                                    t.fieldFill
-                                    Image(systemName: g.glyph).font(.system(size: 26, weight: .light))
-                                        .foregroundStyle(t.accent.opacity(0.75))
+    private var publishCard: some View {
+        card {
+            Button { nav.present(cover: LooksRoute.create) } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "plus.circle").font(.system(size: 20))
+                    Text("Опубликовать образ").font(.system(size: 17))
+                }
+                .foregroundStyle(t.accent)
+                .frame(maxWidth: .infinity).padding(.vertical, 15)
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    // MARK: пилюли-табы
+
+    private let tabTitles = ["Главная", "Образы", "Вещи", "Свопы", "Клипы"]
+
+    private var tabsRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 6) {
+                ForEach(tabTitles.indices, id: \.self) { i in
+                    Button {
+                        withAnimation(.easeOut(duration: 0.18)) { tab = i }
+                    } label: {
+                        Text(tabTitles[i])
+                            .font(.system(size: 17, weight: tab == i ? .medium : .regular))
+                            .foregroundStyle(tab == i ? t.accent : t.textSecondary)
+                            .padding(.horizontal, 16).frame(height: 40)
+                            .background {
+                                if tab == i {
+                                    Capsule().fill(.white)
+                                        .shadow(color: .black.opacity(0.08), radius: 4, y: 2)
                                 }
-                                .aspectRatio(0.82, contentMode: .fill).clipped()
                             }
-                        }
-                    } else if tab == 0 {
-                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 3), spacing: 2) {
-                            ForEach(0..<9, id: \.self) { i in
-                                let g = garments[safe: i % max(garments.count, 1)]
-                                OutfitGridCell(glyph: g?.glyph ?? "tshirt.fill", seed: i)
-                            }
-                        }
-                    } else {
-                        EmptyState(icon: "arrow.left.arrow.right", title: "Свопов пока нет",
-                                   text: "Обмены вещами появятся здесь")
-                            .padding(.bottom, 20)
                     }
-
-                    RowDivider(leading: 12)
-                    ShowAllRow(title: "Показать всё") {}
+                    .buttonStyle(.plain)
                 }
             }
-            .padding(.bottom, t.cardGap)
+            .padding(.horizontal, 8)
         }
-        .background(t.background)
-        .ignoresSafeArea(edges: .top)
+        .scrollClipDisabled()
+        .padding(.vertical, 4)
     }
 
-    private var divider: some View {
-        Rectangle().fill(t.separator).frame(width: 0.5, height: 28)
-    }
-    private func stat(_ v: String, _ l: String) -> some View {
-        VStack(spacing: 3) {
-            Text(v).font(.system(size: 19, weight: .semibold)).foregroundStyle(t.textPrimary)
-            Text(l).font(.dsMeta).foregroundStyle(t.textSecondary)
-        }
-        .frame(maxWidth: .infinity)
-    }
-    private func pill(_ title: String, _ i: Int) -> some View {
-        Button { withAnimation(.easeOut(duration: 0.16)) { tab = i } } label: {
-            Text(title)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundStyle(tab == i ? t.accent : t.textPrimary)
-                .padding(.horizontal, 14).frame(height: 34)
-                .background(tab == i ? t.accentSoft : t.fieldFill, in: Capsule())
-        }
-        .pressable()
-    }
-}
+    // MARK: контент вкладки
 
-// MARK: - Настройки
-
-struct SettingsScreen: View {
-    @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
-    @Environment(\.theme) private var t
-    @State private var push = false
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                group("Аккаунт") {
-                    row(icon: "envelope.fill", title: "nika@mail.ru", subtitle: "Почта для входа")
-                }
-                group("Уведомления") {
-                    toggleRow(icon: "bell.fill", title: "Новые образы и реакции", isOn: $push) { on in
-                        if on {
-                            let ok = await perms.request(.push)
-                            if !ok { push = false; nav.toast("Уведомления выключены в настройках", once: "push"); return }
-                            // фоновые режимы включаются вместе с уведомлениями
-                            await perms.request(.commnotif)
-                            await perms.request(.remotenotif)
-                            await perms.request(.fetch)
-                        }
-                    }
-                    if perms.isGranted(.push) {
-                        RowDivider(leading: 52)
-                        row(icon: "person.crop.circle.badge.checkmark",
-                            title: "Аватар автора в уведомлении", subtitle: "чаты приходят с лицом собеседника")
-                        RowDivider(leading: 52)
-                        row(icon: "arrow.triangle.2.circlepath",
-                            title: "Свежая лента к запуску", subtitle: "образы подгружаются заранее")
-                        RowDivider(leading: 52)
-                        row(icon: "play.rectangle.on.rectangle",
-                            title: "Актуальная серия клипов", subtitle: "новые примерки готовы к открытию")
-                    }
-                }
-                group("Приватность") {
-                    Button { nav.push(LooksRoute.lock) } label: {
-                        row(icon: "faceid", title: "Замок на «Сохранённое»",
-                            subtitle: "Face ID на черновики", chevron: true)
-                    }
-                    .buttonStyle(HighlightStyle())
-                    RowDivider(leading: 52)
-                    Button { nav.push(LooksRoute.ads) } label: {
-                        row(icon: "sparkles", title: "Реклама по интересам", subtitle: "персонализация выключена", chevron: true)
-                    }
-                    .buttonStyle(HighlightStyle())
-                }
-                group("На устройстве") {
-                    Button {
-                        Task { await perms.request(.appgroups); await perms.request(.keychain)
-                               nav.toast("Добавьте виджет долгим нажатием на экране «Домой»") }
-                    } label: {
-                        row(icon: "square.grid.2x2.fill", title: "Виджет образа дня",
-                            subtitle: "на экране «Домой»", chevron: true)
-                    }.buttonStyle(HighlightStyle())
-                    RowDivider(leading: 52)
-                    Button {
-                        Task { await perms.request(.autofill)
-                               nav.toast("Включите «Образы» в Настройках → Пароли") }
-                    } label: {
-                        row(icon: "key.fill", title: "Автозаполнение паролей",
-                            subtitle: "вход на сайты марок", chevron: true)
-                    }.buttonStyle(HighlightStyle())
-                    RowDivider(leading: 52)
-                    Button {
-                        Task { await perms.request(.shareext)
-                               nav.toast("Включите «Образы» в меню «Поделиться» → Ещё") }
-                    } label: {
-                        row(icon: "square.and.arrow.up", title: "Поделиться в «Образы»",
-                            subtitle: "из Safari и «Фото»", chevron: true)
-                    }.buttonStyle(HighlightStyle())
-                }
-
-                group("О приложении") {
-                    row(icon: "questionmark.circle", title: "Помощь", chevron: true)
-                    RowDivider(leading: 52)
-                    row(icon: "doc.text", title: "Пользовательское соглашение", chevron: true)
-                    RowDivider(leading: 52)
-                    row(icon: "info.circle", title: "Версия", value: "1.0")
+    @ViewBuilder private var section: some View {
+        if tab == 2 {
+            contentSection(title: "Вещи") {
+                ForEach(garments.prefix(6)) { g in
+                    contentCard(glyph: g.glyph, title: g.title,
+                                sub: g.state.label, seed: g.title.count)
                 }
             }
-            .padding(.vertical, t.cardGap)
+        } else if tab == 3 {
+            contentSection(title: "Свопы") {
+                ForEach(store.events) { e in
+                    contentCard(glyph: "arrow.left.arrow.right", title: e.title,
+                                sub: e.when, seed: e.going)
+                }
+            }
+        } else {
+            contentSection(title: "Образы") {
+                ForEach(store.outfits) { o in
+                    contentCard(glyph: o.items.first?.glyph ?? "tshirt.fill",
+                                title: o.items.first?.title ?? "Образ",
+                                sub: "\(o.likes) отметок «нравится»", seed: o.seed)
+                }
+            }
         }
-        .background(t.background)
-        .navigationTitle("Настройки").navigationBarTitleDisplayMode(.inline)
     }
 
-    @ViewBuilder private func group<C: View>(_ title: String, @ViewBuilder content: () -> C) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(title).font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
-                .padding(.horizontal, t.pad + 12)
-            Card { content() }
+    private func contentSection<C: View>(title: String,
+                                         @ViewBuilder content: () -> C) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title).font(.vkSection).foregroundStyle(t.textPrimary)
+                .padding(.horizontal, 8).padding(.bottom, 12)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) { content() }
+                    .padding(.horizontal, 8)
+            }
+            .scrollClipDisabled()
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 8)
     }
 
-    private func row(icon: String, title: String, subtitle: String? = nil,
-                     value: String? = nil, chevron: Bool = false) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon).font(.system(size: 17)).foregroundStyle(t.accent).frame(width: 28)
+    private func contentCard(glyph: String, title: String, sub: String, seed: Int) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VKMedia(glyph: glyph, height: 145, seed: seed)
+                .frame(width: 145)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.dsBody).foregroundStyle(t.textPrimary)
-                if let subtitle { Text(subtitle).font(.dsMeta).foregroundStyle(t.textSecondary) }
+                Text(title).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                    .lineLimit(1)
+                Text(sub).font(.vkMeta).foregroundStyle(t.textSecondary).lineLimit(1)
             }
-            Spacer()
-            if let value { Text(value).font(.dsBody).foregroundStyle(t.textSecondary) }
-            if chevron {
-                Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(t.textTertiary)
-            }
+            .frame(width: 145, alignment: .leading)
         }
-        .padding(.horizontal, 12).padding(.vertical, 12)
-        .contentShape(Rectangle())
     }
 
-    private func toggleRow(icon: String, title: String, isOn: Binding<Bool>,
-                           action: @escaping (Bool) async -> Void) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon).font(.system(size: 17)).foregroundStyle(t.accent).frame(width: 28)
-            Text(title).font(.dsBody).foregroundStyle(t.textPrimary)
-            Spacer()
-            Toggle("", isOn: isOn).labelsHidden()
-                .onChange(of: isOn.wrappedValue) { _, v in Task { await action(v) } }
-        }
-        .padding(.horizontal, 12).padding(.vertical, 10)
+    private func card<C: View>(@ViewBuilder _ content: () -> C) -> some View {
+        VStack(spacing: 0) { content() }
+            .frame(maxWidth: .infinity)
+            .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
-}
-
-/// Ячейка сетки гардероба.
-struct OutfitGridCell: View {
-    let glyph: String
-    let seed: Int
-    @Environment(\.theme) private var t
-    private var tint: Color {
-        let p = ["5B7CFA", "E0719A", "3FA88C", "E08A4B", "8B6EE0", "5AA9E6"]
-        return Color(hex: p[abs(seed) % p.count])
-    }
-    var body: some View {
-        ZStack {
-            LinearGradient(colors: [tint.opacity(0.18), tint.opacity(0.38)],
-                           startPoint: .top, endPoint: .bottom)
-            Image(systemName: glyph).font(.system(size: 30, weight: .ultraLight))
-                .foregroundStyle(tint)
-        }
-        .aspectRatio(0.82, contentMode: .fit)
-    }
-}
-
-extension Array {
-    subscript(safe i: Int) -> Element? { indices.contains(i) ? self[i] : nil }
 }

@@ -1,37 +1,44 @@
 import SwiftUI
 
-// Лента образов. Структура ВК: серый фон, белые карточки, действия в капсулах.
-// Продукт «Образы»: медиа — образ, у него есть отметки вещей и разбор на вещи.
+// Главная — лента ВК: белый фон, посты во всю ширину, между постами серая полоса.
+// Действия поста — голые иконки с числами, без капсул (см. профиль, раздел 1).
 
 struct FeedScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
-    @State private var tab = 0
-    @State private var refreshing = false
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Образы", avatar: "Ника Орлова") {
-                Button { nav.present(cover: LooksRoute.create) } label: { Image(systemName: "plus") }
+            VKTabHeader(title: "Главная", avatar: "Ника Орлова", dropdown: true) {
+                Button { nav.present(cover: LooksRoute.create) } label: {
+                    Image(systemName: "plus.circle")
+                }
+                Button {} label: {
+                    Image(systemName: "bell")
+                        .overlay(alignment: .topTrailing) {
+                            Text("7").font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 5).padding(.vertical, 1)
+                                .background(t.badge, in: Capsule())
+                                .offset(x: 9, y: -6)
+                        }
+                }
             }
-            UnderlineTabs(items: ["Подписки", "Для вас", "Свопы"], selection: $tab)
 
             ScrollView {
-                LazyVStack(spacing: t.cardGap) {
+                LazyVStack(spacing: 0) {
                     StoriesRow()
+                    GroupGap()
                     ForEach(store.outfits) { outfit in
-                        OutfitCard(outfit: outfit)
+                        PostCard(outfit: outfit)
+                        GroupGap()
                     }
-                    NearbyPromoCard()
+                    NearbyRow()
+                    Color.clear.frame(height: 80)
                 }
-                .padding(.top, t.cardGap)
-                .padding(.bottom, 72)
             }
-            .refreshable {
-                try? await Task.sleep(nanoseconds: 900_000_000)
-            }
+            .refreshable { try? await Task.sleep(nanoseconds: 900_000_000) }
             .background(t.background)
         }
         .background(t.background)
@@ -44,41 +51,36 @@ private struct StoriesRow: View {
     @Environment(LooksStore.self) private var store
     @Environment(\.theme) private var t
     var body: some View {
-        Card {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(store.stories) { s in
-                        VStack(spacing: 6) {
-                            ZStack(alignment: .bottomTrailing) {
-                                Avatar(name: s.name, size: 60, ring: !s.seen && !s.isMine)
-                                if s.isMine {
-                                    Image(systemName: "plus")
-                                        .font(.system(size: 11, weight: .bold))
-                                        .foregroundStyle(.white)
-                                        .frame(width: 20, height: 20)
-                                        .background(t.accent, in: Circle())
-                                        .overlay(Circle().stroke(t.card, lineWidth: 2))
-                                        .offset(x: 2, y: 2)
-                                }
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 14) {
+                ForEach(store.stories) { s in
+                    VStack(spacing: 7) {
+                        ZStack(alignment: .bottomTrailing) {
+                            Avatar(name: s.name, size: 64, ring: !s.seen && !s.isMine)
+                            if s.isMine {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 12, weight: .bold)).foregroundStyle(.white)
+                                    .frame(width: 22, height: 22)
+                                    .background(t.accent, in: Circle())
+                                    .overlay(Circle().stroke(.white, lineWidth: 2.5))
+                                    .offset(x: 1, y: 1)
                             }
-                            Text(s.isMine ? "История" : s.name.split(separator: " ").first.map(String.init) ?? s.name)
-                                .font(.system(size: 12))
-                                .foregroundStyle(t.textSecondary)
-                                .lineLimit(1)
-                                .frame(width: 66)
                         }
+                        Text(s.isMine ? "История" : (s.name.split(separator: " ").first.map(String.init) ?? s.name))
+                            .font(.vkCaption).foregroundStyle(t.textPrimary)
+                            .lineLimit(1).frame(width: 72)
                     }
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 12)
             }
+            .padding(.horizontal, t.pad)
+            .padding(.top, 12).padding(.bottom, 14)
         }
     }
 }
 
-// MARK: - Карточка образа
+// MARK: - Пост
 
-private struct OutfitCard: View {
+private struct PostCard: View {
     let outfit: Outfit
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
@@ -86,252 +88,117 @@ private struct OutfitCard: View {
     @State private var showTags = false
 
     var body: some View {
-        Card {
-            // шапка
-            HStack(spacing: 12) {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 10) {
                 Avatar(name: outfit.author, size: 40)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(outfit.author).font(.dsHeadline).foregroundStyle(t.textPrimary)
-                    Text(outfit.meta).font(.dsMeta).foregroundStyle(t.textSecondary)
+                VStack(alignment: .leading, spacing: 1) {
+                    HStack(spacing: 4) {
+                        Text(outfit.author).font(.vkName).foregroundStyle(t.textPrimary)
+                        Image(systemName: "checkmark.seal.fill")
+                            .font(.system(size: 13)).foregroundStyle(t.accent)
+                    }
+                    Text(outfit.meta).font(.vkMeta).foregroundStyle(t.textSecondary)
                 }
                 Spacer(minLength: 8)
+                VKPill(title: "Подписаться")
                 Button {} label: {
-                    Image(systemName: "ellipsis").font(.system(size: 18))
+                    Image(systemName: "ellipsis").font(.system(size: 17))
                         .foregroundStyle(t.textSecondary)
-                        .frame(width: 32, height: 32)
-                        .contentShape(Rectangle())
+                        .frame(width: 24, height: 32).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .offset(x: 6)
             }
-            .padding(.horizontal, 14)
-            .padding(.top, 14)
-            .padding(.bottom, 12)
+            .padding(.horizontal, t.pad)
+            .padding(.vertical, 10)
 
-            if !outfit.text.isEmpty {
-                Text(outfit.text)
-                    .dsParagraph()
-                    .foregroundStyle(t.textPrimary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 14)
-                    .padding(.bottom, 12)
-            }
-
-            // образ: медиа край в край + отметки вещей
             Button { nav.push(LooksRoute.outfit(outfit)) } label: {
-                ZStack(alignment: .topLeading) {
-                    OutfitMedia(items: outfit.items, seed: outfit.seed)
-                        .overlay(alignment: .bottomLeading) {
-                            if showTags { tagStack }
+                VKMedia(glyph: outfit.items.first?.glyph ?? "photo",
+                        height: 340, seed: outfit.seed,
+                        pageBadge: outfit.items.count > 1 ? "1/\(outfit.items.count)" : nil)
+                    .overlay(alignment: .bottomLeading) { if showTags { tagStack } }
+                    .overlay(alignment: .topLeading) {
+                        if !outfit.items.isEmpty {
+                            Button {
+                                withAnimation(.easeOut(duration: 0.2)) { showTags.toggle() }
+                            } label: {
+                                Image(systemName: "tag")
+                                    .font(.system(size: 14, weight: .medium)).foregroundStyle(.white)
+                                    .frame(width: 32, height: 32)
+                                    .background(.black.opacity(0.4), in: Circle())
+                            }
+                            .buttonStyle(.plain).padding(12)
                         }
-                    // как отметки на фото у ВК: значок в углу, метки по тапу
-                    if !outfit.items.isEmpty {
-                        Button {
-                            withAnimation(.easeOut(duration: 0.2)) { showTags.toggle() }
-                        } label: {
-                            Image(systemName: "tag")
-                                .font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(.white)
-                                .frame(width: 30, height: 30)
-                                .background(.black.opacity(0.32), in: Circle())
-                        }
-                        .buttonStyle(.plain)
-                        .padding(10)
                     }
-                }
             }
             .buttonStyle(.plain)
 
+            if !outfit.text.isEmpty {
+                Text(outfit.text)
+                    .font(.vkBody).foregroundStyle(t.textPrimary).lineSpacing(3)
+                    .lineLimit(2).fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, t.pad).padding(.top, 12)
+            }
 
-            // действия в капсулах — сигнатура ВК
-            HStack(spacing: 8) {
-                ActionPill(icon: "heart", count: "\(outfit.likes)",
-                           active: outfit.liked, activeColor: t.danger) {
-                    store.toggleLike(outfit.id)
-                }
-                ActionPill(icon: "bubble.right", count: "\(outfit.comments)") {
-                    nav.push(LooksRoute.outfit(outfit))
-                }
-                ActionPill(icon: "arrowshape.turn.up.right", count: "\(outfit.shares)") {}
-                Spacer()
-                HStack(spacing: 5) {
-                    Image(systemName: "eye").font(.system(size: 14))
-                    Text(outfit.views).font(.dsAction)
-                }
-                .foregroundStyle(t.textSecondary)
-                Button { store.toggleSave(outfit.id) } label: {
-                    Image(systemName: outfit.saved ? "bookmark.fill" : "bookmark")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(outfit.saved ? t.accent : t.textSecondary)
-                        .frame(width: 32, height: 32)
+            HStack(spacing: 20) {
+                Button { store.toggleLike(outfit.id) } label: {
+                    metric(outfit.liked ? "heart.fill" : "heart", "\(outfit.likes)",
+                           tint: outfit.liked ? Color(hex: "FF3347") : t.textSecondary)
                 }
                 .buttonStyle(.plain)
+                Button { nav.push(LooksRoute.outfit(outfit)) } label: {
+                    metric("bubble.right", "\(outfit.comments)", tint: t.textSecondary)
+                }
+                .buttonStyle(.plain)
+                metric("arrowshape.turn.up.right", "\(outfit.shares)", tint: t.textSecondary)
+                Spacer()
+                Button { store.toggleSave(outfit.id) } label: {
+                    Image(systemName: outfit.saved ? "bookmark.fill" : "bookmark")
+                        .font(.system(size: 18))
+                        .foregroundStyle(outfit.saved ? t.accent : t.textSecondary)
+                }
+                .buttonStyle(.plain)
+                Text(outfit.views).font(.vkMeta).foregroundStyle(t.textSecondary)
             }
-            .padding(.horizontal, 12)
-            .padding(.bottom, 12)
+            .padding(.horizontal, t.pad)
+            .padding(.top, 12).padding(.bottom, 12)
         }
+        .background(t.background)
     }
 
-    /// Пины вещей на кадре — привязаны к углам, поэтому не вылезают за края.
+    private func metric(_ icon: String, _ value: String, tint: Color) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: icon).font(.system(size: 19))
+            Text(value).font(.system(size: 15))
+        }
+        .foregroundStyle(tint)
+    }
+
     private var tagStack: some View {
-        ZStack {
-            if outfit.items.indices.contains(0) {
-                pin(0).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-            }
-            if outfit.items.indices.contains(1) {
-                pin(1).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-            }
-            if outfit.items.indices.contains(2) {
-                pin(2).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
+                HStack(spacing: 6) {
+                    Text("\(i + 1)").font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
+                        .frame(width: 18, height: 18).background(.white, in: Circle())
+                    Text(g.title).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                }
+                .padding(.horizontal, 8).padding(.vertical, 5)
+                .background(.black.opacity(0.55), in: Capsule())
             }
         }
         .padding(12)
-        .transition(.opacity)
-    }
-
-    private func pin(_ i: Int) -> some View {
-        ItemPin(index: i + 1, title: outfit.items[i].title, trailing: i != 0)
     }
 }
 
-/// Медиа образа — лукбук-коллаж: главная вещь крупно, остальные стопкой справа.
-/// Спокойная композиция вместо декоративных наклеек; фото не используем.
-struct OutfitMedia: View {
-    let items: [Garment]
-    var seed: Int = 0
-    var height: CGFloat = 264
+// MARK: - Строка «свопы рядом» (точка запроса гео)
 
-    private var tint: Color {
-        let palette = ["5B7CFA", "E0719A", "3FA88C", "E08A4B", "8B6EE0"]
-        return Color(hex: palette[abs(seed) % palette.count])
-    }
-
-    var body: some View {
-        HStack(spacing: 2) {
-            cell(items.first, big: true)
-            if items.count > 1 {
-                VStack(spacing: 2) {
-                    cell(items.dropFirst().first, big: false)
-                    if items.count > 2 { cell(items.dropFirst(2).first, big: false) }
-                }
-                .frame(width: height * 0.42)
-            }
-        }
-        .frame(height: height)
-        .clipped()
-    }
-
-    @ViewBuilder
-    private func cell(_ g: Garment?, big: Bool) -> some View {
-        ZStack {
-            LinearGradient(colors: [tint.opacity(big ? 0.26 : 0.18), tint.opacity(big ? 0.46 : 0.34)],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-            if let g {
-                Image(systemName: g.glyph)
-                    .font(.system(size: big ? 62 : 34, weight: .ultraLight))
-                    .foregroundStyle(tint)
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-private struct GarmentChip: View {
-    let index: Int
-    let garment: Garment
-    @Environment(\.theme) private var t
-    var body: some View {
-        Button {} label: {
-            HStack(spacing: 9) {
-                Image(systemName: garment.glyph)
-                    .font(.system(size: 17))
-                    .foregroundStyle(t.accent)
-                    .frame(width: 38, height: 38)
-                    .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(garment.title).font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(t.textPrimary).lineLimit(1)
-                    Text(garment.brand).font(.system(size: 12))
-                        .foregroundStyle(t.textSecondary).lineLimit(1)
-                }
-                .padding(.trailing, 6)
-            }
-            .padding(6)
-            .background(t.fieldFill, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-        }
-        .pressable(scale: 0.96)
-    }
-}
-
-// MARK: - Промо «рядом» — точка запроса гео
-
-private struct NearbyPromoCard: View {
+private struct NearbyRow: View {
     @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
-    @Environment(\.theme) private var t
-
     var body: some View {
-        Card {
-            HStack(spacing: 12) {
-                Image(systemName: "location.fill")
-                    .font(.system(size: 18))
-                    .foregroundStyle(.white)
-                    .frame(width: 40, height: 40)
-                    .background(t.accent, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Свопы рядом с вами").font(.dsName).foregroundStyle(t.textPrimary)
-                    Text("Обмен вещами и встречи стиля поблизости")
-                        .font(.dsMeta).foregroundStyle(t.textSecondary)
-                }
-                Spacer(minLength: 8)
-            }
-            .padding(12)
-            RowDivider(leading: 12)
-            Button {
-                nav.tab = 1
-                nav.push(LooksRoute.nearby)
-            } label: {
-                Text("Показать поблизости")
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(t.accent)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 13)
-            }
-            .buttonStyle(HighlightStyle())
+        Button { nav.tab = 1; nav.push(LooksRoute.nearby) } label: {
+            VKRow(title: "Свопы рядом с вами",
+                  subtitle: "обмен вещами и встречи поблизости",
+                  icon: "location")
         }
-    }
-}
-
-
-/// Пин вещи на кадре образа: точка привязки + подпись.
-private struct ItemPin: View {
-    let index: Int
-    let title: String
-    var trailing: Bool = false
-    @State private var shown = false
-
-    var body: some View {
-        HStack(spacing: 6) {
-            if trailing, shown { label }
-            Text("\(index)")
-                .font(.system(size: 10, weight: .bold)).foregroundStyle(.black)
-                .frame(width: 18, height: 18)
-                .background(.white, in: Circle())
-                .shadow(color: .black.opacity(0.3), radius: 3, y: 1)
-            if !trailing, shown { label }
-        }
-        .padding(.horizontal, 4).padding(.vertical, 4)
-        .background(.black.opacity(shown ? 0.55 : 0), in: Capsule())
-        .fixedSize()
-        .onAppear {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.8).delay(Double(index) * 0.08)) {
-                shown = true
-            }
-        }
-    }
-    private var label: some View {
-        Text(title).font(.system(size: 12, weight: .medium))
-            .foregroundStyle(.white).lineLimit(1)
-            .padding(.horizontal, 3)
+        .buttonStyle(HighlightStyle())
     }
 }

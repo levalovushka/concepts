@@ -58,23 +58,26 @@ struct MainShell: View {
 
     var body: some View {
         @Bindable var nav = nav
-        // Нативный TabView — на iOS 26 это Liquid Glass таб-бар с системным
-        // поведением: сжатие при скролле, размытие, корректные safe-area отступы.
-        TabView(selection: $nav.tab) {
-            // подписей нет — только иконки; имена остаются для VoiceOver
-            Tab("", systemImage: "square.stack", value: 0) { tabContent(0) }
-                .accessibilityLabel("Главная")
-            Tab("", systemImage: "square.grid.2x2", value: 1) { tabContent(1) }
-                .accessibilityLabel("Сервисы")
-            Tab("", systemImage: "bubble.left", value: 2) { tabContent(2) }
-                .badge(unread)
-                .accessibilityLabel("Мессенджер")
-            Tab("", systemImage: "play.rectangle", value: 3) { tabContent(3) }
-                .accessibilityLabel("Клипы")
-            Tab("", systemImage: "person", value: 4) { tabContent(4) }
-                .accessibilityLabel("Профиль")
-        }
-        .overlay(alignment: .bottom) {
+        // Таб-бар ВК: плоский, край в край, пять иконок без подписей.
+        ZStack(alignment: .bottom) {
+            ZStack {
+                ForEach(0..<5, id: \.self) { i in
+                    tabContent(i).opacity(nav.tab == i ? 1 : 0)
+                        .allowsHitTesting(nav.tab == i)
+                }
+            }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+
+            VStack(spacing: 0) {
+                Spacer()
+                VKTabBar(items: [
+                    .init(id: 0, icon: "house", iconActive: "house.fill", dot: true),
+                    .init(id: 1, icon: "square.grid.2x2", iconActive: "square.grid.2x2.fill"),
+                    .init(id: 2, icon: "bubble.left", iconActive: "bubble.left.fill", badge: unread),
+                    .init(id: 3, icon: "play.rectangle", iconActive: "play.rectangle.fill"),
+                    .init(id: 4, icon: "person", iconActive: "person.fill"),
+                ], selection: $nav.tab)
+            }
             ToastOverlay(text: nav.toastText).padding(.bottom, 96)
         }
         .sheet(item: $nav.sheet) { route in routeView(route) }
