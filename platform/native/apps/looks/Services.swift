@@ -179,12 +179,10 @@ private struct ClipPage: View {
                                    value: "\(outfit.likes)",
                                    tint: outfit.liked ? .red : .white) { store.toggleLike(outfit.id) }
                         clipAction(icon: "bubble.right", value: "\(outfit.comments)", tint: .white) {}
+                        clipAction(icon: "arrowshape.turn.up.right", value: "\(outfit.shares)",
+                                   tint: .white) {}
                         clipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
-                                   value: "\(outfit.shares)", tint: .white) { store.toggleSave(outfit.id) }
-                        clipAction(icon: "wand.and.stars", value: "ремикс", tint: .white) {
-                            store.remix(outfit)
-                            nav.toast("Ремикс добавлен в ваши образы")
-                        }
+                                   value: "", tint: .white) { store.toggleSave(outfit.id) }
                     }
                     .frame(width: 52)
                 }

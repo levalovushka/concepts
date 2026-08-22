@@ -110,10 +110,10 @@ struct EventScreen: View {
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
                     HStack(spacing: 12) {
-                        Avatar(name: "Стиль-клуб Пудра", size: 40)
+                        Avatar(name: "Аня Котова", size: 40)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Стиль-клуб «Пудра»").font(.system(size: 15, weight: .medium))
-                            Text("12 свопов за год").font(.dsMeta).foregroundStyle(t.textSecondary)
+                            Text("Аня Котова").font(.system(size: 15, weight: .medium))
+                            Text("собрала 12 свопов за год").font(.dsMeta).foregroundStyle(t.textSecondary)
                         }
                         Spacer()
                         Text("Написать").font(.system(size: 14, weight: .medium))
@@ -131,8 +131,8 @@ struct EventScreen: View {
                              "Обувь без следов носки",
                              "Аксессуары любые"], id: \.self) { r in
                         HStack(alignment: .top, spacing: 10) {
-                            Image(systemName: "checkmark.circle.fill").font(.system(size: 14))
-                                .foregroundStyle(t.positive)
+                            Image(systemName: "circle.fill").font(.system(size: 5))
+                                .foregroundStyle(t.textTertiary).padding(.top, 7)
                             Text(r).font(.dsBody).foregroundStyle(t.textPrimary)
                             Spacer()
                         }
@@ -141,18 +141,24 @@ struct EventScreen: View {
                     Color.clear.frame(height: 8)
                 }
                 Card {
-                    Button {
-                        nav.push(LooksRoute.swap)
-                    } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: "arrow.left.arrow.right")
-                            Text("Договориться об обмене")
+                    VStack(spacing: 10) {
+                        PrimaryButton(title: going ? "Вы идёте" : "Пойду",
+                                      icon: going ? "checkmark" : "person.badge.plus") {
+                            withAnimation { going.toggle() }
+                            nav.toast(going ? "Записали вас на своп" : "Отменили участие")
                         }
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(t.accent)
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
+                        Button { nav.push(LooksRoute.swap) } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: "arrow.left.arrow.right")
+                                Text("Договориться об обмене")
+                            }
+                            .font(.system(size: 15, weight: .medium)).foregroundStyle(t.accent)
+                            .frame(maxWidth: .infinity).frame(height: 40)
+                            .background(t.accentSoft, in: RoundedRectangle(cornerRadius: t.controlRadius))
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(HighlightStyle())
+                    .padding(12)
                 }
             }
             .padding(.vertical, t.cardGap)
@@ -327,6 +333,22 @@ struct OutfitScreen: View {
             VStack(spacing: t.cardGap) {
                 Card {
                     OutfitMedia(items: outfit.items, seed: outfit.seed, height: 360)
+                        .overlay(alignment: .bottomLeading) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
+                                    HStack(spacing: 6) {
+                                        Text("\(i + 1)")
+                                            .font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
+                                            .frame(width: 18, height: 18).background(.white, in: Circle())
+                                        Text(g.title).font(.system(size: 13, weight: .medium))
+                                            .foregroundStyle(.white)
+                                    }
+                                    .padding(.horizontal, 8).padding(.vertical, 5)
+                                    .background(.black.opacity(0.55), in: Capsule())
+                                }
+                            }
+                            .padding(12)
+                        }
                     VStack(alignment: .leading, spacing: 10) {
                         HStack(spacing: 10) {
                             Avatar(name: outfit.author, size: 40)
@@ -386,18 +408,7 @@ struct OutfitScreen: View {
                         if i < outfit.items.count - 1 { RowDivider(leading: 68) }
                     }
                     RowDivider(leading: 12)
-                    Button {
-                        store.remix(outfit)
-                        nav.toast("Ремикс добавлен в ваши образы")
-                    } label: {
-                        HStack(spacing: 8) {
-                            Image(systemName: "wand.and.stars")
-                            Text("Собрать свою версию")
-                        }
-                        .font(.system(size: 15, weight: .medium)).foregroundStyle(t.accent)
-                        .frame(maxWidth: .infinity).padding(.vertical, 13)
-                    }
-                    .buttonStyle(HighlightStyle())
+                    ShowAllRow(title: "Все вещи автора") {}
                 }
             }
             .padding(.vertical, t.cardGap)
@@ -527,6 +538,13 @@ struct MatesScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     private let names = ["Аня Котова", "Марк Львов", "Даша Ким", "Лена Гор"]
+    /// Разные состояния: подписан, взаимно, только зарегистрировался.
+    private let suggested: [(String, String, String)] = [
+        ("Аня Котова", "12 общих подписок · 142 образа", "Вы подписаны"),
+        ("Марк Львов", "подписался на вас вчера", "Подписаться"),
+        ("Лена Гор", "зарегистрировалась 3 дня назад", "Подписаться"),
+        ("Ника Кравец", "4 общие подписки · 8 образов", "Подписаться"),
+    ]
 
     var body: some View {
         ScrollView {
@@ -537,7 +555,7 @@ struct MatesScreen: View {
                             Image(systemName: "person.2.fill").font(.system(size: 30)).foregroundStyle(t.accent)
                             Text("Кто из знакомых уже здесь")
                                 .font(.system(size: 18, weight: .semibold))
-                            Text("Сверим контакты, чтобы показать их образы. Номера не публикуем")
+                            Text("Покажем, кто из ваших контактов уже публикует образы")
                                 .font(.dsBody).foregroundStyle(t.textSecondary)
                                 .fixedSize(horizontal: false, vertical: true)
                             PrimaryButton(title: "Найти знакомых", icon: "person.crop.circle.badge.plus") {
@@ -554,18 +572,20 @@ struct MatesScreen: View {
                         Text("Найти по имени")
                             .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                             .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
-                        ForEach(["Аня Котова", "Марк Львов"], id: \.self) { n in
+                        ForEach(suggested, id: \.0) { p in
                             HStack(spacing: 12) {
-                                Avatar(name: n, size: 40)
+                                Avatar(name: p.0, size: 40)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(n).font(.system(size: 15, weight: .medium))
-                                    Text("2 общих подписки").font(.dsMeta).foregroundStyle(t.textSecondary)
+                                    Text(p.0).font(.system(size: 15, weight: .medium))
+                                    Text(p.1).font(.dsMeta).foregroundStyle(t.textSecondary).lineLimit(1)
                                 }
-                                Spacer()
-                                Text("Подписаться").font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(t.accent)
+                                Spacer(minLength: 8)
+                                Text(p.2)
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(p.2 == "Вы подписаны" ? t.textSecondary : t.accent)
                                     .padding(.horizontal, 12).frame(height: 30)
-                                    .background(t.accentSoft, in: Capsule())
+                                    .background(p.2 == "Вы подписаны" ? t.fieldFill : t.accentSoft,
+                                                in: Capsule())
                             }
                             .padding(.horizontal, 12).padding(.vertical, 7)
                         }

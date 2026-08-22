@@ -127,7 +127,7 @@ struct CheckinScreen: View {
             VStack(spacing: t.cardGap) {
                 Card {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Своп-вечеринка «Пудра»").font(.dsSectionTitle)
+                        Text("Своп у Ани на Мясницкой").font(.dsSectionTitle)
                         Text("Отметятся 34 человека · вы ещё нет")
                             .font(.dsBody).foregroundStyle(t.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)

@@ -125,15 +125,15 @@ final class LooksStore {
     var stories: [Story] = [
         Story(name: "Ника Орлова", isMine: true),
         Story(name: "Аня Котова"),
-        Story(name: "Пудра"),
+        Story(name: "Лена Гор"),
         Story(name: "Марк Львов", seen: true),
         Story(name: "Даша Ким", seen: true),
         Story(name: "Лена Гор", seen: true),
     ]
 
     var dialogs: [Dialog] = [
-        Dialog(name: "Стиль-клуб «Пудра»", last: "Своп в субботу в 15:00, придёте?", time: "12:40", unread: 2),
-        Dialog(name: "Аня Котова", last: "Скинула образ, глянь вещи", time: "11:05", online: true),
+        Dialog(name: "Аня Котова", last: "Своп в субботу в 15:00, придёте?", time: "12:40", unread: 2),
+        Dialog(name: "Даша Ким", last: "Скинула образ, глянь вещи", time: "11:05", online: true),
         Dialog(name: "Марк Львов", last: "Спасибо за совет по тренчу", time: "вчера"),
         Dialog(name: "Соседки по стилю", last: "Даша: принесу два платья", time: "вчера", unread: 5),
         Dialog(name: "Лена Гор", last: "Вы: договорились", time: "пн"),
@@ -149,7 +149,7 @@ final class LooksStore {
     ]
 
     var events: [NearbyEvent] = [
-        NearbyEvent(title: "Своп-вечеринка «Пудра»", place: "Лофт на Мясницкой", when: "Суббота, 15:00", distance: "1,2 км", going: 34),
+        NearbyEvent(title: "Своп у Ани на Мясницкой", place: "Лофт на Мясницкой", when: "Суббота, 15:00", distance: "1,2 км", going: 34),
         NearbyEvent(title: "Барахолка винтажа", place: "Дизайн-завод «Флакон»", when: "Воскресенье, 12:00", distance: "3,4 км", going: 128),
         NearbyEvent(title: "Обмен верхней одеждой", place: "Кофейня «Заря»", when: "5 ноября, 19:00", distance: "600 м", going: 12),
     ]

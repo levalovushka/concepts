@@ -83,7 +83,7 @@ private struct OutfitCard: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
-    @State private var showTags = true
+    @State private var showTags = false
 
     var body: some View {
         Card {
@@ -124,32 +124,24 @@ private struct OutfitCard: View {
                         .overlay(alignment: .bottomLeading) {
                             if showTags { tagStack }
                         }
-                    Button {
-                        withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) { showTags.toggle() }
-                    } label: {
-                        Image(systemName: showTags ? "tag.fill" : "tag")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .frame(width: 32, height: 32)
-                            .background(.black.opacity(0.35), in: Circle())
+                    // как отметки на фото у ВК: значок в углу, метки по тапу
+                    if !outfit.items.isEmpty {
+                        Button {
+                            withAnimation(.easeOut(duration: 0.2)) { showTags.toggle() }
+                        } label: {
+                            Image(systemName: "tag")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(.white)
+                                .frame(width: 30, height: 30)
+                                .background(.black.opacity(0.32), in: Circle())
+                        }
+                        .buttonStyle(.plain)
+                        .padding(10)
                     }
-                    .buttonStyle(.plain)
-                    .padding(10)
                 }
             }
             .buttonStyle(.plain)
 
-            // разбор на вещи — обещание продукта
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
-                        GarmentChip(index: i + 1, garment: g)
-                    }
-                }
-                .padding(.horizontal, 14)
-            }
-            .scrollClipDisabled()
-            .padding(.vertical, 12)
 
             // действия в капсулах — сигнатура ВК
             HStack(spacing: 8) {
