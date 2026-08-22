@@ -92,7 +92,9 @@ struct ClipsScreen: View {
 private struct ClipPage: View {
     let outfit: Outfit
     @Environment(LooksStore.self) private var store
+    @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
+    @State private var muted = true
 
     var body: some View {
         ZStack {
@@ -115,6 +117,27 @@ private struct ClipPage: View {
                 }
             }
             .offset(y: -70)
+
+            // верх: признаки видео — иначе кадр не читается как клип
+            VStack {
+                HStack(spacing: 10) {
+                    Text("0:07 / 0:18")
+                        .font(.system(size: 12, weight: .medium).monospacedDigit())
+                        .foregroundStyle(.white.opacity(0.9))
+                        .padding(.horizontal, 8).padding(.vertical, 4)
+                        .background(.black.opacity(0.32), in: Capsule())
+                    Spacer()
+                    Button { muted.toggle() } label: {
+                        Image(systemName: muted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                            .font(.system(size: 13)).foregroundStyle(.white)
+                            .frame(width: 32, height: 32)
+                            .background(.black.opacity(0.32), in: Circle())
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal, 16).padding(.top, 60)
+                Spacer()
+            }
 
             // низ: слева автор и вещи, справа колонка действий — в одном HStack,
             // поэтому пересечься они не могут
@@ -158,11 +181,26 @@ private struct ClipPage: View {
                         clipAction(icon: "bubble.right", value: "\(outfit.comments)", tint: .white) {}
                         clipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
                                    value: "\(outfit.shares)", tint: .white) { store.toggleSave(outfit.id) }
+                        clipAction(icon: "wand.and.stars", value: "ремикс", tint: .white) {
+                            store.remix(outfit)
+                            nav.toast("Ремикс добавлен в ваши образы")
+                        }
                     }
                     .frame(width: 52)
                 }
                 .padding(.horizontal, 16)
-                .padding(.bottom, 124)
+                .padding(.bottom, 14)
+
+                // полоса воспроизведения
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(.white.opacity(0.25)).frame(height: 3)
+                        Capsule().fill(.white).frame(width: geo.size.width * 0.39, height: 3)
+                    }
+                }
+                .frame(height: 3)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 104)
             }
         }
     }

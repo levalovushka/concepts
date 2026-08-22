@@ -18,10 +18,36 @@ struct Outfit: Identifiable, Hashable {
     var seed: Int = 0
 }
 
+enum GarmentState: Hashable {
+    case worn(String)      // «надета 3 дня назад»
+    case idle(String)      // «не носили 7 месяцев»
+    case onSwap            // отдана на своп
+    case wanted            // хочу такую
+
+    var label: String {
+        switch self {
+        case .worn(let w): return w
+        case .idle(let w): return "не носили \(w)"
+        case .onSwap: return "на свопе"
+        case .wanted: return "в вишлисте"
+        }
+    }
+    var icon: String {
+        switch self {
+        case .worn: return "checkmark.circle.fill"
+        case .idle: return "clock"
+        case .onSwap: return "arrow.left.arrow.right"
+        case .wanted: return "heart"
+        }
+    }
+}
+
 struct Garment: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let brand: String
+    var inOutfits: Int = 0
+    var state: GarmentState = .idle("месяц")
     var glyph: String {
         let s = title.lowercased()
         if s.contains("ботин") || s.contains("сапог") || s.contains("босонож") { return "shoe.fill" }
@@ -78,21 +104,21 @@ final class LooksStore {
     var outfits: [Outfit] = [
         Outfit(author: "Аня Котова", meta: "2 ч · Москва",
                text: "Собрала образ на осень: тренч, ботинки и шарф крупной вязки. Как вам сочетание?",
-               items: [Garment(title: "Тренч оверсайз", brand: "Zara · 2 сезона"),
-                       Garment(title: "Ботинки челси", brand: "Ecco"),
-                       Garment(title: "Шарф крупной вязки", brand: "связан сама")],
+               items: [Garment(title: "Тренч оверсайз", brand: "Zara", inOutfits: 12, state: .worn("надет вчера")),
+                       Garment(title: "Ботинки челси", brand: "Ecco", inOutfits: 31, state: .worn("надеты 3 дня назад")),
+                       Garment(title: "Шарф крупной вязки", brand: "связан сама", inOutfits: 4, state: .idle("2 недели"))],
                likes: 128, comments: 24, shares: 6, views: "3,4K", seed: 0),
         Outfit(author: "Марк Львов", meta: "вчера · Санкт-Петербург",
                text: "Три вещи, которые работают в любом сочетании. Проверял месяц.",
-               items: [Garment(title: "Пиджак оверсайз", brand: "Massimo Dutti"),
-                       Garment(title: "Прямые джинсы", brand: "Levi's 501"),
-                       Garment(title: "Белые кеды", brand: "Adidas")],
+               items: [Garment(title: "Пиджак оверсайз", brand: "Massimo Dutti", inOutfits: 8, state: .idle("7 месяцев")),
+                       Garment(title: "Прямые джинсы", brand: "Levi\'s 501", inOutfits: 44, state: .worn("надеты сегодня")),
+                       Garment(title: "Белые кеды", brand: "Adidas", inOutfits: 19, state: .onSwap)],
                likes: 210, comments: 41, shares: 33, views: "8,1K", seed: 2),
         Outfit(author: "Даша Ким", meta: "вчера",
                text: "Платье-комбинация под жакет — работает и в офис, и вечером",
-               items: [Garment(title: "Платье-комбинация", brand: "12 Storeez"),
-                       Garment(title: "Жакет", brand: "секонд, 1 200 ₽"),
-                       Garment(title: "Босоножки", brand: "Mango")],
+               items: [Garment(title: "Платье-комбинация", brand: "12 Storeez", inOutfits: 6, state: .worn("надето в пятницу")),
+                       Garment(title: "Жакет", brand: "секонд, 1 200 ₽", inOutfits: 15, state: .idle("месяц")),
+                       Garment(title: "Босоножки", brand: "Mango", inOutfits: 2, state: .wanted)],
                likes: 64, comments: 8, shares: 2, views: "1,9K", seed: 4),
     ]
 
@@ -137,6 +163,16 @@ final class LooksStore {
         guard let i = outfits.firstIndex(where: { $0.id == id }) else { return }
         outfits[i].saved.toggle()
     }
+    /// Ремикс: свой образ, собранный из чужого — ядровое отличие продукта.
+    func remix(_ outfit: Outfit) {
+        var copy = outfit
+        copy = Outfit(author: "Ника Орлова", meta: "только что · ваш ремикс",
+                      text: "Собрала свою версию образа @\(outfit.author.split(separator: " ").first ?? "")",
+                      items: outfit.items, likes: 0, comments: 0, shares: 0,
+                      views: "0", seed: outfit.seed + 1)
+        outfits.insert(copy, at: 0)
+    }
+
     func send(_ text: String) {
         messages.append(Message(text: text, mine: true, time: "12:45"))
     }

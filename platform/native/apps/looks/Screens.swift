@@ -106,6 +106,41 @@ struct EventScreen: View {
                     .padding(12)
                 }
                 Card {
+                    Text("Организатор")
+                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
+                    HStack(spacing: 12) {
+                        Avatar(name: "Стиль-клуб Пудра", size: 40)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Стиль-клуб «Пудра»").font(.system(size: 15, weight: .medium))
+                            Text("12 свопов за год").font(.dsMeta).foregroundStyle(t.textSecondary)
+                        }
+                        Spacer()
+                        Text("Написать").font(.system(size: 14, weight: .medium))
+                            .foregroundStyle(t.accent)
+                            .padding(.horizontal, 12).frame(height: 30)
+                            .background(t.accentSoft, in: Capsule())
+                    }
+                    .padding(.horizontal, 12).padding(.bottom, 12)
+                }
+                Card {
+                    Text("Что приносить")
+                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 6)
+                    ForEach(["Верх и платья — в чистом виде",
+                             "Обувь без следов носки",
+                             "Аксессуары любые"], id: \.self) { r in
+                        HStack(alignment: .top, spacing: 10) {
+                            Image(systemName: "checkmark.circle.fill").font(.system(size: 14))
+                                .foregroundStyle(t.positive)
+                            Text(r).font(.dsBody).foregroundStyle(t.textPrimary)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 12).padding(.vertical, 5)
+                    }
+                    Color.clear.frame(height: 8)
+                }
+                Card {
                     Button {
                         nav.push(LooksRoute.swap)
                     } label: {
@@ -157,6 +192,14 @@ struct WardrobeScreen: View {
 
     private var garments: [Garment] { store.outfits.flatMap(\.items) }
 
+    private func wardrobeStat(_ v: String, _ l: String) -> some View {
+        VStack(spacing: 2) {
+            Text(v).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+            Text(l).font(.dsCaption).foregroundStyle(t.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             UnderlineTabs(items: ["Вещи", "Мои образы", "Сохранённое"], selection: $tab)
@@ -164,6 +207,23 @@ struct WardrobeScreen: View {
 
             ScrollView {
                 if tab == 0 {
+                    // сводка гардероба: живой, а не плоский список
+                    Card {
+                        HStack(spacing: 0) {
+                            wardrobeStat("\(garments.count)", "вещей")
+                            Rectangle().fill(t.separator).frame(width: 0.5, height: 26)
+                            wardrobeStat("\(garments.filter { if case .worn = $0.state { return true }; return false }.count)",
+                                         "носили")
+                            Rectangle().fill(t.separator).frame(width: 0.5, height: 26)
+                            wardrobeStat("\(garments.filter { if case .idle = $0.state { return true }; return false }.count)",
+                                         "лежат")
+                            Rectangle().fill(t.separator).frame(width: 0.5, height: 26)
+                            wardrobeStat("\(garments.filter { $0.state == .onSwap }.count)", "на свопе")
+                        }
+                        .padding(.vertical, 12)
+                    }
+                    .padding(.horizontal, t.pad).padding(.top, t.cardGap)
+
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
                         ForEach(garments) { g in GarmentCard(garment: g) }
                     }
@@ -198,18 +258,44 @@ private struct GarmentCard: View {
     @Environment(\.theme) private var t
     var body: some View {
         Card {
-            ZStack {
-                t.fieldFill
-                Image(systemName: garment.glyph).font(.system(size: 44, weight: .light))
-                    .foregroundStyle(t.accent.opacity(0.8))
+            ZStack(alignment: .topTrailing) {
+                ZStack {
+                    t.fieldFill
+                    Image(systemName: garment.glyph).font(.system(size: 42, weight: .ultraLight))
+                        .foregroundStyle(t.accent.opacity(0.8))
+                }
+                .frame(height: 124)
+                // состояние вещи — приложение всегда наполовину в процессе
+                HStack(spacing: 4) {
+                    Image(systemName: garment.state.icon).font(.system(size: 10, weight: .semibold))
+                    Text(garment.state.label).font(.system(size: 11, weight: .medium))
+                }
+                .foregroundStyle(stateColor)
+                .padding(.horizontal, 7).padding(.vertical, 3)
+                .background(.regularMaterial, in: Capsule())
+                .padding(8)
             }
-            .frame(height: 130)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(garment.title).font(.system(size: 14, weight: .medium))
                     .foregroundStyle(t.textPrimary).lineLimit(1)
-                Text(garment.brand).font(.dsCaption).foregroundStyle(t.textSecondary).lineLimit(1)
+                HStack(spacing: 5) {
+                    Text(garment.brand).font(.dsCaption).foregroundStyle(t.textSecondary).lineLimit(1)
+                    if garment.inOutfits > 0 {
+                        Text("·").foregroundStyle(t.textTertiary)
+                        Text("в \(garment.inOutfits) образах").font(.dsCaption)
+                            .foregroundStyle(t.accent).lineLimit(1)
+                    }
+                }
             }
             .padding(10)
+        }
+    }
+    private var stateColor: Color {
+        switch garment.state {
+        case .worn: return t.positive
+        case .idle: return t.textSecondary
+        case .onSwap: return Color(hex: "FF8A65")
+        case .wanted: return t.accent
         }
     }
 }
@@ -233,6 +319,7 @@ struct EmptyState: View {
 struct OutfitScreen: View {
     let outfit: Outfit
     @Environment(LooksStore.self) private var store
+    @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
 
     var body: some View {
@@ -253,6 +340,22 @@ struct OutfitScreen: View {
                             Text(outfit.text).font(.dsBody).lineSpacing(4)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
+                        HStack(spacing: 8) {
+                            ActionPill(icon: "heart", count: "\(outfit.likes)",
+                                       active: outfit.liked, activeColor: t.danger) {
+                                store.toggleLike(outfit.id)
+                            }
+                            ActionPill(icon: "bubble.right", count: "\(outfit.comments)") {}
+                            ActionPill(icon: "arrowshape.turn.up.right", count: "\(outfit.shares)") {}
+                            Spacer()
+                            Button { store.toggleSave(outfit.id) } label: {
+                                Image(systemName: outfit.saved ? "bookmark.fill" : "bookmark")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(outfit.saved ? t.accent : t.textSecondary)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.top, 4)
                     }
                     .padding(12)
                 }
@@ -266,7 +369,14 @@ struct OutfitScreen: View {
                                 .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(g.title).font(.system(size: 15, weight: .medium))
-                                Text(g.brand).font(.dsMeta).foregroundStyle(t.textSecondary)
+                                HStack(spacing: 5) {
+                                    Text(g.brand).font(.dsMeta).foregroundStyle(t.textSecondary)
+                                    if g.inOutfits > 0 {
+                                        Text("·").foregroundStyle(t.textTertiary)
+                                        Text("в \(g.inOutfits) образах").font(.dsMeta)
+                                            .foregroundStyle(t.accent)
+                                    }
+                                }
                             }
                             Spacer()
                             Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
@@ -276,7 +386,18 @@ struct OutfitScreen: View {
                         if i < outfit.items.count - 1 { RowDivider(leading: 68) }
                     }
                     RowDivider(leading: 12)
-                    ShowAllRow(title: "Собрать свою версию") {}
+                    Button {
+                        store.remix(outfit)
+                        nav.toast("Ремикс добавлен в ваши образы")
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "wand.and.stars")
+                            Text("Собрать свою версию")
+                        }
+                        .font(.system(size: 15, weight: .medium)).foregroundStyle(t.accent)
+                        .frame(maxWidth: .infinity).padding(.vertical, 13)
+                    }
+                    .buttonStyle(HighlightStyle())
                 }
             }
             .padding(.vertical, t.cardGap)
@@ -427,6 +548,31 @@ struct MatesScreen: View {
                             }
                         }
                         .padding(16)
+                    }
+                    // пока доступа нет — не пустой экран, а то, что уже можно
+                    Card {
+                        Text("Найти по имени")
+                            .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                            .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
+                        ForEach(["Аня Котова", "Марк Львов"], id: \.self) { n in
+                            HStack(spacing: 12) {
+                                Avatar(name: n, size: 40)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(n).font(.system(size: 15, weight: .medium))
+                                    Text("2 общих подписки").font(.dsMeta).foregroundStyle(t.textSecondary)
+                                }
+                                Spacer()
+                                Text("Подписаться").font(.system(size: 14, weight: .medium))
+                                    .foregroundStyle(t.accent)
+                                    .padding(.horizontal, 12).frame(height: 30)
+                                    .background(t.accentSoft, in: Capsule())
+                            }
+                            .padding(.horizontal, 12).padding(.vertical, 7)
+                        }
+                        RowDivider(leading: 12)
+                        ShowAllRow(title: "Пригласить по ссылке") {
+                            nav.toast("Ссылка скопирована")
+                        }
                     }
                 } else {
                     Card {

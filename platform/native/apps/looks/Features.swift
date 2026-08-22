@@ -151,6 +151,31 @@ struct CheckinScreen: View {
                         }
                     }
                 }
+                Card {
+                    Text("Уже отметились")
+                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
+                    ForEach(["Аня Котова", "Марк Львов", "Даша Ким"], id: \.self) { n in
+                        HStack(spacing: 12) {
+                            Avatar(name: n, size: 36)
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(n).font(.system(size: 14, weight: .medium))
+                                Text("принесла 3 вещи").font(.dsCaption).foregroundStyle(t.textSecondary)
+                            }
+                            Spacer()
+                            Text("14:0\(Int.random(in: 2...9))")
+                                .font(.dsCaption.monospacedDigit()).foregroundStyle(t.textSecondary)
+                        }
+                        .padding(.horizontal, 12).padding(.vertical, 6)
+                    }
+                    RowDivider(leading: 12)
+                    HStack {
+                        Text("34 человека идут · 12 уже на месте")
+                            .font(.dsMeta).foregroundStyle(t.textSecondary)
+                        Spacer()
+                    }
+                    .padding(12)
+                }
                 if !joined {
                     Card { FallbackNote(text: "Без гостевой сети отметку подтвердит организатор").padding(12) }
                 }
@@ -206,6 +231,27 @@ struct LockScreen: View {
                           : "Подтвердите Face ID, чтобы открыть черновики и сохранённые образы")
                 .font(.dsBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center).padding(.horizontal, 30)
+            // размытое превью того, что за замком — иначе экран пустой
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 3), spacing: 6) {
+                ForEach(0..<6, id: \.self) { i in
+                    OutfitGridCell(glyph: ["tshirt.fill", "shoe.fill", "coat", "handbag.fill"][i % 4], seed: i)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .blur(radius: unlocked ? 0 : 9)
+                        .overlay {
+                            if !unlocked {
+                                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                    .fill(t.card.opacity(0.25))
+                            }
+                        }
+                }
+            }
+            .padding(.horizontal, 4)
+            .animation(.easeOut(duration: 0.3), value: unlocked)
+
+            Text(unlocked ? "12 черновиков · 34 сохранённых образа"
+                          : "12 черновиков и 34 сохранённых образа под замком")
+                .font(.dsMeta).foregroundStyle(t.textSecondary)
+
             Spacer()
             if !unlocked {
                 PrimaryButton(title: "Разблокировать", icon: "faceid") {
@@ -215,6 +261,8 @@ struct LockScreen: View {
                         else { nav.toast("Введите код-пароль приложения", once: "faceid") }
                     }
                 }
+                Button("Ввести код-пароль") { withAnimation { unlocked = true } }
+                    .font(.system(size: 15)).foregroundStyle(t.accent)
             }
         }
         .padding(t.pad)
