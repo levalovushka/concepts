@@ -10,7 +10,6 @@ struct ProfileScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     @State private var tab = 0
-    @State private var subscribed = false
 
     private let name = "Ника Орлова"
     private var garments: [Garment] { store.outfits.flatMap(\.items) }
@@ -18,12 +17,12 @@ struct ProfileScreen: View {
     var body: some View {
         ScrollView {
             VStack(spacing: t.cardGap) {
-                Card {
-                    // обложка
+                // шапка профиля: обложка уходит под статус-бар, без скруглений
+                VStack(spacing: 0) {
                     LinearGradient(colors: [Color(hex: "6E8BFF"), Color(hex: "B478FF")],
                                    startPoint: .topLeading, endPoint: .bottomTrailing)
-                        .frame(height: 132)
-                        .overlay(alignment: .topTrailing) {
+                        .frame(height: 168)
+                        .overlay(alignment: .bottomTrailing) {
                             Button {} label: {
                                 Image(systemName: "camera.fill").font(.system(size: 14))
                                     .foregroundStyle(.white)
@@ -33,6 +32,7 @@ struct ProfileScreen: View {
                             .buttonStyle(.plain)
                             .padding(12)
                         }
+                        .ignoresSafeArea(edges: .top)
 
                     VStack(spacing: 0) {
                         Avatar(name: name, size: 92)
@@ -53,18 +53,20 @@ struct ProfileScreen: View {
                         .font(.dsMeta).foregroundStyle(t.textSecondary)
                         .padding(.top, 6)
 
+                        // это свой профиль — здесь редактирование, а не подписка
                         HStack(spacing: 8) {
-                            PrimaryButton(title: subscribed ? "Вы подписаны" : "Подписаться",
-                                          icon: subscribed ? "checkmark" : "plus.circle.fill") {
-                                withAnimation(.easeOut(duration: 0.18)) { subscribed.toggle() }
+                            PrimaryButton(title: "Редактировать", icon: "pencil") {
+                                nav.toast("Редактирование профиля")
                             }
-                            SquareButton(icon: "bubble.left.fill") { nav.tab = 3 }
-                            SquareButton(icon: "ellipsis") {}
+                            SquareButton(icon: "square.and.arrow.up") { nav.toast("Ссылка скопирована") }
+                            SquareButton(icon: "gearshape.fill") { nav.push(LooksRoute.settings) }
                         }
                         .padding(.top, 14)
                         .padding(.horizontal, 12)
                         .padding(.bottom, 14)
                     }
+                    .frame(maxWidth: .infinity)
+                    .background(t.card)
                 }
 
                 // счётчики
@@ -132,11 +134,8 @@ struct ProfileScreen: View {
                     } else if tab == 0 {
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 3), spacing: 2) {
                             ForEach(0..<9, id: \.self) { i in
-                                OutfitMedia(items: Array(garments.dropFirst(i % 3).prefix(2)),
-                                            seed: i, height: 0)
-                                    .frame(height: 128)
-                                    .aspectRatio(0.82, contentMode: .fill)
-                                    .clipped()
+                                let g = garments[safe: i % max(garments.count, 1)]
+                                OutfitGridCell(glyph: g?.glyph ?? "tshirt.fill", seed: i)
                             }
                         }
                     } else {
@@ -149,9 +148,10 @@ struct ProfileScreen: View {
                     ShowAllRow(title: "Показать всё") {}
                 }
             }
-            .padding(.vertical, t.cardGap)
+            .padding(.bottom, t.cardGap)
         }
         .background(t.background)
+        .ignoresSafeArea(edges: .top)
     }
 
     private var divider: some View {
@@ -264,4 +264,28 @@ struct SettingsScreen: View {
         }
         .padding(.horizontal, 12).padding(.vertical, 10)
     }
+}
+
+/// Ячейка сетки гардероба.
+struct OutfitGridCell: View {
+    let glyph: String
+    let seed: Int
+    @Environment(\.theme) private var t
+    private var tint: Color {
+        let p = ["5B7CFA", "E0719A", "3FA88C", "E08A4B", "8B6EE0", "5AA9E6"]
+        return Color(hex: p[abs(seed) % p.count])
+    }
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: [tint.opacity(0.18), tint.opacity(0.38)],
+                           startPoint: .top, endPoint: .bottom)
+            Image(systemName: glyph).font(.system(size: 30, weight: .ultraLight))
+                .foregroundStyle(tint)
+        }
+        .aspectRatio(0.82, contentMode: .fit)
+    }
+}
+
+extension Array {
+    subscript(safe i: Int) -> Element? { indices.contains(i) ? self[i] : nil }
 }

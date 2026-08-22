@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum LooksRoute: Hashable {
-    case create, search, settings, mates, ads
+    case create, search, settings, mates, ads, nearby, wardrobe
     case outfit(Outfit)
     case chat(Dialog)
     case event(NearbyEvent)
@@ -43,33 +43,23 @@ struct MainShell: View {
     @Environment(LooksStore.self) private var store
     @Environment(\.theme) private var t
 
-    private var tabs: [TabItem] {
-        [
-            TabItem(id: 0, title: "Лента", icon: "square.stack", iconActive: "square.stack.fill"),
-            TabItem(id: 1, title: "Рядом", icon: "location", iconActive: "location.fill"),
-            TabItem(id: 2, title: "Гардероб", icon: "hanger", iconActive: "hanger"),
-            TabItem(id: 3, title: "Сообщения", icon: "bubble.left", iconActive: "bubble.left.fill",
-                    badge: store.dialogs.reduce(0) { $0 + $1.unread }),
-            TabItem(id: 4, title: "Профиль", icon: "person", iconActive: "person.fill"),
-        ]
-    }
+    private var unread: Int { store.dialogs.reduce(0) { $0 + $1.unread } }
 
     var body: some View {
         @Bindable var nav = nav
-        ZStack(alignment: .bottom) {
-            VStack(spacing: 0) {
-                ZStack {
-                    tabContent(0).opacity(nav.tab == 0 ? 1 : 0)
-                    tabContent(1).opacity(nav.tab == 1 ? 1 : 0)
-                    tabContent(2).opacity(nav.tab == 2 ? 1 : 0)
-                    tabContent(3).opacity(nav.tab == 3 ? 1 : 0)
-                    tabContent(4).opacity(nav.tab == 4 ? 1 : 0)
-                }
-                VKTabBar(items: tabs, selection: $nav.tab)
-            }
-            ToastOverlay(text: nav.toastText).padding(.bottom, 76)
+        // Нативный TabView — на iOS 26 это Liquid Glass таб-бар с системным
+        // поведением: сжатие при скролле, размытие, корректные safe-area отступы.
+        TabView(selection: $nav.tab) {
+            Tab("Главная", systemImage: "square.stack", value: 0) { tabContent(0) }
+            Tab("Сервисы", systemImage: "square.grid.2x2", value: 1) { tabContent(1) }
+            Tab("Мессенджер", systemImage: "bubble.left", value: 2) { tabContent(2) }
+                .badge(unread)
+            Tab("Клипы", systemImage: "play.rectangle", value: 3) { tabContent(3) }
+            Tab("Профиль", systemImage: "person", value: 4) { tabContent(4) }
         }
-        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .overlay(alignment: .bottom) {
+            ToastOverlay(text: nav.toastText).padding(.bottom, 96)
+        }
         .sheet(item: $nav.sheet) { route in routeView(route) }
         .fullScreenCover(item: $nav.cover) { route in routeView(route) }
     }
@@ -79,9 +69,9 @@ struct MainShell: View {
             Group {
                 switch i {
                 case 0: FeedScreen()
-                case 1: NearbyScreen()
-                case 2: WardrobeScreen()
-                case 3: ChatsScreen()
+                case 1: ServicesScreen()
+                case 2: ChatsScreen()
+                case 3: ClipsScreen()
                 default: ProfileScreen()
                 }
             }
@@ -99,6 +89,8 @@ struct MainShell: View {
         case .mates: MatesScreen()
         case .ads: AdsScreen()
         case .create: CreateScreen()
+        case .nearby: NearbyScreen()
+        case .wardrobe: WardrobeScreen()
         }
     }
 

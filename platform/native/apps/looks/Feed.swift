@@ -18,7 +18,6 @@ struct FeedScreen: View {
                 Button { nav.push(LooksRoute.search) } label: { Image(systemName: "magnifyingglass") }
             }
             UnderlineTabs(items: ["Подписки", "Для вас", "Свопы"], selection: $tab)
-            Rectangle().fill(t.separator).frame(height: 0.5)
 
             ScrollView {
                 LazyVStack(spacing: t.cardGap) {
@@ -89,30 +88,33 @@ private struct OutfitCard: View {
     var body: some View {
         Card {
             // шапка
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 Avatar(name: outfit.author, size: 40)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(outfit.author).font(.dsName).foregroundStyle(t.textPrimary)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(outfit.author).font(.dsHeadline).foregroundStyle(t.textPrimary)
                     Text(outfit.meta).font(.dsMeta).foregroundStyle(t.textSecondary)
                 }
-                Spacer()
+                Spacer(minLength: 8)
                 Button {} label: {
-                    Image(systemName: "ellipsis").font(.system(size: 17)).foregroundStyle(t.textSecondary)
+                    Image(systemName: "ellipsis").font(.system(size: 18))
+                        .foregroundStyle(t.textSecondary)
                         .frame(width: 32, height: 32)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .offset(x: 6)
             }
-            .padding(.horizontal, 12)
-            .padding(.top, 12)
-            .padding(.bottom, 10)
+            .padding(.horizontal, 14)
+            .padding(.top, 14)
+            .padding(.bottom, 12)
 
             if !outfit.text.isEmpty {
                 Text(outfit.text)
-                    .font(.dsBody).foregroundStyle(t.textPrimary)
-                    .lineSpacing(4)
+                    .dsParagraph()
+                    .foregroundStyle(t.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 10)
+                    .padding(.horizontal, 14)
+                    .padding(.bottom, 12)
             }
 
             // образ: медиа край в край + отметки вещей
@@ -144,9 +146,10 @@ private struct OutfitCard: View {
                         GarmentChip(index: i + 1, garment: g)
                     }
                 }
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 14)
             }
-            .padding(.vertical, 10)
+            .scrollClipDisabled()
+            .padding(.vertical, 12)
 
             // действия в капсулах — сигнатура ВК
             HStack(spacing: 8) {
@@ -195,37 +198,45 @@ private struct OutfitCard: View {
     }
 }
 
-/// Медиа образа: композиция вещей (фото не используем, геометрия ВК сохраняется).
+/// Медиа образа — лукбук-коллаж: главная вещь крупно, остальные стопкой справа.
+/// Спокойная композиция вместо декоративных наклеек; фото не используем.
 struct OutfitMedia: View {
     let items: [Garment]
     var seed: Int = 0
-    var height: CGFloat = 320
+    var height: CGFloat = 264
 
-    private var colors: [Color] {
-        let p: [[String]] = [["7B9BFF", "A98BFF"], ["FF8FA6", "FFB877"], ["5BC6A8", "4DA8FF"]]
-        return p[abs(seed / 2) % p.count].map { Color(hex: $0) }
+    private var tint: Color {
+        let palette = ["5B7CFA", "E0719A", "3FA88C", "E08A4B", "8B6EE0"]
+        return Color(hex: palette[abs(seed) % palette.count])
     }
 
     var body: some View {
-        ZStack {
-            LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
-            HStack(spacing: 14) {
-                ForEach(Array(items.prefix(3).enumerated()), id: \.element.id) { i, g in
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(.white.opacity(0.92))
-                        .frame(width: i == 0 ? 108 : 88, height: i == 0 ? 132 : 108)
-                        .overlay(
-                            Image(systemName: g.glyph)
-                                .font(.system(size: i == 0 ? 46 : 36, weight: .light))
-                                .foregroundStyle(colors[0])
-                        )
-                        .rotationEffect(.degrees(i == 0 ? -4 : (i == 1 ? 5 : -2)))
-                        .offset(y: i == 1 ? -18 : (i == 2 ? 16 : 0))
+        HStack(spacing: 2) {
+            cell(items.first, big: true)
+            if items.count > 1 {
+                VStack(spacing: 2) {
+                    cell(items.dropFirst().first, big: false)
+                    if items.count > 2 { cell(items.dropFirst(2).first, big: false) }
                 }
+                .frame(width: height * 0.42)
             }
         }
         .frame(height: height)
         .clipped()
+    }
+
+    @ViewBuilder
+    private func cell(_ g: Garment?, big: Bool) -> some View {
+        ZStack {
+            LinearGradient(colors: [tint.opacity(big ? 0.26 : 0.18), tint.opacity(big ? 0.46 : 0.34)],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+            if let g {
+                Image(systemName: g.glyph)
+                    .font(.system(size: big ? 62 : 34, weight: .ultraLight))
+                    .foregroundStyle(tint)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

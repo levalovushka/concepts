@@ -50,68 +50,6 @@ struct AnyRoute: Identifiable, Hashable {
     func hash(into h: inout Hasher) { h.combine(id) }
 }
 
-// MARK: - Таб-бар в стиле ВК: иконка + подпись, активная синяя
-
-struct TabItem: Identifiable {
-    let id: Int
-    let title: String
-    let icon: String
-    let iconActive: String
-    var badge: Int = 0
-}
-
-struct VKTabBar: View {
-    let items: [TabItem]
-    @Binding var selection: Int
-    @Environment(\.theme) private var t
-
-    var body: some View {
-        HStack(spacing: 0) {
-            ForEach(items) { item in
-                Button {
-                    if selection == item.id {
-                        // повторный тап — наверх стека, как в настоящих приложениях
-                        NotificationCenter.default.post(name: .popToRoot, object: item.id)
-                    }
-                    withAnimation(.easeOut(duration: 0.15)) { selection = item.id }
-                } label: {
-                    VStack(spacing: 3) {
-                        ZStack(alignment: .topTrailing) {
-                            Image(systemName: selection == item.id ? item.iconActive : item.icon)
-                                .font(.system(size: 23, weight: .regular))
-                                .frame(height: 26)
-                            if item.badge > 0 {
-                                Text("\(item.badge)")
-                                    .font(.system(size: 11, weight: .semibold))
-                                    .foregroundStyle(.white)
-                                    .padding(.horizontal, 5).padding(.vertical, 1)
-                                    .background(t.danger, in: Capsule())
-                                    .offset(x: 14, y: -4)
-                            }
-                        }
-                        Text(item.title).font(.dsTab)
-                    }
-                    .foregroundStyle(selection == item.id ? t.accent : t.textSecondary)
-                    .frame(maxWidth: .infinity)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .padding(.top, 8)
-        .background(
-            t.card.ignoresSafeArea(edges: .bottom)
-                .overlay(alignment: .top) {
-                    Rectangle().fill(t.separator).frame(height: 0.5)
-                }
-        )
-    }
-}
-
-extension Notification.Name {
-    static let popToRoot = Notification.Name("popToRoot")
-}
-
 // MARK: - Снекбар
 
 struct ToastOverlay: View {

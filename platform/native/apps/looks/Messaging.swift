@@ -135,7 +135,7 @@ struct ChatsScreen: View {
                 .background(t.card)
             }
         }
-        .background(t.background)
+        .background(t.card)
     }
 
     private var filtered: [Dialog] {
@@ -249,6 +249,7 @@ struct ChatScreen: View {
         }
         .navigationTitle(dialog.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {

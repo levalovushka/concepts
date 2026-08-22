@@ -50,15 +50,26 @@ extension EnvironmentValues {
 
 // MARK: - Типографика
 
+// Одна шкала на всё приложение. Разнобой кеглей — первое, что читается как
+// «свёрстано на глаз», поэтому промежуточных размеров нет.
 extension Font {
-    static let dsScreenTitle = Font.system(size: 28, weight: .bold)
-    static let dsSectionTitle = Font.system(size: 20, weight: .bold)
-    static let dsName = Font.system(size: 15, weight: .semibold)
-    static let dsBody = Font.system(size: 15)
-    static let dsMeta = Font.system(size: 13)
-    static let dsCaption = Font.system(size: 12)
+    static let dsScreenTitle = Font.system(size: 28, weight: .bold)      // заголовок экрана
+    static let dsSectionTitle = Font.system(size: 20, weight: .semibold) // заголовок блока
+    static let dsHeadline = Font.system(size: 16, weight: .semibold)     // имя автора, строка-действие
+    static let dsBody = Font.system(size: 16)                            // текст поста, строки списков
+    static let dsSubhead = Font.system(size: 15)                         // вторичный текст
+    static let dsMeta = Font.system(size: 13)                            // время, метаданные
+    static let dsCaption = Font.system(size: 12)                         // подписи под иконками
+    static let dsAction = Font.system(size: 14, weight: .medium)         // счётчики в капсулах
+    static let dsName = Font.system(size: 16, weight: .semibold)         // алиас имени
     static let dsTab = Font.system(size: 10, weight: .medium)
-    static let dsAction = Font.system(size: 13, weight: .medium)
+}
+
+extension View {
+    /// Интерлиньяж текста поста — 16/22, как в ВК.
+    func dsParagraph() -> some View {
+        font(.dsBody).lineSpacing(5)
+    }
 }
 
 // MARK: - Цвет из HEX

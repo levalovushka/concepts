@@ -11,12 +11,11 @@ struct NearbyScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Рядом") {
-                Button {} label: { Image(systemName: "map") }
-            }
             FilterPills(items: [("Все", "line.3.horizontal.decrease"), ("Свопы", "arrow.left.arrow.right"),
                                 ("Барахолки", "bag"), ("Встречи", "person.2")], selection: $filter)
-                .padding(.bottom, 10)
+                .scrollClipDisabled()
+                .padding(.vertical, 10)
+                .background(t.card)
 
             ScrollView {
                 LazyVStack(spacing: t.cardGap) {
@@ -50,6 +49,7 @@ struct NearbyScreen: View {
             .background(t.background)
         }
         .background(t.background)
+        .navigationTitle("Свопы рядом").navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -154,9 +154,6 @@ struct WardrobeScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Гардероб") {
-                Button { nav.present(cover: LooksRoute.create) } label: { Image(systemName: "plus") }
-            }
             UnderlineTabs(items: ["Вещи", "Мои образы", "Сохранённое"], selection: $tab)
             Rectangle().fill(t.separator).frame(height: 0.5)
 
@@ -186,6 +183,8 @@ struct WardrobeScreen: View {
             .background(t.background)
         }
         .background(t.background)
+        .navigationTitle("Гардероб").navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .topBarTrailing) { Button { nav.present(cover: LooksRoute.create) } label: { Image(systemName: "plus") } } }
     }
 }
 

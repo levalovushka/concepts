@@ -31,10 +31,12 @@ struct Avatar: View {
         let s = parts.compactMap { $0.first }.map(String.init).joined()
         return s.isEmpty ? "?" : s.uppercased()
     }
-    // Стабильный оттенок по имени — чтобы аватары не были одинаковыми
+    // Сдержанная палитра: аватары различимы, но не превращают экран в радугу.
     private var tint: Color {
-        let h = Double(abs(name.hashValue % 360)) / 360
-        return Color(hue: h, saturation: 0.45, brightness: 0.82)
+        let palette = ["4C7DF0", "5AA9E6", "7C6BE0", "3FA88C", "E0719A", "E08A4B"]
+        var h = 5381
+        for u in name.unicodeScalars { h = (h &* 33) &+ Int(u.value) }
+        return Color(hex: palette[abs(h) % palette.count])
     }
 
     var body: some View {
@@ -75,6 +77,7 @@ struct ScreenHeader<Trailing: View>: View {
         .padding(.horizontal, t.pad)
         .padding(.top, 4)
         .padding(.bottom, 10)
+        .background(t.card)   // шапка всегда белая: иначе виден шов с серым фоном ленты
     }
 }
 
