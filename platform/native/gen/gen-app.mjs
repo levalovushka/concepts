@@ -265,10 +265,11 @@ function notice(c) {
 }
 
 function feed(id, c) {
-  const posts = c.posts.map(p =>
-    `FeedData.Post(author: ${q(p.author)}, meta: ${q(p.meta)}, text: ${q(p.text)}, ` +
-    `media: ${p.media !== false}, likes: ${p.likes||0}, comments: ${p.comments||0}, shares: ${p.shares||0})`
-  ).join(",\n                ");
+  const posts = c.posts.map(p => {
+    const items = (p.items || []).map(q).join(", ");
+    return `FeedData.Post(author: ${q(p.author)}, meta: ${q(p.meta)}, text: ${q(p.text)}, ` +
+      `media: ${p.media !== false}, items: [${items}], likes: ${p.likes||0}, comments: ${p.comments||0}, shares: ${p.shares||0})`;
+  }).join(",\n                ");
   return `AnyView(FeedView(screenId: ${q(id)}, data: FeedData(posts: [\n                ${posts}\n            ])))`;
 }
 function chatlist(c) {

@@ -34,6 +34,22 @@ struct PatternTile: View {
     }
 }
 
+/// Нейтральный фото-плейсхолдер для соцконтента: не брендовый паттерн, а мягкая
+/// подложка с глифом. Фото людей и вещей не выдумываем — но и не рисуем вязку поверх.
+struct PhotoPlaceholder: View {
+    var glyph: String = "photo"
+    @Environment(\.colorScheme) private var scheme
+    var body: some View {
+        LinearGradient(colors: [Color(.systemGray5), Color(.systemGray4)],
+                       startPoint: .topLeading, endPoint: .bottomTrailing)
+            .overlay(
+                Image(systemName: glyph)
+                    .font(.system(size: 34, weight: .light))
+                    .foregroundStyle(Color(.systemGray))
+            )
+    }
+}
+
 /// Плейсхолдер медиа: правило «визуал не делаем» в нативном виде.
 struct Placeholder: View {
     var height: CGFloat = 172

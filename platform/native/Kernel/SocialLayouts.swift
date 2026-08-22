@@ -31,6 +31,7 @@ struct FeedData: Sendable {
         let meta: String        // «2 ч · Москва»
         let text: String
         var media: Bool = true
+        var items: [String] = []  // вещи образа — «разобрать на вещи» (суть продукта)
         let likes: Int
         let comments: Int
         let shares: Int
@@ -87,11 +88,16 @@ private struct NearbyBanner: View {
     }
 }
 
+// Карточка образа: не «пост с картинкой», а образ из гардероба — с отметками
+// вещей на фото и разбором на вещи. Это и есть продукт «Образы».
 private struct PostCard: View {
     let post: FeedData.Post
     @State private var liked = false
+    @State private var saved = false
+    @State private var showItems = false
     @State private var likeCount: Int
     init(post: FeedData.Post) { self.post = post; _likeCount = State(initialValue: post.likes) }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
@@ -107,29 +113,100 @@ private struct PostCard: View {
                 Text(post.text).font(.body).fixedSize(horizontal: false, vertical: true)
             }
             if post.media {
-                PatternTile(seed: post.author.count + post.text.count)
-                    .frame(height: 220)
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                ZStack(alignment: .topTrailing) {
+                    PhotoPlaceholder(glyph: "figure.stand")
+                        .frame(height: 340)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .overlay(alignment: .bottomLeading) { itemTags }
+                    // переключатель отметок вещей
+                    if !post.items.isEmpty {
+                        Button { withAnimation(.spring(duration: 0.3)) { showItems.toggle() } } label: {
+                            Image(systemName: showItems ? "tag.fill" : "tag")
+                                .font(.footnote.weight(.semibold)).foregroundStyle(.white)
+                                .padding(8).background(.black.opacity(0.45), in: Circle())
+                        }
+                        .padding(10)
+                    }
+                }
             }
-            HStack(spacing: 22) {
+            // разобрать на вещи — обещание продукта
+            if !post.items.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(Array(post.items.enumerated()), id: \.offset) { i, name in
+                            ItemChip(index: i + 1, name: name)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                }
+            }
+            HStack(spacing: 20) {
                 Button {
                     liked.toggle(); likeCount += liked ? 1 : -1
                 } label: {
                     Label("\(likeCount)", systemImage: liked ? "heart.fill" : "heart")
                         .foregroundStyle(liked ? .red : .secondary)
                 }
-                Label("\(post.comments)", systemImage: "bubble.right")
-                Label("\(post.shares)", systemImage: "arrowshape.turn.up.right")
+                Label("\(post.comments)", systemImage: "bubble.right").foregroundStyle(.secondary)
                 Spacer()
-                Image(systemName: "bookmark")
+                Button { withAnimation { saved.toggle() } } label: {
+                    Label(saved ? "Сохранено" : "Сохранить", systemImage: saved ? "bookmark.fill" : "bookmark")
+                        .foregroundStyle(saved ? Color.accentColor : .secondary)
+                }
             }
             .font(.footnote)
-            .foregroundStyle(.secondary)
             .labelStyle(.titleAndIcon)
             .buttonStyle(.plain)
+
+            if !post.items.isEmpty {
+                Button {} label: {
+                    Label("Собрать свою версию", systemImage: "wand.and.stars")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity).frame(height: 40)
+                        .background(Color.accentColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+                        .foregroundStyle(Color.accentColor)
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(14)
         .background(Color(.secondarySystemGroupedBackground))
+    }
+
+    // отметки вещей на фото — распределены по кадру
+    @ViewBuilder private var itemTags: some View {
+        if showItems {
+            ForEach(Array(post.items.prefix(3).enumerated()), id: \.offset) { i, name in
+                HStack(spacing: 4) {
+                    Text("\(i + 1)").font(.caption2.bold())
+                        .frame(width: 16, height: 16).background(.white, in: Circle()).foregroundStyle(.black)
+                    Text(name).font(.caption2.weight(.medium)).foregroundStyle(.white)
+                }
+                .padding(.horizontal, 7).padding(.vertical, 4)
+                .background(.black.opacity(0.55), in: Capsule())
+                .padding(.leading, CGFloat(14 + i * 26))
+                .padding(.bottom, CGFloat(16 + i * 42))
+                .transition(.scale.combined(with: .opacity))
+            }
+        }
+    }
+}
+
+private struct ItemChip: View {
+    let index: Int; let name: String
+    var body: some View {
+        HStack(spacing: 8) {
+            PhotoPlaceholder(glyph: "tshirt")
+                .frame(width: 40, height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            VStack(alignment: .leading, spacing: 1) {
+                Text("Вещь \(index)").font(.caption2).foregroundStyle(.secondary)
+                Text(name).font(.footnote.weight(.medium)).lineLimit(1)
+            }
+            .padding(.trailing, 4)
+        }
+        .padding(6)
+        .background(Color(.tertiarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -236,6 +313,7 @@ struct ThreadView: View {
         }
         .navigationTitle(data.peer)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
         .toolbar {
             // звонок — точка запроса voip
             if app?.permissions.first(where: { $0.key == .voip }) != nil {
@@ -330,17 +408,22 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal, 16)
 
-                Text("Стена").font(.headline).frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 16).padding(.top, 18).padding(.bottom, 8)
+                HStack {
+                    Text("Гардероб").font(.headline)
+                    Spacer()
+                    Text("образы автора").font(.caption).foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 16).padding(.top, 18).padding(.bottom, 8)
                 LazyVGrid(columns: [.init(.flexible(), spacing: 3), .init(.flexible(), spacing: 3), .init(.flexible(), spacing: 3)], spacing: 3) {
-                    ForEach(0..<data.posts, id: \.self) { i in
-                        PatternTile(seed: i + 1).aspectRatio(1, contentMode: .fill).clipped()
+                    ForEach(0..<data.posts, id: \.self) { _ in
+                        PhotoPlaceholder(glyph: "figure.stand").aspectRatio(0.8, contentMode: .fill).clipped()
                     }
                 }
                 .padding(.horizontal, 3)
             }
         }
         .background(Color(.systemGroupedBackground))
+        .toolbar(.hidden, for: .navigationBar)
     }
     private func openSettings() {
         if let s = app?.screen("settings") { router.open(s) }
