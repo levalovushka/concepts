@@ -53,6 +53,7 @@ const ICON = {
 // --- вывод layout'а по роли экрана ---
 const tabIds = new Set((spec.tabs || []).map(t => t.id));
 const slice = spec.product?.verticalSlice || {};
+const mimicry = spec.positioning?.mode === "mimicry";
 
 function resolveLayout(s) {
   const t = (s.type || "").toLowerCase();
@@ -60,6 +61,15 @@ function resolveLayout(s) {
   const target = permTargeting(s.id);
   const hasCamera = onScreen.some(p => p.key === "camera");
   const isTab = tabIds.has(s.id) || t.includes("tab");
+  const tag = (s.id + " " + (s.title || "") + " " + (s.meta || "")).toLowerCase();
+
+  // Мимикрия под соцсеть ВК: лента, мессенджер, профиль
+  if (mimicry) {
+    if (isTab && s.id === slice.entry) return "feed";
+    if (isTab && /chat|messag|сообщ|диалог/.test(tag)) return "chatlist";
+    if (isTab && /profile|профил/.test(tag)) return "profile";
+    if (t.includes("push") && /chat|сообщ|диалог|thread/.test(tag)) return "thread";
+  }
 
   if (s.id === slice.action && t.includes("fullscreen")) return "cockpit";
   const cameraHere = hasCamera || permTargeting(s.id)?.key === "camera" || /camera/i.test(s.meta || "");
@@ -213,6 +223,14 @@ for (const s of (spec.screens || [])) {
     content[s.id] = deriveNotice(s, dom);
   } else if (layout === "finder") {
     content[s.id] = deriveFinder(s, dom);
+  } else if (layout === "feed") {
+    if (dom.posts) content[s.id] = { layout: "feed", posts: dom.posts };
+  } else if (layout === "chatlist") {
+    if (dom.chats) content[s.id] = { layout: "chatlist", chats: dom.chats };
+  } else if (layout === "thread") {
+    if (dom.messages) content[s.id] = { layout: "thread", peer: dom.peer || s.title, messages: dom.messages };
+  } else if (layout === "profile") {
+    if (dom.name) content[s.id] = { layout: "profile", name: dom.name, status: dom.status || "", stats: dom.stats || [], posts: dom.posts ?? 9 };
   }
 }
 

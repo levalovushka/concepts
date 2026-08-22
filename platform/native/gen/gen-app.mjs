@@ -264,6 +264,32 @@ function notice(c) {
     `primaryTarget: ${ptar}, secondary: ${q(c.secondary)}, secondaryTarget: ${star})))`;
 }
 
+function feed(id, c) {
+  const posts = c.posts.map(p =>
+    `FeedData.Post(author: ${q(p.author)}, meta: ${q(p.meta)}, text: ${q(p.text)}, ` +
+    `media: ${p.media !== false}, likes: ${p.likes||0}, comments: ${p.comments||0}, shares: ${p.shares||0})`
+  ).join(",\n                ");
+  return `AnyView(FeedView(screenId: ${q(id)}, data: FeedData(posts: [\n                ${posts}\n            ])))`;
+}
+function chatlist(c) {
+  const chats = c.chats.map(ch =>
+    `ChatListData.Chat(name: ${q(ch.name)}, last: ${q(ch.last)}, time: ${q(ch.time)}, ` +
+    `unread: ${ch.unread||0}, opens: ${q(ch.opens)})`
+  ).join(",\n                ");
+  return `AnyView(ChatListView(data: ChatListData(chats: [\n                ${chats}\n            ])))`;
+}
+function thread(id, c) {
+  const msgs = c.messages.map(m =>
+    `ThreadData.Msg(text: ${q(m.text)}, mine: ${!!m.mine}, time: ${q(m.time)})`
+  ).join(",\n                ");
+  return `AnyView(ThreadView(screenId: ${q(id)}, data: ThreadData(peer: ${q(c.peer)}, messages: [\n                ${msgs}\n            ])))`;
+}
+function profile(id, c) {
+  const stats = c.stats.map(s => `ProfileData.Stat(value: ${q(s.value)}, label: ${q(s.label)})`).join(", ");
+  return `AnyView(ProfileView(screenId: ${q(id)}, data: ProfileData(name: ${q(c.name)}, ` +
+    `status: ${q(c.status)}, stats: [${stats}], posts: ${c.posts ?? 9})))`;
+}
+
 const cases = Object.entries(content).map(([id, c]) => {
   let body = "nil";
   if (c.layout === "catalog" || c.layout === "home") body = catalog(c);
@@ -274,6 +300,10 @@ const cases = Object.entries(content).map(([id, c]) => {
   else if (c.layout === "finder") body = finder(c);
   else if (c.layout === "capture") body = capture(c);
   else if (c.layout === "notice") body = notice(c);
+  else if (c.layout === "feed") body = feed(id, c);
+  else if (c.layout === "chatlist") body = chatlist(c);
+  else if (c.layout === "thread") body = thread(id, c);
+  else if (c.layout === "profile") body = profile(id, c);
   else return "";
   return `        case ${q(id)}: return ${body}`;
 }).filter(Boolean).join("\n");

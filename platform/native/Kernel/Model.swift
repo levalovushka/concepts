@@ -22,6 +22,7 @@ struct PermissionKey: RawRepresentable, Hashable, Sendable {
     static let contacts = PermissionKey(rawValue: "contacts")
     static let calendar = PermissionKey(rawValue: "calendar")
     static let faceid = PermissionKey(rawValue: "faceid")
+    static let voip = PermissionKey(rawValue: "voip")
 }
 
 enum ScreenKind: String, Codable, Sendable {
