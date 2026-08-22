@@ -13,6 +13,8 @@ struct Concept: Identifiable, Hashable {
     let screens: Int
     let permissions: [PermissionRow]
     let docs: [DocFile]
+    /// Есть ли нативные исходники (native/apps/<slug>) — иначе концепт только из HTML-эпохи
+    let hasNative: Bool
     var id: String { slug }
 
     var isMimicry: Bool { mode == "mimicry" }
@@ -52,25 +54,53 @@ final class Library {
     }
 
     var conceptsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("concepts") }
+    var query: String = ""
+
+    var filtered: [Concept] {
+        query.isEmpty ? concepts : concepts.filter {
+            $0.name.localizedCaseInsensitiveContains(query)
+            || $0.targetSet.localizedCaseInsensitiveContains(query)
+        }
+    }
+    /// Сайдбар: сверху собираемые нативно, ниже — библиотека без нативных исходников.
+    var groups: [(String, [Concept])] {
+        let ready = filtered.filter(\.hasNative).sorted { $0.name < $1.name }
+        let rest = filtered.filter { !$0.hasNative }.sorted { $0.name < $1.name }
+        var out: [(String, [Concept])] = []
+        if !ready.isEmpty { out.append(("Собираются нативно", ready)) }
+        if !rest.isEmpty { out.append(("Только спека и доки", rest)) }
+        return out
+    }
+    var totalPermissions: Int { concepts.reduce(0) { $0 + $1.permissions.count } }
+
+    private var nativeSlugs: Set<String> {
+        let appsURL = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps")
+        let dirs = (try? FileManager.default.contentsOfDirectory(at: appsURL,
+                                                                 includingPropertiesForKeys: nil)) ?? []
+        return Set(dirs.map(\.lastPathComponent))
+    }
 
     func reload() {
         var found: [Concept] = []
+        let nativeSlugs = self.nativeSlugs
         let fm = FileManager.default
         guard let dirs = try? fm.contentsOfDirectory(at: conceptsURL,
                                                      includingPropertiesForKeys: nil) else {
             concepts = []; return
         }
         for dir in dirs.sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
+            // служебные каталоги (_template, _prototype-*) в библиотеку не попадают
+            if dir.lastPathComponent.hasPrefix("_") { continue }
             let specURL = dir.appendingPathComponent("concept.json")
             guard let data = try? Data(contentsOf: specURL),
                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
             else { continue }
-            found.append(parse(json, dir: dir))
+            found.append(parse(json, dir: dir, native: nativeSlugs))
         }
         concepts = found
     }
 
-    private func parse(_ j: [String: Any], dir: URL) -> Concept {
+    private func parse(_ j: [String: Any], dir: URL, native: Set<String>) -> Concept {
         let perms = (j["permissions"] as? [[String: Any]] ?? []).map {
             PermissionRow(key: $0["key"] as? String ?? "",
                           plist: $0["plist"] as? String ?? "",
@@ -94,7 +124,8 @@ final class Library {
             accent: Color(hex: brand?["accent"] as? String ?? "#0077FF"),
             screens: (j["screens"] as? [[String: Any]])?.count ?? 0,
             permissions: perms,
-            docs: docs
+            docs: docs,
+            hasNative: native.contains(j["slug"] as? String ?? dir.lastPathComponent)
         )
     }
 }

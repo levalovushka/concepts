@@ -38,7 +38,13 @@ final class Runner {
         let bundleId = "com.camo." + slug.replacingOccurrences(of: "-", with: "")
 
         await set(.generating)
-        guard await sh("/usr/bin/env", ["node", "\(root)/native/gen/gen-project.mjs", slug], cwd: root) else {
+        guard let node = Self.nodePath else {
+            await MainActor.run {
+                self.log += "Не найден node. Установите Node.js или укажите путь в настройках.\n"
+            }
+            return await set(.failed)
+        }
+        guard await sh(node, ["\(root)/native/gen/gen-project.mjs", slug], cwd: root) else {
             return await set(.failed)
         }
 
@@ -96,6 +102,24 @@ final class Runner {
     private func set(_ s: Stage) async {
         await MainActor.run { self.stage = s; if s == .failed { self.busySlug = nil } }
     }
+
+    /// GUI-приложение получает урезанный PATH (/usr/bin:/bin), поэтому node ищем сами.
+    static let nodePath: String? = {
+        let candidates = ["/usr/local/bin/node", "/opt/homebrew/bin/node",
+                          "/usr/bin/node", "/run/current-system/sw/bin/node"]
+        if let found = candidates.first(where: { FileManager.default.isExecutableFile(atPath: $0) }) {
+            return found
+        }
+        // последняя попытка — спросить у логин-шелла
+        let p = Process()
+        p.executableURL = URL(fileURLWithPath: "/bin/zsh")
+        p.arguments = ["-lc", "command -v node"]
+        let pipe = Pipe(); p.standardOutput = pipe
+        try? p.run(); p.waitUntilExit()
+        let out = String(data: pipe.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return (out?.isEmpty == false) ? out : nil
+    }()
 
     var devices: [String] {
         ["iPhone 17 Pro", "iPhone 17 Pro Max", "iPhone 17", "iPhone 16e"]
