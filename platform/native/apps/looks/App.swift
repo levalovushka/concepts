@@ -2,7 +2,7 @@ import SwiftUI
 
 enum LooksRoute: Hashable {
     case create, settings, mates, ads, nearby, wardrobe
-    case voice, call, subtitles, talk, checkin, lock, widget, fill, shareext, media, swap, netqr
+    case call, talk, checkin, lock, swap, netqr
     case outfit(Outfit)
     case chat(Dialog)
     case event(NearbyEvent)
@@ -100,16 +100,10 @@ struct MainShell: View {
         case "event": nav.tab = 1; nav.push(LooksRoute.event(store.events[0]))
         case "create": nav.tab = 0; nav.present(cover: LooksRoute.create)
         case "ads": nav.tab = 4; nav.push(LooksRoute.ads)
-        case "voice": nav.tab = 2; nav.push(LooksRoute.voice)
         case "call": nav.tab = 2; nav.push(LooksRoute.call)
-        case "subtitles": nav.tab = 0; nav.push(LooksRoute.subtitles)
         case "talk": nav.tab = 1; nav.push(LooksRoute.talk)
         case "checkin": nav.tab = 1; nav.push(LooksRoute.checkin)
         case "lock": nav.tab = 4; nav.push(LooksRoute.lock)
-        case "widget": nav.tab = 1; nav.push(LooksRoute.widget)
-        case "fill": nav.tab = 1; nav.push(LooksRoute.fill)
-        case "shareext": nav.tab = 1; nav.push(LooksRoute.shareext)
-        case "media": nav.tab = 0; nav.push(LooksRoute.media)
         case "swap": nav.tab = 1; nav.push(LooksRoute.swap)
         case "netqr": nav.tab = 1; nav.push(LooksRoute.netqr)
         default: break
@@ -142,16 +136,10 @@ struct MainShell: View {
         case .create: CreateScreen()
         case .nearby: NearbyScreen()
         case .wardrobe: WardrobeScreen()
-        case .voice: VoiceScreen()
         case .call: CallScreen(peer: store.dialogs[0].name)
-        case .subtitles: SubtitlesScreen()
         case .talk: TalkScreen()
         case .checkin: CheckinScreen()
         case .lock: LockScreen()
-        case .widget: WidgetScreen()
-        case .fill: FillScreen()
-        case .shareext: ShareExtScreen()
-        case .media: MediaScreen()
         case .swap: SwapScreen()
         case .netqr: NetQRScreen()
         }

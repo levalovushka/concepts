@@ -320,7 +320,11 @@ struct CreateScreen: View {
                                         actionTile(icon: "camera.fill", title: "Снять")
                                     }.buttonStyle(.plain)
                                     Button {
-                                        nav.push(LooksRoute.media)
+                                        Task {
+                                            let ok = await perms.request(.photos)
+                                            if ok { withAnimation { picked = true } }
+                                            else { nav.toast("Снимите образ на камеру", once: "photos") }
+                                        }
                                     } label: {
                                         actionTile(icon: "photo.on.rectangle", title: "Медиатека")
                                     }.buttonStyle(.plain)
@@ -335,7 +339,20 @@ struct CreateScreen: View {
                             .font(.dsBody).lineLimit(3...8).padding(12)
                     }
                     Card {
-                        rowLink(icon: "tag", title: "Отметить вещи", value: "3 вещи")
+                        rowLink(icon: "tag", title: "Отметить вещи",
+                                value: picked ? "3 вещи" : "нужен кадр")
+                        RowDivider(leading: 52)
+                        Button {
+                            Task {
+                                let ok = await perms.request(.speech)
+                                nav.toast(ok ? "Субтитры собраны из речи в клипе"
+                                             : "Подписи можно ввести вручную", once: "speech")
+                            }
+                        } label: {
+                            rowLink(icon: "captions.bubble", title: "Субтитры к клипу",
+                                    value: "собрать")
+                        }
+                        .buttonStyle(HighlightStyle())
                         RowDivider(leading: 52)
                         rowLink(icon: "person.2", title: "Аудитория", value: "Все")
                     }
@@ -346,7 +363,7 @@ struct CreateScreen: View {
             .background(t.background)
         }
         .background(t.background)
-        .navigationTitle("Новый образ").navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Образ").navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button("Отмена") { dismiss() }

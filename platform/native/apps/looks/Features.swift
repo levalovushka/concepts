@@ -3,64 +3,6 @@ import SwiftUI
 // Экраны, отрабатывающие заявленные доступы. Каждый ключ из concept.json
 // обязан иметь достижимую фичу в этой же сборке — иначе он не заявляется.
 
-// MARK: - Голосовое сообщение (mic)
-
-struct VoiceScreen: View {
-    @Environment(Nav.self) private var nav
-    @Environment(Permissions.self) private var perms
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.theme) private var t
-    @State private var recording = false
-    @State private var seconds = 0
-    @State private var denied = false
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            ZStack {
-                Circle().fill(t.accent.opacity(recording ? 0.18 : 0.10))
-                    .frame(width: recording ? 168 : 132, height: recording ? 168 : 132)
-                    .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: recording)
-                Image(systemName: "mic.fill").font(.system(size: 44)).foregroundStyle(t.accent)
-            }
-            Text(recording ? timeString : "Запишите голосовое")
-                .font(.system(size: 22, weight: .semibold).monospacedDigit())
-                .foregroundStyle(t.textPrimary)
-            Text(recording ? "Отпустите, чтобы отправить" : "Расскажите про образ голосом")
-                .font(.dsSubhead).foregroundStyle(t.textSecondary)
-
-            if denied {
-                FallbackNote(text: "Без микрофона напишите текстом — сообщение уйдёт так же")
-            }
-            Spacer()
-            Button {
-                Task {
-                    let ok = await perms.request(.mic)
-                    if !ok { denied = true; return }
-                    withAnimation { recording.toggle() }
-                    if !recording { dismiss(); nav.toast("Голосовое отправлено") }
-                }
-            } label: {
-                Text(recording ? "Отправить" : "Записать")
-                    .font(.system(size: 17, weight: .semibold)).foregroundStyle(.white)
-                    .frame(maxWidth: .infinity).frame(height: 50)
-                    .background(recording ? t.danger : t.accent,
-                                in: RoundedRectangle(cornerRadius: t.controlRadius, style: .continuous))
-            }
-            .pressable()
-        }
-        .padding(t.pad)
-        .background(t.card)
-        .navigationTitle("Голосовое").navigationBarTitleDisplayMode(.inline)
-        .task {
-            while true {
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                if recording { seconds += 1 }
-            }
-        }
-    }
-    private var timeString: String { String(format: "0:%02d", seconds) }
-}
 
 // MARK: - Звонок (voip)
 
@@ -90,6 +32,8 @@ struct CallScreen: View {
                 Spacer().frame(height: 50)
             }
         }
+        .toolbar(.hidden, for: .tabBar)
+        .navigationBarBackButtonHidden()
         .task {
             await perms.request(.voip)
             try? await Task.sleep(nanoseconds: 1_200_000_000)
@@ -105,78 +49,6 @@ struct CallScreen: View {
     }
 }
 
-// MARK: - Субтитры к клипу (speech)
-
-struct SubtitlesScreen: View {
-    @Environment(Permissions.self) private var perms
-    @Environment(Nav.self) private var nav
-    @Environment(\.theme) private var t
-    @State private var lines: [String] = []
-    @State private var working = false
-    @State private var denied = false
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    MediaBlock(glyph: "waveform", height: 150, seed: 3)
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Субтитры к клипу").font(.dsSectionTitle)
-                        Text("Распознаём речь на устройстве и собираем подписи — их читают без звука")
-                            .font(.dsBody).foregroundStyle(t.textSecondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(12)
-                }
-                if !lines.isEmpty {
-                    Card {
-                        ForEach(Array(lines.enumerated()), id: \.offset) { i, l in
-                            HStack(alignment: .top, spacing: 12) {
-                                Text(String(format: "0:%02d", i * 3 + 2))
-                                    .font(.dsMeta.monospacedDigit()).foregroundStyle(t.textSecondary)
-                                    .frame(width: 40, alignment: .leading)
-                                Text(l).font(.dsBody).foregroundStyle(t.textPrimary)
-                                Spacer()
-                            }
-                            .padding(.horizontal, 12).padding(.vertical, 10)
-                            if i < lines.count - 1 { RowDivider(leading: 64) }
-                        }
-                    }
-                }
-                if denied {
-                    Card { FallbackNote(text: "Распознавание недоступно — подписи можно ввести вручную").padding(12) }
-                }
-                Card {
-                    Button {
-                        Task {
-                            let ok = await perms.request(.speech)
-                            if !ok { denied = true; return }
-                            withAnimation { working = true }
-                            try? await Task.sleep(nanoseconds: 900_000_000)
-                            withAnimation {
-                                lines = ["Собрала образ на осень",
-                                         "Тренч оверсайз и ботинки челси",
-                                         "Шарф связала сама"]
-                                working = false
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 8) {
-                            if working { ProgressView().tint(t.accent) }
-                            Text(lines.isEmpty ? "Собрать субтитры" : "Пересобрать")
-                        }
-                        .font(.system(size: 16, weight: .medium)).foregroundStyle(t.accent)
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
-                    }
-                    .buttonStyle(HighlightStyle())
-                }
-            }
-            .padding(.bottom, 88)
-        }
-        .background(t.background)
-        .navigationTitle("Субтитры").navigationBarTitleDisplayMode(.inline)
-    }
-}
 
 // MARK: - Разбор гардероба голосом в фоне (audio)
 
@@ -195,7 +67,7 @@ struct TalkScreen: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                             .padding(.horizontal, 12).padding(.top, 12)
                         Text("Разбор гардероба").font(.dsSectionTitle)
-                        Text("Стилист проходит по вашим вещам голосом. Продолжает играть при погасшем экране")
+                        Text("18 минут · собран по вашим 86 вещам")
                             .font(.dsBody).foregroundStyle(t.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 16)
@@ -256,7 +128,7 @@ struct CheckinScreen: View {
                 Card {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Своп-вечеринка «Пудра»").font(.dsSectionTitle)
-                        Text("Отметка подтверждается сетью площадки, а не словом участника")
+                        Text("Отметятся 34 человека · вы ещё нет")
                             .font(.dsBody).foregroundStyle(t.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -348,233 +220,13 @@ struct LockScreen: View {
         .padding(t.pad)
         .background(t.card)
         .navigationTitle("Замок").navigationBarTitleDisplayMode(.inline)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 
-// MARK: - Виджет сохранённого образа (appgroups + keychain)
 
-struct WidgetScreen: View {
-    @Environment(Permissions.self) private var perms
-    @Environment(Nav.self) private var nav
-    @Environment(\.theme) private var t
-    @State private var added = false
 
-    var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    VStack(spacing: 14) {
-                        // превью виджета
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(t.fieldFill)
-                            .frame(height: 150)
-                            .overlay {
-                                HStack(spacing: 10) {
-                                    Image(systemName: "tshirt.fill").font(.system(size: 34))
-                                        .foregroundStyle(t.accent)
-                                    VStack(alignment: .leading, spacing: 3) {
-                                        Text("Образ дня").font(.dsHeadline)
-                                        Text("Тренч · челси · шарф")
-                                            .font(.dsMeta).foregroundStyle(t.textSecondary)
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 12).padding(.top, 12)
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Виджет сохранённого образа").font(.dsSectionTitle)
-                            Text("Образ показывается на экране «Домой». Вход общий с приложением — заново входить не нужно")
-                                .font(.dsBody).foregroundStyle(t.textSecondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        .padding(.horizontal, 12).padding(.bottom, 12)
-                    }
-                }
-                Card {
-                    Button {
-                        Task {
-                            await perms.request(.appgroups)
-                            await perms.request(.keychain)
-                            withAnimation { added = true }
-                            nav.toast("Виджет добавлен на экран «Домой»")
-                        }
-                    } label: {
-                        HStack(spacing: 8) {
-                            Image(systemName: added ? "checkmark.circle.fill" : "plus.circle.fill")
-                            Text(added ? "Виджет добавлен" : "Добавить виджет")
-                        }
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(added ? t.positive : t.accent)
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
-                    }
-                    .buttonStyle(HighlightStyle())
-                }
-            }
-            .padding(.bottom, 88)
-        }
-        .background(t.background)
-        .navigationTitle("Виджет").navigationBarTitleDisplayMode(.inline)
-    }
-}
 
-// MARK: - Вход на сайт марки сохранённой связкой (autofill)
-
-struct FillScreen: View {
-    @Environment(Permissions.self) private var perms
-    @Environment(Nav.self) private var nav
-    @Environment(\.theme) private var t
-    @State private var enabled = false
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Image(systemName: "key.fill").font(.system(size: 30)).foregroundStyle(t.accent)
-                        Text("Вход на сайты марок").font(.dsSectionTitle)
-                        Text("«Образы» подставляют сохранённую связку, когда открываете сайт марки из карточки вещи")
-                            .font(.dsBody).foregroundStyle(t.textSecondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(16)
-                }
-                Card {
-                    HStack(spacing: 12) {
-                        Image(systemName: "rectangle.and.pencil.and.ellipsis")
-                            .font(.system(size: 17)).foregroundStyle(t.accent).frame(width: 28)
-                        Text("Автозаполнение паролей").font(.dsBody)
-                        Spacer()
-                        Toggle("", isOn: $enabled).labelsHidden()
-                            .onChange(of: enabled) { _, v in
-                                Task {
-                                    if v {
-                                        await perms.request(.autofill)
-                                        nav.toast("Включите «Образы» в Настройках → Пароли")
-                                    }
-                                }
-                            }
-                    }
-                    .padding(.horizontal, 12).padding(.vertical, 10)
-                }
-                Card { FallbackNote(text: "Без автозаполнения связку можно ввести вручную").padding(12) }
-            }
-            .padding(.bottom, 88)
-        }
-        .background(t.background)
-        .navigationTitle("Автозаполнение").navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - Поделиться в «Образы» (shareext)
-
-struct ShareExtScreen: View {
-    @Environment(Permissions.self) private var perms
-    @Environment(\.theme) private var t
-    @State private var on = false
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Image(systemName: "square.and.arrow.up").font(.system(size: 30)).foregroundStyle(t.accent)
-                        Text("Поделиться в «Образы»").font(.dsSectionTitle)
-                        Text("Кадр или ссылка из Safari, «Фото» и мессенджеров падает в черновик образа")
-                            .font(.dsBody).foregroundStyle(t.textSecondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .padding(16)
-                }
-                Card {
-                    ForEach(["Safari", "Фото", "Сообщения"], id: \.self) { app in
-                        HStack(spacing: 12) {
-                            Image(systemName: "arrow.up.forward.app.fill")
-                                .font(.system(size: 17)).foregroundStyle(t.accent).frame(width: 28)
-                            Text(app).font(.dsBody)
-                            Spacer()
-                            Text(on ? "Включено" : "—").font(.dsMeta).foregroundStyle(t.textSecondary)
-                        }
-                        .padding(.horizontal, 12).padding(.vertical, 11)
-                        if app != "Сообщения" { RowDivider(leading: 52) }
-                    }
-                }
-                Card {
-                    Button {
-                        Task {
-                            await perms.request(.shareext)
-                            withAnimation { on = true }
-                        }
-                    } label: {
-                        Text(on ? "Расширение включено" : "Включить расширение")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(on ? t.positive : t.accent)
-                            .frame(maxWidth: .infinity).padding(.vertical, 14)
-                    }
-                    .buttonStyle(HighlightStyle())
-                }
-            }
-            .padding(.bottom, 88)
-        }
-        .background(t.background)
-        .navigationTitle("Расширение").navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-// MARK: - Медиатека (photos)
-
-struct MediaScreen: View {
-    @Environment(Permissions.self) private var perms
-    @Environment(Nav.self) private var nav
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.theme) private var t
-    @State private var granted = false
-    @State private var picked: Int?
-
-    var body: some View {
-        ScrollView {
-            if granted {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 2), count: 3), spacing: 2) {
-                    ForEach(0..<18, id: \.self) { i in
-                        Button { withAnimation { picked = i } } label: {
-                            ZStack {
-                                OutfitGridCell(glyph: ["tshirt.fill", "shoe.fill", "coat", "handbag.fill"][i % 4], seed: i)
-                                if picked == i {
-                                    Rectangle().fill(t.accent.opacity(0.28))
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .font(.system(size: 24)).foregroundStyle(.white)
-                                }
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            } else {
-                VStack(spacing: 14) {
-                    Image(systemName: "photo.on.rectangle.angled")
-                        .font(.system(size: 44, weight: .light)).foregroundStyle(t.textTertiary)
-                    Text("Выберите фото образа").font(.system(size: 18, weight: .semibold))
-                    Text("Покажем медиатеку, чтобы взять кадр для образа")
-                        .font(.dsBody).foregroundStyle(t.textSecondary).multilineTextAlignment(.center)
-                    PrimaryButton(title: "Открыть медиатеку", icon: "photo") {
-                        Task {
-                            let ok = await perms.request(.photos)
-                            if ok { withAnimation { granted = true } }
-                            else { nav.toast("Снимите образ на камеру", once: "photos") }
-                        }
-                    }
-                    .padding(.horizontal, 30)
-                }
-                .padding(.top, 70).padding(.horizontal, t.pad)
-            }
-        }
-        .background(t.background)
-        .navigationTitle("Медиатека").navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Готово") { dismiss() }.fontWeight(.semibold).disabled(picked == nil)
-            }
-        }
-    }
-}
 
 // MARK: - Своп в календарь (calendar)
 
@@ -673,7 +325,7 @@ struct NetQRScreen: View {
                 .font(.system(size: 20, weight: .semibold)).foregroundStyle(t.textPrimary)
             Text(joined
                  ? "Подключено. Теперь отметка на свопе пройдёт"
-                 : "Организатор показывает код на входе — подключаемся к гостевой сети без пароля")
+                 : "Код на входе у организатора")
                 .font(.dsBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center).padding(.horizontal, 26)
             Spacer()

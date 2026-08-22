@@ -15,10 +15,6 @@ struct ServicesScreen: View {
         ("Гардероб", "hanger", "5B7CFA", .wardrobe),
         ("Знакомые", "person.2.fill", "42B883", .mates),
         ("Разбор голосом", "waveform", "A78BFA", .talk),
-        ("Отметка", "wifi", "3FA88C", .checkin),
-        ("Виджет", "square.grid.2x2.fill", "E0834B", .widget),
-        ("Пароли", "key.fill", "E0A83B", .fill),
-        ("Поделиться", "square.and.arrow.up", "5AA9E6", .shareext),
     ]
 
     private let collections: [(String, String, String, String)] = [

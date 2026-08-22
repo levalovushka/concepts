@@ -189,6 +189,7 @@ struct ChatScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     @State private var draft = ""
+    @State private var recording = false
     @FocusState private var focused: Bool
 
     var body: some View {
@@ -196,8 +197,10 @@ struct ChatScreen: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 8) {
+                        Spacer(minLength: 0).frame(maxHeight: .infinity)
                         ForEach(store.messages) { m in Bubble(message: m).id(m.id) }
                     }
+                    .frame(maxWidth: .infinity, minHeight: 520, alignment: .bottom)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                 }
@@ -221,8 +224,17 @@ struct ChatScreen: View {
                     .focused($focused)
 
                 if draft.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Button { nav.push(LooksRoute.voice) } label: {
-                        Image(systemName: "mic.fill").font(.system(size: 22)).foregroundStyle(t.accent)
+                    Button {
+                        Task {
+                            if recording { recording = false; store.send("Голосовое · 0:07"); return }
+                            let ok = await perms.request(.mic)
+                            if ok { withAnimation { recording = true } }
+                            else { nav.toast("Без микрофона напишите текстом", once: "mic") }
+                        }
+                    } label: {
+                        Image(systemName: recording ? "stop.circle.fill" : "mic.fill")
+                            .font(.system(size: 22))
+                            .foregroundStyle(recording ? t.danger : t.accent)
                     }
                     .buttonStyle(.plain)
                 } else {

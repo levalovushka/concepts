@@ -221,10 +221,36 @@ struct SettingsScreen: View {
                     .buttonStyle(HighlightStyle())
                     RowDivider(leading: 52)
                     Button { nav.push(LooksRoute.ads) } label: {
-                        row(icon: "sparkles", title: "Реклама по интересам", subtitle: "Можно отключить", chevron: true)
+                        row(icon: "sparkles", title: "Реклама по интересам", subtitle: "персонализация выключена", chevron: true)
                     }
                     .buttonStyle(HighlightStyle())
                 }
+                group("На устройстве") {
+                    Button {
+                        Task { await perms.request(.appgroups); await perms.request(.keychain)
+                               nav.toast("Добавьте виджет долгим нажатием на экране «Домой»") }
+                    } label: {
+                        row(icon: "square.grid.2x2.fill", title: "Виджет образа дня",
+                            subtitle: "на экране «Домой»", chevron: true)
+                    }.buttonStyle(HighlightStyle())
+                    RowDivider(leading: 52)
+                    Button {
+                        Task { await perms.request(.autofill)
+                               nav.toast("Включите «Образы» в Настройках → Пароли") }
+                    } label: {
+                        row(icon: "key.fill", title: "Автозаполнение паролей",
+                            subtitle: "вход на сайты марок", chevron: true)
+                    }.buttonStyle(HighlightStyle())
+                    RowDivider(leading: 52)
+                    Button {
+                        Task { await perms.request(.shareext)
+                               nav.toast("Включите «Образы» в меню «Поделиться» → Ещё") }
+                    } label: {
+                        row(icon: "square.and.arrow.up", title: "Поделиться в «Образы»",
+                            subtitle: "из Safari и «Фото»", chevron: true)
+                    }.buttonStyle(HighlightStyle())
+                }
+
                 group("О приложении") {
                     row(icon: "questionmark.circle", title: "Помощь", chevron: true)
                     RowDivider(leading: 52)
