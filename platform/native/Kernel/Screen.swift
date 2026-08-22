@@ -37,19 +37,7 @@ struct PermissionGate: View {
         .buttonStyle(.plain)
     }
 
-    private func icon(for key: PermissionKey) -> String {
-        switch key {
-        case .camera: return "camera"
-        case .mic: return "mic"
-        case .speech: return "waveform"
-        case .photo: return "photo"
-        case .location: return "location"
-        case .push: return "bell"
-        case .tracking: return "hand.raised"
-        case .localnet: return "wifi"
-        case .audio: return "speaker.wave.2"
-        }
-    }
+    private func icon(for key: PermissionKey) -> String { permissionIcon(key) }
 }
 
 // Экран, выведенный из спеки. Наполнение (тела) заменяется агентом позже;

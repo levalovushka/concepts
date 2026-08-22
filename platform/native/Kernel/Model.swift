@@ -3,8 +3,25 @@ import SwiftUI
 // Модель приложения — это ровно то, что уже описано в concept.json.
 // Генератор эмитит экземпляр AppSpec в Generated/AppConfig.swift, ядро его рендерит.
 
-enum PermissionKey: String, Codable, Sendable {
-    case camera, mic, speech, photo, location, push, tracking, localnet, audio
+// Ключ доступа — строковый, чтобы пайплайн принимал любой набор из concept.json,
+// а не только зашитый список. Известные ключи имеют статики для кода ядра.
+struct PermissionKey: RawRepresentable, Hashable, Sendable {
+    let rawValue: String
+    init(rawValue: String) { self.rawValue = rawValue }
+
+    static let camera = PermissionKey(rawValue: "camera")
+    static let mic = PermissionKey(rawValue: "mic")
+    static let speech = PermissionKey(rawValue: "speech")
+    static let photo = PermissionKey(rawValue: "photo")
+    static let photos = PermissionKey(rawValue: "photos")
+    static let location = PermissionKey(rawValue: "location")
+    static let push = PermissionKey(rawValue: "push")
+    static let tracking = PermissionKey(rawValue: "tracking")
+    static let localnet = PermissionKey(rawValue: "localnet")
+    static let audio = PermissionKey(rawValue: "audio")
+    static let contacts = PermissionKey(rawValue: "contacts")
+    static let calendar = PermissionKey(rawValue: "calendar")
+    static let faceid = PermissionKey(rawValue: "faceid")
 }
 
 enum ScreenKind: String, Codable, Sendable {
@@ -14,6 +31,29 @@ enum ScreenKind: String, Codable, Sendable {
     case fullscreen  // .fullScreenCover
     case modal       // .sheet, но помечен модальным в спеке
     case system      // системный (PiP, Now Playing, системный picker) — заглушка-объяснение
+}
+
+// Иконка доступа по ключу — общая для всех точек запроса.
+func permissionIcon(_ key: PermissionKey) -> String {
+    switch key.rawValue {
+    case "camera": return "camera"
+    case "mic": return "mic"
+    case "speech": return "waveform"
+    case "photo", "photos": return "photo"
+    case "location": return "location"
+    case "push", "remotenotif", "commnotif": return "bell"
+    case "tracking": return "hand.raised"
+    case "localnet", "wifiinfo", "hotspot": return "wifi"
+    case "audio": return "speaker.wave.2"
+    case "contacts": return "person.crop.circle"
+    case "calendar": return "calendar"
+    case "faceid": return "faceid"
+    case "voip": return "phone"
+    case "keychain", "autofill": return "key"
+    case "fetch", "appgroups": return "arrow.triangle.2.circlepath"
+    case "shareext": return "square.and.arrow.up"
+    default: return "circle"
+    }
 }
 
 struct PermissionSpec: Identifiable, Sendable {

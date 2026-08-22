@@ -6,6 +6,9 @@ import CoreLocation
 import UserNotifications
 import AppTrackingTransparency
 import Network
+import Contacts
+import EventKit
+import LocalAuthentication
 
 // Слой доступов. Запрос идёт через настоящие iOS API, а не через эмуляцию.
 // Инвариант «один доступ — одна точка запроса» держится тем, что статус кэшируется:
@@ -31,33 +34,47 @@ final class PermissionManager {
     }
 
     private func perform(_ key: PermissionKey) async -> Bool {
-        switch key {
-        case .camera:
+        switch key.rawValue {
+        case "camera":
             return await AVCaptureDevice.requestAccess(for: .video)
-        case .mic:
+        case "mic":
             return await withCheckedContinuation { c in
                 AVAudioApplication.requestRecordPermission { c.resume(returning: $0) }
             }
-        case .speech:
+        case "speech":
             return await withCheckedContinuation { c in
                 SFSpeechRecognizer.requestAuthorization { c.resume(returning: $0 == .authorized) }
             }
-        case .photo:
+        case "photo", "photos":
             let s = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
             return s == .authorized || s == .limited
-        case .location:
+        case "location":
             return await LocationRequester.shared.request()
-        case .push:
+        case "push":
             return (try? await UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge])) ?? false
-        case .tracking:
+        case "tracking":
             let s = await ATTrackingManager.requestTrackingAuthorization()
             return s == .authorized
-        case .localnet:
+        case "contacts":
+            return (try? await CNContactStore().requestAccess(for: .contacts)) ?? false
+        case "calendar":
+            return (try? await EKEventStore().requestFullAccessToEvents()) ?? false
+        case "faceid":
+            let ctx = LAContext()
+            var err: NSError?
+            guard ctx.canEvaluatePolicy(.deviceOwnerAuthentication, error: &err) else { return false }
+            return (try? await ctx.evaluatePolicy(.deviceOwnerAuthentication,
+                localizedReason: "Разблокировать приложение")) ?? false
+        case "localnet":
             return await LocalNetworkProbe.trigger()
-        case .audio:
-            // entitlement, не запрос: настраиваем сессию воспроизведения.
+        case "audio":
             try? AVAudioSession.sharedInstance().setCategory(.playback)
+            return true
+        default:
+            // entitlement / фоновый режим без системного промпта (voip, keychain,
+            // app groups, share-extension …) — заявляется в Info.plist/entitlements,
+            // рантайм-запроса нет.
             return true
         }
     }

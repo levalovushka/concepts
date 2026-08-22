@@ -299,12 +299,7 @@ private struct ChipGate: View {
         .buttonStyle(.plain)
     }
     private var shortLabel: String { spec.gesture.replacingOccurrences(of: "«", with: "").replacingOccurrences(of: "»", with: "").components(separatedBy: " / ").first ?? spec.gesture }
-    private var icon: String {
-        switch spec.key {
-        case .speech: return "waveform"; case .localnet: return "tv"; case .audio: return "speaker.wave.2"
-        case .mic: return "mic"; case .camera: return "camera"; default: return "ellipsis"
-        }
-    }
+    private var icon: String { permissionIcon(spec.key) }
 }
 
 // MARK: - Счётчик рядов (крупная цифра, голос, ±)

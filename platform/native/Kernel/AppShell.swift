@@ -21,7 +21,9 @@ struct AppShell: View {
                 shell
             } else {
                 AuthFlow(appName: app.name,
-                         lede: "Пришлём код, чтобы курс и дневник остались с вами при смене телефона",
+                         lede: app.mailAuth
+                            ? "Пришлём код на почту — чтобы вход и ваши данные остались с вами на новом устройстве"
+                            : "Пришлём код в SMS — чтобы вход и ваши данные остались с вами при смене телефона",
                          mailAuth: app.mailAuth) {
                     authed = true
                 }

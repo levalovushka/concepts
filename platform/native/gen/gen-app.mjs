@@ -53,10 +53,8 @@ const screens = (spec.screens || [])
     meta: s.meta || "",
   }));
 
-// --- разбор доступов ---
-const KNOWN = new Set(["camera","mic","speech","photo","location","push","tracking","localnet","audio"]);
+// --- разбор доступов (все ключи, а не зашитый список — доступы это смысл тренажёра) ---
 const permissions = (spec.permissions || [])
-  .filter(p => KNOWN.has(p.key))
   .map(p => ({
     key: p.key,
     plist: p.plist,
@@ -82,15 +80,36 @@ function tabIcon(id, label) {
   return TAB_ICON[id] || "circle.fill";
 }
 
-// --- Info.plist (только кастомные ключи; базовые генерирует Xcode) ---
-const usage = permissions.filter(p => /^NS.*UsageDescription$/.test(p.plist));
-const hasAudio = permissions.some(p => p.key === "audio");
+// --- Info.plist: usage-строки дословно + фоновые режимы. Entitlement-плисты
+//     (aps-environment, com.apple.*, keychain, extension) требуют подписи и
+//     живут в .entitlements — в Info.plist их не кладём, но доступ остаётся в AppSpec. ---
+const bgModes = new Set();
+const usageKeys = []; // {key, body}
+for (const p of permissions) {
+  const pl = p.plist || "";
+  if (/UsageDescription/.test(pl)) {
+    // может быть «A + B» (например, два ключа календаря) с одной строкой
+    for (const k of pl.split(" + ").map(s => s.trim()).filter(s => /^NS.*UsageDescription$/.test(s))) {
+      usageKeys.push({ key: k, body: p.body });
+    }
+  } else if (/^UIBackgroundModes:/.test(pl)) {
+    bgModes.add(pl.split(":")[1].trim());
+  }
+}
 const hasLocalNet = permissions.some(p => p.key === "localnet");
 
 let plistBody = "";
-for (const p of usage) plistBody += `\t<key>${p.plist}</key>\n\t<string>${xml(p.body)}</string>\n`;
+const seen = new Set();
+for (const u of usageKeys) {
+  if (seen.has(u.key)) continue; seen.add(u.key);
+  plistBody += `\t<key>${u.key}</key>\n\t<string>${xml(u.body)}</string>\n`;
+}
 if (hasLocalNet) plistBody += `\t<key>NSBonjourServices</key>\n\t<array>\n\t\t<string>_googlecast._tcp</string>\n\t</array>\n`;
-if (hasAudio) plistBody += `\t<key>UIBackgroundModes</key>\n\t<array>\n\t\t<string>audio</string>\n\t</array>\n`;
+if (bgModes.size) {
+  plistBody += `\t<key>UIBackgroundModes</key>\n\t<array>\n`;
+  for (const m of bgModes) plistBody += `\t\t<string>${xml(m)}</string>\n`;
+  plistBody += `\t</array>\n`;
+}
 
 const infoPlist = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -116,7 +135,7 @@ const screensSwift = screens.map(s =>
 ).join("\n");
 
 const permsSwift = permissions.map(p =>
-  `        PermissionSpec(key: .${p.key}, plistKey: "${sw(p.plist)}", title: "${sw(p.title)}", ` +
+  `        PermissionSpec(key: PermissionKey(rawValue: "${p.key}"), plistKey: "${sw(p.plist)}", title: "${sw(p.title)}", ` +
   `body: "${sw(p.body)}", feature: "${sw(p.feature)}", gesture: "${sw(p.gesture)}", ` +
   `screen: "${sw(p.screen)}", target: "${sw(p.target)}", fallback: "${sw(p.fallback)}", ` +
   `snack: "${sw(p.snack)}", risk: "${sw(p.risk)}", anchor: ${p.anchor}, ` +
@@ -208,7 +227,7 @@ function settings(c) {
       if (r.value) a.push(`value: ${q(r.value)}`);
       if (r.icon) a.push(`icon: ${q(r.icon)}`);
       if (r.toggle) a.push(`toggle: true`);
-      if (r.permission) a.push(`permission: .${r.permission}`);
+      if (r.permission) a.push(`permission: PermissionKey(rawValue: "${r.permission}")`);
       if (r.opens) a.push(`opens: ${q(r.opens)}`);
       if (r.chevron) a.push(`chevron: true`);
       return `                    SettingsData.Row(${a.join(", ")})`;
@@ -233,7 +252,7 @@ function finder(c) {
 function capture(c) {
   const manual = c.manualScreen ? `${q(c.manualScreen)}` : "nil";
   return `AnyView(CaptureView(data: CaptureData(hint: ${q(c.hint)}, shutter: ${q(c.shutter)}, ` +
-    `scanFrame: ${!!c.scanFrame}, permission: .${c.permission}, manualScreen: ${manual})))`;
+    `scanFrame: ${!!c.scanFrame}, permission: PermissionKey(rawValue: "${c.permission}"), manualScreen: ${manual})))`;
 }
 function notice(c) {
   const ps = c.paragraphs.map(q).join(", ");
