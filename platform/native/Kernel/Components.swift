@@ -38,14 +38,13 @@ struct PatternTile: View {
 /// подложка с глифом. Фото людей и вещей не выдумываем — но и не рисуем вязку поверх.
 struct PhotoPlaceholder: View {
     var glyph: String = "photo"
-    @Environment(\.colorScheme) private var scheme
     var body: some View {
-        LinearGradient(colors: [Color(.systemGray5), Color(.systemGray4)],
-                       startPoint: .topLeading, endPoint: .bottomTrailing)
+        LinearGradient(colors: [Color(.systemGray6), Color(.systemGray4)],
+                       startPoint: .top, endPoint: .bottom)
             .overlay(
                 Image(systemName: glyph)
-                    .font(.system(size: 34, weight: .light))
-                    .foregroundStyle(Color(.systemGray))
+                    .font(.system(size: 40, weight: .thin))
+                    .foregroundStyle(Color(.systemGray2))
             )
     }
 }

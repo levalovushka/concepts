@@ -21,6 +21,51 @@ struct Avatar: View {
     }
 }
 
+// Флэт-лей образа: вещи нарисованы иконками одежды на мягкой подложке —
+// не пустой серый бокс, а осмысленная композиция из вещей образа.
+func garmentGlyph(_ name: String) -> String {
+    let s = name.lowercased()
+    switch true {
+    case s.contains("ботин"), s.contains("обув"), s.contains("кед"), s.contains("туфл"), s.contains("босонож"), s.contains("сапог"):
+        return "shoe.fill"
+    case s.contains("шарф"), s.contains("шапк"), s.contains("шляп"), s.contains("аксессуар"):
+        return "hat.widebrim.fill"
+    case s.contains("очки"):
+        return "eyeglasses"
+    case s.contains("сумк"), s.contains("рюкзак"):
+        return "handbag.fill"
+    default:
+        return "tshirt.fill"   // верх, платье, пиджак, тренч, джинсы …
+    }
+}
+
+struct OutfitBoard: View {
+    let items: [String]
+    @Environment(\.conceptAccent) private var accent
+    var body: some View {
+        ZStack {
+            LinearGradient(colors: [accent.opacity(0.12), Color(.systemGray6)],
+                           startPoint: .topLeading, endPoint: .bottomTrailing)
+            let g = Array(items.prefix(3).map(garmentGlyph))
+            if g.indices.contains(0) { GarmentTile(glyph: g[0], size: 118).rotationEffect(.degrees(-6)).offset(x: -34, y: 6) }
+            if g.indices.contains(1) { GarmentTile(glyph: g[1], size: 84).rotationEffect(.degrees(9)).offset(x: 78, y: -74) }
+            if g.indices.contains(2) { GarmentTile(glyph: g[2], size: 88).rotationEffect(.degrees(-3)).offset(x: 58, y: 92) }
+        }
+    }
+}
+
+private struct GarmentTile: View {
+    let glyph: String; let size: CGFloat
+    @Environment(\.conceptAccent) private var accent
+    var body: some View {
+        RoundedRectangle(cornerRadius: 18, style: .continuous)
+            .fill(Color(.systemBackground))
+            .frame(width: size, height: size)
+            .overlay(Image(systemName: glyph).font(.system(size: size * 0.44)).foregroundStyle(accent.opacity(0.75)))
+            .shadow(color: .black.opacity(0.08), radius: 8, y: 3)
+    }
+}
+
 // MARK: - Лента (посты как в ВК)
 
 struct FeedData: Sendable {
@@ -51,7 +96,8 @@ struct FeedView: View {
                 }
                 ForEach(data.posts) { p in PostCard(post: p) }
             }
-            .padding(.vertical, 8)
+            .padding(.top, 8)
+            .padding(.bottom, 96)
         }
         .background(Color(.systemGroupedBackground))
     }
@@ -114,10 +160,16 @@ private struct PostCard: View {
             }
             if post.media {
                 ZStack(alignment: .topTrailing) {
-                    PhotoPlaceholder(glyph: "figure.stand")
-                        .frame(height: 340)
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .overlay(alignment: .bottomLeading) { itemTags }
+                    Group {
+                        if post.items.isEmpty {
+                            PhotoPlaceholder(glyph: "figure.stand")
+                        } else {
+                            OutfitBoard(items: post.items)
+                        }
+                    }
+                    .frame(height: 320)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay(alignment: .bottomLeading) { itemTags }
                     // переключатель отметок вещей
                     if !post.items.isEmpty {
                         Button { withAnimation(.spring(duration: 0.3)) { showItems.toggle() } } label: {
@@ -173,21 +225,22 @@ private struct PostCard: View {
         .background(Color(.secondarySystemGroupedBackground))
     }
 
-    // отметки вещей на фото — распределены по кадру
+    // отметки вещей на фото — аккуратным столбцом
     @ViewBuilder private var itemTags: some View {
         if showItems {
-            ForEach(Array(post.items.prefix(3).enumerated()), id: \.offset) { i, name in
-                HStack(spacing: 4) {
-                    Text("\(i + 1)").font(.caption2.bold())
-                        .frame(width: 16, height: 16).background(.white, in: Circle()).foregroundStyle(.black)
-                    Text(name).font(.caption2.weight(.medium)).foregroundStyle(.white)
+            VStack(alignment: .leading, spacing: 6) {
+                ForEach(Array(post.items.prefix(3).enumerated()), id: \.offset) { i, name in
+                    HStack(spacing: 6) {
+                        Text("\(i + 1)").font(.caption2.bold())
+                            .frame(width: 18, height: 18).background(.white, in: Circle()).foregroundStyle(.black)
+                        Text(name).font(.caption.weight(.medium)).foregroundStyle(.white)
+                    }
+                    .padding(.horizontal, 8).padding(.vertical, 5)
+                    .background(.black.opacity(0.6), in: Capsule())
                 }
-                .padding(.horizontal, 7).padding(.vertical, 4)
-                .background(.black.opacity(0.55), in: Capsule())
-                .padding(.leading, CGFloat(14 + i * 26))
-                .padding(.bottom, CGFloat(16 + i * 42))
-                .transition(.scale.combined(with: .opacity))
             }
+            .padding(14)
+            .transition(.opacity)
         }
     }
 }
@@ -365,7 +418,9 @@ struct ProfileView: View {
             VStack(spacing: 0) {
                 // обложка + аватар
                 ZStack(alignment: .bottomLeading) {
-                    PatternTile(seed: 7).frame(height: 130)
+                    LinearGradient(colors: [Color.accentColor.opacity(0.85), Color.accentColor.opacity(0.5)],
+                                   startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .frame(height: 130)
                     Avatar(name: data.name, size: 84)
                         .overlay(Circle().stroke(Color(.systemBackground), lineWidth: 4))
                         .offset(x: 16, y: 42)
@@ -415,11 +470,19 @@ struct ProfileView: View {
                 }
                 .padding(.horizontal, 16).padding(.top, 18).padding(.bottom, 8)
                 LazyVGrid(columns: [.init(.flexible(), spacing: 3), .init(.flexible(), spacing: 3), .init(.flexible(), spacing: 3)], spacing: 3) {
-                    ForEach(0..<data.posts, id: \.self) { _ in
-                        PhotoPlaceholder(glyph: "figure.stand").aspectRatio(0.8, contentMode: .fill).clipped()
+                    ForEach(0..<data.posts, id: \.self) { i in
+                        let glyphs = ["tshirt.fill", "shoe.fill", "hat.widebrim.fill", "handbag.fill"]
+                        ZStack {
+                            LinearGradient(colors: [Color.accentColor.opacity(0.10), Color(.systemGray6)],
+                                           startPoint: .top, endPoint: .bottom)
+                            Image(systemName: glyphs[i % glyphs.count])
+                                .font(.system(size: 30)).foregroundStyle(Color.accentColor.opacity(0.6))
+                        }
+                        .aspectRatio(0.8, contentMode: .fill).clipped()
                     }
                 }
                 .padding(.horizontal, 3)
+                .padding(.bottom, 96)
             }
         }
         .background(Color(.systemGroupedBackground))
