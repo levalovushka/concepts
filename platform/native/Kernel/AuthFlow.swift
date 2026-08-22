@@ -40,7 +40,7 @@ struct AuthFlow: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(phone.count < 4)
 
-                Text("Продолжая, вы принимаете пользовательское соглашение и политику конфиденциальности.")
+                Text("Продолжая, вы принимаете пользовательское соглашение и политику конфиденциальности")
                     .font(.caption2).foregroundStyle(.secondary)
 
                 Spacer()
@@ -69,7 +69,7 @@ private struct CodeScreen: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Код из SMS").font(.largeTitle.bold())
-            Text("Отправили код на \(destination)").font(.body).foregroundStyle(.secondary)
+            Text("Код отправлен на \(destination)").font(.body).foregroundStyle(.secondary)
 
             ZStack {
                 TextField("", text: $code)
@@ -100,7 +100,7 @@ private struct CodeScreen: View {
             .onTapGesture { focused = true }
 
             if failed {
-                Text("Неверный код. Попробуйте ещё раз.").font(.footnote).foregroundStyle(.red)
+                Text("Неверный код — попробуйте ещё раз").font(.footnote).foregroundStyle(.red)
             }
             Button("Отправить код повторно") { }.font(.footnote)
             Spacer()

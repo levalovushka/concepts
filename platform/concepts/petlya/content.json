@@ -3,17 +3,6 @@
     "layout": "catalog",
     "sections": [
       {
-        "title": "Продолжить",
-        "items": [
-          {
-            "title": "Убавки на пройме",
-            "subtitle": "Урок 4 из 9 · осталось 6:12",
-            "progress": 0.66,
-            "opens": "lesson"
-          }
-        ]
-      },
-      {
         "title": "Курс: свитер реглан сверху",
         "items": [
           {
@@ -191,5 +180,191 @@
         ]
       }
     ]
+  },
+  "projects": {
+    "layout": "catalog",
+    "sections": [
+      {
+        "title": "В работе",
+        "items": [
+          {
+            "title": "Свитер реглан сверху",
+            "subtitle": "ряд 47 · убавки на пройме",
+            "progress": 0.52,
+            "opens": "project"
+          },
+          {
+            "title": "Носки «косичка»",
+            "subtitle": "второй носок, пятка",
+            "progress": 0.78,
+            "opens": "project"
+          }
+        ]
+      },
+      {
+        "title": "Готово",
+        "items": [
+          {
+            "title": "Шапка бини",
+            "subtitle": "закончена в марте",
+            "progress": 1.0,
+            "opens": "project"
+          }
+        ]
+      }
+    ]
+  },
+  "project": {
+    "layout": "detail",
+    "headerTitle": "Свитер реглан сверху",
+    "headerSubtitle": "начат 3 недели назад · 47 рядов · пряжа Drops Merino",
+    "groups": [
+      {
+        "header": "Материалы",
+        "rows": [
+          {
+            "title": "Снять свой ракурс",
+            "subtitle": "короткое видео приёма",
+            "icon": "video",
+            "permission": "camera",
+            "opens": "record",
+            "chevron": true
+          },
+          {
+            "title": "Фото прогресса",
+            "subtitle": "привязать к текущему ряду",
+            "icon": "photo",
+            "permission": "photo",
+            "opens": "gallery",
+            "chevron": true
+          },
+          {
+            "title": "Скан этикетки мотка",
+            "subtitle": "состав и номер партии",
+            "icon": "barcode.viewfinder",
+            "permission": "camera",
+            "opens": "scan",
+            "chevron": true
+          },
+          {
+            "title": "Магазины пряжи рядом",
+            "subtitle": "докупить ту же партию",
+            "icon": "location",
+            "permission": "location",
+            "opens": "yarn",
+            "chevron": true
+          }
+        ]
+      },
+      {
+        "header": "Заметки к уроку",
+        "footer": "Заметка привязана к таймкоду урока — вернётесь и увидите тот же момент",
+        "rows": [
+          {
+            "title": "убавка не сошлась, перевязала 3 ряда",
+            "value": "4:12"
+          },
+          {
+            "title": "поменять спицы на 3.5 — плотнее",
+            "value": "9:40"
+          },
+          {
+            "title": "здесь начинается пройма",
+            "value": "12:08"
+          }
+        ]
+      }
+    ]
+  },
+  "cast": {
+    "layout": "finder",
+    "note": "Ищем в вашей Wi-Fi-сети. Убедитесь, что телевизор включён",
+    "actionLabel": "Показать",
+    "results": [
+      {
+        "title": "Телевизор в гостиной",
+        "subtitle": "Chromecast · сигнал отличный"
+      },
+      {
+        "title": "Приставка на кухне",
+        "subtitle": "Chromecast · сигнал слабый"
+      }
+    ]
+  },
+  "yarn": {
+    "layout": "finder",
+    "note": "Показаны магазины поблизости. Наличие уточняйте в магазине",
+    "actionLabel": "Маршрут",
+    "results": [
+      {
+        "title": "Клубок",
+        "subtitle": "Пряжа и фурнитура · открыто до 20:00",
+        "trailing": "400 м"
+      },
+      {
+        "title": "Петелька",
+        "subtitle": "Магазин для рукоделия · открыто до 21:00",
+        "trailing": "1,2 км"
+      },
+      {
+        "title": "Шерсть и хлопок",
+        "subtitle": "Товары для вязания",
+        "trailing": "2,6 км"
+      }
+    ]
+  },
+  "record": {
+    "layout": "capture",
+    "hint": "Снимите приём крупно — потом пересмотрите на паузе",
+    "shutter": "",
+    "scanFrame": false,
+    "permission": "camera",
+    "manualScreen": null
+  },
+  "scan": {
+    "layout": "capture",
+    "hint": "Наведите на штрихкод этикетки мотка",
+    "shutter": "Сканировать",
+    "scanFrame": true,
+    "permission": "camera",
+    "manualScreen": "scanfail"
+  },
+  "scanfail": {
+    "layout": "detail",
+    "headerTitle": "Ввести вручную",
+    "headerSubtitle": "Скан не удался — данные мотка можно записать руками",
+    "groups": [
+      {
+        "header": "Моток",
+        "rows": [
+          {
+            "title": "Состав",
+            "value": "шерсть 100%"
+          },
+          {
+            "title": "Метраж",
+            "value": "105 м / 50 г"
+          },
+          {
+            "title": "Партия",
+            "value": "—"
+          }
+        ]
+      }
+    ]
+  },
+  "ads": {
+    "layout": "notice",
+    "icon": "sparkles.tv",
+    "title": "Курсы бесплатно",
+    "paragraphs": [
+      "Школа держит курсы бесплатными за счёт рекламы между уроками",
+      "Если разрешить, реклама будет по интересам. Если нет — будет обычная, приложение работает так же"
+    ],
+    "primary": "Разрешить рекламу по интересам",
+    "primaryPermission": "tracking",
+    "primaryTarget": "lessons",
+    "secondary": "Обычная реклама",
+    "secondaryTarget": "lessons"
   }
 }

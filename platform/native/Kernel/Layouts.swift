@@ -57,6 +57,8 @@ struct CounterData: Sendable {
 }
 
 struct SettingsData: Sendable {
+    var headerTitle: String? = nil
+    var headerSubtitle: String? = nil
     let groups: [Group]
     struct Group: Identifiable, Sendable {
         let id = UUID(); let header: String; var footer: String? = nil; let rows: [Row]
@@ -66,8 +68,10 @@ struct SettingsData: Sendable {
         let title: String
         var subtitle: String? = nil
         var value: String? = nil
+        var icon: String? = nil
         var toggle: Bool = false
         var permission: PermissionKey? = nil  // включение свитча запрашивает доступ
+        var opens: String? = nil              // переход на экран по тапу
         var chevron: Bool = false
     }
 }
@@ -90,7 +94,7 @@ struct CatalogView: View {
                 }
             }
             ForEach(data.sections) { section in
-                Section(section.title) {
+                Section {
                     ForEach(section.items) { item in
                         Button {
                             if let dest = item.opens, let s = app?.screen(dest) { router.open(s) }
@@ -100,6 +104,8 @@ struct CatalogView: View {
                         .buttonStyle(.plain)
                         .disabled(item.opens == nil)
                     }
+                } header: {
+                    Text(section.title).textCase(nil)
                 }
             }
         }
@@ -113,35 +119,33 @@ struct HeroContinueCard: View {
     let action: () -> Void
     var body: some View {
         Button(action: action) {
-            VStack(alignment: .leading, spacing: 14) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(hero.project).font(.headline).foregroundStyle(.white)
-                        Text("\(hero.lessonMeta) · \(hero.lesson)").font(.subheadline).foregroundStyle(.white.opacity(0.7))
-                    }
-                    Spacer()
-                    Image(systemName: "play.circle.fill").font(.system(size: 34)).foregroundStyle(.white)
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(hero.project).font(.headline).foregroundStyle(.white)
+                    Text("\(hero.lessonMeta) · \(hero.lesson)")
+                        .font(.subheadline).foregroundStyle(.white.opacity(0.75))
                 }
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                HStack(alignment: .lastTextBaseline, spacing: 8) {
                     Text("\(hero.currentRow)")
-                        .font(.system(size: 64, weight: .bold, design: .rounded)).monospacedDigit()
+                        .font(.system(size: 68, weight: .bold, design: .rounded)).monospacedDigit()
                         .foregroundStyle(.white)
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("ряд").font(.caption).foregroundStyle(.white.opacity(0.7))
-                        Text(hero.goal).font(.footnote).foregroundStyle(.white.opacity(0.85))
-                    }
-                    Spacer(minLength: 8)
-                    Text("Продолжить").font(.subheadline.weight(.semibold)).foregroundStyle(.white)
-                        .lineLimit(1).fixedSize()
-                        .padding(.horizontal, 16).padding(.vertical, 10)
-                        .background(.white.opacity(0.2), in: Capsule())
+                    Text(hero.goal)
+                        .font(.subheadline).foregroundStyle(.white.opacity(0.85))
+                        .padding(.bottom, 8)
                 }
+                HStack(spacing: 8) {
+                    Image(systemName: "play.fill").font(.footnote.weight(.bold))
+                    Text("Продолжить урок").font(.subheadline.weight(.semibold))
+                }
+                .foregroundStyle(Color.accentColor)
+                .frame(maxWidth: .infinity).frame(height: 46)
+                .background(.white, in: Capsule())
             }
             .padding(18)
             .background(
                 LinearGradient(colors: [Color.accentColor, Color.accentColor.opacity(0.82)],
                                startPoint: .topLeading, endPoint: .bottomTrailing),
-                in: RoundedRectangle(cornerRadius: 20, style: .continuous)
+                in: RoundedRectangle(cornerRadius: 22, style: .continuous)
             )
         }
         .buttonStyle(.plain)
@@ -310,7 +314,7 @@ struct CounterView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Text(data.project.uppercased()).font(.footnote.weight(.semibold)).foregroundStyle(.secondary)
+            Text(data.project).font(.footnote.weight(.semibold)).foregroundStyle(.secondary)
 
             Text("\(count)")
                 .font(.system(size: 96, weight: .bold, design: .rounded)).monospacedDigit()
@@ -333,7 +337,7 @@ struct CounterView: View {
                         .font(.body.weight(.semibold)).frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
                 .buttonStyle(.borderedProminent).controlSize(.large)
-                Text("Скажите «ряд» — прибавит. «Сколько» — назовёт вслух. Распознавание на устройстве.")
+                Text("Скажите «ряд» — прибавит, «сколько» — назовёт номер вслух. Распознавание идёт на устройстве")
                     .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
             }
 
@@ -375,43 +379,70 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            if let title = data.headerTitle {
+                Section {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(title).font(.title2.bold())
+                        if let s = data.headerSubtitle {
+                            Text(s).font(.subheadline).foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 6)
+                    .listRowBackground(Color.clear)
+                }
+            }
             ForEach(data.groups) { group in
                 Section {
                     ForEach(group.rows) { row in rowView(row) }
-                } header: { Text(group.header) } footer: { if let f = group.footer { Text(f) } }
+                } header: { Text(group.header).textCase(nil) } footer: { if let f = group.footer { Text(f) } }
             }
         }
         .listStyle(.insetGrouped)
+    }
+
+    private func act(_ row: SettingsData.Row) {
+        Task {
+            if let key = row.permission, let g = app?.permissions.first(where: { $0.key == key }) {
+                let ok = g.activate ? true : await perms.request(key)
+                if !ok { router.toast(g.snack, id: key.rawValue) }
+            }
+            if let dest = row.opens, let s = app?.screen(dest) { router.open(s) }
+        }
     }
 
     @ViewBuilder
     private func rowView(_ row: SettingsData.Row) -> some View {
         if row.toggle {
             Toggle(isOn: binding(for: row)) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(row.title)
-                    if let s = row.subtitle { Text(s).font(.caption).foregroundStyle(.secondary) }
-                }
+                Label { rowText(row) } icon: { icon(row) }
             }
         } else {
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(row.title)
-                    if let s = row.subtitle { Text(s).font(.caption).foregroundStyle(.secondary) }
+            Button { act(row) } label: {
+                HStack(spacing: 12) {
+                    icon(row)
+                    rowText(row)
+                    Spacer(minLength: 6)
+                    if let v = row.value { Text(v).foregroundStyle(.secondary) }
+                    if row.chevron { Image(systemName: "chevron.right").font(.caption.weight(.semibold)).foregroundStyle(Color(.tertiaryLabel)) }
                 }
-                Spacer()
-                if let v = row.value { Text(v).foregroundStyle(.secondary) }
-                if row.chevron { Image(systemName: "chevron.right").font(.caption.weight(.semibold)).foregroundStyle(Color(.tertiaryLabel)) }
+                .contentShape(Rectangle())
             }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                if let key = row.permission, let g = app?.permissions.first(where: { $0.key == key }) {
-                    Task {
-                        let ok = g.activate ? true : await perms.request(key)
-                        if !ok { router.toast(g.snack, id: key.rawValue) }
-                    }
-                }
-            }
+            .buttonStyle(.plain)
+            .disabled(row.permission == nil && row.opens == nil)
+        }
+    }
+
+    @ViewBuilder private func rowText(_ row: SettingsData.Row) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(row.title)
+            if let s = row.subtitle { Text(s).font(.caption).foregroundStyle(.secondary) }
+        }
+    }
+
+    @ViewBuilder private func icon(_ row: SettingsData.Row) -> some View {
+        if let ic = row.icon {
+            Image(systemName: ic).font(.system(size: 16, weight: .medium))
+                .foregroundStyle(Color.accentColor).frame(width: 28)
         }
     }
 
@@ -470,7 +501,7 @@ struct CockpitView: View {
             VStack(spacing: 18) {
                 // Урок: что идёт
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(data.lessonMeta.uppercased())
+                    Text(data.lessonMeta)
                         .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                     Text(data.lessonTitle).font(.title2.bold())
                 }
@@ -487,12 +518,12 @@ struct CockpitView: View {
                     .foregroundStyle(.primary)
 
                     HStack(spacing: 10) {
-                        BigToggle(title: casting ? data.castTarget : "На телевизор",
-                                  systemImage: "tv", on: casting) {
+                        BigToggle(title: "На телевизор", systemImage: "tv", on: casting) {
                             Task {
                                 if let g = gate(.localnet) {
                                     let ok = await perms.request(.localnet)
-                                    if ok { casting.toggle() } else { router.toast(g.snack, id: "localnet") }
+                                    if ok, let s = app?.screen(g.target) { casting = true; router.open(s) }
+                                    else if !ok { router.toast(g.snack, id: "localnet") }
                                 }
                             }
                         }
@@ -507,7 +538,7 @@ struct CockpitView: View {
 
                 // Герой: счётчик ряда — крупно и издалека читаемо, голос как главный ввод
                 VStack(spacing: 16) {
-                    Text("ТЕКУЩИЙ РЯД").font(.caption.weight(.semibold)).foregroundStyle(.white.opacity(0.8))
+                    Text("текущий ряд").font(.caption.weight(.semibold)).foregroundStyle(.white.opacity(0.8))
                     Text("\(count)")
                         .font(.system(size: 108, weight: .heavy, design: .rounded)).monospacedDigit()
                         .foregroundStyle(.white).contentTransition(.numericText())
@@ -589,5 +620,160 @@ private struct CockpitStep: View {
                 .background(.white.opacity(0.18), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Поиск в окружении (телевизор, магазины) — доступ уже выдан на прошлом шаге
+
+struct FinderData: Sendable {
+    let note: String
+    let results: [Result]
+    let actionLabel: String
+    struct Result: Identifiable, Sendable {
+        let id = UUID(); let title: String; let subtitle: String; var trailing: String? = nil
+    }
+}
+
+struct FinderView: View {
+    let data: FinderData
+    @Environment(Router.self) private var router
+    var body: some View {
+        List {
+            Section {
+                ForEach(data.results) { r in
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(r.title)
+                            Text(r.subtitle).font(.footnote).foregroundStyle(.secondary)
+                        }
+                        Spacer(minLength: 8)
+                        if let t = r.trailing { Text(t).font(.footnote).foregroundStyle(.secondary) }
+                        Text(data.actionLabel)
+                            .font(.footnote.weight(.semibold)).foregroundStyle(Color.accentColor)
+                    }
+                    .padding(.vertical, 4)
+                }
+            } footer: {
+                Text(data.note)
+            }
+        }
+        .listStyle(.insetGrouped)
+    }
+}
+
+// MARK: - Съёмка (свой ракурс, скан этикетки) — видоискатель и спуск
+
+struct CaptureData: Sendable {
+    let hint: String
+    let shutter: String
+    let scanFrame: Bool           // рамка сканирования вместо круглого спуска
+    let permission: PermissionKey
+    let manualScreen: String?     // экран ручного ввода при неудаче (для скана)
+}
+
+struct CaptureView: View {
+    let data: CaptureData
+    @Environment(\.appSpec) private var app
+    @Environment(Router.self) private var router
+    @Environment(PermissionManager.self) private var perms
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            Placeholder(height: 0, onDark: true)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .opacity(0.001)
+            if data.scanFrame {
+                RoundedRectangle(cornerRadius: 16).stroke(.white.opacity(0.9), lineWidth: 2)
+                    .frame(width: 260, height: 150)
+            }
+            VStack {
+                Text(data.hint)
+                    .font(.subheadline).foregroundStyle(.white.opacity(0.9))
+                    .padding(.horizontal, 20).padding(.vertical, 10)
+                    .background(.black.opacity(0.35), in: Capsule())
+                    .padding(.top, 12)
+                Spacer()
+                Button {
+                    Task {
+                        let ok = await perms.request(data.permission)
+                        if !ok {
+                            if let g = app?.permissions.first(where: { $0.key == data.permission }) {
+                                router.toast(g.snack, id: data.permission.rawValue)
+                            }
+                        }
+                    }
+                } label: {
+                    if data.scanFrame {
+                        Text(data.shutter).font(.headline).foregroundStyle(.black)
+                            .frame(maxWidth: .infinity).frame(height: 52)
+                            .background(.white, in: Capsule()).padding(.horizontal, 40)
+                    } else {
+                        Circle().fill(.white).frame(width: 74, height: 74)
+                            .overlay(Circle().stroke(.white.opacity(0.5), lineWidth: 4).frame(width: 86, height: 86))
+                    }
+                }
+                .buttonStyle(.plain)
+                .padding(.bottom, 40)
+
+                if let manual = data.manualScreen {
+                    Button("Ввести вручную") {
+                        if let s = app?.screen(manual) { router.open(s) }
+                    }
+                    .font(.subheadline).foregroundStyle(.white)
+                    .padding(.bottom, 24)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Экран-объяснение перед системным запросом (реклама/ATT)
+
+struct NoticeData: Sendable {
+    let icon: String
+    let title: String
+    let paragraphs: [String]
+    let primary: String
+    let primaryPermission: PermissionKey?
+    let primaryTarget: String?
+    let secondary: String
+    let secondaryTarget: String?
+}
+
+struct NoticeView: View {
+    let data: NoticeData
+    @Environment(\.appSpec) private var app
+    @Environment(Router.self) private var router
+    @Environment(PermissionManager.self) private var perms
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            Spacer().frame(height: 8)
+            Image(systemName: data.icon)
+                .font(.system(size: 40)).foregroundStyle(Color.accentColor)
+            Text(data.title).font(.title.bold())
+            ForEach(Array(data.paragraphs.enumerated()), id: \.offset) { _, p in
+                Text(p).font(.body).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button {
+                Task {
+                    if let key = data.primaryPermission { _ = await perms.request(key) }
+                    if let t = data.primaryTarget, let s = app?.screen(t) { router.open(s) }
+                    else { router.dismissPresented() }
+                }
+            } label: {
+                Text(data.primary).frame(maxWidth: .infinity).padding(.vertical, 6)
+            }
+            .buttonStyle(.borderedProminent).controlSize(.large)
+
+            Button(data.secondary) {
+                if let t = data.secondaryTarget, let s = app?.screen(t) { router.open(s) }
+                else { router.dismissPresented() }
+            }
+            .font(.subheadline).frame(maxWidth: .infinity)
+        }
+        .padding(Grid.edge)
     }
 }

@@ -68,7 +68,6 @@ struct SectionCard<Content: View>: View {
                 Text(title)
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.secondary)
-                    .textCase(.uppercase)
             }
             VStack(alignment: .leading, spacing: 0) { content }
                 .padding(.horizontal, Grid.edge)

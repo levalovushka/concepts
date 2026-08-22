@@ -206,15 +206,43 @@ function settings(c) {
       const a = [`title: ${q(r.title)}`];
       if (r.subtitle) a.push(`subtitle: ${q(r.subtitle)}`);
       if (r.value) a.push(`value: ${q(r.value)}`);
+      if (r.icon) a.push(`icon: ${q(r.icon)}`);
       if (r.toggle) a.push(`toggle: true`);
       if (r.permission) a.push(`permission: .${r.permission}`);
+      if (r.opens) a.push(`opens: ${q(r.opens)}`);
       if (r.chevron) a.push(`chevron: true`);
       return `                    SettingsData.Row(${a.join(", ")})`;
     }).join(",\n");
     const foot = g.footer ? `footer: ${q(g.footer)}, ` : "";
     return `                SettingsData.Group(header: ${q(g.header)}, ${foot}rows: [\n${rows}\n                ])`;
   }).join(",\n");
-  return `AnyView(SettingsView(data: SettingsData(groups: [\n${groups}\n            ])))`;
+  const head = [];
+  if (c.headerTitle) head.push(`headerTitle: ${q(c.headerTitle)}`);
+  if (c.headerSubtitle) head.push(`headerSubtitle: ${q(c.headerSubtitle)}`);
+  const headStr = head.length ? head.join(", ") + ", " : "";
+  return `AnyView(SettingsView(data: SettingsData(${headStr}groups: [\n${groups}\n            ])))`;
+}
+function finder(c) {
+  const rs = c.results.map(r => {
+    const a = [`title: ${q(r.title)}`, `subtitle: ${q(r.subtitle)}`];
+    if (r.trailing) a.push(`trailing: ${q(r.trailing)}`);
+    return `FinderData.Result(${a.join(", ")})`;
+  }).join(",\n                ");
+  return `AnyView(FinderView(data: FinderData(note: ${q(c.note)}, results: [\n                ${rs}\n            ], actionLabel: ${q(c.actionLabel)})))`;
+}
+function capture(c) {
+  const manual = c.manualScreen ? `${q(c.manualScreen)}` : "nil";
+  return `AnyView(CaptureView(data: CaptureData(hint: ${q(c.hint)}, shutter: ${q(c.shutter)}, ` +
+    `scanFrame: ${!!c.scanFrame}, permission: .${c.permission}, manualScreen: ${manual})))`;
+}
+function notice(c) {
+  const ps = c.paragraphs.map(q).join(", ");
+  const perm = c.primaryPermission ? `.${c.primaryPermission}` : "nil";
+  const ptar = c.primaryTarget ? q(c.primaryTarget) : "nil";
+  const star = c.secondaryTarget ? q(c.secondaryTarget) : "nil";
+  return `AnyView(NoticeView(data: NoticeData(icon: ${q(c.icon)}, title: ${q(c.title)}, ` +
+    `paragraphs: [${ps}], primary: ${q(c.primary)}, primaryPermission: ${perm}, ` +
+    `primaryTarget: ${ptar}, secondary: ${q(c.secondary)}, secondaryTarget: ${star})))`;
 }
 
 const cases = Object.entries(content).map(([id, c]) => {
@@ -223,7 +251,10 @@ const cases = Object.entries(content).map(([id, c]) => {
   else if (c.layout === "cockpit") body = cockpit(id, c);
   else if (c.layout === "player") body = player(id, c);
   else if (c.layout === "counter") body = counter(id, c);
-  else if (c.layout === "settings") body = settings(c);
+  else if (c.layout === "settings" || c.layout === "detail") body = settings(c);
+  else if (c.layout === "finder") body = finder(c);
+  else if (c.layout === "capture") body = capture(c);
+  else if (c.layout === "notice") body = notice(c);
   else return "";
   return `        case ${q(id)}: return ${body}`;
 }).filter(Boolean).join("\n");
