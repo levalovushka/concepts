@@ -1,0 +1,94 @@
+{
+  "_note": "Только доменное наполнение. Структура, разводка доступов и навигация выводятся из concept.json генератором gen-content.mjs.",
+
+  "lessons": {
+    "hero": {
+      "project": "Свитер реглан сверху",
+      "lesson": "Убавки на пройме",
+      "lessonMeta": "Урок 4 из 9",
+      "currentRow": 47,
+      "goal": "до убавки — ещё 17 рядов",
+      "opens": "lesson"
+    },
+    "sections": [
+      { "title": "Курс: свитер реглан сверху", "items": [
+        { "title": "Набор петель и резинка", "subtitle": "09:48 · просмотрено", "progress": 1.0, "download": { "state": "ready" }, "opens": "lesson" },
+        { "title": "Круговая кокетка", "subtitle": "14:22 · просмотрено", "progress": 1.0, "download": { "state": "ready" }, "opens": "lesson" },
+        { "title": "Убавки на пройме", "subtitle": "18:20 · смотрите сейчас", "progress": 0.66, "download": { "state": "busy", "p": 0.62 }, "opens": "lesson" },
+        { "title": "Разделение на рукава", "subtitle": "12:05", "download": { "state": "none", "size": "412 МБ" }, "opens": "lesson" },
+        { "title": "Горловина и планка", "subtitle": "10:37", "download": { "state": "none", "size": "357 МБ" }, "opens": "lesson" }
+      ]},
+      { "title": "Новые курсы", "items": [
+        { "title": "Носки от мыска на двух спицах", "subtitle": "12 уроков · 2:41:00", "opens": "lesson" },
+        { "title": "Ажурная шаль «Хвоя»", "subtitle": "8 уроков · 1:52:00", "opens": "lesson" }
+      ]}
+    ]
+  },
+
+  "lesson": {
+    "project": "Свитер реглан сверху",
+    "lessonTitle": "Убавки на пройме",
+    "lessonMeta": "Урок 4 из 9",
+    "current": 47,
+    "goal": "до убавки на пройме — ещё 17 рядов",
+    "castTarget": "Телевизор в гостиной",
+    "schemaCaption": "Текущий ряд подсвечен — убавка по 2 петли с каждого края"
+  },
+
+  "projects": {
+    "sections": [
+      { "title": "В работе", "items": [
+        { "title": "Свитер реглан сверху", "subtitle": "ряд 47 · убавки на пройме", "progress": 0.52, "opens": "project" },
+        { "title": "Носки «косичка»", "subtitle": "второй носок, пятка", "progress": 0.78, "opens": "project" }
+      ]},
+      { "title": "Готово", "items": [
+        { "title": "Шапка бини", "subtitle": "закончена в марте", "progress": 1.0, "opens": "project" }
+      ]}
+    ]
+  },
+
+  "project": {
+    "header": { "title": "Свитер реглан сверху", "subtitle": "начат 3 недели назад · 47 рядов · пряжа Drops Merino" },
+    "notesTitle": "Заметки к уроку",
+    "notesFooter": "Заметка привязана к таймкоду урока — вернётесь и увидите тот же момент",
+    "notes": [
+      { "text": "убавка не сошлась, перевязала 3 ряда", "at": "4:12" },
+      { "text": "поменять спицы на 3.5 — плотнее", "at": "9:40" },
+      { "text": "здесь начинается пройма", "at": "12:08" }
+    ]
+  },
+
+  "cast": {
+    "note": "Ищем в вашей Wi-Fi-сети. Убедитесь, что телевизор включён",
+    "actionLabel": "Показать",
+    "results": [
+      { "title": "Телевизор в гостиной", "subtitle": "Chromecast · сигнал отличный" },
+      { "title": "Приставка на кухне", "subtitle": "Chromecast · сигнал слабый" }
+    ]
+  },
+
+  "yarn": {
+    "note": "Показаны магазины поблизости. Наличие уточняйте в магазине",
+    "actionLabel": "Маршрут",
+    "results": [
+      { "title": "Клубок", "subtitle": "Пряжа и фурнитура · открыто до 20:00", "trailing": "400 м" },
+      { "title": "Петелька", "subtitle": "Магазин для рукоделия · открыто до 21:00", "trailing": "1,2 км" },
+      { "title": "Шерсть и хлопок", "subtitle": "Товары для вязания", "trailing": "2,6 км" }
+    ]
+  },
+
+  "record": { "hint": "Снимите приём крупно — потом пересмотрите на паузе" },
+
+  "scan": { "hint": "Наведите на штрихкод этикетки мотка", "shutter": "Сканировать", "manualScreen": "scanfail" },
+
+  "scanfail": {
+    "header": { "title": "Ввести вручную", "subtitle": "Скан не удался — данные мотка можно записать руками" },
+    "groups": [
+      { "header": "Моток", "rows": [
+        { "title": "Состав", "value": "шерсть 100%" },
+        { "title": "Метраж", "value": "105 м / 50 г" },
+        { "title": "Партия", "value": "—" }
+      ]}
+    ]
+  }
+}

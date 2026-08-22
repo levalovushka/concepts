@@ -12,10 +12,28 @@ build/       сгенерированные проекты (в .gitignore, не 
 ## Собрать концепт
 
 ```bash
-node native/gen/gen-app.mjs petlya
+node native/gen/gen-content.mjs petlya    # concept.json + content.domain.json -> content.json
+node native/gen/gen-app.mjs petlya        # content.json -> Xcode-проект
 cd native/build/petlya
 xcodebuild -project Petlya.xcodeproj -target Petlya -sdk iphonesimulator -configuration Debug build
 ```
+
+## Как собирается контент (шаг A: уйти от ручной работы)
+
+`gen-content.mjs` выводит `content.json` из спеки, разделяя по риску:
+
+- **Детерминированно из `concept.json`:** выбор layout'а по роли экрана и всё
+  наполнение экранов, несущих доступы — «Материалы» проекта, «Настройки»,
+  «Реклама/ATT», «Съёмка», «Устройства», «Магазины». Строится из `permissions[]`
+  (жест → заголовок, фича → подпись, иконка по ключу, target → переход) и
+  `appStore`. Технический жаргон (`PiP`, `Bonjour`, `IDFA`) вычищается санитайзером.
+- **Домен из `content.domain.json`:** только то, что нельзя вывести — названия
+  уроков, счётчик рядов, заметки, магазины. Маленький файл; его пишет автор или
+  генерирует LLM из продуктовых полей спеки (`product`, `appStore.description`).
+
+Разработчик правит спеку и крошечный доменный файл — полный `content.json` со
+всей разводкой доступов и навигации собирается сам. `content.json` — артефакт
+сборки, в git не коммитится.
 
 Запуск в симуляторе:
 

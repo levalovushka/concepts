@@ -14,3 +14,6 @@ platform/_sheet.html
 # ВНИМАНИЕ: platform/concepts/*/assets/screenshots/ намеренно НЕ игнорируются.
 # Это входные данные сборки, а не артефакт: раздел «Экраны» в index.html
 # ссылается на эти PNG, и без них падает проверка «консоль чистая».
+
+# Сгенерированный контент (источник — content.domain.json + concept.json)
+platform/concepts/*/content.json
