@@ -30,9 +30,34 @@ const sleep = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0,
 if (existsSync(OUT)) rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
+// Кадры обязаны быть свежее исходников: иначе критик разбирает вчерашний интерфейс.
+// Этот сбой уже случался — критик заявил об отсутствии фичи, которая была в коде.
+const appName = slug[0].toUpperCase() + slug.slice(1);
+const projDir = join(NATIVE, "build", slug);
+console.log("• пересобираем перед съёмкой");
+try {
+  execFileSync("/usr/bin/xcodebuild", [
+    "-project", join(projDir, `${appName}.xcodeproj`), "-target", appName,
+    "-sdk", "iphonesimulator", "-configuration", "Debug", "build",
+  ], { cwd: projDir, stdio: ["ignore", "pipe", "pipe"] });
+} catch (e) {
+  console.error("сборка упала — кадры снимать нечем\n" + String(e.stdout || e));
+  process.exit(1);
+}
+
 const app = sh("/bin/sh", ["-c",
-  `find "${join(NATIVE, "build", slug)}" -name "*.app" -type d | head -1`]).trim();
-if (!app) { console.error("сборки нет — сначала xcodebuild"); process.exit(1); }
+  `find "${projDir}" -name "*.app" -type d | head -1`]).trim();
+if (!app) { console.error("сборки нет"); process.exit(1); }
+
+// страховка: .app должен быть новее самого свежего исходника
+const newestSource = Number(sh("/bin/sh", ["-c",
+  `find "${join(NATIVE, "apps", slug)}" "${join(NATIVE, "DesignSystem")}" "${join(NATIVE, "Runtime")}" ` +
+  `-name '*.swift' -newermt '1970-01-01' -exec stat -f '%m' {} + | sort -rn | head -1`]).trim() || 0);
+const appTime = Number(sh("/bin/sh", ["-c", `stat -f '%m' "${app}/Info.plist"`]).trim() || 0);
+if (appTime < newestSource) {
+  console.error("сборка старше исходников — кадры были бы протухшими");
+  process.exit(1);
+}
 
 simctl("boot", DEVICE);
 simctl("bootstatus", DEVICE, "-b");
