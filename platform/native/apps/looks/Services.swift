@@ -9,15 +9,16 @@ struct ServicesScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
 
+    // каждая плитка отрабатывает заявленный доступ; «для красоты» плиток нет
     private let services: [(String, String, String, LooksRoute?)] = [
         ("Свопы", "arrow.left.arrow.right", "FF8A65", .nearby),
         ("Гардероб", "hanger", "5B7CFA", .wardrobe),
         ("Знакомые", "person.2.fill", "42B883", .mates),
-        ("Сохранённое", "bookmark.fill", "A78BFA", nil),
-        ("Барахолки", "bag.fill", "F0724E", .nearby),
-        ("Примерки", "video.fill", "E0719A", nil),
-        ("Бренды", "tag.fill", "3FA88C", nil),
-        ("Подборки", "square.stack.3d.up.fill", "E0A83B", nil),
+        ("Разбор голосом", "waveform", "A78BFA", .talk),
+        ("Отметка", "wifi", "3FA88C", .checkin),
+        ("Виджет", "square.grid.2x2.fill", "E0834B", .widget),
+        ("Пароли", "key.fill", "E0A83B", .fill),
+        ("Поделиться", "square.and.arrow.up", "5AA9E6", .shareext),
     ]
 
     private let collections: [(String, String, String, String)] = [
@@ -29,14 +30,10 @@ struct ServicesScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ScreenHeader(title: "Сервисы", avatar: "Ника Орлова") {
-                Button { nav.push(LooksRoute.search) } label: { Image(systemName: "magnifyingglass") }
-            }
+            ScreenHeader(title: "Сервисы", avatar: "Ника Орлова") { EmptyView() }
             ScrollView {
                 LazyVStack(spacing: t.cardGap) {
                     grid
-                    forYou
-                    recent
                 }
                 .padding(.top, t.cardGap)
                 .padding(.bottom, 72)
@@ -74,74 +71,6 @@ struct ServicesScreen: View {
         }
     }
 
-    // секция «Для вас» — горизонтальный список, как у ВК
-    private var forYou: some View {
-        Card {
-            Text("Для вас")
-                .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
-                .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 10)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 12) {
-                    ForEach(collections, id: \.0) { c in
-                        VStack(alignment: .leading, spacing: 8) {
-                            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(LinearGradient(colors: [Color(hex: c.2).opacity(0.20),
-                                                              Color(hex: c.2).opacity(0.45)],
-                                                     startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 124, height: 124)
-                                .overlay(Image(systemName: c.1)
-                                    .font(.system(size: 30, weight: .ultraLight))
-                                    .foregroundStyle(Color(hex: c.2)))
-                            Text(c.0).font(.system(size: 13, weight: .medium))
-                                .foregroundStyle(t.textPrimary)
-                                .frame(width: 124, height: 34, alignment: .topLeading)
-                                .lineLimit(2)
-                            Text(c.3).font(.dsCaption).foregroundStyle(t.textSecondary)
-                                .frame(width: 124, alignment: .leading).lineLimit(1)
-                        }
-                    }
-                }
-                .padding(.horizontal, 14)
-            }
-            .scrollClipDisabled()
-            .padding(.bottom, 16)
-        }
-    }
-}
-
-extension ServicesScreen {
-    /// «Недавнее» — как у ВК под сеткой сервисов.
-    var recent: some View {
-        Card {
-            Text("Недавнее")
-                .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
-                .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 6)
-            ForEach(Array(recentItems.enumerated()), id: \.offset) { i, r in
-                Button { if let route = r.3 { nav.push(route) } else { nav.toast("Скоро") } } label: {
-                    HStack(spacing: 12) {
-                        Image(systemName: r.1).font(.system(size: 17))
-                            .foregroundStyle(Color(hex: r.2)).frame(width: 34, height: 34)
-                            .background(Color(hex: r.2).opacity(0.14),
-                                        in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        Text(r.0).font(.dsBody).foregroundStyle(t.textPrimary)
-                        Spacer()
-                        Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(t.textTertiary)
-                    }
-                    .padding(.horizontal, 14).padding(.vertical, 9)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(HighlightStyle())
-                if i < recentItems.count - 1 { RowDivider(leading: 60) }
-            }
-            Color.clear.frame(height: 8)
-        }
-    }
-    var recentItems: [(String, String, String, LooksRoute?)] {
-        [("Своп-вечеринка «Пудра»", "arrow.left.arrow.right", "FF8A65", .nearby),
-         ("Гардероб: 86 вещей", "hanger", "5B7CFA", .wardrobe),
-         ("Знакомые из контактов", "person.2.fill", "42B883", .mates)]
-    }
 }
 
 // MARK: - Клипы: вертикальные примерки (паттерн «Клипы» ВК)

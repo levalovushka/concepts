@@ -15,7 +15,6 @@ struct FeedScreen: View {
         VStack(spacing: 0) {
             ScreenHeader(title: "Образы", avatar: "Ника Орлова") {
                 Button { nav.present(cover: LooksRoute.create) } label: { Image(systemName: "plus") }
-                Button { nav.push(LooksRoute.search) } label: { Image(systemName: "magnifyingglass") }
             }
             UnderlineTabs(items: ["Подписки", "Для вас", "Свопы"], selection: $tab)
 
@@ -293,11 +292,8 @@ private struct NearbyPromoCard: View {
             .padding(12)
             RowDivider(leading: 12)
             Button {
-                Task {
-                    let ok = await perms.request(.location)
-                    if ok { nav.tab = 1 }
-                    else { nav.toast("Без геопозиции покажем свопы по городу", once: "location") }
-                }
+                nav.tab = 1
+                nav.push(LooksRoute.nearby)
             } label: {
                 Text("Показать поблизости")
                     .font(.system(size: 15, weight: .medium))

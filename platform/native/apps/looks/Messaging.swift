@@ -221,13 +221,7 @@ struct ChatScreen: View {
                     .focused($focused)
 
                 if draft.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Button {
-                        Task {
-                            let ok = await perms.request(.mic)
-                            if !ok { nav.toast("Без микрофона можно писать текстом", once: "mic") }
-                            else { nav.toast("Запись голосового — удерживайте кнопку") }
-                        }
-                    } label: {
+                    Button { nav.push(LooksRoute.voice) } label: {
                         Image(systemName: "mic.fill").font(.system(size: 22)).foregroundStyle(t.accent)
                     }
                     .buttonStyle(.plain)
@@ -252,12 +246,7 @@ struct ChatScreen: View {
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    Task {
-                        await perms.request(.voip)
-                        nav.toast("Звонок недоступен в демо-сборке")
-                    }
-                } label: { Image(systemName: "phone") }
+                Button { nav.push(LooksRoute.call) } label: { Image(systemName: "phone") }
             }
         }
     }

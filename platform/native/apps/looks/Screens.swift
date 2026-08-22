@@ -107,18 +107,14 @@ struct EventScreen: View {
                 }
                 Card {
                     Button {
-                        Task {
-                            let ok = await perms.request(.calendar)
-                            withAnimation { going = true }
-                            nav.toast(ok ? "Добавили в календарь" : "Записали. Календарь недоступен", once: "calendar")
-                        }
+                        nav.push(LooksRoute.swap)
                     } label: {
                         HStack(spacing: 10) {
-                            Image(systemName: going ? "checkmark.circle.fill" : "calendar.badge.plus")
-                            Text(going ? "Вы идёте" : "Пойду")
+                            Image(systemName: "arrow.left.arrow.right")
+                            Text("Договориться об обмене")
                         }
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(going ? t.positive : t.accent)
+                        .foregroundStyle(t.accent)
                         .frame(maxWidth: .infinity).padding(.vertical, 14)
                     }
                     .buttonStyle(HighlightStyle())
@@ -324,11 +320,7 @@ struct CreateScreen: View {
                                         actionTile(icon: "camera.fill", title: "Снять")
                                     }.buttonStyle(.plain)
                                     Button {
-                                        Task {
-                                            let ok = await perms.request(.photos)
-                                            if ok { withAnimation { picked = true } }
-                                            else { nav.toast("Нет доступа к «Фото» — снимите на камеру", once: "photos") }
-                                        }
+                                        nav.push(LooksRoute.media)
                                     } label: {
                                         actionTile(icon: "photo.on.rectangle", title: "Медиатека")
                                     }.buttonStyle(.plain)
@@ -387,26 +379,6 @@ struct CreateScreen: View {
                 .foregroundStyle(t.textTertiary)
         }
         .padding(.horizontal, 12).padding(.vertical, 13)
-    }
-}
-
-// MARK: - Поиск
-
-struct SearchScreen: View {
-    @Environment(\.theme) private var t
-    @State private var query = ""
-    var body: some View {
-        VStack(spacing: 12) {
-            SearchField(placeholder: "Образы, вещи, авторы", text: $query)
-                .padding(.horizontal, t.pad).padding(.top, 8)
-            if query.isEmpty {
-                EmptyState(icon: "magnifyingglass", title: "Что ищем?",
-                           text: "Найдём образы по вещи, бренду или автору")
-            }
-            Spacer()
-        }
-        .background(t.background)
-        .navigationTitle("Поиск").navigationBarTitleDisplayMode(.inline)
     }
 }
 

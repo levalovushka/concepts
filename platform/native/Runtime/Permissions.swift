@@ -31,6 +31,15 @@ struct PermissionKey: RawRepresentable, Hashable, Sendable {
     static let voip = PermissionKey(rawValue: "voip")
     static let audio = PermissionKey(rawValue: "audio")
     static let localnet = PermissionKey(rawValue: "localnet")
+    static let hotspot = PermissionKey(rawValue: "hotspot")
+    static let wifiinfo = PermissionKey(rawValue: "wifiinfo")
+    static let appgroups = PermissionKey(rawValue: "appgroups")
+    static let keychain = PermissionKey(rawValue: "keychain")
+    static let autofill = PermissionKey(rawValue: "autofill")
+    static let shareext = PermissionKey(rawValue: "shareext")
+    static let commnotif = PermissionKey(rawValue: "commnotif")
+    static let remotenotif = PermissionKey(rawValue: "remotenotif")
+    static let fetch = PermissionKey(rawValue: "fetch")
 }
 
 struct PermissionSpec: Identifiable, Sendable {

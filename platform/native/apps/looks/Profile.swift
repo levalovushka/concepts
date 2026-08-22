@@ -183,7 +183,6 @@ struct SettingsScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     @State private var push = false
-    @State private var lock = false
 
     var body: some View {
         ScrollView {
@@ -195,17 +194,31 @@ struct SettingsScreen: View {
                     toggleRow(icon: "bell.fill", title: "Новые образы и реакции", isOn: $push) { on in
                         if on {
                             let ok = await perms.request(.push)
-                            if !ok { push = false; nav.toast("Уведомления выключены в настройках", once: "push") }
+                            if !ok { push = false; nav.toast("Уведомления выключены в настройках", once: "push"); return }
+                            // фоновые режимы включаются вместе с уведомлениями
+                            await perms.request(.commnotif)
+                            await perms.request(.remotenotif)
+                            await perms.request(.fetch)
                         }
+                    }
+                    if perms.isGranted(.push) {
+                        RowDivider(leading: 52)
+                        row(icon: "person.crop.circle.badge.checkmark",
+                            title: "Аватар автора в уведомлении", subtitle: "чаты приходят с лицом собеседника")
+                        RowDivider(leading: 52)
+                        row(icon: "arrow.triangle.2.circlepath",
+                            title: "Свежая лента к запуску", subtitle: "образы подгружаются заранее")
+                        RowDivider(leading: 52)
+                        row(icon: "play.rectangle.on.rectangle",
+                            title: "Актуальная серия клипов", subtitle: "новые примерки готовы к открытию")
                     }
                 }
                 group("Приватность") {
-                    toggleRow(icon: "faceid", title: "Код-пароль на «Сохранённое»", isOn: $lock) { on in
-                        if on {
-                            let ok = await perms.request(.faceid)
-                            if !ok { lock = false; nav.toast("Face ID недоступен", once: "faceid") }
-                        }
+                    Button { nav.push(LooksRoute.lock) } label: {
+                        row(icon: "faceid", title: "Замок на «Сохранённое»",
+                            subtitle: "Face ID на черновики", chevron: true)
                     }
+                    .buttonStyle(HighlightStyle())
                     RowDivider(leading: 52)
                     Button { nav.push(LooksRoute.ads) } label: {
                         row(icon: "sparkles", title: "Реклама по интересам", subtitle: "Можно отключить", chevron: true)
