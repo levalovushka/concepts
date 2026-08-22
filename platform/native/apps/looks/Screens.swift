@@ -224,7 +224,8 @@ struct WardrobeScreen: View {
                             wardrobeStat("\(garments.filter { if case .idle = $0.state { return true }; return false }.count)",
                                          "лежат")
                             Rectangle().fill(t.separator).frame(width: 0.5, height: 26)
-                            wardrobeStat("\(garments.filter { $0.state == .onSwap }.count)", "на свопе")
+                            wardrobeStat("\(garments.filter { $0.state == .onSwap || $0.state == .wanted }.count)",
+                                         "на свопе")
                         }
                         .padding(.vertical, 12)
                     }
@@ -285,7 +286,8 @@ private struct GarmentCard: View {
                 Text(garment.title).font(.system(size: 14, weight: .medium))
                     .foregroundStyle(t.textPrimary).lineLimit(1)
                 HStack(spacing: 5) {
-                    Text(garment.brand).font(.dsCaption).foregroundStyle(t.textSecondary).lineLimit(1)
+                    Text(garment.brand).font(.dsCaption).foregroundStyle(t.textSecondary)
+                    .lineLimit(1).minimumScaleFactor(0.85)
                     if garment.inOutfits > 0 {
                         Text("·").foregroundStyle(t.textTertiary)
                         Text("в \(garment.inOutfits) образах").font(.dsCaption)

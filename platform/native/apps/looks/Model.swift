@@ -102,13 +102,13 @@ struct NearbyEvent: Identifiable, Hashable {
 @Observable
 final class LooksStore {
     var outfits: [Outfit] = [
-        Outfit(author: "Аня Котова", meta: "2 ч · Москва",
+        Outfit(author: "Аня Котова", meta: "2 ч",
                text: "Собрала образ на осень: тренч, ботинки и шарф крупной вязки. Как вам сочетание?",
                items: [Garment(title: "Тренч оверсайз", brand: "Zara", inOutfits: 12, state: .worn("надет вчера")),
                        Garment(title: "Ботинки челси", brand: "Ecco", inOutfits: 31, state: .worn("надеты 3 дня назад")),
                        Garment(title: "Шарф крупной вязки", brand: "связан сама", inOutfits: 4, state: .idle("2 недели"))],
                likes: 128, comments: 24, shares: 6, views: "3,4K", seed: 0),
-        Outfit(author: "Марк Львов", meta: "вчера · Санкт-Петербург",
+        Outfit(author: "Марк Львов", meta: "вчера",
                text: "Три вещи, которые работают в любом сочетании. Проверял месяц.",
                items: [Garment(title: "Пиджак оверсайз", brand: "Massimo Dutti", inOutfits: 8, state: .idle("7 месяцев")),
                        Garment(title: "Прямые джинсы", brand: "Levi\'s 501", inOutfits: 44, state: .worn("надеты сегодня")),

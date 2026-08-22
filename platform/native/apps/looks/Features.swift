@@ -121,6 +121,12 @@ struct CheckinScreen: View {
     @Environment(\.theme) private var t
     @State private var joined = false
     @State private var checked = false
+    /// Каждая строка сообщает своё, а не заполненный шаблон.
+    private let arrived: [(String, String, String)] = [
+        ("Аня Котова", "принесла 3 вещи, забрала пальто", "14:02"),
+        ("Марк Львов", "пришёл без вещей, смотрит", "14:09"),
+        ("Даша Ким", "меняет платье на жакет", "14:23"),
+    ]
 
     var body: some View {
         ScrollView {
@@ -143,7 +149,7 @@ struct CheckinScreen: View {
                     RowDivider(leading: 60)
                     stepRow(n: 2, title: "Отметиться на свопе",
                             sub: checked ? "Вы на месте" : (joined ? "Проверим сеть" : "Сначала подключитесь"),
-                            done: checked) {
+                            done: checked, enabled: joined) {
                         Task {
                             let ok = await perms.request(.wifiinfo)
                             if ok { withAnimation { checked = true }; nav.toast("Отметка засчитана") }
@@ -155,16 +161,16 @@ struct CheckinScreen: View {
                     Text("Уже отметились")
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
-                    ForEach(["Аня Котова", "Марк Львов", "Даша Ким"], id: \.self) { n in
+                    ForEach(arrived, id: \.0) { p in
                         HStack(spacing: 12) {
-                            Avatar(name: n, size: 36)
+                            Avatar(name: p.0, size: 36)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text(n).font(.system(size: 14, weight: .medium))
-                                Text("принесла 3 вещи").font(.dsCaption).foregroundStyle(t.textSecondary)
+                                Text(p.0).font(.system(size: 14, weight: .medium))
+                                Text(p.1).font(.dsCaption).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
-                            Text("14:0\(Int.random(in: 2...9))")
-                                .font(.dsCaption.monospacedDigit()).foregroundStyle(t.textSecondary)
+                            Text(p.2).font(.dsCaption.monospacedDigit())
+                                .foregroundStyle(t.textSecondary)
                         }
                         .padding(.horizontal, 12).padding(.vertical, 6)
                     }
@@ -187,6 +193,7 @@ struct CheckinScreen: View {
     }
 
     private func stepRow(n: Int, title: String, sub: String, done: Bool,
+                         enabled: Bool = true,
                          action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 12) {
@@ -200,7 +207,7 @@ struct CheckinScreen: View {
                     Text(sub).font(.dsMeta).foregroundStyle(t.textSecondary)
                 }
                 Spacer()
-                if !done {
+                if !done && enabled {
                     Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(t.textTertiary)
                 }
