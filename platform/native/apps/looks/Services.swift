@@ -17,7 +17,14 @@ struct ServicesScreen: View {
         ("Барахолки", "bag.fill", "F0724E", .nearby),
         ("Примерки", "video.fill", "E0719A", nil),
         ("Бренды", "tag.fill", "3FA88C", nil),
-        ("Реклама", "sparkles", "E0A83B", .ads),
+        ("Подборки", "square.stack.3d.up.fill", "E0A83B", nil),
+    ]
+
+    private let collections: [(String, String, String, String)] = [
+        ("Осенние образы", "leaf.fill", "E0834B", "34 образа"),
+        ("Секонд-находки", "tag.fill", "42B883", "нашли вчера"),
+        ("Капсула на неделю", "square.stack.3d.up.fill", "5B7CFA", "7 сочетаний"),
+        ("Кто рядом", "location.fill", "E0719A", "12 человек"),
     ]
 
     var body: some View {
@@ -27,48 +34,16 @@ struct ServicesScreen: View {
             }
             ScrollView {
                 LazyVStack(spacing: t.cardGap) {
-                    widgets
                     grid
                     forYou
+                    recent
                 }
-                .padding(.vertical, t.cardGap)
+                .padding(.top, t.cardGap)
+                .padding(.bottom, 72)
             }
             .background(t.background)
         }
         .background(t.background)
-    }
-
-    // строка виджетов — как погода/плейлист/курс у ВК
-    private var widgets: some View {
-        HStack(spacing: t.cardGap) {
-            widget(title: "3 свопа", sub: "рядом на выходных", icon: "arrow.left.arrow.right", tint: "FF8A65") {
-                nav.push(LooksRoute.nearby)
-            }
-            widget(title: "Образ дня", sub: "собран для вас", icon: "sparkles", tint: "5B7CFA") {}
-            widget(title: "86 вещей", sub: "в гардеробе", icon: "hanger", tint: "42B883") {
-                nav.push(LooksRoute.wardrobe)
-            }
-        }
-        .padding(.horizontal, t.pad)
-    }
-
-    private func widget(title: String, sub: String, icon: String, tint: String,
-                        action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            VStack(alignment: .leading, spacing: 6) {
-                Image(systemName: icon).font(.system(size: 17, weight: .medium))
-                    .foregroundStyle(Color(hex: tint))
-                Text(title).font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(t.textPrimary).lineLimit(1)
-                Text(sub).font(.system(size: 12)).foregroundStyle(t.textSecondary)
-                    .lineLimit(2).fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(10)
-            .frame(height: 96, alignment: .top)
-            .background(t.card, in: RoundedRectangle(cornerRadius: t.cardRadius, style: .continuous))
-        }
-        .pressable()
     }
 
     // сетка сервисов 4 в ряд
@@ -106,17 +81,23 @@ struct ServicesScreen: View {
                 .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                 .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 10)
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(["Осенние образы", "Секонд-находки", "Капсула на неделю", "Кто рядом"], id: \.self) { title in
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(collections, id: \.0) { c in
                         VStack(alignment: .leading, spacing: 8) {
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(LinearGradient(colors: [t.accent.opacity(0.22), t.accent.opacity(0.42)],
-                                                     startPoint: .top, endPoint: .bottom))
-                                .frame(width: 116, height: 116)
-                                .overlay(Image(systemName: "square.stack.3d.up")
-                                    .font(.system(size: 26, weight: .ultraLight)).foregroundStyle(t.accent))
-                            Text(title).font(.dsCaption).foregroundStyle(t.textPrimary)
-                                .frame(width: 116, alignment: .leading).lineLimit(2)
+                                .fill(LinearGradient(colors: [Color(hex: c.2).opacity(0.20),
+                                                              Color(hex: c.2).opacity(0.45)],
+                                                     startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 124, height: 124)
+                                .overlay(Image(systemName: c.1)
+                                    .font(.system(size: 30, weight: .ultraLight))
+                                    .foregroundStyle(Color(hex: c.2)))
+                            Text(c.0).font(.system(size: 13, weight: .medium))
+                                .foregroundStyle(t.textPrimary)
+                                .frame(width: 124, height: 34, alignment: .topLeading)
+                                .lineLimit(2)
+                            Text(c.3).font(.dsCaption).foregroundStyle(t.textSecondary)
+                                .frame(width: 124, alignment: .leading).lineLimit(1)
                         }
                     }
                 }
@@ -125,6 +106,41 @@ struct ServicesScreen: View {
             .scrollClipDisabled()
             .padding(.bottom, 16)
         }
+    }
+}
+
+extension ServicesScreen {
+    /// «Недавнее» — как у ВК под сеткой сервисов.
+    var recent: some View {
+        Card {
+            Text("Недавнее")
+                .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                .padding(.horizontal, 14).padding(.top, 14).padding(.bottom, 6)
+            ForEach(Array(recentItems.enumerated()), id: \.offset) { i, r in
+                Button { if let route = r.3 { nav.push(route) } else { nav.toast("Скоро") } } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: r.1).font(.system(size: 17))
+                            .foregroundStyle(Color(hex: r.2)).frame(width: 34, height: 34)
+                            .background(Color(hex: r.2).opacity(0.14),
+                                        in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        Text(r.0).font(.dsBody).foregroundStyle(t.textPrimary)
+                        Spacer()
+                        Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(t.textTertiary)
+                    }
+                    .padding(.horizontal, 14).padding(.vertical, 9)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(HighlightStyle())
+                if i < recentItems.count - 1 { RowDivider(leading: 60) }
+            }
+            Color.clear.frame(height: 8)
+        }
+    }
+    var recentItems: [(String, String, String, LooksRoute?)] {
+        [("Своп-вечеринка «Пудра»", "arrow.left.arrow.right", "FF8A65", .nearby),
+         ("Гардероб: 86 вещей", "hanger", "5B7CFA", .wardrobe),
+         ("Знакомые из контактов", "person.2.fill", "42B883", .mates)]
     }
 }
 
@@ -151,78 +167,85 @@ struct ClipsScreen: View {
 private struct ClipPage: View {
     let outfit: Outfit
     @Environment(LooksStore.self) private var store
-    @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
-    @State private var showTags = true
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color(hex: "2B2F3A"), Color(hex: "111319")],
+            LinearGradient(colors: [Color(hex: "343A4A"), Color(hex: "12141A")],
                            startPoint: .top, endPoint: .bottom)
-            // «кадр» примерки: вещи образа крупно
-            VStack(spacing: 18) {
-                ForEach(Array(outfit.items.prefix(3).enumerated()), id: \.element.id) { i, g in
-                    Image(systemName: g.glyph)
-                        .font(.system(size: i == 0 ? 96 : 54, weight: .ultraLight))
-                        .foregroundStyle(.white.opacity(i == 0 ? 0.95 : 0.55))
-                }
-            }
-            .offset(y: -40)
 
-            // правая колонка действий — как в Клипах
-            VStack(spacing: 22) {
-                Spacer()
-                clipAction(icon: outfit.liked ? "heart.fill" : "heart",
-                           value: "\(outfit.likes)",
-                           tint: outfit.liked ? .red : .white) { store.toggleLike(outfit.id) }
-                clipAction(icon: "bubble.right", value: "\(outfit.comments)", tint: .white) {}
-                clipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
-                           value: "Сохранить", tint: .white) { store.toggleSave(outfit.id) }
-                Spacer().frame(height: 260)
-            }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding(.trailing, 14)
-
-            // низ: автор, текст, отметки вещей
-            VStack(alignment: .leading, spacing: 10) {
-                Spacer()
-                HStack(spacing: 10) {
-                    Avatar(name: outfit.author, size: 36)
-                    Text(outfit.author).font(.dsHeadline).foregroundStyle(.white)
-                    Text("Подписаться")
-                        .font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
-                        .padding(.horizontal, 10).frame(height: 28)
-                        .overlay(Capsule().stroke(.white.opacity(0.7), lineWidth: 1))
+            // кадр примерки: главная вещь крупно, остальные — строкой под ней
+            VStack(spacing: 26) {
+                if let hero = outfit.items.first {
+                    Image(systemName: hero.glyph)
+                        .font(.system(size: 132, weight: .ultraLight))
+                        .foregroundStyle(.white.opacity(0.96))
                 }
-                if !outfit.text.isEmpty {
-                    Text(outfit.text).font(.dsSubhead).foregroundStyle(.white.opacity(0.92))
-                        .lineLimit(2)
-                        .padding(.trailing, 76)
-                }
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(outfit.items) { g in
-                            HStack(spacing: 6) {
-                                Image(systemName: g.glyph).font(.system(size: 13))
-                                Text(g.title).font(.system(size: 13, weight: .medium))
-                            }
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 10).frame(height: 30)
-                            .background(.white.opacity(0.18), in: Capsule())
-                        }
+                HStack(spacing: 34) {
+                    ForEach(outfit.items.dropFirst()) { g in
+                        Image(systemName: g.glyph)
+                            .font(.system(size: 44, weight: .ultraLight))
+                            .foregroundStyle(.white.opacity(0.45))
                     }
                 }
-                .scrollClipDisabled()
-                Spacer().frame(height: 118)
             }
-            .padding(.horizontal, 16)
+            .offset(y: -70)
+
+            // низ: слева автор и вещи, справа колонка действий — в одном HStack,
+            // поэтому пересечься они не могут
+            VStack {
+                Spacer()
+                HStack(alignment: .bottom, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 10) {
+                            Avatar(name: outfit.author, size: 36)
+                            Text(outfit.author).font(.dsHeadline).foregroundStyle(.white)
+                            Text("Подписаться")
+                                .font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
+                                .padding(.horizontal, 10).frame(height: 28)
+                                .overlay(Capsule().stroke(.white.opacity(0.7), lineWidth: 1))
+                        }
+                        if !outfit.text.isEmpty {
+                            Text(outfit.text).font(.dsSubhead)
+                                .foregroundStyle(.white.opacity(0.92)).lineLimit(2)
+                        }
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(outfit.items) { g in
+                                    HStack(spacing: 6) {
+                                        Image(systemName: g.glyph).font(.system(size: 13))
+                                        Text(g.title).font(.system(size: 13, weight: .medium))
+                                    }
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 10).frame(height: 30)
+                                    .background(.white.opacity(0.18), in: Capsule())
+                                }
+                            }
+                            .padding(.trailing, 8)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                    VStack(spacing: 20) {
+                        clipAction(icon: outfit.liked ? "heart.fill" : "heart",
+                                   value: "\(outfit.likes)",
+                                   tint: outfit.liked ? .red : .white) { store.toggleLike(outfit.id) }
+                        clipAction(icon: "bubble.right", value: "\(outfit.comments)", tint: .white) {}
+                        clipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
+                                   value: "\(outfit.shares)", tint: .white) { store.toggleSave(outfit.id) }
+                    }
+                    .frame(width: 52)
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 124)
+            }
         }
     }
 
     private func clipAction(icon: String, value: String, tint: Color,
                             action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            VStack(spacing: 5) {
+            VStack(spacing: 4) {
                 Image(systemName: icon).font(.system(size: 27)).foregroundStyle(tint)
                 Text(value).font(.system(size: 12, weight: .medium)).foregroundStyle(.white)
             }

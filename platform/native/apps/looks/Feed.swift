@@ -27,7 +27,8 @@ struct FeedScreen: View {
                     }
                     NearbyPromoCard()
                 }
-                .padding(.vertical, t.cardGap)
+                .padding(.top, t.cardGap)
+                .padding(.bottom, 72)
             }
             .refreshable {
                 try? await Task.sleep(nanoseconds: 900_000_000)

@@ -44,7 +44,8 @@ struct NearbyScreen: View {
                             .buttonStyle(.plain)
                     }
                 }
-                .padding(.vertical, t.cardGap)
+                .padding(.top, t.cardGap)
+                .padding(.bottom, 72)
             }
             .background(t.background)
         }
@@ -100,7 +101,7 @@ struct EventScreen: View {
                         Text(event.title).font(.dsSectionTitle).foregroundStyle(t.textPrimary)
                         InfoRow(icon: "calendar", text: event.when)
                         InfoRow(icon: "mappin.and.ellipse", text: event.place)
-                        InfoRow(icon: "person.2.fill", text: "\(event.going) человек идут")
+                        InfoRow(icon: "person.2.fill", text: peopleGoing(event.going))
                     }
                     .padding(12)
                 }
@@ -114,7 +115,7 @@ struct EventScreen: View {
                     } label: {
                         HStack(spacing: 10) {
                             Image(systemName: going ? "checkmark.circle.fill" : "calendar.badge.plus")
-                            Text(going ? "Вы идёте" : "Пойду и добавить в календарь")
+                            Text(going ? "Вы идёте" : "Пойду")
                         }
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(going ? t.positive : t.accent)
@@ -128,6 +129,14 @@ struct EventScreen: View {
         .background(t.background)
         .navigationTitle("Своп").navigationBarTitleDisplayMode(.inline)
     }
+}
+
+/// «34 человека идут» / «21 человек идёт» — без шаблонной склейки.
+func peopleGoing(_ n: Int) -> String {
+    let t = n % 10, h = n % 100
+    if t == 1 && h != 11 { return "\(n) человек идёт" }
+    if (2...4).contains(t) && !(12...14).contains(h) { return "\(n) человека идут" }
+    return "\(n) человек идут"
 }
 
 private struct InfoRow: View {
@@ -339,7 +348,8 @@ struct CreateScreen: View {
                         rowLink(icon: "person.2", title: "Аудитория", value: "Все")
                     }
                 }
-                .padding(.vertical, t.cardGap)
+                .padding(.top, t.cardGap)
+                .padding(.bottom, 72)
             }
             .background(t.background)
         }

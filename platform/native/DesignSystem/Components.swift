@@ -27,8 +27,9 @@ struct Avatar: View {
     @Environment(\.theme) private var t
 
     private var initials: String {
-        let parts = name.split(separator: " ").prefix(2)
-        let s = parts.compactMap { $0.first }.map(String.init).joined()
+        // только буквы: «Стиль-клуб «Пудра»» не должен давать «С«»
+        let words = name.split(whereSeparator: { !$0.isLetter })
+        let s = words.prefix(2).compactMap { $0.first }.map(String.init).joined()
         return s.isEmpty ? "?" : s.uppercased()
     }
     // Сдержанная палитра: аватары различимы, но не превращают экран в радугу.

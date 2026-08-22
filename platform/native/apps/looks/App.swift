@@ -14,11 +14,21 @@ struct LooksApp: App {
     }
 }
 
+/// Режим съёмки: приложение запускается сразу на нужном экране.
+/// `xcrun simctl launch <dev> <bundle> -shot feed`
+enum ShotMode {
+    static var screen: String? {
+        let a = ProcessInfo.processInfo.arguments
+        guard let i = a.firstIndex(of: "-shot"), i + 1 < a.count else { return nil }
+        return a[i + 1]
+    }
+}
+
 struct RootView: View {
     @State private var store = LooksStore()
     @State private var nav = Nav()
     @State private var perms = Permissions()
-    @State private var authed = false
+    @State private var authed = ShotMode.screen != nil && ShotMode.screen != "auth"
     private let theme = Theme.vk
 
     var body: some View {
@@ -50,18 +60,48 @@ struct MainShell: View {
         // Нативный TabView — на iOS 26 это Liquid Glass таб-бар с системным
         // поведением: сжатие при скролле, размытие, корректные safe-area отступы.
         TabView(selection: $nav.tab) {
-            Tab("Главная", systemImage: "square.stack", value: 0) { tabContent(0) }
-            Tab("Сервисы", systemImage: "square.grid.2x2", value: 1) { tabContent(1) }
-            Tab("Мессенджер", systemImage: "bubble.left", value: 2) { tabContent(2) }
+            // подписей нет — только иконки; имена остаются для VoiceOver
+            Tab("", systemImage: "square.stack", value: 0) { tabContent(0) }
+                .accessibilityLabel("Главная")
+            Tab("", systemImage: "square.grid.2x2", value: 1) { tabContent(1) }
+                .accessibilityLabel("Сервисы")
+            Tab("", systemImage: "bubble.left", value: 2) { tabContent(2) }
                 .badge(unread)
-            Tab("Клипы", systemImage: "play.rectangle", value: 3) { tabContent(3) }
-            Tab("Профиль", systemImage: "person", value: 4) { tabContent(4) }
+                .accessibilityLabel("Мессенджер")
+            Tab("", systemImage: "play.rectangle", value: 3) { tabContent(3) }
+                .accessibilityLabel("Клипы")
+            Tab("", systemImage: "person", value: 4) { tabContent(4) }
+                .accessibilityLabel("Профиль")
         }
         .overlay(alignment: .bottom) {
             ToastOverlay(text: nav.toastText).padding(.bottom, 96)
         }
         .sheet(item: $nav.sheet) { route in routeView(route) }
         .fullScreenCover(item: $nav.cover) { route in routeView(route) }
+        .task { applyShotMode() }
+    }
+
+    /// Разводит режим съёмки по вкладкам и маршрутам.
+    private func applyShotMode() {
+        guard let s = ShotMode.screen else { return }
+        switch s {
+        case "feed": nav.tab = 0
+        case "services": nav.tab = 1
+        case "chats": nav.tab = 2
+        case "clips": nav.tab = 3
+        case "profile": nav.tab = 4
+        case "chat": nav.tab = 2; nav.push(LooksRoute.chat(store.dialogs[0]))
+        case "outfit": nav.tab = 0; nav.push(LooksRoute.outfit(store.outfits[0]))
+        case "nearby": nav.tab = 1; nav.push(LooksRoute.nearby)
+        case "wardrobe": nav.tab = 1; nav.push(LooksRoute.wardrobe)
+        case "mates": nav.tab = 1; nav.push(LooksRoute.mates)
+        case "settings": nav.tab = 4; nav.push(LooksRoute.settings)
+        case "event": nav.tab = 1; nav.push(LooksRoute.event(store.events[0]))
+        case "create": nav.tab = 0; nav.present(cover: LooksRoute.create)
+        case "ads": nav.tab = 4; nav.push(LooksRoute.ads)
+        case "search": nav.tab = 0; nav.push(LooksRoute.search)
+        default: break
+        }
     }
 
     @ViewBuilder private func tabContent(_ i: Int) -> some View {
