@@ -87,6 +87,7 @@ private struct PostCard: View {
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
     @State private var showTags = false
+    @State private var expanded = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -128,50 +129,39 @@ private struct PostCard: View {
                                     .background(.black.opacity(0.4), in: Circle())
                             }
                             .buttonStyle(.plain).padding(12)
+                            .accessibilityLabel("Показать вещи на кадре")
                         }
                     }
             }
             .buttonStyle(.plain)
 
             if !outfit.text.isEmpty {
-                Text(outfit.text)
-                    .font(.vkBody).foregroundStyle(t.textPrimary).lineSpacing(3)
-                    .lineLimit(2).fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, t.pad).padding(.top, 12)
+                // ВК обрывает текст поста и дописывает серое «Показать ещё»
+                Button { withAnimation(.easeOut(duration: 0.18)) { expanded.toggle() } } label: {
+                    (Text(outfit.text).foregroundStyle(t.textPrimary)
+                     + Text(expanded ? "" : "  Показать ещё").foregroundStyle(t.textSecondary))
+                        .font(.vkBody).lineSpacing(3)
+                        .lineLimit(expanded ? nil : 2)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Текст поста")
+                .padding(.horizontal, t.pad).padding(.top, 12)
             }
 
-            HStack(spacing: 20) {
-                Button { store.toggleLike(outfit.id) } label: {
-                    metric(outfit.liked ? "heart.fill" : "heart", "\(outfit.likes)",
-                           tint: outfit.liked ? Color(hex: "FF3347") : t.textSecondary)
-                }
-                .buttonStyle(.plain)
-                Button { nav.push(LooksRoute.outfit(outfit)) } label: {
-                    metric("bubble.right", "\(outfit.comments)", tint: t.textSecondary)
-                }
-                .buttonStyle(.plain)
-                metric("arrowshape.turn.up.right", "\(outfit.shares)", tint: t.textSecondary)
-                Spacer()
-                Button { store.toggleSave(outfit.id) } label: {
-                    Image(systemName: outfit.saved ? "bookmark.fill" : "bookmark")
-                        .font(.system(size: 18))
-                        .foregroundStyle(outfit.saved ? t.accent : t.textSecondary)
-                }
-                .buttonStyle(.plain)
-                Text(outfit.views).font(.vkMeta).foregroundStyle(t.textSecondary)
-            }
-            .padding(.horizontal, t.pad)
-            .padding(.top, 12).padding(.bottom, 12)
+            VKPostActions(likes: outfit.likes, liked: outfit.liked,
+                          comments: outfit.comments, shares: outfit.shares,
+                          saved: outfit.saved, trailing: outfit.views,
+                          onLike: { store.toggleLike(outfit.id) },
+                          onComment: { nav.push(LooksRoute.outfit(outfit)) },
+                          onShare: { nav.toast("Ссылка скопирована") },
+                          onSave: { store.toggleSave(outfit.id) })
+                .padding(.horizontal, t.pad)
+                .padding(.top, 12).padding(.bottom, 12)
         }
         .background(t.background)
-    }
-
-    private func metric(_ icon: String, _ value: String, tint: Color) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: icon).font(.system(size: 19))
-            Text(value).font(.system(size: 15))
-        }
-        .foregroundStyle(tint)
     }
 
     private var tagStack: some View {

@@ -11,25 +11,25 @@ struct NearbyScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            FilterPills(items: [("Все", "line.3.horizontal.decrease"), ("Свопы", "arrow.left.arrow.right"),
+            VKFilterPills(items: [("Все", "line.3.horizontal.decrease"), ("Свопы", "arrow.left.arrow.right"),
                                 ("Барахолки", "bag"), ("Встречи", "person.2")], selection: $filter)
                 .scrollClipDisabled()
                 .padding(.vertical, 10)
                 .background(t.card)
 
             ScrollView {
-                LazyVStack(spacing: t.cardGap) {
+                LazyVStack(spacing: 0) {
                     if perms.status(.location) != .granted {
-                        Card {
+                        VKGroup {
                             VStack(alignment: .leading, spacing: 12) {
                                 Image(systemName: "location.circle.fill")
                                     .font(.system(size: 34)).foregroundStyle(t.accent)
                                 Text("Показать свопы поблизости")
                                     .font(.system(size: 18, weight: .semibold)).foregroundStyle(t.textPrimary)
                                 Text("Нужна геопозиция, чтобы отсортировать встречи по расстоянию. Без неё покажем всё по городу")
-                                    .font(.dsBody).foregroundStyle(t.textSecondary)
+                                    .font(.vkBody).foregroundStyle(t.textSecondary)
                                     .fixedSize(horizontal: false, vertical: true)
-                                PrimaryButton(title: "Разрешить геопозицию", icon: "location.fill") {
+                                VKButton(title: "Разрешить геопозицию", icon: "location.fill") {
                                     Task {
                                         let ok = await perms.request(.location)
                                         if !ok { nav.toast("Показываем свопы по городу", once: "location") }
@@ -44,7 +44,7 @@ struct NearbyScreen: View {
                             .buttonStyle(.plain)
                     }
                 }
-                .padding(.top, t.cardGap)
+                
                 .padding(.bottom, 72)
             }
             .background(t.background)
@@ -59,8 +59,8 @@ private struct EventCard: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     var body: some View {
-        Card {
-            MediaBlock(glyph: "arrow.left.arrow.right", height: 140, seed: event.going)
+        VKGroup {
+            VKMedia(glyph: "arrow.left.arrow.right", height: 140, seed: event.going)
             VStack(alignment: .leading, spacing: 8) {
                 Text(event.title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
                 HStack(spacing: 6) {
@@ -69,14 +69,14 @@ private struct EventCard: View {
                     Text("·")
                     Text(event.place).lineLimit(1)
                 }
-                .font(.dsMeta).foregroundStyle(t.textSecondary)
+                .font(.vkMeta).foregroundStyle(t.textSecondary)
                 HStack(spacing: 8) {
                     Label(perms.isGranted(.location) ? event.distance : "в городе", systemImage: "location.fill")
                         .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(t.accent)
                         .padding(.horizontal, 10).frame(height: 28)
                         .background(t.accentSoft, in: Capsule())
-                    Text("\(event.going) идут").font(.dsMeta).foregroundStyle(t.textSecondary)
+                    Text("\(event.going) идут").font(.vkMeta).foregroundStyle(t.textSecondary)
                     Spacer()
                 }
             }
@@ -87,6 +87,7 @@ private struct EventCard: View {
 
 struct EventScreen: View {
     let event: NearbyEvent
+    @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
@@ -94,18 +95,18 @@ struct EventScreen: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    MediaBlock(glyph: "arrow.left.arrow.right", height: 180, seed: event.going)
+            VStack(spacing: 0) {
+                VKGroup {
+                    VKMedia(glyph: "arrow.left.arrow.right", height: 180, seed: event.going)
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(event.title).font(.dsSectionTitle).foregroundStyle(t.textPrimary)
+                        Text(event.title).font(.vkSection).foregroundStyle(t.textPrimary)
                         InfoRow(icon: "calendar", text: event.when)
                         InfoRow(icon: "mappin.and.ellipse", text: event.place)
                         InfoRow(icon: "person.2.fill", text: peopleGoing(event.going))
                     }
                     .padding(12)
                 }
-                Card {
+                VKGroup {
                     Text("Организатор")
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
@@ -113,17 +114,22 @@ struct EventScreen: View {
                         Avatar(name: "Аня Котова", size: 40)
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Аня Котова").font(.system(size: 15, weight: .medium))
-                            Text("собрала 12 свопов за год").font(.dsMeta).foregroundStyle(t.textSecondary)
+                            Text("собрала 12 свопов за год").font(.vkMeta).foregroundStyle(t.textSecondary)
                         }
                         Spacer()
-                        Text("Написать").font(.system(size: 14, weight: .medium))
-                            .foregroundStyle(t.accent)
-                            .padding(.horizontal, 12).frame(height: 30)
-                            .background(t.accentSoft, in: Capsule())
+                        Button {
+                            nav.push(LooksRoute.chat(store.dialogs[0]))
+                        } label: {
+                            Text("Написать").font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(t.accent)
+                                .padding(.horizontal, 12).frame(height: 30)
+                                .background(t.accentSoft, in: Capsule())
+                        }
+                        .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 12).padding(.bottom, 12)
                 }
-                Card {
+                VKGroup {
                     Text("Что приносить")
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 6)
@@ -133,16 +139,16 @@ struct EventScreen: View {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "circle.fill").font(.system(size: 5))
                                 .foregroundStyle(t.textTertiary).padding(.top, 7)
-                            Text(r).font(.dsBody).foregroundStyle(t.textPrimary)
+                            Text(r).font(.vkBody).foregroundStyle(t.textPrimary)
                             Spacer()
                         }
                         .padding(.horizontal, 12).padding(.vertical, 5)
                     }
                     Color.clear.frame(height: 8)
                 }
-                Card {
+                VKGroup {
                     VStack(spacing: 10) {
-                        PrimaryButton(title: going ? "Вы идёте" : "Пойду",
+                        VKButton(title: going ? "Вы идёте" : "Пойду",
                                       icon: going ? "checkmark" : "person.badge.plus") {
                             withAnimation { going.toggle() }
                             nav.toast(going ? "Записали вас на своп" : "Отменили участие")
@@ -161,7 +167,7 @@ struct EventScreen: View {
                     .padding(12)
                 }
             }
-            .padding(.vertical, t.cardGap)
+            
         }
         .background(t.background)
         .navigationTitle("Своп").navigationBarTitleDisplayMode(.inline)
@@ -182,7 +188,7 @@ private struct InfoRow: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon).font(.system(size: 15)).foregroundStyle(t.textSecondary).frame(width: 20)
-            Text(text).font(.dsBody).foregroundStyle(t.textPrimary)
+            Text(text).font(.vkBody).foregroundStyle(t.textPrimary)
             Spacer()
         }
     }
@@ -196,25 +202,25 @@ struct WardrobeScreen: View {
     @Environment(\.theme) private var t
     @State private var tab = 0
 
-    private var garments: [Garment] { store.outfits.flatMap(\.items) }
+    private var garments: [Garment] { store.garments }
 
     private func wardrobeStat(_ v: String, _ l: String) -> some View {
         VStack(spacing: 2) {
             Text(v).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
-            Text(l).font(.dsCaption).foregroundStyle(t.textSecondary)
+            Text(l).font(.vkCaption).foregroundStyle(t.textSecondary)
         }
         .frame(maxWidth: .infinity)
     }
 
     var body: some View {
         VStack(spacing: 0) {
-            UnderlineTabs(items: ["Вещи", "Мои образы", "Сохранённое"], selection: $tab)
+            VKTabs(items: ["Вещи", "Мои образы", "Сохранённое"], selection: $tab)
             Rectangle().fill(t.separator).frame(height: 0.5)
 
             ScrollView {
                 if tab == 0 {
                     // сводка гардероба: живой, а не плоский список
-                    Card {
+                    VKGroup {
                         HStack(spacing: 0) {
                             wardrobeStat("\(garments.count)", "вещей")
                             Rectangle().fill(t.separator).frame(width: 0.5, height: 26)
@@ -229,24 +235,23 @@ struct WardrobeScreen: View {
                         }
                         .padding(.vertical, 12)
                     }
-                    .padding(.horizontal, t.pad).padding(.top, t.cardGap)
 
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 2), spacing: 8) {
                         ForEach(garments) { g in GarmentCard(garment: g) }
                     }
                     .padding(t.pad)
                 } else if tab == 1 {
-                    LazyVStack(spacing: t.cardGap) {
+                    LazyVStack(spacing: 0) {
                         ForEach(store.outfits.prefix(2)) { o in
-                            Card {
-                                OutfitMedia(items: o.items, seed: o.seed, height: 200)
+                            VKGroup {
+                                VKMedia(glyph: o.items.first?.glyph ?? "photo", height: 200, seed: o.seed)
                                 Text(o.text.isEmpty ? "Без описания" : o.text)
-                                    .font(.dsBody).foregroundStyle(t.textPrimary)
+                                    .font(.vkBody).foregroundStyle(t.textPrimary)
                                     .lineLimit(2).padding(12)
                             }
                         }
                     }
-                    .padding(.vertical, t.cardGap)
+                    
                 } else {
                     EmptyState(icon: "bookmark", title: "Пока пусто",
                                text: "Сохраняйте образы из ленты — они появятся здесь")
@@ -264,14 +269,9 @@ private struct GarmentCard: View {
     let garment: Garment
     @Environment(\.theme) private var t
     var body: some View {
-        Card {
+        VKCard {
             ZStack(alignment: .topTrailing) {
-                ZStack {
-                    t.fieldFill
-                    Image(systemName: garment.glyph).font(.system(size: 42, weight: .ultraLight))
-                        .foregroundStyle(t.accent.opacity(0.8))
-                }
-                .frame(height: 124)
+                VKMedia(glyph: garment.glyph, height: 124, seed: garment.title.count)
                 // состояние вещи — приложение всегда наполовину в процессе
                 HStack(spacing: 4) {
                     Image(systemName: garment.state.icon).font(.system(size: 10, weight: .semibold))
@@ -286,14 +286,15 @@ private struct GarmentCard: View {
                 Text(garment.title).font(.system(size: 14, weight: .medium))
                     .foregroundStyle(t.textPrimary).lineLimit(1)
                 HStack(spacing: 5) {
-                    Text(garment.brand).font(.dsCaption).foregroundStyle(t.textSecondary)
-                    .lineLimit(1).minimumScaleFactor(0.85)
+                    Text(garment.brand).font(.vkCaption).foregroundStyle(t.textSecondary)
+                        .lineLimit(1).layoutPriority(1)
                     if garment.inOutfits > 0 {
                         Text("·").foregroundStyle(t.textTertiary)
-                        Text("в \(garment.inOutfits) образах").font(.dsCaption)
-                            .foregroundStyle(t.accent).lineLimit(1)
+                        Text("в \(garment.inOutfits) образах").font(.vkCaption)
+                            .foregroundStyle(t.accent).lineLimit(1).layoutPriority(2)
                     }
                 }
+                .minimumScaleFactor(0.75)
             }
             .padding(10)
         }
@@ -315,7 +316,7 @@ struct EmptyState: View {
         VStack(spacing: 10) {
             Image(systemName: icon).font(.system(size: 44, weight: .light)).foregroundStyle(t.textTertiary)
             Text(title).font(.system(size: 18, weight: .semibold)).foregroundStyle(t.textPrimary)
-            Text(text).font(.dsBody).foregroundStyle(t.textSecondary)
+            Text(text).font(.vkBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center)
         }
         .padding(.horizontal, 40).padding(.top, 60)
@@ -332,9 +333,9 @@ struct OutfitScreen: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
-                    OutfitMedia(items: outfit.items, seed: outfit.seed, height: 360)
+            VStack(spacing: 0) {
+                VKGroup {
+                    VKMedia(glyph: outfit.items.first?.glyph ?? "photo", height: 360, seed: outfit.seed)
                         .overlay(alignment: .bottomLeading) {
                             VStack(alignment: .leading, spacing: 6) {
                                 ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
@@ -355,35 +356,26 @@ struct OutfitScreen: View {
                         HStack(spacing: 10) {
                             Avatar(name: outfit.author, size: 40)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text(outfit.author).font(.dsName)
-                                Text(outfit.meta).font(.dsMeta).foregroundStyle(t.textSecondary)
+                                Text(outfit.author).font(.vkName)
+                                Text(outfit.meta).font(.vkMeta).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
                         }
                         if !outfit.text.isEmpty {
-                            Text(outfit.text).font(.dsBody).lineSpacing(4)
+                            Text(outfit.text).font(.vkBody).lineSpacing(4)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
-                        HStack(spacing: 8) {
-                            ActionPill(icon: "heart", count: "\(outfit.likes)",
-                                       active: outfit.liked, activeColor: t.danger) {
-                                store.toggleLike(outfit.id)
-                            }
-                            ActionPill(icon: "bubble.right", count: "\(outfit.comments)") {}
-                            ActionPill(icon: "arrowshape.turn.up.right", count: "\(outfit.shares)") {}
-                            Spacer()
-                            Button { store.toggleSave(outfit.id) } label: {
-                                Image(systemName: outfit.saved ? "bookmark.fill" : "bookmark")
-                                    .font(.system(size: 16, weight: .medium))
-                                    .foregroundStyle(outfit.saved ? t.accent : t.textSecondary)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(.top, 4)
+                        VKPostActions(likes: outfit.likes, liked: outfit.liked,
+                                      comments: outfit.comments, shares: outfit.shares,
+                                      saved: outfit.saved, trailing: outfit.views,
+                                      onLike: { store.toggleLike(outfit.id) },
+                                      onShare: { nav.toast("Ссылка скопирована") },
+                                      onSave: { store.toggleSave(outfit.id) })
+                            .padding(.top, 4)
                     }
                     .padding(12)
                 }
-                Card {
+                VKGroup {
                     Text("Вещи образа").font(.system(size: 17, weight: .semibold))
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 4)
                     ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
@@ -394,26 +386,24 @@ struct OutfitScreen: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(g.title).font(.system(size: 15, weight: .medium))
                                 HStack(spacing: 5) {
-                                    Text(g.brand).font(.dsMeta).foregroundStyle(t.textSecondary)
+                                    Text(g.brand).font(.vkMeta).foregroundStyle(t.textSecondary)
                                     if g.inOutfits > 0 {
                                         Text("·").foregroundStyle(t.textTertiary)
-                                        Text("в \(g.inOutfits) образах").font(.dsMeta)
+                                        Text("в \(g.inOutfits) образах").font(.vkMeta)
                                             .foregroundStyle(t.accent)
                                     }
                                 }
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
-                                .foregroundStyle(t.textTertiary)
+                            Text(g.state.label).font(.vkMeta).foregroundStyle(t.textSecondary)
                         }
                         .padding(.horizontal, 12).padding(.vertical, 8)
-                        if i < outfit.items.count - 1 { RowDivider(leading: 68) }
+                        if i < outfit.items.count - 1 { RowSeparator(leading: 68) }
                     }
-                    RowDivider(leading: 12)
-                    ShowAllRow(title: "Все вещи автора") {}
+                    Color.clear.frame(height: 6)
                 }
             }
-            .padding(.vertical, t.cardGap)
+            
         }
         .background(t.background)
         .navigationTitle("Образ").navigationBarTitleDisplayMode(.inline)
@@ -433,10 +423,10 @@ struct CreateScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
-                VStack(spacing: t.cardGap) {
-                    Card {
+                VStack(spacing: 0) {
+                    VKGroup {
                         if picked {
-                            MediaBlock(glyph: "figure.stand", height: 260, seed: 1)
+                            VKMedia(glyph: "figure.stand", height: 260, seed: 1)
                         } else {
                             VStack(spacing: 14) {
                                 Image(systemName: "camera.viewfinder")
@@ -468,14 +458,14 @@ struct CreateScreen: View {
                             .frame(maxWidth: .infinity)
                         }
                     }
-                    Card {
+                    VKGroup {
                         TextField("Расскажите про образ", text: $text, axis: .vertical)
-                            .font(.dsBody).lineLimit(3...8).padding(12)
+                            .font(.vkBody).lineLimit(3...8).padding(12)
                     }
-                    Card {
+                    VKGroup {
                         rowLink(icon: "tag", title: "Отметить вещи",
                                 value: picked ? "3 вещи" : "нужен кадр")
-                        RowDivider(leading: 52)
+                        RowSeparator(leading: 52)
                         Button {
                             Task {
                                 let ok = await perms.request(.speech)
@@ -487,11 +477,11 @@ struct CreateScreen: View {
                                     value: "собрать")
                         }
                         .buttonStyle(HighlightStyle())
-                        RowDivider(leading: 52)
+                        RowSeparator(leading: 52)
                         rowLink(icon: "person.2", title: "Аудитория", value: "Все")
                     }
                 }
-                .padding(.top, t.cardGap)
+                
                 .padding(.bottom, 72)
             }
             .background(t.background)
@@ -523,9 +513,9 @@ struct CreateScreen: View {
     private func rowLink(icon: String, title: String, value: String) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon).font(.system(size: 17)).foregroundStyle(t.accent).frame(width: 28)
-            Text(title).font(.dsBody).foregroundStyle(t.textPrimary)
+            Text(title).font(.vkBody).foregroundStyle(t.textPrimary)
             Spacer()
-            Text(value).font(.dsBody).foregroundStyle(t.textSecondary)
+            Text(value).font(.vkBody).foregroundStyle(t.textSecondary)
             Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(t.textTertiary)
         }
@@ -536,91 +526,100 @@ struct CreateScreen: View {
 // MARK: - Друзья по контактам
 
 struct MatesScreen: View {
+    @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
-    private let names = ["Аня Котова", "Марк Львов", "Даша Ким", "Лена Гор"]
-    /// Разные состояния: подписан, взаимно, только зарегистрировался.
-    private let suggested: [(String, String, String)] = [
-        ("Аня Котова", "12 общих подписок · 142 образа", "Вы подписаны"),
-        ("Марк Львов", "подписался на вас вчера", "Подписаться"),
-        ("Лена Гор", "зарегистрировалась 3 дня назад", "Подписаться"),
-        ("Ника Кравец", "4 общие подписки · 8 образов", "Подписаться"),
+    @State private var query = ""
+    @State private var hidden: Set<String> = []
+    @State private var added: Set<String> = []
+
+    /// Возможные знакомые: каждая строка сообщает своё, а не заполненный шаблон.
+    private let maybe: [(String, String, [String], String)] = [
+        ("Ника Кравец", "Из ваших контактов", ["Аня Котова", "Марк Львов", "Даша Ким"], "3 общих знакомых"),
+        ("Гриша Ли", "Санкт-Петербург", ["Лена Гор"], "1 общий знакомый"),
     ]
+
+    /// Мои знакомые: у кого-то город, у кого-то нет — как в живом списке.
+    private let mine: [(String, String?)] = [
+        ("Аня Котова", "собрала 12 свопов за год"),
+        ("Марк Львов", nil),
+        ("Даша Ким", "Иркутск"),
+        ("Лена Гор", "меняется верхней одеждой"),
+        ("Оля Пан", nil),
+        ("Соня Рахимова", "Санкт-Петербург"),
+    ]
+
+    private var filtered: [(String, String?)] {
+        query.isEmpty ? mine : mine.filter { $0.0.localizedCaseInsensitiveContains(query) }
+    }
 
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
+            LazyVStack(spacing: 0) {
+                VKSearchField(placeholder: "Поиск", text: $query)
+                    .padding(.horizontal, t.pad).padding(.top, 8).padding(.bottom, 12)
+
+                // Единственная точка запроса контактов — как «Импорт телефонной
+                // книги» у ВК на экране «Добавить друга».
                 if perms.status(.contacts) != .granted {
-                    Card {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Image(systemName: "person.2.fill").font(.system(size: 30)).foregroundStyle(t.accent)
-                            Text("Кто из знакомых уже здесь")
-                                .font(.system(size: 18, weight: .semibold))
-                            Text("Покажем, кто из ваших контактов уже публикует образы")
-                                .font(.dsBody).foregroundStyle(t.textSecondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                            PrimaryButton(title: "Найти знакомых", icon: "person.crop.circle.badge.plus") {
-                                Task {
-                                    let ok = await perms.request(.contacts)
-                                    if !ok { nav.toast("Найдите людей через поиск", once: "contacts") }
-                                }
-                            }
-                        }
-                        .padding(16)
-                    }
-                    // пока доступа нет — не пустой экран, а то, что уже можно
-                    Card {
-                        Text("Найти по имени")
-                            .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
-                            .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
-                        ForEach(suggested, id: \.0) { p in
-                            HStack(spacing: 12) {
-                                Avatar(name: p.0, size: 40)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(p.0).font(.system(size: 15, weight: .medium))
-                                    Text(p.1).font(.dsMeta).foregroundStyle(t.textSecondary).lineLimit(1)
-                                }
-                                Spacer(minLength: 8)
-                                Text(p.2)
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(p.2 == "Вы подписаны" ? t.textSecondary : t.accent)
-                                    .padding(.horizontal, 12).frame(height: 30)
-                                    .background(p.2 == "Вы подписаны" ? t.fieldFill : t.accentSoft,
-                                                in: Capsule())
-                            }
-                            .padding(.horizontal, 12).padding(.vertical, 7)
-                        }
-                        RowDivider(leading: 12)
-                        ShowAllRow(title: "Пригласить по ссылке") {
-                            nav.toast("Ссылка скопирована")
+                    VKOutlineButton(title: "Импорт телефонной книги", icon: "phone") {
+                        Task {
+                            let ok = await perms.request(.contacts)
+                            if !ok { nav.toast("Ищите знакомых по имени в поиске", once: "contacts") }
                         }
                     }
+                    .padding(.horizontal, t.pad).padding(.bottom, 6)
                 } else {
-                    Card {
-                        ForEach(Array(names.enumerated()), id: \.offset) { i, n in
-                            HStack(spacing: 12) {
-                                Avatar(name: n, size: 44)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(n).font(.system(size: 15, weight: .medium))
-                                    Text("уже публикует образы").font(.dsMeta).foregroundStyle(t.textSecondary)
-                                }
-                                Spacer()
-                                Text("Подписаться").font(.system(size: 14, weight: .medium))
-                                    .foregroundStyle(t.accent)
-                                    .padding(.horizontal, 12).frame(height: 32)
-                                    .background(t.accentSoft, in: Capsule())
+                    VKRow(title: "Контакты подключены",
+                          subtitle: "9 человек из книги уже публикуют образы",
+                          icon: "checkmark.circle", chevron: false)
+                }
+                GroupGap()
+
+                VKSectionHeader(title: "Возможные знакомые")
+                ForEach(maybe.filter { !hidden.contains($0.0) }, id: \.0) { p in
+                    VKPersonRow(name: p.0, subtitle: p.1, mutual: p.2, mutualText: p.3) {
+                        if added.contains(p.0) {
+                            Text("Заявка отправлена").font(.system(size: 13))
+                                .foregroundStyle(t.textSecondary)
+                        } else {
+                            VKRowAction(icon: "xmark.circle", label: "Скрыть",
+                                        tint: t.textTertiary) {
+                                withAnimation { _ = hidden.insert(p.0) }
                             }
-                            .padding(.horizontal, 12).padding(.vertical, 8)
-                            if i < names.count - 1 { RowDivider(leading: 68) }
+                            VKRowAction(icon: "person.crop.circle.badge.plus", label: "Добавить") {
+                                withAnimation { _ = added.insert(p.0) }
+                                nav.toast("Заявка отправлена")
+                            }
                         }
                     }
+                    RowSeparator()
                 }
+                GroupGap()
+
+                VKSectionHeader(title: "Мои знакомые", count: "\(mine.count)")
+                ForEach(filtered, id: \.0) { p in
+                    VKPersonRow(name: p.0, subtitle: p.1) {
+                        VKRowAction(icon: "phone", label: "Позвонить \(p.0)") {
+                            nav.push(LooksRoute.call)
+                        }
+                        VKRowAction(icon: "bubble.left", label: "Написать \(p.0)") {
+                            nav.push(LooksRoute.chat(dialog(for: p.0)))
+                        }
+                    }
+                    RowSeparator()
+                }
+                Color.clear.frame(height: 90)
             }
-            .padding(.vertical, t.cardGap)
         }
         .background(t.background)
         .navigationTitle("Знакомые").navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func dialog(for name: String) -> Dialog {
+        store.dialogs.first { $0.name == name }
+            ?? Dialog(name: name, last: "Напишите первым", time: "сейчас")
     }
 }
 
@@ -638,13 +637,13 @@ struct AdsScreen: View {
             Image(systemName: "sparkles").font(.system(size: 40)).foregroundStyle(t.accent)
             Text("Образы бесплатны").font(.system(size: 26, weight: .bold))
             Text("Приложение живёт за счёт рекламы марок и магазинов между образами")
-                .font(.dsBody).foregroundStyle(t.textSecondary)
+                .font(.vkBody).foregroundStyle(t.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
             Text("Если разрешить отслеживание, реклама будет по вашим интересам. Если нет — покажем обычную, всё остальное работает так же")
-                .font(.dsBody).foregroundStyle(t.textSecondary)
+                .font(.vkBody).foregroundStyle(t.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer()
-            PrimaryButton(title: "Реклама по интересам") {
+            VKButton(title: "Реклама по интересам") {
                 Task { await perms.request(.tracking); dismiss() }
             }
             Button("Обычная реклама") { dismiss() }

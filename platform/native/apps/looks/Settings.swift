@@ -37,9 +37,7 @@ struct SettingsScreen: View {
                 group {
                     link("person", "Аккаунт") {}
                     RowSeparator()
-                    link("faceid", "Замок на «Сохранённое»") { nav.push(LooksRoute.lock) }
-                    RowSeparator()
-                    link("hand.raised", "Приватность") { nav.push(LooksRoute.ads) }
+                    link("megaphone", "Реклама и данные") { nav.push(LooksRoute.ads) }
                     RowSeparator()
                     link("square.grid.2x2", "Виджет образа дня") {
                         Task {

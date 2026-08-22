@@ -25,9 +25,9 @@ struct CallScreen: View {
                     .font(.system(size: 16).monospacedDigit()).foregroundStyle(.white.opacity(0.7))
                 Spacer()
                 HStack(spacing: 26) {
-                    callButton("mic.slash.fill", tint: .white.opacity(0.18)) {}
-                    callButton("phone.down.fill", tint: Color(hex: "E64646")) { dismiss() }
-                    callButton("speaker.wave.2.fill", tint: .white.opacity(0.18)) {}
+                    callButton("mic.slash.fill", label: "Выключить микрофон", tint: .white.opacity(0.18)) {}
+                    callButton("phone.down.fill", label: "Завершить звонок", tint: Color(hex: "E64646")) { dismiss() }
+                    callButton("speaker.wave.2.fill", label: "Громкая связь", tint: .white.opacity(0.18)) {}
                 }
                 Spacer().frame(height: 50)
             }
@@ -40,12 +40,14 @@ struct CallScreen: View {
             withAnimation { connected = true }
         }
     }
-    private func callButton(_ icon: String, tint: Color, action: @escaping () -> Void) -> some View {
+    private func callButton(_ icon: String, label: String, tint: Color,
+                            action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: icon).font(.system(size: 24)).foregroundStyle(.white)
                 .frame(width: 66, height: 66).background(tint, in: Circle())
         }
         .pressable(scale: 0.92)
+        .accessibilityLabel(label)
     }
 }
 
@@ -53,22 +55,30 @@ struct CallScreen: View {
 // MARK: - Разбор гардероба голосом в фоне (audio)
 
 struct TalkScreen: View {
+    @Environment(LooksStore.self) private var store
     @Environment(Permissions.self) private var perms
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
     @State private var playing = false
 
+    /// Соседние строки в разных состояниях: у живого приложения так и бывает.
+    private let episodes: [(String, String, String)] = [
+        ("Что вы носите на самом деле", "18 мин · сегодня", "скачано"),
+        ("11 вещей, которые лежат год", "24 мин · вторник", "скачивается 62 %"),
+        ("Разбор по цветам: почему всё серое", "9 мин · 14 окт", "прослушан"),
+        ("Капсула на ноябрь", "31 мин · 9 окт", "не скачан, 38 МБ"),
+        ("Что отдать на своп", "12 мин · 2 окт", "прослушан"),
+    ]
+
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
+            VStack(spacing: 0) {
+                VKGroup {
                     VStack(spacing: 14) {
-                        MediaBlock(glyph: "waveform.circle", height: 170, seed: 5)
-                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                            .padding(.horizontal, 12).padding(.top, 12)
-                        Text("Разбор гардероба").font(.dsSectionTitle)
-                        Text("18 минут · собран по вашим 86 вещам")
-                            .font(.dsBody).foregroundStyle(t.textSecondary)
+                        VKMedia(glyph: "waveform.circle", height: 170, seed: 5)
+                        Text("Разбор гардероба").font(.vkSection)
+                        Text("18 минут · собран по вашим \(store.garments.count) вещам")
+                            .font(.vkBody).foregroundStyle(t.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 16)
                         HStack(spacing: 34) {
@@ -84,26 +94,42 @@ struct TalkScreen: View {
                                     .font(.system(size: 58)).foregroundStyle(t.accent)
                             }
                             .pressable(scale: 0.92)
+                            .accessibilityLabel(playing ? "Пауза" : "Слушать разбор")
                             Image(systemName: "goforward.15").font(.system(size: 24))
                         }
                         .foregroundStyle(t.textPrimary)
                         .padding(.bottom, 16)
                     }
                 }
-                if playing {
-                    Card {
+
+                VKGroup {
+                    VKSectionHeader(title: "Разборы", count: "\(episodes.count)")
+                    ForEach(Array(episodes.enumerated()), id: \.offset) { i, e in
                         HStack(spacing: 12) {
-                            Image(systemName: "lock.iphone").font(.system(size: 18))
-                                .foregroundStyle(t.accent).frame(width: 28)
+                            Image(systemName: "waveform").font(.system(size: 20))
+                                .foregroundStyle(t.accent)
+                                .frame(width: 44, height: 44)
+                                .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Экран воспроизведения").font(.dsHeadline)
-                                Text("Пауза и ±15 секунд работают с локскрина")
-                                    .font(.dsMeta).foregroundStyle(t.textSecondary)
+                                Text(e.0).font(.system(size: 15, weight: .medium))
+                                    .foregroundStyle(t.textPrimary).lineLimit(1)
+                                Text("\(e.1) · \(e.2)").font(.vkMeta)
+                                    .foregroundStyle(t.textSecondary).lineLimit(1)
                             }
-                            Spacer()
+                            Spacer(minLength: 8)
+                            if e.2.hasPrefix("скачивается") {
+                                ProgressView(value: 0.62)
+                                    .progressViewStyle(.circular)
+                                    .scaleEffect(0.8)
+                            } else if e.2 == "скачано" {
+                                Image(systemName: "arrow.down.circle.fill")
+                                    .font(.system(size: 18)).foregroundStyle(t.positive)
+                            }
                         }
-                        .padding(12)
+                        .padding(.horizontal, t.pad).padding(.vertical, 8)
+                        if i < episodes.count - 1 { RowSeparator(leading: 72) }
                     }
+                    Color.clear.frame(height: 8)
                 }
             }
             .padding(.bottom, 88)
@@ -130,23 +156,23 @@ struct CheckinScreen: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
+            VStack(spacing: 0) {
+                VKGroup {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Своп у Ани на Мясницкой").font(.dsSectionTitle)
+                        Text("Своп у Ани на Мясницкой").font(.vkSection)
                         Text("Отметятся 34 человека · вы ещё нет")
-                            .font(.dsBody).foregroundStyle(t.textSecondary)
+                            .font(.vkBody).foregroundStyle(t.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(12)
                 }
-                Card {
+                VKGroup {
                     stepRow(n: 1, title: "Гостевая сеть площадки",
                             sub: joined ? "Подключено · PUDRA-GUEST" : "Подключиться по QR",
                             done: joined) {
                         nav.push(LooksRoute.netqr)
                     }
-                    RowDivider(leading: 60)
+                    RowSeparator(leading: 60)
                     stepRow(n: 2, title: "Отметиться на свопе",
                             sub: checked ? "Вы на месте" : (joined ? "Проверим сеть" : "Сначала подключитесь"),
                             done: checked, enabled: joined) {
@@ -157,7 +183,7 @@ struct CheckinScreen: View {
                         }
                     }
                 }
-                Card {
+                VKGroup {
                     Text("Уже отметились")
                         .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
@@ -166,24 +192,24 @@ struct CheckinScreen: View {
                             Avatar(name: p.0, size: 36)
                             VStack(alignment: .leading, spacing: 1) {
                                 Text(p.0).font(.system(size: 14, weight: .medium))
-                                Text(p.1).font(.dsCaption).foregroundStyle(t.textSecondary)
+                                Text(p.1).font(.vkCaption).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
-                            Text(p.2).font(.dsCaption.monospacedDigit())
+                            Text(p.2).font(.vkCaption.monospacedDigit())
                                 .foregroundStyle(t.textSecondary)
                         }
                         .padding(.horizontal, 12).padding(.vertical, 6)
                     }
-                    RowDivider(leading: 12)
+                    RowSeparator(leading: 12)
                     HStack {
                         Text("34 человека идут · 12 уже на месте")
-                            .font(.dsMeta).foregroundStyle(t.textSecondary)
+                            .font(.vkMeta).foregroundStyle(t.textSecondary)
                         Spacer()
                     }
                     .padding(12)
                 }
                 if !joined {
-                    Card { FallbackNote(text: "Без гостевой сети отметку подтвердит организатор").padding(12) }
+                    VKGroup { FallbackNote(text: "Без гостевой сети отметку подтвердит организатор").padding(12) }
                 }
             }
             .padding(.bottom, 88)
@@ -203,8 +229,8 @@ struct CheckinScreen: View {
                     else { Text("\(n)").font(.system(size: 15, weight: .semibold)).foregroundStyle(t.accent) }
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(title).font(.dsBody).foregroundStyle(t.textPrimary)
-                    Text(sub).font(.dsMeta).foregroundStyle(t.textSecondary)
+                    Text(title).font(.vkBody).foregroundStyle(t.textPrimary)
+                    Text(sub).font(.vkMeta).foregroundStyle(t.textSecondary)
                 }
                 Spacer()
                 if !done && enabled {
@@ -236,12 +262,12 @@ struct LockScreen: View {
                 .font(.system(size: 20, weight: .semibold))
             Text(unlocked ? "Черновики и сохранённые образы доступны"
                           : "Подтвердите Face ID, чтобы открыть черновики и сохранённые образы")
-                .font(.dsBody).foregroundStyle(t.textSecondary)
+                .font(.vkBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center).padding(.horizontal, 30)
             // размытое превью того, что за замком — иначе экран пустой
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 3), spacing: 6) {
                 ForEach(0..<6, id: \.self) { i in
-                    OutfitGridCell(glyph: ["tshirt.fill", "shoe.fill", "coat", "handbag.fill"][i % 4], seed: i)
+                    VKGridCell(glyph: ["tshirt.fill", "shoe.fill", "coat", "handbag.fill"][i % 4], seed: i)
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .blur(radius: unlocked ? 0 : 9)
                         .overlay {
@@ -257,11 +283,11 @@ struct LockScreen: View {
 
             Text(unlocked ? "12 черновиков · 34 сохранённых образа"
                           : "12 черновиков и 34 сохранённых образа под замком")
-                .font(.dsMeta).foregroundStyle(t.textSecondary)
+                .font(.vkMeta).foregroundStyle(t.textSecondary)
 
             Spacer()
             if !unlocked {
-                PrimaryButton(title: "Разблокировать", icon: "faceid") {
+                VKButton(title: "Разблокировать", icon: "faceid") {
                     Task {
                         let ok = await perms.request(.faceid)
                         if ok { withAnimation { unlocked = true } }
@@ -274,7 +300,7 @@ struct LockScreen: View {
         }
         .padding(t.pad)
         .background(t.card)
-        .navigationTitle("Замок").navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Сохранённое").navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
     }
 }
@@ -293,17 +319,17 @@ struct SwapScreen: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: t.cardGap) {
-                Card {
+            VStack(spacing: 0) {
+                VKGroup {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Обмен с Аней Котовой").font(.dsSectionTitle)
+                        Text("Обмен с Аней Котовой").font(.vkSection)
                         InfoLine(icon: "arrow.left.arrow.right", text: "Тренч оверсайз ↔ Жакет")
                         InfoLine(icon: "calendar", text: "Суббота, 15:00")
                         InfoLine(icon: "mappin.and.ellipse", text: "Лофт на Мясницкой")
                     }
                     .padding(12)
                 }
-                Card {
+                VKGroup {
                     Button {
                         Task {
                             let ok = await perms.request(.calendar)
@@ -323,7 +349,7 @@ struct SwapScreen: View {
                     .buttonStyle(HighlightStyle())
                 }
                 // Отметка на свопе живёт под обменом — как в спеке (parent: swap).
-                Card {
+                VKGroup {
                     Button { nav.push(LooksRoute.checkin) } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "mappin.circle").font(.system(size: 20))
@@ -332,7 +358,7 @@ struct SwapScreen: View {
                                 Text("Отметиться на месте").font(.vkRow)
                                     .foregroundStyle(t.textPrimary)
                                 Text("34 человека уже отметились")
-                                    .font(.dsMeta).foregroundStyle(t.textSecondary)
+                                    .font(.vkMeta).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.right").font(.system(size: 14, weight: .semibold))
@@ -356,7 +382,7 @@ struct InfoLine: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon).font(.system(size: 15)).foregroundStyle(t.textSecondary).frame(width: 20)
-            Text(text).font(.dsBody).foregroundStyle(t.textPrimary)
+            Text(text).font(.vkBody).foregroundStyle(t.textPrimary)
             Spacer()
         }
     }
@@ -369,7 +395,7 @@ struct FallbackNote: View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "info.circle.fill").font(.system(size: 15)).foregroundStyle(t.textSecondary)
-            Text(text).font(.dsMeta).foregroundStyle(t.textSecondary)
+            Text(text).font(.vkMeta).foregroundStyle(t.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer()
         }
@@ -401,11 +427,11 @@ struct NetQRScreen: View {
             Text(joined
                  ? "Подключено. Теперь отметка на свопе пройдёт"
                  : "Код на входе у организатора")
-                .font(.dsBody).foregroundStyle(t.textSecondary)
+                .font(.vkBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center).padding(.horizontal, 26)
             Spacer()
             if !joined {
-                PrimaryButton(title: "Подключиться к сети", icon: "wifi") {
+                VKButton(title: "Подключиться к сети", icon: "wifi") {
                     Task {
                         let ok = await perms.request(.hotspot)
                         if ok { withAnimation { joined = true } }
@@ -413,7 +439,7 @@ struct NetQRScreen: View {
                     }
                 }
             } else {
-                PrimaryButton(title: "Готово", icon: "checkmark") { dismiss() }
+                VKButton(title: "Готово", icon: "checkmark") { dismiss() }
             }
             FallbackNote(text: "Без подключения отметку подтвердит организатор")
         }

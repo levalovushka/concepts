@@ -13,7 +13,7 @@
 // Дубли входов сами по себе не ошибка (в «Создать» у ВК их несколько),
 // поэтому они не блокируют, а печатаются: их читает человек.
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -23,6 +23,7 @@ const NATIVE = join(__dir, "..");
 const slug = process.argv[2];
 if (!slug) { console.error("usage: audit-nav.mjs <slug>"); process.exit(1); }
 
+const ROOT = join(NATIVE, "..");
 const appDir = join(NATIVE, "apps", slug);
 const files = readdirSync(appDir).filter(f => f.endsWith(".swift"));
 const src = Object.fromEntries(files.map(f => [f, readFileSync(join(appDir, f), "utf8")]));
@@ -92,11 +93,37 @@ for (const screen of rootTabs) {
   }
 }
 
+// Расхождение со спекой. Решает человек — какую сторону править, поэтому
+// это отчёт, а не блокер: молча разъезжаться они не должны.
+const specPath = join(ROOT, "concepts", slug, "concept.json");
+const drift = [];
+if (existsSync(specPath)) {
+  const spec = JSON.parse(readFileSync(specPath, "utf8"));
+  // Исторические расхождения имён: экран один, названия разные.
+  const alias = { feed: "home", outfit: "post", clips: "clip", services: "menu" };
+  const specTabs = (spec.tabs || []).map(t => t.id);
+  const appTabs = [...app.matchAll(/case\s+\d+:\s*(\w+)Screen\(\)|default:\s*(\w+)Screen\(\)/g)]
+    .map(m => (m[1] || m[2]).toLowerCase())
+    .map(t => alias[t] || t);
+  if (specTabs.join(",") !== appTabs.join(",")) {
+    drift.push(`вкладки: спека [${specTabs.join(" · ")}] — приложение [${appTabs.join(" · ")}]`);
+  }
+  const specScreens = new Set((spec.screens || []).map(s => s.id));
+  const shots = [...app.matchAll(/case\s+"([a-z]+)"/g)].map(m => m[1]);
+  const onlyApp = shots.filter(s => !specScreens.has(alias[s] || s));
+  if (onlyApp.length) drift.push(`экраны есть в приложении, но не в спеке: ${onlyApp.join(", ")}`);
+}
+
 console.log(`Навигация концепта «${slug}»: маршрутов ${routes.length}\n`);
 for (const r of routes) {
   const e = entries[r] || [];
   const mark = e.length ? "✓" : "✗";
   console.log(`  ${mark} ${r.padEnd(10)} ${e.length ? e.join(", ") : "входа нет"}`);
+}
+
+if (drift.length) {
+  console.log("\nРасходится со спекой (concept.json — источник правды):\n");
+  for (const d of drift) console.log("  ! " + d);
 }
 
 if (problems.length) {

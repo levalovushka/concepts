@@ -37,11 +37,29 @@ struct AuthScreen: View {
                     .background(t.fieldFill, in: RoundedRectangle(cornerRadius: t.controlRadius, style: .continuous))
                     .focused($focused)
                 Spacer().frame(height: 12)
-                PrimaryButton(title: "Получить код") {
+                VKButton(title: "Получить код") {
                     withAnimation(.easeOut(duration: 0.2)) { step = 1; focused = true }
                 }
                 .disabled(!mail.contains("@"))
                 .opacity(mail.contains("@") ? 1 : 0.45)
+                Spacer().frame(height: 10)
+                // Правило набора vkontakte: рядом с кодом — вход через Google,
+                // чтобы профиль пережил смену телефона.
+                Button { onDone() } label: {
+                    HStack(spacing: 10) {
+                        Text("G").font(.system(size: 17, weight: .bold))
+                            .foregroundStyle(t.textPrimary)
+                            .frame(width: 24, height: 24)
+                            .background(t.fieldFill, in: Circle())
+                        Text("Продолжить с Google")
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundStyle(t.textPrimary)
+                    }
+                    .frame(maxWidth: .infinity).frame(height: 48)
+                    .overlay(RoundedRectangle(cornerRadius: t.controlRadius, style: .continuous)
+                        .stroke(t.separator, lineWidth: 1))
+                }
+                .buttonStyle(.plain)
             } else {
                 OTPField(code: $code) { if $0.count == 4 { onDone() } }
                     .focused($focused)
@@ -117,9 +135,12 @@ struct ChatsScreen: View {
         VStack(spacing: 0) {
             VKTabHeader(title: "Сообщения", avatar: "Ника Орлова",
                         avatarAction: { nav.push(LooksRoute.profile) }) {
-                Button {} label: { Image(systemName: "square.and.pencil") }
+                Button { nav.toast("Выберите, кому написать") } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+                .accessibilityLabel("Новое сообщение")
             }
-            SearchField(placeholder: "Поиск по сообщениям", text: $query)
+            VKSearchField(placeholder: "Поиск по сообщениям", text: $query)
                 .padding(.horizontal, t.pad)
                 .padding(.bottom, 10)
 
@@ -130,7 +151,7 @@ struct ChatsScreen: View {
                             DialogRow(dialog: d)
                         }
                         .buttonStyle(HighlightStyle())
-                        if d.id != filtered.last?.id { RowDivider(leading: 76) }
+                        if d.id != filtered.last?.id { RowSeparator(leading: 76) }
                     }
                 }
                 .background(t.card)
@@ -197,9 +218,15 @@ struct ChatScreen: View {
         VStack(spacing: 0) {
             ScrollViewReader { proxy in
                 ScrollView {
-                    LazyVStack(spacing: 8) {
+                    LazyVStack(spacing: 2) {
                         Spacer(minLength: 0).frame(maxHeight: .infinity)
-                        ForEach(store.messages) { m in Bubble(message: m).id(m.id) }
+                        ForEach(Array(store.messages.enumerated()), id: \.element.id) { i, m in
+                            if let day = m.day { DayDivider(text: day) }
+                            Bubble(message: m, author: dialog.name,
+                                   showsAvatar: startsGroup(i),
+                                   progress: Double(i) / Double(max(store.messages.count - 1, 1)))
+                                .id(m.id)
+                        }
                     }
                     .frame(maxWidth: .infinity, minHeight: 520, alignment: .bottom)
                     .padding(.horizontal, 12)
@@ -211,82 +238,165 @@ struct ChatScreen: View {
             }
             .background(t.background)
 
-            HStack(spacing: 10) {
-                Button {} label: {
-                    Image(systemName: "plus.circle.fill").font(.system(size: 26))
-                        .foregroundStyle(t.textSecondary)
-                }
-                .buttonStyle(.plain)
-
-                TextField("Сообщение", text: $draft, axis: .vertical)
-                    .font(.system(size: 16)).lineLimit(1...4)
-                    .padding(.horizontal, 14).padding(.vertical, 9)
-                    .background(t.fieldFill, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                    .focused($focused)
-
-                if draft.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Button {
-                        Task {
-                            if recording { recording = false; store.send("Голосовое · 0:07"); return }
-                            let ok = await perms.request(.mic)
-                            if ok { withAnimation { recording = true } }
-                            else { nav.toast("Без микрофона напишите текстом", once: "mic") }
-                        }
-                    } label: {
-                        Image(systemName: recording ? "stop.circle.fill" : "mic.fill")
-                            .font(.system(size: 22))
-                            .foregroundStyle(recording ? t.danger : t.accent)
-                    }
-                    .buttonStyle(.plain)
-                } else {
-                    Button {
-                        store.send(draft.trimmingCharacters(in: .whitespaces))
-                        draft = ""
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill").font(.system(size: 28))
-                            .foregroundStyle(t.accent)
-                    }
-                    .buttonStyle(.plain)
-                    .transition(.scale.combined(with: .opacity))
-                }
-            }
-            .animation(.easeOut(duration: 0.15), value: draft.isEmpty)
-            .padding(.horizontal, 12).padding(.vertical, 8)
-            .background(t.card.overlay(alignment: .top) { Rectangle().fill(t.separator).frame(height: 0.5) })
+            inputBar
         }
-        .navigationTitle(dialog.name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack(spacing: 1) {
+                    Text(dialog.name).font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(t.textPrimary)
+                    Text(dialog.online ? "в сети" : "была сегодня в 17:51")
+                        .font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button { nav.push(LooksRoute.call) } label: { Image(systemName: "phone") }
+                    .accessibilityLabel("Позвонить")
             }
         }
+    }
+
+    /// Аватар рисуется только у первого сообщения подряд идущей группы.
+    private func startsGroup(_ i: Int) -> Bool {
+        let m = store.messages[i]
+        if m.mine { return false }
+        if i == 0 { return true }
+        let prev = store.messages[i - 1]
+        return prev.mine || m.day != nil
+    }
+
+    private var inputBar: some View {
+        HStack(spacing: 12) {
+            Button {} label: {
+                Image(systemName: "plus.circle.fill").font(.system(size: 28))
+                    .foregroundStyle(t.accent)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Вложение")
+
+            HStack(spacing: 10) {
+                TextField("Сообщение", text: $draft, axis: .vertical)
+                    .font(.system(size: 16)).lineLimit(1...4)
+                    .focused($focused)
+                Button {} label: {
+                    Image(systemName: "face.smiling").font(.system(size: 20))
+                        .foregroundStyle(t.accent)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Эмодзи")
+            }
+            .padding(.horizontal, 14).padding(.vertical, 9)
+            .background(t.fieldFill, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+
+            if draft.trimmingCharacters(in: .whitespaces).isEmpty {
+                Button {
+                    Task {
+                        if recording { recording = false; store.send("Голосовое · 0:07"); return }
+                        let ok = await perms.request(.mic)
+                        if ok { withAnimation { recording = true } }
+                        else { nav.toast("Без микрофона напишите текстом", once: "mic") }
+                    }
+                } label: {
+                    Image(systemName: recording ? "stop.circle.fill" : "mic.fill")
+                        .font(.system(size: 22))
+                        .foregroundStyle(recording ? t.danger : t.accent)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(recording ? "Остановить запись" : "Голосовое сообщение")
+            } else {
+                Button {
+                    store.send(draft.trimmingCharacters(in: .whitespaces))
+                    draft = ""
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill").font(.system(size: 28))
+                        .foregroundStyle(t.accent)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Отправить")
+                .transition(.scale.combined(with: .opacity))
+            }
+        }
+        .animation(.easeOut(duration: 0.15), value: draft.isEmpty)
+        .padding(.horizontal, 12).padding(.vertical, 8)
+        .background(t.card.overlay(alignment: .top) { Rectangle().fill(t.separator).frame(height: 0.5) })
+    }
+}
+
+/// Разделитель даты — по центру серым, как в ВК.
+private struct DayDivider: View {
+    let text: String
+    @Environment(\.theme) private var t
+    var body: some View {
+        Text(text)
+            .font(.system(size: 13)).foregroundStyle(t.textSecondary)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
     }
 }
 
 private struct Bubble: View {
     let message: Message
+    let author: String
+    var showsAvatar: Bool = false
+    /// Положение сообщения в переписке: у ВК градиент исходящих тянется через
+    /// весь тред — ранние баблы синие, поздние розовые, а не каждый сам по себе.
+    var progress: Double = 0
     @Environment(\.theme) private var t
+
+    private static let ramp = [Color(hex: "4B8BF5"), Color(hex: "A44BF5"), Color(hex: "F54BA4")]
+
+    private func rampColor(_ p: Double) -> Color {
+        let x = min(max(p, 0), 1) * Double(Self.ramp.count - 1)
+        let i = min(Int(x), Self.ramp.count - 2)
+        return Self.ramp[i].mix(with: Self.ramp[i + 1], by: x - Double(i))
+    }
+
     var body: some View {
-        HStack {
-            if message.mine { Spacer(minLength: 56) }
-            VStack(alignment: .trailing, spacing: 2) {
+        HStack(alignment: .bottom, spacing: 8) {
+            if message.mine {
+                Spacer(minLength: 56)
+            } else {
+                // место под аватар держим всегда, иначе группа «скачет» по краю
+                Group {
+                    if showsAvatar { Avatar(name: author, size: 32) } else { Color.clear }
+                }
+                .frame(width: 32, height: 32)
+            }
+
+            HStack(alignment: .bottom, spacing: 6) {
                 Text(message.text)
                     .font(.system(size: 16))
                     .foregroundStyle(message.mine ? .white : t.textPrimary)
-                Text(message.time)
-                    .font(.system(size: 11))
-                    .foregroundStyle(message.mine ? .white.opacity(0.75) : t.textSecondary)
+                HStack(spacing: 3) {
+                    Text(message.time)
+                        .font(.system(size: 11))
+                        .foregroundStyle(message.mine ? .white.opacity(0.8) : t.textSecondary)
+                    if message.mine {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 9, weight: .bold))
+                            .foregroundStyle(.white.opacity(0.8))
+                            .overlay(alignment: .leading) {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 9, weight: .bold))
+                                    .foregroundStyle(.white.opacity(0.8))
+                                    .offset(x: -3)
+                            }
+                    }
+                }
+                .padding(.bottom, 1)
             }
             .padding(.horizontal, 12).padding(.vertical, 8)
             .background {
                 if message.mine {
-                    LinearGradient(colors: [Color(hex: "5B8DEF"), Color(hex: "8B5CF6")],
-                                   startPoint: .topLeading, endPoint: .bottomTrailing)
-                } else { t.card }
+                    // синий → фиолетовый → розовый: срез общего градиента треда
+                    LinearGradient(colors: [rampColor(progress), rampColor(progress + 0.18)],
+                                   startPoint: .leading, endPoint: .trailing)
+                } else { t.fieldFill }
             }
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+
             if !message.mine { Spacer(minLength: 56) }
         }
         .transition(.move(edge: message.mine ? .trailing : .leading).combined(with: .opacity))

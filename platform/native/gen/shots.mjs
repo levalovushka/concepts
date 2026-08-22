@@ -4,7 +4,7 @@
 // (launch-аргумент -shot <screen>), без эмуляции тапов.
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync, rmSync, existsSync } from "node:fs";
+import { mkdirSync, rmSync, existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,10 +18,20 @@ const DEVICE = process.env.DEVICE || "iPhone 17 Pro";
 const OUT = join(NATIVE, "build", slug, "shots");
 const bundleId = `com.camo.${slug.replace(/[-_]/g, "")}`;
 
-const SCREENS = process.argv.slice(3).length ? process.argv.slice(3) : [
-  "auth", "feed", "services", "chats", "chat", "clips",
-  "profile", "outfit", "nearby", "wardrobe", "mates", "settings", "event", "create",
-];
+// Список экранов не держим руками: он выводится из режима съёмки в App.swift.
+// Руками он уже разъезжался с приложением — новые экраны критик просто не видел.
+function screensFromApp() {
+  const app = readFileSync(join(NATIVE, "apps", slug, "App.swift"), "utf8");
+  const from = app.indexOf("private func applyShotMode()");
+  const to = app.indexOf("@ViewBuilder private func tabContent");
+  if (from < 0 || to < 0) return [];
+  return [...app.slice(from, to).matchAll(/case\s+"([a-z]+)"/g)].map(m => m[1]);
+}
+
+const SCREENS = process.argv.slice(3).length
+  ? process.argv.slice(3)
+  : ["auth", ...screensFromApp()];
+if (!SCREENS.length) { console.error("не из чего снимать: нет режима съёмки в App.swift"); process.exit(1); }
 
 const sh = (c, a) => execFileSync(c, a, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
 const simctl = (...a) => { try { return sh("xcrun", ["simctl", ...a]); } catch (e) { return e.stdout || ""; } };

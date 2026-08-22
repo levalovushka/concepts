@@ -12,7 +12,7 @@ struct ProfileScreen: View {
     @State private var showMenu = false
 
     private let name = "Ника Орлова"
-    private var garments: [Garment] { store.outfits.flatMap(\.items) }
+    private var garments: [Garment] { store.garments }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -94,7 +94,7 @@ struct ProfileScreen: View {
             HStack(spacing: 8) {
                 Image(systemName: "hanger").font(.system(size: 16))
                     .foregroundStyle(t.textSecondary)
-                Text("86 вещей в гардеробе").font(.system(size: 17))
+                Text("\(plural(store.garments.count, "вещь", "вещи", "вещей")) в гардеробе").font(.system(size: 17))
                     .foregroundStyle(t.textPrimary)
                 Text("·").foregroundStyle(t.textSecondary)
                 Button { nav.push(LooksRoute.wardrobe) } label: {

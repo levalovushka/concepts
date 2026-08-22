@@ -331,12 +331,18 @@ struct VKServiceTile: View {
 
 struct VKSectionHeader: View {
     let title: String
+    /// Число рядом с заголовком — это данные («Мои друзья 93»), а не действие:
+    /// оно серое и не кликается, в отличие от ссылки справа.
+    var count: String? = nil
     var action: String? = nil
     var onTap: () -> Void = {}
     @Environment(\.theme) private var t
     var body: some View {
-        HStack {
+        HStack(spacing: 8) {
             Text(title).font(.vkSection).foregroundStyle(t.textPrimary)
+            if let count {
+                Text(count).font(.system(size: 17)).foregroundStyle(t.textSecondary)
+            }
             Spacer()
             if let action {
                 Button(action: onTap) {
@@ -397,5 +403,318 @@ struct VKTabBar: View {
             t.background.ignoresSafeArea(edges: .bottom)
                 .overlay(alignment: .top) { t.separator.frame(height: 0.5) }
         )
+    }
+}
+
+// MARK: - Строка человека: аватар · имя · подпись · действия справа
+//
+// В ВК она одна и та же в «Друзьях», «Возможных друзьях» и рекомендациях —
+// меняются только кнопки справа и наличие ряда общих друзей под подписью.
+
+struct VKPersonRow<Trailing: View>: View {
+    let name: String
+    var subtitle: String? = nil
+    var mutual: [String] = []
+    var mutualText: String? = nil
+    var avatarSize: CGFloat = 56
+    @ViewBuilder var trailing: Trailing
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Avatar(name: name, size: avatarSize)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(name).font(.vkRow).foregroundStyle(t.textPrimary).lineLimit(1)
+                if let subtitle {
+                    Text(subtitle).font(.system(size: 14)).foregroundStyle(t.textSecondary)
+                        .lineLimit(1)
+                }
+                if !mutual.isEmpty || mutualText != nil {
+                    HStack(spacing: 6) {
+                        HStack(spacing: -6) {
+                            ForEach(mutual, id: \.self) { m in
+                                Avatar(name: m, size: 20)
+                                    .overlay(Circle().stroke(.white, lineWidth: 1.5))
+                            }
+                        }
+                        if let mutualText {
+                            Text(mutualText).font(.vkMeta).foregroundStyle(t.textSecondary)
+                        }
+                    }
+                    .padding(.top, 2)
+                }
+            }
+            Spacer(minLength: 8)
+            HStack(spacing: 18) { trailing }
+        }
+        .padding(.horizontal, t.pad)
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
+    }
+}
+
+/// Синяя контурная иконка-действие в строке человека (звонок, сообщение, «+»).
+struct VKRowAction: View {
+    let icon: String
+    var label: String
+    var tint: Color? = nil
+    let action: () -> Void
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: icon)
+                .font(.system(size: 22, weight: .light))
+                .foregroundStyle(tint ?? t.accent)
+                .frame(width: 30, height: 44)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+    }
+}
+
+// MARK: - Мозаика поиска: три колонки разной высоты с бейджем типа контента
+
+struct VKMosaicItem: Identifiable, Hashable {
+    let id = UUID()
+    let glyph: String
+    let height: CGFloat
+    let badge: String?
+    var seed: Int = 0
+}
+
+struct VKMosaic: View {
+    let items: [VKMosaicItem]
+    var onTap: (VKMosaicItem) -> Void = { _ in }
+    private let columns = 3
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 2) {
+            ForEach(0..<columns, id: \.self) { c in
+                LazyVStack(spacing: 2) {
+                    ForEach(items.enumerated().filter { $0.offset % columns == c }.map(\.element)) { it in
+                        Button { onTap(it) } label: {
+                            VKMedia(glyph: it.glyph, height: it.height, seed: it.seed)
+                                .overlay(alignment: .topTrailing) {
+                                    if let badge = it.badge {
+                                        Image(systemName: badge)
+                                            .font(.system(size: 13, weight: .semibold))
+                                            .foregroundStyle(.white)
+                                            .shadow(color: .black.opacity(0.35), radius: 3)
+                                            .padding(8)
+                                    }
+                                }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Верхние табы на тёмном (клипы): «Для вас · Шопсы · Тренды»
+
+struct VKDarkTabs: View {
+    let items: [String]
+    @Binding var selection: Int
+
+    var body: some View {
+        HStack(spacing: 18) {
+            ForEach(items.indices, id: \.self) { i in
+                Button {
+                    withAnimation(.easeOut(duration: 0.18)) { selection = i }
+                } label: {
+                    Text(items[i])
+                        .font(.system(size: 19, weight: selection == i ? .bold : .semibold))
+                        .foregroundStyle(.white.opacity(selection == i ? 1 : 0.55))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+}
+
+/// Капсула «Подписаться» с белой обводкой — вариант для тёмного кадра клипа.
+struct VKOutlineCapsule: View {
+    let title: String
+    var body: some View {
+        Text(title)
+            .font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
+            .padding(.horizontal, 12).frame(height: 28)
+            .overlay(Capsule().stroke(.white.opacity(0.75), lineWidth: 1))
+    }
+}
+
+/// Капсула «Оригинальный звук» под подписью автора клипа.
+struct VKSoundCapsule: View {
+    let title: String
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "speaker.wave.2.fill").font(.system(size: 11))
+            Text(title).font(.system(size: 13)).lineLimit(1)
+        }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 10).frame(height: 28)
+        .background(.white.opacity(0.18), in: Capsule())
+    }
+}
+
+/// Действие правого рельса клипа: белая иконка и число под ней.
+struct VKClipAction: View {
+    let icon: String
+    var value: String = ""
+    var label: String
+    var tint: Color = .white
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: icon).font(.system(size: 27)).foregroundStyle(tint)
+                if !value.isEmpty {
+                    Text(value).font(.system(size: 12, weight: .medium)).foregroundStyle(.white)
+                }
+            }
+        }
+        .pressable(scale: 0.9)
+        .accessibilityLabel(label)
+    }
+}
+
+// MARK: - Действия поста: голые иконки с числами, без капсул
+//
+// Ряд одинаков в ленте и на экране поста — у ВК он тоже один и тот же.
+
+struct VKPostActions: View {
+    let likes: Int
+    var liked: Bool = false
+    let comments: Int
+    let shares: Int
+    var saved: Bool = false
+    /// Просмотры или время публикации — то, что у ВК стоит справа.
+    var trailing: String? = nil
+    var onLike: () -> Void = {}
+    var onComment: () -> Void = {}
+    var onShare: () -> Void = {}
+    var onSave: () -> Void = {}
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        HStack(spacing: 20) {
+            Button(action: onLike) {
+                metric(liked ? "heart.fill" : "heart", "\(likes)",
+                       tint: liked ? Color(hex: "FF3347") : t.textSecondary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Нравится")
+            Button(action: onComment) {
+                metric("bubble.right", "\(comments)", tint: t.textSecondary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Комментарии")
+            Button(action: onShare) {
+                metric("arrowshape.turn.up.right", "\(shares)", tint: t.textSecondary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Поделиться")
+            Spacer(minLength: 8)
+            Button(action: onSave) {
+                Image(systemName: saved ? "bookmark.fill" : "bookmark")
+                    .font(.system(size: 18))
+                    .foregroundStyle(saved ? t.accent : t.textSecondary)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Сохранить")
+            if let trailing {
+                Text(trailing).font(.vkMeta).foregroundStyle(t.textSecondary)
+            }
+        }
+    }
+
+    private func metric(_ icon: String, _ value: String, tint: Color) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: icon).font(.system(size: 19))
+            Text(value).font(.system(size: 15))
+        }
+        .foregroundStyle(tint)
+    }
+}
+
+// MARK: - Группа ВК: белый блок край-в-край и серая полоса под ним
+//
+// На белых экранах ВК блоки разделены не рамкой и не тенью, а серой полосой:
+// белая карточка на белом фоне не читается вовсе (этот дефект тут уже был).
+
+struct VKGroup<Content: View>: View {
+    var gap: CGFloat = 9
+    @ViewBuilder var content: Content
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) { content }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(t.card)
+            GroupGap(height: gap)
+        }
+    }
+}
+
+
+// MARK: - Карточка на сером фоне (профиль, плитки сеток)
+
+struct VKCard<Content: View>: View {
+    @ViewBuilder var content: Content
+    @Environment(\.theme) private var t
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) { content }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(t.card, in: RoundedRectangle(cornerRadius: t.cardRadius, style: .continuous))
+    }
+}
+
+// MARK: - Ряд фильтров-капсул
+
+struct VKFilterPills: View {
+    let items: [(String, String?)]
+    @Binding var selection: Int
+    @Environment(\.theme) private var t
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(items.indices, id: \.self) { i in
+                    Button {
+                        withAnimation(.easeOut(duration: 0.18)) { selection = i }
+                    } label: {
+                        HStack(spacing: 6) {
+                            if let icon = items[i].1 {
+                                Image(systemName: icon).font(.system(size: 14))
+                            }
+                            Text(items[i].0).font(.system(size: 15, weight: .medium))
+                        }
+                        .foregroundStyle(selection == i ? .white : t.textPrimary)
+                        .padding(.horizontal, 14).frame(height: 36)
+                        .background(selection == i ? AnyShapeStyle(t.accent) : AnyShapeStyle(t.fill),
+                                    in: Capsule())
+                    }
+                    .pressable()
+                }
+            }
+            .padding(.horizontal, t.pad)
+        }
+        .scrollClipDisabled()
+    }
+}
+
+/// Ячейка сетки контента: та же геометрия кадра, что у ВК в «Фото».
+struct VKGridCell: View {
+    let glyph: String
+    let seed: Int
+    var body: some View {
+        VKMedia(glyph: glyph, height: 0, seed: seed)
+            .frame(maxWidth: .infinity)
+            .aspectRatio(0.82, contentMode: .fit)
     }
 }

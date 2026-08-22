@@ -63,13 +63,15 @@ struct MainShell: View {
         TabView(selection: $nav.tab) {
             Tab("", systemImage: "house", value: 0) { tabContent(0) }
                 .accessibilityLabel("Главная")
-            Tab("", systemImage: "square.grid.2x2", value: 1) { tabContent(1) }
-                .accessibilityLabel("Сервисы")
+            Tab("", systemImage: "magnifyingglass", value: 1) { tabContent(1) }
+                .accessibilityLabel("Поиск")
             Tab("", systemImage: "bubble.left", value: 2) { tabContent(2) }
                 .badge(unread)
                 .accessibilityLabel("Мессенджер")
             Tab("", systemImage: "play.rectangle", value: 3) { tabContent(3) }
                 .accessibilityLabel("Клипы")
+            Tab("", systemImage: "line.3.horizontal", value: 4) { tabContent(4) }
+                .accessibilityLabel("Меню")
         }
         .overlay(alignment: .bottom) {
             ToastOverlay(text: nav.toastText).padding(.bottom, 96)
@@ -84,25 +86,26 @@ struct MainShell: View {
         guard let s = ShotMode.screen else { return }
         switch s {
         case "feed": nav.tab = 0
-        case "services": nav.tab = 1
+        case "search": nav.tab = 1
+        case "services": nav.tab = 4
         case "chats": nav.tab = 2
         case "clips": nav.tab = 3
         case "profile": nav.tab = 0; nav.push(LooksRoute.profile)
         case "chat": nav.tab = 2; nav.push(LooksRoute.chat(store.dialogs[0]))
         case "outfit": nav.tab = 0; nav.push(LooksRoute.outfit(store.outfits[0]))
-        case "nearby": nav.tab = 1; nav.push(LooksRoute.nearby)
-        case "wardrobe": nav.tab = 1; nav.push(LooksRoute.wardrobe)
-        case "mates": nav.tab = 1; nav.push(LooksRoute.mates)
-        case "settings": nav.tab = 1; nav.push(LooksRoute.settings)
-        case "event": nav.tab = 1; nav.push(LooksRoute.event(store.events[0]))
+        case "nearby": nav.tab = 4; nav.push(LooksRoute.nearby)
+        case "wardrobe": nav.tab = 4; nav.push(LooksRoute.wardrobe)
+        case "mates": nav.tab = 4; nav.push(LooksRoute.mates)
+        case "settings": nav.tab = 4; nav.push(LooksRoute.settings)
+        case "event": nav.tab = 4; nav.push(LooksRoute.event(store.events[0]))
         case "create": nav.tab = 0; nav.present(cover: LooksRoute.create)
-        case "ads": nav.tab = 1; nav.push(LooksRoute.ads)
+        case "ads": nav.tab = 4; nav.push(LooksRoute.ads)
         case "call": nav.tab = 2; nav.push(LooksRoute.call)
-        case "talk": nav.tab = 1; nav.push(LooksRoute.talk)
-        case "checkin": nav.tab = 1; nav.push(LooksRoute.checkin)
-        case "lock": nav.tab = 1; nav.push(LooksRoute.lock)
-        case "swap": nav.tab = 1; nav.push(LooksRoute.swap)
-        case "netqr": nav.tab = 1; nav.push(LooksRoute.netqr)
+        case "talk": nav.tab = 4; nav.push(LooksRoute.talk)
+        case "checkin": nav.tab = 4; nav.push(LooksRoute.checkin)
+        case "lock": nav.tab = 4; nav.push(LooksRoute.lock)
+        case "swap": nav.tab = 4; nav.push(LooksRoute.swap)
+        case "netqr": nav.tab = 4; nav.push(LooksRoute.netqr)
         default: break
         }
     }
@@ -112,9 +115,10 @@ struct MainShell: View {
             Group {
                 switch i {
                 case 0: FeedScreen()
-                case 1: ServicesScreen()
+                case 1: SearchScreen()
                 case 2: ChatsScreen()
-                default: ClipsScreen()
+                case 3: ClipsScreen()
+                default: ServicesScreen()
                 }
             }
             .navigationDestination(for: LooksRoute.self) { destination($0) }
