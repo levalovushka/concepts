@@ -75,7 +75,10 @@ struct AppShell: View {
 
     @ViewBuilder
     private func scaffold(_ id: String) -> some View {
-        if let s = app.screen(id) {
+        if let custom = GeneratedScreens.view(id) {
+            custom.navigationTitle(app.screen(id)?.title ?? "")
+                .navigationBarTitleDisplayMode((app.screen(id)?.kind == .root) ? .large : .inline)
+        } else if let s = app.screen(id) {
             ScreenScaffold(screen: s)
         } else {
             Text(id)

@@ -147,6 +147,100 @@ ${permsSwift}
 }
 `;
 
+// --- Контент экранов (content.json) -> Generated/Screens.swift ---
+let content = {};
+const contentPath = join(ROOT, "concepts", slug, "content.json");
+if (existsSync(contentPath)) content = JSON.parse(readFileSync(contentPath, "utf8"));
+
+const q = s => `"${sw(s)}"`;
+function dl(d) {
+  if (!d) return null;
+  if (d.state === "ready") return ".ready";
+  if (d.state === "busy") return `.busy(${d.p ?? 0})`;
+  if (d.state === "none") return `.none(${q(d.size || "")})`;
+  return null;
+}
+function mediaItem(it) {
+  const a = [`title: ${q(it.title)}`, `subtitle: ${q(it.subtitle || "")}`];
+  if (it.trailing) a.push(`trailing: ${q(it.trailing)}`);
+  if (typeof it.progress === "number") a.push(`progress: ${it.progress}`);
+  const d = dl(it.download); if (d) a.push(`download: ${d}`);
+  if (it.thumb === false) a.push(`thumb: false`);
+  if (it.opens) a.push(`opens: ${q(it.opens)}`);
+  return `MediaItem(${a.join(", ")})`;
+}
+function catalog(c) {
+  const secs = c.sections.map(s =>
+    `                CatalogSection(title: ${q(s.title)}, items: [\n` +
+    s.items.map(it => `                    ${mediaItem(it)},`).join("\n") +
+    `\n                ])`).join(",\n");
+  let hero = "";
+  if (c.hero) {
+    const h = c.hero;
+    hero = `hero: HomeHero(project: ${q(h.project)}, lesson: ${q(h.lesson)}, ` +
+      `lessonMeta: ${q(h.lessonMeta)}, currentRow: ${h.currentRow}, goal: ${q(h.goal)}, ` +
+      `opens: ${q(h.opens)}), `;
+  }
+  return `AnyView(CatalogView(data: CatalogData(${hero}sections: [\n${secs}\n            ])))`;
+}
+function cockpit(id, c) {
+  return `AnyView(CockpitView(screenId: ${q(id)}, data: CockpitData(` +
+    `project: ${q(c.project)}, lessonTitle: ${q(c.lessonTitle)}, lessonMeta: ${q(c.lessonMeta)}, ` +
+    `current: ${c.current}, goal: ${q(c.goal)}, castTarget: ${q(c.castTarget)}, ` +
+    `schemaCaption: ${q(c.schemaCaption)})))`;
+}
+function player(id, c) {
+  return `AnyView(PlayerView(screenId: ${q(id)}, data: PlayerData(` +
+    `title: ${q(c.title)}, author: ${q(c.author)}, timeElapsed: ${q(c.timeElapsed)}, ` +
+    `timeTotal: ${q(c.timeTotal)}, progress: ${c.progress}, rowLabel: ${q(c.rowLabel)}, ` +
+    `schemaCaption: ${q(c.schemaCaption)})))`;
+}
+function counter(id, c) {
+  const stats = c.stats.map(s => `CounterData.Stat(value: ${q(s.value)}, label: ${q(s.label)})`).join(", ");
+  return `AnyView(CounterView(screenId: ${q(id)}, data: CounterData(` +
+    `current: ${c.current}, goal: ${q(c.goal)}, project: ${q(c.project)}, stats: [${stats}])))`;
+}
+function settings(c) {
+  const groups = c.groups.map(g => {
+    const rows = g.rows.map(r => {
+      const a = [`title: ${q(r.title)}`];
+      if (r.subtitle) a.push(`subtitle: ${q(r.subtitle)}`);
+      if (r.value) a.push(`value: ${q(r.value)}`);
+      if (r.toggle) a.push(`toggle: true`);
+      if (r.permission) a.push(`permission: .${r.permission}`);
+      if (r.chevron) a.push(`chevron: true`);
+      return `                    SettingsData.Row(${a.join(", ")})`;
+    }).join(",\n");
+    const foot = g.footer ? `footer: ${q(g.footer)}, ` : "";
+    return `                SettingsData.Group(header: ${q(g.header)}, ${foot}rows: [\n${rows}\n                ])`;
+  }).join(",\n");
+  return `AnyView(SettingsView(data: SettingsData(groups: [\n${groups}\n            ])))`;
+}
+
+const cases = Object.entries(content).map(([id, c]) => {
+  let body = "nil";
+  if (c.layout === "catalog" || c.layout === "home") body = catalog(c);
+  else if (c.layout === "cockpit") body = cockpit(id, c);
+  else if (c.layout === "player") body = player(id, c);
+  else if (c.layout === "counter") body = counter(id, c);
+  else if (c.layout === "settings") body = settings(c);
+  else return "";
+  return `        case ${q(id)}: return ${body}`;
+}).filter(Boolean).join("\n");
+
+const screensFile = `import SwiftUI
+
+// СГЕНЕРИРОВАНО из content.json — не править руками.
+enum GeneratedScreens {
+    static func view(_ id: String) -> AnyView? {
+        switch id {
+${cases}
+        default: return nil
+        }
+    }
+}
+`;
+
 // --- App entry ---
 const appEntry = `import SwiftUI
 
@@ -303,6 +397,7 @@ mkdirSync(join(OUT, `${AppName}.xcodeproj`), { recursive: true });
 cpSync(KERNEL, join(APPDIR, "Kernel"), { recursive: true });
 
 writeFileSync(join(APPDIR, "AppConfig.swift"), appConfig);
+writeFileSync(join(APPDIR, "Screens.swift"), screensFile);
 writeFileSync(join(APPDIR, `${AppName}App.swift`), appEntry);
 writeFileSync(join(OUT, "Info.plist"), infoPlist);
 writeFileSync(join(OUT, `${AppName}.xcodeproj`, "project.pbxproj"), pbxproj);

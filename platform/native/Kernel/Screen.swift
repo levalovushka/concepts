@@ -62,17 +62,11 @@ struct ScreenScaffold: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                if !screen.meta.isEmpty {
-                    Text(screen.meta)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-
                 if screen.kind == .system {
                     SectionCard("Системная поверхность") {
-                        Row(title: screen.title, subtitle: "Экран уровня системы (PiP / Now Playing / системный picker)")
+                        Row(title: screen.title, subtitle: "PiP · Now Playing · системный экран")
                     }
-                } else {
+                } else if screen.kind == .fullscreen {
                     Placeholder(height: 172)
                 }
 

@@ -1,0 +1,195 @@
+{
+  "lessons": {
+    "layout": "catalog",
+    "sections": [
+      {
+        "title": "Продолжить",
+        "items": [
+          {
+            "title": "Убавки на пройме",
+            "subtitle": "Урок 4 из 9 · осталось 6:12",
+            "progress": 0.66,
+            "opens": "lesson"
+          }
+        ]
+      },
+      {
+        "title": "Курс: свитер реглан сверху",
+        "items": [
+          {
+            "title": "Набор петель и резинка",
+            "subtitle": "09:48 · просмотрено",
+            "progress": 1.0,
+            "download": {
+              "state": "ready"
+            },
+            "opens": "lesson"
+          },
+          {
+            "title": "Круговая кокетка",
+            "subtitle": "14:22 · просмотрено",
+            "progress": 1.0,
+            "download": {
+              "state": "ready"
+            },
+            "opens": "lesson"
+          },
+          {
+            "title": "Убавки на пройме",
+            "subtitle": "18:20 · смотрите сейчас",
+            "progress": 0.66,
+            "download": {
+              "state": "busy",
+              "p": 0.62
+            },
+            "opens": "lesson"
+          },
+          {
+            "title": "Разделение на рукава",
+            "subtitle": "12:05",
+            "download": {
+              "state": "none",
+              "size": "412 МБ"
+            },
+            "opens": "lesson"
+          },
+          {
+            "title": "Горловина и планка",
+            "subtitle": "10:37",
+            "download": {
+              "state": "none",
+              "size": "357 МБ"
+            },
+            "opens": "lesson"
+          }
+        ]
+      },
+      {
+        "title": "Новые курсы",
+        "items": [
+          {
+            "title": "Носки от мыска на двух спицах",
+            "subtitle": "12 уроков · 2:41:00",
+            "opens": "lesson"
+          },
+          {
+            "title": "Ажурная шаль «Хвоя»",
+            "subtitle": "8 уроков · 1:52:00",
+            "opens": "lesson"
+          }
+        ]
+      }
+    ],
+    "hero": {
+      "project": "Свитер реглан сверху",
+      "lesson": "Убавки на пройме",
+      "lessonMeta": "Урок 4 из 9",
+      "currentRow": 47,
+      "goal": "до убавки — ещё 17 рядов",
+      "opens": "lesson"
+    }
+  },
+  "lesson": {
+    "layout": "cockpit",
+    "project": "Свитер реглан сверху",
+    "lessonTitle": "Убавки на пройме",
+    "lessonMeta": "Урок 4 из 9",
+    "current": 47,
+    "goal": "до убавки на пройме — ещё 17 рядов",
+    "castTarget": "Телевизор в гостиной",
+    "schemaCaption": "Текущий ряд подсвечен — убавка по 2 петли с каждого края"
+  },
+  "counter": {
+    "layout": "counter",
+    "current": 47,
+    "goal": "до убавки на пройме — ещё 17 рядов",
+    "project": "Свитер реглан сверху",
+    "stats": [
+      {
+        "value": "47",
+        "label": "текущий ряд"
+      },
+      {
+        "value": "3",
+        "label": "убавки"
+      },
+      {
+        "value": "1:12",
+        "label": "за сессию"
+      }
+    ]
+  },
+  "settings": {
+    "layout": "settings",
+    "groups": [
+      {
+        "header": "Профиль",
+        "rows": [
+          {
+            "title": "+7 900 000-00-00",
+            "subtitle": "Номер входа — курс и дневник останутся при смене телефона"
+          }
+        ]
+      },
+      {
+        "header": "Воспроизведение",
+        "rows": [
+          {
+            "title": "Смотреть на телевизоре",
+            "subtitle": "Chromecast в вашей сети",
+            "permission": "localnet",
+            "chevron": true
+          },
+          {
+            "title": "Звук в фоне и Picture in Picture",
+            "permission": "audio",
+            "toggle": true
+          }
+        ]
+      },
+      {
+        "header": "Уведомления",
+        "footer": "Придёт, когда в вашем курсе выходит новый урок. Больше ничего не присылаем.",
+        "rows": [
+          {
+            "title": "Новые уроки в курсе",
+            "permission": "push",
+            "toggle": true
+          }
+        ]
+      },
+      {
+        "header": "Приватность",
+        "rows": [
+          {
+            "title": "Бесплатно с рекламой по интересам",
+            "subtitle": "Можно отключить в любой момент",
+            "permission": "tracking",
+            "chevron": true
+          }
+        ]
+      },
+      {
+        "header": "О приложении",
+        "rows": [
+          {
+            "title": "Помощь",
+            "chevron": true
+          },
+          {
+            "title": "Поддержка",
+            "chevron": true
+          },
+          {
+            "title": "Пользовательское соглашение",
+            "chevron": true
+          },
+          {
+            "title": "Версия",
+            "value": "1.0"
+          }
+        ]
+      }
+    ]
+  }
+}
