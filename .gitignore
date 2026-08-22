@@ -17,3 +17,6 @@ platform/_sheet.html
 
 # Сгенерированный контент (источник — content.domain.json + concept.json)
 platform/concepts/*/content.json
+
+# Сборка лаунчера
+platform/launcher/build/
