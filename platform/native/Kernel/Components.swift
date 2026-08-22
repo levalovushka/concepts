@@ -2,19 +2,56 @@ import SwiftUI
 
 // Компоненты ядра — нативные вьюхи под сетку 16 / 44 / 72.
 
+/// Код-паттерн вместо фото: «данные, нарисованные кодом» — вязальная сетка,
+/// тонированная акцентом. Читается как арт-дирекшн, а не как незагрузившийся кадр.
+struct PatternTile: View {
+    var seed: Int = 0
+    var onDark: Bool = false
+    @Environment(\.conceptAccent) private var accent
+    var body: some View {
+        Canvas { ctx, size in
+            let base = onDark ? Color.white.opacity(0.06) : accent.opacity(0.10)
+            ctx.fill(Path(CGRect(origin: .zero, size: size)), with: .color(base))
+            let stroke = onDark ? Color.white.opacity(0.18) : accent.opacity(0.30)
+            let step: CGFloat = 15
+            var row = 0
+            var y: CGFloat = 4
+            while y < size.height + step {
+                let shift = CGFloat((seed &+ row) % 2) * (step / 2)
+                var x: CGFloat = -step + shift
+                while x < size.width + step {
+                    var p = Path()
+                    p.move(to: CGPoint(x: x, y: y + step * 0.5))
+                    p.addLine(to: CGPoint(x: x + step * 0.5, y: y))
+                    p.addLine(to: CGPoint(x: x + step, y: y + step * 0.5))
+                    ctx.stroke(p, with: .color(stroke), lineWidth: 1.6)
+                    x += step
+                }
+                y += step * 0.72
+                row += 1
+            }
+        }
+    }
+}
+
 /// Плейсхолдер медиа: правило «визуал не делаем» в нативном виде.
 struct Placeholder: View {
     var height: CGFloat = 172
     var onDark: Bool = false
+    var seed: Int = 0
+    var symbol: String? = nil
     var body: some View {
-        RoundedRectangle(cornerRadius: Grid.radius, style: .continuous)
-            .fill(onDark ? Color.white.opacity(0.08) : Color(.systemGray5))
+        PatternTile(seed: seed, onDark: onDark)
             .frame(height: height)
-            .overlay(
-                Image(systemName: "camera")
-                    .font(.system(size: 22))
-                    .foregroundStyle(onDark ? Color.white.opacity(0.35) : Color(.systemGray))
-            )
+            .clipShape(RoundedRectangle(cornerRadius: Grid.radius, style: .continuous))
+            .overlay {
+                if let symbol {
+                    Image(systemName: symbol)
+                        .font(.system(size: 30))
+                        .foregroundStyle(.white.opacity(0.9))
+                        .shadow(radius: 8)
+                }
+            }
     }
 }
 

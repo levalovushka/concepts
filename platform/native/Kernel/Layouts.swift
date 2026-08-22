@@ -157,9 +157,18 @@ struct MediaRow: View {
     var body: some View {
         HStack(spacing: 12) {
             if item.thumb {
-                Placeholder(height: 52)
+                PatternTile(seed: item.title.unicodeScalars.reduce(0) { $0 &+ Int($1.value) })
                     .frame(width: 76, height: 52)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                    .overlay {
+                        if item.progress != nil {
+                            Image(systemName: "play.fill")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundStyle(.white)
+                                .padding(6)
+                                .background(.black.opacity(0.35), in: Circle())
+                        }
+                    }
             }
             VStack(alignment: .leading, spacing: 3) {
                 Text(item.title).font(.body).lineLimit(1)
@@ -581,8 +590,22 @@ struct CockpitView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Схема").font(.headline)
                     Text(data.schemaCaption).font(.footnote).foregroundStyle(.secondary)
-                    Placeholder(height: 120)
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    ZStack(alignment: .leading) {
+                        PatternTile(seed: 3)
+                            .frame(height: 120)
+                        // подсвеченная полоса текущего ряда
+                        HStack {
+                            Rectangle().fill(Color.accentColor.opacity(0.18)).frame(height: 26)
+                            Text("ряд \(count)")
+                                .font(.caption.weight(.semibold)).foregroundStyle(Color.accentColor)
+                                .padding(.horizontal, 8).padding(.vertical, 3)
+                                .background(.background, in: Capsule())
+                                .padding(.trailing, 8)
+                        }
+                        .frame(height: 26)
+                        .offset(y: 8)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
