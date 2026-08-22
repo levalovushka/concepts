@@ -15,6 +15,7 @@ struct Concept: Identifiable, Hashable {
     let docs: [DocFile]
     /// Есть ли нативные исходники (native/apps/<slug>) — иначе концепт только из HTML-эпохи
     let hasNative: Bool
+    let path: String
     var id: String { slug }
 
     var isMimicry: Bool { mode == "mimicry" }
@@ -125,7 +126,8 @@ final class Library {
             screens: (j["screens"] as? [[String: Any]])?.count ?? 0,
             permissions: perms,
             docs: docs,
-            hasNative: native.contains(j["slug"] as? String ?? dir.lastPathComponent)
+            hasNative: native.contains(j["slug"] as? String ?? dir.lastPathComponent),
+            path: dir.path
         )
     }
 }

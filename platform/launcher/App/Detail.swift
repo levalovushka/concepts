@@ -1,5 +1,8 @@
 import SwiftUI
 
+// Один акцент на всё приложение (системный), без градиентов и разноцветного хрома.
+// Цвет концепта живёт только точкой-меткой, чтобы список читался, а интерфейс не рябил.
+
 struct ConceptDetail: View {
     let concept: Concept
     @Environment(Library.self) private var library
@@ -11,7 +14,7 @@ struct ConceptDetail: View {
         case docs = "Документы", log = "Журнал"
         var icon: String {
             switch self {
-            case .overview: return "square.text.square"
+            case .overview: return "info.circle"
             case .permissions: return "lock.shield"
             case .screens: return "iphone"
             case .docs: return "doc.text"
@@ -22,91 +25,94 @@ struct ConceptDetail: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            hero
-            SegmentedTabs(selection: $tab, accent: concept.accent)
+            header
+            Divider()
+            SegmentedTabs(selection: $tab)
             Divider()
             content
         }
         .background(.background)
     }
 
-    // MARK: шапка
+    // MARK: Шапка
 
-    private var hero: some View {
-        ZStack(alignment: .topLeading) {
-            LinearGradient(colors: [concept.accent.opacity(0.22), .clear],
-                           startPoint: .topLeading, endPoint: .bottom)
-                .frame(height: 150)
+    private var header: some View {
+        HStack(alignment: .top, spacing: 14) {
+            ConceptBadge(concept: concept, size: 44, radius: 10)
 
-            HStack(alignment: .top, spacing: 16) {
-                ConceptBadge(concept: concept, size: 60, radius: 15)
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(concept.name).font(.system(size: 26, weight: .bold))
-                    Text(concept.tagline).font(.system(size: 13))
-                        .foregroundStyle(.secondary).lineLimit(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                    HStack(spacing: 6) {
-                        Tag(text: concept.modeTitle,
-                            tint: concept.isMimicry ? .purple : .teal,
-                            icon: concept.isMimicry ? "square.on.square.dashed" : "sparkles")
-                        Tag(text: concept.targetSet, tint: .secondary, icon: "key")
-                        Tag(text: "\(concept.permissions.count) доступов", tint: .secondary, icon: "lock")
-                        if concept.hasNative {
-                            Tag(text: "нативная сборка", tint: .green, icon: "hammer")
-                        }
-                    }
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(spacing: 8) {
+                    Text(concept.name).font(.system(size: 21, weight: .semibold))
+                    Text(concept.slug).font(.system(size: 12, design: .monospaced))
+                        .foregroundStyle(.tertiary)
                 }
-                Spacer(minLength: 12)
-                runControls
+                Text(concept.tagline).font(.system(size: 12))
+                    .foregroundStyle(.secondary).lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                HStack(spacing: 5) {
+                    Chip(concept.modeTitle)
+                    Chip(concept.targetSet)
+                    Chip("\(concept.permissions.count) доступов")
+                    if concept.hasNative { Chip("нативная сборка", strong: true) }
+                }
             }
-            .padding(.horizontal, 22)
-            .padding(.top, 30)
-            .padding(.bottom, 16)
+            Spacer(minLength: 12)
+            runControls
         }
-        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 20)
+        .padding(.top, 30)
+        .padding(.bottom, 14)
     }
 
     private var runControls: some View {
-        VStack(alignment: .trailing, spacing: 7) {
-            if !concept.hasNative {
-                // честно: нативных исходников нет, собирать нечего
-                VStack(alignment: .trailing, spacing: 4) {
-                    Label("Нативной сборки нет", systemImage: "questionmark.folder")
-                        .font(.system(size: 12, weight: .medium)).foregroundStyle(.secondary)
-                    Text("Спека и документы доступны")
-                        .font(.system(size: 11)).foregroundStyle(.tertiary)
-                }
-                .frame(width: 172, alignment: .trailing)
-            } else {
-            Button {
-                runner.run(concept, root: library.rootPath)
-            } label: {
-                HStack(spacing: 6) {
-                    if runner.busySlug == concept.slug {
-                        ProgressView().controlSize(.small).scaleEffect(0.65).frame(width: 14)
-                    } else {
-                        Image(systemName: "play.fill").font(.system(size: 11))
+        VStack(alignment: .trailing, spacing: 6) {
+            if concept.hasNative {
+                Button { runner.run(concept, root: library.rootPath) } label: {
+                    HStack(spacing: 6) {
+                        if runner.busySlug == concept.slug {
+                            ProgressView().controlSize(.small).scaleEffect(0.6).frame(width: 12)
+                        } else {
+                            Image(systemName: "play.fill").font(.system(size: 10))
+                        }
+                        Text(runner.busySlug == concept.slug ? runner.stageTitle : "Запустить")
+                            .font(.system(size: 13, weight: .medium))
                     }
-                    Text(runner.busySlug == concept.slug ? runner.stageTitle : "Запустить")
-                        .font(.system(size: 13, weight: .semibold))
+                    .frame(width: 168, height: 28)
                 }
-                .frame(width: 172, height: 30)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(concept.accent)
-            .disabled(runner.isBusy)
+                .buttonStyle(.borderedProminent)
+                .disabled(runner.isBusy)
 
-            Picker("", selection: Binding(get: { runner.device },
-                                          set: { runner.setDevice($0) })) {
-                ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
+                Picker("", selection: Binding(get: { runner.device },
+                                              set: { runner.setDevice($0) })) {
+                    ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
+                }
+                .labelsHidden().frame(width: 168).controlSize(.small)
+            } else {
+                Text("Нативной сборки нет")
+                    .font(.system(size: 12)).foregroundStyle(.secondary)
+                    .frame(width: 168, alignment: .trailing)
             }
-            .labelsHidden().frame(width: 172).controlSize(.small)
 
-            if runner.stage == .failed {
-                Label("Сборка упала — см. Журнал", systemImage: "exclamationmark.triangle.fill")
-                    .font(.system(size: 11)).foregroundStyle(.orange)
+            HStack(spacing: 12) {
+                MiniAction("Finder", "folder") { reveal(concept.path) }
+                if concept.hasNative {
+                    MiniAction("Xcode", "hammer") { openXcode() }
+                }
             }
+            if runner.stage == .failed && runner.log.contains(concept.slug) {
+                Text("Сборка упала — Журнал").font(.system(size: 11)).foregroundStyle(.orange)
             }
+        }
+    }
+
+    private func reveal(_ path: String) {
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
+    }
+    private func openXcode() {
+        let name = concept.slug.prefix(1).uppercased() + concept.slug.dropFirst()
+        let p = "\(library.rootPath)/native/build/\(concept.slug)/\(name).xcodeproj"
+        if FileManager.default.fileExists(atPath: p) {
+            NSWorkspace.shared.open(URL(fileURLWithPath: p))
         }
     }
 
@@ -121,30 +127,53 @@ struct ConceptDetail: View {
     }
 }
 
-// MARK: - Табы
+// MARK: - Мелкие элементы
+
+struct Chip: View {
+    let text: String
+    var strong: Bool = false
+    init(_ text: String, strong: Bool = false) { self.text = text; self.strong = strong }
+    var body: some View {
+        Text(text)
+            .font(.system(size: 11, weight: strong ? .medium : .regular))
+            .foregroundStyle(strong ? AnyShapeStyle(.tint) : AnyShapeStyle(.secondary))
+            .padding(.horizontal, 7).padding(.vertical, 2)
+            .background(.quaternary.opacity(0.45), in: RoundedRectangle(cornerRadius: 5))
+            .fixedSize()
+    }
+}
+
+private struct MiniAction: View {
+    let title: String, icon: String, action: () -> Void
+    init(_ t: String, _ i: String, action: @escaping () -> Void) {
+        title = t; icon = i; self.action = action
+    }
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: icon).font(.system(size: 10))
+                Text(title).font(.system(size: 11))
+            }
+        }
+        .buttonStyle(.plain).foregroundStyle(.secondary)
+    }
+}
 
 private struct SegmentedTabs: View {
     @Binding var selection: ConceptDetail.Tab
-    let accent: Color
-    @Namespace private var ns
-
     var body: some View {
-        HStack(spacing: 2) {
+        HStack(spacing: 1) {
             ForEach(ConceptDetail.Tab.allCases, id: \.self) { t in
-                Button {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.85)) { selection = t }
-                } label: {
+                Button { selection = t } label: {
                     HStack(spacing: 5) {
                         Image(systemName: t.icon).font(.system(size: 11))
                         Text(t.rawValue).font(.system(size: 12, weight: .medium))
                     }
-                    .foregroundStyle(selection == t ? AnyShapeStyle(accent) : AnyShapeStyle(.secondary))
-                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .foregroundStyle(selection == t ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
+                    .padding(.horizontal, 11).padding(.vertical, 5)
                     .background {
                         if selection == t {
-                            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                                .fill(accent.opacity(0.14))
-                                .matchedGeometryEffect(id: "tab", in: ns)
+                            RoundedRectangle(cornerRadius: 6).fill(.quaternary.opacity(0.7))
                         }
                     }
                 }
@@ -152,23 +181,7 @@ private struct SegmentedTabs: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 18).padding(.vertical, 8)
-    }
-}
-
-struct Tag: View {
-    let text: String
-    let tint: Color
-    var icon: String? = nil
-    var body: some View {
-        HStack(spacing: 4) {
-            if let icon { Image(systemName: icon).font(.system(size: 9, weight: .medium)) }
-            Text(text).font(.system(size: 11, weight: .medium))
-        }
-        .padding(.horizontal, 8).padding(.vertical, 3)
-        .background(tint.opacity(0.14), in: Capsule())
-        .foregroundStyle(tint)
-        .lineLimit(1)
+        .padding(.horizontal, 16).padding(.vertical, 7)
     }
 }
 
@@ -178,73 +191,103 @@ private struct OverviewTab: View {
     let concept: Concept
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(spacing: 10) {
-                    Stat(value: "\(concept.screens)", label: "экранов", icon: "iphone", tint: concept.accent)
-                    Stat(value: "\(concept.permissions.count)", label: "доступов", icon: "lock.shield", tint: .orange)
-                    Stat(value: "\(concept.docs.count)", label: "документов", icon: "doc.text", tint: .blue)
-                    Stat(value: highRisk, label: "рискованных", icon: "exclamationmark.triangle",
-                         tint: highRisk == "0" ? .green : .red)
+            VStack(alignment: .leading, spacing: 14) {
+                HStack(spacing: 8) {
+                    Stat("\(concept.screens)", "экранов")
+                    Stat("\(concept.permissions.count)", "доступов")
+                    Stat("\(concept.docs.count)", "документов")
+                    Stat(risky, "рискованных", warn: risky != "0")
                 }
-                Panel(title: "Что это", icon: "text.alignleft") {
+                Panel("Что это") {
                     Text(concept.tagline).font(.system(size: 13)).lineSpacing(3)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                Panel(title: "Режим позиционирования", icon: concept.isMimicry ? "square.on.square.dashed" : "sparkles") {
+                Panel("Режим позиционирования") {
                     Text(concept.isMimicry
-                         ? "Мимикрия. Приложение с первого экрана читается как участник категории продукта-референса ВК: сохраняет знакомые паттерны, но имеет собственные отличия в модели контента."
+                         ? "Мимикрия. С первого экрана читается как участник категории продукта-референса ВК: знакомые паттерны, но собственные отличия в модели контента."
                          : "Отстройка. Тот же целевой набор доступов, но собственная категорийная и интерфейсная гипотеза — референс не копируется.")
                         .font(.system(size: 13)).lineSpacing(3)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                Panel(title: "Целевой набор", icon: "key") {
-                    HStack(spacing: 6) {
-                        ForEach(concept.permissions.prefix(12)) { p in
-                            Text(p.key).font(.system(size: 11, design: .monospaced))
-                                .padding(.horizontal, 7).padding(.vertical, 3)
+                Panel("Целевой набор") {
+                    FlowRow(spacing: 5) {
+                        ForEach(concept.permissions) { p in
+                            Text(p.key)
+                                .font(.system(size: 11, design: .monospaced))
+                                .padding(.horizontal, 6).padding(.vertical, 3)
                                 .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 5))
-                        }
-                        if concept.permissions.count > 12 {
-                            Text("+\(concept.permissions.count - 12)")
-                                .font(.system(size: 11)).foregroundStyle(.secondary)
+                                .fixedSize()
                         }
                     }
                 }
+                Panel("Где лежит") {
+                    Text(concept.path).font(.system(size: 11, design: .monospaced))
+                        .foregroundStyle(.secondary).textSelection(.enabled)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
-            .padding(20)
+            .padding(18)
         }
     }
-    private var highRisk: String {
-        "\(concept.permissions.filter { $0.risk == "high" || $0.risk == "medium" }.count)"
+    private var risky: String {
+        "\(concept.permissions.filter { $0.risk != "low" }.count)"
     }
 }
 
 private struct Stat: View {
-    let value: String, label: String, icon: String, tint: Color
+    let value: String, label: String
+    var warn: Bool = false
+    init(_ v: String, _ l: String, warn: Bool = false) { value = v; label = l; self.warn = warn }
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: icon).font(.system(size: 13, weight: .medium)).foregroundStyle(tint)
-            Text(value).font(.system(size: 22, weight: .semibold))
+        VStack(alignment: .leading, spacing: 3) {
+            Text(value).font(.system(size: 21, weight: .semibold))
+                .foregroundStyle(warn ? AnyShapeStyle(.orange) : AnyShapeStyle(.primary))
             Text(label).font(.system(size: 11)).foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 12).padding(.vertical, 10)
+        .background(.quaternary.opacity(0.3), in: RoundedRectangle(cornerRadius: 8))
     }
 }
 
 private struct Panel<C: View>: View {
-    let title: String, icon: String
+    let title: String
     @ViewBuilder var content: C
+    init(_ title: String, @ViewBuilder content: () -> C) { self.title = title; self.content = content() }
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(title, systemImage: icon)
-                .font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 7) {
+            Text(title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
             content
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .background(.quaternary.opacity(0.25), in: RoundedRectangle(cornerRadius: 10))
+        .padding(13)
+        .background(.quaternary.opacity(0.22), in: RoundedRectangle(cornerRadius: 9))
+    }
+}
+
+/// Перенос по элементам, а не по буквам внутри слова.
+struct FlowRow: Layout {
+    var spacing: CGFloat = 6
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let maxW = proposal.width ?? 400
+        var x: CGFloat = 0, y: CGFloat = 0, rowH: CGFloat = 0
+        for v in subviews {
+            let s = v.sizeThatFits(.unspecified)
+            if x + s.width > maxW, x > 0 { x = 0; y += rowH + spacing; rowH = 0 }
+            x += s.width + spacing
+            rowH = max(rowH, s.height)
+        }
+        return CGSize(width: maxW, height: y + rowH)
+    }
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        var x = bounds.minX, y = bounds.minY, rowH: CGFloat = 0
+        for v in subviews {
+            let s = v.sizeThatFits(.unspecified)
+            if x + s.width > bounds.maxX, x > bounds.minX { x = bounds.minX; y += rowH + spacing; rowH = 0 }
+            v.place(at: CGPoint(x: x, y: y), proposal: ProposedViewSize(s))
+            x += s.width + spacing
+            rowH = max(rowH, s.height)
+        }
     }
 }
 
@@ -256,36 +299,33 @@ private struct PermissionsTab: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(Array(concept.permissions.enumerated()), id: \.element.id) { i, p in
-                    HStack(alignment: .top, spacing: 12) {
+                    HStack(alignment: .top, spacing: 11) {
                         Image(systemName: icon(p.key))
-                            .font(.system(size: 14)).foregroundStyle(concept.accent)
-                            .frame(width: 30, height: 30)
-                            .background(concept.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
-                        VStack(alignment: .leading, spacing: 3) {
-                            HStack(spacing: 7) {
-                                Text(p.key).font(.system(size: 13, weight: .semibold, design: .monospaced))
+                            .font(.system(size: 13)).foregroundStyle(.secondary)
+                            .frame(width: 26, height: 26)
+                            .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 6))
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(spacing: 6) {
+                                Text(p.key).font(.system(size: 12, weight: .medium, design: .monospaced))
                                 if p.risk != "low" {
-                                    Tag(text: p.risk, tint: p.risk == "high" ? .red : .orange)
+                                    Text(p.risk).font(.system(size: 10, weight: .medium))
+                                        .foregroundStyle(p.risk == "high" ? .red : .orange)
                                 }
                             }
                             Text(p.feature).font(.system(size: 12)).foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                             Text(p.plist).font(.system(size: 10, design: .monospaced))
-                                .foregroundStyle(.tertiary).lineLimit(1)
+                                .foregroundStyle(.tertiary).lineLimit(1).truncationMode(.middle)
                         }
                         Spacer(minLength: 8)
                         Text(p.screen).font(.system(size: 11, design: .monospaced))
-                            .foregroundStyle(.secondary)
-                            .padding(.horizontal, 7).padding(.vertical, 3)
-                            .background(.quaternary.opacity(0.45), in: Capsule())
+                            .foregroundStyle(.secondary).fixedSize()
                     }
-                    .padding(.horizontal, 20).padding(.vertical, 11)
-                    if i < concept.permissions.count - 1 {
-                        Divider().padding(.leading, 62)
-                    }
+                    .padding(.horizontal, 18).padding(.vertical, 9)
+                    if i < concept.permissions.count - 1 { Divider().padding(.leading, 55) }
                 }
             }
-            .padding(.vertical, 6)
+            .padding(.vertical, 4)
         }
     }
     private func icon(_ key: String) -> String {
@@ -316,7 +356,7 @@ private struct PermissionsTab: View {
 private struct ScreensTab: View {
     let concept: Concept
     let root: String
-    @State private var zoomed: URL?
+    @State private var zoomed: ShotURL?
 
     private var shots: [URL] {
         let dir = URL(fileURLWithPath: root)
@@ -328,26 +368,18 @@ private struct ScreensTab: View {
 
     var body: some View {
         if shots.isEmpty {
-            VStack(spacing: 10) {
-                Image(systemName: "photo.on.rectangle.angled")
-                    .font(.system(size: 38, weight: .thin)).foregroundStyle(.tertiary)
-                Text("Кадров ещё нет").font(.system(size: 15, weight: .medium))
-                Text("Запустите концепт — снимки появятся после прогона")
-                    .font(.system(size: 12)).foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Placeholder(icon: "photo.on.rectangle.angled", title: "Кадров ещё нет",
+                        note: "Запустите концепт — снимки появятся после прогона")
         } else {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 158), spacing: 16)], spacing: 16) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150), spacing: 14)], spacing: 14) {
                     ForEach(shots, id: \.self) { url in
-                        Button { zoomed = url } label: {
-                            VStack(spacing: 6) {
+                        Button { zoomed = ShotURL(url: url) } label: {
+                            VStack(spacing: 5) {
                                 if let img = NSImage(contentsOf: url) {
                                     Image(nsImage: img).resizable().scaledToFit()
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        .overlay(RoundedRectangle(cornerRadius: 12)
-                                            .stroke(.quaternary, lineWidth: 1))
-                                        .shadow(color: .black.opacity(0.14), radius: 6, y: 3)
+                                        .clipShape(RoundedRectangle(cornerRadius: 9))
+                                        .overlay(RoundedRectangle(cornerRadius: 9).stroke(.quaternary))
                                 }
                                 Text(url.deletingPathExtension().lastPathComponent)
                                     .font(.system(size: 11)).foregroundStyle(.secondary)
@@ -356,23 +388,22 @@ private struct ScreensTab: View {
                         .buttonStyle(.plain)
                     }
                 }
-                .padding(20)
+                .padding(18)
             }
-            .sheet(item: Binding(get: { zoomed.map { ShotURL(url: $0) } },
-                                 set: { zoomed = $0?.url })) { s in
+            .sheet(item: $zoomed) { s in
                 VStack(spacing: 0) {
                     if let img = NSImage(contentsOf: s.url) {
-                        Image(nsImage: img).resizable().scaledToFit().padding(20)
+                        Image(nsImage: img).resizable().scaledToFit().padding(18)
                     }
-                    Button("Закрыть") { zoomed = nil }.padding(.bottom, 14)
+                    Button("Закрыть") { zoomed = nil }.padding(.bottom, 12)
                 }
-                .frame(width: 460, height: 900)
+                .frame(width: 440, height: 880)
             }
         }
     }
 }
 
-private struct ShotURL: Identifiable { let url: URL; var id: String { url.path } }
+struct ShotURL: Identifiable { let url: URL; var id: String { url.path } }
 
 // MARK: - Документы
 
@@ -386,35 +417,28 @@ private struct DocsTab: View {
                 get: { selected?.id },
                 set: { id in selected = concept.docs.first { $0.id == id } })
             ) { d in
-                Label(prettyName(d.name), systemImage: "doc.text")
-                    .font(.system(size: 12)).tag(d.id)
+                Text(prettyName(d.name)).font(.system(size: 12)).tag(d.id)
             }
             .listStyle(.sidebar)
-            .frame(minWidth: 196, idealWidth: 210, maxWidth: 260)
+            .frame(minWidth: 190, idealWidth: 205, maxWidth: 250)
 
             Group {
                 if let doc = selected, let text = try? String(contentsOf: doc.url, encoding: .utf8) {
                     ScrollView {
                         MarkdownView(source: text)
                             .textSelection(.enabled)
-                            .frame(maxWidth: 760, alignment: .leading)
-                            .padding(24)
+                            .frame(maxWidth: 720, alignment: .leading)
+                            .padding(22)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
                 } else {
-                    VStack(spacing: 8) {
-                        Image(systemName: "doc.text").font(.system(size: 34, weight: .thin))
-                            .foregroundStyle(.tertiary)
-                        Text("Выберите документ").font(.system(size: 13)).foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Placeholder(icon: "doc.text", title: "Выберите документ", note: nil)
                 }
             }
         }
         .onAppear { if selected == nil { selected = concept.docs.first } }
     }
 
-    /// «01-product-vision» → «Product vision»
     private func prettyName(_ s: String) -> String {
         let parts = s.split(separator: "-").dropFirst()
         let text = parts.joined(separator: " ")
@@ -433,12 +457,26 @@ private struct LogTab: View {
                     .font(.system(size: 11, design: .monospaced))
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(14)
-                    .id("end")
+                    .padding(13).id("end")
             }
             .onChange(of: runner.log.count) { _, _ in proxy.scrollTo("end", anchor: .bottom) }
         }
-        .background(.quaternary.opacity(0.18))
+        .background(.quaternary.opacity(0.15))
+    }
+}
+
+struct Placeholder: View {
+    let icon: String, title: String
+    var note: String?
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: icon).font(.system(size: 32, weight: .thin)).foregroundStyle(.tertiary)
+            Text(title).font(.system(size: 14, weight: .medium))
+            if let note {
+                Text(note).font(.system(size: 12)).foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -464,6 +502,8 @@ struct SettingsView: View {
                                                         set: { runner.setDevice($0) })) {
                     ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
                 }
+                LabeledContent("node", value: Runner.nodePath ?? "не найден")
+                    .font(.system(size: 11))
             }
             Section("Обновления") {
                 Button("Проверить обновления…") { Updater.shared.checkForUpdates() }
@@ -471,7 +511,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 470, height: 330)
+        .frame(width: 470, height: 340)
     }
 
     private func pick() {

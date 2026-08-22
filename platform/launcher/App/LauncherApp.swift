@@ -56,12 +56,8 @@ private struct Sidebar: View {
             // шапка библиотеки
             VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 9) {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(LinearGradient(colors: [.blue, .purple],
-                                             startPoint: .topLeading, endPoint: .bottomTrailing))
-                        .frame(width: 26, height: 26)
-                        .overlay(Image(systemName: "square.stack.3d.up.fill")
-                            .font(.system(size: 12, weight: .semibold)).foregroundStyle(.white))
+                    Image(systemName: "square.stack.3d.up")
+                        .font(.system(size: 14, weight: .medium)).foregroundStyle(.secondary)
                     Text("Библиотека").font(.system(size: 15, weight: .semibold))
                     Spacer()
                     Button { library.reload() } label: {
@@ -142,14 +138,18 @@ struct ConceptBadge: View {
     var radius: CGFloat = 8
     var body: some View {
         RoundedRectangle(cornerRadius: radius, style: .continuous)
-            .fill(LinearGradient(colors: [concept.accent, concept.accent.opacity(0.72)],
-                                 startPoint: .topLeading, endPoint: .bottomTrailing))
+            .fill(.quaternary.opacity(0.5))
             .frame(width: size, height: size)
             .overlay(
                 Text(String(concept.name.prefix(1)).uppercased())
-                    .font(.system(size: size * 0.44, weight: .bold))
-                    .foregroundStyle(.white)
+                    .font(.system(size: size * 0.4, weight: .semibold))
+                    .foregroundStyle(.secondary)
             )
+            .overlay(alignment: .bottomTrailing) {
+                Circle().fill(concept.accent)
+                    .frame(width: size * 0.22, height: size * 0.22)
+                    .padding(size * 0.06)
+            }
     }
 }
 
