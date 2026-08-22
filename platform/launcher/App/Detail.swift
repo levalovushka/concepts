@@ -36,18 +36,25 @@ struct ConceptDetail: View {
 
     // MARK: Шапка
 
+    // Слева текстовая колонка, справа одна строка контролов одной высоты:
+    // разной ширины блоки друг под другом давали лесенку у правого края.
+    private static let controlHeight: CGFloat = 30
+    private static let controlsWidth: CGFloat = 178
+
     private var header: some View {
         HStack(alignment: .top, spacing: 14) {
             ConceptBadge(concept: concept, size: 44, radius: 10)
+                .padding(.top, 1)
 
-            VStack(alignment: .leading, spacing: 5) {
-                HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
                     Text(concept.name).font(.system(size: 21, weight: .semibold))
                     Text(concept.slug).font(.system(size: 12, design: .monospaced))
                         .foregroundStyle(.tertiary)
                 }
                 Text(concept.tagline).font(.system(size: 12))
                     .foregroundStyle(.secondary).lineLimit(2)
+                    .frame(maxWidth: 520, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
                 HStack(spacing: 5) {
                     Chip(concept.modeTitle)
@@ -55,54 +62,57 @@ struct ConceptDetail: View {
                     Chip("\(concept.permissions.count) доступов")
                     if concept.hasNative { Chip("нативная сборка", strong: true) }
                 }
+                .padding(.top, 3)
             }
-            Spacer(minLength: 12)
+
+            Spacer(minLength: 20)
             runControls
         }
         .padding(.horizontal, 20)
         .padding(.top, 30)
-        .padding(.bottom, 14)
+        .padding(.bottom, 16)
     }
 
     private var runControls: some View {
-        VStack(alignment: .trailing, spacing: 6) {
+        VStack(alignment: .leading, spacing: 7) {
             if concept.hasNative {
                 Button { runner.run(concept, root: library.rootPath) } label: {
                     HStack(spacing: 6) {
                         if runner.busySlug == concept.slug {
                             ProgressView().controlSize(.small).scaleEffect(0.6).frame(width: 12)
                         } else {
-                            Image(systemName: "play.fill").font(.system(size: 10))
+                            Image(systemName: "play.fill").font(.system(size: 10, weight: .bold))
                         }
                         Text(runner.busySlug == concept.slug ? runner.stageTitle : "Запустить")
-                            .font(.system(size: 13, weight: .medium))
                     }
-                    .frame(width: 168, height: 28)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(PrimaryPill(height: Self.controlHeight))
                 .disabled(runner.isBusy)
 
                 Picker("", selection: Binding(get: { runner.device },
                                               set: { runner.setDevice($0) })) {
                     ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
                 }
-                .labelsHidden().frame(width: 168).controlSize(.small)
+                .labelsHidden().controlSize(.small)
+
+                HStack(spacing: 6) {
+                    MiniAction("Finder", "folder", height: 26) { reveal(concept.path) }
+                    MiniAction("Xcode", "hammer", height: 26) { openXcode() }
+                }
             } else {
                 Text("Нативной сборки нет")
-                    .font(.system(size: 12)).foregroundStyle(.secondary)
-                    .frame(width: 168, alignment: .trailing)
+                    .font(.system(size: 12)).foregroundStyle(.tertiary)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                MiniAction("Finder", "folder", height: 26) { reveal(concept.path) }
             }
 
-            HStack(spacing: 12) {
-                MiniAction("Finder", "folder") { reveal(concept.path) }
-                if concept.hasNative {
-                    MiniAction("Xcode", "hammer") { openXcode() }
-                }
-            }
             if runner.stage == .failed && runner.log.contains(concept.slug) {
-                Text("Сборка упала — Журнал").font(.system(size: 11)).foregroundStyle(.orange)
+                Text("Сборка упала — смотрите Журнал")
+                    .font(.system(size: 11)).foregroundStyle(.orange)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
+        .frame(width: Self.controlsWidth)
     }
 
     private func reveal(_ path: String) {
@@ -143,19 +153,57 @@ struct Chip: View {
     }
 }
 
+/// Основное действие: белая скруглённая капсула с чёрной надписью.
+/// В светлой теме инвертируется — белое на белом не читалось бы.
+private struct PrimaryPill: ButtonStyle {
+    var height: CGFloat = 30
+    @Environment(\.colorScheme) private var scheme
+    @Environment(\.isEnabled) private var enabled
+    @State private var hover = false
+
+    private var fill: Color { scheme == .dark ? .white : Color(white: 0.11) }
+    private var ink: Color { scheme == .dark ? .black : .white }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 13, weight: .semibold))
+            .foregroundStyle(ink)
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity)
+            .frame(height: height)
+            .background(
+                Capsule().fill(fill.opacity(configuration.isPressed ? 0.78 : (hover ? 1 : 0.93)))
+            )
+            .opacity(enabled ? 1 : 0.45)
+            .scaleEffect(configuration.isPressed ? 0.98 : 1)
+            .animation(.easeOut(duration: 0.13), value: configuration.isPressed)
+            .animation(.easeOut(duration: 0.13), value: hover)
+            .onHover { hover = $0 }
+    }
+}
+
 private struct MiniAction: View {
-    let title: String, icon: String, action: () -> Void
-    init(_ t: String, _ i: String, action: @escaping () -> Void) {
-        title = t; icon = i; self.action = action
+    let title: String, icon: String, height: CGFloat, action: () -> Void
+    @State private var hover = false
+    init(_ t: String, _ i: String, height: CGFloat = 30, action: @escaping () -> Void) {
+        title = t; icon = i; self.height = height; self.action = action
     }
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 4) {
-                Image(systemName: icon).font(.system(size: 10))
-                Text(title).font(.system(size: 11))
+            HStack(spacing: 5) {
+                Image(systemName: icon).font(.system(size: 11))
+                Text(title).font(.system(size: 12))
             }
+            .foregroundStyle(hover ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
+            .padding(.horizontal, 11)
+            .frame(maxWidth: .infinity)
+            .frame(height: height)
+            .background(.quaternary.opacity(hover ? 0.55 : 0.35), in: Capsule())
+            .contentShape(Capsule())
         }
-        .buttonStyle(.plain).foregroundStyle(.secondary)
+        .buttonStyle(.plain)
+        .animation(.easeOut(duration: 0.12), value: hover)
+        .onHover { hover = $0 }
     }
 }
 
