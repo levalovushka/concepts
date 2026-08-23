@@ -546,3 +546,17 @@ struct DvorStat: View {
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
 }
+
+// MARK: - Шапка корневой вкладки над скроллом
+
+extension View {
+    /// Шапка вкладки закрепляется над содержимым и красит область статус-бара.
+    /// Пока она ехала внутри скролла, сверху оставалась серая полоса страницы.
+    func rootHeader<Header: View>(@ViewBuilder _ header: () -> Header) -> some View {
+        safeAreaInset(edge: .top, spacing: 0) {
+            header()
+                .background(DvorStyle.card)
+                .overlay(alignment: .bottom) { DvorStyle.line.frame(height: 0.5) }
+        }
+    }
+}

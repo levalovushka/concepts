@@ -37,6 +37,16 @@ struct NeighbourProfileScreen: View {
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
 
+    private var residentMatters: [HouseMatter] {
+        store.matters.filter { $0.author.name == resident.name }
+    }
+    private var sharedConversations: Int {
+        max(1, store.conversations.filter { $0.subtitle.contains("сосед") }.count - 1)
+    }
+    private var replyCount: Int {
+        store.matters.reduce(0) { $0 + $1.replies.filter { $0.author.name == resident.name }.count }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -60,6 +70,36 @@ struct NeighbourProfileScreen: View {
                     .nativeAction("profile.open-neighbor-chat")
                 }
                 .padding(t.pad)
+
+                // Хвост профиля: чем сосед занят в доме. Без него экран —
+                // визитка на треть высоты и пустое поле под ней.
+                if !residentMatters.isEmpty {
+                    GroupGap()
+                    HStack(spacing: 8) {
+                        Text("Дела соседа").font(.system(size: 17, weight: .semibold))
+                        Text("\(residentMatters.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
+                        Spacer()
+                    }
+                    .padding(.horizontal, t.pad).padding(.top, 14).padding(.bottom, 4)
+
+                    ForEach(residentMatters) { matter in
+                        Button { nav.push(DvorRoute.matter(matter)) } label: {
+                            DvorRow(title: matter.title,
+                                    subtitle: "\(matter.published) · \(matter.status.rawValue.lowercased())",
+                                    icon: matter.kind.systemImage)
+                        }
+                        .buttonStyle(.plain)
+                        RowSeparator(leading: 60)
+                    }
+                }
+
+                GroupGap()
+                VKRow(title: "В доме", value: "с 2019 года", chevron: false)
+                RowSeparator()
+                VKRow(title: "Общие чаты", value: "\(sharedConversations)", chevron: false)
+                RowSeparator()
+                VKRow(title: "Ответы соседям", value: "\(replyCount) за месяц", chevron: false)
+                Color.clear.frame(height: 24)
             }
         }
         .background(t.background)
@@ -376,7 +416,25 @@ struct EventsScreen: View {
                     AppStatePanel(kind: .error, title: "Не удалось добавить событие", detail: calendarError)
                         .padding(.horizontal, t.pad)
                 }
-                ForEach(store.events) { event in
+                eventSection(title: "Ближайшие", events: store.upcomingEvents)
+                eventSection(title: "Прошедшие", events: store.pastEvents, past: true)
+            }
+        }
+        .vkNavigation("События дома")
+        .task { restoreCalendarState() }
+    }
+
+    @ViewBuilder
+    private func eventSection(title: String, events: [HouseEvent], past: Bool = false) -> some View {
+        if !events.isEmpty {
+            HStack(spacing: 8) {
+                Text(title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                Text("\(events.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
+                Spacer()
+            }
+            .padding(.horizontal, t.pad).padding(.top, 16).padding(.bottom, 6)
+
+            ForEach(events) { event in
                     HStack(alignment: .top, spacing: 14) {
                         Text(event.day).font(.system(size: 14, weight: .semibold)).foregroundStyle(t.accent).frame(width: 56, alignment: .leading)
                         VStack(alignment: .leading, spacing: 4) {
@@ -405,15 +463,18 @@ struct EventsScreen: View {
                             .font(.vkMeta).padding(.top, 4)
                             .disabled(addedEvents.contains(event.id) || eventBeingAdded != nil)
                             .nativeAction("events.add-calendar")
+                            .opacity(past ? 0 : 1)
+                            .frame(height: past ? 0 : nil)
+                            if past {
+                                Text("прошло").font(.vkMeta).foregroundStyle(t.textSecondary)
+                            }
                         }
                         Spacer()
                     }.padding(t.pad)
+                    .opacity(past ? 0.55 : 1)
                     RowSeparator(leading: 86)
-                }
             }
         }
-        .vkNavigation("События дома")
-        .task { restoreCalendarState() }
     }
 
     private func saveToCalendar(_ houseEvent: HouseEvent) throws -> String {
@@ -612,21 +673,38 @@ struct DvorSettingsScreen: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: DvorStyle.gap) {
+                // Настройки ВК начинаются с карточки аккаунта: аватар, имя,
+                // контакт и обводочная кнопка управления.
+                VStack(spacing: 8) {
+                    Avatar(name: store.currentResident.name, size: 96).padding(.top, 12)
+                    Text(store.currentResident.name)
+                        .font(.system(size: 22, weight: .semibold)).foregroundStyle(DvorStyle.ink)
+                    Text("\(store.currentResident.apartment) · \(store.address)")
+                        .font(.system(size: 15)).foregroundStyle(DvorStyle.secondary)
+                    VKOutlineButton(title: "Управление аккаунтом", tinted: false) {
+                        nav.present(sheet: DvorRoute.profile)
+                    }
+                    .padding(.horizontal, 16).padding(.top, 6).padding(.bottom, 4)
+                }
+                .frame(maxWidth: .infinity)
+                .background(DvorStyle.card)
+
                 DvorSectionTitle(title: "Мой дом")
                 DvorCard {
                     VStack(spacing: 0) {
-                        DvorRow(title: "Адрес", subtitle: store.address, value: session.canWriteToHouse ? "Подтверждён" : "На проверке", chevron: false)
-                        DvorRow(title: "Домашняя сеть", subtitle: "Используется только для проверки адреса", value: "Сохранена", chevron: false)
+                        DvorRow(title: "Адрес", subtitle: store.address, icon: "house", value: session.canWriteToHouse ? "Подтверждён" : "На проверке", chevron: false)
+                        DvorRow(title: "Домашняя сеть", subtitle: "Используется только для проверки адреса", icon: "wifi", value: "Сохранена", chevron: false)
                     }
                 }
 
                 DvorSectionTitle(title: "Уведомления")
                 DvorCard {
                     VStack(spacing: 0) {
-                        DvorRow(title: "Ответы по делам", subtitle: "Спросим при подписке на дело", value: statusTitle(permissions.status(.push)), chevron: false)
-                        DvorRow(title: "Сообщения соседей", subtitle: "Имя жильца в уведомлении", toggle: $messageNotifications)
+                        DvorRow(title: "Ответы по делам", subtitle: "Спросим при подписке на дело", icon: "bell", value: statusTitle(permissions.status(.push)), chevron: false)
+                        DvorRow(title: "Сообщения соседей", subtitle: "Имя жильца в уведомлении", icon: "bubble.left", toggle: $messageNotifications)
                         DvorRow(title: "Обновлять дом в фоне",
                                 subtitle: "Заявки и показания подтянутся до открытия приложения",
+                                icon: "arrow.clockwise",
                                 toggle: $backgroundUpdates)
                             .nativeAction("settings.enable-background-updates")
                     }
@@ -635,9 +713,9 @@ struct DvorSettingsScreen: View {
                 DvorSectionTitle(title: "Приватность")
                 DvorCard {
                     VStack(spacing: 0) {
-                        DvorRow(title: "Закрывать приложение", subtitle: "Защитить адрес, квартиры и коды", toggle: $appLock)
+                        DvorRow(title: "Закрывать приложение", subtitle: "Защитить адрес, квартиры и коды", icon: "faceid", toggle: $appLock)
                             .nativeAction("settings.enable-app-lock")
-                        DvorRow(title: "Учитывать интересы", subtitle: "Для местных предложений", toggle: personalizedServices)
+                        DvorRow(title: "Учитывать интересы", subtitle: "Для местных предложений", icon: "hand.raised", toggle: personalizedServices)
                             .nativeAction("settings.open-personalization")
                     }
                 }
@@ -645,9 +723,9 @@ struct DvorSettingsScreen: View {
                 DvorSectionTitle(title: "Дом сейчас")
                 DvorCard {
                     VStack(spacing: 0) {
-                        DvorRow(title: "Открытые дела", value: "\(store.openMatterCount)", chevron: false)
-                        DvorRow(title: "Соседи в приложении", value: "\(store.neighbourCount)", chevron: false)
-                        DvorRow(title: "Последнее обновление", value: "сейчас", chevron: false)
+                        DvorRow(title: "Открытые дела", icon: "exclamationmark.circle", value: "\(store.openMatterCount)", chevron: false)
+                        DvorRow(title: "Соседи в приложении", icon: "person.2", value: "\(store.neighbourCount)", chevron: false)
+                        DvorRow(title: "Последнее обновление", icon: "clock", value: "сейчас", chevron: false)
                     }
                 }
             }
@@ -697,7 +775,7 @@ struct DvorSettingsScreen: View {
 
     private func statusTitle(_ status: Permissions.Status) -> String {
         switch status {
-        case .unknown: "Не запрашивался"
+        case .unknown: "Спросим позже"
         case .granted: "Включено"
         case .denied: "Не разрешено"
         }

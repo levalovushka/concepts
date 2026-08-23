@@ -47,12 +47,16 @@ test("Dvor home passes the social-feed product gate", () => {
 
 test("Dvor notification affordance opens a notification center, never an arbitrary first matter", () => {
   const home = source["Home.swift"];
+  // Экран уведомлений живёт отдельным файлом: правило «в ленте нет чужих
+  // входов» проверяется по Home.swift целиком, а уведомления к ленте не
+  // относятся и тянут переходы в хронику, сеть и соседей.
+  const notifications = source["Notifications.swift"];
   assert.match(home, /openNotifications: \{ nav\.push\(DvorRoute\.notifications\) \}/);
   assert.doesNotMatch(home, /Button \{ nav\.push\(DvorRoute\.matter\(store\.matters\[0\]\)\) \} label: \{ Image\(systemName: "bell"\)/);
-  assert.match(home, /struct HouseNotificationsScreen/);
+  assert.match(notifications, /struct HouseNotificationsScreen/);
   assert.doesNotMatch(home, /nav\.push\(DvorRoute\.matter\(store\.matters\[0\]\)\)/);
-  assert.match(home, /first\(where: \{ \$0\.kind == \.incident \}\)/);
-  assert.match(home, /nav\.push\(DvorRoute\.meters\)/);
+  assert.match(notifications, /first\(where: \{ \$0\.kind == \.incident \}\)/);
+  assert.match(notifications, /nav\.push\(DvorRoute\.meters\)/);
 });
 
 test("Dvor has no feedback-only button stubs", () => {

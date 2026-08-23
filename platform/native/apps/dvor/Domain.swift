@@ -197,6 +197,12 @@ final class HouseStore {
     ]
 
     var neighbourCount: Int { neighbours.count }
+    /// Календарь дома делится на предстоящее и прошедшее — по «сегодня»
+    /// приложения, а не по системной дате: кадры должны быть повторяемыми.
+    static let today = Calendar(identifier: .gregorian)
+        .date(from: DateComponents(year: 2026, month: 8, day: 23)) ?? .now
+    var upcomingEvents: [HouseEvent] { events.filter { $0.startsAt >= Self.today }.sorted { $0.startsAt < $1.startsAt } }
+    var pastEvents: [HouseEvent] { events.filter { $0.startsAt < Self.today }.sorted { $0.startsAt > $1.startsAt } }
     /// «Дела» — то, что ещё не решено: числа в меню и в ленте обязаны сойтись.
     var openMatterCount: Int { matters.filter { $0.status != .resolved }.count }
     var isResidenceVerified = true
@@ -294,13 +300,33 @@ final class HouseStore {
             kids.id: [],
         ]
         let calendar = Calendar(identifier: .gregorian)
+        // Календарь дома за месяц, а не два пункта: у дома на 146 квартир
+        // дела идут постоянно, и часть из них уже прошла.
         events = [
             HouseEvent(title: "Отключение горячей воды",
                        startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 26, hour: 10)) ?? .now,
                        duration: 6 * 3600, location: "весь дом"),
+            HouseEvent(title: "Поверка счётчиков воды",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 27, hour: 12)) ?? .now,
+                       duration: 4 * 3600, location: "по заявкам, подъезды 1–3"),
             HouseEvent(title: "Собрание жильцов",
                        startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 30, hour: 19)) ?? .now,
                        duration: 2 * 3600, location: "двор у детской площадки"),
+            HouseEvent(title: "Соседский завтрак",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 30, hour: 11)) ?? .now,
+                       duration: 2 * 3600, location: "детская площадка"),
+            HouseEvent(title: "Замена ламп на лестницах",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 9, day: 2, hour: 9)) ?? .now,
+                       duration: 5 * 3600, location: "подъезды 1–4"),
+            HouseEvent(title: "Субботник во дворе",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 9, day: 6, hour: 11)) ?? .now,
+                       duration: 3 * 3600, location: "двор и палисадник"),
+            HouseEvent(title: "Мытьё окон в подъездах",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 19, hour: 10)) ?? .now,
+                       duration: 4 * 3600, location: "подъезды 1–4"),
+            HouseEvent(title: "Обрезка кустов у детской",
+                       startsAt: calendar.date(from: DateComponents(year: 2026, month: 8, day: 14, hour: 9)) ?? .now,
+                       duration: 3 * 3600, location: "двор"),
         ]
         restoreSnapshotIfAvailable()
     }

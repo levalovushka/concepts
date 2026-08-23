@@ -13,10 +13,6 @@ struct HouseChatsScreen: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
-                VKTabHeader(
-                    title: "Чаты", avatar: store.currentResident.name,
-                    avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) { EmptyView() }.background(DvorStyle.card)
                 VKSearchField(placeholder: "Поиск по чатам дома", text: $query)
                     .padding(.horizontal, t.pad).padding(.bottom, 10)
                     .background(DvorStyle.card)
@@ -57,6 +53,12 @@ struct HouseChatsScreen: View {
                 }
                 }
             }
+        }
+        .rootHeader {
+            VKTabHeader(
+                title: "Чаты", avatar: store.currentResident.name,
+                avatarAction: { nav.present(sheet: DvorRoute.profile) }
+            ) { EmptyView() }
         }
         .background(DvorStyle.page)
         .toolbar(.hidden, for: .navigationBar)
@@ -474,14 +476,6 @@ struct YardScreen: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 9) {
-                VKTabHeader(
-                    title: "Двор", avatar: store.currentResident.name, dropdown: true,
-                    avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) {
-                    Button { nav.present(sheet: DvorRoute.report) } label: { Image(systemName: "plus") }
-                        .accessibilityLabel("Сообщить о проблеме")
-                }.background(DvorStyle.card)
-
                 DvorSectionTitle(title: "Сейчас во дворе")
                 DvorCard {
                     VStack(spacing: 0) {
@@ -520,7 +514,19 @@ struct YardScreen: View {
                 }
             }
             .padding(.bottom, 18)
-        }.background(DvorStyle.page).toolbar(.hidden, for: .navigationBar)
+        }
+        // Шапка живёт над скроллом: пока она ехала внутри, под статус-баром
+        // оставалась серая подложка страницы.
+        .rootHeader {
+            VKTabHeader(
+                title: "Двор", avatar: store.currentResident.name, dropdown: true,
+                avatarAction: { nav.present(sheet: DvorRoute.profile) }
+            ) {
+                Button { nav.present(sheet: DvorRoute.report) } label: { Image(systemName: "plus") }
+                    .accessibilityLabel("Сообщить о проблеме")
+            }
+        }
+        .background(DvorStyle.page).toolbar(.hidden, for: .navigationBar)
     }
 
     @ViewBuilder private func serviceRow(title: String, subtitle: String, icon: String, value: String? = nil, warning: Bool = false, chevron: Bool = true, nativeActionID: String? = nil, action: @escaping () -> Void) -> some View {
@@ -546,12 +552,6 @@ struct HouseMenuScreen: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 9) {
-                VKTabHeader(
-                    title: "Меню", avatar: store.currentResident.name,
-                    avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) { EmptyView() }
-                    .background(DvorStyle.card)
-
                 Button { nav.present(sheet: DvorRoute.profile) } label: {
                     DvorCard {
                         VStack(spacing: 12) {
@@ -618,7 +618,14 @@ struct HouseMenuScreen: View {
                 }
             }
             .padding(.bottom, 18)
-        }.background(DvorStyle.page).toolbar(.hidden, for: .navigationBar)
+        }
+        .rootHeader {
+            VKTabHeader(
+                title: "Меню", avatar: store.currentResident.name,
+                avatarAction: { nav.present(sheet: DvorRoute.profile) }
+            ) { EmptyView() }
+        }
+        .background(DvorStyle.page).toolbar(.hidden, for: .navigationBar)
     }
 
     private func menuRow(_ title: String, _ subtitle: String, icon: String, nativeActionID: String? = nil, action: @escaping () -> Void) -> some View {
