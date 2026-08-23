@@ -8,6 +8,7 @@ struct AuthScreen: View {
     @State private var mail = ""
     @State private var code = ""
     @State private var step = 0
+    @State private var codeSentAgain = false
     @FocusState private var focused: Bool
 
     var body: some View {
@@ -64,7 +65,10 @@ struct AuthScreen: View {
                 OTPField(code: $code) { if $0.count == 4 { onDone() } }
                     .focused($focused)
                 Spacer().frame(height: 14)
-                Button("Отправить код ещё раз") {}
+                Button(codeSentAgain ? "Новый код отправлен" : "Отправить код ещё раз") {
+                    codeSentAgain = true
+                }
+                    .disabled(codeSentAgain)
                     .font(.system(size: 15)).foregroundStyle(t.accent)
             }
 
@@ -212,28 +216,39 @@ struct ChatScreen: View {
     @Environment(\.theme) private var t
     @State private var draft = ""
     @State private var recording = false
+    @State private var showAttachments = false
     @FocusState private var focused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
+            VKChatHeader(
+                title: dialog.name,
+                subtitle: dialog.online ? "в сети" : "была сегодня в 17:51",
+                onBack: { nav.pop() },
+                onCall: { nav.push(LooksRoute.call) }
+            )
+
             ScrollViewReader { proxy in
                 ScrollView {
-                    LazyVStack(spacing: 2) {
-                        Spacer(minLength: 0).frame(maxHeight: .infinity)
+                    LazyVStack(spacing: 0) {
                         ForEach(Array(store.messages.enumerated()), id: \.element.id) { i, m in
                             if let day = m.day { DayDivider(text: day) }
                             Bubble(message: m, author: dialog.name,
                                    showsAvatar: startsGroup(i),
                                    progress: Double(i) / Double(max(store.messages.count - 1, 1)))
+                                .padding(.top, messageSpacingBefore(i))
                                 .id(m.id)
                         }
                     }
-                    .frame(maxWidth: .infinity, minHeight: 520, alignment: .bottom)
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 12)
+                    .padding(.vertical, 10)
                 }
                 .onChange(of: store.messages.count) { _, _ in
                     withAnimation { proxy.scrollTo(store.messages.last?.id, anchor: .bottom) }
+                }
+                .task {
+                    try? await Task.sleep(for: .milliseconds(80))
+                    proxy.scrollTo(store.messages.last?.id, anchor: .bottom)
                 }
             }
             .background(t.background)
@@ -242,19 +257,11 @@ struct ChatScreen: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                VStack(spacing: 1) {
-                    Text(dialog.name).font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(t.textPrimary)
-                    Text(dialog.online ? "в сети" : "была сегодня в 17:51")
-                        .font(.system(size: 13)).foregroundStyle(t.textSecondary)
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button { nav.push(LooksRoute.call) } label: { Image(systemName: "phone") }
-                    .accessibilityLabel("Позвонить")
-            }
+        .toolbar(.hidden, for: .navigationBar)
+        .confirmationDialog("Добавить к сообщению", isPresented: $showAttachments) {
+            Button("Фото образа") { store.send("Фото · образ для свопа") }
+            Button("Место встречи") { store.send("Новая Голландия · суббота, 15:00") }
+            Button("Отмена", role: .cancel) {}
         }
     }
 
@@ -267,9 +274,17 @@ struct ChatScreen: View {
         return prev.mine || m.day != nil
     }
 
+    /// Внутри реплики сообщения плотные; при смене автора читается новая группа.
+    private func messageSpacingBefore(_ i: Int) -> CGFloat {
+        guard i > 0 else { return 0 }
+        let message = store.messages[i]
+        if message.day != nil { return 0 }
+        return store.messages[i - 1].mine == message.mine ? 2 : 8
+    }
+
     private var inputBar: some View {
         HStack(spacing: 12) {
-            Button {} label: {
+            Button { showAttachments = true } label: {
                 Image(systemName: "plus.circle.fill").font(.system(size: 28))
                     .foregroundStyle(t.accent)
             }
@@ -280,7 +295,7 @@ struct ChatScreen: View {
                 TextField("Сообщение", text: $draft, axis: .vertical)
                     .font(.system(size: 16)).lineLimit(1...4)
                     .focused($focused)
-                Button {} label: {
+                Button { draft += draft.isEmpty ? "✨" : " ✨" } label: {
                     Image(systemName: "face.smiling").font(.system(size: 20))
                         .foregroundStyle(t.accent)
                 }

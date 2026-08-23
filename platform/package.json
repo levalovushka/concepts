@@ -17,6 +17,10 @@
     "proof": "node scripts/pipeline-proof.mjs",
     "review": "node scripts/review-concept.mjs",
     "test:quality": "node scripts/test-quality.mjs",
+    "native:compile": "node native/gen/compile-concept.mjs",
+    "native:generate": "node native/gen/gen-project.mjs",
+    "native:audit": "node native/gen/audit-native.mjs",
+    "test:native": "node --test native/test/*.test.mjs",
     "check": "node scripts/check.mjs",
     "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga"
   },

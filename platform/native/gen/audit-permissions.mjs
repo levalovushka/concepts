@@ -1,73 +1,129 @@
 #!/usr/bin/env node
-// Ворота доступов. Правило проекта: заявленный ключ обязан иметь достижимую фичу
-// в этой же сборке. Скрипт сверяет concept.json с исходниками приложения.
-//
-// Проверяется:
-//   1. у ключа есть точка запроса в коде (perms.request(.key) или activate-фича);
-//   2. точка запроса ровно одна — «один доступ, одна точка запроса»;
-//   3. экран-цель из спеки существует в приложении;
-//   4. usage-строка попала в Info.plist (для ключей с NS…UsageDescription).
+// Native capability gate. It verifies the compiled manifest and generated build
+// artifacts; source-code names alone are never proof that an iOS capability exists.
 
+import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { compileNativeConcept } from "../lib/compile-concept.mjs";
 
-const __dir = dirname(fileURLToPath(import.meta.url));
-const NATIVE = join(__dir, "..");
-const ROOT = join(NATIVE, "..");
-
+const here = dirname(fileURLToPath(import.meta.url));
+const nativeRoot = join(here, "..");
+const platformRoot = join(nativeRoot, "..");
 const slug = process.argv[2];
-if (!slug) { console.error("usage: audit-permissions.mjs <slug>"); process.exit(1); }
+if (!slug) {
+  console.error("usage: audit-permissions.mjs <slug>");
+  process.exit(1);
+}
 
-const spec = JSON.parse(readFileSync(join(ROOT, "concepts", slug, "concept.json"), "utf8"));
-const appDir = join(NATIVE, "apps", slug);
-const sources = readdirSync(appDir).filter(f => f.endsWith(".swift"))
-  .map(f => readFileSync(join(appDir, f), "utf8")).join("\n");
+const spec = JSON.parse(readFileSync(join(platformRoot, "concepts", slug, "concept.json"), "utf8"));
+const compiled = compileNativeConcept(spec);
+const problems = compiled.diagnostics
+  .filter(item => item.severity === "error")
+  .map(item => `✗ spec ${item.code}: ${item.message}`);
+const manifest = compiled.manifest;
 
-const plistPath = join(NATIVE, "build", slug, "Info.plist");
-const plist = existsSync(plistPath) ? readFileSync(plistPath, "utf8") : "";
+const appDir = join(nativeRoot, "apps", slug);
+const appSources = readdirSync(appDir).filter(file => file.endsWith(".swift"))
+  .map(file => readFileSync(join(appDir, file), "utf8")).join("\n");
+const runtimeSource = readFileSync(join(nativeRoot, "Runtime", "Permissions.swift"), "utf8");
+const buildDir = join(nativeRoot, "build", slug);
+const appName = slug[0].toUpperCase() + slug.slice(1);
 
-const problems = [];
-const ok = [];
+function readPlist(path) {
+  if (!existsSync(path)) return null;
+  return JSON.parse(execFileSync("plutil", ["-convert", "json", "-o", "-", path], { encoding: "utf8" }));
+}
 
-for (const p of spec.permissions || []) {
-  const key = p.key;
-  const isEntitlement = !!p.activate;
+function stable(value) {
+  if (Array.isArray(value)) return [...value].map(stable).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, item]) => [key, stable(item)]));
+  }
+  return value;
+}
 
-  // 1–2. точки запроса
-  const re = new RegExp(`request\\(\\.${key}\\)`, "g");
-  const hits = (sources.match(re) || []).length;
+function expectedPlist() {
+  const entries = Object.fromEntries(manifest.capabilities.info.map(item => [item.key, item.value]));
+  if (manifest.capabilities.backgroundModes.length) entries.UIBackgroundModes = manifest.capabilities.backgroundModes;
+  return entries;
+}
 
-  // 3. экран-цель
-  const target = p.target || "";
-  const targetExists = !target || new RegExp(`case\\s+"${target}"|\\.${target}\\b|${target[0]?.toUpperCase()}${target.slice(1)}Screen`).test(sources);
+function expectedEntitlements() {
+  return Object.fromEntries(manifest.capabilities.entitlements.map(item => [item.key, item.value]));
+}
 
-  // 4. usage-строка
-  const usageKeys = (p.plist || "").split(" + ").map(s => s.trim()).filter(s => /^NS.*UsageDescription$/.test(s));
-  const usageOk = usageKeys.every(k => plist.includes(`<key>${k}</key>`));
+const builtInfo = readPlist(join(buildDir, "Info.plist"));
+const builtEntitlements = readPlist(join(buildDir, `${appName}.entitlements`));
+const projectSource = existsSync(join(buildDir, `${appName}.xcodeproj`, "project.pbxproj"))
+  ? readFileSync(join(buildDir, `${appName}.xcodeproj`, "project.pbxproj"), "utf8")
+  : "";
+const directGesturePatterns = {
+  applesignin: /SignInWithAppleButton\s*\(/g,
+};
+if (!builtInfo) problems.push("✗ generated Info.plist is missing; run gen-project first");
+else if (JSON.stringify(stable(builtInfo)) !== JSON.stringify(stable(expectedPlist()))) {
+  problems.push("✗ generated Info.plist does not equal the native manifest");
+}
+if (!builtEntitlements) problems.push("✗ generated entitlements are missing; run gen-project first");
+else if (JSON.stringify(stable(builtEntitlements)) !== JSON.stringify(stable(expectedEntitlements()))) {
+  problems.push("✗ generated entitlements do not equal the native manifest");
+}
 
-  if (!isEntitlement && hits === 0) {
-    problems.push(`✗ ${key.padEnd(12)} нет точки запроса в коде — фича «${p.feature}» недостижима`);
-  } else if (hits > 1) {
-    problems.push(`✗ ${key.padEnd(12)} ${hits} точек запроса — правило «один доступ, одна точка»`);
-  } else if (isEntitlement && hits === 0 && !new RegExp(key, "i").test(sources)) {
-    problems.push(`✗ ${key.padEnd(12)} entitlement заявлен, но в приложении нет фичи «${p.feature}»`);
-  } else if (!targetExists) {
-    problems.push(`✗ ${key.padEnd(12)} экран-цель «${target}» не найден в приложении`);
-  } else if (usageKeys.length && !usageOk) {
-    problems.push(`✗ ${key.padEnd(12)} usage-строка не попала в Info.plist`);
-  } else {
-    ok.push(`✓ ${key.padEnd(12)} ${p.feature}`);
+for (const permission of manifest.permissions) {
+  const requestPattern = new RegExp(`request\\(\\.${permission.key}(?:\\s*,|\\s*\\))`, "g");
+  const requestHits = (appSources.match(requestPattern) || []).length;
+  const directPattern = directGesturePatterns[permission.key];
+  const directHits = directPattern ? (appSources.match(directPattern) || []).length : 0;
+  const hits = requestHits + directHits;
+  if (hits === 0) {
+    problems.push(`✗ ${permission.key}: no product gesture calls the capability adapter`);
+  }
+  if (hits > 1) problems.push(`✗ ${permission.key}: ${hits} request points; expected exactly one`);
+
+  // Calling request() is valid only when Runtime has an explicit adapter. Falling
+  // through a generic branch is not an implementation.
+  if (requestHits > 0 && !new RegExp(`case\\s+[^\\n]*"${permission.key}"`).test(runtimeSource)) {
+    problems.push(`✗ ${permission.key}: request exists but Runtime has no explicit adapter`);
   }
 }
 
-console.log(`Доступы концепта «${spec.name}»: ${spec.permissions.length}\n`);
-for (const l of ok) console.log("  " + l);
+for (const extension of manifest.capabilities.extensions) {
+  const targetDir = join(buildDir, "Extensions", extension.id);
+  const productName = `${appName}${extension.productSuffix}`;
+  if (!existsSync(targetDir)) {
+    problems.push(`✗ ${extension.id}: required extension target was not generated`);
+    continue;
+  }
+  const extensionInfo = readPlist(join(targetDir, "Info.plist"));
+  if (extensionInfo?.NSExtension?.NSExtensionPointIdentifier !== extension.extensionPoint) {
+    problems.push(`✗ ${extension.id}: generated Info.plist has the wrong extension point`);
+  }
+  if (!existsSync(join(targetDir, extension.sourceFile))) {
+    problems.push(`✗ ${extension.id}: generated extension has no implementation source`);
+  }
+  if (!projectSource.includes(`name = ${productName}`)
+      || !projectSource.includes('productType = "com.apple.product-type.app-extension"')) {
+    problems.push(`✗ ${extension.id}: Xcode app-extension target is missing`);
+  }
+  if (!projectSource.includes(`${productName}.appex in Embed Foundation Extensions`)) {
+    problems.push(`✗ ${extension.id}: extension is not embedded in the main application`);
+  }
+}
+
+console.log(`Native capabilities for “${spec.name}”\n`);
+console.log(`  Info.plist keys: ${manifest.capabilities.info.length}`);
+console.log(`  Entitlements: ${manifest.capabilities.entitlements.length}`);
+console.log(`  Background modes: ${manifest.capabilities.backgroundModes.length}`);
+console.log(`  Extension targets: ${manifest.capabilities.extensionTargets.length}`);
+console.log(`  Runtime adapters: ${manifest.capabilities.runtimeAdapters.length}`);
+
 if (problems.length) {
-  console.log("\nПроблемы:\n");
-  for (const l of problems) console.log("  " + l);
-  console.log(`\nБЛОКЕРЫ: ${problems.length} из ${spec.permissions.length}`);
-  console.log("Правило: ключ без достижимой фичи не заявляется. Либо фича, либо ключ снимается.");
+  console.log("\nBlockers:\n");
+  for (const problem of problems) console.log("  " + problem);
+  console.log(`\nBLOCKERS: ${problems.length}`);
   process.exit(1);
 }
-console.log("\nВсе заявленные доступы отработаны.");
+
+console.log("\nCapability manifest, build artifacts, product gestures, and adapters agree.");

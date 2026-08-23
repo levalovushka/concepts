@@ -5,20 +5,30 @@ import SwiftUI
 @MainActor
 @Observable
 final class Nav {
-    var tab: Int = 0
-    var paths: [Int: NavigationPath] = [:]
+    var tab: String
+    var paths: [String: NavigationPath] = [:]
     var sheet: AnyRoute?
     var cover: AnyRoute?
     var toastText: String?
     private var toastShown = Set<String>()
 
-    func path(_ tab: Int) -> Binding<NavigationPath> {
+    init(initialTab: String) {
+        tab = initialTab
+    }
+
+    func path(_ tab: String) -> Binding<NavigationPath> {
         Binding(get: { self.paths[tab] ?? NavigationPath() },
                 set: { self.paths[tab] = $0 })
     }
     func push<R: Hashable>(_ route: R) {
         var p = paths[tab] ?? NavigationPath()
         p.append(route)
+        paths[tab] = p
+    }
+    func pop() {
+        var p = paths[tab] ?? NavigationPath()
+        guard !p.isEmpty else { return }
+        p.removeLast()
         paths[tab] = p
     }
     func present<R: Hashable>(sheet route: R) { sheet = AnyRoute(route) }

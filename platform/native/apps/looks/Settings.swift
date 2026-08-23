@@ -6,8 +6,12 @@ import SwiftUI
 struct SettingsScreen: View {
     @Environment(Nav.self) private var nav
     @Environment(Permissions.self) private var perms
+    @Environment(Session.self) private var session
     @Environment(\.theme) private var t
     @State private var push = false
+    @State private var dnd = false
+    @State private var sheet: SettingsSheet?
+    @State private var confirmLogout = false
 
     var body: some View {
         ScrollView {
@@ -30,12 +34,12 @@ struct SettingsScreen: View {
                         }
                     }
                     RowSeparator()
-                    link("moon", "Не беспокоить") {}
+                    row("moon", "Не беспокоить", toggle: $dnd) { _ in }
                 }
                 GroupGap()
 
                 group {
-                    link("person", "Аккаунт") {}
+                    link("person", "Аккаунт") { sheet = .account }
                     RowSeparator()
                     link("megaphone", "Реклама и данные") { nav.push(LooksRoute.ads) }
                     RowSeparator()
@@ -64,16 +68,16 @@ struct SettingsScreen: View {
                 GroupGap()
 
                 group {
-                    link("questionmark.circle", "Помощь") {}
+                    link("questionmark.circle", "Помощь") { sheet = .help }
                     RowSeparator()
-                    link("doc.text", "Пользовательское соглашение") {}
+                    link("doc.text", "Пользовательское соглашение") { sheet = .agreement }
                     RowSeparator()
                     VKRow(title: "Версия", icon: "info.circle", value: "1.0", chevron: false)
                 }
                 GroupGap()
 
                 group {
-                    Button {} label: {
+                    Button { confirmLogout = true } label: {
                         Text("Выйти").font(.vkRow).foregroundStyle(t.badge)
                             .frame(maxWidth: .infinity).frame(height: 48)
                     }
@@ -85,6 +89,17 @@ struct SettingsScreen: View {
         .background(t.background)
         .navigationTitle("Настройки")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $sheet) { destination in
+            switch destination {
+            case .account: AccountSettingsSheet()
+            case .help: SettingsDocumentSheet(title: "Помощь", text: "Расскажите, что не получилось. Ответим в приложении и на почту аккаунта.")
+            case .agreement: SettingsDocumentSheet(title: "Пользовательское соглашение", text: "Публикуйте только свои материалы, уважайте участников и не используйте чужие вещи без согласия владельца.")
+            }
+        }
+        .confirmationDialog("Выйти из аккаунта?", isPresented: $confirmLogout) {
+            Button("Выйти", role: .destructive) { session.signOut() }
+            Button("Отмена", role: .cancel) {}
+        }
     }
 
     private var header: some View {
@@ -95,7 +110,7 @@ struct SettingsScreen: View {
                 .foregroundStyle(t.textPrimary)
             Text("nika@mail.ru").font(.system(size: 15))
                 .foregroundStyle(t.textSecondary)
-            VKOutlineButton(title: "Управление аккаунтом", tinted: false) {}
+            VKOutlineButton(title: "Управление аккаунтом", tinted: false) { sheet = .account }
                 .padding(.horizontal, t.pad)
                 .padding(.top, 6)
         }
@@ -115,5 +130,48 @@ struct SettingsScreen: View {
                      action: @escaping (Bool) async -> Void) -> some View {
         VKRow(title: title, icon: icon, chevron: false, toggle: toggle)
             .onChange(of: toggle.wrappedValue) { _, v in Task { await action(v) } }
+    }
+}
+
+private enum SettingsSheet: String, Identifiable {
+    case account, help, agreement
+    var id: String { rawValue }
+}
+
+private struct AccountSettingsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var email = "nika@mail.ru"
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Вход") { TextField("Почта", text: $email).textContentType(.emailAddress) }
+                Section("Профиль") {
+                    LabeledContent("Имя", value: "Ника Орлова")
+                    LabeledContent("Статус", value: "Активен")
+                }
+            }
+            .navigationTitle("Аккаунт")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Готово") { dismiss() } } }
+        }
+    }
+}
+
+private struct SettingsDocumentSheet: View {
+    let title: String
+    let text: String
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                Text(text).font(.system(size: 17)).frame(maxWidth: .infinity, alignment: .leading).padding(20)
+            }
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Готово") { dismiss() } } }
+        }
+        .presentationDetents([.medium, .large])
     }
 }

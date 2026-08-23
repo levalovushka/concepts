@@ -19,6 +19,12 @@ const referencePatterns = {
   vkontakte: ['social-feed', 'messaging', 'profile'],
   ok: ['social-feed', 'messaging', 'profile'],
 }[targetSet] || ['Знакомый паттерн 1', 'Знакомый паттерн 2', 'Знакомый паттерн 3'];
+const nativeReferenceProfiles = {
+  'vk-music': 'vk-music-ios',
+  'vk-video': 'vk-video-ios',
+  vkontakte: 'vk-ios',
+  ok: 'ok-ios',
+};
 if (!slug || !name) {
   console.error('использование: node scripts/new-concept.mjs <slug> "<Название>" <целевой-набор> [mimicry|differentiation]');
   console.error('существующие концепты:', listConcepts().join(', ') || '—');
@@ -55,7 +61,10 @@ for (const f of walk(dir)) {
     .replaceAll('__ACCENT_DARK__', accentDark)
     .replaceAll('__REFERENCE_PATTERN_1__', referencePatterns[0])
     .replaceAll('__REFERENCE_PATTERN_2__', referencePatterns[1])
-    .replaceAll('__REFERENCE_PATTERN_3__', referencePatterns[2]);
+    .replaceAll('__REFERENCE_PATTERN_3__', referencePatterns[2])
+    .replaceAll('__REFERENCE_PROFILE_PROPERTY__', requestedMode === 'mimicry'
+      ? `"referenceProfile": "${nativeReferenceProfiles[targetSet]}",`
+      : '');
   writeFileSync(f, s);
 }
 mkdirSync(join(dir, 'assets', 'media'), { recursive: true });

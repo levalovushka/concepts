@@ -44,13 +44,13 @@ struct NearbyScreen: View {
                             .buttonStyle(.plain)
                     }
                 }
-                
+
                 .padding(.bottom, 72)
             }
             .background(t.background)
         }
         .background(t.background)
-        .navigationTitle("Свопы рядом").navigationBarTitleDisplayMode(.inline)
+        .vkNavigation("Свопы рядом")
     }
 }
 
@@ -60,7 +60,7 @@ private struct EventCard: View {
     @Environment(\.theme) private var t
     var body: some View {
         VKGroup {
-            VKMedia(glyph: "arrow.left.arrow.right", height: 140, seed: event.going)
+            VKMedia(assetName: LooksMediaAssets.event(event.going), height: 140)
             VStack(alignment: .leading, spacing: 8) {
                 Text(event.title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
                 HStack(spacing: 6) {
@@ -97,7 +97,7 @@ struct EventScreen: View {
         ScrollView {
             VStack(spacing: 0) {
                 VKGroup {
-                    VKMedia(glyph: "arrow.left.arrow.right", height: 180, seed: event.going)
+                    VKMedia(assetName: LooksMediaAssets.swap, height: 180)
                     VStack(alignment: .leading, spacing: 10) {
                         Text(event.title).font(.vkSection).foregroundStyle(t.textPrimary)
                         InfoRow(icon: "calendar", text: event.when)
@@ -167,7 +167,7 @@ struct EventScreen: View {
                     .padding(12)
                 }
             }
-            
+
         }
         .background(t.background)
         .navigationTitle("Своп").navigationBarTitleDisplayMode(.inline)
@@ -244,14 +244,14 @@ struct WardrobeScreen: View {
                     LazyVStack(spacing: 0) {
                         ForEach(store.outfits.prefix(2)) { o in
                             VKGroup {
-                                VKMedia(glyph: o.items.first?.glyph ?? "photo", height: 200, seed: o.seed)
+                                VKMedia(assetName: LooksMediaAssets.outfit(o.seed), height: 200)
                                 Text(o.text.isEmpty ? "Без описания" : o.text)
                                     .font(.vkBody).foregroundStyle(t.textPrimary)
                                     .lineLimit(2).padding(12)
                             }
                         }
                     }
-                    
+
                 } else {
                     EmptyState(icon: "bookmark", title: "Пока пусто",
                                text: "Сохраняйте образы из ленты — они появятся здесь")
@@ -260,8 +260,14 @@ struct WardrobeScreen: View {
             .background(t.background)
         }
         .background(t.background)
-        .navigationTitle("Гардероб").navigationBarTitleDisplayMode(.inline)
-        .toolbar { ToolbarItem(placement: .topBarTrailing) { Button { nav.present(cover: LooksRoute.create) } label: { Image(systemName: "plus") } } }
+        .vkNavigation("Гардероб") {
+            Button { nav.present(cover: LooksRoute.create) } label: {
+                Image(systemName: "plus")
+                    .font(.system(size: 20, weight: .regular))
+                    .frame(width: 44, height: 44)
+            }
+            .accessibilityLabel("Добавить вещь")
+        }
     }
 }
 
@@ -271,7 +277,7 @@ private struct GarmentCard: View {
     var body: some View {
         VKCard {
             ZStack(alignment: .topTrailing) {
-                VKMedia(glyph: garment.glyph, height: 124, seed: garment.title.count)
+                VKMedia(assetName: LooksMediaAssets.detail(garment.title.count), height: 124)
                 // состояние вещи — приложение всегда наполовину в процессе
                 HStack(spacing: 4) {
                     Image(systemName: garment.state.icon).font(.system(size: 10, weight: .semibold))
@@ -330,12 +336,13 @@ struct OutfitScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
+    @State private var showComments = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 VKGroup {
-                    VKMedia(glyph: outfit.items.first?.glyph ?? "photo", height: 360, seed: outfit.seed)
+                    VKMedia(assetName: LooksMediaAssets.outfit(outfit.seed), height: 360)
                         .overlay(alignment: .bottomLeading) {
                             VStack(alignment: .leading, spacing: 6) {
                                 ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
@@ -369,6 +376,7 @@ struct OutfitScreen: View {
                                       comments: outfit.comments, shares: outfit.shares,
                                       saved: outfit.saved, trailing: outfit.views,
                                       onLike: { store.toggleLike(outfit.id) },
+                                      onComment: { showComments = true },
                                       onShare: { nav.toast("Ссылка скопирована") },
                                       onSave: { store.toggleSave(outfit.id) })
                             .padding(.top, 4)
@@ -403,10 +411,62 @@ struct OutfitScreen: View {
                     Color.clear.frame(height: 6)
                 }
             }
-            
+
         }
         .background(t.background)
         .navigationTitle("Образ").navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showComments) { OutfitCommentsSheet(outfit: outfit) }
+    }
+}
+
+private struct OutfitCommentsSheet: View {
+    let outfit: Outfit
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var t
+    @State private var draft = ""
+    @State private var comments = [
+        "Сохранила сочетание, попробую с серым жакетом",
+        "Очень нравится, что вещи не выглядят как витрина",
+    ]
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(Array(comments.enumerated()), id: \.offset) { index, text in
+                            HStack(alignment: .top, spacing: 10) {
+                                Avatar(name: index.isMultiple(of: 2) ? "Аня Котова" : "Марк Львов", size: 36)
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(index.isMultiple(of: 2) ? "Аня Котова" : "Марк Львов").font(.vkName)
+                                    Text(text).font(.vkBody).foregroundStyle(t.textPrimary)
+                                }
+                                Spacer(minLength: 0)
+                            }
+                            .padding(12)
+                            if index < comments.count - 1 { RowSeparator(leading: 58) }
+                        }
+                    }
+                }
+                HStack(spacing: 8) {
+                    TextField("Комментарий к образу", text: $draft)
+                        .textFieldStyle(.plain).padding(.horizontal, 14).frame(height: 40)
+                        .background(t.fill, in: Capsule())
+                    Button("Отправить") {
+                        let value = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+                        guard !value.isEmpty else { return }
+                        comments.append(value)
+                        draft = ""
+                    }
+                    .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+                .padding(12).background(t.background)
+            }
+            .navigationTitle("Комментарии · \(outfit.comments)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Готово") { dismiss() } } }
+        }
+        .presentationDetents([.medium, .large])
     }
 }
 
@@ -426,7 +486,7 @@ struct CreateScreen: View {
                 VStack(spacing: 0) {
                     VKGroup {
                         if picked {
-                            VKMedia(glyph: "figure.stand", height: 260, seed: 1)
+                            VKMedia(assetName: LooksMediaAssets.outfit(1), height: 260)
                         } else {
                             VStack(spacing: 14) {
                                 Image(systemName: "camera.viewfinder")
@@ -481,7 +541,7 @@ struct CreateScreen: View {
                         rowLink(icon: "person.2", title: "Аудитория", value: "Все")
                     }
                 }
-                
+
                 .padding(.bottom, 72)
             }
             .background(t.background)

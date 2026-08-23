@@ -76,8 +76,9 @@ export function validate(spec, slug) {
   }
 
   const keys = new Set();
+  const entitlementOnly = new Set(['applesignin', 'appgroups', 'keychain', 'autofill', 'bgtask', 'fetch', 'hotspot', 'wifiinfo']);
   for (const p of spec.permissions || []) {
-    if (!p.key || !p.plist) err.push('доступ без key/plist');
+    if (!p.key || (!p.plist && !entitlementOnly.has(p.key))) err.push('доступ без key/plist');
     if (keys.has(p.key)) err.push('дубль доступа: ' + p.key);
     keys.add(p.key);
     if (!p.alert?.title || !p.alert?.text) err.push(`${p.key}: нет alert.title/text`);

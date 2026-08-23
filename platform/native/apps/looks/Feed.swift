@@ -15,7 +15,7 @@ struct FeedScreen: View {
                 Button { nav.present(cover: LooksRoute.create) } label: {
                     Image(systemName: "plus.circle")
                 }
-                Button {} label: {
+                Button { nav.push(LooksRoute.notifications) } label: {
                     Image(systemName: "bell")
                         .overlay(alignment: .topTrailing) {
                             Text("7").font(.system(size: 11, weight: .semibold))
@@ -88,6 +88,8 @@ private struct PostCard: View {
     @Environment(\.theme) private var t
     @State private var showTags = false
     @State private var expanded = false
+    @State private var showMenu = false
+    @State private var subscribed = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -102,8 +104,11 @@ private struct PostCard: View {
                     Text(outfit.meta).font(.vkMeta).foregroundStyle(t.textSecondary)
                 }
                 Spacer(minLength: 8)
-                VKPill(title: "Подписаться")
-                Button {} label: {
+                VKPill(title: subscribed ? "Вы подписаны" : "Подписаться") {
+                    withAnimation(.easeOut(duration: 0.16)) { subscribed.toggle() }
+                    nav.toast(subscribed ? "Вы подписались на автора" : "Подписка отменена")
+                }
+                Button { showMenu = true } label: {
                     Image(systemName: "ellipsis").font(.system(size: 17))
                         .foregroundStyle(t.textSecondary)
                         .frame(width: 24, height: 32).contentShape(Rectangle())
@@ -114,8 +119,8 @@ private struct PostCard: View {
             .padding(.vertical, 10)
 
             Button { nav.push(LooksRoute.outfit(outfit)) } label: {
-                VKMedia(glyph: outfit.items.first?.glyph ?? "photo",
-                        height: 340, seed: outfit.seed,
+                VKMedia(assetName: LooksMediaAssets.outfit(outfit.seed),
+                        height: 340,
                         pageBadge: outfit.items.count > 1 ? "1/\(outfit.items.count)" : nil)
                     .overlay(alignment: .bottomLeading) { if showTags { tagStack } }
                     .overlay(alignment: .topLeading) {
@@ -138,8 +143,7 @@ private struct PostCard: View {
             if !outfit.text.isEmpty {
                 // ВК обрывает текст поста и дописывает серое «Показать ещё»
                 Button { withAnimation(.easeOut(duration: 0.18)) { expanded.toggle() } } label: {
-                    (Text(outfit.text).foregroundStyle(t.textPrimary)
-                     + Text(expanded ? "" : "  Показать ещё").foregroundStyle(t.textSecondary))
+                    Text("\(Text(outfit.text).foregroundStyle(t.textPrimary))\(Text(expanded ? "" : "  Показать ещё").foregroundStyle(t.textSecondary))")
                         .font(.vkBody).lineSpacing(3)
                         .lineLimit(expanded ? nil : 2)
                         .multilineTextAlignment(.leading)
@@ -162,6 +166,11 @@ private struct PostCard: View {
                 .padding(.top, 12).padding(.bottom, 12)
         }
         .background(t.background)
+        .confirmationDialog("Публикация", isPresented: $showMenu) {
+            Button("Скрыть из ленты") { nav.toast("Публикация скрыта") }
+            Button("Пожаловаться", role: .destructive) { nav.toast("Жалоба отправлена") }
+            Button("Отмена", role: .cancel) {}
+        }
     }
 
     private var tagStack: some View {

@@ -1,12 +1,16 @@
 #!/usr/bin/env node
-// Снимает каждый экран концепта в симуляторе и складывает PNG в build/<slug>/shots.
-// Обход детерминированный: приложение запускается сразу на нужном экране
-// (launch-аргумент -shot <screen>), без эмуляции тапов.
+// Снимает проверенные состояния концепта в симуляторе.
+// concept.json задаёт матрицу требуемых состояний, capture.json честно связывает
+// только реализованные драйверы с launch-аргументами. Непокрытые состояния
+// остаются в coverage report, а не подменяются кадром другого экрана.
 
 import { execFileSync } from "node:child_process";
-import { mkdirSync, rmSync, existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileCaptureCatalog, selectCaptureDrivers } from "../lib/capture-catalog.mjs";
+import { findIndistinguishableArtifacts, prepareShotArtifacts, shotArtifactDirectory } from "../lib/shot-artifacts.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
@@ -15,26 +19,38 @@ const slug = process.argv[2];
 if (!slug) { console.error("usage: shots.mjs <slug> [screen ...]"); process.exit(1); }
 
 const DEVICE = process.env.DEVICE || "iPhone 17 Pro";
-const OUT = join(NATIVE, "build", slug, "shots");
+const OUT = shotArtifactDirectory(NATIVE, slug);
 const bundleId = `com.camo.${slug.replace(/[-_]/g, "")}`;
 
-// Список экранов не держим руками: он выводится из режима съёмки в App.swift.
-// Руками он уже разъезжался с приложением — новые экраны критик просто не видел.
-function screensFromApp() {
-  const app = readFileSync(join(NATIVE, "apps", slug, "App.swift"), "utf8");
-  const from = app.indexOf("private func applyShotMode()");
-  const to = app.indexOf("@ViewBuilder private func tabContent");
-  if (from < 0 || to < 0) return [];
-  return [...app.slice(from, to).matchAll(/case\s+"([a-z]+)"/g)].map(m => m[1]);
+const concept = JSON.parse(readFileSync(join(NATIVE, "..", "concepts", slug, "concept.json"), "utf8"));
+const compiled = compileNativeConcept(concept);
+if (!compiled.ok) {
+  console.error("концепт не прошёл native compiler");
+  process.exit(1);
 }
-
-const SCREENS = process.argv.slice(3).length
-  ? process.argv.slice(3)
-  : ["auth", ...screensFromApp()];
-if (!SCREENS.length) { console.error("не из чего снимать: нет режима съёмки в App.swift"); process.exit(1); }
+const captureSourcePath = join(NATIVE, "apps", slug, "capture.json");
+if (!existsSync(captureSourcePath)) {
+  console.error(`нет capture drivers: ${captureSourcePath}`);
+  process.exit(1);
+}
+const captureSource = JSON.parse(readFileSync(captureSourcePath, "utf8"));
+const captureCatalog = compileCaptureCatalog(compiled.manifest, captureSource);
+if (!captureCatalog.ok) {
+  console.error(captureCatalog.diagnostics.map(item => `${item.code}: ${item.message}`).join("\n"));
+  process.exit(1);
+}
+let CAPTURES;
+try {
+  CAPTURES = selectCaptureDrivers(captureCatalog, process.argv.slice(3));
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
+if (!CAPTURES.length) { console.error("не из чего снимать: capture catalog пуст"); process.exit(1); }
 
 const sh = (c, a) => execFileSync(c, a, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
 const simctl = (...a) => { try { return sh("xcrun", ["simctl", ...a]); } catch (e) { return e.stdout || ""; } };
+const simctlStrict = (...a) => sh("xcrun", ["simctl", ...a]);
 const sleep = ms => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 
 // Проект пересобирается из apps/<slug> ДО того, как заводится папка кадров:
@@ -49,8 +65,7 @@ try {
   process.exit(1);
 }
 
-if (existsSync(OUT)) rmSync(OUT, { recursive: true, force: true });
-mkdirSync(OUT, { recursive: true });
+prepareShotArtifacts(OUT, CAPTURES.map(item => item.artifact));
 
 // Кадры обязаны быть свежее исходников: иначе критик разбирает вчерашний интерфейс.
 // Этот сбой уже случался — критик заявил об отсутствии фичи, которая была в коде.
@@ -73,7 +88,7 @@ if (!app) { console.error("сборки нет"); process.exit(1); }
 
 // страховка: .app должен быть новее самого свежего исходника
 const newestSource = Number(sh("/bin/sh", ["-c",
-  `find "${join(NATIVE, "apps", slug)}" "${join(NATIVE, "DesignSystem")}" "${join(NATIVE, "Runtime")}" ` +
+  `find "${join(NATIVE, "apps", slug)}" "${join(NATIVE, "DesignSystem")}" "${join(NATIVE, "Runtime")}" "${join(NATIVE, "ReferenceProfiles")}" ` +
   `-name '*.swift' -newermt '1970-01-01' -exec stat -f '%m' {} + | sort -rn | head -1`]).trim() || 0);
 const appTime = Number(sh("/bin/sh", ["-c", `stat -f '%m' "${app}/Info.plist"`]).trim() || 0);
 if (appTime < newestSource) {
@@ -82,18 +97,52 @@ if (appTime < newestSource) {
 }
 
 simctl("boot", DEVICE);
-simctl("bootstatus", DEVICE, "-b");
+simctlStrict("bootstatus", DEVICE, "-b");
 simctl("uninstall", DEVICE, bundleId);
-simctl("install", DEVICE, app);
+try {
+  simctlStrict("install", DEVICE, app);
+} catch (error) {
+  console.error("установка приложения в симулятор не прошла\n" + String(error.stderr || error));
+  process.exit(1);
+}
 
-for (const screen of SCREENS) {
+for (const capture of CAPTURES) {
+  const screen = capture.launch;
   simctl("terminate", DEVICE, bundleId);
   sleep(250);
-  simctl("launch", DEVICE, bundleId, "-shot", screen);
+  let launchOutput;
+  try {
+    launchOutput = simctlStrict("launch", DEVICE, bundleId, "-shot", screen, "-state", capture.state);
+  } catch (error) {
+    console.error(`запуск ${screen} не прошёл\n` + String(error.stderr || error));
+    process.exit(1);
+  }
+  const pid = Number(launchOutput.match(/:\s*(\d+)/)?.[1]);
+  if (!pid) {
+    console.error(`запуск ${screen} не вернул process id`);
+    process.exit(1);
+  }
   sleep(1700);
-  simctl("io", DEVICE, "screenshot", join(OUT, `${screen}.png`));
-  console.log(`  ✓ ${screen}`);
+  try {
+    simctlStrict("spawn", DEVICE, "launchctl", "procinfo", String(pid));
+  } catch {
+    console.error(`приложение завершилось до съёмки ${screen}`);
+    process.exit(1);
+  }
+  simctlStrict("io", DEVICE, "screenshot", join(OUT, `${capture.artifact}.png`));
+  console.log(`  ✓ ${capture.id} → ${capture.artifact}.png`);
 }
 simctl("terminate", DEVICE, bundleId);
 
-console.log(`\n${SCREENS.length} кадров → ${OUT}`);
+const indistinguishable = findIndistinguishableArtifacts(OUT, captureCatalog.distinctGroups || []);
+if (indistinguishable.length) {
+  console.error("разные состояния дали одинаковый интерфейс:\n" +
+    indistinguishable.map(pair => `  ${pair[0]} = ${pair[1]}`).join("\n"));
+  process.exitCode = 1;
+}
+
+console.log(`\n${CAPTURES.length} кадров → ${OUT}`);
+if (captureCatalog.missing.length) {
+  console.error(`Не покрыто: ${captureCatalog.missing.length} app-состояний`);
+  process.exitCode = 1;
+}

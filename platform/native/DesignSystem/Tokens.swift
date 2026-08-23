@@ -1,7 +1,15 @@
 import SwiftUI
 
-// Токены выведены из vk-visual-profile.md (разбор iOS-приложения ВК).
-// Главное: фон белый, серый — заливка полей и полос между группами.
+extension View {
+    /// Static and accessibility-visible binding between a product action
+    /// contract and the control that implements it.
+    func nativeAction(_ id: String) -> some View {
+        accessibilityIdentifier("action.\(id)")
+    }
+}
+
+// Semantic design roles shared by product composition and reference adapters.
+// Named-product values are selected only through a registered profile.
 
 struct Theme: Sendable {
     var accent: Color            // #0077FF
@@ -28,39 +36,46 @@ struct Theme: Sendable {
     var positive: Color { Color(hex: "4BB34B") }
     var danger: Color { badge }
 
-    static let vk = Theme(
-        accent: Color(hex: "0077FF"),
-        background: .white,
-        groupGap: Color(hex: "F2F3F5"),
-        fill: Color(hex: "F2F3F5"),
-        separator: Color(hex: "E7E8EC"),
-        textPrimary: Color(hex: "000000"),
-        textSecondary: Color(hex: "818C99"),
-        badge: Color(hex: "FF3347"),
-        outgoing: [Color(hex: "4B8BF5"), Color(hex: "A44BF5"), Color(hex: "F54BA4")]
+    /// Differentiation starts from semantic product tokens, not the VK reference
+    /// profile. The product compiler may override these roles per concept.
+    static let product = Theme(
+        accent: Color(hex: "5B5BD6"),
+        background: Color(hex: "FAFAFC"),
+        groupGap: Color(hex: "F0F0F5"),
+        fill: Color(hex: "F0F0F5"),
+        separator: Color(hex: "E2E2EA"),
+        textPrimary: Color(hex: "16161D"),
+        textSecondary: Color(hex: "6F6F7C"),
+        badge: Color(hex: "E5484D"),
+        outgoing: [Color(hex: "5B5BD6"), Color(hex: "7C5CFC")]
     )
+
+    static func resolve(_ design: NativeDesignDefinition) -> Theme {
+        var theme = Theme.product
+        if let value = design.tokens["accent"] { theme.accent = Color(hex: value) }
+        if let value = design.tokens["background"] { theme.background = Color(hex: value) }
+        if let value = design.tokens["groupedBackground"] {
+            theme.groupGap = Color(hex: value)
+            theme.fill = Color(hex: value)
+        }
+        if let value = design.tokens["fill"] { theme.fill = Color(hex: value) }
+        if let value = design.tokens["separator"] { theme.separator = Color(hex: value) }
+        if let value = design.tokens["textPrimary"] { theme.textPrimary = Color(hex: value) }
+        if let value = design.tokens["textSecondary"] { theme.textSecondary = Color(hex: value) }
+        if let value = design.tokens["badge"] { theme.badge = Color(hex: value) }
+        let outgoing = ["outgoingStart", "outgoingMiddle", "outgoingEnd"]
+            .compactMap { design.tokens[$0] }.map { Color(hex: $0) }
+        if outgoing.count >= 2 { theme.outgoing = outgoing }
+        return theme
+    }
 }
 
-private struct ThemeKey: EnvironmentKey { static let defaultValue = Theme.vk }
+private struct ThemeKey: EnvironmentKey { static let defaultValue = Theme.product }
 extension EnvironmentValues {
     var theme: Theme {
         get { self[ThemeKey.self] }
         set { self[ThemeKey.self] = newValue }
     }
-}
-
-// MARK: - Типографика ВК
-
-extension Font {
-    static let vkTabTitle = Font.system(size: 24, weight: .bold)       // заголовок вкладки
-    static let vkNavTitle = Font.system(size: 17, weight: .semibold)   // заголовок навбара
-    static let vkSection = Font.system(size: 22, weight: .bold)        // заголовок секции
-    static let vkRow = Font.system(size: 17)                           // строка списка
-    static let vkName = Font.system(size: 15, weight: .semibold)       // имя в посте
-    static let vkBody = Font.system(size: 15)                          // текст поста
-    static let vkMeta = Font.system(size: 13)                          // время, подписи
-    static let vkCaption = Font.system(size: 13)                       // подпись под иконкой
-    static let vkBubbleTime = Font.system(size: 11)
 }
 
 // MARK: - Цвет из HEX

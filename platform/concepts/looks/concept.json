@@ -72,6 +72,66 @@
     "accentDark": "#0077FF",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },
+  "native": {
+    "schemaVersion": 1,
+    "platform": {
+      "minimumVersion": "26.0"
+    },
+    "extensions": [
+      "widget"
+    ],
+    "design": {
+      "strategy": "mimicry",
+      "referenceProfile": "vk-ios",
+      "density": "reference",
+      "colorScheme": "light",
+      "tokens": {
+        "accent": "#0077FF",
+        "background": "#FFFFFF",
+        "groupedBackground": "#F2F3F5"
+      }
+    },
+    "navigation": {
+      "profileEntry": "root-avatar",
+      "tabs": [
+        {
+          "id": "home",
+          "label": "Главная",
+          "screen": "home",
+          "role": "feed",
+          "systemImage": "house"
+        },
+        {
+          "id": "search",
+          "label": "Поиск",
+          "screen": "search",
+          "role": "discovery",
+          "systemImage": "magnifyingglass"
+        },
+        {
+          "id": "chats",
+          "label": "Сообщения",
+          "screen": "chats",
+          "role": "messaging",
+          "systemImage": "bubble.left"
+        },
+        {
+          "id": "clip",
+          "label": "Клипы",
+          "screen": "clip",
+          "role": "short-video",
+          "systemImage": "play.rectangle"
+        },
+        {
+          "id": "services",
+          "label": "Меню",
+          "screen": "services",
+          "role": "services",
+          "systemImage": "line.3.horizontal"
+        }
+      ]
+    }
+  },
   "start": "phone",
   "tabs": [
     {
@@ -583,6 +643,53 @@
       }
     },
     {
+      "id": "search",
+      "title": "Поиск",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "discovery",
+        "purpose": "Найти образы, вещи и авторов",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "query",
+          "empty",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          "рекомендации",
+          "результаты",
+          "ничего не найдено"
+        ]
+      }
+    },
+    {
+      "id": "notifications",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "activity",
+        "purpose": "Вернуться к реакциям, комментариям и новым подпискам",
+        "primaryAction": null,
+        "states": [
+          "unread",
+          "read",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          "реакция",
+          "комментарий",
+          "подписка"
+        ]
+      }
+    },
+    {
       "id": "post",
       "title": "Публикация",
       "type": "push",
@@ -607,9 +714,9 @@
     {
       "id": "nearby",
       "title": "Рядом",
-      "type": "tab (root)",
+      "type": "push",
       "light": true,
-      "parent": "home",
+      "parent": "services",
       "meta": "Свопы, встречи и авторы поблизости",
       "ui": {
         "pattern": "collection",
@@ -630,9 +737,9 @@
     {
       "id": "clip",
       "title": "Клип-примерка",
-      "type": "push",
+      "type": "tab (root)",
       "light": false,
-      "parent": "nearby",
+      "parent": "home",
       "meta": "Клип сообщества",
       "ui": {
         "pattern": "detail",
@@ -788,8 +895,9 @@
     {
       "id": "profile",
       "title": "Профиль автора",
-      "type": "tab (root)",
+      "type": "push",
       "light": true,
+      "parent": "home",
       "meta": "Публикации и подписки",
       "ui": {
         "pattern": "settings",
@@ -807,11 +915,33 @@
       }
     },
     {
+      "id": "services",
+      "title": "Меню",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "services",
+        "purpose": "Открыть гардероб, свопы, знакомых и настройки",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          "сервисы",
+          "свопы",
+          "гардероб"
+        ]
+      }
+    },
+    {
       "id": "settings",
       "title": "Настройки",
       "type": "push",
       "light": true,
-      "parent": "profile",
+      "parent": "services",
       "meta": "Доступы, фон и виджет",
       "ui": {
         "pattern": "settings",
@@ -893,6 +1023,54 @@
           "12 совпадений",
           "новичок без публикаций",
           "контакты запрещены"
+        ]
+      }
+    },
+    {
+      "id": "wardrobe",
+      "title": "Гардероб",
+      "type": "push",
+      "light": true,
+      "parent": "services",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Управлять вещами, из которых собираются образы",
+        "primaryAction": null,
+        "states": [
+          "default",
+          "populated",
+          "empty",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          "вещи",
+          "состояния носки",
+          "пустой гардероб"
+        ]
+      }
+    },
+    {
+      "id": "event",
+      "title": "Событие",
+      "type": "push",
+      "light": true,
+      "parent": "nearby",
+      "ui": {
+        "pattern": "event-detail",
+        "purpose": "Проверить условия свопа и присоединиться",
+        "primaryAction": "Присоединиться",
+        "states": [
+          "default",
+          "available",
+          "joined",
+          "cancelled"
+        ],
+        "density": "high",
+        "contentCases": [
+          "расписание",
+          "место",
+          "участники"
         ]
       }
     },

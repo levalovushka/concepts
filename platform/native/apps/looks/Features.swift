@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 // Экраны, отрабатывающие заявленные доступы. Каждый ключ из concept.json
 // обязан иметь достижимую фичу в этой же сборке — иначе он не заявляется.
@@ -12,6 +13,8 @@ struct CallScreen: View {
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
     @State private var connected = false
+    @State private var micMuted = false
+    @State private var speakerEnabled = false
 
     var body: some View {
         ZStack {
@@ -25,9 +28,20 @@ struct CallScreen: View {
                     .font(.system(size: 16).monospacedDigit()).foregroundStyle(.white.opacity(0.7))
                 Spacer()
                 HStack(spacing: 26) {
-                    callButton("mic.slash.fill", label: "Выключить микрофон", tint: .white.opacity(0.18)) {}
+                    callButton(micMuted ? "mic.fill" : "mic.slash.fill",
+                               label: micMuted ? "Включить микрофон" : "Выключить микрофон",
+                               tint: micMuted ? .white.opacity(0.34) : .white.opacity(0.18)) {
+                        withAnimation { micMuted.toggle() }
+                    }
                     callButton("phone.down.fill", label: "Завершить звонок", tint: Color(hex: "E64646")) { dismiss() }
-                    callButton("speaker.wave.2.fill", label: "Громкая связь", tint: .white.opacity(0.18)) {}
+                    callButton("speaker.wave.2.fill",
+                               label: speakerEnabled ? "Выключить громкую связь" : "Громкая связь",
+                               tint: speakerEnabled ? Color(hex: "4B8BF5") : .white.opacity(0.18)) {
+                        speakerEnabled.toggle()
+                        try? AVAudioSession.sharedInstance().overrideOutputAudioPort(
+                            speakerEnabled ? .speaker : .none
+                        )
+                    }
                 }
                 Spacer().frame(height: 50)
             }
@@ -75,7 +89,7 @@ struct TalkScreen: View {
             VStack(spacing: 0) {
                 VKGroup {
                     VStack(spacing: 14) {
-                        VKMedia(glyph: "waveform.circle", height: 170, seed: 5)
+                        VKMedia(assetName: LooksMediaAssets.wardrobe, height: 170)
                         Text("Разбор гардероба").font(.vkSection)
                         Text("18 минут · собран по вашим \(store.garments.count) вещам")
                             .font(.vkBody).foregroundStyle(t.textSecondary)
@@ -267,7 +281,7 @@ struct LockScreen: View {
             // размытое превью того, что за замком — иначе экран пустой
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 3), spacing: 6) {
                 ForEach(0..<6, id: \.self) { i in
-                    VKGridCell(glyph: ["tshirt.fill", "shoe.fill", "coat", "handbag.fill"][i % 4], seed: i)
+                    VKGridCell(assetName: LooksMediaAssets.detail(i))
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .blur(radius: unlocked ? 0 : 9)
                         .overlay {

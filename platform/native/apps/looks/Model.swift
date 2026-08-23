@@ -3,6 +3,22 @@ import SwiftUI
 // «Образы» — соцсеть, где единица контента не пост и не товар, а ОБРАЗ из реального
 // гардероба: его можно разобрать на вещи и собрать свою версию.
 
+/// Фотографии — продуктовые данные «Образов», а не часть VK reference profile.
+/// В наборе нет синтетических лиц/тел: только вещи и пространства.
+enum LooksMediaAssets {
+    static let outfit = ["LooksMedia0", "LooksMedia1", "LooksMedia4"]
+    static let detail = ["LooksMedia5", "LooksMedia3", "LooksMedia1"]
+    static let discovery = ["LooksMedia0", "LooksMedia1", "LooksMedia5", "LooksMedia4", "LooksMedia3", "LooksMedia2"]
+    static let events = ["LooksMedia2", "LooksMedia3", "LooksMedia5"]
+    static let swap = "LooksMedia2"
+    static let wardrobe = "LooksMedia3"
+
+    static func outfit(_ seed: Int) -> String { outfit[abs(seed) % outfit.count] }
+    static func detail(_ seed: Int) -> String { detail[abs(seed) % detail.count] }
+    static func discovery(_ seed: Int) -> String { discovery[abs(seed) % discovery.count] }
+    static func event(_ seed: Int) -> String { events[abs(seed) % events.count] }
+}
+
 struct Outfit: Identifiable, Hashable {
     let id = UUID()
     let author: String
@@ -152,21 +168,21 @@ final class LooksStore {
     /// Мозаика «Поиска»: смесь клипов, фото и подборок — то, что в ВК на
     /// вкладке «Для вас». Высоты неровные, иначе сетка читается как шаблон.
     var discover: [VKMosaicItem] = [
-        VKMosaicItem(glyph: "coat", height: 210, badge: "play.fill", seed: 0),
-        VKMosaicItem(glyph: "tshirt.fill", height: 150, badge: nil, seed: 1),
-        VKMosaicItem(glyph: "handbag.fill", height: 168, badge: "square.on.square", seed: 2),
-        VKMosaicItem(glyph: "shoe.fill", height: 148, badge: nil, seed: 3),
-        VKMosaicItem(glyph: "hat.widebrim.fill", height: 196, badge: "play.fill", seed: 4),
-        VKMosaicItem(glyph: "eyeglasses", height: 132, badge: nil, seed: 5),
-        VKMosaicItem(glyph: "tshirt", height: 176, badge: "square.on.square", seed: 6),
-        VKMosaicItem(glyph: "shoe.2.fill", height: 204, badge: "play.fill", seed: 7),
-        VKMosaicItem(glyph: "coat", height: 142, badge: nil, seed: 8),
-        VKMosaicItem(glyph: "scribble.variable", height: 186, badge: nil, seed: 9),
-        VKMosaicItem(glyph: "handbag.fill", height: 154, badge: "play.fill", seed: 10),
-        VKMosaicItem(glyph: "rectangle.split.1x2", height: 172, badge: nil, seed: 11),
-        VKMosaicItem(glyph: "tshirt.fill", height: 198, badge: "square.on.square", seed: 12),
-        VKMosaicItem(glyph: "shoe.fill", height: 136, badge: nil, seed: 13),
-        VKMosaicItem(glyph: "coat", height: 164, badge: "play.fill", seed: 14),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(0), height: 210, badge: "play.fill"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(1), height: 150, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(2), height: 168, badge: "square.on.square"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(3), height: 148, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(4), height: 196, badge: "play.fill"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(5), height: 132, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(6), height: 176, badge: "square.on.square"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(7), height: 204, badge: "play.fill"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(8), height: 142, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(9), height: 186, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(10), height: 154, badge: "play.fill"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(11), height: 172, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(12), height: 198, badge: "square.on.square"),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(13), height: 136, badge: nil),
+        VKMosaicItem(assetName: LooksMediaAssets.discovery(14), height: 164, badge: "play.fill"),
     ]
 
     var stories: [Story] = [

@@ -7,35 +7,43 @@ struct ProfileScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
-    @Environment(\.dismiss) private var dismiss
     @State private var tab = 0
     @State private var showMenu = false
+    @State private var showBioEditor = false
+    @State private var bio = ""
 
     private let name = "Ника Орлова"
     private var garments: [Garment] { store.garments }
 
     var body: some View {
-        ZStack(alignment: .top) {
+        Group {
             t.groupGap.ignoresSafeArea()
-
-            ScrollView {
-                VStack(spacing: 8) {
-                    header
-                    cards
-                    tabsRow
-                    section
-                    Color.clear.frame(height: 120)
+                .overlay {
+                    ScrollView {
+                        VStack(spacing: 8) {
+                            header
+                            cards
+                            tabsRow
+                            section
+                            Color.clear.frame(height: 120)
+                        }
+                        .padding(.horizontal, 8)
+                    }
                 }
-                .padding(.horizontal, 8)
-            }
-
-            circleButtons
         }
-        .toolbar(.hidden, for: .navigationBar)
+        .vkNavigation("Профиль") {
+            Button { showMenu = true } label: {
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 19, weight: .medium))
+                    .frame(width: 44, height: 44)
+            }
+            .accessibilityLabel("Ещё")
+        }
         .confirmationDialog("", isPresented: $showMenu, titleVisibility: .hidden) {
             Button("Поделиться профилем") { nav.toast("Ссылка на профиль скопирована") }
             Button("Отмена", role: .cancel) {}
         }
+        .sheet(isPresented: $showBioEditor) { BioEditor(text: $bio) }
     }
 
     // MARK: шапка
@@ -43,12 +51,12 @@ struct ProfileScreen: View {
     private var header: some View {
         VStack(spacing: 10) {
             Avatar(name: name, size: 128, online: true)
-                .padding(.top, 56)
+                .padding(.top, 20)
             Text(name).font(.system(size: 28, weight: .bold))
                 .foregroundStyle(t.textPrimary)
-            Button {} label: {
+            Button { showBioEditor = true } label: {
                 HStack(spacing: 5) {
-                    Text("Укажите информацию о себе").font(.system(size: 17))
+                    Text(bio.isEmpty ? "Укажите информацию о себе" : bio).font(.system(size: 17))
                     Image(systemName: "chevron.right.circle").font(.system(size: 15))
                 }
                 .foregroundStyle(t.accent)
@@ -56,29 +64,6 @@ struct ProfileScreen: View {
             .buttonStyle(.plain)
         }
         .padding(.bottom, 6)
-    }
-
-    private var circleButtons: some View {
-        HStack {
-            circleButton("chevron.left", label: "Назад") { dismiss() }
-            Spacer()
-            circleButton("ellipsis", label: "Ещё") { showMenu = true }
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 4)
-    }
-
-    private func circleButton(_ icon: String, label: String,
-                              action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: icon)
-                .font(.system(size: 17, weight: .medium))
-                .foregroundStyle(.white)
-                .frame(width: 44, height: 44)
-                .background(Color.black.opacity(0.22), in: Circle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(label)
     }
 
     // MARK: карточки
@@ -219,7 +204,7 @@ struct ProfileScreen: View {
 
     private func contentCard(glyph: String, title: String, sub: String, seed: Int) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            VKMedia(glyph: glyph, height: 145, seed: seed)
+            VKMedia(assetName: LooksMediaAssets.detail(seed), height: 145)
                 .frame(width: 145)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {
@@ -235,5 +220,28 @@ struct ProfileScreen: View {
         VStack(spacing: 0) { content() }
             .frame(maxWidth: .infinity)
             .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+    }
+}
+
+private struct BioEditor: View {
+    @Binding var text: String
+    @Environment(\.dismiss) private var dismiss
+    @State private var draft = ""
+
+    var body: some View {
+        NavigationStack {
+            TextEditor(text: $draft)
+                .padding(12)
+                .navigationTitle("О себе")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) { Button("Отмена") { dismiss() } }
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Готово") { text = draft.trimmingCharacters(in: .whitespacesAndNewlines); dismiss() }
+                    }
+                }
+                .onAppear { draft = text }
+        }
+        .presentationDetents([.medium])
     }
 }

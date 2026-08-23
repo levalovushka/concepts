@@ -7,8 +7,8 @@
 //      он не то, чем пользуется человек;
 //   3. переключений вкладки из экрана нет: прыжок в чужую вкладку рвёт стек
 //      и «назад» уводит не туда, откуда пришли;
-//   4. вход в профиль — только мини-аватар слева сверху, и он на каждой
-//      корневой вкладке, кроме полноэкранных «Клипов».
+//   4. вход в профиль соответствует способу, выбранному концептом:
+//      мини-аватару в корневых вкладках или профилю внутри меню.
 //
 // Дубли входов сами по себе не ошибка (в «Создать» у ВК их несколько),
 // поэтому они не блокируют, а печатаются: их читает человек.
@@ -27,6 +27,8 @@ const ROOT = join(NATIVE, "..");
 const appDir = join(NATIVE, "apps", slug);
 const files = readdirSync(appDir).filter(f => f.endsWith(".swift"));
 const src = Object.fromEntries(files.map(f => [f, readFileSync(join(appDir, f), "utf8")]));
+const specPath = join(ROOT, "concepts", slug, "concept.json");
+const spec = existsSync(specPath) ? JSON.parse(readFileSync(specPath, "utf8")) : null;
 
 const app = src["App.swift"] || "";
 const enumName = (app.match(/enum\s+(\w+Route)\s*:/) || [])[1];
@@ -49,10 +51,23 @@ const destBody = app.slice(app.indexOf("private func destination("));
 const destinations = new Set([...destBody.matchAll(/case\s+\.(\w+)/g)].map(m => m[1]));
 
 // точки входа из интерфейса — всё, кроме applyShotMode()
-const shotStart = app.indexOf("private func applyShotMode()");
-const shotEnd = app.indexOf("@ViewBuilder private func tabContent");
+function withoutFunction(source, signature) {
+  const start = source.indexOf(signature);
+  if (start < 0) return source;
+  const brace = source.indexOf("{", start);
+  if (brace < 0) return source;
+  let depth = 0;
+  for (let index = brace; index < source.length; index += 1) {
+    if (source[index] === "{") depth += 1;
+    if (source[index] === "}") depth -= 1;
+    if (depth === 0) return source.slice(0, start) + source.slice(index + 1);
+  }
+  return source;
+}
 const uiSources = Object.entries(src).map(([f, text]) =>
-  [f, f === "App.swift" ? text.slice(0, shotStart) + text.slice(shotEnd) : text]);
+  [f, f === "App.swift"
+    ? withoutFunction(withoutFunction(text, "private func applyShotMode()"), "private var selectedTab")
+    : text]);
 
 const entries = Object.fromEntries(routes.map(r => [r, []]));
 const tabJumps = [];
@@ -68,8 +83,8 @@ for (const [file, text] of uiSources) {
     for (const m of line.matchAll(/^\s*\(".+,\s*\.(\w+)\),?\s*$/g)) {
       if (entries[m[1]]) entries[m[1]].push(at);
     }
-    if (/\bnav\.tab\s*=/.test(line)) tabJumps.push(at);
-    if (/avatarAction:/.test(line)) avatarEntries.push(file);
+    if (/\bnav\.tab\s*=(?!=)/.test(line)) tabJumps.push(at);
+    if (/avatarAction:|openProfile:/.test(line)) avatarEntries.push(file);
   });
 }
 
@@ -81,35 +96,35 @@ for (const r of routes) {
 }
 for (const at of tabJumps) problems.push(`✗ переключение вкладки из экрана — ${at}`);
 
-// корневые вкладки со своим топбаром обязаны нести мини-аватар
-const rootTabs = [...app.matchAll(/case\s+\d+:\s*(\w+)Screen\(\)|default:\s*(\w+)Screen\(\)/g)]
-  .map(m => m[1] || m[2]);
-for (const screen of rootTabs) {
-  const file = files.find(f => new RegExp(`struct ${screen}Screen`).test(src[f]));
-  if (!file) continue;
-  const full = /ignoresSafeArea|tabViewStyle\(\.page/.test(src[file]);
-  if (!full && !avatarEntries.includes(file)) {
-    problems.push(`✗ ${screen}: в топбаре нет мини-аватара — вход в профиль потерян (${file})`);
+// Мини-аватар обязателен только для концептов, которые явно выбрали такой вход.
+const rootTabMatches = [...app.matchAll(/case\s+"([a-z]+)":\s*(\w+)Screen\(\)|default:\s*(\w+)Screen\(\)/g)];
+const rootTabs = rootTabMatches.map(m => m[2] || m[3]);
+if (spec?.native?.navigation?.profileEntry === "root-avatar") {
+  for (const screen of rootTabs) {
+    const file = files.find(f => new RegExp(`struct ${screen}Screen`).test(src[f]));
+    if (!file) continue;
+    const full = /ignoresSafeArea|tabViewStyle\(\.page/.test(src[file]);
+    if (!full && !avatarEntries.includes(file)) {
+      problems.push(`✗ ${screen}: в топбаре нет мини-аватара — вход в профиль потерян (${file})`);
+    }
   }
 }
 
 // Расхождение со спекой. Решает человек — какую сторону править, поэтому
 // это отчёт, а не блокер: молча разъезжаться они не должны.
-const specPath = join(ROOT, "concepts", slug, "concept.json");
 const drift = [];
-if (existsSync(specPath)) {
-  const spec = JSON.parse(readFileSync(specPath, "utf8"));
+if (spec) {
   // Исторические расхождения имён: экран один, названия разные.
-  const alias = { feed: "home", outfit: "post", clips: "clip", services: "menu" };
-  const specTabs = (spec.tabs || []).map(t => t.id);
-  const appTabs = [...app.matchAll(/case\s+\d+:\s*(\w+)Screen\(\)|default:\s*(\w+)Screen\(\)/g)]
-    .map(m => (m[1] || m[2]).toLowerCase())
-    .map(t => alias[t] || t);
+  const alias = { auth: "phone", feed: "home", outfit: "post", clips: "clip" };
+  const nativeTabs = spec.native?.navigation?.tabs || spec.tabs || [];
+  const specTabs = nativeTabs.map(t => t.screen || t.id);
+  const appTabs = rootTabMatches.map(m => m[1] || "menu").map(t => alias[t] || t);
   if (specTabs.join(",") !== appTabs.join(",")) {
     drift.push(`вкладки: спека [${specTabs.join(" · ")}] — приложение [${appTabs.join(" · ")}]`);
   }
   const specScreens = new Set((spec.screens || []).map(s => s.id));
-  const shots = [...app.matchAll(/case\s+"([a-z]+)"/g)].map(m => m[1]);
+  const shotMode = app.slice(app.indexOf("private func applyShotMode()"));
+  const shots = [...shotMode.matchAll(/case\s+"([a-z]+)"/g)].map(m => m[1]);
   const onlyApp = shots.filter(s => !specScreens.has(alias[s] || s));
   if (onlyApp.length) drift.push(`экраны есть в приложении, но не в спеке: ${onlyApp.join(", ")}`);
 }
@@ -130,6 +145,10 @@ if (problems.length) {
   console.log("\nПроблемы:\n");
   for (const l of problems) console.log("  " + l);
   console.log(`\nБЛОКЕРЫ: ${problems.length}`);
+  process.exit(1);
+}
+if (drift.length) {
+  console.log(`\nБЛОКЕРЫ: ${drift.length}`);
   process.exit(1);
 }
 console.log("\nДыр и тупиков нет: каждый маршрут достижим, вкладки не прыгают.");

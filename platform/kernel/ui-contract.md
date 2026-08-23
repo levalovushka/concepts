@@ -16,7 +16,8 @@
 - объектные `contentCases` с обязательными `typical`, `stress`, `failure`;
 - ровно один `data-primary` для заявленного главного действия;
 - единый tab bar на всех root-экранах и отсутствие tab bar на дочерних;
-- anti-slop lint: без inline-style, emoji-ассетов, `.ph` и безымянных icon-only controls.
+- anti-slop lint: без inline-style, emoji-ассетов, `.ph` и безымянных icon-only controls;
+- icon policy: концепты мимикрии используют единый Lucide sprite, нативная отстройка — SF Pro + SF Symbols; смешение допускается только целиком через reference profile (см. `iconography.md`).
 
 ## Паттерны
 

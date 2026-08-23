@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum LooksRoute: Hashable {
-    case profile, create, settings, mates, ads, nearby, wardrobe
+    case profile, create, settings, mates, ads, nearby, wardrobe, notifications
     case call, talk, checkin, lock, swap, netqr
     case outfit(Outfit)
     case chat(Dialog)
@@ -10,6 +10,8 @@ enum LooksRoute: Hashable {
 
 @main
 struct LooksApp: App {
+    @UIApplicationDelegateAdaptor(NativeAppDelegate.self) private var appDelegate
+
     var body: some Scene {
         WindowGroup { RootView() }
     }
@@ -27,22 +29,23 @@ enum ShotMode {
 
 struct RootView: View {
     @State private var store = LooksStore()
-    @State private var nav = Nav()
+    @State private var nav = Nav(initialTab: NativeConceptSpec.initialTab)
     @State private var perms = Permissions()
-    @State private var authed = ShotMode.screen != nil && ShotMode.screen != "auth"
-    private let theme = Theme.vk
+    @State private var session = Session(authenticated: ShotMode.screen != nil && ShotMode.screen != "auth")
+    private let theme = Theme.resolve(NativeConceptSpec.design)
 
     var body: some View {
         Group {
-            if authed {
+            if session.isAuthenticated {
                 MainShell()
             } else {
-                AuthScreen { withAnimation(.easeOut(duration: 0.25)) { authed = true } }
+                AuthScreen { withAnimation(.easeOut(duration: 0.25)) { session.signIn() } }
             }
         }
         .environment(store)
         .environment(nav)
         .environment(perms)
+        .environment(session)
         .environment(\.theme, theme)
         .tint(theme.accent)
         .preferredColorScheme(.light)
@@ -61,17 +64,11 @@ struct MainShell: View {
         // Таб-бар — нативный Liquid Glass iOS 26 (решение заказчика:
         // копировать плоский бар ВК один в один здесь не нужно).
         TabView(selection: $nav.tab) {
-            Tab("", systemImage: "house", value: 0) { tabContent(0) }
-                .accessibilityLabel("Главная")
-            Tab("", systemImage: "magnifyingglass", value: 1) { tabContent(1) }
-                .accessibilityLabel("Поиск")
-            Tab("", systemImage: "bubble.left", value: 2) { tabContent(2) }
-                .badge(unread)
-                .accessibilityLabel("Мессенджер")
-            Tab("", systemImage: "play.rectangle", value: 3) { tabContent(3) }
-                .accessibilityLabel("Клипы")
-            Tab("", systemImage: "line.3.horizontal", value: 4) { tabContent(4) }
-                .accessibilityLabel("Меню")
+            ForEach(NativeConceptSpec.tabs) { tab in
+                Tab("", systemImage: tab.systemImage, value: tab.id) { tabContent(tab.id, screen: tab.screen) }
+                    .badge(tab.role == "messaging" ? unread : 0)
+                    .accessibilityLabel(tab.label)
+            }
         }
         .overlay(alignment: .bottom) {
             ToastOverlay(text: nav.toastText).padding(.bottom, 96)
@@ -84,40 +81,44 @@ struct MainShell: View {
     /// Разводит режим съёмки по вкладкам и маршрутам.
     private func applyShotMode() {
         guard let s = ShotMode.screen else { return }
+        if let tab = NativeConceptSpec.tabs.first(where: { $0.screen == s }) {
+            nav.tab = tab.id
+            return
+        }
         switch s {
-        case "feed": nav.tab = 0
-        case "search": nav.tab = 1
-        case "services": nav.tab = 4
-        case "chats": nav.tab = 2
-        case "clips": nav.tab = 3
-        case "profile": nav.tab = 0; nav.push(LooksRoute.profile)
-        case "chat": nav.tab = 2; nav.push(LooksRoute.chat(store.dialogs[0]))
-        case "outfit": nav.tab = 0; nav.push(LooksRoute.outfit(store.outfits[0]))
-        case "nearby": nav.tab = 4; nav.push(LooksRoute.nearby)
-        case "wardrobe": nav.tab = 4; nav.push(LooksRoute.wardrobe)
-        case "mates": nav.tab = 4; nav.push(LooksRoute.mates)
-        case "settings": nav.tab = 4; nav.push(LooksRoute.settings)
-        case "event": nav.tab = 4; nav.push(LooksRoute.event(store.events[0]))
-        case "create": nav.tab = 0; nav.present(cover: LooksRoute.create)
-        case "ads": nav.tab = 4; nav.push(LooksRoute.ads)
-        case "call": nav.tab = 2; nav.push(LooksRoute.call)
-        case "talk": nav.tab = 4; nav.push(LooksRoute.talk)
-        case "checkin": nav.tab = 4; nav.push(LooksRoute.checkin)
-        case "lock": nav.tab = 4; nav.push(LooksRoute.lock)
-        case "swap": nav.tab = 4; nav.push(LooksRoute.swap)
-        case "netqr": nav.tab = 4; nav.push(LooksRoute.netqr)
+        case "profile": selectTab(role: "feed"); nav.push(LooksRoute.profile)
+        case "notifications": selectTab(role: "feed"); nav.push(LooksRoute.notifications)
+        case "chat": selectTab(role: "messaging"); nav.push(LooksRoute.chat(store.dialogs[0]))
+        case "outfit": selectTab(role: "feed"); nav.push(LooksRoute.outfit(store.outfits[0]))
+        case "nearby": selectTab(role: "services"); nav.push(LooksRoute.nearby)
+        case "wardrobe": selectTab(role: "services"); nav.push(LooksRoute.wardrobe)
+        case "mates": selectTab(role: "services"); nav.push(LooksRoute.mates)
+        case "settings": selectTab(role: "services"); nav.push(LooksRoute.settings)
+        case "event": selectTab(role: "services"); nav.push(LooksRoute.event(store.events[0]))
+        case "create": selectTab(role: "feed"); nav.present(cover: LooksRoute.create)
+        case "ads": selectTab(role: "services"); nav.push(LooksRoute.ads)
+        case "call": selectTab(role: "messaging"); nav.push(LooksRoute.call)
+        case "talk": selectTab(role: "services"); nav.push(LooksRoute.talk)
+        case "checkin": selectTab(role: "services"); nav.push(LooksRoute.checkin)
+        case "lock": selectTab(role: "services"); nav.push(LooksRoute.lock)
+        case "swap": selectTab(role: "services"); nav.push(LooksRoute.swap)
+        case "netqr": selectTab(role: "services"); nav.push(LooksRoute.netqr)
         default: break
         }
     }
 
-    @ViewBuilder private func tabContent(_ i: Int) -> some View {
-        NavigationStack(path: nav.path(i)) {
+    private func selectTab(role: String) {
+        if let tab = NativeConceptSpec.tabs.first(where: { $0.role == role }) { nav.tab = tab.id }
+    }
+
+    @ViewBuilder private func tabContent(_ tab: String, screen: String) -> some View {
+        NavigationStack(path: nav.path(tab)) {
             Group {
-                switch i {
-                case 0: FeedScreen()
-                case 1: SearchScreen()
-                case 2: ChatsScreen()
-                case 3: ClipsScreen()
+                switch screen {
+                case "home": FeedScreen()
+                case "search": SearchScreen()
+                case "chats": ChatsScreen()
+                case "clip": ClipsScreen()
                 default: ServicesScreen()
                 }
             }
@@ -132,6 +133,7 @@ struct MainShell: View {
         case .chat(let d): ChatScreen(dialog: d)
         case .event(let e): EventScreen(event: e)
         case .settings: SettingsScreen()
+        case .notifications: NotificationsScreen()
         case .mates: MatesScreen()
         case .ads: AdsScreen()
         case .create: CreateScreen()

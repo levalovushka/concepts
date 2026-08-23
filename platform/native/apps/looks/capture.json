@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "drivers": [
+    { "surface": "phone", "state": "default", "launch": "auth", "artifact": "auth" },
+    { "surface": "home", "state": "default", "launch": "home", "artifact": "home" },
+    { "surface": "search", "state": "default", "launch": "search", "artifact": "search" },
+    { "surface": "chats", "state": "default", "launch": "chats", "artifact": "chats" },
+    { "surface": "clip", "state": "default", "launch": "clip", "artifact": "clip" },
+    { "surface": "services", "state": "default", "launch": "services", "artifact": "services" },
+    { "surface": "profile", "state": "default", "launch": "profile", "artifact": "profile" },
+    { "surface": "notifications", "state": "unread", "launch": "notifications", "artifact": "notifications" },
+    { "surface": "chat", "state": "default", "launch": "chat", "artifact": "chat" },
+    { "surface": "post", "state": "default", "launch": "outfit", "artifact": "outfit" },
+    { "surface": "nearby", "state": "default", "launch": "nearby", "artifact": "nearby" },
+    { "surface": "wardrobe", "state": "populated", "launch": "wardrobe", "artifact": "wardrobe" },
+    { "surface": "mates", "state": "default", "launch": "mates", "artifact": "mates" },
+    { "surface": "settings", "state": "default", "launch": "settings", "artifact": "settings" },
+    { "surface": "event", "state": "available", "launch": "event", "artifact": "event" },
+    { "surface": "create", "state": "default", "launch": "create", "artifact": "create" },
+    { "surface": "ads", "state": "default", "launch": "ads", "artifact": "ads" },
+    { "surface": "call", "state": "default", "launch": "call", "artifact": "call" },
+    { "surface": "talk", "state": "default", "launch": "talk", "artifact": "talk" },
+    { "surface": "checkin", "state": "default", "launch": "checkin", "artifact": "checkin" },
+    { "surface": "lock", "state": "default", "launch": "lock", "artifact": "lock" },
+    { "surface": "swap", "state": "default", "launch": "swap", "artifact": "swap" },
+    { "surface": "netqr", "state": "default", "launch": "netqr", "artifact": "netqr" }
+  ]
+}

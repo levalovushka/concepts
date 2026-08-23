@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "vk-ios",
+  "product": "ВКонтакте",
+  "platform": "iOS",
+  "evidenceStatus": "ready",
+  "evidence": {
+    "source": "../../vk-visual-profile.md",
+    "surfaces": ["home", "search", "clips", "menu", "settings", "friends", "chat", "post"]
+  },
+  "contract": {
+    "navigation": { "rootTabs": 5, "labelsVisible": false, "profileEntry": "root-avatar" },
+    "density": "dense-social",
+    "layout": { "screenBackground": "#FFFFFF", "groupGap": 9, "contentPadding": 16 },
+    "color": { "accent": "#0077FF", "groupedBackground": "#F2F3F5", "separator": "#E7E8EC" },
+    "typography": { "family": "SF Pro", "rootTitle": 24, "navigationTitle": 17, "body": 15, "metadata": 13 },
+    "componentFamilies": ["root-header", "social-feed", "stories", "post", "people-list", "chat", "service-grid", "profile-cards"]
+  }
+}

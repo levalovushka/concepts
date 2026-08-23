@@ -48,6 +48,25 @@
     "fonts": "Outfit:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
   },
 
+  "native": {
+    "schemaVersion": 1,
+    "actionContractVersion": 2,
+    "platform": { "minimumVersion": "26.0" },
+    "design": {
+      "strategy": "__POSITIONING_MODE__",
+      __REFERENCE_PROFILE_PROPERTY__
+      "qualityFloor": 8,
+      "density": "reference",
+      "colorScheme": "light"
+    },
+    "navigation": {
+      "profileEntry": "root-avatar",
+      "tabs": [
+        { "id": "home", "label": "Главная", "screen": "home", "role": "home", "systemImage": "house" }
+      ]
+    }
+  },
+
   "start": "phone",
   "uiContractVersion": 3,
   "tabs": [{ "id": "home", "label": "Главная", "role": "home" }],
@@ -74,9 +93,9 @@
   ],
 
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "hierarchy": { "primary": "Ценность продукта и ввод номера", "secondary": "Условия и политика конфиденциальности" }, "states": ["default", "error", "loading"], "density": "low", "contentCases": [{"kind":"typical","example":"Корректный российский номер"},{"kind":"stress","example":"Длинная локализованная подпись условий"},{"kind":"failure","example":"Неверный формат или медленный ответ"}] } },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "hierarchy": { "primary": "Код подтверждения и продолжение", "secondary": "Повторная отправка и смена номера" }, "states": ["default", "error", "loading"], "density": "low", "contentCases": [{"kind":"typical","example":"Код автоматически подставлен из SMS"},{"kind":"stress","example":"Повторная отправка с длинным таймером"},{"kind":"failure","example":"Неверный или просроченный код"}] } },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "navigation": "root", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "hierarchy": { "primary": "Первый полезный объект и якорное действие", "secondary": "Продолжение, история или соседний раздел" }, "states": ["default", "empty", "denied"], "density": "medium", "contentCases": [{"kind":"typical","example":"Три разных полезных объекта с реальными метаданными"},{"kind":"stress","example":"Длинные названия, плотный список и крупный Dynamic Type"},{"kind":"failure","example":"Пустая коллекция или отказ в якорном доступе"}] } }
+    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Объяснить ценность входа и получить номер", "primaryAction": "Получить код", "hierarchy": { "primary": "Ценность продукта и ввод номера", "secondary": "Условия и политика конфиденциальности" }, "states": ["default", "error", "loading"], "density": "low", "componentFamilies": ["auth-form", "primary-action"], "actions": [{"id":"request-code","label":"Получить код","outcome":{"type":"navigate","target":"code"}}], "contentCases": [{"kind":"typical","example":"Корректный российский номер"},{"kind":"stress","example":"Длинная локализованная подпись условий"},{"kind":"failure","example":"Неверный формат или медленный ответ"}] } },
+    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка", "ui": { "pattern": "auth", "navigation": "push", "purpose": "Подтвердить номер кодом из SMS", "primaryAction": "Войти", "hierarchy": { "primary": "Код подтверждения и продолжение", "secondary": "Повторная отправка и смена номера" }, "states": ["default", "error", "loading"], "density": "low", "componentFamilies": ["auth-form", "primary-action"], "actions": [{"id":"sign-in","label":"Войти","outcome":{"type":"navigate","target":"home"}}], "contentCases": [{"kind":"typical","example":"Код автоматически подставлен из SMS"},{"kind":"stress","example":"Повторная отправка с длинным таймером"},{"kind":"failure","example":"Неверный или просроченный код"}] } },
+    { "id": "home", "title": "Главная", "type": "tab (root)", "light": true, "meta": "", "ui": { "pattern": "collection", "navigation": "root", "purpose": "Показать главную ценность продукта и запустить якорное действие", "primaryAction": "Действие, которому нужен доступ", "hierarchy": { "primary": "Первый полезный объект и якорное действие", "secondary": "Продолжение, история или соседний раздел" }, "states": ["default", "empty", "denied"], "density": "medium", "componentFamilies": ["collection"], "actions": [{"id":"anchor-action","label":"Действие, которому нужен доступ","outcome":{"type":"request","capability":"camera"},"execution":"async","persistence":"system","states":["idle","loading","success","error"],"failure":{"message":"Не удалось получить доступ. Повторите попытку или продолжите без камеры.","retry":true}}], "contentCases": [{"kind":"typical","example":"Три разных полезных объекта с реальными метаданными"},{"kind":"stress","example":"Длинные названия, плотный список и крупный Dynamic Type"},{"kind":"failure","example":"Пустая коллекция или отказ в якорном доступе"}] } }
   ],
 
   "prototypes": [

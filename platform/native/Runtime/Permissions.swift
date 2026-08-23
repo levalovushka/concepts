@@ -9,6 +9,11 @@ import Contacts
 import EventKit
 import LocalAuthentication
 import Network
+import NetworkExtension
+import AuthenticationServices
+import Security
+import UIKit
+import BackgroundTasks
 
 // Слой доступов — детерминированная часть пайплайна. Запрос идёт через настоящие
 // iOS API; ключи и usage-строки приходят из concept.json дословно.
@@ -40,6 +45,7 @@ struct PermissionKey: RawRepresentable, Hashable, Sendable {
     static let commnotif = PermissionKey(rawValue: "commnotif")
     static let remotenotif = PermissionKey(rawValue: "remotenotif")
     static let fetch = PermissionKey(rawValue: "fetch")
+    static let bgtask = PermissionKey(rawValue: "bgtask")
 }
 
 struct PermissionSpec: Identifiable, Sendable {
@@ -61,21 +67,43 @@ final class Permissions {
     enum Status: Equatable { case unknown, granted, denied }
     private(set) var status: [PermissionKey: Status] = [:]
     private(set) var promptLog: [String] = []
+    private let expectedWiFiSSID: String?
+
+    init(expectedWiFiSSID: String? = nil) {
+        self.expectedWiFiSSID = expectedWiFiSSID
+    }
 
     func status(_ key: PermissionKey) -> Status { status[key] ?? .unknown }
     func isGranted(_ key: PermissionKey) -> Bool { status(key) == .granted }
 
+    func refreshStatus(_ key: PermissionKey) async {
+        let ok = await perform(key, value: nil)
+        status[key] = ok ? .granted : .denied
+    }
+
+    func authenticateDeviceOwner(reason: String = "Разблокировать Двор") async -> Bool {
+        let context = LAContext()
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) else { return false }
+        return (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) ?? false
+    }
+
     /// Идемпотентно: один доступ — одна точка запроса, повторный вход не даёт второй алерт.
     @discardableResult
-    func request(_ key: PermissionKey) async -> Bool {
-        if let s = status[key], s != .unknown { return s == .granted }
+    func request(_ key: PermissionKey, value: String? = nil) async -> Bool {
+        let dynamic: Set<PermissionKey> = [
+            .camera, .mic, .speech, .photo, .photos, .location, .push,
+            .contacts, .calendar, .faceid, .hotspot, .wifiinfo, .autofill,
+            .appgroups, .keychain, .fetch, .bgtask,
+        ]
+        if !dynamic.contains(key), let s = status[key], s != .unknown { return s == .granted }
         promptLog.append(key.rawValue)
-        let ok = await perform(key)
+        let ok = await perform(key, value: value)
         status[key] = ok ? .granted : .denied
         return ok
     }
 
-    private func perform(_ key: PermissionKey) async -> Bool {
+    private func perform(_ key: PermissionKey, value: String?) async -> Bool {
         switch key.rawValue {
         case "camera":
             return await AVCaptureDevice.requestAccess(for: .video)
@@ -95,6 +123,27 @@ final class Permissions {
         case "push":
             return (try? await UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound, .badge])) ?? false
+        case "commnotif":
+            let settings = await UNUserNotificationCenter.current().notificationSettings()
+            return settings.authorizationStatus == .authorized
+                || settings.authorizationStatus == .provisional
+        case "remotenotif":
+            let remoteSettings = await UNUserNotificationCenter.current().notificationSettings()
+            guard remoteSettings.authorizationStatus == .authorized
+                    || remoteSettings.authorizationStatus == .provisional else { return false }
+            UIApplication.shared.registerForRemoteNotifications()
+            return true
+        case "fetch":
+            return (Bundle.main.object(forInfoDictionaryKey: "UIBackgroundModes") as? [String])?
+                .contains("fetch") == true
+        case "bgtask":
+            guard let bundleID = Bundle.main.bundleIdentifier else { return false }
+            let request = BGAppRefreshTaskRequest(identifier: "\(bundleID).refresh")
+            request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
+            do {
+                try BGTaskScheduler.shared.submit(request)
+                return true
+            } catch { return false }
         case "tracking":
             return await ATTrackingManager.requestTrackingAuthorization() == .authorized
         case "contacts":
@@ -102,23 +151,163 @@ final class Permissions {
         case "calendar":
             return (try? await EKEventStore().requestFullAccessToEvents()) ?? false
         case "faceid":
-            let ctx = LAContext()
-            var err: NSError?
-            guard ctx.canEvaluatePolicy(.deviceOwnerAuthentication, error: &err) else { return false }
-            return (try? await ctx.evaluatePolicy(.deviceOwnerAuthentication,
-                                                  localizedReason: "Разблокировать приложение")) ?? false
+            return await authenticateDeviceOwner(reason: "Защитить адрес, квартиры и коды дома")
         case "localnet":
-            let b = NWBrowser(for: .bonjour(type: "_companion-link._tcp", domain: nil), using: .init())
-            b.start(queue: .main)
-            try? await Task.sleep(nanoseconds: 1_200_000_000)
-            b.cancel()
-            return true
+            return await LocalNetworkRequester().request()
         case "audio":
-            try? AVAudioSession.sharedInstance().setCategory(.playback)
-            return true
+            do {
+                try AVAudioSession.sharedInstance().setCategory(.playback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                return true
+            } catch { return false }
+        case "voip":
+            do {
+                try AVAudioSession.sharedInstance().setCategory(
+                    .playAndRecord,
+                    mode: .voiceChat,
+                    options: [.allowBluetoothHFP, .defaultToSpeaker]
+                )
+                return true
+            } catch { return false }
+        case "appgroups":
+            guard let bundleID = Bundle.main.bundleIdentifier else { return false }
+            return FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: "group.\(bundleID)"
+            ) != nil
+        case "keychain":
+            return KeychainProbe.isAvailable()
+        case "autofill":
+            return await withCheckedContinuation { continuation in
+                ASCredentialIdentityStore.shared.getState { state in
+                    guard state.isEnabled else {
+                        continuation.resume(returning: false)
+                        return
+                    }
+                    let service = ASCredentialServiceIdentifier(identifier: "dvor.local", type: .domain)
+                    let identities = [
+                        ASPasswordCredentialIdentity(serviceIdentifier: service, user: "Квартира 48", recordIdentifier: "door"),
+                        ASPasswordCredentialIdentity(serviceIdentifier: service, user: "Dvor-Guest", recordIdentifier: "guest"),
+                    ]
+                    ASCredentialIdentityStore.shared.saveCredentialIdentities(identities) { success, _ in
+                        continuation.resume(returning: success)
+                    }
+                }
+            }
+        case "shareext":
+            guard let plugins = Bundle.main.builtInPlugInsURL,
+                  let bundles = try? FileManager.default.contentsOfDirectory(
+                    at: plugins,
+                    includingPropertiesForKeys: nil
+                  ) else { return false }
+            return bundles.contains { $0.lastPathComponent.hasSuffix("ShareExtension.appex") }
+        case "wifiinfo":
+            return await withCheckedContinuation { continuation in
+                NEHotspotNetwork.fetchCurrent { network in
+                    guard let network else {
+                        continuation.resume(returning: false)
+                        return
+                    }
+                    guard let expectedWiFiSSID = self.expectedWiFiSSID else {
+                        continuation.resume(returning: true)
+                        return
+                    }
+                    continuation.resume(
+                        returning: network.ssid.compare(
+                            expectedWiFiSSID,
+                            options: [.caseInsensitive, .diacriticInsensitive]
+                        ) == .orderedSame
+                    )
+                }
+            }
+        case "hotspot":
+            guard let value, !value.isEmpty else { return false }
+            let parts = value.split(separator: "|", maxSplits: 1).map(String.init)
+            let ssid = parts[0]
+            let configuration = parts.count == 2
+                ? NEHotspotConfiguration(ssid: ssid, passphrase: parts[1], isWEP: false)
+                : NEHotspotConfiguration(ssid: ssid)
+            configuration.joinOnce = true
+            return await withCheckedContinuation { continuation in
+                NEHotspotConfigurationManager.shared.apply(configuration) { error in
+                    if let error,
+                       (error as NSError).domain == NEHotspotConfigurationErrorDomain,
+                       (error as NSError).code == NEHotspotConfigurationError.alreadyAssociated.rawValue {
+                        continuation.resume(returning: true)
+                    } else {
+                        continuation.resume(returning: error == nil)
+                    }
+                }
+            }
         default:
-            return true   // entitlement без рантайм-промпта
+            // A capability without an explicit adapter is not implemented. Build
+            // entitlements are verified separately; they must never become a fake
+            // runtime success state.
+            return false
         }
+    }
+}
+
+private enum KeychainProbe {
+    static func isAvailable() -> Bool {
+        let service = "com.camo.capability-probe"
+        let account = UUID().uuidString
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecValueData as String: Data("probe".utf8),
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+        ]
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { return false }
+        SecItemDelete([
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+        ] as CFDictionary)
+        return true
+    }
+}
+
+private final class LocalNetworkRequester: @unchecked Sendable {
+    func request() async -> Bool {
+        await withCheckedContinuation { continuation in
+            let browser = NWBrowser(
+                for: .bonjour(type: "_companion-link._tcp", domain: nil),
+                using: .tcp
+            )
+            let completion = LocalNetworkCompletion(continuation: continuation, browser: browser)
+            browser.stateUpdateHandler = { state in
+                switch state {
+                case .ready: completion.finish(true)
+                case .failed: completion.finish(false)
+                default: break
+                }
+            }
+            browser.start(queue: .main)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { completion.finish(false) }
+        }
+    }
+}
+
+private final class LocalNetworkCompletion: @unchecked Sendable {
+    private let lock = NSLock()
+    private var completed = false
+    private let continuation: CheckedContinuation<Bool, Never>
+    private let browser: NWBrowser
+
+    init(continuation: CheckedContinuation<Bool, Never>, browser: NWBrowser) {
+        self.continuation = continuation
+        self.browser = browser
+    }
+
+    func finish(_ value: Bool) {
+        lock.lock()
+        guard !completed else { lock.unlock(); return }
+        completed = true
+        lock.unlock()
+        browser.cancel()
+        continuation.resume(returning: value)
     }
 }
 

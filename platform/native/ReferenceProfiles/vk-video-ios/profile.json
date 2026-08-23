@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "vk-video-ios",
+  "product": "VK Видео",
+  "platform": "iOS",
+  "evidenceStatus": "awaiting-evidence",
+  "evidence": { "source": null, "surfaces": [] },
+  "contract": null,
+  "capturePlan": ["launch", "home", "search", "subscriptions", "video-detail", "player", "comments", "short-video", "empty", "offline"]
+}

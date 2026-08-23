@@ -117,16 +117,22 @@ export function validateUiContract(spec) {
   const err = [];
   if (spec.uiContractVersion == null) return err;
   if (![1, 2, 3].includes(spec.uiContractVersion)) return [`uiContractVersion ${spec.uiContractVersion} не поддерживается`];
-  const states = new Set(['default', 'empty', 'loading', 'error', 'denied', 'success', 'offline']);
   for (const screen of spec.screens || []) {
     const ui = screen.ui;
+    const systemSurface = ['системная поверхность', 'чужое приложение'].includes(screen.type)
+      || ['system', 'external'].includes(screen.native?.presentation);
+    if (!ui && systemSurface) continue;
     if (!ui) { err.push(`${screen.id}: нет ui-контракта`); continue; }
     const recipe = RECIPES[ui.pattern];
     if (!recipe) err.push(`${screen.id}: неизвестный ui.pattern «${ui.pattern}»`);
     if (!ui.purpose?.trim()) err.push(`${screen.id}: ui.purpose пуст`);
     if (ui.primaryAction !== null && !ui.primaryAction?.trim()) err.push(`${screen.id}: ui.primaryAction должен быть строкой или null`);
     if (!Array.isArray(ui.states) || !ui.states.length) err.push(`${screen.id}: ui.states пуст`);
-    else for (const state of ui.states) if (!states.has(state)) err.push(`${screen.id}: неизвестное ui-состояние «${state}»`);
+    else for (const state of ui.states) {
+      if (typeof state !== 'string' || !/^[a-z][a-z0-9-]*$/.test(state)) {
+        err.push(`${screen.id}: ui-состояние «${state}» должно быть стабильным kebab-case id`);
+      }
+    }
     if (spec.uiContractVersion >= 2) {
       if (!recipe?.densities.includes(ui.density)) err.push(`${screen.id}: density «${ui.density}» не подходит рецепту ${ui.pattern}`);
       for (const state of recipe?.requiredStates || []) if (!ui.states?.includes(state)) err.push(`${screen.id}: рецепт ${ui.pattern} требует состояние «${state}»`);

@@ -21,6 +21,12 @@ rejects((spec) => { spec.positioning.referencePatterns[0] = 'unknown-pattern'; }
 rejects((spec) => { spec.appStore.category = { primary: 'Utilities', secondary: 'Lifestyle' }; }, /Social Networking/);
 
 const template = readFileSync(join(CONCEPTS, '_template', 'concept.json'), 'utf8');
+const nativeReferenceProfiles = {
+  'vk-music': 'vk-music-ios',
+  'vk-video': 'vk-video-ios',
+  vkontakte: 'vk-ios',
+  ok: 'ok-ios',
+};
 const materialize = (mode, targetSet, category, patterns) => JSON.parse(template
   .replaceAll('__SLUG__', `smoke-${mode}`)
   .replaceAll('__NAME__', 'Проверка')
@@ -29,7 +35,10 @@ const materialize = (mode, targetSet, category, patterns) => JSON.parse(template
   .replaceAll('__APP_STORE_CATEGORY__', category)
   .replaceAll('__REFERENCE_PATTERN_1__', patterns[0])
   .replaceAll('__REFERENCE_PATTERN_2__', patterns[1])
-  .replaceAll('__REFERENCE_PATTERN_3__', patterns[2]));
+  .replaceAll('__REFERENCE_PATTERN_3__', patterns[2])
+  .replaceAll('__REFERENCE_PROFILE_PROPERTY__', mode === 'mimicry'
+    ? `"referenceProfile": "${nativeReferenceProfiles[targetSet]}",`
+    : ''));
 
 const draftMimicry = materialize('mimicry', 'vk-video', 'Photo & Video', ['video-feed', 'vertical-clips', 'immersive-player']);
 const draftDifferentiation = materialize('differentiation', 'vk-music', 'Utilities', ['Паттерн 1', 'Паттерн 2', 'Паттерн 3']);

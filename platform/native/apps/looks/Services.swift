@@ -103,7 +103,7 @@ struct ServicesScreen: View {
 
     private func tile(glyph: String, seed: Int, title: String, sub: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            VKMedia(glyph: glyph, height: 145, seed: seed)
+            VKMedia(assetName: LooksMediaAssets.detail(seed), height: 145)
                 .frame(width: 145)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {

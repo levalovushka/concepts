@@ -56,25 +56,21 @@ private struct ClipPage: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(colors: [Color(hex: "343A4A"), Color(hex: "12141A")],
-                           startPoint: .top, endPoint: .bottom)
-
-            // кадр примерки: главная вещь крупно, остальные — строкой под ней
-            VStack(spacing: 26) {
-                if let hero = outfit.items.first {
-                    Image(systemName: hero.glyph)
-                        .font(.system(size: 132, weight: .ultraLight))
-                        .foregroundStyle(.white.opacity(0.96))
-                }
-                HStack(spacing: 34) {
-                    ForEach(outfit.items.dropFirst()) { g in
-                        Image(systemName: g.glyph)
-                            .font(.system(size: 44, weight: .ultraLight))
-                            .foregroundStyle(.white.opacity(0.45))
+            GeometryReader { geometry in
+                Image(LooksMediaAssets.outfit(outfit.seed))
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    .overlay {
+                        LinearGradient(
+                            colors: [.black.opacity(0.08), .clear, .black.opacity(0.72)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
                     }
-                }
             }
-            .offset(y: -70)
+            .ignoresSafeArea()
 
             // низ: слева автор и звук, справа рельс действий — в одном HStack,
             // поэтому пересечься они не могут
@@ -96,10 +92,7 @@ private struct ClipPage: View {
                             Button { withAnimation(.easeOut(duration: 0.18)) { expanded.toggle() } } label: {
                                 // ВК обрывает описание и дописывает «Ещё» — без него
                                 // строка выглядит просто обрезанной.
-                                (Text(expanded ? outfit.text : shortText)
-                                    .foregroundStyle(.white.opacity(0.94))
-                                 + Text(expanded ? "" : "  Ещё")
-                                    .foregroundStyle(.white.opacity(0.62)))
+                                Text("\(Text(expanded ? outfit.text : shortText).foregroundStyle(.white.opacity(0.94)))\(Text(expanded ? "" : "  Ещё").foregroundStyle(.white.opacity(0.62)))")
                                     .font(.system(size: 15))
                                     .multilineTextAlignment(.leading)
                             }

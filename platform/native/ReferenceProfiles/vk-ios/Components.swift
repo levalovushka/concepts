@@ -1,6 +1,20 @@
 import SwiftUI
 
-// Компоненты ВК. Геометрия — из vk-visual-profile.md, раздел «Компоненты».
+// VK reference-profile adapter. Product screens may compose these components,
+// but neutral runtime and product state must never depend on VK-specific data.
+// Geometry is defined by ReferenceProfiles/vk-ios/profile.json.
+
+extension Font {
+    static let vkTabTitle = Font.system(size: 24, weight: .bold)
+    static let vkNavTitle = Font.system(size: 17, weight: .semibold)
+    static let vkSection = Font.system(size: 18, weight: .semibold)
+    static let vkRow = Font.system(size: 17)
+    static let vkName = Font.system(size: 15, weight: .semibold)
+    static let vkBody = Font.system(size: 15)
+    static let vkMeta = Font.system(size: 13)
+    static let vkCaption = Font.system(size: 13)
+    static let vkBubbleTime = Font.system(size: 11)
+}
 
 // MARK: - Аватар
 
@@ -31,7 +45,7 @@ struct Avatar: View {
                 .font(.system(size: size * 0.36, weight: .medium))
                 .foregroundStyle(.white))
             .overlay {
-                if ring { Circle().stroke(t.accent, lineWidth: 3).padding(-5) }
+                if ring { Circle().stroke(t.accent, lineWidth: 2).padding(-3) }
             }
             .overlay(alignment: .bottomTrailing) {
                 if online {
@@ -81,6 +95,124 @@ struct VKTabHeader<Trailing: View>: View {
         .frame(height: 52)
         .padding(.horizontal, t.pad)
         .background(t.background)
+    }
+}
+
+// MARK: - Компактный хедер чата
+
+/// Профиль ВК использует плоскую навигацию без glass-капсул iOS.
+/// ZStack удерживает имя строго по центру независимо от ширины кнопок.
+struct VKChatHeader: View {
+    let title: String
+    let subtitle: String
+    let onBack: () -> Void
+    var onCall: (() -> Void)? = nil
+    @Environment(\.theme) private var t
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 1) {
+                Text(title)
+                    .font(.vkNavTitle)
+                    .foregroundStyle(t.textPrimary)
+                    .lineLimit(1)
+                Text(subtitle)
+                    .font(.vkMeta)
+                    .foregroundStyle(t.textSecondary)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 64)
+
+            HStack {
+                Button(action: onBack) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 20, weight: .semibold))
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityLabel("Назад")
+
+                Spacer()
+
+                if let onCall {
+                    Button(action: onCall) {
+                        Image(systemName: "phone")
+                            .font(.system(size: 20, weight: .regular))
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel("Позвонить")
+                } else {
+                    Color.clear.frame(width: 44, height: 44)
+                }
+            }
+            .foregroundStyle(t.accent)
+        }
+        .frame(height: 52)
+        .padding(.horizontal, 4)
+        .background(t.background)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(t.separator).frame(height: 0.5)
+        }
+    }
+}
+
+/// Общая плоская навигация push-экранов профиля ВК.
+/// Она не зависит от текущей версии системного toolbar SwiftUI.
+struct VKNavigationChrome<Trailing: View>: ViewModifier {
+    let title: String
+    @ViewBuilder var trailing: Trailing
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var t
+
+    func body(content: Content) -> some View {
+        VStack(spacing: 0) {
+            ZStack {
+                Text(title)
+                    .font(.vkNavTitle)
+                    .foregroundStyle(t.textPrimary)
+                    .lineLimit(1)
+                    .padding(.horizontal, 72)
+
+                HStack {
+                    Button { dismiss() } label: {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel("Назад")
+
+                    Spacer()
+
+                    HStack(spacing: 4) { trailing }
+                        .frame(minWidth: 44, minHeight: 44, alignment: .trailing)
+                }
+                .foregroundStyle(t.accent)
+                .padding(.horizontal, 4)
+            }
+            .frame(height: 52)
+            .background(t.background)
+            .overlay(alignment: .bottom) {
+                Rectangle().fill(t.separator).frame(height: 0.5)
+            }
+
+            content
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+extension View {
+    func vkNavigation(_ title: String) -> some View {
+        modifier(VKNavigationChrome(title: title) { EmptyView() })
+    }
+
+    func vkNavigation<Trailing: View>(
+        _ title: String,
+        @ViewBuilder trailing: () -> Trailing
+    ) -> some View {
+        modifier(VKNavigationChrome(title: title, trailing: trailing))
     }
 }
 
@@ -190,7 +322,7 @@ struct VKButton: View {
 /// Серая капсула: «Подписаться», «Скрыть».
 struct VKPill: View {
     let title: String
-    var action: () -> Void = {}
+    let action: () -> Void
     @Environment(\.theme) private var t
     var body: some View {
         Button(action: action) {
@@ -264,26 +396,23 @@ struct VKTabs: View {
     }
 }
 
-// MARK: - Медиа-блок вместо фото (геометрия ВК сохраняется)
+// MARK: - Медиа-блок (геометрия ВК, контент продукта)
 
 struct VKMedia: View {
-    var glyph: String = "photo"
+    let assetName: String?
     var height: CGFloat = 300
-    var seed: Int = 0
     var pageBadge: String? = nil
 
-    private var tint: Color {
-        let p = ["5B7CFA", "E0719A", "3FA88C", "E0834B", "8B6EE0", "5AA9E6"]
-        return Color(hex: p[abs(seed) % p.count])
-    }
-
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [tint.opacity(0.20), tint.opacity(0.42)],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-            Image(systemName: glyph)
-                .font(.system(size: 54, weight: .ultraLight))
-                .foregroundStyle(tint)
+        Group {
+            if let assetName {
+                Image(assetName)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                // Нейтральное empty/loading-полотно без выдуманной картинки.
+                Color(hex: "EDEEF0")
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: height > 0 ? height : nil)
@@ -300,7 +429,7 @@ struct VKMedia: View {
     }
 }
 
-// MARK: - Сетка сервисов: скруглённые квадраты с ярким градиентом
+// MARK: - Сетка сервисов: нейтральные плитки, один функциональный акцент
 
 struct VKServiceTile: View {
     let title: String
@@ -313,11 +442,10 @@ struct VKServiceTile: View {
         Button(action: action) {
             VStack(spacing: 8) {
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(LinearGradient(colors: colors.map { Color(hex: $0) },
-                                         startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .fill(t.fill)
                     .frame(width: 64, height: 64)
                     .overlay(Image(systemName: icon)
-                        .font(.system(size: 27, weight: .medium)).foregroundStyle(.white))
+                        .font(.system(size: 27, weight: .regular)).foregroundStyle(t.accent))
                 Text(title).font(.vkCaption).foregroundStyle(t.textPrimary)
                     .lineLimit(1).minimumScaleFactor(0.85)
             }
@@ -335,7 +463,7 @@ struct VKSectionHeader: View {
     /// оно серое и не кликается, в отличие от ссылки справа.
     var count: String? = nil
     var action: String? = nil
-    var onTap: () -> Void = {}
+    var onTap: (() -> Void)? = nil
     @Environment(\.theme) private var t
     var body: some View {
         HStack(spacing: 8) {
@@ -344,7 +472,7 @@ struct VKSectionHeader: View {
                 Text(count).font(.system(size: 17)).foregroundStyle(t.textSecondary)
             }
             Spacer()
-            if let action {
+            if let action, let onTap {
                 Button(action: onTap) {
                     Text(action).font(.system(size: 17)).foregroundStyle(t.accent)
                 }
@@ -478,10 +606,9 @@ struct VKRowAction: View {
 
 struct VKMosaicItem: Identifiable, Hashable {
     let id = UUID()
-    let glyph: String
+    let assetName: String
     let height: CGFloat
     let badge: String?
-    var seed: Int = 0
 }
 
 struct VKMosaic: View {
@@ -495,7 +622,7 @@ struct VKMosaic: View {
                 LazyVStack(spacing: 2) {
                     ForEach(items.enumerated().filter { $0.offset % columns == c }.map(\.element)) { it in
                         Button { onTap(it) } label: {
-                            VKMedia(glyph: it.glyph, height: it.height, seed: it.seed)
+                            VKMedia(assetName: it.assetName, height: it.height)
                                 .overlay(alignment: .topTrailing) {
                                     if let badge = it.badge {
                                         Image(systemName: badge)
@@ -595,10 +722,10 @@ struct VKPostActions: View {
     var saved: Bool = false
     /// Просмотры или время публикации — то, что у ВК стоит справа.
     var trailing: String? = nil
-    var onLike: () -> Void = {}
-    var onComment: () -> Void = {}
-    var onShare: () -> Void = {}
-    var onSave: () -> Void = {}
+    let onLike: () -> Void
+    let onComment: () -> Void
+    let onShare: () -> Void
+    let onSave: () -> Void
     @Environment(\.theme) private var t
 
     var body: some View {
@@ -692,10 +819,10 @@ struct VKFilterPills: View {
                             if let icon = items[i].1 {
                                 Image(systemName: icon).font(.system(size: 14))
                             }
-                            Text(items[i].0).font(.system(size: 15, weight: .medium))
+                            Text(items[i].0).font(.system(size: 14, weight: .medium))
                         }
                         .foregroundStyle(selection == i ? .white : t.textPrimary)
-                        .padding(.horizontal, 14).frame(height: 36)
+                        .padding(.horizontal, 11).frame(height: 32)
                         .background(selection == i ? AnyShapeStyle(t.accent) : AnyShapeStyle(t.fill),
                                     in: Capsule())
                     }
@@ -710,10 +837,9 @@ struct VKFilterPills: View {
 
 /// Ячейка сетки контента: та же геометрия кадра, что у ВК в «Фото».
 struct VKGridCell: View {
-    let glyph: String
-    let seed: Int
+    let assetName: String
     var body: some View {
-        VKMedia(glyph: glyph, height: 0, seed: seed)
+        VKMedia(assetName: assetName, height: 0)
             .frame(maxWidth: .infinity)
             .aspectRatio(0.82, contentMode: .fit)
     }
