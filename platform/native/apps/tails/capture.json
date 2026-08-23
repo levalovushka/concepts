@@ -13,8 +13,7 @@
     ],
     [
       "codefail-default",
-      "codefail-loading",
-      "codefail-error"
+      "codefail-loading"
     ],
     [
       "home-default",
@@ -28,10 +27,6 @@
       "create-default",
       "create-error",
       "create-success"
-    ],
-    [
-      "camera-default",
-      "camera-denied"
     ],
     [
       "places-default",
@@ -65,17 +60,8 @@
       "course-error"
     ],
     [
-      "background-default",
-      "background-loading",
-      "background-error"
-    ],
-    [
       "netqr-default",
       "netqr-error"
-    ],
-    [
-      "shareext-default",
-      "shareext-success"
     ]
   ],
   "drivers": [
@@ -126,12 +112,6 @@
       "state": "loading",
       "launch": "codefail",
       "artifact": "codefail-loading"
-    },
-    {
-      "surface": "codefail",
-      "state": "error",
-      "launch": "codefail",
-      "artifact": "codefail-error"
     },
     {
       "surface": "home",
@@ -188,18 +168,6 @@
       "artifact": "create-success"
     },
     {
-      "surface": "camera",
-      "state": "default",
-      "launch": "camera",
-      "artifact": "camera-default"
-    },
-    {
-      "surface": "camera",
-      "state": "denied",
-      "launch": "camera",
-      "artifact": "camera-denied"
-    },
-    {
       "surface": "places",
       "state": "default",
       "launch": "places",
@@ -252,18 +220,6 @@
       "state": "default",
       "launch": "settings",
       "artifact": "settings-default"
-    },
-    {
-      "surface": "widget",
-      "state": "default",
-      "launch": "widget",
-      "artifact": "widget-default"
-    },
-    {
-      "surface": "fill",
-      "state": "default",
-      "launch": "fill",
-      "artifact": "fill-default"
     },
     {
       "surface": "refresh",
@@ -344,24 +300,6 @@
       "artifact": "course-error"
     },
     {
-      "surface": "background",
-      "state": "default",
-      "launch": "background",
-      "artifact": "background-default"
-    },
-    {
-      "surface": "background",
-      "state": "loading",
-      "launch": "background",
-      "artifact": "background-loading"
-    },
-    {
-      "surface": "background",
-      "state": "error",
-      "launch": "background",
-      "artifact": "background-error"
-    },
-    {
       "surface": "call",
       "state": "default",
       "launch": "call",
@@ -384,18 +322,6 @@
       "state": "error",
       "launch": "netqr",
       "artifact": "netqr-error"
-    },
-    {
-      "surface": "shareext",
-      "state": "default",
-      "launch": "shareext",
-      "artifact": "shareext-default"
-    },
-    {
-      "surface": "shareext",
-      "state": "success",
-      "launch": "shareext",
-      "artifact": "shareext-success"
     }
   ]
 }

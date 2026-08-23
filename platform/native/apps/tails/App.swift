@@ -1,31 +1,25 @@
 import SwiftUI
 
-// Каркас собран gen/scaffold-app.mjs из concept.json: вкладки, маршруты
-// и режим съёмки выводятся из манифеста. Содержимое экранов пишется руками.
+// Оболочка «Хвостов». Вкладки и стартовая вкладка приходят из спеки через
+// NativeConceptSpec, маршруты и режим съёмки описаны здесь.
 
 enum TailsRoute: Hashable {
-    case code
-    case codefail
-    case pet
-    case walk
-    case camera
+    case pet(Pet)
+    case walk(Walk)
     case places
-    case chat
-    case voice
+    case walks
+    case chat(Dialog)
+    case call
     case settings
-    case widget
-    case fill
-    case refresh
     case mates
     case ads
     case lock
     case vetnote
     case course
-    case background
-    case call
     case vaccine
     case netqr
-    case shareext
+    case refresh
+    case create
 }
 
 @main
@@ -34,129 +28,142 @@ struct TailsApp: App {
     var body: some Scene { WindowGroup { TailsRootView() } }
 }
 
-/// Режим съёмки: приложение запускается сразу на нужной поверхности
-/// и в нужном состоянии — `-shot <surface> -state <state>`.
-enum TailsShotMode {
+/// Режим съёмки: `-shot <surface> -state <state>`.
+enum ShotMode {
     static var screen: String? {
-        let arguments = ProcessInfo.processInfo.arguments
-        guard let index = arguments.firstIndex(of: "-shot"), index + 1 < arguments.count else { return nil }
-        return arguments[index + 1]
+        let a = ProcessInfo.processInfo.arguments
+        guard let i = a.firstIndex(of: "-shot"), i + 1 < a.count else { return nil }
+        return a[i + 1]
     }
     static var state: String {
-        let arguments = ProcessInfo.processInfo.arguments
-        guard let index = arguments.firstIndex(of: "-state"), index + 1 < arguments.count else { return "default" }
-        return arguments[index + 1]
+        let a = ProcessInfo.processInfo.arguments
+        guard let i = a.firstIndex(of: "-state"), i + 1 < a.count else { return "default" }
+        return a[i + 1]
     }
     static func isScreen(_ value: String, state expected: String? = nil) -> Bool {
         screen == value && (expected == nil || state == expected)
     }
-    static var initialTab: String { NativeConceptSpec.initialTab }
+    static var isAuthScreen: Bool {
+        ["phone", "code", "codefail"].contains(screen ?? "")
+    }
 }
 
 struct TailsRootView: View {
-    @State private var nav = Nav(initialTab: TailsShotMode.initialTab)
-    @State private var permissions = Permissions()
+    @State private var store = TailsStore()
+    @State private var nav = Nav(initialTab: NativeConceptSpec.initialTab)
+    @State private var perms = Permissions()
+    @State private var session = Session(authenticated: ShotMode.screen != nil && !ShotMode.isAuthScreen)
     private let theme = Theme.resolve(NativeConceptSpec.design)
+
+    var body: some View {
+        Group {
+            if session.isAuthenticated {
+                TailsShell()
+            } else {
+                TailsAuthScreen { withAnimation(.easeOut(duration: 0.25)) { session.signIn() } }
+            }
+        }
+        .environment(store)
+        .environment(nav)
+        .environment(perms)
+        .environment(session)
+        .environment(\.theme, theme)
+        .tint(theme.accent)
+        .preferredColorScheme(.light)
+    }
+}
+
+struct TailsShell: View {
+    @Environment(Nav.self) private var nav
+    @Environment(TailsStore.self) private var store
+
+    private var unread: Int { store.dialogs.reduce(0) { $0 + $1.unread } }
 
     var body: some View {
         @Bindable var nav = nav
         TabView(selection: $nav.tab) {
-            Tab("", systemImage: "house", value: "home") {
-                NavigationStack(path: nav.path("home")) {
-                    TailsSurface_home()
-                        .navigationDestination(for: TailsRoute.self) { destination($0) }
+            ForEach(NativeConceptSpec.tabs, id: \.id) { tab in
+                Tab("", systemImage: tab.systemImage, value: tab.id) {
+                    tabContent(tab.screen)
                 }
+                .badge(tab.role == "chats" ? unread : 0)
+                .accessibilityLabel(tab.label)
             }
-            .accessibilityLabel("Главная")
-            Tab("", systemImage: "magnifyingglass", value: "nearby") {
-                NavigationStack(path: nav.path("nearby")) {
-                    TailsSurface_nearby()
-                        .navigationDestination(for: TailsRoute.self) { destination($0) }
-                }
-            }
-            .accessibilityLabel("Рядом")
-            Tab("", systemImage: "play.rectangle", value: "create") {
-                NavigationStack(path: nav.path("create")) {
-                    TailsSurface_create()
-                        .navigationDestination(for: TailsRoute.self) { destination($0) }
-                }
-            }
-            .accessibilityLabel("Клипы")
-            Tab("", systemImage: "bubble.left", value: "chats") {
-                NavigationStack(path: nav.path("chats")) {
-                    TailsSurface_chats()
-                        .navigationDestination(for: TailsRoute.self) { destination($0) }
-                }
-            }
-            .accessibilityLabel("Сообщения")
-            Tab("", systemImage: "line.3.horizontal", value: "profile") {
-                NavigationStack(path: nav.path("profile")) {
-                    TailsSurface_profile()
-                        .navigationDestination(for: TailsRoute.self) { destination($0) }
-                }
-            }
-            .accessibilityLabel("Меню")
         }
-        .environment(nav)
-        .environment(permissions)
-        .environment(\.theme, theme)
-        .tint(theme.accent)
+        .overlay(alignment: .bottom) {
+            ToastOverlay(text: nav.toastText).padding(.bottom, 96)
+        }
+        .sheet(item: $nav.sheet) { route in routeView(route) }
+        .fullScreenCover(item: $nav.cover) { route in routeView(route) }
         .task { applyShotMode() }
+    }
+
+    @ViewBuilder private func tabContent(_ screen: String) -> some View {
+        NavigationStack(path: nav.path(screen)) {
+            Group {
+                switch screen {
+                case "home": FeedScreen()
+                case "nearby": NearbyScreen()
+                case "create": CreateScreen()
+                case "chats": ChatsScreen()
+                default: MenuScreen()
+                }
+            }
+            .navigationDestination(for: TailsRoute.self) { destination($0) }
+        }
     }
 
     @ViewBuilder private func destination(_ route: TailsRoute) -> some View {
         switch route {
-        case .code: TailsSurface_code()
-        case .codefail: TailsSurface_codefail()
-        case .pet: TailsSurface_pet()
-        case .walk: TailsSurface_walk()
-        case .camera: TailsSurface_camera()
-        case .places: TailsSurface_places()
-        case .chat: TailsSurface_chat()
-        case .voice: TailsSurface_voice()
-        case .settings: TailsSurface_settings()
-        case .widget: TailsSurface_widget()
-        case .fill: TailsSurface_fill()
-        case .refresh: TailsSurface_refresh()
-        case .mates: TailsSurface_mates()
-        case .ads: TailsSurface_ads()
-        case .lock: TailsSurface_lock()
-        case .vetnote: TailsSurface_vetnote()
-        case .course: TailsSurface_course()
-        case .background: TailsSurface_background()
-        case .call: TailsSurface_call()
-        case .vaccine: TailsSurface_vaccine()
-        case .netqr: TailsSurface_netqr()
-        case .shareext: TailsSurface_shareext()
+        case .pet(let pet): PetScreen(pet: pet)
+        case .walk(let walk): WalkScreen(walk: walk)
+        case .places: PlacesScreen()
+        case .walks: WalksScreen()
+        case .chat(let dialog): ChatScreen(dialog: dialog)
+        case .call: CallScreen()
+        case .settings: SettingsScreen()
+        case .mates: MatesScreen()
+        case .ads: AdsScreen()
+        case .lock: LockScreen()
+        case .vetnote: VetNoteScreen()
+        case .course: CourseScreen()
+        case .vaccine: VaccineScreen()
+        case .netqr: NetQRScreen()
+        case .refresh: RefreshScreen()
+        case .create: CreateScreen()
         }
     }
 
-    /// Съёмка объявленных состояний: каждая поверхность открывается сама.
+    @ViewBuilder private func routeView(_ any: AnyRoute) -> some View {
+        if let route = any.value(TailsRoute.self) {
+            NavigationStack { destination(route) }
+        }
+    }
+
+    /// Каждая объявленная поверхность открывается съёмкой сама.
     private func applyShotMode() {
-        guard let screen = TailsShotMode.screen else { return }
+        guard let screen = ShotMode.screen else { return }
+        // Корневые вкладки открываются переключением, а не push: иначе съёмка
+        // состояний вкладки снимает одну и ту же «Главную».
+        if let tab = NativeConceptSpec.tabs.first(where: { $0.screen == screen }) {
+            nav.tab = tab.id
+            return
+        }
         switch screen {
-        case "code": nav.push(TailsRoute.code)
-        case "codefail": nav.push(TailsRoute.codefail)
-        case "pet": nav.push(TailsRoute.pet)
-        case "walk": nav.push(TailsRoute.walk)
-        case "camera": nav.push(TailsRoute.camera)
-        case "places": nav.push(TailsRoute.places)
-        case "chat": nav.push(TailsRoute.chat)
-        case "voice": nav.push(TailsRoute.voice)
-        case "settings": nav.push(TailsRoute.settings)
-        case "widget": nav.push(TailsRoute.widget)
-        case "fill": nav.push(TailsRoute.fill)
-        case "refresh": nav.push(TailsRoute.refresh)
-        case "mates": nav.push(TailsRoute.mates)
-        case "ads": nav.push(TailsRoute.ads)
-        case "lock": nav.push(TailsRoute.lock)
-        case "vetnote": nav.push(TailsRoute.vetnote)
-        case "course": nav.push(TailsRoute.course)
-        case "background": nav.push(TailsRoute.background)
-        case "call": nav.push(TailsRoute.call)
-        case "vaccine": nav.push(TailsRoute.vaccine)
-        case "netqr": nav.push(TailsRoute.netqr)
-        case "shareext": nav.push(TailsRoute.shareext)
+        case "pet": nav.tab = "home"; nav.push(TailsRoute.pet(store.moments[0].pet))
+        case "walk": nav.tab = "nearby"; nav.push(TailsRoute.walk(store.walks[0]))
+        case "places": nav.tab = "nearby"; nav.push(TailsRoute.places)
+        case "chat", "voice": nav.tab = "chats"; nav.push(TailsRoute.chat(store.dialogs[0]))
+        case "call": nav.tab = "chats"; nav.push(TailsRoute.call)
+        case "settings": nav.tab = "profile"; nav.push(TailsRoute.settings)
+        case "mates": nav.tab = "profile"; nav.push(TailsRoute.mates)
+        case "ads": nav.tab = "profile"; nav.push(TailsRoute.ads)
+        case "lock": nav.tab = "profile"; nav.push(TailsRoute.lock)
+        case "vetnote": nav.tab = "home"; nav.push(TailsRoute.vetnote)
+        case "course": nav.tab = "profile"; nav.push(TailsRoute.course)
+        case "vaccine": nav.tab = "profile"; nav.push(TailsRoute.vaccine)
+        case "netqr": nav.tab = "nearby"; nav.push(TailsRoute.netqr)
+        case "refresh": nav.tab = "profile"; nav.push(TailsRoute.refresh)
         default: break
         }
     }

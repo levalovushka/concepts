@@ -580,6 +580,12 @@
           "повтор",
           "нет сети"
         ]
+      },
+      "native": {
+        "states": [
+          "default",
+          "loading"
+        ]
       }
     },
     {
@@ -716,6 +722,9 @@
           "пустое состояние",
           "нет сети"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     },
     {
@@ -738,6 +747,9 @@
           "пустое состояние",
           "нет сети"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     },
     {
@@ -893,6 +905,9 @@
           "виджет ещё не добавлен",
           "снимок не обновился — нет сети"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     },
     {
@@ -915,6 +930,9 @@
           "пароль повторяется на двух сайтах",
           "сайта нет в сохранённых"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     },
     {
@@ -1078,6 +1096,9 @@
           "пауза с локскрина",
           "−15 секунд"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     },
     {
@@ -1168,6 +1189,9 @@
           "кадр из «Фото»",
           "черновик уже есть"
         ]
+      },
+      "native": {
+        "presentation": "system"
       }
     }
   ],
@@ -1429,10 +1453,10 @@
         },
         {
           "id": "create",
-          "label": "Клипы",
+          "label": "Момент",
           "screen": "create",
           "role": "create",
-          "systemImage": "play.rectangle"
+          "systemImage": "plus.circle"
         },
         {
           "id": "chats",

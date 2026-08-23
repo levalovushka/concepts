@@ -721,8 +721,8 @@ struct VKPostActions: View {
     let onComment: () -> Void
     /// Своё действие «поделиться» — либо системный лист по shareItem.
     /// Снекбар «ссылка скопирована» исходом не считается.
-    var onShare: (() -> Void)? = nil
     var shareItem: String? = nil
+    var onShare: (() -> Void)? = nil
     let onSave: () -> Void
     @Environment(\.theme) private var t
 
@@ -747,7 +747,9 @@ struct VKPostActions: View {
                 .accessibilityLabel("Поделиться")
             } else {
                 ShareLink(item: shareItem ?? "") {
-                    metric("arrowshape.turn.up.right", "\(shares)", tint: t.textSecondary)
+                    // Ноль репостов не показываем: пустой счётчик выглядит
+                    // как забытая заглушка.
+                    metric("arrowshape.turn.up.right", shares > 0 ? "\(shares)" : "", tint: t.textSecondary)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Поделиться")

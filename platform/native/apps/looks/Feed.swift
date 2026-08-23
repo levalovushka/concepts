@@ -165,7 +165,6 @@ private struct PostCard: View {
                           saved: outfit.saved, trailing: outfit.views,
                           onLike: { store.toggleLike(outfit.id) },
                           onComment: { nav.push(LooksRoute.outfit(outfit)) },
-                          onShare: nil,
                           shareItem: "\(outfit.author): \(outfit.text)",
                           onSave: { store.toggleSave(outfit.id) })
                 .padding(.horizontal, t.pad)
