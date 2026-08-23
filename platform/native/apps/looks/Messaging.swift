@@ -7,9 +7,13 @@ struct AuthScreen: View {
     @Environment(\.theme) private var t
     @State private var mail = ""
     @State private var code = ""
-    @State private var step = 0
+    @State private var step = ShotMode.screen == "code" || ShotMode.screen == "codefail" ? 1 : 0
     @State private var codeSentAgain = false
     @FocusState private var focused: Bool
+
+    /// Объявленные состояния входа: ожидание письма и неверный код.
+    private var isSending: Bool { ShotMode.state == "loading" }
+    private var codeRejected: Bool { ShotMode.screen == "codefail" || ShotMode.state == "error" }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -30,6 +34,11 @@ struct AuthScreen: View {
             Spacer().frame(height: 24)
 
             if step == 0 {
+                if ShotMode.isScreen("phone", state: "error") {
+                    AppStatePanel(kind: .error, title: "Почта не принята",
+                                  detail: "Проверьте адрес: письмо с кодом вернулось обратно.")
+                        .padding(.bottom, 12)
+                }
                 TextField("Почта", text: $mail)
                     .keyboardType(.emailAddress).textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
@@ -62,6 +71,16 @@ struct AuthScreen: View {
                 }
                 .buttonStyle(.plain)
             } else {
+                if codeRejected {
+                    AppStatePanel(kind: .error, title: "Код не подошёл",
+                                  detail: "Проверьте последнее письмо: код живёт пять минут.")
+                        .padding(.bottom, 12)
+                }
+                if isSending {
+                    AppStatePanel(kind: .loading, title: "Отправляем код",
+                                  detail: "Письмо придёт в течение минуты.")
+                        .padding(.bottom, 12)
+                }
                 OTPField(code: $code) { if $0.count == 4 { onDone() } }
                     .focused($focused)
                 Spacer().frame(height: 14)
@@ -139,7 +158,7 @@ struct ChatsScreen: View {
         VStack(spacing: 0) {
             VKTabHeader(title: "Сообщения", avatar: "Ника Орлова",
                         avatarAction: { nav.push(LooksRoute.profile) }) {
-                Button { nav.toast("Выберите, кому написать") } label: {
+                Button { nav.push(LooksRoute.mates) } label: {
                     Image(systemName: "square.and.pencil")
                 }
                 .accessibilityLabel("Новое сообщение")
@@ -150,7 +169,12 @@ struct ChatsScreen: View {
 
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(filtered) { d in
+                    if ShotMode.isScreen("chats", state: "empty") {
+                    AppStatePanel(kind: .empty, title: "Переписок пока нет",
+                                  detail: "Напишите тому, чей образ понравился, — диалог появится здесь.")
+                        .padding(t.pad)
+                }
+                ForEach(ShotMode.isScreen("chats", state: "empty") ? [] : filtered) { d in
                         Button { nav.push(LooksRoute.chat(d)) } label: {
                             DialogRow(dialog: d)
                         }
@@ -253,6 +277,11 @@ struct ChatScreen: View {
             }
             .background(t.background)
 
+            if ShotMode.isScreen("voice", state: "denied") {
+                AppStatePanel(kind: .warning, title: "Микрофон выключен",
+                              detail: "Голосовое не записать — напишите текстом, остальное работает.")
+                    .padding(.horizontal, 12).padding(.bottom, 8)
+            }
             inputBar
         }
         .navigationBarTitleDisplayMode(.inline)

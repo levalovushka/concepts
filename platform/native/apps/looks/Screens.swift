@@ -39,7 +39,12 @@ struct NearbyScreen: View {
                             .padding(16)
                         }
                     }
-                    ForEach(store.events) { e in
+                    if ShotMode.isScreen("nearby", state: "empty") {
+                        AppStatePanel(kind: .empty, title: "Свопов рядом пока нет",
+                                      detail: "Заведите свой — соседи по стилю увидят его в ленте.")
+                            .padding(t.pad)
+                    }
+                    ForEach(ShotMode.isScreen("nearby", state: "empty") ? [] : store.events) { e in
                         Button { nav.push(LooksRoute.event(e)) } label: { EventCard(event: e) }
                             .buttonStyle(.plain)
                     }
@@ -91,7 +96,7 @@ struct EventScreen: View {
     @Environment(Nav.self) private var nav
     @Environment(Permissions.self) private var perms
     @Environment(\.theme) private var t
-    @State private var going = false
+    @State private var going = ShotMode.isScreen("event", state: "joined")
 
     var body: some View {
         ScrollView {
@@ -148,6 +153,11 @@ struct EventScreen: View {
                 }
                 VKGroup {
                     VStack(spacing: 10) {
+                        if ShotMode.isScreen("event", state: "cancelled") {
+                            AppStatePanel(kind: .warning, title: "Своп отменён",
+                                          detail: "Организатор ищет новую дату — вернём в ленту, когда назначит.")
+                                .padding(.bottom, 8)
+                        }
                         VKButton(title: going ? "Вы идёте" : "Пойду",
                                       icon: going ? "checkmark" : "person.badge.plus") {
                             withAnimation { going.toggle() }
@@ -218,7 +228,15 @@ struct WardrobeScreen: View {
             Rectangle().fill(t.separator).frame(height: 0.5)
 
             ScrollView {
-                if tab == 0 {
+                if ShotMode.isScreen("wardrobe", state: "loading") {
+                    AppStatePanel(kind: .loading, title: "Собираем гардероб",
+                                  detail: "Считаем, что вы носили за последний месяц.")
+                        .padding(t.pad)
+                } else if ShotMode.isScreen("wardrobe", state: "empty") {
+                    AppStatePanel(kind: .empty, title: "В гардеробе пусто",
+                                  detail: "Снимите вещь на камеру или выберите фото — она попадёт в гардероб.")
+                        .padding(t.pad)
+                } else if tab == 0 {
                     // сводка гардероба: живой, а не плоский список
                     VKGroup {
                         HStack(spacing: 0) {
@@ -637,8 +655,18 @@ struct MatesScreen: View {
                 }
                 GroupGap()
 
+                if ShotMode.isScreen("mates", state: "denied") {
+                    AppStatePanel(kind: .warning, title: "Контакты недоступны",
+                                  detail: "Ищите людей по имени в поиске — остальное работает как обычно.")
+                        .padding(.horizontal, t.pad).padding(.bottom, 12)
+                }
+                if ShotMode.isScreen("mates", state: "empty") {
+                    AppStatePanel(kind: .empty, title: "Знакомых пока нет",
+                                  detail: "Импортируйте телефонную книгу или найдите людей по имени.")
+                        .padding(.horizontal, t.pad).padding(.bottom, 12)
+                }
                 VKSectionHeader(title: "Возможные знакомые")
-                ForEach(maybe.filter { !hidden.contains($0.0) }, id: \.0) { p in
+                ForEach(ShotMode.isScreen("mates", state: "empty") ? [] : maybe.filter { !hidden.contains($0.0) }, id: \.0) { p in
                     VKPersonRow(name: p.0, subtitle: p.1, mutual: p.2, mutualText: p.3) {
                         if added.contains(p.0) {
                             Text("Заявка отправлена").font(.role(.meta))
@@ -659,7 +687,7 @@ struct MatesScreen: View {
                 GroupGap()
 
                 VKSectionHeader(title: "Мои знакомые", count: "\(mine.count)")
-                ForEach(filtered, id: \.0) { p in
+                ForEach(ShotMode.isScreen("mates", state: "empty") ? [] : filtered, id: \.0) { p in
                     VKPersonRow(name: p.0, subtitle: p.1) {
                         VKRowAction(icon: "phone", label: "Позвонить \(p.0)") {
                             nav.push(LooksRoute.call)

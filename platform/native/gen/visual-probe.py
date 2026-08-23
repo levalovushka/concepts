@@ -27,10 +27,25 @@ def probe(path: Path) -> dict:
     w, h = im.size
     px = im.load()
 
-    status = px[w // 2, 20]
-    # Точка внутри шапки, а не под ней: ниже начинается контент, и там
-    # законно другой цвет (подпись чата, серая подложка списка).
-    under_header = px[w // 2, 250]
+    def band_mode(y0: int, y1: int):
+        """Самый частый цвет полосы и его доля: одна точка попадает то в текст,
+        то в разделитель, и сравнение врёт."""
+        counts = {}
+        total = 0
+        for y in range(y0, y1, 4):
+            for x in range(24, w - 24, 12):
+                c = px[x, y]
+                counts[c] = counts.get(c, 0) + 1
+                total += 1
+        color, hits = max(counts.items(), key=lambda kv: kv[1])
+        return color, hits / max(total, 1)
+
+    status, _ = band_mode(8, 44)
+    under_header, header_uniformity = band_mode(200, 300)
+    distance = max(abs(a - b) for a, b in zip(status, under_header))
+    # Полноэкранная поверхность (клип, звонок) шапки не имеет: в её полосе
+    # лежит контент, а не однотонная подложка — сравнивать нечего.
+    immersive = header_uniformity < 0.55
     # Модальный лист затемняет корневой экран — серая полоса сверху там норма.
     sheet = all(198 <= c <= 214 for c in status)
 
@@ -72,7 +87,8 @@ def probe(path: Path) -> dict:
         "statusBar": list(status),
         "underHeader": list(under_header),
         "isSheet": sheet,
-        "statusBarMatchesHeader": sheet or status == under_header,
+        "isImmersive": immersive,
+        "statusBarMatchesHeader": sheet or immersive or distance <= 12,
         "emptyTailPercent": round(empty / h * 100),
         "textLines": lines,
         "repeatedBlocks": repeats,

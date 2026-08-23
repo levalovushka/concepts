@@ -719,7 +719,10 @@ struct VKPostActions: View {
     var trailing: String? = nil
     let onLike: () -> Void
     let onComment: () -> Void
-    let onShare: () -> Void
+    /// Своё действие «поделиться» — либо системный лист по shareItem.
+    /// Снекбар «ссылка скопирована» исходом не считается.
+    var onShare: (() -> Void)? = nil
+    var shareItem: String? = nil
     let onSave: () -> Void
     @Environment(\.theme) private var t
 
@@ -736,11 +739,19 @@ struct VKPostActions: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Комментарии")
-            Button(action: onShare) {
-                metric("arrowshape.turn.up.right", "\(shares)", tint: t.textSecondary)
+            if let onShare {
+                Button(action: onShare) {
+                    metric("arrowshape.turn.up.right", "\(shares)", tint: t.textSecondary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Поделиться")
+            } else {
+                ShareLink(item: shareItem ?? "") {
+                    metric("arrowshape.turn.up.right", "\(shares)", tint: t.textSecondary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Поделиться")
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Поделиться")
             Spacer(minLength: 8)
             Button(action: onSave) {
                 Image(systemName: saved ? "bookmark.fill" : "bookmark")
@@ -883,5 +894,22 @@ extension View {
     /// Обернуть содержимое сообщения в бабл профиля.
     func vkChatBubble(isMine: Bool, progress: Double = 0) -> some View {
         VKChatBubble(isMine: isMine, progress: progress) { self }
+    }
+}
+
+/// Вид действия рельса без кнопки: для системных контролов вроде ShareLink,
+/// которые сами являются кнопкой.
+struct VKClipActionLabel: View {
+    let icon: String
+    var value: String = ""
+    var tint: Color = .white
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Image(systemName: icon).font(.system(size: 27)).foregroundStyle(tint)
+            if !value.isEmpty {
+                Text(value).font(.role(.badge)).foregroundStyle(.white)
+            }
+        }
     }
 }

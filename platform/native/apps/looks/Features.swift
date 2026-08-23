@@ -116,6 +116,7 @@ struct TalkScreen: View {
                     }
                 }
 
+                if !ShotMode.isScreen("talk", state: "loading") {
                 VKGroup {
                     VKSectionHeader(title: "Разборы", count: "\(episodes.count)")
                     ForEach(Array(episodes.enumerated()), id: \.offset) { i, e in
@@ -144,6 +145,7 @@ struct TalkScreen: View {
                         if i < episodes.count - 1 { RowSeparator(leading: 72) }
                     }
                     Color.clear.frame(height: 8)
+                }
                 }
             }
             .padding(.bottom, 88)
@@ -179,6 +181,16 @@ struct CheckinScreen: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(12)
+                }
+                if ShotMode.isScreen("checkin", state: "denied") {
+                    AppStatePanel(kind: .warning, title: "Сеть площадки недоступна",
+                                  detail: "Организатор отметит вас вручную на входе.")
+                        .padding(.horizontal, t.pad).padding(.bottom, 8)
+                }
+                if ShotMode.isScreen("checkin", state: "error") {
+                    AppStatePanel(kind: .error, title: "Отметка не прошла",
+                                  detail: "Подключитесь к сети площадки и попробуйте ещё раз.")
+                        .padding(.horizontal, t.pad).padding(.bottom, 8)
                 }
                 VKGroup {
                     stepRow(n: 1, title: "Гостевая сеть площадки",
@@ -272,6 +284,11 @@ struct LockScreen: View {
             Spacer()
             Image(systemName: unlocked ? "lock.open.fill" : "faceid")
                 .font(.system(size: 58, weight: .light)).foregroundStyle(t.accent)
+            if ShotMode.isScreen("lock", state: "denied") {
+                AppStatePanel(kind: .warning, title: "Face ID недоступен",
+                              detail: "Откройте «Сохранённое» код-паролем устройства.")
+                    .padding(.horizontal, t.pad)
+            }
             Text(unlocked ? "Открыто" : "«Сохранённое» под замком")
                 .font(.role(.section))
             Text(unlocked ? "Черновики и сохранённые образы доступны"
@@ -428,6 +445,11 @@ struct NetQRScreen: View {
 
     var body: some View {
         VStack(spacing: 18) {
+            if ShotMode.isScreen("netqr", state: "error") {
+                AppStatePanel(kind: .error, title: "Сеть не приняла код",
+                              detail: "QR устарел — попросите организатора показать новый.")
+                    .padding(.horizontal, t.pad)
+            }
             Spacer()
             ZStack {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)

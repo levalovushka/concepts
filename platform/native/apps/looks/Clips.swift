@@ -13,7 +13,7 @@ struct ClipsScreen: View {
     var body: some View {
         ZStack(alignment: .top) {
             TabView(selection: $index) {
-                ForEach(Array(store.outfits.enumerated()), id: \.element.id) { i, outfit in
+                ForEach(Array(store.visibleOutfits.enumerated()), id: \.element.id) { i, outfit in
                     ClipPage(outfit: outfit).tag(i)
                 }
             }
@@ -44,6 +44,7 @@ private struct ClipPage: View {
     @Environment(\.theme) private var t
     @State private var muted = true
     @State private var expanded = false
+    @State private var showMenu = false
 
     /// Обрезаем по слову, а не по символу: середина слова читается как сбой.
     private var shortText: String {
@@ -121,21 +122,31 @@ private struct ClipPage: View {
                                      label: "Комментарии") {
                             nav.push(LooksRoute.outfit(outfit))
                         }
-                        VKClipAction(icon: "arrowshape.turn.up.right", value: "\(outfit.shares)",
-                                     label: "Поделиться") { nav.toast("Ссылка скопирована") }
+                        ShareLink(item: "\(outfit.author): \(outfit.text)") {
+                            VKClipActionLabel(icon: "arrowshape.turn.up.right",
+                                              value: "\(outfit.shares)")
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Поделиться")
                         VKClipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
                                      label: "Сохранить") { store.toggleSave(outfit.id) }
                         VKClipAction(icon: "hand.thumbsdown", label: "Не интересно") {
-                            nav.toast("Меньше таких клипов")
+                            withAnimation { store.hide(outfit.id) }
                         }
-                        VKClipAction(icon: "ellipsis", label: "Ещё") {
-                            nav.toast("Пожаловаться · Скачать · Скопировать ссылку")
-                        }
+                        VKClipAction(icon: "ellipsis", label: "Ещё") { showMenu = true }
                     }
                     .frame(width: 52)
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 14)
+
+                // меню клипа: жалоба и скрытие меняют ленту, а не показывают снекбар
+                Color.clear.frame(height: 0)
+                    .confirmationDialog("Клип", isPresented: $showMenu) {
+                        Button("Скрыть клип") { withAnimation { store.hide(outfit.id) } }
+                        Button("Пожаловаться", role: .destructive) { withAnimation { store.report(outfit.id) } }
+                        Button("Отмена", role: .cancel) {}
+                    }
 
                 // полоса воспроизведения
                 GeometryReader { geo in

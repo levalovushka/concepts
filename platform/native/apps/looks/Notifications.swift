@@ -5,9 +5,24 @@ struct NotificationsScreen: View {
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
 
+    /// Объявленные состояния: непрочитанные, всё прочитано, пусто.
+    private var isEmpty: Bool { ShotMode.isScreen("notifications", state: "empty") }
+    private var allRead: Bool { ShotMode.isScreen("notifications", state: "read") }
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
+                if isEmpty {
+                    AppStatePanel(kind: .empty, title: "Пока тихо",
+                                  detail: "Отметки «нравится», ответы и подписки появятся здесь.")
+                        .padding(t.pad)
+                }
+                if allRead {
+                    Text("Всё прочитано").textStyle(.groupHeader)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, t.pad).padding(.top, 12).padding(.bottom, 4)
+                }
+                if !isEmpty {
                 notification("heart.fill", color: t.badge,
                              title: "Аня оценила ваш образ",
                              detail: "Тренч и ботинки · 8 минут назад") {
@@ -50,6 +65,7 @@ struct NotificationsScreen: View {
                     nav.push(LooksRoute.wardrobe)
                 }
                 Color.clear.frame(height: 96)
+                }
             }
         }
         .background(t.background)
@@ -70,6 +86,11 @@ struct NotificationsScreen: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)
+                // Непрочитанное помечено синей точкой; в состоянии «прочитано»
+                // её нет — иначе два состояния неразличимы на кадре.
+                if !allRead {
+                    Circle().fill(t.accent).frame(width: 8, height: 8).padding(.top, 6)
+                }
             }
             .padding(.horizontal, t.pad).padding(.vertical, 12)
             .contentShape(Rectangle())

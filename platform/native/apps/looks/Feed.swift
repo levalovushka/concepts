@@ -29,9 +29,14 @@ struct FeedScreen: View {
 
             ScrollView {
                 LazyVStack(spacing: 0) {
+                    if ShotMode.isScreen("home", state: "empty") {
+                        AppStatePanel(kind: .empty, title: "Лента пока пустая",
+                                      detail: "Подпишитесь на людей со своим стилем — их образы появятся здесь.")
+                            .padding(.horizontal, t.pad).padding(.top, 24)
+                    }
                     StoriesRow()
                     GroupGap()
-                    ForEach(store.outfits) { outfit in
+                    ForEach(ShotMode.isScreen("home", state: "empty") ? [] : store.visibleOutfits) { outfit in
                         PostCard(outfit: outfit)
                         GroupGap()
                     }
@@ -160,15 +165,18 @@ private struct PostCard: View {
                           saved: outfit.saved, trailing: outfit.views,
                           onLike: { store.toggleLike(outfit.id) },
                           onComment: { nav.push(LooksRoute.outfit(outfit)) },
-                          onShare: { nav.toast("Ссылка скопирована") },
+                          onShare: nil,
+                          shareItem: "\(outfit.author): \(outfit.text)",
                           onSave: { store.toggleSave(outfit.id) })
                 .padding(.horizontal, t.pad)
                 .padding(.top, 12).padding(.bottom, 12)
         }
         .background(t.background)
         .confirmationDialog("Публикация", isPresented: $showMenu) {
-            Button("Скрыть из ленты") { nav.toast("Публикация скрыта") }
-            Button("Пожаловаться", role: .destructive) { nav.toast("Жалоба отправлена") }
+            // Исход действия — публикация уходит из ленты, а не снекбар о том,
+            // что она якобы ушла.
+            Button("Скрыть из ленты") { withAnimation { store.hide(outfit.id) } }
+            Button("Пожаловаться", role: .destructive) { withAnimation { store.report(outfit.id) } }
             Button("Отмена", role: .cancel) {}
         }
     }

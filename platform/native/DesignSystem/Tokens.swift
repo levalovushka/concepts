@@ -20,6 +20,7 @@ struct Theme: Sendable {
     var textPrimary: Color
     var textSecondary: Color
     var badge: Color             // красный бейдж
+    var warning: Color = Color(hex: "A8690A")   // срок, который поджимает
     var outgoing: [Color]        // градиент исходящего бабла
 
     var controlRadius: CGFloat = 10
@@ -63,6 +64,7 @@ struct Theme: Sendable {
         if let value = design.tokens["textPrimary"] { theme.textPrimary = Color(hex: value) }
         if let value = design.tokens["textSecondary"] { theme.textSecondary = Color(hex: value) }
         if let value = design.tokens["badge"] { theme.badge = Color(hex: value) }
+        if let value = design.tokens["warning"] { theme.warning = Color(hex: value) }
         let outgoing = ["outgoingStart", "outgoingMiddle", "outgoingEnd"]
             .compactMap { design.tokens[$0] }.map { Color(hex: $0) }
         if outgoing.count >= 2 { theme.outgoing = outgoing }

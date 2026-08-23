@@ -25,13 +25,32 @@ enum ShotMode {
         guard let i = a.firstIndex(of: "-shot"), i + 1 < a.count else { return nil }
         return a[i + 1]
     }
+
+    /// Состояние поверхности: `-state empty`. Объявленные состояния снимаются
+    /// каждое, иначе ворота честно говорят, что доказательства нет.
+    static var state: String {
+        let a = ProcessInfo.processInfo.arguments
+        guard let i = a.firstIndex(of: "-state"), i + 1 < a.count else { return "default" }
+        return a[i + 1]
+    }
+
+    static func isScreen(_ value: String, state expected: String? = nil) -> Bool {
+        screen == value && (expected == nil || state == expected)
+    }
+
+    static func state(of screen: String) -> String? {
+        self.screen == screen ? state : nil
+    }
 }
 
 struct RootView: View {
     @State private var store = LooksStore()
     @State private var nav = Nav(initialTab: NativeConceptSpec.initialTab)
     @State private var perms = Permissions()
-    @State private var session = Session(authenticated: ShotMode.screen != nil && ShotMode.screen != "auth")
+    @State private var session = Session(
+        authenticated: ShotMode.screen != nil
+            && !["auth", "phone", "code", "codefail"].contains(ShotMode.screen ?? "")
+    )
     private let theme = Theme.resolve(NativeConceptSpec.design)
 
     var body: some View {
@@ -103,6 +122,10 @@ struct MainShell: View {
         case "lock": selectTab(role: "services"); nav.push(LooksRoute.lock)
         case "swap": selectTab(role: "services"); nav.push(LooksRoute.swap)
         case "netqr": selectTab(role: "services"); nav.push(LooksRoute.netqr)
+        case "post": selectTab(role: "feed"); nav.push(LooksRoute.outfit(store.outfits[0]))
+        case "voice": selectTab(role: "messaging"); nav.push(LooksRoute.chat(store.dialogs[0]))
+        case "subtitles": selectTab(role: "feed"); nav.present(cover: LooksRoute.create)
+        case "phone", "code", "codefail": break
         default: break
         }
     }

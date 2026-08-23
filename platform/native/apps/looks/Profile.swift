@@ -39,9 +39,9 @@ struct ProfileScreen: View {
             }
             .accessibilityLabel("Ещё")
         }
-        .confirmationDialog("", isPresented: $showMenu, titleVisibility: .hidden) {
-            Button("Поделиться профилем") { nav.toast("Ссылка на профиль скопирована") }
-            Button("Отмена", role: .cancel) {}
+        .sheet(isPresented: $showMenu) {
+            // Системный лист «Поделиться» — настоящий исход действия.
+            ShareLink(item: "Профиль «Образы»: \(name)").presentationDetents([.medium])
         }
         .sheet(isPresented: $showBioEditor) { BioEditor(text: $bio) }
     }

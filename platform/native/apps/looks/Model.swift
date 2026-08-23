@@ -215,6 +215,16 @@ final class LooksStore {
 
     /// Вещей в гардеробе — одно число на все экраны, иначе они спорят друг с другом.
     var garments: [Garment] { outfits.flatMap(\.items) }
+    /// Лента без скрытых публикаций.
+    var visibleOutfits: [Outfit] { outfits.filter { !hidden.contains($0.id) } }
+
+    /// Скрытая и пожалованная публикации уходят из ленты — у действия должен
+    /// быть продуктовый исход, а не снекбар.
+    var hidden = Set<UUID>()
+    var reported = Set<UUID>()
+
+    func hide(_ id: UUID) { hidden.insert(id) }
+    func report(_ id: UUID) { reported.insert(id); hidden.insert(id) }
 
     func toggleLike(_ id: UUID) {
         guard let i = outfits.firstIndex(where: { $0.id == id }) else { return }

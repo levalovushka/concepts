@@ -15,6 +15,9 @@ test("capture drivers bind app launch routes to declared product states", () => 
 
   assert.equal(catalog.ok, true);
   assert.equal(selectCaptureDrivers(catalog, ["chat"])[0].id, "chat--default");
-  assert.equal(selectCaptureDrivers(catalog, ["wardrobe--populated"])[0].artifact, "wardrobe");
-  assert.equal(catalog.missing.some(item => item.id === "search--loading"), true);
+  // Каждое объявленное состояние имеет драйвер: непокрытых не осталось.
+  assert.deepEqual(catalog.missing.map(item => item.id), []);
+  // Артефакт называется по состоянию, иначе два состояния пишутся в один файл
+  // и разница между ними теряется.
+  assert.equal(selectCaptureDrivers(catalog, ["wardrobe--populated"])[0].artifact, "wardrobe-populated");
 });
