@@ -84,22 +84,31 @@ struct DvorHomeHeader: View {
         HStack(spacing: DvorStyle.space3) {
             Button(action: openProfile) { Avatar(name: resident, size: 32) }
                 .buttonStyle(.plain).accessibilityLabel("Профиль")
+            // Корневой заголовок ВК — 24 bold: на 17 pt первый экран читался
+            // мельче референса и ломал типографическую ступень.
             Button(action: switchHouse) {
                 HStack(spacing: 5) {
-                    Text(address).font(.system(size: 17, weight: .semibold)).lineLimit(1)
-                    Image(systemName: "chevron.down").font(.system(size: 12, weight: .semibold))
+                    Text(address).font(.vkTabTitle).lineLimit(1).minimumScaleFactor(0.8)
+                    Image(systemName: "chevron.down").font(.system(size: 13, weight: .semibold))
                 }
                 .foregroundStyle(t.textPrimary).frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain).accessibilityLabel("Выбрать дом. Сейчас \(address)")
             Button(action: openNotifications) {
-                Image(systemName: "bell").font(.system(size: 20)).frame(width: DvorStyle.hitTarget, height: DvorStyle.hitTarget)
+                Image(systemName: "bell").font(.system(size: 22))
+                    .frame(width: DvorStyle.hitTarget, height: DvorStyle.hitTarget)
+                    .overlay(alignment: .topTrailing) {
+                        Text("4").font(.system(size: 11, weight: .semibold)).foregroundStyle(.white)
+                            .padding(.horizontal, 5).padding(.vertical, 1)
+                            .background(Color(hex: "FF3347"), in: Capsule())
+                            .offset(x: -2, y: 6)
+                    }
             }
-            .accessibilityLabel("Уведомления дома")
+            .accessibilityLabel("Уведомления дома, 4 новых")
             .nativeAction("home.open-notifications")
         }
-        .padding(.horizontal, DvorStyle.contentInset).frame(height: 50).background(DvorStyle.card)
+        .padding(.horizontal, DvorStyle.contentInset).frame(height: 52).background(DvorStyle.card)
         .overlay(alignment: .bottom) { DvorStyle.line.frame(height: 0.5) }
     }
 }

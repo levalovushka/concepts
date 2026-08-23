@@ -223,7 +223,22 @@ struct GuestAccessScreen: View {
     @State private var isConnecting = DvorShotMode.state == "connecting"
     @State private var guestPassword: String?
     @State private var accessError: String?
+    /// Соседние строки в разных состояниях: сеть живёт, а не показывает витрину.
+    private let activeGuests: [(String, String, String)] = [
+        ("Мастер по домофону", "подключён в 09:12 · до полуночи", "wrench.and.screwdriver"),
+        ("Гость Анны Котовой", "подключён вчера · продлён до пятницы", "person"),
+        ("Планшет в подъезде", "постоянный доступ", "ipad"),
+    ]
+    private let pastGuests: [(String, String)] = [
+        ("Курьер, кв. 31", "21 августа"),
+        ("Электрик по заявке №418", "19 августа"),
+        ("Гость Сергея Бабина", "12 августа"),
+    ]
+
     var body: some View {
+        // Экран прокручивается: без этого SwiftUI сжимал подзаголовок в одну
+        // строку с многоточием, как только под ним появился список гостей.
+        ScrollView {
         VStack(alignment: .leading, spacing: 18) {
             DvorScreenIntro(title: "Гостевой Wi‑Fi", detail: "Подключите гостя без диктовки пароля. Доступ действует до полуночи.")
             if DvorShotMode.state == "error" {
@@ -268,9 +283,47 @@ struct GuestAccessScreen: View {
             }
             .disabled(isConnecting)
             .nativeAction("guest.scan-guest-qr")
-            Spacer()
+
+            // Хвост экрана: кто сейчас в гостевой сети и кому её выдавали.
+            // Без него экран — две строки и две кнопки на треть высоты.
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 8) {
+                    Text("Сейчас в сети").font(.system(size: 17, weight: .semibold))
+                    Text("\(activeGuests.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
+                    Spacer()
+                }
+                .padding(.bottom, 8)
+                ForEach(activeGuests, id: \.0) { guest in
+                    HStack(spacing: 12) {
+                        Image(systemName: guest.2).font(.system(size: 18)).foregroundStyle(t.accent).frame(width: 28)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(guest.0).font(.system(size: 15, weight: .medium)).foregroundStyle(t.textPrimary)
+                            Text(guest.1).font(.vkMeta).foregroundStyle(t.textSecondary)
+                        }
+                        Spacer()
+                    }
+                    .frame(minHeight: 48)
+                    RowSeparator(leading: 40)
+                }
+                HStack(spacing: 8) {
+                    Text("Выдавали раньше").font(.system(size: 17, weight: .semibold))
+                    Spacer()
+                }
+                .padding(.top, 18).padding(.bottom, 8)
+                ForEach(pastGuests, id: \.0) { guest in
+                    HStack(spacing: 12) {
+                        Text(guest.0).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                        Spacer()
+                        Text(guest.1).font(.vkMeta).foregroundStyle(t.textSecondary)
+                    }
+                    .frame(minHeight: 44)
+                    RowSeparator(leading: 0)
+                }
+            }
         }
-        .padding(t.pad).background(DvorStyle.card).vkNavigation("Гостевая сеть")
+        .padding(t.pad)
+        }
+        .background(DvorStyle.card).vkNavigation("Гостевая сеть")
         .task { guestPassword = HouseSecretStore.password(for: "guest") }
         .sheet(isPresented: $showScanner) {
             GuestQRScannerScreen { payload in
@@ -539,29 +592,56 @@ struct HouseAccessScreen: View {
                     AppStatePanel(kind: .warning, title: "Доступы заблокированы", detail: "Разблокируйте iPhone, чтобы увидеть коды дома.")
                         .padding(.horizontal, t.pad)
                 } else {
-                    accessRow("Домофон", value: "48 · вызов")
-                    RowSeparator()
-                    accessRow("Калитка со двора", value: "••••")
-                    RowSeparator()
-                    accessRow("Гостевая сеть", value: "Dvor-Guest")
+                    accessRow("Домофон", icon: "phone.badge.waveform", value: "48 · вызов")
+                    RowSeparator(leading: 60)
+                    accessRow("Калитка со двора", icon: "lock.open", value: "••••")
+                    RowSeparator(leading: 60)
+                    accessRow("Гостевая сеть", icon: "wifi", value: "Dvor-Guest")
+                    GroupGap()
+
+                    // Хвост экрана: кто и когда менял коды. Пояснительная
+                    // карточка «Доступы защищены» убрана — состояние и так
+                    // видно по строке ниже, а два объяснения подряд говорят
+                    // голосом автора.
+                    HStack(spacing: 8) {
+                        Text("Кто менял коды").font(.system(size: 17, weight: .semibold))
+                        Spacer()
+                    }
+                    .padding(.horizontal, t.pad).padding(.top, 14).padding(.bottom, 6)
+                    // id по имени схлопывал две записи одного соседа в одну.
+                    ForEach(Array(accessLog.enumerated()), id: \.offset) { _, entry in
+                        HStack(spacing: 12) {
+                            Avatar(name: entry.0, size: 36)
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(entry.0).font(.system(size: 15, weight: .medium))
+                                Text(entry.1).font(.vkMeta).foregroundStyle(t.textSecondary)
+                            }
+                            Spacer()
+                            Text(entry.2).font(.vkMeta).foregroundStyle(t.textSecondary)
+                        }
+                        .padding(.horizontal, t.pad).frame(minHeight: 52)
+                        RowSeparator(leading: 64)
+                    }
                 }
-                GroupGap()
-                Text("Коды защищены блокировкой устройства и доступны системному AutoFill. Двор не показывает их неподтверждённым жильцам.")
-                    .font(.vkMeta).foregroundStyle(t.textSecondary).padding(t.pad)
-                if let accessCheck {
-                    AppStatePanel(kind: accessCheck ? .success : .warning,
-                        title: accessCheck ? "Доступы защищены" : (secretsMissing ? "Доступы ещё не выданы" : "Нужно включить AutoFill"),
-                        detail: accessCheck
-                            ? "Коды дома готовы для безопасного автозаполнения."
-                            : (secretsMissing
+                if accessCheck != true {
+                    Text("Коды защищены блокировкой устройства и доступны системному AutoFill. Двор не показывает их неподтверждённым жильцам.")
+                        .font(.vkMeta).foregroundStyle(t.textSecondary).padding(t.pad)
+                }
+                if let accessCheck, accessCheck == false {
+                    AppStatePanel(kind: .warning,
+                        title: secretsMissing ? "Доступы ещё не выданы" : "Нужно включить AutoFill",
+                        detail: secretsMissing
                                ? "После публикации домом они появятся в защищённой связке ключей."
-                               : "Откройте настройки iPhone → Пароли → Автозаполнение.")
+                               : "Откройте настройки iPhone → Пароли → Автозаполнение."
                     )
                     .padding(.horizontal, t.pad).padding(.bottom, 12)
                 }
-                DvorPrimaryButton(title: accessCheck == true ? "Доступы разблокированы" : "Разблокировать доступы",
+                if accessCheck == true {
+                    VKRow(title: "Защита", icon: "faceid", value: "Face ID и AutoFill", chevron: false)
+                } else {
+                    DvorPrimaryButton(title: "Разблокировать доступы",
                                   loadingTitle: "Проверяем защиту…", isLoading: isChecking,
-                                  isDisabled: accessCheck == true) {
+                                  isDisabled: false) {
                     Task {
                         isChecking = true
                         let deviceOwner = await permissions.authenticateDeviceOwner(reason: "Показать защищённые доступы дома")
@@ -577,12 +657,22 @@ struct HouseAccessScreen: View {
                                   ? "Доступы защищены и готовы к AutoFill"
                                   : (secretsMissing ? "Дом ещё не выдал доступы" : "Включите Двор в «Пароли и автозаполнение»"))
                     }
-                }.padding(.horizontal, t.pad)
-                    .nativeAction("passwords.unlock-access")
+                    }.padding(.horizontal, t.pad)
+                        .nativeAction("passwords.unlock-access")
+                }
             }
         }.vkNavigation("Доступы дома")
     }
-    private func accessRow(_ title: String, value: String) -> some View { VKRow(title: title, value: value, chevron: false) }
+    private func accessRow(_ title: String, icon: String, value: String) -> some View {
+        VKRow(title: title, icon: icon, value: value, chevron: false)
+    }
+
+    /// Журнал изменений: у кодов дома всегда есть история, и она разная.
+    private let accessLog: [(String, String, String)] = [
+        ("Анна Котова", "обновила код калитки", "12 авг"),
+        ("Сергей Бабин", "выдал гостевой пароль мастеру", "9 авг"),
+        ("Анна Котова", "сменила код домофона после ремонта", "2 авг"),
+    ]
 }
 
 struct NeighboursScreen: View {

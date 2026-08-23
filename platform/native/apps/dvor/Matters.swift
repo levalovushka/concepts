@@ -80,17 +80,28 @@ struct MatterScreen: View {
                         }
                         .nativeAction("post.follow-post")
                     }
-                    VKOutlineButton(title: "Написать в чат дома", icon: "bubble.left") {
-                        nav.push(DvorRoute.chat(store.conversations[0]))
-                    }
-                    .nativeAction("post.open-house-chat")
                 }
                 .disabled(!session.canWriteToHouse)
                 .padding(t.pad)
             }
         }
         .background(t.background)
-        .vkNavigation(matter.kind == .incident ? "Проблема" : "Публикация")
+        // «Написать в чат дома» уехало под «···»: внизу экрана оно спорило
+        // с полем комментария за одно и то же действие.
+        .vkNavigation(matter.kind == .incident ? "Проблема" : "Публикация") {
+            Menu {
+                Button {
+                    nav.push(DvorRoute.chat(store.conversations[0]))
+                } label: {
+                    Label("Написать в чат дома", systemImage: "bubble.left")
+                }
+                .nativeAction("post.open-house-chat")
+            } label: {
+                Image(systemName: "ellipsis")
+                    .frame(width: 44, height: 44).contentShape(Rectangle())
+            }
+            .accessibilityLabel("Ещё")
+        }
     }
 }
 
