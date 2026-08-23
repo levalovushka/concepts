@@ -22,7 +22,9 @@
     "native:audit": "node native/gen/audit-native.mjs",
     "test:native": "node --test native/test/*.test.mjs",
     "check": "node scripts/check.mjs",
-    "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga"
+    "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga",
+    "native:critic": "node native/gen/critic.mjs",
+    "native:shots": "node native/gen/shots.mjs"
   },
   "license": "ISC",
   "devDependencies": {

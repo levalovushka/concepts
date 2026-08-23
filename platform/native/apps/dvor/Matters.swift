@@ -286,6 +286,35 @@ struct ChronicleScreen: View {
                         chronicleGroup("Июль", detail: "14 снимков")
                     }
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(t.separator))
+
+                    // Хвост экрана: что из хроники уже ушло соседям, а что
+                    // осталось только на устройстве. Без него экран кончался
+                    // на середине высоты.
+                    HStack(spacing: 8) {
+                        Text("Уже в хронике").font(.role(.cardTitle))
+                        Text("\(chronicleEntries.count)").font(.role(.meta)).foregroundStyle(t.textSecondary)
+                        Spacer()
+                    }
+                    .padding(.top, 6)
+                    VStack(spacing: 0) {
+                        ForEach(Array(chronicleEntries.enumerated()), id: \.offset) { index, entry in
+                            HStack(spacing: 12) {
+                                Image(systemName: entry.2 ? "person.2" : "lock")
+                                    .font(.system(size: 17))
+                                    .foregroundStyle(entry.2 ? t.accent : t.textSecondary)
+                                    .frame(width: 28)
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(entry.0).font(.role(.body)).foregroundStyle(t.textPrimary)
+                                    Text(entry.2 ? "в ленте дома" : "только у вас")
+                                        .font(.role(.meta)).foregroundStyle(t.textSecondary)
+                                }
+                                Spacer()
+                                Text(entry.1).font(.role(.meta)).foregroundStyle(t.textSecondary)
+                            }
+                            .frame(minHeight: 52)
+                            if index < chronicleEntries.count - 1 { RowSeparator(leading: 40) }
+                        }
+                    }
                 } else if DvorShotMode.state == "denied" {
                     AppStatePanel(kind: .error, title: "Медиатека недоступна", detail: "Хроника останется пустой. Доступ можно включить позже в настройках iPhone.")
                 } else {
@@ -369,6 +398,15 @@ struct ChronicleScreen: View {
     }
 
     private var anchors: [UnitPoint] { [.top, .center, .bottomTrailing, .topLeading, .bottom, .leading] }
+
+    /// Записи хроники: часть ушла соседям, часть осталась на устройстве.
+    private let chronicleEntries: [(String, String, Bool)] = [
+        ("Субботник у второго подъезда", "сегодня", true),
+        ("Новая лавочка после покраски", "вчера", true),
+        ("Разбитый плафон у входа", "21 авг", false),
+        ("Клумба после пересадки", "19 авг", true),
+        ("Снег на детской площадке", "12 фев", false),
+    ]
 
     private func chronicleGroup(_ title: String, detail: String) -> some View {
         HStack {
