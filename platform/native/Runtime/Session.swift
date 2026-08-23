@@ -35,7 +35,9 @@ final class Session {
         )
     }
 
-    func signIn(appleUserIdentifier: String) {
+    /// Идентификатор Apple есть не у всех концептов: набор vkontakte входит по
+    /// почте, и там подписывать сессию нечем.
+    func signIn(appleUserIdentifier: String? = nil) {
         isAuthenticated = true
         self.appleUserIdentifier = appleUserIdentifier
         persist()
