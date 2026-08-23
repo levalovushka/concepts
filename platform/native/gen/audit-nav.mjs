@@ -83,7 +83,9 @@ for (const [file, text] of uiSources) {
     for (const m of line.matchAll(/^\s*\(".+,\s*\.(\w+)\),?\s*$/g)) {
       if (entries[m[1]]) entries[m[1]].push(at);
     }
-    if (/\bnav\.tab\s*=(?!=)/.test(line)) tabJumps.push(at);
+    // Вкладку переключает только оболочка (App.swift): режим съёмки и выбор
+    // вкладки по роли. Прыжок из ЭКРАНА рвёт стек — ловим именно его.
+    if (file !== "App.swift" && /\bnav\.tab\s*=(?!=)/.test(line)) tabJumps.push(at);
     if (/avatarAction:|openProfile:/.test(line)) avatarEntries.push(file);
   });
 }
@@ -118,8 +120,11 @@ if (spec) {
   const alias = { auth: "phone", feed: "home", outfit: "post", clips: "clip" };
   const nativeTabs = spec.native?.navigation?.tabs || spec.tabs || [];
   const specTabs = nativeTabs.map(t => t.screen || t.id);
+  // Если оболочка строит таб-бар прямо из NativeConceptSpec, вкладки разъехаться
+  // не могут по построению — сравнивать нечего.
+  const tabsFromSpec = /NativeConceptSpec\.tabs/.test(app);
   const appTabs = rootTabMatches.map(m => m[1] || "menu").map(t => alias[t] || t);
-  if (specTabs.join(",") !== appTabs.join(",")) {
+  if (!tabsFromSpec && specTabs.join(",") !== appTabs.join(",")) {
     drift.push(`вкладки: спека [${specTabs.join(" · ")}] — приложение [${appTabs.join(" · ")}]`);
   }
   const specScreens = new Set((spec.screens || []).map(s => s.id));
