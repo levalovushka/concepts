@@ -24,7 +24,9 @@
     "check": "node scripts/check.mjs",
     "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga",
     "native:critic": "node native/gen/critic.mjs",
-    "native:shots": "node native/gen/shots.mjs"
+    "native:shots": "node native/gen/shots.mjs",
+    "native:pipeline": "node native/gen/pipeline.mjs",
+    "native:scaffold": "node native/gen/scaffold-app.mjs"
   },
   "license": "ISC",
   "devDependencies": {

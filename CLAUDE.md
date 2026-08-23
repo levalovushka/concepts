@@ -38,6 +38,8 @@ npm run native:generate <slug>   # Xcode-проект, Info.plist и entitlement
 node native/gen/shots.mjs <slug> # съёмка всех состояний
 npm run native:audit <slug>      # навигация · интерфейс · действия · доступы · мимикрия · кадры
 npm run native:critic <slug>     # балл по осям и отчёт; ниже планки — не показываем
+npm run native:pipeline <slug>   # вся цепочка от спеки до критика одной командой
+npm run native:scaffold <slug>   # каркас нового концепта из манифеста
 npm run test:native              # тесты компилятора и ворот
 ```
 

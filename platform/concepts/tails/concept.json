@@ -1388,5 +1388,67 @@
       "code": "0000",
       "note": "Демо-вход, письмо не отправляется"
     }
+  },
+  "native": {
+    "schemaVersion": 1,
+    "platform": {
+      "minimumVersion": "26.0"
+    },
+    "design": {
+      "strategy": "mimicry",
+      "referenceProfile": "vk-ios",
+      "density": "reference",
+      "colorScheme": "light",
+      "qualityFloor": 8,
+      "tokens": {
+        "accent": "#0077FF",
+        "background": "#FFFFFF",
+        "groupedBackground": "#F2F3F5",
+        "separator": "#E7E8EC",
+        "textPrimary": "#000000",
+        "textSecondary": "#818C99",
+        "badge": "#FF3347"
+      }
+    },
+    "navigation": {
+      "profileEntry": "root-avatar",
+      "tabs": [
+        {
+          "id": "home",
+          "label": "Главная",
+          "screen": "home",
+          "role": "home",
+          "systemImage": "house"
+        },
+        {
+          "id": "nearby",
+          "label": "Рядом",
+          "screen": "nearby",
+          "role": "nearby",
+          "systemImage": "magnifyingglass"
+        },
+        {
+          "id": "create",
+          "label": "Клипы",
+          "screen": "create",
+          "role": "create",
+          "systemImage": "play.rectangle"
+        },
+        {
+          "id": "chats",
+          "label": "Сообщения",
+          "screen": "chats",
+          "role": "chats",
+          "systemImage": "bubble.left"
+        },
+        {
+          "id": "profile",
+          "label": "Меню",
+          "screen": "profile",
+          "role": "profile",
+          "systemImage": "line.3.horizontal"
+        }
+      ]
+    }
   }
 }

@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "distinctStateGroups": [
+    [
+      "phone-default",
+      "phone-loading",
+      "phone-error"
+    ],
+    [
+      "code-default",
+      "code-loading",
+      "code-error"
+    ],
+    [
+      "codefail-default",
+      "codefail-loading",
+      "codefail-error"
+    ],
+    [
+      "home-default",
+      "home-empty"
+    ],
+    [
+      "nearby-default",
+      "nearby-empty"
+    ],
+    [
+      "create-default",
+      "create-error",
+      "create-success"
+    ],
+    [
+      "camera-default",
+      "camera-denied"
+    ],
+    [
+      "places-default",
+      "places-empty"
+    ],
+    [
+      "chats-default",
+      "chats-empty"
+    ],
+    [
+      "voice-default",
+      "voice-denied"
+    ],
+    [
+      "mates-default",
+      "mates-empty",
+      "mates-denied"
+    ],
+    [
+      "lock-default",
+      "lock-denied"
+    ],
+    [
+      "vetnote-default",
+      "vetnote-error",
+      "vetnote-success"
+    ],
+    [
+      "course-default",
+      "course-loading",
+      "course-error"
+    ],
+    [
+      "background-default",
+      "background-loading",
+      "background-error"
+    ],
+    [
+      "netqr-default",
+      "netqr-error"
+    ],
+    [
+      "shareext-default",
+      "shareext-success"
+    ]
+  ],
+  "drivers": [
+    {
+      "surface": "phone",
+      "state": "default",
+      "launch": "phone",
+      "artifact": "phone-default"
+    },
+    {
+      "surface": "phone",
+      "state": "loading",
+      "launch": "phone",
+      "artifact": "phone-loading"
+    },
+    {
+      "surface": "phone",
+      "state": "error",
+      "launch": "phone",
+      "artifact": "phone-error"
+    },
+    {
+      "surface": "code",
+      "state": "default",
+      "launch": "code",
+      "artifact": "code-default"
+    },
+    {
+      "surface": "code",
+      "state": "loading",
+      "launch": "code",
+      "artifact": "code-loading"
+    },
+    {
+      "surface": "code",
+      "state": "error",
+      "launch": "code",
+      "artifact": "code-error"
+    },
+    {
+      "surface": "codefail",
+      "state": "default",
+      "launch": "codefail",
+      "artifact": "codefail-default"
+    },
+    {
+      "surface": "codefail",
+      "state": "loading",
+      "launch": "codefail",
+      "artifact": "codefail-loading"
+    },
+    {
+      "surface": "codefail",
+      "state": "error",
+      "launch": "codefail",
+      "artifact": "codefail-error"
+    },
+    {
+      "surface": "home",
+      "state": "default",
+      "launch": "home",
+      "artifact": "home-default"
+    },
+    {
+      "surface": "home",
+      "state": "empty",
+      "launch": "home",
+      "artifact": "home-empty"
+    },
+    {
+      "surface": "pet",
+      "state": "default",
+      "launch": "pet",
+      "artifact": "pet-default"
+    },
+    {
+      "surface": "nearby",
+      "state": "default",
+      "launch": "nearby",
+      "artifact": "nearby-default"
+    },
+    {
+      "surface": "nearby",
+      "state": "empty",
+      "launch": "nearby",
+      "artifact": "nearby-empty"
+    },
+    {
+      "surface": "walk",
+      "state": "default",
+      "launch": "walk",
+      "artifact": "walk-default"
+    },
+    {
+      "surface": "create",
+      "state": "default",
+      "launch": "create",
+      "artifact": "create-default"
+    },
+    {
+      "surface": "create",
+      "state": "error",
+      "launch": "create",
+      "artifact": "create-error"
+    },
+    {
+      "surface": "create",
+      "state": "success",
+      "launch": "create",
+      "artifact": "create-success"
+    },
+    {
+      "surface": "camera",
+      "state": "default",
+      "launch": "camera",
+      "artifact": "camera-default"
+    },
+    {
+      "surface": "camera",
+      "state": "denied",
+      "launch": "camera",
+      "artifact": "camera-denied"
+    },
+    {
+      "surface": "places",
+      "state": "default",
+      "launch": "places",
+      "artifact": "places-default"
+    },
+    {
+      "surface": "places",
+      "state": "empty",
+      "launch": "places",
+      "artifact": "places-empty"
+    },
+    {
+      "surface": "chats",
+      "state": "default",
+      "launch": "chats",
+      "artifact": "chats-default"
+    },
+    {
+      "surface": "chats",
+      "state": "empty",
+      "launch": "chats",
+      "artifact": "chats-empty"
+    },
+    {
+      "surface": "chat",
+      "state": "default",
+      "launch": "chat",
+      "artifact": "chat-default"
+    },
+    {
+      "surface": "voice",
+      "state": "default",
+      "launch": "voice",
+      "artifact": "voice-default"
+    },
+    {
+      "surface": "voice",
+      "state": "denied",
+      "launch": "voice",
+      "artifact": "voice-denied"
+    },
+    {
+      "surface": "profile",
+      "state": "default",
+      "launch": "profile",
+      "artifact": "profile-default"
+    },
+    {
+      "surface": "settings",
+      "state": "default",
+      "launch": "settings",
+      "artifact": "settings-default"
+    },
+    {
+      "surface": "widget",
+      "state": "default",
+      "launch": "widget",
+      "artifact": "widget-default"
+    },
+    {
+      "surface": "fill",
+      "state": "default",
+      "launch": "fill",
+      "artifact": "fill-default"
+    },
+    {
+      "surface": "refresh",
+      "state": "default",
+      "launch": "refresh",
+      "artifact": "refresh-default"
+    },
+    {
+      "surface": "mates",
+      "state": "default",
+      "launch": "mates",
+      "artifact": "mates-default"
+    },
+    {
+      "surface": "mates",
+      "state": "empty",
+      "launch": "mates",
+      "artifact": "mates-empty"
+    },
+    {
+      "surface": "mates",
+      "state": "denied",
+      "launch": "mates",
+      "artifact": "mates-denied"
+    },
+    {
+      "surface": "ads",
+      "state": "default",
+      "launch": "ads",
+      "artifact": "ads-default"
+    },
+    {
+      "surface": "lock",
+      "state": "default",
+      "launch": "lock",
+      "artifact": "lock-default"
+    },
+    {
+      "surface": "lock",
+      "state": "denied",
+      "launch": "lock",
+      "artifact": "lock-denied"
+    },
+    {
+      "surface": "vetnote",
+      "state": "default",
+      "launch": "vetnote",
+      "artifact": "vetnote-default"
+    },
+    {
+      "surface": "vetnote",
+      "state": "error",
+      "launch": "vetnote",
+      "artifact": "vetnote-error"
+    },
+    {
+      "surface": "vetnote",
+      "state": "success",
+      "launch": "vetnote",
+      "artifact": "vetnote-success"
+    },
+    {
+      "surface": "course",
+      "state": "default",
+      "launch": "course",
+      "artifact": "course-default"
+    },
+    {
+      "surface": "course",
+      "state": "loading",
+      "launch": "course",
+      "artifact": "course-loading"
+    },
+    {
+      "surface": "course",
+      "state": "error",
+      "launch": "course",
+      "artifact": "course-error"
+    },
+    {
+      "surface": "background",
+      "state": "default",
+      "launch": "background",
+      "artifact": "background-default"
+    },
+    {
+      "surface": "background",
+      "state": "loading",
+      "launch": "background",
+      "artifact": "background-loading"
+    },
+    {
+      "surface": "background",
+      "state": "error",
+      "launch": "background",
+      "artifact": "background-error"
+    },
+    {
+      "surface": "call",
+      "state": "default",
+      "launch": "call",
+      "artifact": "call-default"
+    },
+    {
+      "surface": "vaccine",
+      "state": "default",
+      "launch": "vaccine",
+      "artifact": "vaccine-default"
+    },
+    {
+      "surface": "netqr",
+      "state": "default",
+      "launch": "netqr",
+      "artifact": "netqr-default"
+    },
+    {
+      "surface": "netqr",
+      "state": "error",
+      "launch": "netqr",
+      "artifact": "netqr-error"
+    },
+    {
+      "surface": "shareext",
+      "state": "default",
+      "launch": "shareext",
+      "artifact": "shareext-default"
+    },
+    {
+      "surface": "shareext",
+      "state": "success",
+      "launch": "shareext",
+      "artifact": "shareext-success"
+    }
+  ]
+}
