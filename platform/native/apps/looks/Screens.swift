@@ -25,7 +25,7 @@ struct NearbyScreen: View {
                                 Image(systemName: "location.circle.fill")
                                     .font(.system(size: 34)).foregroundStyle(t.accent)
                                 Text("Показать свопы поблизости")
-                                    .font(.system(size: 18, weight: .semibold)).foregroundStyle(t.textPrimary)
+                                    .font(.role(.section)).foregroundStyle(t.textPrimary)
                                 Text("Нужна геопозиция, чтобы отсортировать встречи по расстоянию. Без неё покажем всё по городу")
                                     .font(.vkBody).foregroundStyle(t.textSecondary)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -62,7 +62,7 @@ private struct EventCard: View {
         VKGroup {
             VKMedia(assetName: LooksMediaAssets.event(event.going), height: 140)
             VStack(alignment: .leading, spacing: 8) {
-                Text(event.title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                Text(event.title).font(.role(.cardTitle)).foregroundStyle(t.textPrimary)
                 HStack(spacing: 6) {
                     Image(systemName: "calendar").font(.system(size: 13))
                     Text(event.when)
@@ -108,19 +108,19 @@ struct EventScreen: View {
                 }
                 VKGroup {
                     Text("Организатор")
-                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .font(.role(.groupHeader)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
                     HStack(spacing: 12) {
                         Avatar(name: "Аня Котова", size: 40)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Аня Котова").font(.system(size: 15, weight: .medium))
+                            Text("Аня Котова").font(.role(.action))
                             Text("собрала 12 свопов за год").font(.vkMeta).foregroundStyle(t.textSecondary)
                         }
                         Spacer()
                         Button {
                             nav.push(LooksRoute.chat(store.dialogs[0]))
                         } label: {
-                            Text("Написать").font(.system(size: 14, weight: .medium))
+                            Text("Написать").font(.role(.pill))
                                 .foregroundStyle(t.accent)
                                 .padding(.horizontal, 12).frame(height: 30)
                                 .background(t.accentSoft, in: Capsule())
@@ -131,7 +131,7 @@ struct EventScreen: View {
                 }
                 VKGroup {
                     Text("Что приносить")
-                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .font(.role(.groupHeader)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 6)
                     ForEach(["Верх и платья — в чистом виде",
                              "Обувь без следов носки",
@@ -206,7 +206,7 @@ struct WardrobeScreen: View {
 
     private func wardrobeStat(_ v: String, _ l: String) -> some View {
         VStack(spacing: 2) {
-            Text(v).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+            Text(v).font(.role(.cardTitle)).foregroundStyle(t.textPrimary)
             Text(l).font(.vkCaption).foregroundStyle(t.textSecondary)
         }
         .frame(maxWidth: .infinity)
@@ -281,7 +281,7 @@ private struct GarmentCard: View {
                 // состояние вещи — приложение всегда наполовину в процессе
                 HStack(spacing: 4) {
                     Image(systemName: garment.state.icon).font(.system(size: 10, weight: .semibold))
-                    Text(garment.state.label).font(.system(size: 11, weight: .medium))
+                    Text(garment.state.label).font(.role(.badge))
                 }
                 .foregroundStyle(stateColor)
                 .padding(.horizontal, 7).padding(.vertical, 3)
@@ -289,7 +289,7 @@ private struct GarmentCard: View {
                 .padding(8)
             }
             VStack(alignment: .leading, spacing: 3) {
-                Text(garment.title).font(.system(size: 14, weight: .medium))
+                Text(garment.title).font(.role(.pill))
                     .foregroundStyle(t.textPrimary).lineLimit(1)
                 HStack(spacing: 5) {
                     Text(garment.brand).font(.vkCaption).foregroundStyle(t.textSecondary)
@@ -321,7 +321,7 @@ struct EmptyState: View {
     var body: some View {
         VStack(spacing: 10) {
             Image(systemName: icon).font(.system(size: 44, weight: .light)).foregroundStyle(t.textTertiary)
-            Text(title).font(.system(size: 18, weight: .semibold)).foregroundStyle(t.textPrimary)
+            Text(title).font(.role(.section)).foregroundStyle(t.textPrimary)
             Text(text).font(.vkBody).foregroundStyle(t.textSecondary)
                 .multilineTextAlignment(.center)
         }
@@ -348,9 +348,9 @@ struct OutfitScreen: View {
                                 ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
                                     HStack(spacing: 6) {
                                         Text("\(i + 1)")
-                                            .font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
+                                            .font(.role(.badge)).foregroundStyle(.black)
                                             .frame(width: 18, height: 18).background(.white, in: Circle())
-                                        Text(g.title).font(.system(size: 13, weight: .medium))
+                                        Text(g.title).font(.role(.groupHeader))
                                             .foregroundStyle(.white)
                                     }
                                     .padding(.horizontal, 8).padding(.vertical, 5)
@@ -384,7 +384,7 @@ struct OutfitScreen: View {
                     .padding(12)
                 }
                 VKGroup {
-                    Text("Вещи образа").font(.system(size: 17, weight: .semibold))
+                    Text("Вещи образа").font(.role(.cardTitle))
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 4)
                     ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
                         HStack(spacing: 12) {
@@ -392,7 +392,7 @@ struct OutfitScreen: View {
                                 .frame(width: 44, height: 44)
                                 .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(g.title).font(.system(size: 15, weight: .medium))
+                                Text(g.title).font(.role(.action))
                                 HStack(spacing: 5) {
                                     Text(g.brand).font(.vkMeta).foregroundStyle(t.textSecondary)
                                     if g.inOutfits > 0 {
@@ -492,7 +492,7 @@ struct CreateScreen: View {
                                 Image(systemName: "camera.viewfinder")
                                     .font(.system(size: 42, weight: .light)).foregroundStyle(t.textTertiary)
                                 Text("Добавьте фото образа")
-                                    .font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                                    .font(.role(.cardTitle)).foregroundStyle(t.textPrimary)
                                 HStack(spacing: 10) {
                                     Button {
                                         Task {
@@ -563,7 +563,7 @@ struct CreateScreen: View {
     private func actionTile(icon: String, title: String) -> some View {
         VStack(spacing: 6) {
             Image(systemName: icon).font(.system(size: 20))
-            Text(title).font(.system(size: 14, weight: .medium))
+            Text(title).font(.role(.pill))
         }
         .foregroundStyle(t.accent)
         .frame(width: 120, height: 72)
@@ -576,7 +576,7 @@ struct CreateScreen: View {
             Text(title).font(.vkBody).foregroundStyle(t.textPrimary)
             Spacer()
             Text(value).font(.vkBody).foregroundStyle(t.textSecondary)
-            Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold))
+            Image(systemName: "chevron.right").font(.role(.groupHeader))
                 .foregroundStyle(t.textTertiary)
         }
         .padding(.horizontal, 12).padding(.vertical, 13)
@@ -641,7 +641,7 @@ struct MatesScreen: View {
                 ForEach(maybe.filter { !hidden.contains($0.0) }, id: \.0) { p in
                     VKPersonRow(name: p.0, subtitle: p.1, mutual: p.2, mutualText: p.3) {
                         if added.contains(p.0) {
-                            Text("Заявка отправлена").font(.system(size: 13))
+                            Text("Заявка отправлена").font(.role(.meta))
                                 .foregroundStyle(t.textSecondary)
                         } else {
                             VKRowAction(icon: "xmark.circle", label: "Скрыть",
@@ -695,7 +695,7 @@ struct AdsScreen: View {
         VStack(alignment: .leading, spacing: 16) {
             Spacer().frame(height: 8)
             Image(systemName: "sparkles").font(.system(size: 40)).foregroundStyle(t.accent)
-            Text("Образы бесплатны").font(.system(size: 26, weight: .bold))
+            Text("Образы бесплатны").font(.role(.largeTitle))
             Text("Приложение живёт за счёт рекламы марок и магазинов между образами")
                 .font(.vkBody).foregroundStyle(t.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)

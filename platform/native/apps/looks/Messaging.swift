@@ -20,7 +20,7 @@ struct AuthScreen: View {
                 .overlay(Image(systemName: "hanger").font(.system(size: 28, weight: .medium)).foregroundStyle(.white))
             Spacer().frame(height: 20)
             Text(step == 0 ? "Образы" : "Код из письма")
-                .font(.system(size: 30, weight: .bold)).foregroundStyle(t.textPrimary)
+                .font(.role(.largeTitle)).foregroundStyle(t.textPrimary)
             Spacer().frame(height: 8)
             Text(step == 0
                  ? "Войдите по почте — образы и гардероб останутся с вами на новом устройстве"
@@ -48,12 +48,12 @@ struct AuthScreen: View {
                 // чтобы профиль пережил смену телефона.
                 Button { onDone() } label: {
                     HStack(spacing: 10) {
-                        Text("G").font(.system(size: 17, weight: .bold))
+                        Text("G").font(.role(.cardTitle))
                             .foregroundStyle(t.textPrimary)
                             .frame(width: 24, height: 24)
                             .background(t.fieldFill, in: Circle())
                         Text("Продолжить с Google")
-                            .font(.system(size: 17, weight: .medium))
+                            .font(.role(.cardTitle))
                             .foregroundStyle(t.textPrimary)
                     }
                     .frame(maxWidth: .infinity).frame(height: 48)
@@ -74,7 +74,7 @@ struct AuthScreen: View {
 
             Spacer()
             Text("Продолжая, вы принимаете пользовательское соглашение и политику конфиденциальности")
-                .font(.system(size: 12)).foregroundStyle(t.textTertiary)
+                .font(.role(.meta)).foregroundStyle(t.textTertiary)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer().frame(height: 16)
             HStack(spacing: 22) {
@@ -108,7 +108,7 @@ struct OTPField: View {
                 ForEach(0..<4, id: \.self) { i in
                     let ch = i < code.count ? String(Array(code)[i]) : ""
                     Text(ch)
-                        .font(.system(size: 26, weight: .semibold)).monospacedDigit()
+                        .font(.role(.largeTitle)).monospacedDigit()
                         .foregroundStyle(t.textPrimary)
                         .frame(maxWidth: .infinity).frame(height: 56)
                         .background(t.fieldFill, in: RoundedRectangle(cornerRadius: t.controlRadius, style: .continuous))
@@ -183,16 +183,16 @@ private struct DialogRow: View {
                 }
             }
             VStack(alignment: .leading, spacing: 3) {
-                Text(dialog.name).font(.system(size: 16, weight: .medium)).foregroundStyle(t.textPrimary)
+                Text(dialog.name).font(.role(.action)).foregroundStyle(t.textPrimary)
                     .lineLimit(1)
-                Text(dialog.last).font(.system(size: 14)).foregroundStyle(t.textSecondary).lineLimit(1)
+                Text(dialog.last).font(.role(.meta)).foregroundStyle(t.textSecondary).lineLimit(1)
             }
             Spacer(minLength: 8)
             VStack(alignment: .trailing, spacing: 6) {
-                Text(dialog.time).font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                Text(dialog.time).font(.role(.meta)).foregroundStyle(t.textSecondary)
                 if dialog.unread > 0 {
                     Text("\(dialog.unread)")
-                        .font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+                        .font(.role(.badge)).foregroundStyle(.white)
                         .padding(.horizontal, 7).padding(.vertical, 2)
                         .background(t.accent, in: Capsule())
                 } else {
@@ -345,7 +345,7 @@ private struct DayDivider: View {
     @Environment(\.theme) private var t
     var body: some View {
         Text(text)
-            .font(.system(size: 13)).foregroundStyle(t.textSecondary)
+            .font(.role(.meta)).foregroundStyle(t.textSecondary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
     }
@@ -360,13 +360,6 @@ private struct Bubble: View {
     var progress: Double = 0
     @Environment(\.theme) private var t
 
-    private static let ramp = [Color(hex: "4B8BF5"), Color(hex: "A44BF5"), Color(hex: "F54BA4")]
-
-    private func rampColor(_ p: Double) -> Color {
-        let x = min(max(p, 0), 1) * Double(Self.ramp.count - 1)
-        let i = min(Int(x), Self.ramp.count - 2)
-        return Self.ramp[i].mix(with: Self.ramp[i + 1], by: x - Double(i))
-    }
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 8) {
@@ -382,11 +375,11 @@ private struct Bubble: View {
 
             HStack(alignment: .bottom, spacing: 6) {
                 Text(message.text)
-                    .font(.system(size: 16))
+                    .font(.role(.body))
                     .foregroundStyle(message.mine ? .white : t.textPrimary)
                 HStack(spacing: 3) {
                     Text(message.time)
-                        .font(.system(size: 11))
+                        .font(.role(.bubbleTime))
                         .foregroundStyle(message.mine ? .white.opacity(0.8) : t.textSecondary)
                     if message.mine {
                         Image(systemName: "checkmark")
@@ -402,15 +395,9 @@ private struct Bubble: View {
                 }
                 .padding(.bottom, 1)
             }
-            .padding(.horizontal, 12).padding(.vertical, 8)
-            .background {
-                if message.mine {
-                    // синий → фиолетовый → розовый: срез общего градиента треда
-                    LinearGradient(colors: [rampColor(progress), rampColor(progress + 0.18)],
-                                   startPoint: .leading, endPoint: .trailing)
-                } else { t.fieldFill }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            // Бабл — компонент профиля: заливка, радиус и срез общего градиента
+            // треда живут там, а не повторяются в каждом концепте.
+            .vkChatBubble(isMine: message.mine, progress: progress)
 
             if !message.mine { Spacer(minLength: 56) }
         }

@@ -107,7 +107,7 @@ struct ServicesScreen: View {
                 .frame(width: 145)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                Text(title).font(.role(.body)).foregroundStyle(t.textPrimary)
                     .lineLimit(2).multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(sub).font(.vkMeta).foregroundStyle(t.textSecondary).lineLimit(1)

@@ -18,7 +18,7 @@ struct FeedScreen: View {
                 Button { nav.push(LooksRoute.notifications) } label: {
                     Image(systemName: "bell")
                         .overlay(alignment: .topTrailing) {
-                            Text("7").font(.system(size: 11, weight: .semibold))
+                            Text("7").font(.role(.badge))
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 5).padding(.vertical, 1)
                                 .background(t.badge, in: Capsule())
@@ -177,9 +177,9 @@ private struct PostCard: View {
         VStack(alignment: .leading, spacing: 6) {
             ForEach(Array(outfit.items.enumerated()), id: \.element.id) { i, g in
                 HStack(spacing: 6) {
-                    Text("\(i + 1)").font(.system(size: 11, weight: .bold)).foregroundStyle(.black)
+                    Text("\(i + 1)").font(.role(.badge)).foregroundStyle(.black)
                         .frame(width: 18, height: 18).background(.white, in: Circle())
-                    Text(g.title).font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                    Text(g.title).font(.role(.groupHeader)).foregroundStyle(.white)
                 }
                 .padding(.horizontal, 8).padding(.vertical, 5)
                 .background(.black.opacity(0.55), in: Capsule())

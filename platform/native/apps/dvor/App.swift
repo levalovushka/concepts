@@ -181,9 +181,9 @@ private struct DvorLockScreen: View {
                 .font(.system(size: 38, weight: .medium))
                 .foregroundStyle(theme.textPrimary)
             VStack(spacing: 6) {
-                Text("Двор закрыт").font(.system(size: 24, weight: .bold))
+                Text("Двор закрыт").font(.role(.tabTitle))
                 Text("Разблокируйте, чтобы увидеть адрес, сообщения и доступы дома.")
-                    .font(.system(size: 15)).foregroundStyle(theme.textSecondary)
+                    .font(.role(.body)).foregroundStyle(theme.textSecondary)
                     .multilineTextAlignment(.center)
             }
             DvorPrimaryButton(
@@ -375,9 +375,9 @@ private struct ResidencePendingBanner: View {
                 .frame(width: 24, height: 24)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Заявка сохранена")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.role(.name))
                 Text("Пока можно только читать. Локальная заявка не открывает публикации, чаты и доступы.")
-                    .font(.system(size: 12))
+                    .font(.role(.meta))
                     .foregroundStyle(theme.textSecondary)
             }
             Spacer(minLength: 0)

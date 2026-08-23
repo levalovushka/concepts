@@ -52,12 +52,12 @@ struct ProfileScreen: View {
         VStack(spacing: 10) {
             Avatar(name: name, size: 128, online: true)
                 .padding(.top, 20)
-            Text(name).font(.system(size: 28, weight: .bold))
+            Text(name).font(.role(.largeTitle))
                 .foregroundStyle(t.textPrimary)
             Button { showBioEditor = true } label: {
                 HStack(spacing: 5) {
-                    Text(bio.isEmpty ? "Укажите информацию о себе" : bio).font(.system(size: 17))
-                    Image(systemName: "chevron.right.circle").font(.system(size: 15))
+                    Text(bio.isEmpty ? "Укажите информацию о себе" : bio).font(.role(.rowTitle))
+                    Image(systemName: "chevron.right.circle").font(.role(.body))
                 }
                 .foregroundStyle(t.accent)
             }
@@ -79,11 +79,11 @@ struct ProfileScreen: View {
             HStack(spacing: 8) {
                 Image(systemName: "hanger").font(.system(size: 16))
                     .foregroundStyle(t.textSecondary)
-                Text("\(plural(store.garments.count, "вещь", "вещи", "вещей")) в гардеробе").font(.system(size: 17))
+                Text("\(plural(store.garments.count, "вещь", "вещи", "вещей")) в гардеробе").font(.role(.rowTitle))
                     .foregroundStyle(t.textPrimary)
                 Text("·").foregroundStyle(t.textSecondary)
                 Button { nav.push(LooksRoute.wardrobe) } label: {
-                    Text("Открыть").font(.system(size: 17)).foregroundStyle(t.accent)
+                    Text("Открыть").font(.role(.rowTitle)).foregroundStyle(t.accent)
                 }
                 .buttonStyle(.plain)
                 Spacer(minLength: 0)
@@ -95,11 +95,11 @@ struct ProfileScreen: View {
     private var friendsCard: some View {
         card {
             HStack(spacing: 8) {
-                Text("1,3K подписчиков").font(.system(size: 17, weight: .semibold)).lineLimit(1)
+                Text("1,3K подписчиков").font(.role(.cardTitle)).lineLimit(1)
                     .foregroundStyle(t.textPrimary)
                 Text("·").foregroundStyle(t.textSecondary)
                 Button { nav.push(LooksRoute.mates) } label: {
-                    Text("знакомые").font(.system(size: 17)).foregroundStyle(t.accent)
+                    Text("знакомые").font(.role(.rowTitle)).foregroundStyle(t.accent)
                 }
                 .buttonStyle(.plain)
                 Spacer(minLength: 8)
@@ -119,7 +119,7 @@ struct ProfileScreen: View {
             Button { nav.present(cover: LooksRoute.create) } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "plus.circle").font(.system(size: 20))
-                    Text("Опубликовать образ").font(.system(size: 17))
+                    Text("Опубликовать образ").font(.role(.rowTitle))
                 }
                 .foregroundStyle(t.accent)
                 .frame(maxWidth: .infinity).padding(.vertical, 15)
@@ -140,7 +140,7 @@ struct ProfileScreen: View {
                         withAnimation(.easeOut(duration: 0.18)) { tab = i }
                     } label: {
                         Text(tabTitles[i])
-                            .font(.system(size: 17, weight: tab == i ? .medium : .regular))
+                            .font(.role(tab == i ? .action : .rowTitle))
                             .foregroundStyle(tab == i ? t.accent : t.textSecondary)
                             .padding(.horizontal, 16).frame(height: 40)
                             .background {
@@ -208,7 +208,7 @@ struct ProfileScreen: View {
                 .frame(width: 145)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                Text(title).font(.role(.body)).foregroundStyle(t.textPrimary)
                     .lineLimit(1)
                 Text(sub).font(.vkMeta).foregroundStyle(t.textSecondary).lineLimit(1)
             }

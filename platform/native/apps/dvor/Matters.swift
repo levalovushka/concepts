@@ -130,7 +130,7 @@ struct IncidentReportScreen: View {
     private func evidenceAction(icon: String, title: String) -> some View {
         HStack(spacing: 8) {
             Image(systemName: icon).font(.system(size: 17))
-            Text(title).font(.system(size: 15, weight: .medium))
+            Text(title).font(.role(.action))
         }
         .foregroundStyle(t.accent)
         .frame(maxWidth: .infinity).frame(height: 48)
@@ -163,8 +163,8 @@ struct IncidentReportScreen: View {
                         DvorFormField(title: "Коротко", placeholder: "Например, не горит фонарь", text: $title)
                         DvorFormField(title: "Где", placeholder: "Подъезд, этаж или место во дворе", text: $place)
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Подробности").font(.system(size: 14, weight: .medium))
-                            TextEditor(text: $details).font(.system(size: 16))
+                            Text("Подробности").font(.role(.pill))
+                            TextEditor(text: $details).font(.role(.body))
                                 .padding(10).frame(height: 104)
                                 .scrollContentBackground(.hidden)
                                 .background(t.fill, in: RoundedRectangle(cornerRadius: 12))
@@ -311,7 +311,7 @@ struct ChronicleScreen: View {
                 }
                 PhotosPicker(selection: $selectedPhotos, maxSelectionCount: 4, matching: .images) {
                     Text(selectedData.isEmpty ? "Выбрать из медиатеки" : "Изменить выбор")
-                        .font(.system(size: 16, weight: .semibold)).foregroundStyle(.white)
+                        .font(.role(.button)).foregroundStyle(.white)
                         .frame(maxWidth: .infinity, minHeight: 48).background(t.accent, in: RoundedRectangle(cornerRadius: 10))
                 }
                 .simultaneousGesture(TapGesture().onEnded {
@@ -338,7 +338,7 @@ struct ChronicleScreen: View {
     private func chronicleSection(title: String, count: Int, selected: Set<Int>) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Text(title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                Text(title).font(.role(.cardTitle)).foregroundStyle(t.textPrimary)
                 Text(plural(count, "снимок", "снимка", "снимков"))
                     .font(.vkMeta).foregroundStyle(t.textSecondary)
                 Spacer()
@@ -372,7 +372,7 @@ struct ChronicleScreen: View {
 
     private func chronicleGroup(_ title: String, detail: String) -> some View {
         HStack {
-            Text(title).font(.system(size: 15, weight: .medium))
+            Text(title).font(.role(.action))
             Spacer()
             Text(detail).font(.vkMeta).foregroundStyle(t.textSecondary)
         }

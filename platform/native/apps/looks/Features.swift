@@ -23,9 +23,9 @@ struct CallScreen: View {
             VStack(spacing: 14) {
                 Spacer().frame(height: 70)
                 Avatar(name: peer, size: 108)
-                Text(peer).font(.system(size: 26, weight: .semibold)).foregroundStyle(.white)
+                Text(peer).font(.role(.largeTitle)).foregroundStyle(.white)
                 Text(connected ? "0:04" : "Соединение…")
-                    .font(.system(size: 16).monospacedDigit()).foregroundStyle(.white.opacity(0.7))
+                    .font(.role(.timer)).foregroundStyle(.white.opacity(0.7))
                 Spacer()
                 HStack(spacing: 26) {
                     callButton(micMuted ? "mic.fill" : "mic.slash.fill",
@@ -125,7 +125,7 @@ struct TalkScreen: View {
                                 .frame(width: 44, height: 44)
                                 .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(e.0).font(.system(size: 15, weight: .medium))
+                                Text(e.0).font(.role(.action))
                                     .foregroundStyle(t.textPrimary).lineLimit(1)
                                 Text("\(e.1) · \(e.2)").font(.vkMeta)
                                     .foregroundStyle(t.textSecondary).lineLimit(1)
@@ -199,13 +199,13 @@ struct CheckinScreen: View {
                 }
                 VKGroup {
                     Text("Уже отметились")
-                        .font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+                        .font(.role(.groupHeader)).foregroundStyle(t.textSecondary)
                         .padding(.horizontal, 12).padding(.top, 12).padding(.bottom, 8)
                     ForEach(arrived, id: \.0) { p in
                         HStack(spacing: 12) {
                             Avatar(name: p.0, size: 36)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text(p.0).font(.system(size: 14, weight: .medium))
+                                Text(p.0).font(.role(.pill))
                                 Text(p.1).font(.vkCaption).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
@@ -240,7 +240,7 @@ struct CheckinScreen: View {
                 ZStack {
                     Circle().fill(done ? t.positive : t.accentSoft).frame(width: 32, height: 32)
                     if done { Image(systemName: "checkmark").font(.system(size: 14, weight: .bold)).foregroundStyle(.white) }
-                    else { Text("\(n)").font(.system(size: 15, weight: .semibold)).foregroundStyle(t.accent) }
+                    else { Text("\(n)").font(.role(.name)).foregroundStyle(t.accent) }
                 }
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title).font(.vkBody).foregroundStyle(t.textPrimary)
@@ -273,7 +273,7 @@ struct LockScreen: View {
             Image(systemName: unlocked ? "lock.open.fill" : "faceid")
                 .font(.system(size: 58, weight: .light)).foregroundStyle(t.accent)
             Text(unlocked ? "Открыто" : "«Сохранённое» под замком")
-                .font(.system(size: 20, weight: .semibold))
+                .font(.role(.section))
             Text(unlocked ? "Черновики и сохранённые образы доступны"
                           : "Подтвердите Face ID, чтобы открыть черновики и сохранённые образы")
                 .font(.vkBody).foregroundStyle(t.textSecondary)
@@ -437,7 +437,7 @@ struct NetQRScreen: View {
                     .foregroundStyle(joined ? t.positive : t.textPrimary)
             }
             Text(joined ? "PUDRA-GUEST" : "Наведите на QR площадки")
-                .font(.system(size: 20, weight: .semibold)).foregroundStyle(t.textPrimary)
+                .font(.role(.section)).foregroundStyle(t.textPrimary)
             Text(joined
                  ? "Подключено. Теперь отметка на свопе пройдёт"
                  : "Код на входе у организатора")

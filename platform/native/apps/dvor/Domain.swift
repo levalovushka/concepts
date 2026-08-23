@@ -288,9 +288,14 @@ final class HouseStore {
         conversations = [house, parking, entrance, anna, help, sergey, kids]
         messages = [
             house.id: [
+                HouseMessage(author: neighbour, kind: .text, text: "У второго подъезда третий день не горит лампа.", time: "08:41", isMine: false),
+                HouseMessage(author: gardener, kind: .text, text: "Подтверждаю, вечером совсем темно у почтовых ящиков.", time: "08:52", isMine: false),
+                HouseMessage(author: currentResident, kind: .text, text: "Оставил заявку в управляйку.", time: "09:03", isMine: true),
                 HouseMessage(author: steward, kind: .text, text: "Заявку по свету у второго подъезда приняли.", time: "09:16", isMine: false),
                 HouseMessage(author: steward, kind: .text, text: "Электрик обещал прийти до завтра, номер заявки 418.", time: "09:17", isMine: false),
                 HouseMessage(author: currentResident, kind: .text, text: "Спасибо! Вечером проверю, стало ли светлее.", time: "09:24", isMine: true),
+                HouseMessage(author: neighbour, kind: .text, text: "Если не придёт — напишу в чат, у меня есть телефон мастера.", time: "09:31", isMine: false),
+                HouseMessage(author: gardener, kind: .text, text: "И заодно спросите про лампу у калитки, она мигает.", time: "09:38", isMine: false),
             ],
             entrance.id: [],
             help.id: [],

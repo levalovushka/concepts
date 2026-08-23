@@ -106,9 +106,9 @@ struct SettingsScreen: View {
         VStack(spacing: 8) {
             Avatar(name: "Ника Орлова", size: 96)
                 .padding(.top, 12)
-            Text("Ника Орлова").font(.system(size: 22, weight: .semibold))
+            Text("Ника Орлова").font(.role(.section))
                 .foregroundStyle(t.textPrimary)
-            Text("nika@mail.ru").font(.system(size: 15))
+            Text("nika@mail.ru").font(.role(.body))
                 .foregroundStyle(t.textSecondary)
             VKOutlineButton(title: "Управление аккаунтом", tinted: false) { sheet = .account }
                 .padding(.horizontal, t.pad)
@@ -166,7 +166,7 @@ private struct SettingsDocumentSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text(text).font(.system(size: 17)).frame(maxWidth: .infinity, alignment: .leading).padding(20)
+                Text(text).font(.role(.rowTitle)).frame(maxWidth: .infinity, alignment: .leading).padding(20)
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)

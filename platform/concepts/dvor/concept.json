@@ -86,9 +86,10 @@
         "background": "#FFFFFF",
         "groupedBackground": "#F2F3F5",
         "fill": "#E8EAF0",
-        "separator": "#E1E3E6",
-        "textPrimary": "#0B0B0C",
-        "textSecondary": "#6D7885"
+        "separator": "#E7E8EC",
+        "textPrimary": "#000000",
+        "textSecondary": "#818C99",
+        "badge": "#FF3347"
       }
     },
     "navigation": {

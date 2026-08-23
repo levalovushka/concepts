@@ -81,7 +81,7 @@ private struct ClipPage: View {
                         HStack(spacing: 10) {
                             Avatar(name: outfit.author, size: 36)
                             HStack(spacing: 4) {
-                                Text(outfit.author).font(.system(size: 15, weight: .semibold))
+                                Text(outfit.author).font(.role(.name))
                                     .foregroundStyle(.white)
                                 Image(systemName: "checkmark.seal.fill")
                                     .font(.system(size: 13)).foregroundStyle(.white)
@@ -93,7 +93,7 @@ private struct ClipPage: View {
                                 // ВК обрывает описание и дописывает «Ещё» — без него
                                 // строка выглядит просто обрезанной.
                                 Text("\(Text(expanded ? outfit.text : shortText).foregroundStyle(.white.opacity(0.94)))\(Text(expanded ? "" : "  Ещё").foregroundStyle(.white.opacity(0.62)))")
-                                    .font(.system(size: 15))
+                                    .font(.role(.body))
                                     .multilineTextAlignment(.leading)
                             }
                             .buttonStyle(.plain)

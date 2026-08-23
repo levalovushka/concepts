@@ -94,6 +94,11 @@ extension Permissions {
 }
 
 enum DvorStyle {
+    /// Тема концепта, собранная компилятором из concept.json. Палитра берётся
+    /// из неё, а не заводится концептом заново: два почти одинаковых серых
+    /// в одном наборе — это разъезд мимикрии.
+    static let theme = Theme.resolve(NativeConceptSpec.design)
+
     // Four-point optical grid shared by product and reference compositions.
     static let space1: CGFloat = 4
     static let space2: CGFloat = 8
@@ -103,14 +108,16 @@ enum DvorStyle {
     static let hitTarget: CGFloat = 44
     static let contentInset: CGFloat = 16
     static let sectionGap: CGFloat = 8
-    static let page = Color(hex: "F2F3F5")
+    static let page = theme.groupGap
     static let card = Color.white
-    static let ink = Color(hex: "0B0B0C")
-    static let secondary = Color(hex: "6D7885")
-    static let muted = Color(hex: "6E7887")
-    static let quiet = Color(hex: "E8EAF0")
-    static let quietInside = Color(hex: "EFF1F5")
-    static let line = Color(hex: "E1E3E6")
+    // Палитра берётся из профиля vk-ios, а не заводится концептом заново:
+    // два почти одинаковых серых в одном наборе — это разъезд мимикрии.
+    static let ink = DvorStyle.theme.textPrimary
+    static let secondary = DvorStyle.theme.textSecondary
+    static let muted = DvorStyle.theme.textSecondary
+    static let quiet = DvorStyle.theme.fill
+    static let quietInside = DvorStyle.theme.fill
+    static let line = DvorStyle.theme.separator
     static let warningText = Color(hex: "A8690A")
     static let inset: CGFloat = contentInset
     static let gap: CGFloat = sectionGap
@@ -167,10 +174,10 @@ struct AppStatePanel: View {
 
             VStack(alignment: .leading, spacing: DvorStyle.space1) {
                 Text(title)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.role(.name))
                     .foregroundStyle(t.textPrimary)
                 Text(detail)
-                    .font(.system(size: 13))
+                    .font(.role(.meta))
                     .foregroundStyle(t.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
                 if let actionTitle, let action {
@@ -215,7 +222,7 @@ struct DvorPrimaryButton: View {
                     Image(systemName: icon).font(.system(size: 16, weight: .semibold))
                 }
                 Text(isLoading ? (loadingTitle ?? title) : title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.role(.button))
             }
             .foregroundStyle(isDisabled ? t.textSecondary : .white)
             .frame(maxWidth: .infinity)
@@ -288,7 +295,7 @@ private struct DvorChromeBar: View {
             Button(action: item.action) {
                 Group {
                     if let icon = item.icon { Image(systemName: icon).font(.system(size: 19, weight: .semibold)) }
-                    else { Text(item.title).font(.system(size: 15, weight: .medium)) }
+                    else { Text(item.title).font(.role(.action)) }
                 }
                 .frame(minWidth: DvorStyle.hitTarget, minHeight: DvorStyle.hitTarget)
                 .contentShape(Rectangle())
@@ -346,11 +353,11 @@ struct DvorScreenIntro: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text(title)
-                .font(.system(size: 20, weight: .bold))
+                .font(.role(.section))
                 .foregroundStyle(DvorStyle.ink)
             if let detail {
                 Text(detail)
-                    .font(.system(size: 15))
+                    .font(.role(.body))
                     .foregroundStyle(DvorStyle.secondary)
                     .lineSpacing(2)
             }
@@ -374,7 +381,7 @@ struct DvorFormField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
             Text(title)
-                .font(.system(size: 14, weight: .medium))
+                .font(.role(.pill))
                 .foregroundStyle(error == nil ? t.textPrimary : t.danger)
             TextField(placeholder, text: $text)
                 .keyboardType(keyboard)
@@ -415,13 +422,13 @@ struct DvorOTPField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DvorStyle.space2) {
             Text("Код из письма")
-                .font(.system(size: 14, weight: .medium))
+                .font(.role(.pill))
                 .foregroundStyle(error == nil ? t.textPrimary : t.danger)
             ZStack {
                 HStack(spacing: DvorStyle.space2) {
                     ForEach(0..<length, id: \.self) { index in
                         Text(character(at: index))
-                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                            .font(.role(.code))
                             .frame(maxWidth: .infinity)
                             .frame(height: 48)
                             .background(t.fill, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
@@ -482,7 +489,7 @@ struct DvorSectionTitle: View {
 
     var body: some View {
         Text(title)
-            .font(.system(size: 13, weight: .semibold))
+            .font(.role(.groupHeader))
             .foregroundStyle(DvorStyle.secondary)
             .padding(.horizontal, 16)
             .padding(.top, 11)
@@ -509,15 +516,15 @@ struct DvorRow: View {
                     .frame(width: 28)
             }
             VStack(alignment: .leading, spacing: 1) {
-                Text(title).font(.system(size: 15, weight: .semibold)).foregroundStyle(DvorStyle.ink)
+                Text(title).font(.role(.name)).foregroundStyle(DvorStyle.ink)
                 if let subtitle {
-                    Text(subtitle).font(.system(size: 14)).foregroundStyle(DvorStyle.secondary)
+                    Text(subtitle).font(.role(.meta)).foregroundStyle(DvorStyle.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
             Spacer(minLength: 6)
             if let value {
-                Text(value).font(.system(size: 15, weight: valueIsWarning ? .semibold : .regular))
+                Text(value).font(.role(valueIsWarning ? .name : .body))
                     .foregroundStyle(valueIsWarning ? DvorStyle.warningText : DvorStyle.secondary)
             }
             if let toggle {
@@ -541,8 +548,8 @@ struct DvorStat: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(value).font(.system(size: 17, weight: .bold)).foregroundStyle(DvorStyle.ink)
-            Text(label).font(.system(size: 12)).foregroundStyle(DvorStyle.muted)
+            Text(value).font(.role(.cardTitle)).foregroundStyle(DvorStyle.ink)
+            Text(label).font(.role(.meta)).foregroundStyle(DvorStyle.muted)
         }.frame(maxWidth: .infinity, alignment: .leading)
     }
 }

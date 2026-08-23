@@ -4,17 +4,8 @@ import SwiftUI
 // but neutral runtime and product state must never depend on VK-specific data.
 // Geometry is defined by ReferenceProfiles/vk-ios/profile.json.
 
-extension Font {
-    static let vkTabTitle = Font.system(size: 24, weight: .bold)
-    static let vkNavTitle = Font.system(size: 17, weight: .semibold)
-    static let vkSection = Font.system(size: 18, weight: .semibold)
-    static let vkRow = Font.system(size: 17)
-    static let vkName = Font.system(size: 15, weight: .semibold)
-    static let vkBody = Font.system(size: 15)
-    static let vkMeta = Font.system(size: 13)
-    static let vkCaption = Font.system(size: 13)
-    static let vkBubbleTime = Font.system(size: 11)
-}
+// Шкала живёт в DesignSystem/Typography.swift: профиль задаёт её значения,
+// а не держит собственный набор шрифтов.
 
 // MARK: - Аватар
 
@@ -846,5 +837,51 @@ struct VKGridCell: View {
         VKMedia(assetName: assetName, height: 0)
             .frame(maxWidth: .infinity)
             .aspectRatio(0.82, contentMode: .fit)
+    }
+}
+
+// MARK: - Бабл переписки
+
+/// Бабл ВК: входящий — серая заливка, исходящий — градиент
+/// синий → фиолетовый → розовый. Радиус 18, время внутри бабла.
+/// Компонент принадлежит профилю: концепт не изобретает градиент сам.
+struct VKChatBubble<Content: View>: View {
+    let isMine: Bool
+    /// Положение сообщения в переписке 0…1. У ВК градиент исходящих тянется
+    /// через весь тред: ранние баблы синие, поздние розовые, и каждый бабл
+    /// показывает свой срез общей шкалы, а не повторяет её целиком.
+    var progress: Double = 0
+    @ViewBuilder var content: Content
+    @Environment(\.theme) private var t
+
+    private func rampColor(_ p: Double) -> Color {
+        let ramp = t.outgoing
+        guard ramp.count > 1 else { return ramp.first ?? t.accent }
+        let x = min(max(p, 0), 1) * Double(ramp.count - 1)
+        let i = min(Int(x), ramp.count - 2)
+        return ramp[i].mix(with: ramp[i + 1], by: x - Double(i))
+    }
+
+    var body: some View {
+        content
+            .foregroundStyle(isMine ? AnyShapeStyle(.white) : AnyShapeStyle(t.textPrimary))
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background {
+                if isMine {
+                    LinearGradient(colors: [rampColor(progress), rampColor(progress + 0.18)],
+                                   startPoint: .leading, endPoint: .trailing)
+                } else {
+                    t.fill
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+}
+
+extension View {
+    /// Обернуть содержимое сообщения в бабл профиля.
+    func vkChatBubble(isMine: Bool, progress: Double = 0) -> some View {
+        VKChatBubble(isMine: isMine, progress: progress) { self }
     }
 }

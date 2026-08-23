@@ -74,7 +74,7 @@ struct ResidenceOnboarding: View {
                 .nativeAction("phone.sign-in-apple")
 
                 Text("Apple подтверждает личность. Адрес дома проверяется отдельно и не передаётся Apple.")
-                    .font(.system(size: 13)).foregroundStyle(.secondary)
+                    .font(.role(.meta)).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -186,7 +186,7 @@ struct ResidenceVerificationScreen: View {
                         .disabled(isChecking)
                         .nativeAction("verify.manual-verification")
                     Text("Если автоматическая проверка не сработает, адрес можно подтвердить вручную.")
-                        .font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                        .font(.role(.meta)).foregroundStyle(t.textSecondary)
                         .multilineTextAlignment(.center).frame(maxWidth: .infinity)
                 }
             }
@@ -199,12 +199,12 @@ struct ResidenceVerificationScreen: View {
                 if complete {
                     Image(systemName: "checkmark.circle.fill").font(.system(size: 22, weight: .semibold)).foregroundStyle(t.accent)
                 } else {
-                    Text(number).font(.system(size: 15, weight: .semibold)).foregroundStyle(t.accent)
+                    Text(number).font(.role(.name)).foregroundStyle(t.accent)
                 }
             }.frame(width: 32, height: 32)
             VStack(alignment: .leading, spacing: 3) {
-                Text(title).font(.system(size: 15, weight: .semibold))
-                Text(detail).font(.system(size: 13)).foregroundStyle(t.textSecondary).fixedSize(horizontal: false, vertical: true)
+                Text(title).font(.role(.name))
+                Text(detail).font(.role(.meta)).foregroundStyle(t.textSecondary).fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }.padding(12)

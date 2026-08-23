@@ -97,6 +97,26 @@
       "pattern": "LinearGradient\\(colors: colors",
       "evidence": "vk-visual-profile.md §5",
       "fix": "вернуть градиентную заливку плитки в Components.swift профиля"
+    },
+    {
+      "id": "chat-incoming-fill",
+      "title": "Входящий бабл — серая заливка, а не белая карточка",
+      "kind": "forbid",
+      "pattern": "background\\(DvorStyle\\.card, in: RoundedRectangle",
+      "evidence": "vk-visual-profile.md §5, «Чат»",
+      "fix": "фон входящего бабла — t.fill на белом фоне переписки"
+    },
+    {
+      "id": "chat-outgoing-gradient",
+      "title": "Баблы переписки — компонент профиля, а не свой градиент",
+      "kind": "require",
+      "pattern": "vkChatBubble\\(isMine:",
+      "requiresSurfaceRole": [
+        "chat",
+        "conversation"
+      ],
+      "evidence": "vk-visual-profile.md §5, «Чат»",
+      "fix": "оборачивать сообщение в VKChatBubble профиля"
     }
   ]
 }

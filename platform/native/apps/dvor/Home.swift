@@ -89,7 +89,7 @@ struct DvorHomeHeader: View {
             Button(action: switchHouse) {
                 HStack(spacing: 5) {
                     Text(address).font(.vkTabTitle).lineLimit(1).minimumScaleFactor(0.8)
-                    Image(systemName: "chevron.down").font(.system(size: 13, weight: .semibold))
+                    Image(systemName: "chevron.down").font(.role(.groupHeader))
                 }
                 .foregroundStyle(t.textPrimary).frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
@@ -99,7 +99,7 @@ struct DvorHomeHeader: View {
                 Image(systemName: "bell").font(.system(size: 22))
                     .frame(width: DvorStyle.hitTarget, height: DvorStyle.hitTarget)
                     .overlay(alignment: .topTrailing) {
-                        Text("4").font(.system(size: 11, weight: .semibold)).foregroundStyle(.white)
+                        Text("4").font(.role(.badge)).foregroundStyle(.white)
                             .padding(.horizontal, 5).padding(.vertical, 1)
                             .background(Color(hex: "FF3347"), in: Capsule())
                             .offset(x: -2, y: 6)
@@ -123,10 +123,10 @@ struct DvorComposer: View {
             HStack(spacing: DvorStyle.space2) {
                 Avatar(name: resident, size: 38)
                 Text("Что у вас нового?")
-                    .font(.system(size: 15)).foregroundStyle(t.textSecondary)
+                    .font(.role(.body)).foregroundStyle(t.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text("Создать")
-                    .font(.system(size: 14, weight: .semibold)).foregroundStyle(t.accent)
+                    .font(.role(.name)).foregroundStyle(t.accent)
             }
             .padding(.horizontal, DvorStyle.contentInset).frame(height: 56).contentShape(Rectangle())
         }
@@ -188,11 +188,11 @@ struct MatterCard: View {
                     HStack(alignment: .top, spacing: 8) {
                         Avatar(name: reply.author.name, size: 26)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(reply.author.name).font(.system(size: 13, weight: .semibold))
-                            Text(reply.text).font(.system(size: 13)).foregroundStyle(DvorStyle.ink).lineLimit(2)
+                            Text(reply.author.name).font(.role(.groupHeader))
+                            Text(reply.text).font(.role(.meta)).foregroundStyle(DvorStyle.ink).lineLimit(2)
                             if matter.replies.count > 1 {
                                 Text("Показать все \(matter.replies.count) комментария")
-                                    .font(.system(size: 13, weight: .medium)).foregroundStyle(t.accent)
+                                    .font(.role(.groupHeader)).foregroundStyle(t.accent)
                             }
                         }
                         Spacer(minLength: 0)
@@ -218,13 +218,13 @@ struct MatterCard: View {
                 Avatar(name: matter.author.name, size: 38)
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 4) {
-                        Text(matter.author.name).font(.system(size: 15, weight: .semibold))
+                        Text(matter.author.name).font(.role(.name))
                         if matter.author.role != nil {
                             Image(systemName: "checkmark.seal.fill").font(.system(size: 11)).foregroundStyle(t.accent)
                         }
                     }
                     Text("\(matter.published) · \(metaPlace)")
-                        .font(.system(size: 13)).foregroundStyle(DvorStyle.muted)
+                        .font(.role(.meta)).foregroundStyle(DvorStyle.muted)
                         .lineLimit(1).truncationMode(.tail)
                 }
                 Spacer(minLength: 8)
@@ -249,9 +249,9 @@ struct MatterCard: View {
             MatterPriorityLabel(matter: matter)
 
             if !matter.title.isEmpty {
-                Text(matter.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(DvorStyle.ink)
+                Text(matter.title).font(.role(.button)).foregroundStyle(DvorStyle.ink)
             }
-            Text(matter.body).font(.system(size: 15)).foregroundStyle(DvorStyle.ink).lineSpacing(2).lineLimit(4)
+            Text(matter.body).font(.role(.body)).foregroundStyle(DvorStyle.ink).lineSpacing(2).lineLimit(4)
 
             if let mediaAsset = matter.mediaAsset {
                 Image(mediaAsset)
@@ -295,11 +295,11 @@ struct MatterCard: View {
                                     }
                                 }
                                 HStack {
-                                    Text(option).font(.system(size: 14, weight: .medium))
+                                    Text(option).font(.role(.pill))
                                     Spacer()
                                     if store.pollVotes[matter.id] != nil {
                                         Text("\(Int(pollPercent(option) * 100))%")
-                                            .font(.system(size: 13, weight: .semibold)).foregroundStyle(t.accent)
+                                            .font(.role(.groupHeader)).foregroundStyle(t.accent)
                                     }
                                     if store.pollVotes[matter.id] == option {
                                         Image(systemName: "checkmark.circle.fill").foregroundStyle(t.accent)
@@ -316,7 +316,7 @@ struct MatterCard: View {
                     if store.pollVotes[matter.id] != nil {
                         HStack(spacing: DvorStyle.space2) {
                             Text("\(pollTotal) голосов")
-                                .font(.system(size: 13))
+                                .font(.role(.meta))
                                 .foregroundStyle(DvorStyle.secondary)
                             Spacer()
                             Button("Изменить выбор") { store.clearVote(in: matter) }
@@ -338,7 +338,7 @@ struct MatterCard: View {
                             Avatar(name: "Елена Соколова", size: 28)
                         }
                         Text("18 соседей собираются")
-                            .font(.system(size: 13)).foregroundStyle(DvorStyle.secondary)
+                            .font(.role(.meta)).foregroundStyle(DvorStyle.secondary)
                         Spacer(minLength: DvorStyle.space2)
                         Button(store.attending.contains(matter.id) ? "Вы пойдёте" : "Пойду") {
                             store.toggleAttendance(matter)
@@ -357,11 +357,11 @@ struct MatterCard: View {
             if matter.kind == .incident && matter.status == .inProgress {
                 HStack(spacing: DvorStyle.space2) {
                     Text("Вход со двора · заявка №418")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.role(.groupHeader))
                         .lineLimit(1).truncationMode(.tail).layoutPriority(1)
                     Spacer(minLength: DvorStyle.space2)
                     Text("Электрик до завтра")
-                        .font(.system(size: 13)).foregroundStyle(DvorStyle.secondary)
+                        .font(.role(.meta)).foregroundStyle(DvorStyle.secondary)
                         .lineLimit(1).truncationMode(.tail)
                 }
                 .padding(.top, 8)
@@ -389,7 +389,7 @@ struct MatterCard: View {
     private func eventRow(icon: String, title: String) -> some View {
         HStack(spacing: DvorStyle.space2) {
             Image(systemName: icon).frame(width: 20).foregroundStyle(t.accent)
-            Text(title).font(.system(size: 14, weight: .medium))
+            Text(title).font(.role(.pill))
             Spacer(minLength: 0)
         }
         .frame(minHeight: DvorStyle.hitTarget)
@@ -407,7 +407,7 @@ struct MatterReaction: View {
     var body: some View {
         HStack(spacing: 6) {
             Image(systemName: icon).font(.system(size: 19))
-            if !value.isEmpty { Text(value).font(.system(size: 15)) }
+            if !value.isEmpty { Text(value).font(.role(.body)) }
         }
         .foregroundStyle(selected ? Color(hex: "FF3347") : DvorStyle.secondary)
         .padding(.trailing, 8)
@@ -432,7 +432,7 @@ struct MatterPriorityLabel: View {
     var body: some View {
         if let title {
             Text(title)
-                .font(.system(size: 13, weight: .medium))
+                .font(.role(.groupHeader))
                 .foregroundStyle(color)
                 .padding(.horizontal, 8).frame(height: 24)
                 .background(color.opacity(0.1), in: Capsule())
@@ -469,8 +469,8 @@ struct HouseSwitcherScreen: View {
                 HStack(spacing: 12) {
                     Image(systemName: "house.fill").foregroundStyle(t.accent).frame(width: 32, height: 32)
                     VStack(alignment: .leading, spacing: 3) {
-                        Text("Мясницкая, 24/7").font(.system(size: 16, weight: .semibold))
-                        Text("Подтверждённый адрес").font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                        Text("Мясницкая, 24/7").font(.role(.button))
+                        Text("Подтверждённый адрес").font(.role(.meta)).foregroundStyle(t.textSecondary)
                     }
                     Spacer()
                     Image(systemName: "checkmark").foregroundStyle(t.accent)
@@ -527,8 +527,8 @@ struct CreateHousePostScreen: View {
                     HStack(spacing: 10) {
                         Avatar(name: store.currentResident.name, size: 40)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(store.currentResident.name).font(.system(size: 15, weight: .semibold))
-                            Text("Увидят подтверждённые жильцы дома").font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                            Text(store.currentResident.name).font(.role(.name))
+                            Text("Увидят подтверждённые жильцы дома").font(.role(.meta)).foregroundStyle(t.textSecondary)
                         }
                     }
                     TextEditor(text: $text)
@@ -536,7 +536,7 @@ struct CreateHousePostScreen: View {
                         .frame(height: 96)
                         .overlay(alignment: .topLeading) {
                             if text.isEmpty {
-                                Text("Что у вас нового?").font(.system(size: 17)).foregroundStyle(t.textSecondary)
+                                Text("Что у вас нового?").font(.role(.rowTitle)).foregroundStyle(t.textSecondary)
                                     .padding(.top, 8).allowsHitTesting(false)
                             }
                         }

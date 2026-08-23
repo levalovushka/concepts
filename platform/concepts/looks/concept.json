@@ -88,7 +88,11 @@
       "tokens": {
         "accent": "#0077FF",
         "background": "#FFFFFF",
-        "groupedBackground": "#F2F3F5"
+        "groupedBackground": "#F2F3F5",
+        "textPrimary": "#000000",
+        "textSecondary": "#818C99",
+        "separator": "#E7E8EC",
+        "badge": "#FF3347"
       }
     },
     "navigation": {

@@ -28,16 +28,16 @@ struct HouseChatsScreen: View {
                             Avatar(name: conversation.title, size: 52)
                             VStack(alignment: .leading, spacing: 4) {
                                 HStack {
-                                    Text(conversation.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(t.textPrimary)
+                                    Text(conversation.title).font(.role(.button)).foregroundStyle(t.textPrimary)
                                     Spacer()
                                     Text(conversation.time).font(.vkMeta).foregroundStyle(t.textSecondary)
                                 }
                                 Text(conversation.subtitle).font(.vkMeta).foregroundStyle(t.textSecondary)
                                 HStack {
-                                    Text(conversation.lastMessage).font(.system(size: 14)).foregroundStyle(t.textSecondary).lineLimit(1)
+                                    Text(conversation.lastMessage).font(.role(.meta)).foregroundStyle(t.textSecondary).lineLimit(1)
                                     Spacer()
                                     if conversation.unread > 0 {
-                                        Text("\(conversation.unread)").font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+                                        Text("\(conversation.unread)").font(.role(.badge)).foregroundStyle(.white)
                                             .frame(minWidth: 22, minHeight: 22).background(t.accent, in: Capsule())
                                     }
                                 }
@@ -96,7 +96,7 @@ struct HouseChatScreen: View {
         VStack(spacing: 0) {
             VKChatHeader(title: conversation.title, subtitle: conversation.subtitle, onBack: { dismiss() })
             ScrollView {
-                VStack(spacing: 7) {
+                VStack(spacing: 3) {
                     Text("Сегодня").font(.vkMeta).foregroundStyle(t.textSecondary).padding(.vertical, 8)
                     if DvorShotMode.isScreen("chat", state: "empty") {
                         AppStatePanel(kind: .empty, title: "Начните разговор", detail: "Сообщения увидят только участники этого чата.")
@@ -114,7 +114,7 @@ struct HouseChatScreen: View {
                         .frame(width: 52, height: 52).clipped()
                         .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
                     Text("Фото готово к отправке")
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.role(.pill))
                     Spacer()
                     Button {
                         self.attachmentData = nil
@@ -149,7 +149,8 @@ struct HouseChatScreen: View {
             .foregroundStyle(t.accent).padding(.horizontal, 12).padding(.vertical, 8)
             .overlay(alignment: .top) { t.separator.frame(height: 0.5) }
         }
-        .background(DvorStyle.page)
+        // Фон переписки у ВК белый: серый бабл на сером фоне не читается.
+        .background(t.background)
         .toolbar(.hidden, for: .navigationBar)
         .task(id: attachment) {
             attachmentData = try? await attachment?.loadTransferable(type: Data.self)
@@ -214,39 +215,64 @@ struct HouseChatScreen: View {
     }
 
     @ViewBuilder private func messageBubble(_ chatMessage: HouseMessage) -> some View {
-        if chatMessage.isMine { outgoing(chatMessage) }
+        if chatMessage.isMine { outgoing(chatMessage, progress: progress(of: chatMessage)) }
         else { incoming(chatMessage) }
     }
 
+    // Профиль vk-ios: входящие — серые баблы на белом фоне, аватар и имя
+    // только у первого сообщения подряд идущей группы; исходящие —
+    // градиентные справа, время и галочка внутри бабла.
     private func incoming(_ chatMessage: HouseMessage) -> some View {
-        HStack(alignment: .bottom, spacing: 7) {
-            Avatar(name: chatMessage.author.name, size: 28)
-            VStack(alignment: .leading, spacing: 3) {
-                Text(chatMessage.author.name).font(.system(size: 12, weight: .semibold)).foregroundStyle(t.accent)
-                messageContent(chatMessage)
-                Text(chatMessage.time).font(.vkBubbleTime).foregroundStyle(t.textSecondary).frame(maxWidth: .infinity, alignment: .trailing)
+        HStack(alignment: .bottom, spacing: 8) {
+            Group {
+                if startsGroup(chatMessage) { Avatar(name: chatMessage.author.name, size: 32) }
+                else { Color.clear }
             }
-            .padding(.horizontal, 11).padding(.vertical, 7).background(DvorStyle.card, in: RoundedRectangle(cornerRadius: 16))
+            .frame(width: 32, height: 32)
+            VStack(alignment: .leading, spacing: 3) {
+                if startsGroup(chatMessage) {
+                    Text(chatMessage.author.name).font(.role(.meta)).foregroundStyle(t.accent)
+                }
+                HStack(alignment: .bottom, spacing: 6) {
+                    messageContent(chatMessage)
+                    Text(chatMessage.time).font(.vkBubbleTime).foregroundStyle(t.textSecondary)
+                }
+            }
+            .vkChatBubble(isMine: false)
             Spacer(minLength: 48)
         }
     }
 
-    private func outgoing(_ chatMessage: HouseMessage) -> some View {
+    /// Доля переписки до этого сообщения — для среза общего градиента.
+    private func progress(of chatMessage: HouseMessage) -> Double {
+        let list = store.messages(in: conversation)
+        guard list.count > 1, let index = list.firstIndex(where: { $0.id == chatMessage.id }) else { return 0 }
+        return Double(index) / Double(list.count - 1)
+    }
+
+    private func outgoing(_ chatMessage: HouseMessage, progress: Double) -> some View {
         HStack {
             Spacer(minLength: 48)
-            VStack(alignment: .leading, spacing: 3) {
+            HStack(alignment: .bottom, spacing: 6) {
                 messageContent(chatMessage)
                 HStack(spacing: 3) {
-                    Spacer(minLength: 0)
                     Text(chatMessage.time).font(.vkBubbleTime)
                     Image(systemName: deliveryIcon(chatMessage.delivery))
                         .font(.system(size: 9, weight: .semibold))
                 }
-                .foregroundStyle(chatMessage.delivery == .failed ? t.danger : DvorStyle.secondary)
+                .foregroundStyle(chatMessage.delivery == .failed ? .white : .white.opacity(0.8))
             }
-            .padding(.horizontal, 11).padding(.vertical, 7)
-            .background(DvorStyle.quietInside, in: RoundedRectangle(cornerRadius: 16))
+            .vkChatBubble(isMine: true, progress: progress)
         }
+    }
+
+    /// Первое сообщение подряд идущей группы одного автора.
+    private func startsGroup(_ chatMessage: HouseMessage) -> Bool {
+        let list = store.messages(in: conversation)
+        guard let index = list.firstIndex(where: { $0.id == chatMessage.id }) else { return true }
+        guard index > 0 else { return true }
+        let previous = list[index - 1]
+        return previous.isMine || previous.author.name != chatMessage.author.name
     }
 
     private func deliveryIcon(_ delivery: HouseMessageDelivery) -> String {
@@ -261,7 +287,7 @@ struct HouseChatScreen: View {
     @ViewBuilder private func messageContent(_ chatMessage: HouseMessage) -> some View {
         switch chatMessage.kind {
         case .text:
-            Text(chatMessage.text).font(.system(size: 15)).foregroundStyle(DvorStyle.ink)
+            Text(chatMessage.text).font(.role(.body)).foregroundStyle(DvorStyle.ink)
         case .photo(let data):
             VStack(alignment: .leading, spacing: 6) {
                 if let image = UIImage(data: data) {
@@ -269,7 +295,7 @@ struct HouseChatScreen: View {
                         .frame(width: 190, height: 150).clipped()
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
-                if !chatMessage.text.isEmpty { Text(chatMessage.text).font(.system(size: 15)) }
+                if !chatMessage.text.isEmpty { Text(chatMessage.text).font(.role(.body)) }
             }
         case .voice(let data, let duration, let transcript):
             VStack(alignment: .leading, spacing: 6) {
@@ -277,11 +303,11 @@ struct HouseChatScreen: View {
                     voicePlayback.toggle(data: data, messageID: chatMessage.id)
                 } label: {
                     Label(voiceDurationText(duration), systemImage: voicePlayback.playingMessageID == chatMessage.id ? "pause.fill" : "play.fill")
-                        .font(.system(size: 15, weight: .semibold)).foregroundStyle(t.accent)
+                        .font(.role(.name)).foregroundStyle(t.accent)
                 }
                 .accessibilityLabel(voicePlayback.playingMessageID == chatMessage.id ? "Пауза" : "Воспроизвести голосовое")
                 if let transcript, !transcript.isEmpty {
-                    Text(transcript).font(.system(size: 14)).foregroundStyle(DvorStyle.ink)
+                    Text(transcript).font(.role(.meta)).foregroundStyle(DvorStyle.ink)
                 }
             }
         }
@@ -296,7 +322,7 @@ struct HouseChatScreen: View {
                 AppStatePanel(kind: .loading, title: "Расшифровываем запись", detail: "Аудио уже сохранено и не потеряется.")
             case .ready:
                 Text("Голосовое готово · \(voiceDurationText(voiceDuration))")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.role(.name))
                 TextField("Расшифровка недоступна", text: $voiceTranscript, axis: .vertical)
                     .padding(10).background(t.fill, in: RoundedRectangle(cornerRadius: 10))
                 HStack {
@@ -558,8 +584,8 @@ struct HouseMenuScreen: View {
                             HStack(spacing: 12) {
                                 Avatar(name: store.currentResident.name, size: 52)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(store.currentResident.name).font(.system(size: 17, weight: .semibold)).foregroundStyle(DvorStyle.ink)
-                                    Text("\(store.currentResident.apartment) · \(session.canWriteToHouse ? "адрес подтверждён" : "адрес на проверке")").font(.system(size: 14)).foregroundStyle(DvorStyle.secondary)
+                                    Text(store.currentResident.name).font(.role(.cardTitle)).foregroundStyle(DvorStyle.ink)
+                                    Text("\(store.currentResident.apartment) · \(session.canWriteToHouse ? "адрес подтверждён" : "адрес на проверке")").font(.role(.meta)).foregroundStyle(DvorStyle.secondary)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold)).foregroundStyle(DvorStyle.muted)

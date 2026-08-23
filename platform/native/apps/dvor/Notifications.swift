@@ -108,7 +108,7 @@ struct HouseNotificationsScreen: View {
 
     private func notificationSection(_ title: String) -> some View {
         HStack {
-            Text(title).font(.system(size: 13, weight: .medium)).foregroundStyle(t.textSecondary)
+            Text(title).font(.role(.groupHeader)).foregroundStyle(t.textSecondary)
             Spacer()
         }
         .padding(.horizontal, t.pad).padding(.top, 16).padding(.bottom, 6)
@@ -132,11 +132,11 @@ struct HouseNotificationsScreen: View {
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text(title).font(.system(size: 15, weight: .semibold)).foregroundStyle(t.textPrimary)
+                        Text(title).font(.role(.name)).foregroundStyle(t.textPrimary)
                         Spacer(minLength: 4)
                         if !read.contains(id) { Circle().fill(t.accent).frame(width: 7, height: 7) }
                     }
-                    Text(detail).font(.system(size: 13)).foregroundStyle(t.textSecondary)
+                    Text(detail).font(.role(.meta)).foregroundStyle(t.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }

@@ -13,7 +13,7 @@ struct DvorProfileScreen: View {
         VStack(spacing: 0) {
             VStack(spacing: 12) {
                 Avatar(name: store.currentResident.name, size: 76)
-                Text(store.currentResident.name).font(.system(size: 24, weight: .bold))
+                Text(store.currentResident.name).font(.role(.tabTitle))
                 Text("\(store.currentResident.apartment) · \(session.canWriteToHouse ? "адрес подтверждён" : "адрес на проверке")")
                     .font(.vkBody).foregroundStyle(t.textSecondary)
                 Label(store.houseName, systemImage: "checkmark.seal")
@@ -52,7 +52,7 @@ struct NeighbourProfileScreen: View {
             VStack(spacing: 0) {
                 VStack(spacing: 12) {
                     Avatar(name: resident.name, size: 76)
-                    Text(resident.name).font(.system(size: 24, weight: .bold))
+                    Text(resident.name).font(.role(.tabTitle))
                     Text([resident.apartment, resident.role].compactMap { $0 }.joined(separator: " · "))
                         .font(.vkBody).foregroundStyle(t.textSecondary)
                     Label("Подтверждённый житель", systemImage: "checkmark.seal.fill")
@@ -76,7 +76,7 @@ struct NeighbourProfileScreen: View {
                 if !residentMatters.isEmpty {
                     GroupGap()
                     HStack(spacing: 8) {
-                        Text("Дела соседа").font(.system(size: 17, weight: .semibold))
+                        Text("Дела соседа").font(.role(.cardTitle))
                         Text("\(residentMatters.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
                         Spacer()
                     }
@@ -194,7 +194,7 @@ struct MeterScreen: View {
     }
     private func meterField(_ title: String, unit: String, text: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.system(size: 15, weight: .medium))
+            Text(title).font(.role(.action))
             HStack {
                 TextField("0", text: text).keyboardType(.decimalPad).font(.system(size: 22, weight: .semibold))
                 Text(unit).font(.vkBody).foregroundStyle(t.textSecondary)
@@ -204,9 +204,9 @@ struct MeterScreen: View {
 
     private func meterReceiptRow(_ title: String, value: String) -> some View {
         HStack {
-            Text(title).font(.system(size: 15, weight: .medium))
+            Text(title).font(.role(.action))
             Spacer()
-            Text(value).font(.system(size: 15)).foregroundStyle(t.textSecondary)
+            Text(value).font(.role(.body)).foregroundStyle(t.textSecondary)
         }
         .padding(.horizontal, 14)
         .frame(minHeight: 48)
@@ -288,7 +288,7 @@ struct GuestAccessScreen: View {
             // Без него экран — две строки и две кнопки на треть высоты.
             VStack(alignment: .leading, spacing: 0) {
                 HStack(spacing: 8) {
-                    Text("Сейчас в сети").font(.system(size: 17, weight: .semibold))
+                    Text("Сейчас в сети").font(.role(.cardTitle))
                     Text("\(activeGuests.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
                     Spacer()
                 }
@@ -297,7 +297,7 @@ struct GuestAccessScreen: View {
                     HStack(spacing: 12) {
                         Image(systemName: guest.2).font(.system(size: 18)).foregroundStyle(t.accent).frame(width: 28)
                         VStack(alignment: .leading, spacing: 1) {
-                            Text(guest.0).font(.system(size: 15, weight: .medium)).foregroundStyle(t.textPrimary)
+                            Text(guest.0).font(.role(.action)).foregroundStyle(t.textPrimary)
                             Text(guest.1).font(.vkMeta).foregroundStyle(t.textSecondary)
                         }
                         Spacer()
@@ -306,13 +306,13 @@ struct GuestAccessScreen: View {
                     RowSeparator(leading: 40)
                 }
                 HStack(spacing: 8) {
-                    Text("Выдавали раньше").font(.system(size: 17, weight: .semibold))
+                    Text("Выдавали раньше").font(.role(.cardTitle))
                     Spacer()
                 }
                 .padding(.top, 18).padding(.bottom, 8)
                 ForEach(pastGuests, id: \.0) { guest in
                     HStack(spacing: 12) {
-                        Text(guest.0).font(.system(size: 15)).foregroundStyle(t.textPrimary)
+                        Text(guest.0).font(.role(.body)).foregroundStyle(t.textPrimary)
                         Spacer()
                         Text(guest.1).font(.vkMeta).foregroundStyle(t.textSecondary)
                     }
@@ -387,16 +387,16 @@ struct GuestQRScannerScreen: View {
                 }
                 .overlay(alignment: .bottom) {
                     Text("Наведите камеру на QR-код гостевой сети")
-                        .font(.system(size: 15, weight: .medium)).foregroundStyle(.white)
+                        .font(.role(.action)).foregroundStyle(.white)
                         .padding(.horizontal, 16).frame(minHeight: 44)
                         .background(.black.opacity(0.58), in: Capsule()).padding(.bottom, 28)
                 }
             } else {
                 VStack(spacing: 16) {
                     Image(systemName: "camera.fill").font(.system(size: 32)).foregroundStyle(t.accent)
-                    Text("Сканер недоступен на этом устройстве").font(.system(size: 18, weight: .semibold))
+                    Text("Сканер недоступен на этом устройстве").font(.role(.section))
                     Text("Откройте пароль гостевой сети и подключитесь вручную.")
-                        .font(.system(size: 15)).foregroundStyle(t.textSecondary).multilineTextAlignment(.center)
+                        .font(.role(.body)).foregroundStyle(t.textSecondary).multilineTextAlignment(.center)
                     VKButton(title: "Вернуться к паролю") { dismiss() }
                 }
                 .padding(24).frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -481,7 +481,7 @@ struct EventsScreen: View {
     private func eventSection(title: String, events: [HouseEvent], past: Bool = false) -> some View {
         if !events.isEmpty {
             HStack(spacing: 8) {
-                Text(title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                Text(title).font(.role(.cardTitle)).foregroundStyle(t.textPrimary)
                 Text("\(events.count)").font(.vkMeta).foregroundStyle(t.textSecondary)
                 Spacer()
             }
@@ -489,9 +489,9 @@ struct EventsScreen: View {
 
             ForEach(events) { event in
                     HStack(alignment: .top, spacing: 14) {
-                        Text(event.day).font(.system(size: 14, weight: .semibold)).foregroundStyle(t.accent).frame(width: 56, alignment: .leading)
+                        Text(event.day).font(.role(.name)).foregroundStyle(t.accent).frame(width: 56, alignment: .leading)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(event.title).font(.system(size: 17, weight: .semibold))
+                            Text(event.title).font(.role(.cardTitle))
                             Text(event.detail).font(.vkMeta).foregroundStyle(t.textSecondary)
                             Button(eventBeingAdded == event.id ? "Добавляем…" : (addedEvents.contains(event.id) ? "Добавлено в календарь" : "Добавить в календарь")) {
                                 Task {
@@ -604,7 +604,7 @@ struct HouseAccessScreen: View {
                     // видно по строке ниже, а два объяснения подряд говорят
                     // голосом автора.
                     HStack(spacing: 8) {
-                        Text("Кто менял коды").font(.system(size: 17, weight: .semibold))
+                        Text("Кто менял коды").font(.role(.cardTitle))
                         Spacer()
                     }
                     .padding(.horizontal, t.pad).padding(.top, 14).padding(.bottom, 6)
@@ -613,7 +613,7 @@ struct HouseAccessScreen: View {
                         HStack(spacing: 12) {
                             Avatar(name: entry.0, size: 36)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text(entry.0).font(.system(size: 15, weight: .medium))
+                                Text(entry.0).font(.role(.action))
                                 Text(entry.1).font(.vkMeta).foregroundStyle(t.textSecondary)
                             }
                             Spacer()
@@ -768,9 +768,9 @@ struct DvorSettingsScreen: View {
                 VStack(spacing: 8) {
                     Avatar(name: store.currentResident.name, size: 96).padding(.top, 12)
                     Text(store.currentResident.name)
-                        .font(.system(size: 22, weight: .semibold)).foregroundStyle(DvorStyle.ink)
+                        .font(.role(.section)).foregroundStyle(DvorStyle.ink)
                     Text("\(store.currentResident.apartment) · \(store.address)")
-                        .font(.system(size: 15)).foregroundStyle(DvorStyle.secondary)
+                        .font(.role(.body)).foregroundStyle(DvorStyle.secondary)
                     VKOutlineButton(title: "Управление аккаунтом", tinted: false) {
                         nav.present(sheet: DvorRoute.profile)
                     }
