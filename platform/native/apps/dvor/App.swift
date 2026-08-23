@@ -212,9 +212,12 @@ struct DvorMainShell: View {
         @Bindable var nav = nav
         TabView(selection: $nav.tab) {
             ForEach(NativeConceptSpec.tabs) { tab in
-                Tab(tab.label, systemImage: tab.systemImage, value: tab.id) {
+                // Профиль vk-ios: подписей под иконками у ВК нет, имя вкладки
+                // остаётся только для VoiceOver.
+                Tab("", systemImage: tab.systemImage, value: tab.id) {
                     tabContent(tab.id, screen: tab.screen)
                 }
+                .accessibilityLabel(tab.label)
                 .badge(tab.role == "messaging" ? store.conversations.reduce(0) { $0 + $1.unread } : 0)
                 .accessibilityLabel(tab.label)
             }

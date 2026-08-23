@@ -172,6 +172,33 @@ final class HouseStore {
     var conversations: [HouseConversation]
     var events: [HouseEvent]
     var messages: [UUID: [HouseMessage]]
+    /// Реестр дома. Одно место на всё приложение: меню, настройки и экран
+    /// соседей раньше называли разные числа — 18 в двух местах и три строки
+    /// в списке.
+    let neighbours: [Resident] = [
+        Resident(name: "Анна Котова", apartment: "кв. 12", role: "Старшая по дому"),
+        Resident(name: "Михаил Орлов", apartment: "кв. 31", role: nil),
+        Resident(name: "Елена Соколова", apartment: "кв. 57", role: "Отвечает за клумбы"),
+        Resident(name: "Пётр Гаврилов", apartment: "кв. 4", role: nil),
+        Resident(name: "Ирина Лаптева", apartment: "кв. 9", role: nil),
+        Resident(name: "Сергей Бабин", apartment: "кв. 14", role: "Собирает на домофон"),
+        Resident(name: "Юлия Мороз", apartment: "кв. 17", role: nil),
+        Resident(name: "Тимур Ахметов", apartment: "кв. 22", role: nil),
+        Resident(name: "Ольга Пантелеева", apartment: "кв. 25", role: nil),
+        Resident(name: "Денис Ковалёв", apartment: "кв. 28", role: nil),
+        Resident(name: "Марина Швец", apartment: "кв. 33", role: "Держит чат подъезда"),
+        Resident(name: "Артём Носов", apartment: "кв. 36", role: nil),
+        Resident(name: "Галина Юрьева", apartment: "кв. 41", role: nil),
+        Resident(name: "Роман Тихонов", apartment: "кв. 45", role: nil),
+        Resident(name: "Ксения Дан", apartment: "кв. 52", role: nil),
+        Resident(name: "Виктор Ильин", apartment: "кв. 55", role: nil),
+        Resident(name: "Лариса Гей", apartment: "кв. 61", role: nil),
+        Resident(name: "Никита Фомин", apartment: "кв. 64", role: nil),
+    ]
+
+    var neighbourCount: Int { neighbours.count }
+    /// «Дела» — то, что ещё не решено: числа в меню и в ленте обязаны сойтись.
+    var openMatterCount: Int { matters.filter { $0.status != .resolved }.count }
     var isResidenceVerified = true
     var following = Set<UUID>()
     var liked = Set<UUID>()

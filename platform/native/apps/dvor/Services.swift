@@ -531,11 +531,8 @@ struct NeighboursScreen: View {
     @State private var contactsMatched: Bool?
     @State private var matchedNames = Set<String>()
     @State private var isMatching = false
-    private let people = [
-        Resident(name: "Анна Котова", apartment: "кв. 12", role: "Старшая по дому"),
-        Resident(name: "Михаил Орлов", apartment: "кв. 31", role: nil),
-        Resident(name: "Елена Соколова", apartment: "кв. 57", role: nil),
-    ]
+    @Environment(HouseStore.self) private var store
+    private var people: [Resident] { store.neighbours }
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
@@ -644,7 +641,7 @@ struct DvorSettingsScreen: View {
                 DvorCard {
                     VStack(spacing: 0) {
                         DvorRow(title: "Открытые дела", value: "4", chevron: false)
-                        DvorRow(title: "Соседи в приложении", value: "18", chevron: false)
+                        DvorRow(title: "Соседи в приложении", value: "\(store.neighbourCount)", chevron: false)
                         DvorRow(title: "Последнее обновление", value: "сейчас", chevron: false)
                     }
                 }

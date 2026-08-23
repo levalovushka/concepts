@@ -527,16 +527,29 @@ struct HouseMenuScreen: View {
     @Environment(HouseStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(Session.self) private var session
+
+    // Сетка плиток, как в «Меню» ВК: 4 в ряд, скруглённый квадрат 64 радиус 18,
+    // яркая градиентная заливка, белый глиф. «Настройки» — такая же плитка,
+    // а не шестерёнка в шапке: дверь в настройки одна.
+    private var tiles: [(String, String, [String], DvorRoute)] {
+        [
+            ("Соседи", "person.2.fill", ["42B883", "1E9E63"], .neighbours),
+            ("Счётчики", "gauge.with.dots.needle.bottom.50percent", ["5B7CFA", "3D5AFE"], .meters),
+            ("События", "calendar", ["FF8A65", "F4511E"], .events),
+            ("Доступы", "key.fill", ["FFB300", "F57C00"], .passwords),
+            ("Хроника", "photo.on.rectangle.angled", ["A78BFA", "7C4DFF"], .chronicle),
+            ("Настройки", "gearshape.fill", ["A9B0BA", "838B95"], .settings),
+        ]
+    }
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 9) {
                 VKTabHeader(
                     title: "Меню", avatar: store.currentResident.name,
                     avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) {
-                    Button { nav.push(DvorRoute.settings) } label: { Image(systemName: "gearshape") }
-                        .accessibilityLabel("Настройки")
-                }.background(DvorStyle.card)
+                ) { EmptyView() }
+                    .background(DvorStyle.card)
 
                 Button { nav.present(sheet: DvorRoute.profile) } label: {
                     DvorCard {
@@ -551,28 +564,51 @@ struct HouseMenuScreen: View {
                                 Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold)).foregroundStyle(DvorStyle.muted)
                             }
                             HStack(spacing: 18) {
-                                DvorStat(value: "18", label: "соседей")
-                                DvorStat(value: "4", label: "дела открыты")
+                                DvorStat(value: "\(store.neighbourCount)", label: "соседей")
+                                DvorStat(value: "\(store.openMatterCount)", label: "дела открыты")
                             }
                         }.padding(12)
                     }
                 }.buttonStyle(.plain)
 
-                DvorSectionTitle(title: "Сервисы")
-                DvorCard {
-                    VStack(spacing: 0) {
-                        menuRow("Соседи", "Подтверждённые жильцы дома", icon: "person.2", nativeActionID: "menu.open-neighbors") { nav.push(DvorRoute.neighbours) }
-                        menuRow("Счётчики", "Передать показания", icon: "gauge.with.dots.needle.bottom.50percent") { nav.push(DvorRoute.meters) }
-                        menuRow("События", "Собрания и дела дома", icon: "calendar") { nav.push(DvorRoute.events) }
-                        menuRow("Доступы дома", "Домофон, ворота и сеть", icon: "key", nativeActionID: "menu.open-access") { nav.push(DvorRoute.passwords) }
-                        menuRow("Хроника двора", "Фотографии жильцов", icon: "photo.on.rectangle") { nav.push(DvorRoute.chronicle) }
-                        menuRow("Настройки", "Уведомления и приватность", icon: "gearshape", nativeActionID: "menu.open-settings") { nav.push(DvorRoute.settings) }
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 4),
+                          spacing: 16) {
+                    ForEach(tiles.indices, id: \.self) { i in
+                        let tile = tiles[i]
+                        VKServiceTile(title: tile.0, icon: tile.1, colors: tile.2) {
+                            nav.push(tile.3)
+                        }
+                    }
+                }
+                .padding(.horizontal, 10)
+                .padding(.top, 14).padding(.bottom, 18)
+                .background(DvorStyle.card)
+
+                // Хвост экрана: ближайшие дела дома. Без него меню кончается
+                // на 40 % высоты и читается как макет.
+                if !store.events.isEmpty {
+                    VStack(alignment: .leading, spacing: 0) {
+                        DvorSectionTitle(title: "Дела дома")
+                        DvorCard {
+                            VStack(spacing: 0) {
+                                ForEach(Array(store.events.prefix(4).enumerated()), id: \.element.id) { index, event in
+                                    Button { nav.push(DvorRoute.events) } label: {
+                                        DvorRow(title: event.title,
+                                                subtitle: event.detail,
+                                                icon: "calendar")
+                                    }
+                                    .buttonStyle(.plain)
+                                    if index < min(store.events.count, 4) - 1 { RowSeparator(leading: 60) }
+                                }
+                            }
+                        }
                     }
                 }
             }
             .padding(.bottom, 18)
         }.background(DvorStyle.page).toolbar(.hidden, for: .navigationBar)
     }
+
     private func menuRow(_ title: String, _ subtitle: String, icon: String, nativeActionID: String? = nil, action: @escaping () -> Void) -> some View {
         Button(action: action) { DvorRow(title: title, subtitle: subtitle, icon: icon) }.buttonStyle(.plain)
             .nativeAction(nativeActionID ?? "")

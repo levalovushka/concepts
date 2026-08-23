@@ -441,11 +441,15 @@ struct VKServiceTile: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
+                // Профиль vk-ios: плитка 64, радиус 18, яркая градиентная заливка,
+                // внутри белый глиф. Серый квадрат с синей иконкой — это строка
+                // настроек, а не сервис ВК.
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(t.fill)
+                    .fill(LinearGradient(colors: colors.map { Color(hex: $0) },
+                                         startPoint: .topLeading, endPoint: .bottomTrailing))
                     .frame(width: 64, height: 64)
                     .overlay(Image(systemName: icon)
-                        .font(.system(size: 27, weight: .regular)).foregroundStyle(t.accent))
+                        .font(.system(size: 26, weight: .medium)).foregroundStyle(.white))
                 Text(title).font(.vkCaption).foregroundStyle(t.textPrimary)
                     .lineLimit(1).minimumScaleFactor(0.85)
             }

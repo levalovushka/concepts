@@ -393,16 +393,15 @@ struct MatterReaction: View {
     var selected = false
     @Environment(\.theme) private var t
 
+    // Профиль vk-ios: действия поста — голые иконки с числами. Капсула вокруг
+    // них была ошибкой и в «Образах» её уже убрали.
     var body: some View {
         HStack(spacing: 6) {
-            Image(systemName: icon)
-            if !value.isEmpty { Text(value) }
+            Image(systemName: icon).font(.system(size: 19))
+            if !value.isEmpty { Text(value).font(.system(size: 15)) }
         }
-        .font(.system(size: 14, weight: .medium))
-        .foregroundStyle(selected ? t.accent : DvorStyle.secondary)
-        .padding(.horizontal, 12)
-        .frame(minWidth: 56, minHeight: 36)
-        .background(selected ? t.accentSoft : DvorStyle.quietInside, in: Capsule())
+        .foregroundStyle(selected ? Color(hex: "FF3347") : DvorStyle.secondary)
+        .padding(.trailing, 8)
         .frame(minHeight: DvorStyle.hitTarget)
         .contentShape(Rectangle())
     }
