@@ -8,6 +8,7 @@ struct HouseChatsScreen: View {
     @Environment(HouseStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.theme) private var t
+    @State private var query = ""
 
     var body: some View {
         ScrollView {
@@ -16,13 +17,16 @@ struct HouseChatsScreen: View {
                     title: "Чаты", avatar: store.currentResident.name,
                     avatarAction: { nav.present(sheet: DvorRoute.profile) }
                 ) { EmptyView() }.background(DvorStyle.card)
+                VKSearchField(placeholder: "Поиск по чатам дома", text: $query)
+                    .padding(.horizontal, t.pad).padding(.bottom, 10)
+                    .background(DvorStyle.card)
                 if DvorShotMode.isScreen("chats", state: "loading") {
                     DvorPageState(kind: .loading, title: "Обновляем чаты", detail: "Проверяем новые сообщения дома.")
                 } else if store.conversations.isEmpty {
                     DvorPageState(kind: .empty, title: "Разговоров пока нет", detail: "Общий чат дома появится после подтверждения адреса.")
                 }
                 if !DvorShotMode.isScreen("chats", state: "loading") {
-                ForEach(store.conversations) { conversation in
+                ForEach(filtered) { conversation in
                     Button { nav.push(DvorRoute.chat(conversation)) } label: {
                         HStack(spacing: 12) {
                             Avatar(name: conversation.title, size: 52)
@@ -56,6 +60,14 @@ struct HouseChatsScreen: View {
         }
         .background(DvorStyle.page)
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var filtered: [HouseConversation] {
+        guard !query.isEmpty else { return store.conversations }
+        return store.conversations.filter {
+            $0.title.localizedCaseInsensitiveContains(query)
+                || $0.lastMessage.localizedCaseInsensitiveContains(query)
+        }
     }
 }
 
@@ -531,17 +543,6 @@ struct HouseMenuScreen: View {
     // Сетка плиток, как в «Меню» ВК: 4 в ряд, скруглённый квадрат 64 радиус 18,
     // яркая градиентная заливка, белый глиф. «Настройки» — такая же плитка,
     // а не шестерёнка в шапке: дверь в настройки одна.
-    private var tiles: [(String, String, [String], DvorRoute)] {
-        [
-            ("Соседи", "person.2.fill", ["42B883", "1E9E63"], .neighbours),
-            ("Счётчики", "gauge.with.dots.needle.bottom.50percent", ["5B7CFA", "3D5AFE"], .meters),
-            ("События", "calendar", ["FF8A65", "F4511E"], .events),
-            ("Доступы", "key.fill", ["FFB300", "F57C00"], .passwords),
-            ("Хроника", "photo.on.rectangle.angled", ["A78BFA", "7C4DFF"], .chronicle),
-            ("Настройки", "gearshape.fill", ["A9B0BA", "838B95"], .settings),
-        ]
-    }
-
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 9) {
@@ -571,14 +572,25 @@ struct HouseMenuScreen: View {
                     }
                 }.buttonStyle(.plain)
 
+                // Плитки перечислены явно, а не циклом по таблице: у каждой свой
+                // идентификатор действия, и ворота действий читают его буквально.
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 4),
                           spacing: 16) {
-                    ForEach(tiles.indices, id: \.self) { i in
-                        let tile = tiles[i]
-                        VKServiceTile(title: tile.0, icon: tile.1, colors: tile.2) {
-                            nav.push(tile.3)
-                        }
-                    }
+                    VKServiceTile(title: "Соседи", icon: "person.2.fill",
+                                  colors: ["42B883", "1E9E63"]) { nav.push(DvorRoute.neighbours) }
+                        .nativeAction("menu.open-neighbors")
+                    VKServiceTile(title: "Счётчики", icon: "gauge.with.dots.needle.bottom.50percent",
+                                  colors: ["5B7CFA", "3D5AFE"]) { nav.push(DvorRoute.meters) }
+                    VKServiceTile(title: "События", icon: "calendar",
+                                  colors: ["FF8A65", "F4511E"]) { nav.push(DvorRoute.events) }
+                    VKServiceTile(title: "Доступы", icon: "key.fill",
+                                  colors: ["FFB300", "F57C00"]) { nav.push(DvorRoute.passwords) }
+                        .nativeAction("menu.open-access")
+                    VKServiceTile(title: "Хроника", icon: "photo.on.rectangle.angled",
+                                  colors: ["A78BFA", "7C4DFF"]) { nav.push(DvorRoute.chronicle) }
+                    VKServiceTile(title: "Настройки", icon: "gearshape.fill",
+                                  colors: ["A9B0BA", "838B95"]) { nav.push(DvorRoute.settings) }
+                        .nativeAction("menu.open-settings")
                 }
                 .padding(.horizontal, 10)
                 .padding(.top, 14).padding(.bottom, 18)

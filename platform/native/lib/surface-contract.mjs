@@ -64,7 +64,7 @@ const UI_RECIPES = Object.freeze({
   form: ["navigation", "task-intro", "form", "primary-action"],
   detail: ["navigation", "summary", "content", "next-action"],
   chat: ["chat-header", "message-list", "composer"],
-  services: ["root-header", "service-list"],
+  services: ["root-header", "service-grid"],
 });
 
 const UI_ALLOWED_FAMILIES = Object.freeze({
@@ -74,7 +74,9 @@ const UI_ALLOWED_FAMILIES = Object.freeze({
   form: ["task-intro", "form", "primary-action"],
   detail: ["summary", "content", "next-action"],
   chat: ["chat", "message-list", "composer"],
-  services: ["service-list"],
+  // Мимикрия под ВК собирает «Меню» сеткой плиток; список строк там читается
+  // как экран настроек. Обе формы допустимы, выбор фиксирует концепт.
+  services: ["service-grid", "service-list"],
 });
 
 function diagnostic(code, message, path) {

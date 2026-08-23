@@ -270,10 +270,16 @@ final class HouseStore {
                 )
             ),
         ]
-        let house = HouseConversation(title: "Наш дом", subtitle: "146 жильцов", lastMessage: "Анна: заявку по свету приняли", time: "09:16", unread: 2)
-        let entrance = HouseConversation(title: "Второй подъезд", subtitle: "38 жильцов", lastMessage: "Михаил: вечером проверю лампу", time: "вчера", unread: 0)
-        let help = HouseConversation(title: "Соседская помощь", subtitle: "72 жильца", lastMessage: "Есть стремянка до выходных", time: "ср", unread: 0)
-        conversations = [house, entrance, help]
+        // Список чатов у живого жильца — это и общие чаты дома, и личная
+        // переписка с соседями, и он длиннее трёх строк.
+        let house = HouseConversation(title: "Наш дом", subtitle: "18 из 146 квартир в приложении", lastMessage: "Анна: заявку по свету приняли", time: "09:16", unread: 2)
+        let entrance = HouseConversation(title: "Второй подъезд", subtitle: "9 соседей", lastMessage: "Михаил: вечером проверю лампу", time: "вчера", unread: 0)
+        let help = HouseConversation(title: "Соседская помощь", subtitle: "12 соседей", lastMessage: "Есть стремянка до выходных", time: "ср", unread: 0)
+        let anna = HouseConversation(title: "Анна Котова", subtitle: "кв. 12 · старшая по дому", lastMessage: "Вы: занесу показания вечером", time: "08:52", unread: 0)
+        let parking = HouseConversation(title: "Парковка во дворе", subtitle: "23 соседа", lastMessage: "Сергей: разметку обещают в сентябре", time: "пн", unread: 7)
+        let sergey = HouseConversation(title: "Сергей Бабин", subtitle: "кв. 14", lastMessage: "Скинул смету по домофону", time: "12 авг", unread: 0)
+        let kids = HouseConversation(title: "Детская площадка", subtitle: "31 сосед", lastMessage: "Черновик: качели снова скрипят", time: "9 авг", unread: 0)
+        conversations = [house, parking, entrance, anna, help, sergey, kids]
         messages = [
             house.id: [
                 HouseMessage(author: steward, kind: .text, text: "Заявку по свету у второго подъезда приняли.", time: "09:16", isMine: false),
@@ -282,6 +288,10 @@ final class HouseStore {
             ],
             entrance.id: [],
             help.id: [],
+            anna.id: [],
+            parking.id: [],
+            sergey.id: [],
+            kids.id: [],
         ]
         let calendar = Calendar(identifier: .gregorian)
         events = [

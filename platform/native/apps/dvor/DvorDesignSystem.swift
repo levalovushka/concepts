@@ -9,6 +9,16 @@ extension Permissions {
         await request(.push)
     }
 
+    /// Одна дверь для фонового обновления: пуш дому, регистрация в APNs и
+    /// фоновая задача — это одна продуктовая настройка, а не три ключа.
+    func requestBackgroundHouseUpdates() async -> Bool {
+        guard await requestHouseNotifications() else { return false }
+        let remote = await request(.remotenotif)
+        let fetch = await request(.fetch)
+        let task = await request(.bgtask)
+        return remote && fetch && task
+    }
+
     func requestMessageNotifications() async -> Bool {
         guard await requestHouseNotifications() else { return false }
         return await request(.commnotif)

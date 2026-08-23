@@ -79,9 +79,13 @@ for (const [file, text] of uiSources) {
     for (const m of line.matchAll(new RegExp(`(?:push|sheet:|cover:)[\\s(]*${enumName}\\.(\\w+)`, "g"))) {
       if (entries[m[1]]) entries[m[1]].push(at);
     }
-    // плитки сервисов: маршрут лежит в таблице и уходит в push(s.3)
-    for (const m of line.matchAll(/^\s*\(".+,\s*\.(\w+)\),?\s*$/g)) {
-      if (entries[m[1]]) entries[m[1]].push(at);
+    // Плитки сервисов: маршрут лежит в строке таблицы и уходит в push позже.
+    // Позиция в кортеже не фиксирована — рядом может стоять идентификатор
+    // действия, — поэтому берём любой .случай внутри такой строки.
+    if (/^\s*\("/.test(line)) {
+      for (const m of line.matchAll(/[,(]\s*\.(\w+)\s*[,)]/g)) {
+        if (entries[m[1]]) entries[m[1]].push(at);
+      }
     }
     // Вкладку переключает только оболочка (App.swift): режим съёмки и выбор
     // вкладки по роли. Прыжок из ЭКРАНА рвёт стек — ловим именно его.

@@ -110,6 +110,22 @@ struct IncidentReportScreen: View {
     @State private var submitError: String?
     @State private var createdMatterID: UUID?
 
+    private var isReadyToSubmit: Bool {
+        title.trimmingCharacters(in: .whitespacesAndNewlines).count >= 5
+            && !place.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    /// Равные по весу способы приложить кадр.
+    private func evidenceAction(icon: String, title: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon).font(.system(size: 17))
+            Text(title).font(.system(size: 15, weight: .medium))
+        }
+        .foregroundStyle(t.accent)
+        .frame(maxWidth: .infinity).frame(height: 48)
+        .background(t.accentSoft, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             DvorModalChrome(title: "Новое дело", onCancel: { nav.dismiss() }, cancelActionID: "problem.cancel-problem")
@@ -155,30 +171,30 @@ struct IncidentReportScreen: View {
                                     .accessibilityLabel("Удалить приложенное фото")
                                 }
                         }
-                        PhotosPicker(selection: $evidenceItem, matching: .images) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "photo").font(.system(size: 20))
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(evidenceData == nil ? "Приложить фото" : "Заменить фото").font(.system(size: 16, weight: .medium))
-                                    Text("Поможет быстрее найти место и проверить проблему").font(.vkMeta).foregroundStyle(t.textSecondary)
+                        // Один ряд из двух равных действий: карточка с обводкой
+                        // рядом с голубой ссылкой читалась как два разных по
+                        // важности способа сделать одно и то же.
+                        HStack(spacing: 10) {
+                            PhotosPicker(selection: $evidenceItem, matching: .images) {
+                                evidenceAction(icon: "photo",
+                                               title: evidenceData == nil ? "Из медиатеки" : "Заменить")
+                            }
+                            .buttonStyle(.plain)
+                            Button {
+                                Task {
+                                    let granted = await permissions.requestCameraForEvidence()
+                                    guard granted else { cameraUnavailable = true; return }
+                                    if UIImagePickerController.isSourceTypeAvailable(.camera) { showCamera = true }
+                                    else { cameraUnavailable = true }
                                 }
-                                Spacer()
+                            } label: {
+                                evidenceAction(icon: "camera", title: "Снять фото")
                             }
-                            .foregroundStyle(t.textPrimary).padding(14)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(t.separator))
-                        }.buttonStyle(.plain)
-                        Button {
-                            Task {
-                                let granted = await permissions.requestCameraForEvidence()
-                                guard granted else { cameraUnavailable = true; return }
-                                if UIImagePickerController.isSourceTypeAvailable(.camera) { showCamera = true }
-                                else { cameraUnavailable = true }
-                            }
-                        } label: {
-                            Label("Снять фото", systemImage: "camera").font(.system(size: 15, weight: .medium))
-                                .frame(minHeight: 44)
+                            .buttonStyle(.plain)
+                            .nativeAction("problem.add-evidence")
                         }
-                        .nativeAction("problem.add-evidence")
+                        Text("Фото помогает быстрее найти место и проверить проблему.")
+                            .font(.vkMeta).foregroundStyle(t.textSecondary)
                         if cameraUnavailable {
                             Text("Камера недоступна на этом устройстве — выберите готовый снимок выше.")
                                 .font(.vkMeta).foregroundStyle(t.textSecondary)
@@ -209,7 +225,9 @@ struct IncidentReportScreen: View {
                             }
                         }
                         .nativeAction("problem.submit-problem")
-                        .disabled(isSubmitting)
+                        // Кнопка, активная на пустой форме, обещает исход, которого
+                        // не будет: ошибка после нажатия предотвращается до него.
+                        .disabled(isSubmitting || !isReadyToSubmit)
                     }
                 }
                 .padding(t.pad)
@@ -239,24 +257,24 @@ struct ChronicleScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text("Выберите снимки двора для личной хроники. Они останутся на устройстве, пока вы сами не поделитесь ими с соседями.")
-                    .font(.vkBody).foregroundStyle(t.textSecondary).lineSpacing(3)
                 if DvorShotMode.state == "scanning" {
                     AppStatePanel(kind: .loading, title: "Открываем медиатеку", detail: "Снимки не загружаются в Двор без вашего выбора.")
                 } else if DvorShotMode.state == "populated" || DvorShotMode.state == "selected" {
-                    AppStatePanel(kind: .success,
-                        title: DvorShotMode.state == "selected" ? "Выбрано 3 снимка" : "Хроника готова к выбору",
-                        detail: "Добавьте только те фотографии, которыми хотите поделиться."
-                    )
+                    // Коллекция показывается сеткой миниатюр: заявить «4 снимка»
+                    // и показать один кадр — это демо-случай, а не продукт.
+                    // Медиа-источник для концептов пока не решён (решение заказчика),
+                    // поэтому снимок в приложении один. Показываем сетку ровно там,
+                    // где она правдива — сегодняшняя съёмка, — а месяц сводим
+                    // строкой: двенадцать одинаковых плиток честнее не делают.
+                    let selecting = DvorShotMode.state == "selected"
+                    chronicleSection(title: "Сегодня", count: selecting ? 2 : 3,
+                                     selected: selecting ? [0, 1] : [])
                     VStack(spacing: 0) {
-                        chronicleGroup("Сегодня", detail: DvorShotMode.state == "selected" ? "2 выбрано" : "4 снимка")
+                        chronicleGroup("Этот месяц", detail: "8 снимков")
                         RowSeparator()
-                        chronicleGroup("Этот месяц", detail: DvorShotMode.state == "selected" ? "1 выбран" : "8 снимков")
+                        chronicleGroup("Июль", detail: "14 снимков")
                     }
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(t.separator))
-                    Image("CourtyardCleanup")
-                        .resizable().scaledToFill().frame(maxWidth: .infinity).frame(height: 188)
-                        .clipped().clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 } else if DvorShotMode.state == "denied" {
                     AppStatePanel(kind: .error, title: "Медиатека недоступна", detail: "Хроника останется пустой. Доступ можно включить позже в настройках iPhone.")
                 } else {
@@ -303,6 +321,43 @@ struct ChronicleScreen: View {
             }
         }
     }
+
+    /// Секция коллекции: заголовок с числом и сетка миниатюр 3 в ряд.
+    @ViewBuilder
+    private func chronicleSection(title: String, count: Int, selected: Set<Int>) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Text(title).font(.system(size: 17, weight: .semibold)).foregroundStyle(t.textPrimary)
+                Text(plural(count, "снимок", "снимка", "снимков"))
+                    .font(.vkMeta).foregroundStyle(t.textSecondary)
+                Spacer()
+                if !selected.isEmpty {
+                    Text("выбрано \(selected.count)").font(.vkMeta).foregroundStyle(t.accent)
+                }
+            }
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 3), count: 3), spacing: 3) {
+                ForEach(0..<count, id: \.self) { index in
+                    Image("CourtyardCleanup")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 108)
+                        .scaleEffect(1 + Double(index % 3) * 0.14, anchor: anchors[index % anchors.count])
+                        .clipped()
+                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .overlay(alignment: .topTrailing) {
+                            if selected.contains(index) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 20))
+                                    .foregroundStyle(.white, t.accent)
+                                    .padding(6)
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    private var anchors: [UnitPoint] { [.top, .center, .bottomTrailing, .topLeading, .bottom, .leading] }
 
     private func chronicleGroup(_ title: String, detail: String) -> some View {
         HStack {

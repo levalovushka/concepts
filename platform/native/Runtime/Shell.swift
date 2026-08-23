@@ -77,3 +77,14 @@ struct ToastOverlay: View {
         }
     }
 }
+
+// MARK: - Числительные
+
+/// «21 вещь · 22 вещи · 25 вещей». Живые числа в интерфейсе не пишутся одной
+/// формой: «25 вещь» читается как заглушка.
+func plural(_ n: Int, _ one: String, _ few: String, _ many: String) -> String {
+    let t = n % 10, h = n % 100
+    if t == 1 && h != 11 { return "\(n) \(one)" }
+    if (2...4).contains(t) && !(12...14).contains(h) { return "\(n) \(few)" }
+    return "\(n) \(many)"
+}

@@ -2127,7 +2127,7 @@
         ],
         "density": "medium",
         "componentFamilies": [
-          "service-list"
+          "service-grid"
         ],
         "actions": [
           {
@@ -2470,6 +2470,26 @@
             },
             "execution": "sync",
             "persistence": "none"
+          },
+          {
+            "id": "enable-background-updates",
+            "label": "Обновлять дом в фоне",
+            "outcome": {
+              "type": "request",
+              "capability": "bgtask"
+            },
+            "execution": "async",
+            "persistence": "local",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Фоновое обновление не включилось. Дом обновится при открытии приложения.",
+              "retry": true
+            }
           }
         ],
         "contentCases": [

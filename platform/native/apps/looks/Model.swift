@@ -114,14 +114,6 @@ struct NearbyEvent: Identifiable, Hashable {
     let going: Int
 }
 
-/// «21 вещь · 17 вещей · 22 вещи» — числа в интерфейсе живые, а не всегда «вещей».
-func plural(_ n: Int, _ one: String, _ few: String, _ many: String) -> String {
-    let t = n % 10, h = n % 100
-    if t == 1 && h != 11 { return "\(n) \(one)" }
-    if (2...4).contains(t) && !(12...14).contains(h) { return "\(n) \(few)" }
-    return "\(n) \(many)"
-}
-
 // MARK: - Состояние приложения (живое: лайки, сохранения, отправка сообщений)
 
 @MainActor

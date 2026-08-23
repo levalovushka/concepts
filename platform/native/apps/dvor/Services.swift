@@ -604,6 +604,7 @@ struct DvorSettingsScreen: View {
     @Environment(Permissions.self) private var permissions
     @AppStorage("dvor.appLock") private var appLock = false
     @AppStorage("dvor.messageNotifications") private var messageNotifications = false
+    @AppStorage("dvor.backgroundUpdates") private var backgroundUpdates = false
     @State private var isHydrating = true
     @AppStorage("dvor.personalizedServices") private var personalizedServicesEnabled = false
     @Environment(Session.self) private var session
@@ -624,6 +625,10 @@ struct DvorSettingsScreen: View {
                     VStack(spacing: 0) {
                         DvorRow(title: "Ответы по делам", subtitle: "Спросим при подписке на дело", value: statusTitle(permissions.status(.push)), chevron: false)
                         DvorRow(title: "Сообщения соседей", subtitle: "Имя жильца в уведомлении", toggle: $messageNotifications)
+                        DvorRow(title: "Обновлять дом в фоне",
+                                subtitle: "Заявки и показания подтянутся до открытия приложения",
+                                toggle: $backgroundUpdates)
+                            .nativeAction("settings.enable-background-updates")
                     }
                 }
 
@@ -640,7 +645,7 @@ struct DvorSettingsScreen: View {
                 DvorSectionTitle(title: "Дом сейчас")
                 DvorCard {
                     VStack(spacing: 0) {
-                        DvorRow(title: "Открытые дела", value: "4", chevron: false)
+                        DvorRow(title: "Открытые дела", value: "\(store.openMatterCount)", chevron: false)
                         DvorRow(title: "Соседи в приложении", value: "\(store.neighbourCount)", chevron: false)
                         DvorRow(title: "Последнее обновление", value: "сейчас", chevron: false)
                     }
@@ -655,6 +660,16 @@ struct DvorSettingsScreen: View {
             Task {
                 let granted = await permissions.request(.faceid)
                 if !granted { appLock = false; nav.toast("Останется код-пароль устройства") }
+            }
+        }
+        .onChange(of: backgroundUpdates) { _, enabled in
+            guard !isHydrating, enabled else { return }
+            Task {
+                let granted = await permissions.requestBackgroundHouseUpdates()
+                if !granted {
+                    backgroundUpdates = false
+                    nav.toast("Дом обновится при открытии приложения")
+                }
             }
         }
         .onChange(of: messageNotifications) { _, enabled in
