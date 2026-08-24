@@ -1,0 +1,1285 @@
+/* «Наш класс» — соцсеть родителей одного класса. Мимикрия под Одноклассники.
+   Токены взяты по наблюдениям kernel/archetypes/ok-observations.md:
+   тёплая подложка, белые карточки, оранжевые действия, зелёные счётчики. */
+
+.r-page {
+  background-color: #f2efec;
+  color: #14110f;
+}
+.r-scroll {
+  padding-bottom: 12px;
+}
+.r-scroll > .r-top {
+  margin-bottom: 8px;
+}
+.r-safe {
+  padding-top: var(--safe-top);
+}
+
+/* —— верхняя панель раздела —— */
+.r-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 8px 16px;
+  background-color: #fff;
+}
+.r-top-title {
+  flex: 1;
+  min-width: 0;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-top-acts {
+  display: flex;
+  gap: 2px;
+}
+.r-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #14110f;
+  position: relative;
+}
+.r-icon .ico-svg {
+  width: 23px;
+  height: 23px;
+}
+.r-badge {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 11px/18px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— карточка раздела —— */
+.r-card {
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.r-card.pad {
+  padding: 14px 16px;
+}
+.r-wrap {
+  padding-top: 0;
+}
+
+/* —— промо-блок: инвентарь под ATT —— */
+.r-promo {
+  position: relative;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: #fff;
+  margin-bottom: 8px;
+}
+.r-promo-lab {
+  font: 500 11px/14px var(--face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ios-secondary);
+  margin-bottom: 6px;
+}
+.r-promo-t {
+  font: 600 16px/21px var(--face);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  max-width: 24ch;
+}
+.r-promo-d {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 12px;
+  max-width: 30ch;
+}
+.r-promo-more {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--ios-secondary);
+}
+.r-pill {
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 20px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 15px/1 var(--face);
+}
+.r-pill.quiet {
+  background-color: rgba(60, 60, 67, 0.1);
+  color: #14110f;
+}
+
+/* —— публикация —— */
+.r-post-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+.r-post-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.r-post-who {
+  flex: 1;
+  min-width: 0;
+}
+.r-post-name {
+  font: 600 15px/19px var(--face);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.r-kin {
+  font: 400 13px/17px var(--face);
+  color: var(--accent-fill);
+}
+.r-post-meta {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-post-text {
+  padding: 0 14px 10px;
+  font: 400 15px/21px var(--face);
+  letter-spacing: -0.01em;
+}
+
+.r-media-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  height: 168px;
+}
+.r-deadline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-deadline .ico-svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--accent-fill);
+}
+.r-acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 8px;
+}
+.r-act {
+  min-height: 44px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  color: var(--ios-secondary);
+  font: 400 14px/1 var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.r-act.is-on {
+  color: var(--accent-fill);
+}
+.r-act.last {
+  margin-left: auto;
+}
+
+/* —— секции и строки —— */
+.r-sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px 8px;
+}
+.r-sec-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 700 17px/22px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-sec-head span {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-row:last-child {
+  border-bottom: 0;
+}
+.r-row-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex: none;
+  position: relative;
+}
+/* Обрезка живёт на самом плейсхолдере: на контейнере она срезала
+   зелёную точку присутствия, приклеенную к краю аватара. */
+.r-row-face > .ph {
+  border-radius: inherit;
+  overflow: hidden;
+}
+.r-online {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #4bb34b;
+  box-shadow: 0 0 0 2px #fff;
+}
+.r-row-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-row-t {
+  font: 500 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-row-s {
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+  text-wrap: pretty;
+}
+.r-end {
+  flex: none;
+  text-align: right;
+  color: var(--ios-secondary);
+  font: 400 13px/18px var(--face);
+}
+.r-count {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 12px/20px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— чипы разделов —— */
+
+/* —— переписка —— */
+.r-chat-scroll {
+  padding: 10px var(--margin) 8px;
+  display: flex;
+  flex-direction: column;
+}
+/* Переписка прижата к низу: живой разговор начинается снизу, а не сверху. */
+.r-chat-scroll > :first-child {
+  margin-top: auto;
+}
+.r-daydiv {
+  align-self: center;
+  margin: 6px auto 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background-color: rgba(60, 60, 67, 0.1);
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  width: fit-content;
+}
+.r-bub {
+  max-width: 76%;
+  margin-bottom: 8px;
+  padding: 9px 12px 7px;
+  border-radius: 16px;
+  background-color: #fff;
+  font: 400 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-bub.mine {
+  margin-left: auto;
+  background-color: rgba(238, 114, 3, 0.14);
+}
+.r-bub-time {
+  display: block;
+  margin-top: 2px;
+  text-align: right;
+  font: 400 11px/14px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.r-voicemsg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+.r-voicemsg .ico-svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  color: var(--accent-fill);
+}
+.r-wave {
+  flex: 1;
+  height: 22px;
+  border-radius: 3px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent-fill) 0 2px,
+    transparent 2px 5px
+  );
+  opacity: 0.55;
+}
+.r-kinbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: #fff;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-kinbar-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-kinbar-t {
+  font: 500 14px/19px var(--face);
+}
+.r-kinbar-s {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-inputbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px var(--margin);
+  background-color: #fff;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 20px;
+  background-color: rgba(118, 118, 128, 0.12);
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— плеер и аудиоархив —— */
+.r-player-art {
+  height: 200px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.r-track {
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(60, 60, 67, 0.18);
+  margin-bottom: 6px;
+  position: relative;
+}
+.r-track-in {
+  position: absolute;
+  inset: 0 62% 0 0;
+  border-radius: 2px;
+  background-color: var(--accent-fill);
+}
+.r-times {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 18px;
+}
+.r-marks {
+  display: flex;
+  flex-direction: column;
+}
+/* Метка живёт на общей сетке концепта: поле 16, колонка тайм-кода 56,
+   текст с 72 — как значок и текст в обычной строке. */
+.r-mark {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 8px 16px;
+  font: 400 15px/20px var(--face);
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-mark:last-child {
+  border-bottom: 0;
+}
+.r-mark-at {
+  font: 500 14px/19px var(--face);
+  color: var(--accent-fill);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  width: 56px;
+}
+
+/* —— встреч и дорога —— */
+.r-gather {
+  padding: 16px 14px;
+  border-radius: 14px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  margin-bottom: 10px;
+}
+.r-gather-when {
+  font: 500 13px/17px var(--face);
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+.r-gather-t {
+  font: 700 24px/29px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.r-gather-s {
+  font: 400 14px/19px var(--face);
+  opacity: 0.92;
+}
+.r-way {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 8px 16px 8px 0;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-way:last-child {
+  border-bottom: 0;
+}
+.r-way-dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 17px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.25);
+}
+.r-way-dot.is-moving {
+  background-color: var(--accent-fill);
+}
+.r-way-dot.is-here {
+  background-color: #4bb34b;
+}
+
+/* —— устройства в сети —— */
+.r-net {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-net .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+/* —— состав выпуска —— */
+
+/* —— профиль —— */
+.r-prof {
+  padding: 18px 14px 14px;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.r-prof-face {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-prof-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-prof-n {
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-prof-r {
+  margin-top: 3px;
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-prof-nums {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 14px;
+}
+.r-prof-acts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.r-prof-acts .r-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  max-width: 168px;
+}
+.r-prof-num b {
+  display: block;
+  font: 700 18px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-prof-num span {
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— мелкие утилиты концепта —— */
+.r-note {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-note .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  margin-top: 1px;
+}
+.r-cta {
+  padding: 10px 16px 8px;
+}
+.r-dock .tab .ico-svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* Тёмные экраны концепта: ядро задаёт только цвет текста, подложку ставит концепт. */
+.r-page .lock-bg {
+  background-color: #17120e;
+}
+.r-page .lock-bg .miniplayer-title,
+
+.r-page .lock-bg .miniplayer-sub {
+  color: rgba(255, 255, 255, 0.78);
+}
+.r-page .cam {
+  background-color: #0d0b09;
+}
+
+/* Счётчик на вкладке сидит на иконке, а не под ней. */
+.r-dock .tab {
+  position: relative;
+}
+.r-dock .tab .r-count {
+  position: absolute;
+  top: 1px;
+  left: calc(50% + 4px);
+}
+
+/* Запись — не человек: миниатюра квадратная, а не круглая. */
+.r-row-face.is-art {
+  border-radius: 8px;
+}
+
+/* Строка со значком вместо лица: значок центрируется и получает подложку.
+   Без этого svg из спрайта рендерится обрезком в 44-пиксельном круге. */
+.r-row-face:has(> .ico-svg) {
+  display: grid;
+  place-items: center;
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.r-row-face > .ico-svg {
+  width: 22px;
+  height: 22px;
+}
+.r-mark .ico-svg,
+.r-way .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Таб-бар в ОК светлый, счётчики зелёные, активная вкладка оранжевая.
+   Ядро отдаёт тёмное стекло — концепт переопределяет подложку и цвета. */
+.r-dock {
+  background-color: #fff;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  color: rgba(60, 60, 67, 0.45);
+}
+.r-dock > .tab.is-on {
+  color: var(--accent-fill);
+}
+/* Ядро заливает иконку активной вкладки под залитый SF Symbol, но иконки
+   спрайта контурные: залитый конверт превращается в оранжевый квадрат.
+   В ОК активная вкладка — тот же контур, только акцентным цветом. */
+.r-dock .tab.is-on .ico svg {
+  fill: none;
+  stroke-width: 2;
+}
+.r-dock .tab .r-count {
+  position: absolute;
+  top: -1px;
+  left: 52%;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Композер ленты: аватар, приглашение написать и съёмка — как в ОК. */
+.r-composer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.r-composer-face {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-composer-hint {
+  flex: 1;
+  min-width: 0;
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+.r-composer-act {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.08);
+  display: grid;
+  place-items: center;
+  color: #14110f;
+}
+.r-composer-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Подпись только для скринридера — у круглых кнопок без текста. */
+.r-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Круглая кнопка голосового в строке ввода — как в ОК. */
+.r-mic {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+}
+.r-mic .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Плейсхолдер внутри контейнера-носителя обязан заполнять его целиком:
+   без размеров он схлопывается до иконки и прижимается к левому верхнему углу. */
+.r-post-face > .ph,
+.r-row-face > .ph,
+.r-composer-face > .ph,
+.r-player-art > .ph,
+.r-media-pair > .ph,
+.miniplayer-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+
+/* Выбранные снимки в композере — полоса миниатюр, а не два поля во весь экран. */
+.r-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+.r-thumb {
+  width: 92px;
+  height: 92px;
+  flex: none;
+  border-radius: 10px;
+}
+
+/* Кнопка-действие в шапке раздела: компактная пилюля, а не иконка без подписи. */
+.r-top-acts .r-pill {
+  min-height: 36px;
+  padding: 0 14px;
+  font: 600 14px/1 var(--face);
+}
+/* Кнопка в подвале секции всегда во всю ширину: ядровая .btn-filled
+   инлайновая, и без этого главное действие съезжает к левому краю. */
+.r-cta .btn-filled {
+  width: 100%;
+}
+/* Тихая кнопка концепта: белая карточка с акцентным текстом.
+   Ядровая заливка на тёплой подложке читается как выключенная. */
+.r-cta .btn-quiet {
+  width: 100%;
+  min-height: 50px;
+  border-radius: var(--r-btn);
+  background-color: #fff;
+  color: var(--accent-fill);
+  font: 600 15px/1 var(--face);
+}
+
+/* Статус-бар и навбар на белой шапке: тёплая подложка над «Лентой»
+   читается как незакрашенная полоса. */
+.device:has(.screen.is-on.r-page:not(.r-dark)) > .status {
+  background-color: #fff;
+}
+.r-page .navbar {
+  background-color: #fff;
+}
+/* Строка ввода не наезжает на индикатор «Домой». */
+.r-inputbar {
+  padding-bottom: calc(var(--safe-bottom) - 8px);
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+
+/* Полоса прогресса в строке списка: доля задаётся классом,
+   inline-style в UI v3 запрещён. */
+.r-row-copy .dl-bar {
+  margin-top: 8px;
+  max-width: 150px;
+}
+.r-p62 {
+  width: 62%;
+}
+
+/* Модальный лист: подложка за ним притемняется, иначе экран читается
+   как обычный, у которого контент почему-то начинается с середины. */
+.r-page:has(> .sheet) {
+  background-color: #ddd6cf;
+}
+
+/* —— тёмные экраны: звонок, локскрин, показ на телевизоре —— */
+.r-page .lock-bg {
+  align-items: center;
+  text-align: center;
+}
+.r-call-face {
+  width: 108px;
+  height: 108px;
+  margin: 26px 0 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.r-call-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-call-name {
+  font: 700 28px/34px var(--face);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.r-call-sub {
+  margin-top: 4px;
+  font: 400 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+}
+.r-call-timer {
+  margin-top: 10px;
+  font: 500 17px/22px var(--face);
+  color: rgba(255, 255, 255, 0.86);
+  font-variant-numeric: tabular-nums;
+}
+.r-call-ctl,
+.r-np-ctl,
+.r-cast-ctl {
+  gap: 22px;
+  margin-bottom: 20px;
+}
+.r-call-end {
+  width: 100%;
+  padding-bottom: 8px;
+}
+.r-hangup,
+.r-stopcast {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: 600 17px/1 var(--face);
+}
+.r-hangup {
+  background-color: #e5342b;
+  color: #fff;
+}
+.r-stopcast {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.r-lock-date {
+  margin-top: 18px;
+  font: 400 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.72);
+}
+.r-lock-time {
+  font: 300 76px/84px var(--face);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.r-nowplaying {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+}
+/* Баннер входящего звонка на локскрине: матовая карточка с двумя кнопками. */
+.r-incoming {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.14);
+  text-align: left;
+}
+.r-incoming-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.r-incoming-face {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-incoming-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-incoming-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-incoming-name {
+  font: 600 16px/21px var(--face);
+  color: #fff;
+}
+.r-incoming-sub {
+  font: 400 14px/19px var(--face);
+  color: rgba(255, 255, 255, 0.68);
+}
+.r-incoming-when {
+  flex: none;
+  font: 400 13px/18px var(--face);
+  color: rgba(255, 255, 255, 0.55);
+}
+.r-incoming-acts {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.r-decline,
+.r-accept {
+  flex: 1;
+  min-height: 46px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 23px;
+  font: 600 16px/1 var(--face);
+}
+.r-decline {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.r-accept {
+  background-color: #34c759;
+  color: #fff;
+}
+.r-nowplaying {
+  padding: 12px 14px 4px;
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.r-nowplaying .miniplayer {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+.r-nowplaying .dl-bar {
+  margin: 16px 0 6px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.r-cast-art {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex: none;
+}
+.r-cast-art > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-cast-t {
+  margin-top: 18px;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.r-cast-s {
+  margin-top: 4px;
+  font: 400 14px/19px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+}
+.r-cast-track {
+  width: 100%;
+  margin-top: 18px;
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Модификаторы тёмных экранов: подложка и вертикальный ритм. */
+.r-dark {
+  background-color: #17120e;
+}
+/* Сцена тёмного экрана без больших часов: ядровой .lock-bg прячет время
+   в статус-баре, потому что на локскрине часы свои. Звонку и показу
+   на телевизоре часы нужны. */
+.r-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 10px);
+}
+.r-lock {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.r-call .grow,
+.r-cast .grow {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Управление поверх видоискателя белое: акцентный цвет ядра на камере
+   читается как активное состояние, которого нет. */
+.cam .icon-btn {
+  color: #fff;
+}
+/* Переключатель режима съёмки поверх тёмного видоискателя. */
+.cam .ios-segmented {
+  background-color: rgba(0, 0, 0, 0.42);
+}
+.cam .ios-segmented .seg {
+  color: rgba(255, 255, 255, 0.72);
+}
+.cam .ios-segmented .seg.is-on {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #14110f;
+}
+
+/* Действие в хвосте строки читается как нажимаемое, а не как данные. */
+.r-end.is-act {
+  color: var(--accent-fill);
+  font: 500 14px/19px var(--face);
+}
+
+/* Управление записью: перемотка по краям, главное действие в центре. */
+.r-play-ctl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.r-play-ctl .r-ctl {
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.r-listen {
+  flex: 1;
+  min-height: 50px;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--r-btn);
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 17px/1 var(--face);
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+.r-player-t {
+  font: 700 20px/25px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+}
+.r-player-s {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 18px;
+}
+
+/* Индикатор записи в листе голосового. */
+.r-rec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.r-rec-t {
+  flex: 1;
+  min-width: 0;
+  font: 500 15px/20px var(--face);
+}
+.r-rec-time {
+  font: 500 15px/20px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.r-wave-big {
+  height: 44px;
+  margin-bottom: 10px;
+  opacity: 0.75;
+}
+
+/* Поле публикации — область ввода, а не строка списка. */
+.r-editor {
+  min-height: 108px;
+}
+
+/* Ячейки кода отбиваются от подводки так же, как поле почты на входе. */
+.r-page .otp {
+  margin-top: 24px;
+}
+
+/* Экраны входа белые: тёплая подложка держит белые карточки в разделах,
+   а на входе карточек нет — она читается как незакрашенный фон. */
+.r-page:has(> .auth) {
+  background-color: #fff;
+}
+
+/* Управление воспроизведением внутри экрана. Ядровой .ctl — класс страницы
+   документа, а не устройства: у него своя типографика и рамка. */
+.r-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.r-ctl {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.r-ctl .ico-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+/* Финальная плотная композиция: изображение всегда вторично данным и действию. */
+.r-thumb74 {
+  width: 74px;
+  height: 56px;
+  flex: none;
+  border-radius: 10px;
+}
+.r-media-summary,
+.r-now {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-media-summary .ios-disclosure { color: var(--ios-secondary); }
+.r-media {
+  height: 214px;
+}
+.r-media-pair.is-compact {
+  display: flex;
+  height: auto;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-media-pair.is-compact > .ph {
+  width: 74px;
+  height: 56px;
+  flex: none;
+  border-radius: 10px;
+}
+
+.r-row-face.is-art {
+  width: 74px;
+  height: 56px;
+  border-radius: 10px;
+}
+.r-now-play {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background-color: var(--accent-fill);
+}
+.r-now-play .ico-svg { width: 18px; height: 18px; }
+.r-mini-track {
+  height: 3px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: rgba(60, 60, 67, 0.15);
+}
+.r-mini-track span { display: block; width: 34%; height: 100%; background-color: var(--accent-fill); }
+
+[data-screen="picker"] .home-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 8px;
+  padding: 12px 0;
+}
+[data-screen="picker"] .home-grid > .ph { height: 58px; border-radius: 8px; }
+[data-screen="picker"] .sheet { height: 620px; }
+[data-screen="picker"] .sheet-body { flex: 1; min-height: 0; max-height: none; }
+[data-screen="place"] .sheet,
+[data-screen="voice"] .sheet { height: 600px; }
+[data-screen="place"] .sheet-body,
+[data-screen="voice"] .sheet-body { flex: 1; min-height: 0; max-height: none; }
+[data-screen="invite"] .sheet { height: 472px; }
+[data-screen="invite"] .sheet-body { flex: 1; min-height: 0; max-height: none; }
+[data-screen="place"] .sheet-body { padding-bottom: 96px; }
+[data-screen="place"] .sheet-footer {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 8px;
+  background-color: #fff;
+}
+.v-settings-next { margin-top: 30px; }
+
+/* Четыре таймкода должны завершаться целиком до следующего grouped list. */
+[data-screen="player"] .r-mark {
+  min-height: 46px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+[data-screen="player"] .r-card.pad { padding-top: 12px; padding-bottom: 12px; }
+[data-screen="player"] .r-player-art { margin-bottom: 8px; }
+[data-screen="player"] .r-player-s,
+[data-screen="player"] .r-times { margin-bottom: 12px; }
+[data-screen="player"] .r-file-list .r-row {
+  min-height: 52px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+[data-screen="player"] .r-file-list .r-row-face {
+  width: 40px;
+  height: 40px;
+}
+
+.r-arrival-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 14px 0;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  background-color: #fff;
+}
+.r-arrival-summary div { text-align: center; border-right: 0.5px solid rgba(60,60,67,.12); }
+.r-arrival-summary div:last-child { border-right: 0; }
+.r-arrival-summary b { display: block; font: 700 18px/22px var(--face); }
+.r-arrival-summary span { font: 400 12px/16px var(--face); color: var(--ios-secondary); }
+
+.r-player-art { width: 74px; height: 56px; margin-bottom: 12px; }
+.r-cast-art { width: 160px; aspect-ratio: 4 / 3; margin: 18px auto 0; }
+.r-cast-t,
+.r-cast-s { text-align: center; }
+
+[data-screen="compose"] .r-thumb { width: 74px; height: 56px; border-radius: 10px; }
+[data-screen="call"] .r-call-face { width: 44px; height: 44px; }
+
+/* Своё у «Нашего класса» — срок и счёт отметок у объявления, а не отдельная композиция экрана. */
+

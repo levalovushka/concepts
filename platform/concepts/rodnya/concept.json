@@ -1912,7 +1912,8 @@
       ],
       "stops": [
         "invite",
-        "lockscreen"
+        "lockscreen",
+        "notif"
       ]
     }
   ],
