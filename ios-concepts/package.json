@@ -20,6 +20,7 @@
     "check:all": "node native/cli.mjs check-all",
     "profiles": "node native/cli.mjs profiles",
     "migration:audit": "node native/migration-cli.mjs",
+    "migration:vk-web": "node native/migrations/migrate-vkontakte-web.mjs",
     "critic": "node native/gen/critic.mjs",
     "shots": "node native/gen/shots.mjs",
     "pipeline": "node native/gen/pipeline.mjs",

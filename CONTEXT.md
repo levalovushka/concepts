@@ -32,6 +32,10 @@ _Avoid_: Concept summary, UI brief
 The reproducible set of one Product Brief, its materially different Concept Candidates, their Selection Receipt, and the selected Product Contract.
 _Avoid_: Approved idea, product metadata
 
+**Web migration evidence**:
+An existing web concept's observed product tasks, entities, permission map, and interaction intent used to inform a native Concept without treating its layout or implementation as canonical.
+_Avoid_: HTML source, native template, market validation
+
 **UX Specification**:
 The canonical interaction model that translates a Product Contract into reachable surfaces, explicit states and transitions, semantic design roles, localized language, acceptance scenarios, and deterministic product fixtures.
 _Avoid_: Wireframe, SwiftUI plan, screen list

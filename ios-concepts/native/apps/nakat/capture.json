@@ -1,0 +1,817 @@
+{
+  "schemaVersion": 1,
+  "distinctStateGroups": [
+    [
+      "phone-default",
+      "phone-loading",
+      "phone-error",
+      "phone-offline"
+    ],
+    [
+      "code-default",
+      "code-loading",
+      "code-error",
+      "code-offline"
+    ],
+    [
+      "codefail-default",
+      "codefail-loading",
+      "codefail-error",
+      "codefail-offline"
+    ],
+    [
+      "lessons-default",
+      "lessons-loading",
+      "lessons-error",
+      "lessons-offline"
+    ],
+    [
+      "lesson-default",
+      "lesson-loading",
+      "lesson-error",
+      "lesson-offline"
+    ],
+    [
+      "call-default",
+      "call-loading",
+      "call-error",
+      "call-offline"
+    ],
+    [
+      "pickup-default",
+      "pickup-loading",
+      "pickup-error",
+      "pickup-offline"
+    ],
+    [
+      "scan-default",
+      "scan-loading",
+      "scan-error",
+      "scan-offline"
+    ],
+    [
+      "drive-default",
+      "drive-loading",
+      "drive-error",
+      "drive-offline"
+    ],
+    [
+      "note-default",
+      "note-loading",
+      "note-error",
+      "note-offline"
+    ],
+    [
+      "reschedule-default",
+      "reschedule-loading",
+      "reschedule-error",
+      "reschedule-offline"
+    ],
+    [
+      "chat-default",
+      "chat-loading",
+      "chat-error",
+      "chat-offline"
+    ],
+    [
+      "notif-default",
+      "notif-loading",
+      "notif-error",
+      "notif-offline"
+    ],
+    [
+      "theory-default",
+      "theory-loading",
+      "theory-error",
+      "theory-offline"
+    ],
+    [
+      "ticket-default",
+      "ticket-loading",
+      "ticket-error",
+      "ticket-offline"
+    ],
+    [
+      "player-default",
+      "player-loading",
+      "player-error",
+      "player-offline"
+    ],
+    [
+      "checklist-default",
+      "checklist-loading",
+      "checklist-error",
+      "checklist-offline"
+    ],
+    [
+      "classroom-default",
+      "classroom-loading",
+      "classroom-error",
+      "classroom-offline"
+    ],
+    [
+      "attend-default",
+      "attend-loading",
+      "attend-error",
+      "attend-offline"
+    ],
+    [
+      "guestnet-default",
+      "guestnet-loading",
+      "guestnet-error",
+      "guestnet-offline"
+    ],
+    [
+      "scanwifi-default",
+      "scanwifi-loading",
+      "scanwifi-error",
+      "scanwifi-offline"
+    ],
+    [
+      "menu-default",
+      "menu-loading",
+      "menu-error",
+      "menu-offline"
+    ],
+    [
+      "docs-default",
+      "docs-loading",
+      "docs-error",
+      "docs-offline"
+    ],
+    [
+      "lock-default",
+      "lock-loading",
+      "lock-error",
+      "lock-offline"
+    ],
+    [
+      "passwords-default",
+      "passwords-loading",
+      "passwords-error",
+      "passwords-offline"
+    ],
+    [
+      "bg-default",
+      "bg-loading",
+      "bg-error",
+      "bg-offline"
+    ],
+    [
+      "ads-default",
+      "ads-loading",
+      "ads-error",
+      "ads-offline"
+    ]
+  ],
+  "drivers": [
+    {
+      "surface": "phone",
+      "state": "default",
+      "launch": "phone",
+      "artifact": "phone-default"
+    },
+    {
+      "surface": "phone",
+      "state": "loading",
+      "launch": "phone",
+      "artifact": "phone-loading"
+    },
+    {
+      "surface": "phone",
+      "state": "error",
+      "launch": "phone",
+      "artifact": "phone-error"
+    },
+    {
+      "surface": "phone",
+      "state": "offline",
+      "launch": "phone",
+      "artifact": "phone-offline"
+    },
+    {
+      "surface": "code",
+      "state": "default",
+      "launch": "code",
+      "artifact": "code-default"
+    },
+    {
+      "surface": "code",
+      "state": "loading",
+      "launch": "code",
+      "artifact": "code-loading"
+    },
+    {
+      "surface": "code",
+      "state": "error",
+      "launch": "code",
+      "artifact": "code-error"
+    },
+    {
+      "surface": "code",
+      "state": "offline",
+      "launch": "code",
+      "artifact": "code-offline"
+    },
+    {
+      "surface": "codefail",
+      "state": "default",
+      "launch": "codefail",
+      "artifact": "codefail-default"
+    },
+    {
+      "surface": "codefail",
+      "state": "loading",
+      "launch": "codefail",
+      "artifact": "codefail-loading"
+    },
+    {
+      "surface": "codefail",
+      "state": "error",
+      "launch": "codefail",
+      "artifact": "codefail-error"
+    },
+    {
+      "surface": "codefail",
+      "state": "offline",
+      "launch": "codefail",
+      "artifact": "codefail-offline"
+    },
+    {
+      "surface": "lessons",
+      "state": "default",
+      "launch": "lessons",
+      "artifact": "lessons-default"
+    },
+    {
+      "surface": "lessons",
+      "state": "loading",
+      "launch": "lessons",
+      "artifact": "lessons-loading"
+    },
+    {
+      "surface": "lessons",
+      "state": "error",
+      "launch": "lessons",
+      "artifact": "lessons-error"
+    },
+    {
+      "surface": "lessons",
+      "state": "offline",
+      "launch": "lessons",
+      "artifact": "lessons-offline"
+    },
+    {
+      "surface": "lesson",
+      "state": "default",
+      "launch": "lesson",
+      "artifact": "lesson-default"
+    },
+    {
+      "surface": "lesson",
+      "state": "loading",
+      "launch": "lesson",
+      "artifact": "lesson-loading"
+    },
+    {
+      "surface": "lesson",
+      "state": "error",
+      "launch": "lesson",
+      "artifact": "lesson-error"
+    },
+    {
+      "surface": "lesson",
+      "state": "offline",
+      "launch": "lesson",
+      "artifact": "lesson-offline"
+    },
+    {
+      "surface": "call",
+      "state": "default",
+      "launch": "call",
+      "artifact": "call-default"
+    },
+    {
+      "surface": "call",
+      "state": "loading",
+      "launch": "call",
+      "artifact": "call-loading"
+    },
+    {
+      "surface": "call",
+      "state": "error",
+      "launch": "call",
+      "artifact": "call-error"
+    },
+    {
+      "surface": "call",
+      "state": "offline",
+      "launch": "call",
+      "artifact": "call-offline"
+    },
+    {
+      "surface": "pickup",
+      "state": "default",
+      "launch": "pickup",
+      "artifact": "pickup-default"
+    },
+    {
+      "surface": "pickup",
+      "state": "loading",
+      "launch": "pickup",
+      "artifact": "pickup-loading"
+    },
+    {
+      "surface": "pickup",
+      "state": "error",
+      "launch": "pickup",
+      "artifact": "pickup-error"
+    },
+    {
+      "surface": "pickup",
+      "state": "offline",
+      "launch": "pickup",
+      "artifact": "pickup-offline"
+    },
+    {
+      "surface": "scan",
+      "state": "default",
+      "launch": "scan",
+      "artifact": "scan-default"
+    },
+    {
+      "surface": "scan",
+      "state": "loading",
+      "launch": "scan",
+      "artifact": "scan-loading"
+    },
+    {
+      "surface": "scan",
+      "state": "error",
+      "launch": "scan",
+      "artifact": "scan-error"
+    },
+    {
+      "surface": "scan",
+      "state": "offline",
+      "launch": "scan",
+      "artifact": "scan-offline"
+    },
+    {
+      "surface": "drive",
+      "state": "default",
+      "launch": "drive",
+      "artifact": "drive-default"
+    },
+    {
+      "surface": "drive",
+      "state": "loading",
+      "launch": "drive",
+      "artifact": "drive-loading"
+    },
+    {
+      "surface": "drive",
+      "state": "error",
+      "launch": "drive",
+      "artifact": "drive-error"
+    },
+    {
+      "surface": "drive",
+      "state": "offline",
+      "launch": "drive",
+      "artifact": "drive-offline"
+    },
+    {
+      "surface": "note",
+      "state": "default",
+      "launch": "note",
+      "artifact": "note-default"
+    },
+    {
+      "surface": "note",
+      "state": "loading",
+      "launch": "note",
+      "artifact": "note-loading"
+    },
+    {
+      "surface": "note",
+      "state": "error",
+      "launch": "note",
+      "artifact": "note-error"
+    },
+    {
+      "surface": "note",
+      "state": "offline",
+      "launch": "note",
+      "artifact": "note-offline"
+    },
+    {
+      "surface": "reschedule",
+      "state": "default",
+      "launch": "reschedule",
+      "artifact": "reschedule-default"
+    },
+    {
+      "surface": "reschedule",
+      "state": "loading",
+      "launch": "reschedule",
+      "artifact": "reschedule-loading"
+    },
+    {
+      "surface": "reschedule",
+      "state": "error",
+      "launch": "reschedule",
+      "artifact": "reschedule-error"
+    },
+    {
+      "surface": "reschedule",
+      "state": "offline",
+      "launch": "reschedule",
+      "artifact": "reschedule-offline"
+    },
+    {
+      "surface": "chat",
+      "state": "default",
+      "launch": "chat",
+      "artifact": "chat-default"
+    },
+    {
+      "surface": "chat",
+      "state": "loading",
+      "launch": "chat",
+      "artifact": "chat-loading"
+    },
+    {
+      "surface": "chat",
+      "state": "error",
+      "launch": "chat",
+      "artifact": "chat-error"
+    },
+    {
+      "surface": "chat",
+      "state": "offline",
+      "launch": "chat",
+      "artifact": "chat-offline"
+    },
+    {
+      "surface": "notif",
+      "state": "default",
+      "launch": "notif",
+      "artifact": "notif-default"
+    },
+    {
+      "surface": "notif",
+      "state": "loading",
+      "launch": "notif",
+      "artifact": "notif-loading"
+    },
+    {
+      "surface": "notif",
+      "state": "error",
+      "launch": "notif",
+      "artifact": "notif-error"
+    },
+    {
+      "surface": "notif",
+      "state": "offline",
+      "launch": "notif",
+      "artifact": "notif-offline"
+    },
+    {
+      "surface": "theory",
+      "state": "default",
+      "launch": "theory",
+      "artifact": "theory-default"
+    },
+    {
+      "surface": "theory",
+      "state": "loading",
+      "launch": "theory",
+      "artifact": "theory-loading"
+    },
+    {
+      "surface": "theory",
+      "state": "error",
+      "launch": "theory",
+      "artifact": "theory-error"
+    },
+    {
+      "surface": "theory",
+      "state": "offline",
+      "launch": "theory",
+      "artifact": "theory-offline"
+    },
+    {
+      "surface": "ticket",
+      "state": "default",
+      "launch": "ticket",
+      "artifact": "ticket-default"
+    },
+    {
+      "surface": "ticket",
+      "state": "loading",
+      "launch": "ticket",
+      "artifact": "ticket-loading"
+    },
+    {
+      "surface": "ticket",
+      "state": "error",
+      "launch": "ticket",
+      "artifact": "ticket-error"
+    },
+    {
+      "surface": "ticket",
+      "state": "offline",
+      "launch": "ticket",
+      "artifact": "ticket-offline"
+    },
+    {
+      "surface": "player",
+      "state": "default",
+      "launch": "player",
+      "artifact": "player-default"
+    },
+    {
+      "surface": "player",
+      "state": "loading",
+      "launch": "player",
+      "artifact": "player-loading"
+    },
+    {
+      "surface": "player",
+      "state": "error",
+      "launch": "player",
+      "artifact": "player-error"
+    },
+    {
+      "surface": "player",
+      "state": "offline",
+      "launch": "player",
+      "artifact": "player-offline"
+    },
+    {
+      "surface": "checklist",
+      "state": "default",
+      "launch": "checklist",
+      "artifact": "checklist-default"
+    },
+    {
+      "surface": "checklist",
+      "state": "loading",
+      "launch": "checklist",
+      "artifact": "checklist-loading"
+    },
+    {
+      "surface": "checklist",
+      "state": "error",
+      "launch": "checklist",
+      "artifact": "checklist-error"
+    },
+    {
+      "surface": "checklist",
+      "state": "offline",
+      "launch": "checklist",
+      "artifact": "checklist-offline"
+    },
+    {
+      "surface": "classroom",
+      "state": "default",
+      "launch": "classroom",
+      "artifact": "classroom-default"
+    },
+    {
+      "surface": "classroom",
+      "state": "loading",
+      "launch": "classroom",
+      "artifact": "classroom-loading"
+    },
+    {
+      "surface": "classroom",
+      "state": "error",
+      "launch": "classroom",
+      "artifact": "classroom-error"
+    },
+    {
+      "surface": "classroom",
+      "state": "offline",
+      "launch": "classroom",
+      "artifact": "classroom-offline"
+    },
+    {
+      "surface": "attend",
+      "state": "default",
+      "launch": "attend",
+      "artifact": "attend-default"
+    },
+    {
+      "surface": "attend",
+      "state": "loading",
+      "launch": "attend",
+      "artifact": "attend-loading"
+    },
+    {
+      "surface": "attend",
+      "state": "error",
+      "launch": "attend",
+      "artifact": "attend-error"
+    },
+    {
+      "surface": "attend",
+      "state": "offline",
+      "launch": "attend",
+      "artifact": "attend-offline"
+    },
+    {
+      "surface": "guestnet",
+      "state": "default",
+      "launch": "guestnet",
+      "artifact": "guestnet-default"
+    },
+    {
+      "surface": "guestnet",
+      "state": "loading",
+      "launch": "guestnet",
+      "artifact": "guestnet-loading"
+    },
+    {
+      "surface": "guestnet",
+      "state": "error",
+      "launch": "guestnet",
+      "artifact": "guestnet-error"
+    },
+    {
+      "surface": "guestnet",
+      "state": "offline",
+      "launch": "guestnet",
+      "artifact": "guestnet-offline"
+    },
+    {
+      "surface": "scanwifi",
+      "state": "default",
+      "launch": "scanwifi",
+      "artifact": "scanwifi-default"
+    },
+    {
+      "surface": "scanwifi",
+      "state": "loading",
+      "launch": "scanwifi",
+      "artifact": "scanwifi-loading"
+    },
+    {
+      "surface": "scanwifi",
+      "state": "error",
+      "launch": "scanwifi",
+      "artifact": "scanwifi-error"
+    },
+    {
+      "surface": "scanwifi",
+      "state": "offline",
+      "launch": "scanwifi",
+      "artifact": "scanwifi-offline"
+    },
+    {
+      "surface": "menu",
+      "state": "default",
+      "launch": "menu",
+      "artifact": "menu-default"
+    },
+    {
+      "surface": "menu",
+      "state": "loading",
+      "launch": "menu",
+      "artifact": "menu-loading"
+    },
+    {
+      "surface": "menu",
+      "state": "error",
+      "launch": "menu",
+      "artifact": "menu-error"
+    },
+    {
+      "surface": "menu",
+      "state": "offline",
+      "launch": "menu",
+      "artifact": "menu-offline"
+    },
+    {
+      "surface": "docs",
+      "state": "default",
+      "launch": "docs",
+      "artifact": "docs-default"
+    },
+    {
+      "surface": "docs",
+      "state": "loading",
+      "launch": "docs",
+      "artifact": "docs-loading"
+    },
+    {
+      "surface": "docs",
+      "state": "error",
+      "launch": "docs",
+      "artifact": "docs-error"
+    },
+    {
+      "surface": "docs",
+      "state": "offline",
+      "launch": "docs",
+      "artifact": "docs-offline"
+    },
+    {
+      "surface": "lock",
+      "state": "default",
+      "launch": "lock",
+      "artifact": "lock-default"
+    },
+    {
+      "surface": "lock",
+      "state": "loading",
+      "launch": "lock",
+      "artifact": "lock-loading"
+    },
+    {
+      "surface": "lock",
+      "state": "error",
+      "launch": "lock",
+      "artifact": "lock-error"
+    },
+    {
+      "surface": "lock",
+      "state": "offline",
+      "launch": "lock",
+      "artifact": "lock-offline"
+    },
+    {
+      "surface": "passwords",
+      "state": "default",
+      "launch": "passwords",
+      "artifact": "passwords-default"
+    },
+    {
+      "surface": "passwords",
+      "state": "loading",
+      "launch": "passwords",
+      "artifact": "passwords-loading"
+    },
+    {
+      "surface": "passwords",
+      "state": "error",
+      "launch": "passwords",
+      "artifact": "passwords-error"
+    },
+    {
+      "surface": "passwords",
+      "state": "offline",
+      "launch": "passwords",
+      "artifact": "passwords-offline"
+    },
+    {
+      "surface": "bg",
+      "state": "default",
+      "launch": "bg",
+      "artifact": "bg-default"
+    },
+    {
+      "surface": "bg",
+      "state": "loading",
+      "launch": "bg",
+      "artifact": "bg-loading"
+    },
+    {
+      "surface": "bg",
+      "state": "error",
+      "launch": "bg",
+      "artifact": "bg-error"
+    },
+    {
+      "surface": "bg",
+      "state": "offline",
+      "launch": "bg",
+      "artifact": "bg-offline"
+    },
+    {
+      "surface": "ads",
+      "state": "default",
+      "launch": "ads",
+      "artifact": "ads-default"
+    },
+    {
+      "surface": "ads",
+      "state": "loading",
+      "launch": "ads",
+      "artifact": "ads-loading"
+    },
+    {
+      "surface": "ads",
+      "state": "error",
+      "launch": "ads",
+      "artifact": "ads-error"
+    },
+    {
+      "surface": "ads",
+      "state": "offline",
+      "launch": "ads",
+      "artifact": "ads-offline"
+    }
+  ]
+}

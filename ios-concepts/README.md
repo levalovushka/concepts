@@ -28,9 +28,14 @@ npm run readiness:gate
 `concepts/<slug>/concept.json` связывает воспроизводимый Product Development artifact,
 канонический Product Contract и явную UX Specification с delivery-спекой поверхностей.
 `native/apps/<slug>` — его SwiftUI-адаптер. Генерируемый Xcode-проект и снимки
-находятся в игнорируемых `native/build` и `native/artifacts`. Looks/Dvor содержат
-курируемые портфели из трёх кандидатов; их evidence честно отделяет принятое
-продуктовое направление и наблюдаемую реализацию от ещё не проведённого market research.
+находятся в игнорируемых `native/build` и `native/artifacts`. Looks/Dvor и
+перенесённые из web evidence Tails/Today/Nakat/Peresmenka содержат курируемые
+портфели из трёх кандидатов; их evidence честно отделяет принятое продуктовое
+направление и наблюдаемую реализацию от ещё не проведённого market research.
+
+Оставшиеся концепты семейства `vkontakte` воспроизводимо обновляются командой
+`npm run migration:vk-web`. Модуль принимает только проверенный web concept и
+три курируемых продуктовых предложения; HTML/CSS/DOM не входят в native contract.
 
 Проверка сборки не объявляется визуальным ревью. Финальный выпуск требует свежих снимков всех состояний и отдельной оценки по продукту, композиции, консистентности, деталям и поведению.
 

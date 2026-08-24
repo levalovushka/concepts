@@ -19,8 +19,11 @@ if (!existsSync(conceptPath) || !existsSync(appDir)) {
 }
 const concept = JSON.parse(readFileSync(conceptPath, "utf8"));
 const compiled = compileNativeConcept(concept);
-const source = readdirSync(appDir).filter(file => file.endsWith(".swift"))
+let source = readdirSync(appDir).filter(file => file.endsWith(".swift"))
   .map(file => readFileSync(join(appDir, file), "utf8")).join("\n");
+if (source.includes("ManifestConceptRootView")) {
+  source += "\n" + readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8");
+}
 const problems = auditActionBindings(compiled.manifest, source);
 
 console.log(`Действия концепта «${slug}»: ${compiled.manifest.interactions.actions.length} контрактов`);

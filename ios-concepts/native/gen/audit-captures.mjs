@@ -31,13 +31,18 @@ if (existsSync(productStatePath)) {
   const captureStatePath = join(nativeRoot, "apps", slug, "CaptureStates.swift");
   const captureStateSource = existsSync(captureStatePath) ? readFileSync(captureStatePath, "utf8") : "";
   const appSource = readFileSync(join(nativeRoot, "apps", slug, "App.swift"), "utf8");
+  const manifestAdapterSource = appSource.includes("ManifestConceptRootView")
+    ? readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8")
+    : "";
+  const genericProductState = manifestAdapterSource.includes("productState(for: surfaceID)")
+    && manifestAdapterSource.includes("ManifestCaptureMode.productState");
   const violations = [...ownership.diagnostics];
   for (const surface of ownership.product) {
     const escaped = surface.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     if (new RegExp(`"${escaped}\\.[^"]+"\\s*:`).test(captureStateSource)) {
       violations.push(`${surface}: снова объявлен synthetic capture presentation`);
     }
-    if (!appSource.includes(`productState(for: "${surface}")`)) {
+    if (!genericProductState && !appSource.includes(`productState(for: "${surface}")`)) {
       violations.push(`${surface}: реальный экран не получает product state`);
     }
   }

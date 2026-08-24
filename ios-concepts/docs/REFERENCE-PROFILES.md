@@ -2,8 +2,9 @@
 
 ## ВКонтакте
 
-Профиль подключён для «Образов» и «Двора»: оба концепта намеренно являются
-VK-mimicry. Его `referenceFamily` и evidence-backed `mentalModel` задают
+Профиль подключён для «Образов», «Двора» и «Хвостов»: эти концепты намеренно
+используют VK-mimicry. «Сегодня», «Накат» и «Пересменка» используют продуктовую
+отстройку и не получают VK-компоненты автоматически. Evidence-backed `mentalModel` задаёт
 узнаваемые сущности, root-навигацию, социальную плотность, ленту, root header,
 списки, чат, сервисы, цвета, типографику и audited Lucide product-chrome roles для root tabs.
 Liquid Glass и сам `TabView` остаются системным chrome iOS; permission/platform

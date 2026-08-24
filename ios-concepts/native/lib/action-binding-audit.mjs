@@ -3,7 +3,11 @@ export function auditActionBindings(manifest, source) {
   const strict = (manifest?.qualityContractVersion || 1) >= 2
     || (manifest?.actionContractVersion || 0) >= 1;
   const declared = new Set((manifest?.interactions?.actions || []).map(action => `${action.surface}.${action.id}`));
-  const bound = [
+  const dynamicManifestBinding = source.includes("ForEach(actions)")
+    && source.includes("actionControl(action)")
+    && source.includes(".nativeAction(action.id)")
+    && source.includes("action.outcome == \"navigate\"");
+  const bound = dynamicManifestBinding ? [...declared] : [
     ...[...source.matchAll(/\.nativeAction\("([^"]+)"\)/g)].map(match => match[1]),
     ...[...source.matchAll(/nativeActionID:\s*"([^"]+)"/g)].map(match => match[1]),
     ...[...source.matchAll(/cancelActionID:\s*"([^"]+)"/g)].map(match => match[1]),

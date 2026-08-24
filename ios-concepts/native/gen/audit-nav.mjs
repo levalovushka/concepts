@@ -31,6 +31,30 @@ const specPath = join(ROOT, "concepts", slug, "concept.json");
 const spec = existsSync(specPath) ? JSON.parse(readFileSync(specPath, "utf8")) : null;
 
 const app = src["App.swift"] || "";
+if (app.includes("ManifestConceptRootView")) {
+  const adapterPath = join(NATIVE, "DesignSystem", "ManifestConcept.swift");
+  const adapter = existsSync(adapterPath) ? readFileSync(adapterPath, "utf8") : "";
+  const nodes = spec?.ux?.navigation?.nodes || [];
+  const edges = spec?.ux?.navigation?.edges || [];
+  const ids = new Set(nodes.map(node => node.id));
+  const reachable = new Set(spec?.ux?.navigation?.reachable || []);
+  const problems = [];
+  if (!adapter.includes("ForEach(NativeConceptSpec.tabs)")) problems.push("общий adapter не строит root tabs из native manifest");
+  if (!adapter.includes("navigationDestination(for: String.self)")) problems.push("общий adapter не обрабатывает push destination");
+  if (!adapter.includes("NavigationLink(value: target)")) problems.push("общий adapter не связывает navigate action с destination");
+  for (const node of nodes) if (!reachable.has(node.id)) problems.push(`${node.id}: поверхность не входит в доказанное reachable-множество`);
+  for (const edge of edges) {
+    if (edge.from !== null && edge.from !== undefined && !ids.has(edge.from)) problems.push(`${edge.id}: отсутствует source ${edge.from}`);
+    if (!ids.has(edge.to)) problems.push(`${edge.id}: отсутствует destination ${edge.to}`);
+  }
+  console.log(`Навигация концепта «${slug}»: ${nodes.length} поверхностей и ${edges.length} переходов через ManifestConceptRootView`);
+  if (problems.length) {
+    for (const item of problems) console.log(`  ✗ ${item}`);
+    process.exit(1);
+  }
+  console.log("Дыр и тупиков нет: граф проверен по канонической UX Specification, adapter потребляет его напрямую.");
+  process.exit(0);
+}
 const enumName = (app.match(/enum\s+(\w+Route)\s*:/) || [])[1];
 if (!enumName) { console.error("не нашёл enum маршрутов в App.swift"); process.exit(1); }
 

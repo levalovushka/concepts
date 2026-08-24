@@ -10,11 +10,16 @@ export function auditVisualLanguage(appRoot, slug) {
   const sources = files.map(file => ({ file, source: readFileSync(join(appRoot, file), "utf8") }));
   const all = sources.map(item => item.source).join("\n");
   const app = sources.find(item => item.file === "App.swift")?.source || "";
+  const sharedPath = join(appRoot, "..", "..", "DesignSystem", "ManifestConcept.swift");
+  const shared = app.includes("ManifestConceptRootView") && existsSync(sharedPath)
+    ? readFileSync(sharedPath, "utf8")
+    : "";
+  const seam = `${app}\n${shared}`;
 
-  if (!/NativeVisualLanguage\.resolve\(NativeConceptSpec\.design\)/.test(app)) {
+  if (!/NativeVisualLanguage\.resolve\(NativeConceptSpec\.design\)/.test(seam)) {
     diagnostics.push("App.swift не разрешает NativeVisualLanguage из compiled concept");
   }
-  if (!/\.environment\(\\\.visualLanguage, visualLanguage\)/.test(app)) {
+  if (!/\.environment\(\\\.visualLanguage, visualLanguage\)/.test(seam)) {
     diagnostics.push("App.swift не внедряет единый visualLanguage");
   }
   if (/\.environment\(\\\.theme/.test(app)) {

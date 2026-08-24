@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { createNativePipelinePlan, discoverNativeConcepts, runNativePipeline } from "../lib/native-pipeline.mjs";
 
 test("discovers only concepts that have a native implementation", () => {
-  assert.deepEqual(discoverNativeConcepts(), ["dvor", "looks"]);
+  assert.deepEqual(discoverNativeConcepts(), ["dvor", "looks", "nakat", "peresmenka", "tails", "today"]);
 });
 
 test("build cannot bypass product maturity, docs, compile, generation, or audits", () => {

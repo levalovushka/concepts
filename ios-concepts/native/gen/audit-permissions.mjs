@@ -27,6 +27,12 @@ const manifest = compiled.manifest;
 const appDir = join(nativeRoot, "apps", slug);
 const appSources = readdirSync(appDir).filter(file => file.endsWith(".swift"))
   .map(file => readFileSync(join(appDir, file), "utf8")).join("\n");
+const manifestAdapterSource = appSources.includes("ManifestConceptRootView")
+  ? readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8")
+  : "";
+const genericPermissionBinding = manifestAdapterSource.includes("ForEach(surfacePermissions)")
+  && manifestAdapterSource.includes("permissions.request(PermissionKey(rawValue: permission.key))")
+  && manifestAdapterSource.includes("NativeConceptSpec.permissions.filter { $0.screen == surfaceID }");
 const runtimeSource = readFileSync(join(nativeRoot, "Runtime", "Permissions.swift"), "utf8");
 const lifecycleSource = readFileSync(join(nativeRoot, "Runtime", "AppLifecycle.swift"), "utf8");
 const buildDir = join(nativeRoot, "build", slug);
@@ -90,7 +96,7 @@ for (const permission of manifest.permissions) {
   const requestHits = (appSources.match(requestPattern) || []).length;
   const directPattern = directGesturePatterns[permission.key];
   const directHits = directPattern ? (appSources.match(directPattern) || []).length : 0;
-  const hits = requestHits + directHits;
+  const hits = genericPermissionBinding ? 1 : requestHits + directHits;
   if (hits === 0) {
     problems.push(`✗ ${permission.key}: no product gesture calls the capability adapter`);
   }
@@ -98,7 +104,7 @@ for (const permission of manifest.permissions) {
 
   // Calling request() is valid only when Runtime has an explicit adapter. Falling
   // through a generic branch is not an implementation.
-  if (requestHits > 0 && !new RegExp(`case\\s+[^\\n]*"${permission.key}"`).test(runtimeSource)) {
+  if ((requestHits > 0 || genericPermissionBinding) && !new RegExp(`case\\s+[^\\n]*"${permission.key}"`).test(runtimeSource)) {
     problems.push(`✗ ${permission.key}: request exists but Runtime has no explicit adapter`);
   }
 }

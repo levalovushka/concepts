@@ -107,6 +107,22 @@ function generatedNativeSpec() {
   const actions = manifest.interactions.actions.map(action =>
     `        NativeActionDefinition(surface: "${swift(action.surface)}", id: "${swift(action.id)}", label: "${swift(action.label)}", outcome: "${swift(action.outcome.type)}", target: ${action.outcome.target ? `"${swift(action.outcome.target)}"` : "nil"}, variant: "${swift(action.variant)}", placement: "${swift(action.placement)}", enabledWhen: "${swift(action.enabledWhen)}")`,
   ).join(",\n");
+  const localizedStrings = manifest.uxSpecification.localization.catalog
+    .map(item => `        "${swift(item.key)}": "${swift(item.source)}"`)
+    .join(",\n");
+  const fixtureRows = new Map();
+  for (const fixture of manifest.uxSpecification.fixtures) {
+    if (fixtureRows.has(fixture.surface)) continue;
+    const values = [fixture.data?.headline, fixture.data?.status, fixture.data?.metadata]
+      .filter(value => typeof value === "string" && value.trim()).slice(0, 3);
+    fixtureRows.set(fixture.surface, values);
+  }
+  const fixtureText = [...fixtureRows.entries()].map(([surface, values]) =>
+    `        "${swift(surface)}": [${values.map(value => `"${swift(value)}"`).join(", ")}]`,
+  ).join(",\n");
+  const permissions = manifest.permissions.map(permission =>
+    `        NativePermissionDefinition(key: "${swift(permission.key)}", screen: "${swift(permission.screen)}", feature: "${swift(permission.feature)}", gesture: "${swift(permission.gesture)}", fallback: "${swift(permission.fallback)}")`,
+  ).join(",\n");
   return `// Generated from concept.json. Do not edit.
 import Foundation
 
@@ -173,6 +189,15 @@ struct NativeActionDefinition: Identifiable, Hashable {
     }
 }
 
+struct NativePermissionDefinition: Identifiable, Hashable {
+    var id: String { key }
+    let key: String
+    let screen: String
+    let feature: String
+    let gesture: String
+    let fallback: String
+}
+
 enum NativeConceptSpec {
     static let initialTab = "${swift(manifest.navigation.tabs[0]?.id)}"
     static let design = NativeDesignDefinition(
@@ -194,6 +219,15 @@ ${surfaceContracts}
     ]
     static let actions: [NativeActionDefinition] = [
 ${actions}
+    ]
+    static let permissions: [NativePermissionDefinition] = [
+${permissions}
+    ]
+    static let localizedStrings: [String: String] = [
+${localizedStrings}
+    ]
+    static let fixtureText: [String: [String]] = [
+${fixtureText}
     ]
 }
 `;
