@@ -522,12 +522,16 @@ function diversityDiagnostics(candidates) {
 }
 
 function selectionReceipt(brief, candidates, comparisons, portfolioDiagnostics, selected) {
+  const winner = selected ? candidates.find(candidate => candidate.id === selected.id) : null;
   const base = {
     schemaVersion: PRODUCT_MATURITY_SCHEMA_VERSION,
     briefId: brief.id,
     selectionRule: "fail every hard gate and every axis below 3/4; then maximise the minimum axis, then the total only as a tie-break, then candidate id",
     selectedCandidateId: selected?.id || null,
     winnerReasons: selected ? [
+      `selected product thesis: ${winner.productThesis}`,
+      `selected wedge: ${winner.wedge.mechanism}`,
+      `selected observable difference: ${winner.observableDifferentiation.behavior}; measurement: ${winner.observableDifferentiation.measurement}`,
       `passed all ${selected.gates.length} hard gates`,
       `minimum stress axis ${selected.minimumAxisScore}/4`,
       "no stronger candidate survived under the fail-closed ordering",
@@ -971,6 +975,11 @@ export function auditCanonicalProductContract(contract, concept = null) {
 export function verifyProductDevelopmentArtifact(artifact) {
   const briefDiagnostics = validateProductBrief(artifact?.brief);
   const diagnostics = [...briefDiagnostics];
+  if (artifact?.schemaVersion !== PRODUCT_MATURITY_SCHEMA_VERSION) diagnostics.push(diagnostic(
+    "product-development.schema-version.unsupported",
+    "Product Development artifact schemaVersion must be 1",
+    "schemaVersion",
+  ));
   const candidates = Array.isArray(artifact?.candidates) ? artifact.candidates : [];
   if (!Array.isArray(artifact?.candidates)) diagnostics.push(diagnostic(
     "candidate.collection.required", "Product development artifact must contain candidate array", "candidates",
@@ -1013,4 +1022,35 @@ export function verifyProductDevelopmentArtifact(artifact) {
     ));
   }
   return diagnostics;
+}
+
+/**
+ * Small concept-facing interface for the complete product-development cycle.
+ * Callers do not choose between embedded selection, standalone contracts, and
+ * the compatibility migration; this module owns that ordering and validation.
+ */
+export function resolveProductDevelopment(concept) {
+  if (concept?.productDevelopment) {
+    return Object.freeze({
+      source: "embedded-development",
+      contract: concept.productDevelopment.productContract || null,
+      selectionReceipt: concept.productDevelopment.selectionReceipt || null,
+      diagnostics: verifyProductDevelopmentArtifact(concept.productDevelopment),
+    });
+  }
+  if (concept?.productContract) {
+    return Object.freeze({
+      source: "standalone-contract",
+      contract: concept.productContract,
+      selectionReceipt: null,
+      diagnostics: auditCanonicalProductContract(concept.productContract, concept),
+    });
+  }
+  const contract = migrateLegacyProductContract(concept);
+  return Object.freeze({
+    source: "legacy-migration",
+    contract,
+    selectionReceipt: null,
+    diagnostics: auditCanonicalProductContract(contract, concept),
+  });
 }

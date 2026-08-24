@@ -30,6 +30,7 @@ for (const slug of ["looks", "dvor"]) {
 
 test("orphan and parentless pushed surfaces fail closed", () => {
   const concept = structuredClone(concepts.looks);
+  delete concept.ux;
   concept.screens.push({
     id: "ghost", title: "Скрытый экран", type: "push", parent: null,
     ui: { pattern: "detail", purpose: "Скрытая задача", states: ["default"], componentFamilies: ["summary"], actions: [] },
@@ -129,7 +130,8 @@ test("critical flow, permission fallback, and captured fixture coverage are mand
   const contract = compiled.looks.manifest.product.contract;
 
   const scenarios = structuredClone(compiled.looks.manifest.uxSpecification);
-  scenarios.acceptanceScenarios = scenarios.acceptanceScenarios.filter(item => !(item.flowId === "all" && item.coverage === "offline"));
+  const criticalFlowId = contract.delivery.criticalFlows[0].id;
+  scenarios.acceptanceScenarios = scenarios.acceptanceScenarios.filter(item => !(item.flowId === criticalFlowId && item.coverage === "offline"));
   assert.equal(auditUXSpecification(scenarios, concept, contract).some(item => item.code === "ux.acceptance.critical-flow-uncovered"), true);
 
   const permission = structuredClone(compiled.looks.manifest.uxSpecification);
@@ -152,6 +154,7 @@ test("fixture media requires provenance and license", () => {
 
 test("new mature Product Contracts cannot use the legacy UX derivation", () => {
   const concept = structuredClone(concepts.looks);
+  delete concept.ux;
   const contract = structuredClone(compiled.looks.manifest.product.contract);
   contract.status = "mature";
   contract.maturity.status = "mature";

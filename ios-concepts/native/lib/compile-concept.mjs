@@ -3,7 +3,7 @@ import { resolveExtension } from "./extension-catalog.mjs";
 import { auditReferenceProfile, resolveReferenceProfile } from "./reference-profile-catalog.mjs";
 import { compileSurfaceContracts } from "./surface-contract.mjs";
 import { compileActionContracts } from "./action-contract.mjs";
-import { auditCanonicalProductContract, migrateLegacyProductContract } from "./product-maturity.mjs";
+import { resolveProductDevelopment } from "./product-maturity.mjs";
 import { compileUXSpecification } from "./ux-specification.mjs";
 
 const PRESENTATION_ALIASES = new Map([
@@ -70,9 +70,10 @@ export function compileNativeConcept(concept, options = {}) {
   if (!slug) diagnostics.push(diagnostic("concept.slug.required", "Concept slug is required", "slug"));
   if (!concept?.name) diagnostics.push(diagnostic("concept.name.required", "Concept name is required", "name"));
 
-  const productContract = concept?.productContract || migrateLegacyProductContract(concept);
-  diagnostics.push(...auditCanonicalProductContract(productContract, concept));
-  if (!concept?.productContract && productContract) diagnostics.push(diagnostic(
+  const productDevelopment = resolveProductDevelopment(concept);
+  const productContract = productDevelopment.contract;
+  diagnostics.push(...productDevelopment.diagnostics);
+  if (productDevelopment.source === "legacy-migration" && productContract) diagnostics.push(diagnostic(
     "product.contract.legacy-migrated",
     `${concept.name} uses an explicit compatibility migration; new products must carry a selected Product Contract`,
     "productContract",
@@ -364,6 +365,7 @@ export function compileNativeConcept(concept, options = {}) {
     },
     product: {
       contract: productContract,
+      selectionReceipt: productDevelopment.selectionReceipt,
       audience: productContract?.audience?.primary || concept?.product?.audience || null,
       problem: productContract?.job?.motivation || concept?.product?.problem || null,
       promise: productContract?.productThesis || concept?.product?.promise || null,

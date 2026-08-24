@@ -29,8 +29,9 @@ replace a real screen with a context-free verification view.
   roles, executable acceptance scenarios and deterministic fixture coverage.
 - The native manifest embeds both contracts. Checked developer documentation is
   compiled from that same specification before Xcode generation and build.
-- Looks and Dvor are explicit, allowlisted migration baselines; no selection or
-  market evidence is invented for them.
+- Looks and Dvor embed reproducible three-candidate Product Development artifacts and
+  explicit UX Specifications. Their curated review does not invent model output or
+  market evidence.
 - `NativeVisualLanguage` owns semantic palette, spacing, metrics, type, chrome
   and icon roles.
 - VK reference и нативная системная грамматика являются concrete adapters.
@@ -84,8 +85,8 @@ Measured on 2026-08-24:
 
 1. Подключить реальную structured-output model к generator adapter и принимать
    traceable product evidence вместо fixture-кандидатов.
-2. Заменять legacy UX derivation Looks/Dvor явными `concept.ux` контрактами при
-   следующем содержательном редизайне.
+2. Подключить acceptance-scenario replay adapter к полному набору explicit
+   `concept.ux` сценариев Looks/Dvor, включая recovery и persistence.
 3. Закрыть physical iOS и VoiceOver manual checklist с device metadata и
    evidence bundle.
 4. Провести независимый human visual/product review current/small-phone captures.

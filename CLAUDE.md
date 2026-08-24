@@ -52,7 +52,8 @@ npm test
 Генератор кандидатов — внешний adapter seam. В pipeline нет фиктивного «LLM по
 умолчанию»: fixture-generator разрешён только как воспроизводимое тестовое
 свидетельство. Новый mature-продукт без явного UX Specification не компилируется;
-Looks/Dvor временно используют помеченную и allowlisted миграцию.
+Looks/Dvor содержат курируемые трёхкандидатные Product Development artifacts и явные
+UX Specifications. Они не заявляются как модельная генерация или market evidence.
 
 **Строгий режим — не опция.** При `qualityContractVersion: 2` и `uiContractVersion: 3` компилятор
 требует от каждой поверхности рецепт композиции, названное главное действие, иерархию регионов,

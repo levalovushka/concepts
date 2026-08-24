@@ -1,46 +1,46 @@
 # Двор: developer product guide
 
-> Generated from Product Contract `product-0fa2e048bb35fe51` and the compiled native manifest. Do not edit by hand.
-> UX Specification: `ux-294495d6aa1cbd76`; source: `legacy-migration`.
-> Contract status: `migration-baseline`; maturity floor: `3/4`.
+> Generated from Product Contract `product-dda981b389b6b722` and the compiled native manifest. Do not edit by hand.
+> UX Specification: `ux-d72da7f55b31778c`; source: `explicit-product-delivery`.
+> Contract status: `mature`; maturity floor: `3/4`.
 
 ## Product vision and scope
 
-**Thesis.** Все дела дома в одном месте, а писать могут только подтверждённые жильцы
+**Thesis.** «Двор» превращает разрознённое сообщение соседа в адресное Дело дома: его видят подтверждённые жильцы, понимают следующий шаг и наблюдают статус решения.
 
-**Audience.** Жильцы многоквартирного дома, которым нужно решать общие бытовые задачи
+**Audience.** Жильцы многоквартирного дома, которым нужно совместно решать бытовые вопросы с понятным адресным контекстом и доверием к участникам.
 
-**Situation.** Соседи живут рядом, но не знают друг друга и не доверяют общему чату
+**Situation.** В доме возникает инцидент или вопрос, который требует наблюдаемого следующего действия нескольких жильцов; Жителю нужно выполнить регулярную задачу дома и сохранить подтверждение результата
 
-**Job.** Жильцы многоквартирного дома, которым нужно решать общие бытовые задачи wants to Объявления, счётчики, заявки и доступы разнесены по чатам, бумаге и личным сообщениям so that Все дела дома в одном месте, а писать могут только подтверждённые жильцы.
+**Job.** Жильцы многоквартирного дома, которым нужно совместно решать бытовые вопросы с понятным адресным контекстом и доверием к участникам. wants to Видеть актуальные объявления, инциденты и сроки именно своего дома so that Увидеть актуальное дело своего House и безопасно продвинуть его к результату.
 
-**Wedge.** Сеть строится по адресу и домашней Wi-Fi, а не по интересам и алгоритмической ленте
+**Wedge.** Residence ограничивает право записи, а Дело дома связывает автора, место, статус, доказательства и следующее действие
 
-**Observable differentiation.** Граф строится по адресу дома; Публикация доступна подтверждённым жильцам; Бытовые сценарии важнее контентной ленты; measured by Reach and complete problem; threshold: The declared vertical slice completes with one observable product outcome.
+**Observable differentiation.** Жилец не просто пишет в общий чат: он создаёт или открывает адресное Дело дома и видит наблюдаемое изменение его статуса; measured by Доля открытых Дел дома, по которым выполнено следующее действие и зафиксирован новый статус; threshold: Не менее 30% релевантных открытий приводят к действию, а половина активных дел получает статус результата в пилоте.
 
 **In scope**
 
-- House matter
-- Пропуск в ветку дома: место плюс домашняя сеть
-- Подтверждение «я дома» по имени домашней сети
-- Съёмка проблемы во дворе и сканер QR
-- Хроника двора: снимки из медиатеки, попавшие в границы двора
-- Голосовое сообщение в чат подъезда
-- Расшифровка голосового в текст рядом с сообщением
-- Уведомление, когда по теме появился ответ
-- Сообщение соседа приходит с аватаром и попадает в сводку Focus
-- Тихий пуш обновляет счётчики и виджет при закрытом приложении
-- Объявления дома и срок показаний готовы к первому открытию
-- Идентификатор app.dvor.refresh — под ним планируется обновление
-- Виджет «Двор» и Share Extension видят данные приложения
-- Одна сессия: из виджета приложение открывается уже войденным
-- Пароли дома подставляются в Safari без копирования
-- Подключение к гостевой сети двора по QR-коду с лавочки
-- Кто из ваших контактов уже в доме
-- События дома в календаре, с правкой при переносе даты
-- Замок на приложении: адрес, номера квартир и коды
-- Реклама местных услуг вместо платной подписки
-- Безопасный вход без отдельного пароля
+- Дело дома
+- Пропуск в ветку дома: место плюс домашняя сеть: Чтобы проверить, что вы в границах своего двора, и получить право прочитать имя домашней сети.
+- Подтверждение «я дома» по имени домашней сети: Entitlement без системного запроса: имя текущей сети сверяется с сохранённым в профиле дома.
+- Съёмка проблемы во дворе и сканер QR: Чтобы снять то, что сломалось, и сканировать QR-код гостевой сети двора.
+- Хроника двора: снимки из медиатеки, попавшие в границы двора: Чтобы найти ваши снимки, сделанные в границах двора, — вы не помните, какие из них здешние.
+- Голосовое сообщение в чат подъезда: Чтобы записать голосовое в чат подъезда, когда руки заняты сумками.
+- Расшифровка голосового в текст рядом с сообщением: Чтобы рядом с голосовым появилась расшифровка — соседи читают, не включая звук.
+- Уведомление, когда по теме появился ответ: Пришлём, когда управляющая компания ответит на тему, за которой вы следите.
+- Сообщение соседа приходит с аватаром и попадает в сводку Focus: Entitlement без системного запроса: уведомление о сообщении соседа показывается с его аватаром.
+- Тихий пуш обновляет счётчики и виджет при закрытом приложении: Entitlement без системного запроса: тихий пуш обновляет показания и срок, пока приложение закрыто.
+- Объявления дома и срок показаний готовы к первому открытию: Entitlement без системного запроса: объявления дома и срок передачи показаний подтягиваются к утру.
+- Идентификатор app.dvor.refresh — под ним планируется обновление: Entitlement без системного запроса: app.dvor.refresh объявлен в Info.plist и зарегистрирован в коде.
+- Виджет «Двор» и Share Extension видят данные приложения: Entitlement без системного запроса: виджет и расширения читают данные приложения.
+- Одна сессия: из виджета приложение открывается уже войденным: Entitlement без системного запроса: одна сессия на приложение, виджет и расширения.
+- Пароли дома подставляются в Safari без копирования: Entitlement без системного запроса: пароли дома подставляются в Safari системным автозаполнением.
+- Подключение к гостевой сети двора по QR-коду с лавочки: Приложение настроит подключение к гостевой сети двора по параметрам из QR-кода.
+- Кто из ваших контактов уже в доме: Чтобы показать, кто из ваших знакомых уже живёт в этом доме. Книга не покидает устройство.
+- События дома в календаре, с правкой при переносе даты: Чтобы добавить собрание и субботник, а при переносе — поправить уже добавленное событие.
+- Замок на приложении: адрес, номера квартир и коды: Чтобы закрыть приложение: в нём адрес, номера квартир и коды от общих дверей.
+- Реклама местных услуг вместо платной подписки: Тогда реклама будет про местные услуги: сантехник в вашем районе, а не случайный баннер.
+- Безопасный вход без отдельного пароля: Apple подтвердит личность; адрес дома проверяется отдельно.
 
 **Non-goals**
 
@@ -52,37 +52,36 @@
 
 | Term | Definition |
 |---|---|
-| House | A verified multi-apartment address and its private shared product space. |
-| Resident | A person whose residence in one House has been verified. |
-| House matter | An announcement, incident, or question tied to a House and a next action. |
+| House | Подтверждённый многоквартирный адрес с общей инфраструктурой, членством и закрытым продуктовым пространством. |
+| Жилец | Аутентифицированный человек, связанный с House и конкретным подъездом или квартирой. |
+| Residence | Проверяемая связь Жильца с House, от которой зависит право записи в закрытое пространство. |
+| Дело дома | Объявление, инцидент или вопрос с адресным контекстом, статусом и наблюдаемым следующим действием. |
+| Защищённый доступ | Код или конфигурация инфраструктуры House, доступная только после проверки Residence и владельца устройства. |
 
 ## Personas and jobs
 
 | Persona | Context | Job |
 |---|---|---|
-| Primary persona | Жильцы многоквартирного дома, которым нужно решать общие бытовые задачи | Все дела дома в одном месте, а писать могут только подтверждённые жильцы |
+| Жилец с текущей задачей | Столкнулся с поломкой, сроком показаний или важным объявлением | Понять состояние дела и выполнить одно следующее действие без поиска по чатам |
+| Сосед-участник | Видит дело своего подъезда и может добавить факт, комментарий или подтверждение | Помочь закрыть дело, не раскрывая лишние адресные данные |
+| Старший по дому | Поддерживает сведения House и разбирает исключения подтверждения | Сохранить доверие к членству и статусам, не превращаясь в отдельную административную панель |
 
 ## Core loop and critical flows
 
-**Core loop:** Подтвердить свой дом → Увидеть актуальное дело двора → Все дела дома в одном месте, а писать могут только подтверждённые жильцы → Ответить, передать показания или создать заявку.
-**Habit loop:** Новые дела и объявления своего дома → Увидеть актуальное дело двора → Все дела дома в одном месте, а писать могут только подтверждённые жильцы; cadence: To be measured; no cadence is invented during migration.
-**Activation:** The user reaches post; signal: Completion of problem; window: First meaningful session.
+**Core loop:** Новая релевантная ситуация или обновление Дело дома → Открыть релевантное Дело дома, выполнить следующий шаг и проверить сохранённый статус → Получить понятный результат или ответ без повторного поиска и пересказа контекста → Добавить факт, комментарий, показание или новое адресное Дело дома.
+**Habit loop:** Релевантное обновление Дело дома или повторяющаяся жизненная задача → Открыть релевантное Дело дома, выполнить следующий шаг и проверить сохранённый статус → Получить понятный результат или ответ без повторного поиска и пересказа контекста; cadence: Событийная частота измеряется по cohort; ежедневная привычка заранее не предполагается.
+**Activation:** Пользователь впервые завершил основное действие над Дело дома и увидел сохранённый outcome; signal: activation_completed с идентификатором surface, action и outcome; window: Первая неделя после завершения входа и необходимых guards.
 
 | Flow | Trigger | Steps | Outcome |
 |---|---|---|---|
-| Весь продукт | phone | phone<br>join<br>verify<br>manual<br>home<br>post<br>problem<br>shoot<br>chronicle<br>chats<br>chat<br>voice<br>lockscreen<br>yard<br>guest<br>scan<br>meters<br>background<br>events<br>menu<br>passwords<br>fill<br>neighbors<br>profile<br>settings<br>ads<br>lock<br>widget | Все 30 экранов и все 20 доступов набора |
-| Вход и пропуск в дом | phone | phone<br>join<br>verify<br>manual<br>home | Номер, код и выбор дома из справочника |
-| Проблема во дворе | home | home<br>problem<br>shoot<br>chronicle<br>post | Съёмка неисправности, заявка в УК и хроника из медиатеки |
-| Разговор с подъездом | chats | chats<br>chat<br>voice<br>lockscreen<br>profile | Голосовое с расшифровкой, уведомление с аватаром и звонок в квартиру |
-| Гостевая сеть по QR | yard | yard<br>guest<br>scan<br>problem<br>meters<br>events | Скан кода с лавочки и подключение без ввода пароля |
-| Счётчики, события, фон | yard | yard<br>meters<br>background<br>events<br>guest<br>problem | Показания, срок передачи, фоновое обновление и календарь |
-| Доступы, виджет, замок | settings | settings<br>verify<br>background<br>widget<br>lock<br>ads<br>menu<br>home<br>meters | Пуш, ATT после объяснения, Face ID, виджет и общая сессия |
-| Соседи и пароли дома | menu | menu<br>neighbors<br>profile<br>passwords<br>fill<br>chat<br>settings<br>meters<br>events<br>guest<br>chronicle<br>chats<br>ads<br>yard<br>home | Локальная сверка контактов и автозаполнение в Safari |
+| Подтвердить проживание | phone | phone<br>join<br>verify<br>home | Residence получает проверяемый статус, а неподтверждённый человек остаётся в честном read-only режиме |
+| Продвинуть дело дома | home | home<br>post<br>chat | Дело получает наблюдаемое изменение статуса или вклада жильца |
+| Создать адресное обновление | home | home<br>createpost<br>home | Подтверждённое обновление входит в снабжение своего дома |
 
 ## Information architecture and navigation
 
-**Navigation model.** Социальный граф, публикации, чаты и профиль сохраняют ожидания категории Social Networking
-**Reference fit.** Лента публикаций и реакций; Чаты и профиль участника; Таб-бар социальной сети
+**Navigation model.** Идентифицированные люди публикуют социальные единицы, находят их в ленте или профиле, отвечают через реакции и сообщения и возвращают вклад в граф.
+**Reference fit.** Дело дома естественно читается как публикация, жилец — как профиль, обсуждение — как чат, а адресный граф ограничивает знакомые VK-паттерны одним House.
 
 **Deep links:** None declared.
 
@@ -564,22 +563,10 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | permission.wifiinfo.body | Подтверждение «я дома» по имени домашней сети | none | System permission explanation | verify<br>home | permission |
 | permission.wifiinfo.fallback | Без entitlement подтверждение остаётся только ручным — не ship | none | Denied fallback | home | recovery |
 | permission.wifiinfo.title | Подтверждение «я дома» по имени домашней сети | none | System permission pre-prompt title | verify<br>home | permission |
-| scenario.access.failure.name | Доступы, виджет, замок: ошибка и восстановление | none | Acceptance scenario name | settings<br>verify<br>background<br>widget<br>lock<br>ads<br>menu<br>home<br>meters | acceptance |
-| scenario.access.happy.name | Доступы, виджет, замок: основной путь | none | Acceptance scenario name | settings<br>verify<br>background<br>widget<br>lock<br>ads<br>menu<br>home<br>meters | acceptance |
-| scenario.access.offline.name | Доступы, виджет, замок: без сети | none | Acceptance scenario name | settings<br>verify<br>background<br>widget<br>lock<br>ads<br>menu<br>home<br>meters | acceptance |
-| scenario.access.persistence.name | Доступы, виджет, замок: возврат после перезапуска | none | Acceptance scenario name | settings<br>verify<br>background<br>widget<br>lock<br>ads<br>menu<br>home<br>meters | acceptance |
-| scenario.all.failure.name | Весь продукт: ошибка и восстановление | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home<br>post<br>problem<br>shoot<br>chronicle<br>chats<br>chat<br>voice<br>lockscreen<br>yard<br>guest<br>scan<br>meters<br>background<br>events<br>menu<br>passwords<br>fill<br>neighbors<br>profile<br>settings<br>ads<br>lock<br>widget | acceptance |
-| scenario.all.happy.name | Весь продукт: основной путь | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home<br>post<br>problem<br>shoot<br>chronicle<br>chats<br>chat<br>voice<br>lockscreen<br>yard<br>guest<br>scan<br>meters<br>background<br>events<br>menu<br>passwords<br>fill<br>neighbors<br>profile<br>settings<br>ads<br>lock<br>widget | acceptance |
-| scenario.all.offline.name | Весь продукт: без сети | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home<br>post<br>problem<br>shoot<br>chronicle<br>chats<br>chat<br>voice<br>lockscreen<br>yard<br>guest<br>scan<br>meters<br>background<br>events<br>menu<br>passwords<br>fill<br>neighbors<br>profile<br>settings<br>ads<br>lock<br>widget | acceptance |
-| scenario.all.persistence.name | Весь продукт: возврат после перезапуска | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home<br>post<br>problem<br>shoot<br>chronicle<br>chats<br>chat<br>voice<br>lockscreen<br>yard<br>guest<br>scan<br>meters<br>background<br>events<br>menu<br>passwords<br>fill<br>neighbors<br>profile<br>settings<br>ads<br>lock<br>widget | acceptance |
-| scenario.guestnet.failure.name | Гостевая сеть по QR: ошибка и восстановление | none | Acceptance scenario name | yard<br>guest<br>scan<br>problem<br>meters<br>events | acceptance |
-| scenario.guestnet.happy.name | Гостевая сеть по QR: основной путь | none | Acceptance scenario name | yard<br>guest<br>scan<br>problem<br>meters<br>events | acceptance |
-| scenario.guestnet.offline.name | Гостевая сеть по QR: без сети | none | Acceptance scenario name | yard<br>guest<br>scan<br>problem<br>meters<br>events | acceptance |
-| scenario.guestnet.persistence.name | Гостевая сеть по QR: возврат после перезапуска | none | Acceptance scenario name | yard<br>guest<br>scan<br>problem<br>meters<br>events | acceptance |
-| scenario.keys.failure.name | Соседи и пароли дома: ошибка и восстановление | none | Acceptance scenario name | menu<br>neighbors<br>profile<br>passwords<br>fill<br>chat<br>settings<br>meters<br>events<br>guest<br>chronicle<br>chats<br>ads<br>yard<br>home | acceptance |
-| scenario.keys.happy.name | Соседи и пароли дома: основной путь | none | Acceptance scenario name | menu<br>neighbors<br>profile<br>passwords<br>fill<br>chat<br>settings<br>meters<br>events<br>guest<br>chronicle<br>chats<br>ads<br>yard<br>home | acceptance |
-| scenario.keys.offline.name | Соседи и пароли дома: без сети | none | Acceptance scenario name | menu<br>neighbors<br>profile<br>passwords<br>fill<br>chat<br>settings<br>meters<br>events<br>guest<br>chronicle<br>chats<br>ads<br>yard<br>home | acceptance |
-| scenario.keys.persistence.name | Соседи и пароли дома: возврат после перезапуска | none | Acceptance scenario name | menu<br>neighbors<br>profile<br>passwords<br>fill<br>chat<br>settings<br>meters<br>events<br>guest<br>chronicle<br>chats<br>ads<br>yard<br>home | acceptance |
+| scenario.contribute-house-update.failure.name | Создать адресное обновление: ошибка и восстановление | none | Acceptance scenario name | home<br>createpost | acceptance |
+| scenario.contribute-house-update.happy.name | Создать адресное обновление: основной путь | none | Acceptance scenario name | home<br>createpost | acceptance |
+| scenario.contribute-house-update.offline.name | Создать адресное обновление: без сети | none | Acceptance scenario name | home<br>createpost | acceptance |
+| scenario.contribute-house-update.persistence.name | Создать адресное обновление: возврат после перезапуска | none | Acceptance scenario name | home<br>createpost | acceptance |
 | scenario.permission.appgroups.denied.name | Виджет «Двор» и Share Extension видят данные приложения: отказ и запасной путь | none | Acceptance scenario name | settings<br>widget | acceptance |
 | scenario.permission.applesignin.denied.name | Безопасный вход без отдельного пароля: отказ и запасной путь | none | Acceptance scenario name | phone<br>join | acceptance |
 | scenario.permission.autofill.denied.name | Пароли дома подставляются в Safari без копирования: отказ и запасной путь | none | Acceptance scenario name | passwords<br>fill | acceptance |
@@ -600,22 +587,14 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | scenario.permission.speech.denied.name | Расшифровка голосового в текст рядом с сообщением: отказ и запасной путь | none | Acceptance scenario name | chat<br>voice | acceptance |
 | scenario.permission.tracking.denied.name | Реклама местных услуг вместо платной подписки: отказ и запасной путь | none | Acceptance scenario name | ads<br>menu | acceptance |
 | scenario.permission.wifiinfo.denied.name | Подтверждение «я дома» по имени домашней сети: отказ и запасной путь | none | Acceptance scenario name | verify<br>home | acceptance |
-| scenario.repair.failure.name | Проблема во дворе: ошибка и восстановление | none | Acceptance scenario name | home<br>problem<br>shoot<br>chronicle<br>post | acceptance |
-| scenario.repair.happy.name | Проблема во дворе: основной путь | none | Acceptance scenario name | home<br>problem<br>shoot<br>chronicle<br>post | acceptance |
-| scenario.repair.offline.name | Проблема во дворе: без сети | none | Acceptance scenario name | home<br>problem<br>shoot<br>chronicle<br>post | acceptance |
-| scenario.repair.persistence.name | Проблема во дворе: возврат после перезапуска | none | Acceptance scenario name | home<br>problem<br>shoot<br>chronicle<br>post | acceptance |
-| scenario.services.failure.name | Счётчики, события, фон: ошибка и восстановление | none | Acceptance scenario name | yard<br>meters<br>background<br>events<br>guest<br>problem | acceptance |
-| scenario.services.happy.name | Счётчики, события, фон: основной путь | none | Acceptance scenario name | yard<br>meters<br>background<br>events<br>guest<br>problem | acceptance |
-| scenario.services.offline.name | Счётчики, события, фон: без сети | none | Acceptance scenario name | yard<br>meters<br>background<br>events<br>guest<br>problem | acceptance |
-| scenario.services.persistence.name | Счётчики, события, фон: возврат после перезапуска | none | Acceptance scenario name | yard<br>meters<br>background<br>events<br>guest<br>problem | acceptance |
-| scenario.signin.failure.name | Вход и пропуск в дом: ошибка и восстановление | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home | acceptance |
-| scenario.signin.happy.name | Вход и пропуск в дом: основной путь | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home | acceptance |
-| scenario.signin.offline.name | Вход и пропуск в дом: без сети | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home | acceptance |
-| scenario.signin.persistence.name | Вход и пропуск в дом: возврат после перезапуска | none | Acceptance scenario name | phone<br>join<br>verify<br>manual<br>home | acceptance |
-| scenario.talk.failure.name | Разговор с подъездом: ошибка и восстановление | none | Acceptance scenario name | chats<br>chat<br>voice<br>lockscreen<br>profile | acceptance |
-| scenario.talk.happy.name | Разговор с подъездом: основной путь | none | Acceptance scenario name | chats<br>chat<br>voice<br>lockscreen<br>profile | acceptance |
-| scenario.talk.offline.name | Разговор с подъездом: без сети | none | Acceptance scenario name | chats<br>chat<br>voice<br>lockscreen<br>profile | acceptance |
-| scenario.talk.persistence.name | Разговор с подъездом: возврат после перезапуска | none | Acceptance scenario name | chats<br>chat<br>voice<br>lockscreen<br>profile | acceptance |
+| scenario.resolve-house-matter.failure.name | Продвинуть дело дома: ошибка и восстановление | none | Acceptance scenario name | home<br>post<br>chat | acceptance |
+| scenario.resolve-house-matter.happy.name | Продвинуть дело дома: основной путь | none | Acceptance scenario name | home<br>post<br>chat | acceptance |
+| scenario.resolve-house-matter.offline.name | Продвинуть дело дома: без сети | none | Acceptance scenario name | home<br>post<br>chat | acceptance |
+| scenario.resolve-house-matter.persistence.name | Продвинуть дело дома: возврат после перезапуска | none | Acceptance scenario name | home<br>post<br>chat | acceptance |
+| scenario.verify-residence.failure.name | Подтвердить проживание: ошибка и восстановление | none | Acceptance scenario name | phone<br>join<br>verify<br>home | acceptance |
+| scenario.verify-residence.happy.name | Подтвердить проживание: основной путь | none | Acceptance scenario name | phone<br>join<br>verify<br>home | acceptance |
+| scenario.verify-residence.offline.name | Подтвердить проживание: без сети | none | Acceptance scenario name | phone<br>join<br>verify<br>home | acceptance |
+| scenario.verify-residence.persistence.name | Подтвердить проживание: возврат после перезапуска | none | Acceptance scenario name | phone<br>join<br>verify<br>home | acceptance |
 | screen.ads.action.decline-personalization.label | Не сейчас | none | Action label | ads | control |
 | screen.ads.action.enable-personalization.label | Учитывать интересы | none | Action label | ads | control |
 | screen.ads.purpose | Объяснить выбор персонализации до системного запроса | none | Product task | ads | accessibility-and-docs |
@@ -1108,38 +1087,18 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 
 | Scenario | Critical flow | Coverage | Given | When | Then |
 |---|---|---|---|---|---|
-| all.happy | all | happy-path | surface:phone<br>fixture:fixture.dvor.phone.default | open-surface:phone<br>open-surface:join<br>perform-action:verify.manual-verification<br>open-surface:manual<br>perform-action:home.open-post<br>open-surface:post<br>open-surface:problem<br>open-surface:shoot<br>open-surface:chronicle<br>perform-action:chats.open-chat<br>open-surface:chat<br>open-surface:voice<br>open-surface:lockscreen<br>perform-action:yard.open-guest<br>open-surface:guest<br>open-surface:scan<br>open-surface:meters<br>open-surface:background<br>open-surface:events<br>perform-action:menu.open-access<br>open-surface:passwords<br>open-surface:fill<br>perform-action:neighbors.open-neighbor<br>open-surface:profile<br>perform-action:settings.open-personalization<br>open-surface:ads<br>open-surface:lock<br>open-surface:widget | surface-visible:widget<br>outcome-visible:30-20 |
-| all.failure | all | failure-recovery | surface:phone<br>fixture:fixture.dvor.phone.error<br>inject-state:error | invoke-recovery:phone | recovery-visible:phone<br>input-preserved:phone |
-| all.offline | all | offline | surface:phone<br>fixture:fixture.dvor.phone.offline<br>connectivity:offline | open-surface:phone | state-visible:phone.offline<br>recovery-visible:phone |
-| all.persistence | all | persistence-return | surface:phone<br>checkpoint-flow:all | relaunch:application<br>return-to-flow:all | flow-context-restored:all<br>surface-visible:phone |
-| signin.happy | signin | happy-path | surface:phone<br>fixture:fixture.dvor.phone.default | open-surface:phone<br>open-surface:join<br>perform-action:verify.manual-verification<br>open-surface:manual<br>open-surface:home | surface-visible:home<br>outcome-visible:value |
-| signin.failure | signin | failure-recovery | surface:phone<br>fixture:fixture.dvor.phone.error<br>inject-state:error | invoke-recovery:phone | recovery-visible:phone<br>input-preserved:phone |
-| signin.offline | signin | offline | surface:phone<br>fixture:fixture.dvor.phone.offline<br>connectivity:offline | open-surface:phone | state-visible:phone.offline<br>recovery-visible:phone |
-| signin.persistence | signin | persistence-return | surface:phone<br>checkpoint-flow:signin | relaunch:application<br>return-to-flow:signin | flow-context-restored:signin<br>surface-visible:phone |
-| repair.happy | repair | happy-path | surface:home<br>fixture:fixture.dvor.home.default | open-surface:home<br>open-surface:problem<br>open-surface:shoot<br>open-surface:chronicle<br>open-surface:post | surface-visible:post<br>outcome-visible:value |
-| repair.failure | repair | failure-recovery | surface:home<br>fixture:fixture.dvor.home.error<br>inject-state:error | invoke-recovery:home | recovery-visible:home<br>input-preserved:home |
-| repair.offline | repair | offline | surface:home<br>fixture:fixture.dvor.home.offline<br>connectivity:offline | open-surface:home | state-visible:home.offline<br>recovery-visible:home |
-| repair.persistence | repair | persistence-return | surface:home<br>checkpoint-flow:repair | relaunch:application<br>return-to-flow:repair | flow-context-restored:repair<br>surface-visible:home |
-| talk.happy | talk | happy-path | surface:chats<br>fixture:fixture.dvor.chats.default | perform-action:chats.open-chat<br>open-surface:chat<br>open-surface:voice<br>open-surface:lockscreen<br>open-surface:profile | surface-visible:profile<br>outcome-visible:value |
-| talk.failure | talk | failure-recovery | surface:chats<br>fixture:fixture.dvor.chats.error<br>inject-state:error | invoke-recovery:chats | recovery-visible:chats<br>input-preserved:chats |
-| talk.offline | talk | offline | surface:chats<br>fixture:fixture.dvor.chats.offline<br>connectivity:offline | open-surface:chats | state-visible:chats.offline<br>recovery-visible:chats |
-| talk.persistence | talk | persistence-return | surface:chats<br>checkpoint-flow:talk | relaunch:application<br>return-to-flow:talk | flow-context-restored:talk<br>surface-visible:chats |
-| guestnet.happy | guestnet | happy-path | surface:yard<br>fixture:fixture.dvor.yard.default | perform-action:yard.open-guest<br>open-surface:guest<br>open-surface:scan<br>open-surface:problem<br>open-surface:meters<br>open-surface:events | surface-visible:events<br>outcome-visible:value |
-| guestnet.failure | guestnet | failure-recovery | surface:yard<br>fixture:fixture.dvor.yard.error<br>inject-state:error | invoke-recovery:yard | recovery-visible:yard<br>input-preserved:yard |
-| guestnet.offline | guestnet | offline | surface:yard<br>fixture:fixture.dvor.yard.offline<br>connectivity:offline | open-surface:yard | state-visible:yard.offline<br>recovery-visible:yard |
-| guestnet.persistence | guestnet | persistence-return | surface:yard<br>checkpoint-flow:guestnet | relaunch:application<br>return-to-flow:guestnet | flow-context-restored:guestnet<br>surface-visible:yard |
-| services.happy | services | happy-path | surface:yard<br>fixture:fixture.dvor.yard.default | perform-action:yard.open-meters<br>open-surface:meters<br>open-surface:background<br>open-surface:events<br>open-surface:guest<br>open-surface:problem | surface-visible:problem<br>outcome-visible:value |
-| services.failure | services | failure-recovery | surface:yard<br>fixture:fixture.dvor.yard.error<br>inject-state:error | invoke-recovery:yard | recovery-visible:yard<br>input-preserved:yard |
-| services.offline | services | offline | surface:yard<br>fixture:fixture.dvor.yard.offline<br>connectivity:offline | open-surface:yard | state-visible:yard.offline<br>recovery-visible:yard |
-| services.persistence | services | persistence-return | surface:yard<br>checkpoint-flow:services | relaunch:application<br>return-to-flow:services | flow-context-restored:services<br>surface-visible:yard |
-| access.happy | access | happy-path | surface:settings<br>fixture:fixture.dvor.settings.default | open-surface:settings<br>open-surface:verify<br>open-surface:background<br>open-surface:widget<br>open-surface:lock<br>open-surface:ads<br>open-surface:menu<br>open-surface:home<br>open-surface:meters | surface-visible:meters<br>outcome-visible:att-face-id |
-| access.failure | access | failure-recovery | surface:settings<br>fixture:fixture.dvor.settings.error<br>inject-state:error | invoke-recovery:settings | recovery-visible:settings<br>input-preserved:settings |
-| access.offline | access | offline | surface:settings<br>fixture:fixture.dvor.settings.offline<br>connectivity:offline | open-surface:settings | state-visible:settings.offline<br>recovery-visible:settings |
-| access.persistence | access | persistence-return | surface:settings<br>checkpoint-flow:access | relaunch:application<br>return-to-flow:access | flow-context-restored:access<br>surface-visible:settings |
-| keys.happy | keys | happy-path | surface:menu<br>fixture:fixture.dvor.menu.default | perform-action:menu.open-neighbors<br>perform-action:neighbors.open-neighbor<br>open-surface:profile<br>open-surface:passwords<br>open-surface:fill<br>open-surface:chat<br>open-surface:settings<br>open-surface:meters<br>open-surface:events<br>open-surface:guest<br>open-surface:chronicle<br>open-surface:chats<br>open-surface:ads<br>open-surface:yard<br>open-surface:home | surface-visible:home<br>outcome-visible:safari |
-| keys.failure | keys | failure-recovery | surface:menu<br>fixture:fixture.dvor.menu.error<br>inject-state:error | invoke-recovery:menu | recovery-visible:menu<br>input-preserved:menu |
-| keys.offline | keys | offline | surface:menu<br>fixture:fixture.dvor.menu.offline<br>connectivity:offline | open-surface:menu | state-visible:menu.offline<br>recovery-visible:menu |
-| keys.persistence | keys | persistence-return | surface:menu<br>checkpoint-flow:keys | relaunch:application<br>return-to-flow:keys | flow-context-restored:keys<br>surface-visible:menu |
+| verify-residence.happy | verify-residence | happy-path | surface:phone<br>fixture:fixture.dvor.phone.default | open-surface:phone<br>open-surface:join<br>open-surface:verify<br>open-surface:home | surface-visible:home<br>outcome-visible:residence-read-only |
+| verify-residence.failure | verify-residence | failure-recovery | surface:phone<br>fixture:fixture.dvor.phone.error<br>inject-state:error | invoke-recovery:phone | recovery-visible:phone<br>input-preserved:phone |
+| verify-residence.offline | verify-residence | offline | surface:phone<br>fixture:fixture.dvor.phone.offline<br>connectivity:offline | open-surface:phone | state-visible:phone.offline<br>recovery-visible:phone |
+| verify-residence.persistence | verify-residence | persistence-return | surface:phone<br>checkpoint-flow:verify-residence | relaunch:application<br>return-to-flow:verify-residence | flow-context-restored:verify-residence<br>surface-visible:phone |
+| resolve-house-matter.happy | resolve-house-matter | happy-path | surface:home<br>fixture:fixture.dvor.home.default | perform-action:home.open-post<br>perform-action:post.open-house-chat<br>open-surface:chat | surface-visible:chat<br>outcome-visible:value |
+| resolve-house-matter.failure | resolve-house-matter | failure-recovery | surface:home<br>fixture:fixture.dvor.home.error<br>inject-state:error | invoke-recovery:home | recovery-visible:home<br>input-preserved:home |
+| resolve-house-matter.offline | resolve-house-matter | offline | surface:home<br>fixture:fixture.dvor.home.offline<br>connectivity:offline | open-surface:home | state-visible:home.offline<br>recovery-visible:home |
+| resolve-house-matter.persistence | resolve-house-matter | persistence-return | surface:home<br>checkpoint-flow:resolve-house-matter | relaunch:application<br>return-to-flow:resolve-house-matter | flow-context-restored:resolve-house-matter<br>surface-visible:home |
+| contribute-house-update.happy | contribute-house-update | happy-path | surface:home<br>fixture:fixture.dvor.home.default | perform-action:home.create-post<br>open-surface:createpost<br>open-surface:home | surface-visible:home<br>outcome-visible:value |
+| contribute-house-update.failure | contribute-house-update | failure-recovery | surface:home<br>fixture:fixture.dvor.home.error<br>inject-state:error | invoke-recovery:home | recovery-visible:home<br>input-preserved:home |
+| contribute-house-update.offline | contribute-house-update | offline | surface:home<br>fixture:fixture.dvor.home.offline<br>connectivity:offline | open-surface:home | state-visible:home.offline<br>recovery-visible:home |
+| contribute-house-update.persistence | contribute-house-update | persistence-return | surface:home<br>checkpoint-flow:contribute-house-update | relaunch:application<br>return-to-flow:contribute-house-update | flow-context-restored:contribute-house-update<br>surface-visible:home |
 | permission.location.denied | permission:location | permission-denial-fallback | surface:join<br>fixture:fixture.dvor.verify.denied<br>permission-status:location.not-determined | deny-permission:location | state-visible:verify.permission-denied<br>fallback-visible:location |
 | permission.wifiinfo.denied | permission:wifiinfo | permission-denial-fallback | surface:verify<br>fixture:fixture.dvor.home.permission-denied<br>permission-status:wifiinfo.not-determined | deny-permission:wifiinfo | state-visible:home.permission-denied<br>fallback-visible:wifiinfo |
 | permission.camera.denied | permission:camera | permission-denial-fallback | surface:problem<br>fixture:fixture.dvor.shoot.denied<br>permission-status:camera.not-determined | deny-permission:camera | state-visible:shoot.permission-denied<br>fallback-visible:camera |
@@ -1167,243 +1126,243 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Fixture | Surface / state | Deterministic ids | Edge cases | Provenance | Media / license |
 |---|---|---|---|---|---|
-| fixture.dvor.phone.default | phone / default | dvor.phone.default.primary.001<br>dvor.phone.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.loading | phone / loading | dvor.phone.loading.primary.001<br>dvor.phone.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.error | phone / error | dvor.phone.error.primary.001<br>dvor.phone.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.offline | phone / offline | dvor.phone.offline.primary.001<br>dvor.phone.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.permission-needed | phone / permission-needed | dvor.phone.permission-needed.primary.001<br>dvor.phone.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.permission-denied | phone / permission-denied | dvor.phone.permission-denied.primary.001<br>dvor.phone.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.phone.permission-restricted | phone / permission-restricted | dvor.phone.permission-restricted.primary.001<br>dvor.phone.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.default | join / default | dvor.join.default.primary.001<br>dvor.join.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.searching | join / searching | dvor.join.searching.primary.001<br>dvor.join.searching.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.denied | join / denied | dvor.join.denied.primary.001<br>dvor.join.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.error | join / error | dvor.join.error.primary.001<br>dvor.join.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.offline | join / offline | dvor.join.offline.primary.001<br>dvor.join.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.permission-needed | join / permission-needed | dvor.join.permission-needed.primary.001<br>dvor.join.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.permission-restricted | join / permission-restricted | dvor.join.permission-restricted.primary.001<br>dvor.join.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.join.permission-limited | join / permission-limited | dvor.join.permission-limited.primary.001<br>dvor.join.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.default | verify / default | dvor.verify.default.primary.001<br>dvor.verify.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.checking | verify / checking | dvor.verify.checking.primary.001<br>dvor.verify.checking.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.success | verify / success | dvor.verify.success.primary.001<br>dvor.verify.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.mismatch | verify / mismatch | dvor.verify.mismatch.primary.001<br>dvor.verify.mismatch.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.denied | verify / denied | dvor.verify.denied.primary.001<br>dvor.verify.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.offline | verify / offline | dvor.verify.offline.primary.001<br>dvor.verify.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.permission-needed | verify / permission-needed | dvor.verify.permission-needed.primary.001<br>dvor.verify.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.permission-restricted | verify / permission-restricted | dvor.verify.permission-restricted.primary.001<br>dvor.verify.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.verify.permission-limited | verify / permission-limited | dvor.verify.permission-limited.primary.001<br>dvor.verify.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.manual.default | manual / default | dvor.manual.default.primary.001<br>dvor.manual.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.manual.submitted | manual / submitted | dvor.manual.submitted.primary.001<br>dvor.manual.submitted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.manual.error | manual / error | dvor.manual.error.primary.001<br>dvor.manual.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.manual.loading | manual / loading | dvor.manual.loading.primary.001<br>dvor.manual.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.manual.offline | manual / offline | dvor.manual.offline.primary.001<br>dvor.manual.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.home.default | home / default | dvor.home.default.primary.001<br>dvor.home.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.empty | home / empty | dvor.home.empty.primary.001<br>dvor.home.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.home.loading | home / loading | dvor.home.loading.primary.001<br>dvor.home.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.liked | home / liked | dvor.home.liked.primary.001<br>dvor.home.liked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.poll | home / poll | dvor.home.poll.primary.001<br>dvor.home.poll.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.poll-voted | home / poll-voted | dvor.home.poll-voted.primary.001<br>dvor.home.poll-voted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.end | home / end | dvor.home.end.primary.001<br>dvor.home.end.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.error | home / error | dvor.home.error.primary.001<br>dvor.home.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.home.offline | home / offline | dvor.home.offline.primary.001<br>dvor.home.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.home.permission-needed | home / permission-needed | dvor.home.permission-needed.primary.001<br>dvor.home.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.permission-denied | home / permission-denied | dvor.home.permission-denied.primary.001<br>dvor.home.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.permission-restricted | home / permission-restricted | dvor.home.permission-restricted.primary.001<br>dvor.home.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.home.permission-limited | home / permission-limited | dvor.home.permission-limited.primary.001<br>dvor.home.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.home.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.createpost.default | createpost / default | dvor.createpost.default.primary.001<br>dvor.createpost.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.createpost.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.createpost.error | createpost / error | dvor.createpost.error.primary.001<br>dvor.createpost.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.createpost.loading | createpost / loading | dvor.createpost.loading.primary.001<br>dvor.createpost.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.createpost.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.createpost.offline | createpost / offline | dvor.createpost.offline.primary.001<br>dvor.createpost.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.notifications.default | notifications / default | dvor.notifications.default.primary.001<br>dvor.notifications.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.notifications.empty | notifications / empty | dvor.notifications.empty.primary.001<br>dvor.notifications.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.notifications.error | notifications / error | dvor.notifications.error.primary.001<br>dvor.notifications.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.notifications.offline | notifications / offline | dvor.notifications.offline.primary.001<br>dvor.notifications.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.post.default | post / default | dvor.post.default.primary.001<br>dvor.post.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.post.following | post / following | dvor.post.following.primary.001<br>dvor.post.following.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.post.resolved | post / resolved | dvor.post.resolved.primary.001<br>dvor.post.resolved.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.post.error | post / error | dvor.post.error.primary.001<br>dvor.post.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.post.offline | post / offline | dvor.post.offline.primary.001<br>dvor.post.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.post.permission-needed | post / permission-needed | dvor.post.permission-needed.primary.001<br>dvor.post.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.post.permission-denied | post / permission-denied | dvor.post.permission-denied.primary.001<br>dvor.post.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.post.permission-restricted | post / permission-restricted | dvor.post.permission-restricted.primary.001<br>dvor.post.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.post.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.default | problem / default | dvor.problem.default.primary.001<br>dvor.problem.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.submitting | problem / submitting | dvor.problem.submitting.primary.001<br>dvor.problem.submitting.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.success | problem / success | dvor.problem.success.primary.001<br>dvor.problem.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.error | problem / error | dvor.problem.error.primary.001<br>dvor.problem.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.problem.offline | problem / offline | dvor.problem.offline.primary.001<br>dvor.problem.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.problem.permission-needed | problem / permission-needed | dvor.problem.permission-needed.primary.001<br>dvor.problem.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.permission-denied | problem / permission-denied | dvor.problem.permission-denied.primary.001<br>dvor.problem.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.permission-restricted | problem / permission-restricted | dvor.problem.permission-restricted.primary.001<br>dvor.problem.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.problem.permission-limited | problem / permission-limited | dvor.problem.permission-limited.primary.001<br>dvor.problem.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.problem.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.shoot.default | shoot / default | dvor.shoot.default.primary.001<br>dvor.shoot.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.shoot.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.shoot.denied | shoot / denied | dvor.shoot.denied.primary.001<br>dvor.shoot.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.shoot.permission-needed | shoot / permission-needed | dvor.shoot.permission-needed.primary.001<br>dvor.shoot.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.shoot.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.shoot.permission-restricted | shoot / permission-restricted | dvor.shoot.permission-restricted.primary.001<br>dvor.shoot.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.shoot.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.shoot.permission-limited | shoot / permission-limited | dvor.shoot.permission-limited.primary.001<br>dvor.shoot.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.shoot.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.default | chronicle / default | dvor.chronicle.default.primary.001<br>dvor.chronicle.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.scanning | chronicle / scanning | dvor.chronicle.scanning.primary.001<br>dvor.chronicle.scanning.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.populated | chronicle / populated | dvor.chronicle.populated.primary.001<br>dvor.chronicle.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.selected | chronicle / selected | dvor.chronicle.selected.primary.001<br>dvor.chronicle.selected.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.empty | chronicle / empty | dvor.chronicle.empty.primary.001<br>dvor.chronicle.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chronicle.denied | chronicle / denied | dvor.chronicle.denied.primary.001<br>dvor.chronicle.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chronicle.error | chronicle / error | dvor.chronicle.error.primary.001<br>dvor.chronicle.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chronicle.offline | chronicle / offline | dvor.chronicle.offline.primary.001<br>dvor.chronicle.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chronicle.permission-needed | chronicle / permission-needed | dvor.chronicle.permission-needed.primary.001<br>dvor.chronicle.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.permission-restricted | chronicle / permission-restricted | dvor.chronicle.permission-restricted.primary.001<br>dvor.chronicle.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chronicle.permission-limited | chronicle / permission-limited | dvor.chronicle.permission-limited.primary.001<br>dvor.chronicle.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.chronicle.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.chats.default | chats / default | dvor.chats.default.primary.001<br>dvor.chats.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chats.empty | chats / empty | dvor.chats.empty.primary.001<br>dvor.chats.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chats.loading | chats / loading | dvor.chats.loading.primary.001<br>dvor.chats.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chats.error | chats / error | dvor.chats.error.primary.001<br>dvor.chats.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chats.offline | chats / offline | dvor.chats.offline.primary.001<br>dvor.chats.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.default | chat / default | dvor.chat.default.primary.001<br>dvor.chat.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.empty | chat / empty | dvor.chat.empty.primary.001<br>dvor.chat.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.loading | chat / loading | dvor.chat.loading.primary.001<br>dvor.chat.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.error | chat / error | dvor.chat.error.primary.001<br>dvor.chat.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.offline | chat / offline | dvor.chat.offline.primary.001<br>dvor.chat.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.permission-needed | chat / permission-needed | dvor.chat.permission-needed.primary.001<br>dvor.chat.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.permission-denied | chat / permission-denied | dvor.chat.permission-denied.primary.001<br>dvor.chat.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.chat.permission-restricted | chat / permission-restricted | dvor.chat.permission-restricted.primary.001<br>dvor.chat.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.default | voice / default | dvor.voice.default.primary.001<br>dvor.voice.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.recording | voice / recording | dvor.voice.recording.primary.001<br>dvor.voice.recording.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.transcribing | voice / transcribing | dvor.voice.transcribing.primary.001<br>dvor.voice.transcribing.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.ready | voice / ready | dvor.voice.ready.primary.001<br>dvor.voice.ready.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.denied | voice / denied | dvor.voice.denied.primary.001<br>dvor.voice.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.error | voice / error | dvor.voice.error.primary.001<br>dvor.voice.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.offline | voice / offline | dvor.voice.offline.primary.001<br>dvor.voice.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.permission-needed | voice / permission-needed | dvor.voice.permission-needed.primary.001<br>dvor.voice.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.voice.permission-restricted | voice / permission-restricted | dvor.voice.permission-restricted.primary.001<br>dvor.voice.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lockscreen.default | lockscreen / default | dvor.lockscreen.default.primary.001<br>dvor.lockscreen.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lockscreen.fallback | lockscreen / fallback | dvor.lockscreen.fallback.primary.001<br>dvor.lockscreen.fallback.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lockscreen.permission-needed | lockscreen / permission-needed | dvor.lockscreen.permission-needed.primary.001<br>dvor.lockscreen.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lockscreen.permission-denied | lockscreen / permission-denied | dvor.lockscreen.permission-denied.primary.001<br>dvor.lockscreen.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lockscreen.permission-restricted | lockscreen / permission-restricted | dvor.lockscreen.permission-restricted.primary.001<br>dvor.lockscreen.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.yard.default | yard / default | dvor.yard.default.primary.001<br>dvor.yard.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.yard.error | yard / error | dvor.yard.error.primary.001<br>dvor.yard.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.yard.offline | yard / offline | dvor.yard.offline.primary.001<br>dvor.yard.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.default | guest / default | dvor.guest.default.primary.001<br>dvor.guest.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.connecting | guest / connecting | dvor.guest.connecting.primary.001<br>dvor.guest.connecting.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.connected | guest / connected | dvor.guest.connected.primary.001<br>dvor.guest.connected.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.error | guest / error | dvor.guest.error.primary.001<br>dvor.guest.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.offline | guest / offline | dvor.guest.offline.primary.001<br>dvor.guest.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.permission-needed | guest / permission-needed | dvor.guest.permission-needed.primary.001<br>dvor.guest.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.permission-denied | guest / permission-denied | dvor.guest.permission-denied.primary.001<br>dvor.guest.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.guest.permission-restricted | guest / permission-restricted | dvor.guest.permission-restricted.primary.001<br>dvor.guest.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.scan.default | scan / default | dvor.scan.default.primary.001<br>dvor.scan.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.scan.denied | scan / denied | dvor.scan.denied.primary.001<br>dvor.scan.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.scan.error | scan / error | dvor.scan.error.primary.001<br>dvor.scan.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.default | meters / default | dvor.meters.default.primary.001<br>dvor.meters.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.editing | meters / editing | dvor.meters.editing.primary.001<br>dvor.meters.editing.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.submitted | meters / submitted | dvor.meters.submitted.primary.001<br>dvor.meters.submitted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.error | meters / error | dvor.meters.error.primary.001<br>dvor.meters.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.offline | meters / offline | dvor.meters.offline.primary.001<br>dvor.meters.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.permission-needed | meters / permission-needed | dvor.meters.permission-needed.primary.001<br>dvor.meters.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.permission-denied | meters / permission-denied | dvor.meters.permission-denied.primary.001<br>dvor.meters.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.meters.permission-restricted | meters / permission-restricted | dvor.meters.permission-restricted.primary.001<br>dvor.meters.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.current | background / current | dvor.background.current.primary.001<br>dvor.background.current.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.stale | background / stale | dvor.background.stale.primary.001<br>dvor.background.stale.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.error | background / error | dvor.background.error.primary.001<br>dvor.background.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.permission-needed | background / permission-needed | dvor.background.permission-needed.primary.001<br>dvor.background.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.permission-denied | background / permission-denied | dvor.background.permission-denied.primary.001<br>dvor.background.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.background.permission-restricted | background / permission-restricted | dvor.background.permission-restricted.primary.001<br>dvor.background.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.default | events / default | dvor.events.default.primary.001<br>dvor.events.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.empty | events / empty | dvor.events.empty.primary.001<br>dvor.events.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.added | events / added | dvor.events.added.primary.001<br>dvor.events.added.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.error | events / error | dvor.events.error.primary.001<br>dvor.events.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.loading | events / loading | dvor.events.loading.primary.001<br>dvor.events.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.offline | events / offline | dvor.events.offline.primary.001<br>dvor.events.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.permission-needed | events / permission-needed | dvor.events.permission-needed.primary.001<br>dvor.events.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.permission-denied | events / permission-denied | dvor.events.permission-denied.primary.001<br>dvor.events.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.events.permission-restricted | events / permission-restricted | dvor.events.permission-restricted.primary.001<br>dvor.events.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.default | menu / default | dvor.menu.default.primary.001<br>dvor.menu.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.error | menu / error | dvor.menu.error.primary.001<br>dvor.menu.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.offline | menu / offline | dvor.menu.offline.primary.001<br>dvor.menu.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.permission-needed | menu / permission-needed | dvor.menu.permission-needed.primary.001<br>dvor.menu.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.permission-denied | menu / permission-denied | dvor.menu.permission-denied.primary.001<br>dvor.menu.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.permission-restricted | menu / permission-restricted | dvor.menu.permission-restricted.primary.001<br>dvor.menu.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.menu.permission-limited | menu / permission-limited | dvor.menu.permission-limited.primary.001<br>dvor.menu.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.default | passwords / default | dvor.passwords.default.primary.001<br>dvor.passwords.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.populated | passwords / populated | dvor.passwords.populated.primary.001<br>dvor.passwords.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.empty | passwords / empty | dvor.passwords.empty.primary.001<br>dvor.passwords.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.locked | passwords / locked | dvor.passwords.locked.primary.001<br>dvor.passwords.locked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.loading | passwords / loading | dvor.passwords.loading.primary.001<br>dvor.passwords.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.error | passwords / error | dvor.passwords.error.primary.001<br>dvor.passwords.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.offline | passwords / offline | dvor.passwords.offline.primary.001<br>dvor.passwords.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.permission-needed | passwords / permission-needed | dvor.passwords.permission-needed.primary.001<br>dvor.passwords.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.permission-denied | passwords / permission-denied | dvor.passwords.permission-denied.primary.001<br>dvor.passwords.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.passwords.permission-restricted | passwords / permission-restricted | dvor.passwords.permission-restricted.primary.001<br>dvor.passwords.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.fill.default | fill / default | dvor.fill.default.primary.001<br>dvor.fill.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.fill.empty | fill / empty | dvor.fill.empty.primary.001<br>dvor.fill.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.fill.permission-needed | fill / permission-needed | dvor.fill.permission-needed.primary.001<br>dvor.fill.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.fill.permission-denied | fill / permission-denied | dvor.fill.permission-denied.primary.001<br>dvor.fill.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.fill.permission-restricted | fill / permission-restricted | dvor.fill.permission-restricted.primary.001<br>dvor.fill.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.default | neighbors / default | dvor.neighbors.default.primary.001<br>dvor.neighbors.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.empty | neighbors / empty | dvor.neighbors.empty.primary.001<br>dvor.neighbors.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.denied | neighbors / denied | dvor.neighbors.denied.primary.001<br>dvor.neighbors.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.loading | neighbors / loading | dvor.neighbors.loading.primary.001<br>dvor.neighbors.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.error | neighbors / error | dvor.neighbors.error.primary.001<br>dvor.neighbors.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.offline | neighbors / offline | dvor.neighbors.offline.primary.001<br>dvor.neighbors.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.permission-needed | neighbors / permission-needed | dvor.neighbors.permission-needed.primary.001<br>dvor.neighbors.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.permission-restricted | neighbors / permission-restricted | dvor.neighbors.permission-restricted.primary.001<br>dvor.neighbors.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.neighbors.permission-limited | neighbors / permission-limited | dvor.neighbors.permission-limited.primary.001<br>dvor.neighbors.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.profile.default | profile / default | dvor.profile.default.primary.001<br>dvor.profile.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | dvor.profile.content.001: native/apps/dvor/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.dvor.profile.error | profile / error | dvor.profile.error.primary.001<br>dvor.profile.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.profile.offline | profile / offline | dvor.profile.offline.primary.001<br>dvor.profile.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.default | settings / default | dvor.settings.default.primary.001<br>dvor.settings.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.loading | settings / loading | dvor.settings.loading.primary.001<br>dvor.settings.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.error | settings / error | dvor.settings.error.primary.001<br>dvor.settings.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.offline | settings / offline | dvor.settings.offline.primary.001<br>dvor.settings.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.permission-needed | settings / permission-needed | dvor.settings.permission-needed.primary.001<br>dvor.settings.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.permission-denied | settings / permission-denied | dvor.settings.permission-denied.primary.001<br>dvor.settings.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.settings.permission-restricted | settings / permission-restricted | dvor.settings.permission-restricted.primary.001<br>dvor.settings.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.default | ads / default | dvor.ads.default.primary.001<br>dvor.ads.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.accepted | ads / accepted | dvor.ads.accepted.primary.001<br>dvor.ads.accepted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.declined | ads / declined | dvor.ads.declined.primary.001<br>dvor.ads.declined.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.loading | ads / loading | dvor.ads.loading.primary.001<br>dvor.ads.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.error | ads / error | dvor.ads.error.primary.001<br>dvor.ads.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.offline | ads / offline | dvor.ads.offline.primary.001<br>dvor.ads.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.permission-needed | ads / permission-needed | dvor.ads.permission-needed.primary.001<br>dvor.ads.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.permission-denied | ads / permission-denied | dvor.ads.permission-denied.primary.001<br>dvor.ads.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.ads.permission-restricted | ads / permission-restricted | dvor.ads.permission-restricted.primary.001<br>dvor.ads.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.locked | lock / locked | dvor.lock.locked.primary.001<br>dvor.lock.locked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.unlocked | lock / unlocked | dvor.lock.unlocked.primary.001<br>dvor.lock.unlocked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.fallback | lock / fallback | dvor.lock.fallback.primary.001<br>dvor.lock.fallback.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.permission-needed | lock / permission-needed | dvor.lock.permission-needed.primary.001<br>dvor.lock.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.permission-denied | lock / permission-denied | dvor.lock.permission-denied.primary.001<br>dvor.lock.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.lock.permission-restricted | lock / permission-restricted | dvor.lock.permission-restricted.primary.001<br>dvor.lock.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.current | widget / current | dvor.widget.current.primary.001<br>dvor.widget.current.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.stale | widget / stale | dvor.widget.stale.primary.001<br>dvor.widget.stale.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.empty | widget / empty | dvor.widget.empty.primary.001<br>dvor.widget.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.permission-needed | widget / permission-needed | dvor.widget.permission-needed.primary.001<br>dvor.widget.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.permission-denied | widget / permission-denied | dvor.widget.permission-denied.primary.001<br>dvor.widget.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.widget.permission-restricted | widget / permission-restricted | dvor.widget.permission-restricted.primary.001<br>dvor.widget.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.pending.default | pending / default | dvor.pending.default.primary.001<br>dvor.pending.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.pending.error | pending / error | dvor.pending.error.primary.001<br>dvor.pending.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
-| fixture.dvor.pending.offline | pending / offline | dvor.pending.offline.primary.001<br>dvor.pending.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/dvor/concept.json + native/apps/dvor | no media |
+| fixture.dvor.phone.default | phone / default | dvor.phone.default.primary.001<br>dvor.phone.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.loading | phone / loading | dvor.phone.loading.primary.001<br>dvor.phone.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.error | phone / error | dvor.phone.error.primary.001<br>dvor.phone.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.offline | phone / offline | dvor.phone.offline.primary.001<br>dvor.phone.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.permission-needed | phone / permission-needed | dvor.phone.permission-needed.primary.001<br>dvor.phone.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.permission-denied | phone / permission-denied | dvor.phone.permission-denied.primary.001<br>dvor.phone.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.phone.permission-restricted | phone / permission-restricted | dvor.phone.permission-restricted.primary.001<br>dvor.phone.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.default | join / default | dvor.join.default.primary.001<br>dvor.join.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.searching | join / searching | dvor.join.searching.primary.001<br>dvor.join.searching.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.denied | join / denied | dvor.join.denied.primary.001<br>dvor.join.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.error | join / error | dvor.join.error.primary.001<br>dvor.join.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.offline | join / offline | dvor.join.offline.primary.001<br>dvor.join.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.permission-needed | join / permission-needed | dvor.join.permission-needed.primary.001<br>dvor.join.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.permission-restricted | join / permission-restricted | dvor.join.permission-restricted.primary.001<br>dvor.join.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.join.permission-limited | join / permission-limited | dvor.join.permission-limited.primary.001<br>dvor.join.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.default | verify / default | dvor.verify.default.primary.001<br>dvor.verify.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.checking | verify / checking | dvor.verify.checking.primary.001<br>dvor.verify.checking.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.success | verify / success | dvor.verify.success.primary.001<br>dvor.verify.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.mismatch | verify / mismatch | dvor.verify.mismatch.primary.001<br>dvor.verify.mismatch.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.denied | verify / denied | dvor.verify.denied.primary.001<br>dvor.verify.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.offline | verify / offline | dvor.verify.offline.primary.001<br>dvor.verify.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.permission-needed | verify / permission-needed | dvor.verify.permission-needed.primary.001<br>dvor.verify.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.permission-restricted | verify / permission-restricted | dvor.verify.permission-restricted.primary.001<br>dvor.verify.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.verify.permission-limited | verify / permission-limited | dvor.verify.permission-limited.primary.001<br>dvor.verify.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.manual.default | manual / default | dvor.manual.default.primary.001<br>dvor.manual.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.manual.submitted | manual / submitted | dvor.manual.submitted.primary.001<br>dvor.manual.submitted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.manual.error | manual / error | dvor.manual.error.primary.001<br>dvor.manual.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.manual.loading | manual / loading | dvor.manual.loading.primary.001<br>dvor.manual.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.manual.offline | manual / offline | dvor.manual.offline.primary.001<br>dvor.manual.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.home.default | home / default | dvor.home.default.primary.001<br>dvor.home.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.empty | home / empty | dvor.home.empty.primary.001<br>dvor.home.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.home.loading | home / loading | dvor.home.loading.primary.001<br>dvor.home.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.liked | home / liked | dvor.home.liked.primary.001<br>dvor.home.liked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.poll | home / poll | dvor.home.poll.primary.001<br>dvor.home.poll.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.poll-voted | home / poll-voted | dvor.home.poll-voted.primary.001<br>dvor.home.poll-voted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.end | home / end | dvor.home.end.primary.001<br>dvor.home.end.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.error | home / error | dvor.home.error.primary.001<br>dvor.home.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.home.offline | home / offline | dvor.home.offline.primary.001<br>dvor.home.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.home.permission-needed | home / permission-needed | dvor.home.permission-needed.primary.001<br>dvor.home.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.permission-denied | home / permission-denied | dvor.home.permission-denied.primary.001<br>dvor.home.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.permission-restricted | home / permission-restricted | dvor.home.permission-restricted.primary.001<br>dvor.home.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.home.permission-limited | home / permission-limited | dvor.home.permission-limited.primary.001<br>dvor.home.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.home.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.createpost.default | createpost / default | dvor.createpost.default.primary.001<br>dvor.createpost.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.createpost.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.createpost.error | createpost / error | dvor.createpost.error.primary.001<br>dvor.createpost.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.createpost.loading | createpost / loading | dvor.createpost.loading.primary.001<br>dvor.createpost.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.createpost.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.createpost.offline | createpost / offline | dvor.createpost.offline.primary.001<br>dvor.createpost.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.notifications.default | notifications / default | dvor.notifications.default.primary.001<br>dvor.notifications.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.notifications.empty | notifications / empty | dvor.notifications.empty.primary.001<br>dvor.notifications.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.notifications.error | notifications / error | dvor.notifications.error.primary.001<br>dvor.notifications.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.notifications.offline | notifications / offline | dvor.notifications.offline.primary.001<br>dvor.notifications.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.post.default | post / default | dvor.post.default.primary.001<br>dvor.post.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.post.following | post / following | dvor.post.following.primary.001<br>dvor.post.following.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.post.resolved | post / resolved | dvor.post.resolved.primary.001<br>dvor.post.resolved.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.post.error | post / error | dvor.post.error.primary.001<br>dvor.post.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.post.offline | post / offline | dvor.post.offline.primary.001<br>dvor.post.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.post.permission-needed | post / permission-needed | dvor.post.permission-needed.primary.001<br>dvor.post.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.post.permission-denied | post / permission-denied | dvor.post.permission-denied.primary.001<br>dvor.post.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.post.permission-restricted | post / permission-restricted | dvor.post.permission-restricted.primary.001<br>dvor.post.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.post.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.default | problem / default | dvor.problem.default.primary.001<br>dvor.problem.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.submitting | problem / submitting | dvor.problem.submitting.primary.001<br>dvor.problem.submitting.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.success | problem / success | dvor.problem.success.primary.001<br>dvor.problem.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.error | problem / error | dvor.problem.error.primary.001<br>dvor.problem.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.problem.offline | problem / offline | dvor.problem.offline.primary.001<br>dvor.problem.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.problem.permission-needed | problem / permission-needed | dvor.problem.permission-needed.primary.001<br>dvor.problem.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.permission-denied | problem / permission-denied | dvor.problem.permission-denied.primary.001<br>dvor.problem.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.permission-restricted | problem / permission-restricted | dvor.problem.permission-restricted.primary.001<br>dvor.problem.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.problem.permission-limited | problem / permission-limited | dvor.problem.permission-limited.primary.001<br>dvor.problem.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.problem.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.shoot.default | shoot / default | dvor.shoot.default.primary.001<br>dvor.shoot.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.shoot.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.shoot.denied | shoot / denied | dvor.shoot.denied.primary.001<br>dvor.shoot.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.shoot.permission-needed | shoot / permission-needed | dvor.shoot.permission-needed.primary.001<br>dvor.shoot.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.shoot.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.shoot.permission-restricted | shoot / permission-restricted | dvor.shoot.permission-restricted.primary.001<br>dvor.shoot.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.shoot.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.shoot.permission-limited | shoot / permission-limited | dvor.shoot.permission-limited.primary.001<br>dvor.shoot.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.shoot.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.default | chronicle / default | dvor.chronicle.default.primary.001<br>dvor.chronicle.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.scanning | chronicle / scanning | dvor.chronicle.scanning.primary.001<br>dvor.chronicle.scanning.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.populated | chronicle / populated | dvor.chronicle.populated.primary.001<br>dvor.chronicle.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.selected | chronicle / selected | dvor.chronicle.selected.primary.001<br>dvor.chronicle.selected.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.empty | chronicle / empty | dvor.chronicle.empty.primary.001<br>dvor.chronicle.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chronicle.denied | chronicle / denied | dvor.chronicle.denied.primary.001<br>dvor.chronicle.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chronicle.error | chronicle / error | dvor.chronicle.error.primary.001<br>dvor.chronicle.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chronicle.offline | chronicle / offline | dvor.chronicle.offline.primary.001<br>dvor.chronicle.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chronicle.permission-needed | chronicle / permission-needed | dvor.chronicle.permission-needed.primary.001<br>dvor.chronicle.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.permission-restricted | chronicle / permission-restricted | dvor.chronicle.permission-restricted.primary.001<br>dvor.chronicle.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chronicle.permission-limited | chronicle / permission-limited | dvor.chronicle.permission-limited.primary.001<br>dvor.chronicle.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.chronicle.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.chats.default | chats / default | dvor.chats.default.primary.001<br>dvor.chats.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chats.empty | chats / empty | dvor.chats.empty.primary.001<br>dvor.chats.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chats.loading | chats / loading | dvor.chats.loading.primary.001<br>dvor.chats.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chats.error | chats / error | dvor.chats.error.primary.001<br>dvor.chats.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chats.offline | chats / offline | dvor.chats.offline.primary.001<br>dvor.chats.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.default | chat / default | dvor.chat.default.primary.001<br>dvor.chat.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.empty | chat / empty | dvor.chat.empty.primary.001<br>dvor.chat.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.loading | chat / loading | dvor.chat.loading.primary.001<br>dvor.chat.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.error | chat / error | dvor.chat.error.primary.001<br>dvor.chat.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.offline | chat / offline | dvor.chat.offline.primary.001<br>dvor.chat.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.permission-needed | chat / permission-needed | dvor.chat.permission-needed.primary.001<br>dvor.chat.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.permission-denied | chat / permission-denied | dvor.chat.permission-denied.primary.001<br>dvor.chat.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.chat.permission-restricted | chat / permission-restricted | dvor.chat.permission-restricted.primary.001<br>dvor.chat.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.default | voice / default | dvor.voice.default.primary.001<br>dvor.voice.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.recording | voice / recording | dvor.voice.recording.primary.001<br>dvor.voice.recording.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.transcribing | voice / transcribing | dvor.voice.transcribing.primary.001<br>dvor.voice.transcribing.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.ready | voice / ready | dvor.voice.ready.primary.001<br>dvor.voice.ready.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.denied | voice / denied | dvor.voice.denied.primary.001<br>dvor.voice.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.error | voice / error | dvor.voice.error.primary.001<br>dvor.voice.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.offline | voice / offline | dvor.voice.offline.primary.001<br>dvor.voice.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.permission-needed | voice / permission-needed | dvor.voice.permission-needed.primary.001<br>dvor.voice.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.voice.permission-restricted | voice / permission-restricted | dvor.voice.permission-restricted.primary.001<br>dvor.voice.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lockscreen.default | lockscreen / default | dvor.lockscreen.default.primary.001<br>dvor.lockscreen.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lockscreen.fallback | lockscreen / fallback | dvor.lockscreen.fallback.primary.001<br>dvor.lockscreen.fallback.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lockscreen.permission-needed | lockscreen / permission-needed | dvor.lockscreen.permission-needed.primary.001<br>dvor.lockscreen.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lockscreen.permission-denied | lockscreen / permission-denied | dvor.lockscreen.permission-denied.primary.001<br>dvor.lockscreen.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lockscreen.permission-restricted | lockscreen / permission-restricted | dvor.lockscreen.permission-restricted.primary.001<br>dvor.lockscreen.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.yard.default | yard / default | dvor.yard.default.primary.001<br>dvor.yard.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.yard.error | yard / error | dvor.yard.error.primary.001<br>dvor.yard.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.yard.offline | yard / offline | dvor.yard.offline.primary.001<br>dvor.yard.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.default | guest / default | dvor.guest.default.primary.001<br>dvor.guest.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.connecting | guest / connecting | dvor.guest.connecting.primary.001<br>dvor.guest.connecting.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.connected | guest / connected | dvor.guest.connected.primary.001<br>dvor.guest.connected.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.error | guest / error | dvor.guest.error.primary.001<br>dvor.guest.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.offline | guest / offline | dvor.guest.offline.primary.001<br>dvor.guest.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.permission-needed | guest / permission-needed | dvor.guest.permission-needed.primary.001<br>dvor.guest.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.permission-denied | guest / permission-denied | dvor.guest.permission-denied.primary.001<br>dvor.guest.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.guest.permission-restricted | guest / permission-restricted | dvor.guest.permission-restricted.primary.001<br>dvor.guest.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.scan.default | scan / default | dvor.scan.default.primary.001<br>dvor.scan.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.scan.denied | scan / denied | dvor.scan.denied.primary.001<br>dvor.scan.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.scan.error | scan / error | dvor.scan.error.primary.001<br>dvor.scan.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.default | meters / default | dvor.meters.default.primary.001<br>dvor.meters.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.editing | meters / editing | dvor.meters.editing.primary.001<br>dvor.meters.editing.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.submitted | meters / submitted | dvor.meters.submitted.primary.001<br>dvor.meters.submitted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.error | meters / error | dvor.meters.error.primary.001<br>dvor.meters.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.offline | meters / offline | dvor.meters.offline.primary.001<br>dvor.meters.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.permission-needed | meters / permission-needed | dvor.meters.permission-needed.primary.001<br>dvor.meters.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.permission-denied | meters / permission-denied | dvor.meters.permission-denied.primary.001<br>dvor.meters.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.meters.permission-restricted | meters / permission-restricted | dvor.meters.permission-restricted.primary.001<br>dvor.meters.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.current | background / current | dvor.background.current.primary.001<br>dvor.background.current.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.stale | background / stale | dvor.background.stale.primary.001<br>dvor.background.stale.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.error | background / error | dvor.background.error.primary.001<br>dvor.background.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.permission-needed | background / permission-needed | dvor.background.permission-needed.primary.001<br>dvor.background.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.permission-denied | background / permission-denied | dvor.background.permission-denied.primary.001<br>dvor.background.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.background.permission-restricted | background / permission-restricted | dvor.background.permission-restricted.primary.001<br>dvor.background.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.default | events / default | dvor.events.default.primary.001<br>dvor.events.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.empty | events / empty | dvor.events.empty.primary.001<br>dvor.events.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.added | events / added | dvor.events.added.primary.001<br>dvor.events.added.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.error | events / error | dvor.events.error.primary.001<br>dvor.events.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.loading | events / loading | dvor.events.loading.primary.001<br>dvor.events.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.offline | events / offline | dvor.events.offline.primary.001<br>dvor.events.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.permission-needed | events / permission-needed | dvor.events.permission-needed.primary.001<br>dvor.events.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.permission-denied | events / permission-denied | dvor.events.permission-denied.primary.001<br>dvor.events.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.events.permission-restricted | events / permission-restricted | dvor.events.permission-restricted.primary.001<br>dvor.events.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.default | menu / default | dvor.menu.default.primary.001<br>dvor.menu.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.error | menu / error | dvor.menu.error.primary.001<br>dvor.menu.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.offline | menu / offline | dvor.menu.offline.primary.001<br>dvor.menu.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.permission-needed | menu / permission-needed | dvor.menu.permission-needed.primary.001<br>dvor.menu.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.permission-denied | menu / permission-denied | dvor.menu.permission-denied.primary.001<br>dvor.menu.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.permission-restricted | menu / permission-restricted | dvor.menu.permission-restricted.primary.001<br>dvor.menu.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.menu.permission-limited | menu / permission-limited | dvor.menu.permission-limited.primary.001<br>dvor.menu.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.default | passwords / default | dvor.passwords.default.primary.001<br>dvor.passwords.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.populated | passwords / populated | dvor.passwords.populated.primary.001<br>dvor.passwords.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.empty | passwords / empty | dvor.passwords.empty.primary.001<br>dvor.passwords.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.locked | passwords / locked | dvor.passwords.locked.primary.001<br>dvor.passwords.locked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.loading | passwords / loading | dvor.passwords.loading.primary.001<br>dvor.passwords.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.error | passwords / error | dvor.passwords.error.primary.001<br>dvor.passwords.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.offline | passwords / offline | dvor.passwords.offline.primary.001<br>dvor.passwords.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.permission-needed | passwords / permission-needed | dvor.passwords.permission-needed.primary.001<br>dvor.passwords.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.permission-denied | passwords / permission-denied | dvor.passwords.permission-denied.primary.001<br>dvor.passwords.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.passwords.permission-restricted | passwords / permission-restricted | dvor.passwords.permission-restricted.primary.001<br>dvor.passwords.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.fill.default | fill / default | dvor.fill.default.primary.001<br>dvor.fill.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.fill.empty | fill / empty | dvor.fill.empty.primary.001<br>dvor.fill.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.fill.permission-needed | fill / permission-needed | dvor.fill.permission-needed.primary.001<br>dvor.fill.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.fill.permission-denied | fill / permission-denied | dvor.fill.permission-denied.primary.001<br>dvor.fill.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.fill.permission-restricted | fill / permission-restricted | dvor.fill.permission-restricted.primary.001<br>dvor.fill.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.default | neighbors / default | dvor.neighbors.default.primary.001<br>dvor.neighbors.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.empty | neighbors / empty | dvor.neighbors.empty.primary.001<br>dvor.neighbors.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.denied | neighbors / denied | dvor.neighbors.denied.primary.001<br>dvor.neighbors.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.loading | neighbors / loading | dvor.neighbors.loading.primary.001<br>dvor.neighbors.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.error | neighbors / error | dvor.neighbors.error.primary.001<br>dvor.neighbors.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.offline | neighbors / offline | dvor.neighbors.offline.primary.001<br>dvor.neighbors.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.permission-needed | neighbors / permission-needed | dvor.neighbors.permission-needed.primary.001<br>dvor.neighbors.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.permission-restricted | neighbors / permission-restricted | dvor.neighbors.permission-restricted.primary.001<br>dvor.neighbors.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.neighbors.permission-limited | neighbors / permission-limited | dvor.neighbors.permission-limited.primary.001<br>dvor.neighbors.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.profile.default | profile / default | dvor.profile.default.primary.001<br>dvor.profile.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | dvor.profile.content.001: Существующий asset catalog native/apps/dvor/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.dvor.profile.error | profile / error | dvor.profile.error.primary.001<br>dvor.profile.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.profile.offline | profile / offline | dvor.profile.offline.primary.001<br>dvor.profile.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.default | settings / default | dvor.settings.default.primary.001<br>dvor.settings.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.loading | settings / loading | dvor.settings.loading.primary.001<br>dvor.settings.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.error | settings / error | dvor.settings.error.primary.001<br>dvor.settings.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.offline | settings / offline | dvor.settings.offline.primary.001<br>dvor.settings.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.permission-needed | settings / permission-needed | dvor.settings.permission-needed.primary.001<br>dvor.settings.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.permission-denied | settings / permission-denied | dvor.settings.permission-denied.primary.001<br>dvor.settings.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.settings.permission-restricted | settings / permission-restricted | dvor.settings.permission-restricted.primary.001<br>dvor.settings.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.default | ads / default | dvor.ads.default.primary.001<br>dvor.ads.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.accepted | ads / accepted | dvor.ads.accepted.primary.001<br>dvor.ads.accepted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.declined | ads / declined | dvor.ads.declined.primary.001<br>dvor.ads.declined.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.loading | ads / loading | dvor.ads.loading.primary.001<br>dvor.ads.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.error | ads / error | dvor.ads.error.primary.001<br>dvor.ads.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.offline | ads / offline | dvor.ads.offline.primary.001<br>dvor.ads.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.permission-needed | ads / permission-needed | dvor.ads.permission-needed.primary.001<br>dvor.ads.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.permission-denied | ads / permission-denied | dvor.ads.permission-denied.primary.001<br>dvor.ads.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.ads.permission-restricted | ads / permission-restricted | dvor.ads.permission-restricted.primary.001<br>dvor.ads.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.locked | lock / locked | dvor.lock.locked.primary.001<br>dvor.lock.locked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.unlocked | lock / unlocked | dvor.lock.unlocked.primary.001<br>dvor.lock.unlocked.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.fallback | lock / fallback | dvor.lock.fallback.primary.001<br>dvor.lock.fallback.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.permission-needed | lock / permission-needed | dvor.lock.permission-needed.primary.001<br>dvor.lock.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.permission-denied | lock / permission-denied | dvor.lock.permission-denied.primary.001<br>dvor.lock.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.lock.permission-restricted | lock / permission-restricted | dvor.lock.permission-restricted.primary.001<br>dvor.lock.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.current | widget / current | dvor.widget.current.primary.001<br>dvor.widget.current.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.stale | widget / stale | dvor.widget.stale.primary.001<br>dvor.widget.stale.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.empty | widget / empty | dvor.widget.empty.primary.001<br>dvor.widget.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.permission-needed | widget / permission-needed | dvor.widget.permission-needed.primary.001<br>dvor.widget.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.permission-denied | widget / permission-denied | dvor.widget.permission-denied.primary.001<br>dvor.widget.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.widget.permission-restricted | widget / permission-restricted | dvor.widget.permission-restricted.primary.001<br>dvor.widget.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.pending.default | pending / default | dvor.pending.default.primary.001<br>dvor.pending.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.pending.error | pending / error | dvor.pending.error.primary.001<br>dvor.pending.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
+| fixture.dvor.pending.offline | pending / offline | dvor.pending.offline.primary.001<br>dvor.pending.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/dvor/concept.json#ux.fixtures | no media |
 
 ## Permissions, capabilities, and entitlements
 
 | Permission | Product value | Request timing | Flow | Denied fallback | Native activation |
 |---|---|---|---|---|---|
-| location | Пропуск в ветку дома: место плюс домашняя сеть | On «Я дома — проверить» from join | join → verify | Остаётся подтверждение адреса вручную — заявку смотрит старший по подъезду | contextual-gesture |
-| wifiinfo | Подтверждение «я дома» по имени домашней сети | On «Проверить сеть» from verify | verify → home | Без entitlement подтверждение остаётся только ручным — не ship | build-artifact |
-| camera | Съёмка проблемы во дворе и сканер QR | On «Снять» и «Сканировать QR» from problem | problem → shoot | Остаётся фото из медиатеки и ввод имени сети с паролем руками | contextual-gesture |
-| photos | Хроника двора: снимки из медиатеки, попавшие в границы двора | On «Собрать хронику» from home | home → chronicle | В хронике остаются только кадры, снятые в приложении | contextual-gesture |
-| mic | Голосовое сообщение в чат подъезда | On «Записать голосовое» from chat | chat → voice | Остаётся текстовое сообщение | contextual-gesture |
-| speech | Расшифровка голосового в текст рядом с сообщением | On «Записать голосовое» — цепочкой с микрофоном from chat | chat → voice | Голосовое отправляется без расшифровки | contextual-gesture |
-| push | Уведомление, когда по теме появился ответ | On «Следить за темой» from post | post → post | Ответы видны при открытии, тема помечается точкой в ленте | contextual-gesture |
-| commnotif | Сообщение соседа приходит с аватаром и попадает в сводку Focus | On «Показывать как сообщение» from chat | chat → lockscreen | Без entitlement уведомление обычное: имя в тексте, без аватара и вне сводки | build-artifact |
-| remotenotif | Тихий пуш обновляет счётчики и виджет при закрытом приложении | On «Обновлять в фоне» from meters | meters → background | Без режима цифры обновляются только при открытии | app-lifecycle |
-| fetch | Объявления дома и срок показаний готовы к первому открытию | On «Обновление в фоне» from settings | settings → background | Без режима лента и срок обновляются в момент открытия | app-lifecycle |
-| bgtask | Идентификатор app.dvor.refresh — под ним планируется обновление | On «Проверить задачу» from background | background → meters | Незарегистрированный идентификатор — задача не запустится вообще | app-lifecycle |
-| appgroups | Виджет «Двор» и Share Extension видят данные приложения | On «Виджет на экран „Домой“» from settings | settings → widget | Без группы виджет пустой, а пересланное объявление не доходит — не ship | build-artifact |
-| keychain | Одна сессия: из виджета приложение открывается уже войденным | On «Открыть Двор» из виджета from widget | widget → home | Без общей группы вход придётся повторять в каждом расширении | build-artifact |
-| autofill | Пароли дома подставляются в Safari без копирования | On «Включить автозаполнение» from passwords | passwords → fill | Пароль остаётся копировать руками из карточки | contextual-gesture |
-| hotspot | Подключение к гостевой сети двора по QR-коду с лавочки | On «Подключиться» from guest | guest → guest | Имя сети и пароль показываются текстом — вводится руками в Настройках | build-artifact |
-| contacts | Кто из ваших контактов уже в доме | On «Найти среди контактов» from menu | menu → neighbors | Остаётся поиск по номеру квартиры и по подъезду | contextual-gesture |
-| calendar | События дома в календаре, с правкой при переносе даты | On «Добавить в Календарь» from events | events → events | Событие остаётся только внутри «Двора», с напоминанием в приложении | contextual-gesture |
-| faceid | Замок на приложении: адрес, номера квартир и коды | On «Замок Face ID» from settings | settings → lock | Остаётся код-пароль устройства | contextual-gesture |
-| tracking | Реклама местных услуг вместо платной подписки | On «Продолжить» from ads | ads → menu | Реклама остаётся, но неперсонализированная — не по интересам | contextual-gesture |
-| applesignin | Безопасный вход без отдельного пароля | On Продолжить с Apple from phone | phone → join | Пользователь остаётся на экране входа и может повторить попытку | contextual-gesture |
+| location | Пропуск в ветку дома: место плюс домашняя сеть: Чтобы проверить, что вы в границах своего двора, и получить право прочитать имя домашней сети. | Только после явного действия пользователя «Я дома — проверить» | join → verify в рамках Пропуск в ветку дома: место плюс домашняя сеть | Остаётся подтверждение адреса вручную — заявку смотрит старший по подъезду | contextual-gesture |
+| wifiinfo | Подтверждение «я дома» по имени домашней сети: Entitlement без системного запроса: имя текущей сети сверяется с сохранённым в профиле дома. | Только после явного действия пользователя «Проверить сеть» | verify → home в рамках Подтверждение «я дома» по имени домашней сети | Без entitlement подтверждение остаётся только ручным — не ship | build-artifact |
+| camera | Съёмка проблемы во дворе и сканер QR: Чтобы снять то, что сломалось, и сканировать QR-код гостевой сети двора. | Только после явного действия пользователя «Снять» и «Сканировать QR» | problem → shoot в рамках Съёмка проблемы во дворе и сканер QR | Остаётся фото из медиатеки и ввод имени сети с паролем руками | contextual-gesture |
+| photos | Хроника двора: снимки из медиатеки, попавшие в границы двора: Чтобы найти ваши снимки, сделанные в границах двора, — вы не помните, какие из них здешние. | Только после явного действия пользователя «Собрать хронику» | home → chronicle в рамках Хроника двора: снимки из медиатеки, попавшие в границы двора | В хронике остаются только кадры, снятые в приложении | contextual-gesture |
+| mic | Голосовое сообщение в чат подъезда: Чтобы записать голосовое в чат подъезда, когда руки заняты сумками. | Только после явного действия пользователя «Записать голосовое» | chat → voice в рамках Голосовое сообщение в чат подъезда | Остаётся текстовое сообщение | contextual-gesture |
+| speech | Расшифровка голосового в текст рядом с сообщением: Чтобы рядом с голосовым появилась расшифровка — соседи читают, не включая звук. | Только после явного действия пользователя «Записать голосовое» — цепочкой с микрофоном | chat → voice в рамках Расшифровка голосового в текст рядом с сообщением | Голосовое отправляется без расшифровки | contextual-gesture |
+| push | Уведомление, когда по теме появился ответ: Пришлём, когда управляющая компания ответит на тему, за которой вы следите. | Только после явного действия пользователя «Следить за темой» | post → post в рамках Уведомление, когда по теме появился ответ | Ответы видны при открытии, тема помечается точкой в ленте | contextual-gesture |
+| commnotif | Сообщение соседа приходит с аватаром и попадает в сводку Focus: Entitlement без системного запроса: уведомление о сообщении соседа показывается с его аватаром. | Только после явного действия пользователя «Показывать как сообщение» | chat → lockscreen в рамках Сообщение соседа приходит с аватаром и попадает в сводку Focus | Без entitlement уведомление обычное: имя в тексте, без аватара и вне сводки | build-artifact |
+| remotenotif | Тихий пуш обновляет счётчики и виджет при закрытом приложении: Entitlement без системного запроса: тихий пуш обновляет показания и срок, пока приложение закрыто. | Только после явного действия пользователя «Обновлять в фоне» | meters → background в рамках Тихий пуш обновляет счётчики и виджет при закрытом приложении | Без режима цифры обновляются только при открытии | app-lifecycle |
+| fetch | Объявления дома и срок показаний готовы к первому открытию: Entitlement без системного запроса: объявления дома и срок передачи показаний подтягиваются к утру. | Только после явного действия пользователя «Обновление в фоне» | settings → background в рамках Объявления дома и срок показаний готовы к первому открытию | Без режима лента и срок обновляются в момент открытия | app-lifecycle |
+| bgtask | Идентификатор app.dvor.refresh — под ним планируется обновление: Entitlement без системного запроса: app.dvor.refresh объявлен в Info.plist и зарегистрирован в коде. | Только после явного действия пользователя «Проверить задачу» | background → meters в рамках Идентификатор app.dvor.refresh — под ним планируется обновление | Незарегистрированный идентификатор — задача не запустится вообще | app-lifecycle |
+| appgroups | Виджет «Двор» и Share Extension видят данные приложения: Entitlement без системного запроса: виджет и расширения читают данные приложения. | Только после явного действия пользователя «Виджет на экран „Домой“» | settings → widget в рамках Виджет «Двор» и Share Extension видят данные приложения | Без группы виджет пустой, а пересланное объявление не доходит — не ship | build-artifact |
+| keychain | Одна сессия: из виджета приложение открывается уже войденным: Entitlement без системного запроса: одна сессия на приложение, виджет и расширения. | Только после явного действия пользователя «Открыть Двор» из виджета | widget → home в рамках Одна сессия: из виджета приложение открывается уже войденным | Без общей группы вход придётся повторять в каждом расширении | build-artifact |
+| autofill | Пароли дома подставляются в Safari без копирования: Entitlement без системного запроса: пароли дома подставляются в Safari системным автозаполнением. | Только после явного действия пользователя «Включить автозаполнение» | passwords → fill в рамках Пароли дома подставляются в Safari без копирования | Пароль остаётся копировать руками из карточки | contextual-gesture |
+| hotspot | Подключение к гостевой сети двора по QR-коду с лавочки: Приложение настроит подключение к гостевой сети двора по параметрам из QR-кода. | Только после явного действия пользователя «Подключиться» | guest → guest в рамках Подключение к гостевой сети двора по QR-коду с лавочки | Имя сети и пароль показываются текстом — вводится руками в Настройках | build-artifact |
+| contacts | Кто из ваших контактов уже в доме: Чтобы показать, кто из ваших знакомых уже живёт в этом доме. Книга не покидает устройство. | Только после явного действия пользователя «Найти среди контактов» | menu → neighbors в рамках Кто из ваших контактов уже в доме | Остаётся поиск по номеру квартиры и по подъезду | contextual-gesture |
+| calendar | События дома в календаре, с правкой при переносе даты: Чтобы добавить собрание и субботник, а при переносе — поправить уже добавленное событие. | Только после явного действия пользователя «Добавить в Календарь» | events → events в рамках События дома в календаре, с правкой при переносе даты | Событие остаётся только внутри «Двора», с напоминанием в приложении | contextual-gesture |
+| faceid | Замок на приложении: адрес, номера квартир и коды: Чтобы закрыть приложение: в нём адрес, номера квартир и коды от общих дверей. | Только после явного действия пользователя «Замок Face ID» | settings → lock в рамках Замок на приложении: адрес, номера квартир и коды | Остаётся код-пароль устройства | contextual-gesture |
+| tracking | Реклама местных услуг вместо платной подписки: Тогда реклама будет про местные услуги: сантехник в вашем районе, а не случайный баннер. | Только после явного действия пользователя «Продолжить» | ads → menu в рамках Реклама местных услуг вместо платной подписки | Реклама остаётся, но неперсонализированная — не по интересам | contextual-gesture |
+| applesignin | Безопасный вход без отдельного пароля: Apple подтвердит личность; адрес дома проверяется отдельно. | Только после явного действия пользователя Продолжить с Apple | phone → join в рамках Безопасный вход без отдельного пароля | Пользователь остаётся на экране входа и может повторить попытку | contextual-gesture |
 
 **Entitlements:** `com.apple.developer.networking.wifi-info`, `aps-environment`, `com.apple.developer.usernotifications.communication`, `com.apple.security.application-groups`, `keychain-access-groups`, `com.apple.developer.networking.HotspotConfiguration`, `com.apple.developer.applesignin`
 **Extension targets:** `notification-service`, `credential-provider`, `widget`
@@ -1412,108 +1371,110 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Module | Responsibility | Owns |
 |---|---|---|
-| Product adapter | Own Двор domain state and screens | native/apps/dvor |
-| Native runtime | Own iOS lifecycle and permission adapters | native/Runtime |
-| Reference profile | Own evidence-backed mimicry recipes | native/ReferenceProfiles/vk-ios |
+| Product model | Владеет Дело дома, состояниями core loop и правилами доверия | native/apps/dvor |
+| Product development | Владеет Brief, кандидатами, receipt и зрелым Product Contract | concepts/dvor/concept.json |
+| UX specification | Владеет графом, состояниями, языком, сценариями и fixtures | concepts/dvor/concept.json#ux |
+| Runtime adapters | Владеет системными разрешениями и capability lifecycle без создания фиктивного успеха | native/Runtime |
+| VK reference profile | Владеет только доказанной визуальной и интеракционной грамматикой референса | native/ReferenceProfiles/vk-ios |
 
 **Boundaries**
-- Product state does not leak into shared visual primitives
-- Reference recipes do not invent product behavior
-- System capabilities remain behind runtime adapters
+- Product model не зависит от визуальных рецептов референса
+- UX Specification описывает семантику, но не дублирует SwiftUI hierarchy
+- Runtime adapter не может объявить продуктовый успех без наблюдаемого outcome
+- Generated files не становятся источником продуктовой истины
 
 ## Data, state, persistence, and integrations
 
 **Entities**
 
+- Дело дома
 - House
-- Resident
-- House matter
+- Жилец
+- Residence
+- Защищённый доступ
+- Пользовательская сессия
+- Черновик
+- Разрешение
 
 **State**
 
-- Session state
-- Product-owned persisted mutations
-- Permission and denied state
-- Capture state through the real product surface
+- Сессия и доступ к продукту
+- Коллекция и detail для Дело дома
+- Асинхронные loading/error состояния
+- Permission state и denied fallback
+- Локальный черновик и подтверждённый outcome
 
 **Persistence**
 
-- UserDefaults for explicit local product state
-- Keychain/App Group only where capability plans declare them
+- UserDefaults только для небольших явных настроек и локального восстановления
+- Keychain или App Group только по capability contract
+- Черновик сохраняется до отправки или явной отмены
+- Удалённые записи требуют отдельно одобренного provider adapter
 
 **Integrations**
 
-- Вход по почте или Google и сессия: OAuth-провайдер: <code>VK ID</code> или Google Sign-In, токен в Keychain общей группы
-- Ветки домов, профили жильцов, соцграф: Firestore со security rules: ветка дома пишется только теми, чей дом подтверждён. Правила — конфигурация, не серверный код
-- Чат подъезда и голосовые: Firestore для сообщений, Firebase Storage для аудио — обращения из клиента через SDK
-- Подтверждение «я правда здесь живу»: Клиент: геопозиция в радиусе двора плюс <code>CNCopyCurrentNetworkInfo</code> против SSID, записанного в профиле дома. Модерация не нужна
-- Уведомления о темах и сообщениях: Firebase Cloud Messaging, рассылка из консоли провайдера; аватар подставляет Notification Service Extension
-- Объявления управляющей компании: Публикует старший по дому в том же Firestore, роль — флаг в документе дома. Парсера сайтов УК нет
-- Схема двора и адреса: MapKit и <code>MKLocalSearch</code>; поэтажный план и разметка двора рисуются кодом как данные
-- Показания счётчиков и срок передачи: CoreData на устройстве, срок считается локально по дате; отправка в УК — системный share sheet
-- Поиск знакомых среди жильцов: Локальная сверка <code>CNContactStore</code> со списком дома, уже загруженным на устройство
-- Пароли общих сервисов дома: Keychain общей группы плюс Credential Provider extension; публикует записи старший по дому
-- Хроника двора из фотографий: <code>PHAsset</code> с фильтром по геометке и дате — обход библиотеки идёт на устройстве
-- Монетизация без подписки: Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения
+- Системные iOS frameworks из capability manifest
+- Одобренный identity/provider adapter
+- Notification adapter после явной подписки
+- Reference profile используется только для визуального и интеракционного соответствия
 
 ## Loading, empty, error, denied, and offline states
 
 | State | Required behavior |
 |---|---|
-| loading | Keep product context visible and disable duplicate submission while work is in progress. |
-| empty | Explain what is absent and expose a product action that can create or discover value. |
-| error | Name the failed operation, preserve user input, and offer retry or a useful fallback. |
-| denied | Keep the product task reachable through the permission's declared denied fallback. |
-| offline | Show persisted content or an explicit retry path without claiming fresh remote data. |
+| loading | Сохранять контекст задачи, блокировать повторную отправку и объяснять выполняемую операцию. |
+| empty | Объяснять отсутствие Дело дома и предлагать конкретное создание или discovery-действие без фиктивного контента. |
+| error | Называть неуспешную операцию, сохранять ввод и давать повтор или полезный fallback. |
+| denied | Оставлять задачу достижимой через declared denied fallback соответствующего разрешения. |
+| offline | Показывать сохранённые данные и черновики, явно отмечать stale remote state и предлагать повтор. |
 
 ## Privacy, security, and trust
 
 **Data inventory**
 
-- Contact Info → Phone Number: Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации, токен лежит в Keychain
-- Location → Precise Location: Проверка, что житель в границах двора: радиус 150 м на reduced accuracy не проверяется, поэтому лейбл именно precise. Координаты не сохраняются, трек не ведётся
-- Contact Info → Physical Address: Дом, подъезд и квартира — это и есть профиль жильца: по ним открывается ветка дома и подписываются заявки. Видны только соседям с подтверждённым домом
-- User Content → Emails or Text Messages: Текст сообщений и объявлений хранится в Firestore, доступ ограничен security rules ветки дома
-- User Content → Photos or Videos: Кадры, которые житель сам отметил для хроники или заявки. Обход библиотеки идёт на устройстве, целиком она не выгружается
-- User Content → Audio Data: Голосовые в чате подъезда. Расшифровка делается на устройстве, в сервис распознавания аудио не уходит
-- Contacts → Contacts: Сверка идёт локально со списком жильцов своего дома. Адресная книга не покидает устройство и не сохраняется
-- Identifiers → Device ID: Push-токен FCM: по нему приходят уведомления о темах и сообщениях. Трекингом не используется
-- Identifiers → Advertising Data: IDFA уходит в рекламный SDK только после разрешения в ATT. Отказ оставляет неперсонализированную рекламу. Это единственная строка с трекингом
+- Адрес, подъезд и статус Residence
+- Дела дома, сообщения и локальные события
+- Опциональные фото, контакты, показания и защищённые доступы
 
 **Privacy principles**
 
-- Request access only at the declared gesture
-- Keep the declared denied fallback useful
-- Do not infer evidence not present in the source contract
+- Не хранить историю перемещений
+- Отделять социальные данные от защищённых доступов
+- Не показывать квартиру за пределами House без явной причины
 
-**Retention.** Follow the declared local/provider ownership; migration introduces no new retention claim
+**Retention.** Черновики и capability-derived data хранятся минимально; опубликованные данные и спорные действия имеют явные правила удаления и retention.
 
 **Trust and safety risks**
 
-- User content or social interaction can create abuse, impersonation, or unsafe disclosure
+- Ложное подтверждение проживания
+- Публикация адресных данных наружу
+- Травля соседа или раскрытие защищённого доступа
 
 **Controls**
 
-- Scoped visibility, reporting, deterministic denied fallbacks, and explicit review notes
+- Проверка Residence и read-only ожидание
+- House-scoped visibility
+- Жалоба, блокировка и отдельная защита доступов
 
-**Reporting.** Product-owned report and support paths must remain reachable from affected content
+**Reporting.** Жалоба сохраняет контекст объекта и автора, немедленно скрывает опасное взаимодействие и не требует продолжать основной flow.
 
 ## Accessibility and localization
 
 **Accessibility**
 
-- VoiceOver labels and reading order
-- 44pt hit targets
-- Accessibility XXXL without clipping
-- Reduced Motion and sufficient contrast
+- VoiceOver order следует иерархии продуктовой задачи
+- Все интерактивные цели не меньше 44pt
+- Accessibility XXXL не скрывает основной outcome
+- Reduced Motion не меняет смысл состояния
+- Цвет не является единственным носителем статуса
 
 **Locales:** ru
 
 **Localization requirements**
 
-- No concatenated user-facing strings
-- Stress-test long copy and plural forms
-- Keep permission copy aligned with App Store notes
+- Каждая пользовательская строка имеет стабильный key
+- Плейсхолдеры и числительные не собираются конкатенацией
+- Длинные имена, адреса и Accessibility XXXL входят в stress fixtures
 
 ## Analytics event plan and success metrics
 
@@ -1521,34 +1482,40 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 - product_opened
 - activation_completed
-- core_loop_completed
+- primary_unit_opened
+- core_loop_action_completed
+- contribution_published
 - permission_requested
 - permission_denied_fallback_used
+- recovery_completed
 
 **Success metrics**
 
-- Activation completion rate
-- Second core-loop completion
-- Permission fallback task completion
-- Critical-flow error recovery
+- Доля завершения activation
+- Первое и второе завершение core loop
+- Вклад после получения ценности
+- Завершение задачи через denied fallback
+- Восстановление после ошибки и offline
 
-**Core-loop hypothesis.** The declared loop returns the audience for Новые дела и объявления своего дома
+**Core-loop hypothesis.** Конкретная полученная ценность повышает вероятность следующего содержательного вклада сильнее пассивной реакции
 
-**Validation plan.** Replay the vertical slice and collect real-user evidence before claiming retention
+**Validation plan.** Провести ограниченный cohort pilot, измерить completion и разобрать причины отказа без подмены результата simulator evidence
 
 ## Testing, evidence, and capture plan
 
 **Levels**
 
-- Product contract compile
-- Interaction replay
-- XCUI smoke
-- Capture and independent product/visual review
+- Product artifact reproduction
+- UX contract and interaction replay
+- Swift and XCUI smoke
+- Deterministic capture comparison
+- Independent product and visual review
 
 **Evidence**
 
-- Preserve provenance for every new product claim
-- Do not convert simulator results into user-demand evidence
+- Не повышать статус market-validation-needed без источника
+- Разделять реализованность, reference evidence и пользовательский спрос
+- Записывать provenance каждого нового продуктового утверждения
 
 **Capture identifiers**
 
@@ -1585,6 +1552,7 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 - problem--success
 - problem--error
 - shoot--default
+- shoot--denied
 - chronicle--default
 - chronicle--scanning
 - chronicle--populated
@@ -1602,17 +1570,22 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 - voice--ready
 - voice--denied
 - lockscreen--default
+- lockscreen--fallback
 - yard--default
 - guest--default
 - guest--connecting
 - guest--connected
 - guest--error
 - scan--default
+- scan--denied
+- scan--error
 - meters--default
 - meters--editing
 - meters--submitted
 - meters--error
-- background--default
+- background--current
+- background--stale
+- background--error
 - events--default
 - events--empty
 - events--added
@@ -1623,6 +1596,7 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 - passwords--empty
 - passwords--locked
 - fill--default
+- fill--empty
 - neighbors--default
 - neighbors--empty
 - neighbors--denied
@@ -1631,21 +1605,28 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 - ads--default
 - ads--accepted
 - ads--declined
-- lock--default
-- widget--default
+- lock--locked
+- lock--unlocked
+- lock--fallback
+- widget--current
+- widget--stale
+- widget--empty
 - pending--default
 
 **Evidence provenance**
 
-- legacy-contract · user-input · approved · concepts/dvor/concept.json
-- reference-profile · reference-profile · approved · native/ReferenceProfiles/vk-ios/profile.json
+- approved-product-direction · user-input · approved · concepts/dvor/concept.json: accepted product, positioning, and scope before this selection review
+- implemented-native-observation · experiment · observed · native/apps/dvor plus deterministic action, replay, capture, and build checks
+- vk-reference-profile · reference-profile · approved · native/ReferenceProfiles/vk-ios/profile.json and its declared screenshot evidence
+- market-validation-needed · assumption · needs-validation · Product hypotheses in concepts/dvor/concept.json require interviews and a live cohort pilot
 
 ## Setup, build, and run
 
 **Prerequisites**
 
 - Node 22
-- Xcode with an iOS 26 simulator
+- Xcode с iOS 26 simulator
+- Проверенный embedded Product Development artifact
 
 **Build**
 
@@ -1660,36 +1641,39 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Generated — do not hand-edit | Product-owned source |
 |---|---|
-| native/build/dvor<br>concepts/dvor/docs/developer-guide.md | concepts/dvor/concept.json<br>native/apps/dvor<br>native/apps/dvor/capture.json |
+| native/build/dvor<br>concepts/dvor/docs/developer-guide.md<br>product-contract.json<br>selection-receipt.json<br>ux-specification.json | concepts/dvor/concept.json<br>native/apps/dvor<br>native/apps/dvor/capture.json |
 
 ## Limitations, risks, and acceptance criteria
 
 **Limitations**
 
-- Legacy migration has no original multi-candidate selection receipt
-- Retention and market demand still require real-user evidence
-- Physical-device and VoiceOver gates remain manual
+- Курируемый отбор фиксирует продуктовую связность, но не заменяет генерацию реальной моделью для нового brief
+- Нет подтверждённого исследования спроса, supply и retention
+- Удалённые provider contracts требуют отдельного evidence intake
+- Физическое устройство и VoiceOver остаются human gates
 
 **Risks**
 
-- risk: Legacy product predates comparative selection; mitigation: Keep migration status explicit; killSignal: A new concept attempts to use legacy status
-- risk: Declared return reasons are not retention proof; mitigation: Collect real behavior evidence; killSignal: Retention is claimed from simulator evidence
+- risk: Реального supply для Дело дома недостаточно после seed-набора; mitigation: Проверить ограниченный cohort и вклад после получения ценности до масштабирования; killSignal: После четырёх недель активная cohort не создаёт минимально достаточное число релевантных единиц
+- risk: Знакомая VK-модель скрывает собственный продуктовый outcome за пассивными реакциями; mitigation: Сохранять primary action и статус outcome заметнее декоративной engagement-механики; killSignal: Большинство активных пользователей ограничивается реакциями и не завершает core loop
 
 **Assumptions still requiring evidence**
 
-- claim: The existing audience recognises the primary value; risk: high; validation: Real-user activation study; status: needs-validation
-- claim: The content supply replenishes after seeded content; risk: high; validation: Supply-side pilot; status: needs-validation
+- claim: Для соседской сети доверие начинается не с общих интересов, а с доказуемой связи с одним адресом и общей инфраструктурой.; risk: high; validation: Problem interviews и наблюдение текущего поведения целевой аудитории; status: needs-validation
+- claim: Жильцы создают дела из реальных событий, а регулярные сроки и статусы инфраструктуры пополняют полезный контекст; risk: high; validation: Четырёхнедельный supply pilot с разбором причин создания и отказа; status: needs-validation
+- claim: Стоимость завершённого дела и поддержки активного House ниже согласованной операционной экономии; risk: medium; validation: Посчитать реальные операционные издержки после подтверждения core loop; status: needs-validation
 
 **Acceptance criteria**
 
-- Product contract and native manifest compile
-- Every declared action has an outcome
-- Every permission has timing and denied fallback
-- All declared screenshot states have real capture ownership
-- Independent product/visual review is recorded
+- Embedded receipt и Product Contract воспроизводятся из Brief и трёх кандидатов
+- Все maturity gates победителя проходят с floor не ниже 3/4
+- Каждый action имеет outcome, а каждое разрешение — timing и denied fallback
+- Все критические flows покрыты happy, failure, offline и persistence scenarios
+- Каждое снимаемое состояние имеет deterministic fixture
 
 ## App Store notes
 
-- Permission claims must match reachable behavior and privacy labels
-- Do not claim server, evidence, or reference fidelity that is not present
-- «Двор» — соседская сеть одного дома. Не лента по интересам: общее у соседей не вкусы, а лифт, стояк, парковка и счётчики. Поэтому и вход здесь другой — право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию.
+- Permission copy должна совпадать с reachable behavior и privacy labels
+- Не заявлять market validation или удалённую интеграцию без evidence
+- Reference mimicry не означает связь продукта с VK или право на бренд
+- Защищённые данные и пользовательский контент требуют отдельной проверки retention и удаления

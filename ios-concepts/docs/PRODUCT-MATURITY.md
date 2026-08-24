@@ -30,6 +30,7 @@ client without coupling the maturity module to a provider SDK.
 
 Machine-readable schemas live in `native/schemas/`:
 
+- `product-development.schema.json` — the complete reproducible artifact embedded by a concept;
 - `product-brief.schema.json` — audience, situations, constraints, reference family/profile, permissions and candidate count;
 - `concept-candidate.schema.json` — thesis, insight, job, wedge, observable difference, value/supply/social/cold-start/loops/retention/trust/privacy/business/evidence and delivery obligations;
 - `selection-receipt.schema.json` — the stable comparison and rejection record;
@@ -75,6 +76,7 @@ npm run product:develop -- path/to/product-brief.json \
   --out path/to/product-development.json
 
 npm run product:verify -- path/to/product-development.json
+npm run product:verify -- concepts/looks/concept.json
 npm run product:gate -- looks
 npm run docs -- looks
 npm run docs:check -- looks
@@ -89,9 +91,10 @@ weak request is rejected before an adapter call.
 ## Native and documentation integration
 
 `product maturity <slug>` is the first step of compile/check/build/capture/smoke/matrix
-and release plans. The compiler repeats Product Contract validation, so calling the
-compiler script directly cannot bypass maturity. It then calls the mandatory UX compiler
-and writes `product-contract.json`, `ux-specification.json` and `native-manifest.json`
+and release plans. The compiler resolves and reproduces the embedded Product Development
+artifact, so calling the compiler script directly cannot bypass maturity or substitute a
+self-consistent contract. It then calls the mandatory UX compiler and writes
+`selection-receipt.json`, `product-contract.json`, `ux-specification.json` and `native-manifest.json`
 into the generated build directory. The UX contract and its blocking rules are described
 in [UX-SPECIFICATION.md](UX-SPECIFICATION.md).
 
@@ -103,15 +106,19 @@ actions, permissions and build capabilities, architecture/data, all recovery sta
 privacy/trust, accessibility/localization, analytics, testing/evidence/capture, setup,
 file ownership, limitations, risks, acceptance criteria and App Store notes.
 
-## Looks and Dvor migration
+## Looks and Dvor product selection
 
-Looks and Dvor predate this stage. They receive a deterministic, allowlisted
-`migration-baseline` Product Contract derived from their existing `concept.json`.
-This keeps current commands compatible while making the limitation visible in the
-manifest and guide: they have no original multi-candidate Selection Receipt and their
-declared return reasons are not market/retention evidence. No other slug may use this
-status. A future substantive redesign should enter through a new Product Brief and
-replace the migration baseline with a selected mature contract.
+Looks and Dvor now contain complete embedded Product Development artifacts. Each has
+one Product Brief, three materially different curated candidates, a reproducible
+Selection Receipt, and a `mature` Product Contract. Their receipts explicitly reject
+the weaker alternatives on failed stress axes.
+
+The portfolios are a human-curated review of accepted scope and observable native
+behaviour. Their evidence entries do not claim model generation, interviews, market
+demand, supply, retention, or business validation. Future product discovery should
+replace assumptions with traceable intake and may re-run the same interface through a
+real structured-output model adapter. The allowlisted migration path remains only for
+compatibility with older concept files.
 
 ## Honest boundary
 

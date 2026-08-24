@@ -1919,12 +1919,15 @@
     }
   ],
   "selectionReceipt": {
-    "receiptId": "selection-6ae0cd1b3cd8a97e",
+    "receiptId": "selection-9b584003bd8351e4",
     "schemaVersion": 1,
     "briefId": "vk-neighbour-exchange",
     "selectionRule": "fail every hard gate and every axis below 3/4; then maximise the minimum axis, then the total only as a tie-break, then candidate id",
     "selectedCandidateId": "borrow-circle",
     "winnerReasons": [
+      "selected product thesis: Соседи закрывают редкую бытовую задачу через одно обещание выдать и вернуть вещь, а не через бесконечный общий чат.",
+      "selected wedge: A time-bounded borrow request becomes a two-party commitment with handoff and return states",
+      "selected observable difference: People move from a relevant request to a tracked handoff and return instead of continuing an open chat; measurement: Share of opened units that reach a named commitment and completed outcome",
       "passed all 9 hard gates",
       "minimum stress axis 3/4",
       "no stronger candidate survived under the fail-closed ordering"
@@ -2155,14 +2158,14 @@
     ]
   },
   "productContract": {
-    "contractId": "product-75b0df2bd5f36b7e",
+    "contractId": "product-6cd7388a68c98080",
     "schemaVersion": 1,
     "id": "vk-neighbour-exchange:borrow-circle",
     "source": {
       "kind": "selected-candidate",
       "briefId": "vk-neighbour-exchange",
       "candidateId": "borrow-circle",
-      "selectionReceiptId": "selection-6ae0cd1b3cd8a97e"
+      "selectionReceiptId": "selection-9b584003bd8351e4"
     },
     "status": "mature",
     "audience": {

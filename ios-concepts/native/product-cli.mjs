@@ -23,7 +23,8 @@ if (!operation || !input || !["develop", "verify"].includes(operation)) {
 }
 
 if (operation === "verify") {
-  const artifact = JSON.parse(readFileSync(resolve(input), "utf8"));
+  const parsed = JSON.parse(readFileSync(resolve(input), "utf8"));
+  const artifact = parsed.productDevelopment || parsed;
   const diagnostics = verifyProductDevelopmentArtifact(artifact);
   printDiagnostics(diagnostics);
   if (diagnostics.length) process.exit(1);

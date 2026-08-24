@@ -1,47 +1,47 @@
 # Образы: developer product guide
 
-> Generated from Product Contract `product-c7a34fc8d0b5f44f` and the compiled native manifest. Do not edit by hand.
-> UX Specification: `ux-232b00c4feabe1f8`; source: `legacy-migration`.
-> Contract status: `migration-baseline`; maturity floor: `3/4`.
+> Generated from Product Contract `product-2e716bbde2f39c82` and the compiled native manifest. Do not edit by hand.
+> UX Specification: `ux-8234c1d00406f8ad`; source: `explicit-product-delivery`.
+> Contract status: `mature`; maturity floor: `3/4`.
 
 ## Product vision and scope
 
-**Thesis.** Найти носибельный образ и разобрать его на вещи
+**Thesis.** «Образы» превращают удачное повседневное сочетание в воспроизводимую социальную единицу: его можно разобрать на роли вещей, сохранить и ответить собственной версией.
 
-**Audience.** Люди 18–35 лет, которые собирают повседневный стиль без стилиста
+**Audience.** Люди 18–35 лет, которые собирают повседневный стиль без персонального стилиста и хотят понимать, как повторить увиденное из доступных вещей.
 
-**Situation.** Нужно придумать образ из уже знакомых вещей или поделиться удачным сочетанием
+**Situation.** Перед обычным днём или событием человек ищет готовый принцип сочетания уже знакомых вещей; После удачного собственного сочетания человек готов показать его и объяснить состав
 
-**Job.** Люди 18–35 лет, которые собирают повседневный стиль без стилиста wants to Маркетплейсы продают отдельные товары, а вдохновение теряется между сохранёнными картинками so that Найти носибельный образ и разобрать его на вещи.
+**Job.** Люди 18–35 лет, которые собирают повседневный стиль без персонального стилиста и хотят понимать, как повторить увиденное из доступных вещей. wants to Находить носибельные сочетания, а не отдельные товарные карточки so that Найти носибельное сочетание, понять его состав и собрать собственную версию.
 
-**Wedge.** Социальная единица — образ из реального гардероба, а не товарная карточка
+**Wedge.** Публикация связывает фото, ситуацию и роли вещей, а сохранение и ремикс возвращают результат в социальный граф
 
-**Observable differentiation.** Отметки вещей на фото; Профиль как живой гардероб; Ремикс образа своими вещами; measured by Reach and complete create; threshold: The declared vertical slice completes with one observable product outcome.
+**Observable differentiation.** Пользователь не просто лайкает картинку: он открывает состав, сохраняет принцип сочетания и публикует измеримый ремикс из своего гардероба; measured by Доля открытых Образов, которые приводят к сохранению состава или опубликованному ремиксу; threshold: Не менее 20% содержательных открытий завершаются сохранением состава, а 5% — ремиксом в четырёхнедельном пилоте.
 
 **In scope**
 
-- Look
-- Снять образ
-- Публикация из медиатеки
-- Голосовые сообщения
-- События стиля рядом
-- Уведомления о подписках и ответах
-- Чаты с аватарами в уведомлениях
-- Актуальная серия клипов
-- Свежая лента к запуску
-- Виджет сохранённого образа
-- Один вход для приложения и виджета
-- Вход на сайт марки сохранённой связкой
-- Отметка «я на свопе» подтверждается сетью площадки, а не словом участника
-- Кто из ваших контактов уже в «Образах»
-- Реклама марок и локальных магазинов вместо платной подписки
-- Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо
-- Субтитры к снятому клипу без ручного набора
-- Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина
-- Созвон по свопу без обмена номерами: телефон остаётся у владельца
-- Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене
-- Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа
-- Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит
+- Образ
+- Снять образ: Чтобы снять образ или видео-примерку.
+- Публикация из медиатеки: Чтобы выбрать фото образа из медиатеки.
+- Голосовые сообщения: Чтобы записать голосовое сообщение автору.
+- События стиля рядом: Чтобы показывать локальные свопы и события стиля.
+- Уведомления о подписках и ответах: Сообщим об ответах и новых образах избранных авторов.
+- Чаты с аватарами в уведомлениях: Сообщение приходит с аватаром автора и учитывает Focus.
+- Актуальная серия клипов: Новая часть серии загрузится до открытия приложения.
+- Свежая лента к запуску: Лента друзей готова к первому открытию.
+- Виджет сохранённого образа: Виджет показывает последний сохранённый образ.
+- Один вход для приложения и виджета: Приложение и расширения используют один защищённый вход.
+- Вход на сайт марки сохранённой связкой: Системное автозаполнение подставит сохранённый аккаунт на сайте.
+- Отметка «я на свопе» подтверждается сетью площадки, а не словом участника: Entitlement без системного запроса: имя текущей сети сверяется с сетью площадки из карточки свопа.
+- Кто из ваших контактов уже в «Образах»: Чтобы показать, кто из ваших контактов уже публикует образы.
+- Реклама марок и локальных магазинов вместо платной подписки: Так реклама марок и магазинов будет к месту, а приложение останется бесплатным.
+- Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо: Чтобы «Сохранённое» и черновики открывались только вам.
+- Субтитры к снятому клипу без ручного набора: Чтобы собрать субтитры к вашему клипу — их читают без звука.
+- Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина: Разбор продолжит звучать, когда экран погаснет.
+- Созвон по свопу без обмена номерами: телефон остаётся у владельца: Входящий звонок по свопу поднимется обычным экраном вызова.
+- Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене: Чтобы своп появился в календаре и поправился, если организатор перенесёт дату.
+- Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа: Отдельный target: «Образы» появятся в системном меню «Поделиться».
+- Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит: «Образы» подключат телефон к гостевой сети площадки.
 
 **Non-goals**
 
@@ -53,34 +53,35 @@
 
 | Term | Definition |
 |---|---|
-| Look | A wearable combination published as one social content unit. |
-| Wardrobe | A person's saved and owned clothing context for assembling Looks. |
-| Remix | A new Look assembled in response to another person's Look. |
+| Образ | Носибельное сочетание вещей, опубликованное как единая социальная единица с автором и контекстом. |
+| Отметка вещи | Структурная ссылка из Образа на роль конкретной вещи без обязательной товарной продажи. |
+| Гардероб | Личный контекст сохранённых и собственных вещей, из которых человек собирает Образы. |
+| Ремикс | Новый Образ, который отвечает на исходный принцип сочетания собственной версией автора. |
 
 ## Personas and jobs
 
 | Persona | Context | Job |
 |---|---|---|
-| Primary persona | Люди 18–35 лет, которые собирают повседневный стиль без стилиста | Найти носибельный образ и разобрать его на вещи |
+| Собирающий образ | Перед работой, встречей или поездкой выбирает сочетание из доступных вещей | Найти понятный образ и адаптировать его под свой гардероб |
+| Автор практичного стиля | Регулярно фиксирует удачные повседневные сочетания | Показать состав образа и получить содержательную реакцию или ремикс |
+| Организатор стилевого круга | Ведёт локальную встречу, своп или тематическое сообщество | Собрать релевантные образы и перевести интерес в участие без скрытой рекламы |
 
 ## Core loop and critical flows
 
-**Core loop:** Увидеть публикацию автора или сообщества → Отреагировать, обсудить или сохранить → Найти носибельный образ и разобрать его на вещи → Подписаться и опубликовать свою версию.
-**Habit loop:** Новые образы знакомых авторов → Отреагировать, обсудить или сохранить → Найти носибельный образ и разобрать его на вещи; cadence: To be measured; no cadence is invented during migration.
-**Activation:** The user reaches camera; signal: Completion of create; window: First meaningful session.
+**Core loop:** Новая релевантная ситуация или обновление Образ → Открыть Образ, проверить состав и сохранить его или начать Ремикс → Получить применимый принцип сочетания и обратную связь на собственную версию → Опубликовать новый Образ или Ремикс с понятным составом и ситуацией.
+**Habit loop:** Релевантное обновление Образ или повторяющаяся жизненная задача → Открыть Образ, проверить состав и сохранить его или начать Ремикс → Получить применимый принцип сочетания и обратную связь на собственную версию; cadence: Событийная частота измеряется по cohort; ежедневная привычка заранее не предполагается.
+**Activation:** Пользователь впервые завершил основное действие над Образ и увидел сохранённый outcome; signal: activation_completed с идентификатором surface, action и outcome; window: Первая неделя после завершения входа и необходимых guards.
 
 | Flow | Trigger | Steps | Outcome |
 |---|---|---|---|
-| Весь продукт | phone | phone<br>code<br>codefail<br>home<br>post<br>nearby<br>clip<br>create<br>camera<br>media<br>chats<br>chat<br>voice<br>profile<br>settings<br>widget<br>fill<br>mates<br>ads<br>lock<br>subtitles<br>talk<br>background<br>call<br>swap<br>checkin<br>netqr<br>shareext | Социальная лента, сообщества, сообщения, профиль и публикация |
-| Найти образ | home | home<br>create<br>post<br>talk<br>clip<br>nearby<br>chats<br>profile<br>background | Лента, разбор вещей и автор |
-| Опубликовать образ | create | create<br>home<br>camera<br>media<br>subtitles<br>shareext | Камера, Фото и публикация |
-| Примерка | clip | clip<br>swap<br>nearby<br>checkin<br>netqr | Короткое видео и комментарий |
-| Дойти до свопа | chats | chats<br>chat<br>nearby<br>profile<br>voice<br>call<br>mates | Своп из клипа: календарь, сеть площадки, отметка и созвон без обмена номерами |
+| Найти воспроизводимый образ | home | home<br>post<br>profile | Пользователь сохраняет образ, который понимает как повторить |
+| Опубликовать образ | create | create<br>camera<br>home | В ленте появляется структурированный Образ с автором и составом |
+| Собрать свою версию | post | post<br>wardrobe<br>create | Исходный Образ получает наблюдаемый социальный ответ |
 
 ## Information architecture and navigation
 
-**Navigation model.** Лента, профили, сообщества, короткие видео и сообщения формируют Social Networking
-**Reference fit.** Лента и реакции; Авторы и подписки; Сообщества; Клипы-примерки
+**Navigation model.** Идентифицированные люди публикуют социальные единицы, находят их в ленте или профиле, отвечают через реакции и сообщения и возвращают вклад в граф.
+**Reference fit.** Публикация образа естественно занимает место поста, автор и гардероб — профиля, ремикс — социального ответа, а обсуждение — сообщения.
 
 **Deep links:** None declared.
 
@@ -590,22 +591,10 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | permission.wifiinfo.body | Отметка «я на свопе» подтверждается сетью площадки, а не словом участника | none | System permission explanation | checkin | permission |
 | permission.wifiinfo.fallback | Остаётся отметка вручную — её подтверждает организатор | none | Denied fallback | checkin | recovery |
 | permission.wifiinfo.title | Отметка «я на свопе» подтверждается сетью площадки, а не словом участника | none | System permission pre-prompt title | checkin | permission |
-| scenario.all.failure.name | Весь продукт: ошибка и восстановление | none | Acceptance scenario name | phone<br>code<br>codefail<br>home<br>post<br>nearby<br>clip<br>create<br>camera<br>media<br>chats<br>chat<br>voice<br>profile<br>settings<br>widget<br>fill<br>mates<br>ads<br>lock<br>subtitles<br>talk<br>background<br>call<br>swap<br>checkin<br>netqr<br>shareext | acceptance |
-| scenario.all.happy.name | Весь продукт: основной путь | none | Acceptance scenario name | phone<br>code<br>codefail<br>home<br>post<br>nearby<br>clip<br>create<br>camera<br>media<br>chats<br>chat<br>voice<br>profile<br>settings<br>widget<br>fill<br>mates<br>ads<br>lock<br>subtitles<br>talk<br>background<br>call<br>swap<br>checkin<br>netqr<br>shareext | acceptance |
-| scenario.all.offline.name | Весь продукт: без сети | none | Acceptance scenario name | phone<br>code<br>codefail<br>home<br>post<br>nearby<br>clip<br>create<br>camera<br>media<br>chats<br>chat<br>voice<br>profile<br>settings<br>widget<br>fill<br>mates<br>ads<br>lock<br>subtitles<br>talk<br>background<br>call<br>swap<br>checkin<br>netqr<br>shareext | acceptance |
-| scenario.all.persistence.name | Весь продукт: возврат после перезапуска | none | Acceptance scenario name | phone<br>code<br>codefail<br>home<br>post<br>nearby<br>clip<br>create<br>camera<br>media<br>chats<br>chat<br>voice<br>profile<br>settings<br>widget<br>fill<br>mates<br>ads<br>lock<br>subtitles<br>talk<br>background<br>call<br>swap<br>checkin<br>netqr<br>shareext | acceptance |
-| scenario.clip.failure.name | Примерка: ошибка и восстановление | none | Acceptance scenario name | clip<br>swap<br>nearby<br>checkin<br>netqr | acceptance |
-| scenario.clip.happy.name | Примерка: основной путь | none | Acceptance scenario name | clip<br>swap<br>nearby<br>checkin<br>netqr | acceptance |
-| scenario.clip.offline.name | Примерка: без сети | none | Acceptance scenario name | clip<br>swap<br>nearby<br>checkin<br>netqr | acceptance |
-| scenario.clip.persistence.name | Примерка: возврат после перезапуска | none | Acceptance scenario name | clip<br>swap<br>nearby<br>checkin<br>netqr | acceptance |
-| scenario.discover.failure.name | Найти образ: ошибка и восстановление | none | Acceptance scenario name | home<br>create<br>post<br>talk<br>clip<br>nearby<br>chats<br>profile<br>background | acceptance |
-| scenario.discover.happy.name | Найти образ: основной путь | none | Acceptance scenario name | home<br>create<br>post<br>talk<br>clip<br>nearby<br>chats<br>profile<br>background | acceptance |
-| scenario.discover.offline.name | Найти образ: без сети | none | Acceptance scenario name | home<br>create<br>post<br>talk<br>clip<br>nearby<br>chats<br>profile<br>background | acceptance |
-| scenario.discover.persistence.name | Найти образ: возврат после перезапуска | none | Acceptance scenario name | home<br>create<br>post<br>talk<br>clip<br>nearby<br>chats<br>profile<br>background | acceptance |
-| scenario.meet.failure.name | Дойти до свопа: ошибка и восстановление | none | Acceptance scenario name | chats<br>chat<br>nearby<br>profile<br>voice<br>call<br>mates | acceptance |
-| scenario.meet.happy.name | Дойти до свопа: основной путь | none | Acceptance scenario name | chats<br>chat<br>nearby<br>profile<br>voice<br>call<br>mates | acceptance |
-| scenario.meet.offline.name | Дойти до свопа: без сети | none | Acceptance scenario name | chats<br>chat<br>nearby<br>profile<br>voice<br>call<br>mates | acceptance |
-| scenario.meet.persistence.name | Дойти до свопа: возврат после перезапуска | none | Acceptance scenario name | chats<br>chat<br>nearby<br>profile<br>voice<br>call<br>mates | acceptance |
+| scenario.discover-look.failure.name | Найти воспроизводимый образ: ошибка и восстановление | none | Acceptance scenario name | home<br>post<br>profile | acceptance |
+| scenario.discover-look.happy.name | Найти воспроизводимый образ: основной путь | none | Acceptance scenario name | home<br>post<br>profile | acceptance |
+| scenario.discover-look.offline.name | Найти воспроизводимый образ: без сети | none | Acceptance scenario name | home<br>post<br>profile | acceptance |
+| scenario.discover-look.persistence.name | Найти воспроизводимый образ: возврат после перезапуска | none | Acceptance scenario name | home<br>post<br>profile | acceptance |
 | scenario.permission.appgroups.denied.name | Виджет сохранённого образа: отказ и запасной путь | none | Acceptance scenario name | settings | acceptance |
 | scenario.permission.audio.denied.name | Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина: отказ и запасной путь | none | Acceptance scenario name | talk<br>background | acceptance |
 | scenario.permission.autofill.denied.name | Вход на сайт марки сохранённой связкой: отказ и запасной путь | none | Acceptance scenario name | settings<br>fill | acceptance |
@@ -627,10 +616,14 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | scenario.permission.tracking.denied.name | Реклама марок и локальных магазинов вместо платной подписки: отказ и запасной путь | none | Acceptance scenario name | ads<br>profile | acceptance |
 | scenario.permission.voip.denied.name | Созвон по свопу без обмена номерами: телефон остаётся у владельца: отказ и запасной путь | none | Acceptance scenario name | chat<br>call | acceptance |
 | scenario.permission.wifiinfo.denied.name | Отметка «я на свопе» подтверждается сетью площадки, а не словом участника: отказ и запасной путь | none | Acceptance scenario name | checkin | acceptance |
-| scenario.publish.failure.name | Опубликовать образ: ошибка и восстановление | none | Acceptance scenario name | create<br>home<br>camera<br>media<br>subtitles<br>shareext | acceptance |
-| scenario.publish.happy.name | Опубликовать образ: основной путь | none | Acceptance scenario name | create<br>home<br>camera<br>media<br>subtitles<br>shareext | acceptance |
-| scenario.publish.offline.name | Опубликовать образ: без сети | none | Acceptance scenario name | create<br>home<br>camera<br>media<br>subtitles<br>shareext | acceptance |
-| scenario.publish.persistence.name | Опубликовать образ: возврат после перезапуска | none | Acceptance scenario name | create<br>home<br>camera<br>media<br>subtitles<br>shareext | acceptance |
+| scenario.publish-look.failure.name | Опубликовать образ: ошибка и восстановление | none | Acceptance scenario name | create<br>camera<br>home | acceptance |
+| scenario.publish-look.happy.name | Опубликовать образ: основной путь | none | Acceptance scenario name | create<br>camera<br>home | acceptance |
+| scenario.publish-look.offline.name | Опубликовать образ: без сети | none | Acceptance scenario name | create<br>camera<br>home | acceptance |
+| scenario.publish-look.persistence.name | Опубликовать образ: возврат после перезапуска | none | Acceptance scenario name | create<br>camera<br>home | acceptance |
+| scenario.remix-look.failure.name | Собрать свою версию: ошибка и восстановление | none | Acceptance scenario name | post<br>wardrobe<br>create | acceptance |
+| scenario.remix-look.happy.name | Собрать свою версию: основной путь | none | Acceptance scenario name | post<br>wardrobe<br>create | acceptance |
+| scenario.remix-look.offline.name | Собрать свою версию: без сети | none | Acceptance scenario name | post<br>wardrobe<br>create | acceptance |
+| scenario.remix-look.persistence.name | Собрать свою версию: возврат после перезапуска | none | Acceptance scenario name | post<br>wardrobe<br>create | acceptance |
 | screen.ads.action.dismiss-ads-explanation.label | Продолжить | none | Action label | ads | control |
 | screen.ads.purpose | Объяснить обмен до системного запроса ATT | none | Product task | ads | accessibility-and-docs |
 | screen.ads.state.error.body | Не удалось обновить «Реклама вместо подписки». Введённые данные сохранены; повторите попытку. | none | State copy: error | ads | state-body |
@@ -1088,26 +1081,18 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 
 | Scenario | Critical flow | Coverage | Given | When | Then |
 |---|---|---|---|---|---|
-| all.happy | all | happy-path | surface:phone<br>fixture:fixture.looks.phone.default | perform-action:phone.continue-email<br>open-surface:code<br>open-surface:codefail<br>perform-action:home.open-feed-post<br>open-surface:post<br>open-surface:nearby<br>open-surface:clip<br>perform-action:create.open-camera<br>open-surface:camera<br>open-surface:media<br>perform-action:chats.open-chat<br>open-surface:chat<br>open-surface:voice<br>open-surface:profile<br>open-surface:settings<br>open-surface:widget<br>open-surface:fill<br>open-surface:mates<br>open-surface:ads<br>open-surface:lock<br>open-surface:subtitles<br>open-surface:talk<br>open-surface:background<br>open-surface:call<br>open-surface:swap<br>open-surface:checkin<br>open-surface:netqr<br>open-surface:shareext | surface-visible:shareext<br>outcome-visible:value |
-| all.failure | all | failure-recovery | surface:phone<br>fixture:fixture.looks.phone.error<br>inject-state:error | invoke-recovery:phone | recovery-visible:phone<br>input-preserved:phone |
-| all.offline | all | offline | surface:phone<br>fixture:fixture.looks.phone.offline<br>connectivity:offline | open-surface:phone | state-visible:phone.offline<br>recovery-visible:phone |
-| all.persistence | all | persistence-return | surface:phone<br>checkpoint-flow:all | relaunch:application<br>return-to-flow:all | flow-context-restored:all<br>surface-visible:phone |
-| discover.happy | discover | happy-path | surface:home<br>fixture:fixture.looks.home.default | open-surface:home<br>open-surface:create<br>open-surface:post<br>open-surface:talk<br>open-surface:clip<br>open-surface:nearby<br>open-surface:chats<br>open-surface:profile<br>open-surface:background | surface-visible:background<br>outcome-visible:value |
-| discover.failure | discover | failure-recovery | surface:home<br>fixture:fixture.looks.home.error<br>inject-state:error | invoke-recovery:home | recovery-visible:home<br>input-preserved:home |
-| discover.offline | discover | offline | surface:home<br>fixture:fixture.looks.home.offline<br>connectivity:offline | open-surface:home | state-visible:home.offline<br>recovery-visible:home |
-| discover.persistence | discover | persistence-return | surface:home<br>checkpoint-flow:discover | relaunch:application<br>return-to-flow:discover | flow-context-restored:discover<br>surface-visible:home |
-| publish.happy | publish | happy-path | surface:create<br>fixture:fixture.looks.create.default | open-surface:create<br>open-surface:home<br>open-surface:camera<br>open-surface:media<br>open-surface:subtitles<br>open-surface:shareext | surface-visible:shareext<br>outcome-visible:value |
-| publish.failure | publish | failure-recovery | surface:create<br>fixture:fixture.looks.create.error<br>inject-state:error | invoke-recovery:create | recovery-visible:create<br>input-preserved:create |
-| publish.offline | publish | offline | surface:create<br>fixture:fixture.looks.create.offline<br>connectivity:offline | open-surface:create | state-visible:create.offline<br>recovery-visible:create |
-| publish.persistence | publish | persistence-return | surface:create<br>checkpoint-flow:publish | relaunch:application<br>return-to-flow:publish | flow-context-restored:publish<br>surface-visible:create |
-| clip.happy | clip | happy-path | surface:clip<br>fixture:fixture.looks.clip.default | open-surface:clip<br>open-surface:swap<br>open-surface:nearby<br>open-surface:checkin<br>open-surface:netqr | surface-visible:netqr<br>outcome-visible:value |
-| clip.failure | clip | failure-recovery | surface:clip<br>fixture:fixture.looks.clip.error<br>inject-state:error | invoke-recovery:clip | recovery-visible:clip<br>input-preserved:clip |
-| clip.offline | clip | offline | surface:clip<br>fixture:fixture.looks.clip.offline<br>connectivity:offline | open-surface:clip | state-visible:clip.offline<br>recovery-visible:clip |
-| clip.persistence | clip | persistence-return | surface:clip<br>checkpoint-flow:clip | relaunch:application<br>return-to-flow:clip | flow-context-restored:clip<br>surface-visible:clip |
-| meet.happy | meet | happy-path | surface:chats<br>fixture:fixture.looks.chats.default | perform-action:chats.open-chat<br>open-surface:chat<br>open-surface:nearby<br>open-surface:profile<br>open-surface:voice<br>open-surface:call<br>open-surface:mates | surface-visible:mates<br>outcome-visible:value |
-| meet.failure | meet | failure-recovery | surface:chats<br>fixture:fixture.looks.chats.error<br>inject-state:error | invoke-recovery:chats | recovery-visible:chats<br>input-preserved:chats |
-| meet.offline | meet | offline | surface:chats<br>fixture:fixture.looks.chats.offline<br>connectivity:offline | open-surface:chats | state-visible:chats.offline<br>recovery-visible:chats |
-| meet.persistence | meet | persistence-return | surface:chats<br>checkpoint-flow:meet | relaunch:application<br>return-to-flow:meet | flow-context-restored:meet<br>surface-visible:chats |
+| discover-look.happy | discover-look | happy-path | surface:home<br>fixture:fixture.looks.home.default | perform-action:home.open-feed-post<br>open-surface:post<br>open-surface:profile | surface-visible:profile<br>outcome-visible:value |
+| discover-look.failure | discover-look | failure-recovery | surface:home<br>fixture:fixture.looks.home.error<br>inject-state:error | invoke-recovery:home | recovery-visible:home<br>input-preserved:home |
+| discover-look.offline | discover-look | offline | surface:home<br>fixture:fixture.looks.home.offline<br>connectivity:offline | open-surface:home | state-visible:home.offline<br>recovery-visible:home |
+| discover-look.persistence | discover-look | persistence-return | surface:home<br>checkpoint-flow:discover-look | relaunch:application<br>return-to-flow:discover-look | flow-context-restored:discover-look<br>surface-visible:home |
+| publish-look.happy | publish-look | happy-path | surface:create<br>fixture:fixture.looks.create.default | perform-action:create.open-camera<br>open-surface:camera<br>open-surface:home | surface-visible:home<br>outcome-visible:value |
+| publish-look.failure | publish-look | failure-recovery | surface:create<br>fixture:fixture.looks.create.error<br>inject-state:error | invoke-recovery:create | recovery-visible:create<br>input-preserved:create |
+| publish-look.offline | publish-look | offline | surface:create<br>fixture:fixture.looks.create.offline<br>connectivity:offline | open-surface:create | state-visible:create.offline<br>recovery-visible:create |
+| publish-look.persistence | publish-look | persistence-return | surface:create<br>checkpoint-flow:publish-look | relaunch:application<br>return-to-flow:publish-look | flow-context-restored:publish-look<br>surface-visible:create |
+| remix-look.happy | remix-look | happy-path | surface:post<br>fixture:fixture.looks.post.default | open-surface:post<br>open-surface:wardrobe<br>open-surface:create | surface-visible:create<br>outcome-visible:value |
+| remix-look.failure | remix-look | failure-recovery | surface:post<br>fixture:fixture.looks.post.error<br>inject-state:error | invoke-recovery:post | recovery-visible:post<br>input-preserved:post |
+| remix-look.offline | remix-look | offline | surface:post<br>fixture:fixture.looks.post.offline<br>connectivity:offline | open-surface:post | state-visible:post.offline<br>recovery-visible:post |
+| remix-look.persistence | remix-look | persistence-return | surface:post<br>checkpoint-flow:remix-look | relaunch:application<br>return-to-flow:remix-look | flow-context-restored:remix-look<br>surface-visible:post |
 | permission.camera.denied | permission:camera | permission-denial-fallback | surface:create<br>fixture:fixture.looks.camera.denied<br>permission-status:camera.not-determined | deny-permission:camera | state-visible:camera.permission-denied<br>fallback-visible:camera |
 | permission.photos.denied | permission:photos | permission-denial-fallback | surface:create<br>fixture:fixture.looks.create.permission-denied<br>permission-status:photos.not-determined | deny-permission:photos | state-visible:create.permission-denied<br>fallback-visible:photos |
 | permission.mic.denied | permission:mic | permission-denial-fallback | surface:chat<br>fixture:fixture.looks.chat.permission-denied<br>permission-status:mic.not-determined | deny-permission:mic | state-visible:chat.permission-denied<br>fallback-visible:mic |
@@ -1136,217 +1121,217 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Fixture | Surface / state | Deterministic ids | Edge cases | Provenance | Media / license |
 |---|---|---|---|---|---|
-| fixture.looks.phone.default | phone / default | looks.phone.default.primary.001<br>looks.phone.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.phone.loading | phone / loading | looks.phone.loading.primary.001<br>looks.phone.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.phone.error | phone / error | looks.phone.error.primary.001<br>looks.phone.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.phone.offline | phone / offline | looks.phone.offline.primary.001<br>looks.phone.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.code.default | code / default | looks.code.default.primary.001<br>looks.code.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.code.loading | code / loading | looks.code.loading.primary.001<br>looks.code.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.code.error | code / error | looks.code.error.primary.001<br>looks.code.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.code.offline | code / offline | looks.code.offline.primary.001<br>looks.code.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.codefail.default | codefail / default | looks.codefail.default.primary.001<br>looks.codefail.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.codefail.loading | codefail / loading | looks.codefail.loading.primary.001<br>looks.codefail.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.codefail.error | codefail / error | looks.codefail.error.primary.001<br>looks.codefail.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.codefail.offline | codefail / offline | looks.codefail.offline.primary.001<br>looks.codefail.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.home.default | home / default | looks.home.default.primary.001<br>looks.home.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.home.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.home.empty | home / empty | looks.home.empty.primary.001<br>looks.home.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.home.error | home / error | looks.home.error.primary.001<br>looks.home.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.home.offline | home / offline | looks.home.offline.primary.001<br>looks.home.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.home.permission-needed | home / permission-needed | looks.home.permission-needed.primary.001<br>looks.home.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.home.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.home.permission-denied | home / permission-denied | looks.home.permission-denied.primary.001<br>looks.home.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.home.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.home.permission-restricted | home / permission-restricted | looks.home.permission-restricted.primary.001<br>looks.home.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.home.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.home.permission-limited | home / permission-limited | looks.home.permission-limited.primary.001<br>looks.home.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.home.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.search.default | search / default | looks.search.default.primary.001<br>looks.search.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.search.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.search.query | search / query | looks.search.query.primary.001<br>looks.search.query.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.search.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.search.empty | search / empty | looks.search.empty.primary.001<br>looks.search.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.search.loading | search / loading | looks.search.loading.primary.001<br>looks.search.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.search.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.search.error | search / error | looks.search.error.primary.001<br>looks.search.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.search.offline | search / offline | looks.search.offline.primary.001<br>looks.search.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.notifications.unread | notifications / unread | looks.notifications.unread.primary.001<br>looks.notifications.unread.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.notifications.read | notifications / read | looks.notifications.read.primary.001<br>looks.notifications.read.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.notifications.empty | notifications / empty | looks.notifications.empty.primary.001<br>looks.notifications.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.notifications.error | notifications / error | looks.notifications.error.primary.001<br>looks.notifications.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.notifications.offline | notifications / offline | looks.notifications.offline.primary.001<br>looks.notifications.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.post.default | post / default | looks.post.default.primary.001<br>looks.post.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.post.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.post.error | post / error | looks.post.error.primary.001<br>looks.post.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.post.offline | post / offline | looks.post.offline.primary.001<br>looks.post.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.nearby.default | nearby / default | looks.nearby.default.primary.001<br>looks.nearby.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.nearby.empty | nearby / empty | looks.nearby.empty.primary.001<br>looks.nearby.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.nearby.loading | nearby / loading | looks.nearby.loading.primary.001<br>looks.nearby.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.nearby.error | nearby / error | looks.nearby.error.primary.001<br>looks.nearby.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.nearby.offline | nearby / offline | looks.nearby.offline.primary.001<br>looks.nearby.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.nearby.permission-needed | nearby / permission-needed | looks.nearby.permission-needed.primary.001<br>looks.nearby.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.nearby.permission-denied | nearby / permission-denied | looks.nearby.permission-denied.primary.001<br>looks.nearby.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.nearby.permission-restricted | nearby / permission-restricted | looks.nearby.permission-restricted.primary.001<br>looks.nearby.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.nearby.permission-limited | nearby / permission-limited | looks.nearby.permission-limited.primary.001<br>looks.nearby.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.nearby.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.clip.default | clip / default | looks.clip.default.primary.001<br>looks.clip.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.clip.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.clip.error | clip / error | looks.clip.error.primary.001<br>looks.clip.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.clip.offline | clip / offline | looks.clip.offline.primary.001<br>looks.clip.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.create.default | create / default | looks.create.default.primary.001<br>looks.create.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.create.error | create / error | looks.create.error.primary.001<br>looks.create.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.create.success | create / success | looks.create.success.primary.001<br>looks.create.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.create.offline | create / offline | looks.create.offline.primary.001<br>looks.create.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.create.permission-needed | create / permission-needed | looks.create.permission-needed.primary.001<br>looks.create.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.create.permission-denied | create / permission-denied | looks.create.permission-denied.primary.001<br>looks.create.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.create.permission-restricted | create / permission-restricted | looks.create.permission-restricted.primary.001<br>looks.create.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.create.permission-limited | create / permission-limited | looks.create.permission-limited.primary.001<br>looks.create.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.create.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.camera.default | camera / default | looks.camera.default.primary.001<br>looks.camera.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.camera.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.camera.denied | camera / denied | looks.camera.denied.primary.001<br>looks.camera.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.camera.loading | camera / loading | looks.camera.loading.primary.001<br>looks.camera.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.camera.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.camera.error | camera / error | looks.camera.error.primary.001<br>looks.camera.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.camera.offline | camera / offline | looks.camera.offline.primary.001<br>looks.camera.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.camera.permission-needed | camera / permission-needed | looks.camera.permission-needed.primary.001<br>looks.camera.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.camera.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.camera.permission-restricted | camera / permission-restricted | looks.camera.permission-restricted.primary.001<br>looks.camera.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.camera.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.camera.permission-limited | camera / permission-limited | looks.camera.permission-limited.primary.001<br>looks.camera.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.camera.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.media.default | media / default | looks.media.default.primary.001<br>looks.media.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.media.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.chats.default | chats / default | looks.chats.default.primary.001<br>looks.chats.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chats.empty | chats / empty | looks.chats.empty.primary.001<br>looks.chats.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chats.error | chats / error | looks.chats.error.primary.001<br>looks.chats.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chats.offline | chats / offline | looks.chats.offline.primary.001<br>looks.chats.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.default | chat / default | looks.chat.default.primary.001<br>looks.chat.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.error | chat / error | looks.chat.error.primary.001<br>looks.chat.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.offline | chat / offline | looks.chat.offline.primary.001<br>looks.chat.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.permission-needed | chat / permission-needed | looks.chat.permission-needed.primary.001<br>looks.chat.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.permission-denied | chat / permission-denied | looks.chat.permission-denied.primary.001<br>looks.chat.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.chat.permission-restricted | chat / permission-restricted | looks.chat.permission-restricted.primary.001<br>looks.chat.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.voice.default | voice / default | looks.voice.default.primary.001<br>looks.voice.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.voice.denied | voice / denied | looks.voice.denied.primary.001<br>looks.voice.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.voice.error | voice / error | looks.voice.error.primary.001<br>looks.voice.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.voice.offline | voice / offline | looks.voice.offline.primary.001<br>looks.voice.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.profile.default | profile / default | looks.profile.default.primary.001<br>looks.profile.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.profile.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.profile.empty | profile / empty | looks.profile.empty.primary.001<br>looks.profile.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.profile.error | profile / error | looks.profile.error.primary.001<br>looks.profile.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.profile.offline | profile / offline | looks.profile.offline.primary.001<br>looks.profile.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.profile.permission-needed | profile / permission-needed | looks.profile.permission-needed.primary.001<br>looks.profile.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.profile.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.profile.permission-denied | profile / permission-denied | looks.profile.permission-denied.primary.001<br>looks.profile.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.profile.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.profile.permission-restricted | profile / permission-restricted | looks.profile.permission-restricted.primary.001<br>looks.profile.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.profile.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.profile.permission-limited | profile / permission-limited | looks.profile.permission-limited.primary.001<br>looks.profile.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.profile.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.services.default | services / default | looks.services.default.primary.001<br>looks.services.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.services.loading | services / loading | looks.services.loading.primary.001<br>looks.services.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.services.error | services / error | looks.services.error.primary.001<br>looks.services.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.services.offline | services / offline | looks.services.offline.primary.001<br>looks.services.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.default | settings / default | looks.settings.default.primary.001<br>looks.settings.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.error | settings / error | looks.settings.error.primary.001<br>looks.settings.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.offline | settings / offline | looks.settings.offline.primary.001<br>looks.settings.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.permission-needed | settings / permission-needed | looks.settings.permission-needed.primary.001<br>looks.settings.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.permission-denied | settings / permission-denied | looks.settings.permission-denied.primary.001<br>looks.settings.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.settings.permission-restricted | settings / permission-restricted | looks.settings.permission-restricted.primary.001<br>looks.settings.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.widget.default | widget / default | looks.widget.default.primary.001<br>looks.widget.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.widget.permission-needed | widget / permission-needed | looks.widget.permission-needed.primary.001<br>looks.widget.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.widget.permission-denied | widget / permission-denied | looks.widget.permission-denied.primary.001<br>looks.widget.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.widget.permission-restricted | widget / permission-restricted | looks.widget.permission-restricted.primary.001<br>looks.widget.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.fill.default | fill / default | looks.fill.default.primary.001<br>looks.fill.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.fill.permission-needed | fill / permission-needed | looks.fill.permission-needed.primary.001<br>looks.fill.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.fill.permission-denied | fill / permission-denied | looks.fill.permission-denied.primary.001<br>looks.fill.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.fill.permission-restricted | fill / permission-restricted | looks.fill.permission-restricted.primary.001<br>looks.fill.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.default | mates / default | looks.mates.default.primary.001<br>looks.mates.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.empty | mates / empty | looks.mates.empty.primary.001<br>looks.mates.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.denied | mates / denied | looks.mates.denied.primary.001<br>looks.mates.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.error | mates / error | looks.mates.error.primary.001<br>looks.mates.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.offline | mates / offline | looks.mates.offline.primary.001<br>looks.mates.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.permission-needed | mates / permission-needed | looks.mates.permission-needed.primary.001<br>looks.mates.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.permission-restricted | mates / permission-restricted | looks.mates.permission-restricted.primary.001<br>looks.mates.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.mates.permission-limited | mates / permission-limited | looks.mates.permission-limited.primary.001<br>looks.mates.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.wardrobe.populated | wardrobe / populated | looks.wardrobe.populated.primary.001<br>looks.wardrobe.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.wardrobe.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.wardrobe.empty | wardrobe / empty | looks.wardrobe.empty.primary.001<br>looks.wardrobe.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.wardrobe.loading | wardrobe / loading | looks.wardrobe.loading.primary.001<br>looks.wardrobe.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.wardrobe.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.wardrobe.error | wardrobe / error | looks.wardrobe.error.primary.001<br>looks.wardrobe.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.wardrobe.offline | wardrobe / offline | looks.wardrobe.offline.primary.001<br>looks.wardrobe.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.event.available | event / available | looks.event.available.primary.001<br>looks.event.available.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.event.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.event.joined | event / joined | looks.event.joined.primary.001<br>looks.event.joined.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.event.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.event.cancelled | event / cancelled | looks.event.cancelled.primary.001<br>looks.event.cancelled.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.event.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.event.offline | event / offline | looks.event.offline.primary.001<br>looks.event.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.default | ads / default | looks.ads.default.primary.001<br>looks.ads.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.error | ads / error | looks.ads.error.primary.001<br>looks.ads.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.offline | ads / offline | looks.ads.offline.primary.001<br>looks.ads.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.permission-needed | ads / permission-needed | looks.ads.permission-needed.primary.001<br>looks.ads.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.permission-denied | ads / permission-denied | looks.ads.permission-denied.primary.001<br>looks.ads.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.ads.permission-restricted | ads / permission-restricted | looks.ads.permission-restricted.primary.001<br>looks.ads.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.default | lock / default | looks.lock.default.primary.001<br>looks.lock.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.denied | lock / denied | looks.lock.denied.primary.001<br>looks.lock.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.loading | lock / loading | looks.lock.loading.primary.001<br>looks.lock.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.error | lock / error | looks.lock.error.primary.001<br>looks.lock.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.offline | lock / offline | looks.lock.offline.primary.001<br>looks.lock.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.permission-needed | lock / permission-needed | looks.lock.permission-needed.primary.001<br>looks.lock.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.lock.permission-restricted | lock / permission-restricted | looks.lock.permission-restricted.primary.001<br>looks.lock.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.subtitles.default | subtitles / default | looks.subtitles.default.primary.001<br>looks.subtitles.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.subtitles.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.subtitles.error | subtitles / error | looks.subtitles.error.primary.001<br>looks.subtitles.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.subtitles.success | subtitles / success | looks.subtitles.success.primary.001<br>looks.subtitles.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.subtitles.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.subtitles.offline | subtitles / offline | looks.subtitles.offline.primary.001<br>looks.subtitles.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.default | talk / default | looks.talk.default.primary.001<br>looks.talk.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.loading | talk / loading | looks.talk.loading.primary.001<br>looks.talk.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.error | talk / error | looks.talk.error.primary.001<br>looks.talk.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.offline | talk / offline | looks.talk.offline.primary.001<br>looks.talk.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.permission-needed | talk / permission-needed | looks.talk.permission-needed.primary.001<br>looks.talk.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.permission-denied | talk / permission-denied | looks.talk.permission-denied.primary.001<br>looks.talk.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.talk.permission-restricted | talk / permission-restricted | looks.talk.permission-restricted.primary.001<br>looks.talk.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.default | background / default | looks.background.default.primary.001<br>looks.background.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.loading | background / loading | looks.background.loading.primary.001<br>looks.background.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.error | background / error | looks.background.error.primary.001<br>looks.background.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.offline | background / offline | looks.background.offline.primary.001<br>looks.background.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.permission-needed | background / permission-needed | looks.background.permission-needed.primary.001<br>looks.background.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.permission-denied | background / permission-denied | looks.background.permission-denied.primary.001<br>looks.background.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.background.permission-restricted | background / permission-restricted | looks.background.permission-restricted.primary.001<br>looks.background.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.default | call / default | looks.call.default.primary.001<br>looks.call.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.error | call / error | looks.call.error.primary.001<br>looks.call.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.offline | call / offline | looks.call.offline.primary.001<br>looks.call.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.permission-needed | call / permission-needed | looks.call.permission-needed.primary.001<br>looks.call.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.permission-denied | call / permission-denied | looks.call.permission-denied.primary.001<br>looks.call.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.call.permission-restricted | call / permission-restricted | looks.call.permission-restricted.primary.001<br>looks.call.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.default | swap / default | looks.swap.default.primary.001<br>looks.swap.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.loading | swap / loading | looks.swap.loading.primary.001<br>looks.swap.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.error | swap / error | looks.swap.error.primary.001<br>looks.swap.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.offline | swap / offline | looks.swap.offline.primary.001<br>looks.swap.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.permission-needed | swap / permission-needed | looks.swap.permission-needed.primary.001<br>looks.swap.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.permission-denied | swap / permission-denied | looks.swap.permission-denied.primary.001<br>looks.swap.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.swap.permission-restricted | swap / permission-restricted | looks.swap.permission-restricted.primary.001<br>looks.swap.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.default | checkin / default | looks.checkin.default.primary.001<br>looks.checkin.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.error | checkin / error | looks.checkin.error.primary.001<br>looks.checkin.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.denied | checkin / denied | looks.checkin.denied.primary.001<br>looks.checkin.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.loading | checkin / loading | looks.checkin.loading.primary.001<br>looks.checkin.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.offline | checkin / offline | looks.checkin.offline.primary.001<br>looks.checkin.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.permission-needed | checkin / permission-needed | looks.checkin.permission-needed.primary.001<br>looks.checkin.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.checkin.permission-restricted | checkin / permission-restricted | looks.checkin.permission-restricted.primary.001<br>looks.checkin.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.default | netqr / default | looks.netqr.default.primary.001<br>looks.netqr.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.error | netqr / error | looks.netqr.error.primary.001<br>looks.netqr.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.loading | netqr / loading | looks.netqr.loading.primary.001<br>looks.netqr.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.offline | netqr / offline | looks.netqr.offline.primary.001<br>looks.netqr.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.permission-needed | netqr / permission-needed | looks.netqr.permission-needed.primary.001<br>looks.netqr.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.permission-denied | netqr / permission-denied | looks.netqr.permission-denied.primary.001<br>looks.netqr.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.netqr.permission-restricted | netqr / permission-restricted | looks.netqr.permission-restricted.primary.001<br>looks.netqr.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.shareext.default | shareext / default | looks.shareext.default.primary.001<br>looks.shareext.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.shareext.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.shareext.success | shareext / success | looks.shareext.success.primary.001<br>looks.shareext.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.shareext.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.shareext.error | shareext / error | looks.shareext.error.primary.001<br>looks.shareext.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.shareext.offline | shareext / offline | looks.shareext.offline.primary.001<br>looks.shareext.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | no media |
-| fixture.looks.shareext.permission-needed | shareext / permission-needed | looks.shareext.permission-needed.primary.001<br>looks.shareext.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.shareext.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.shareext.permission-denied | shareext / permission-denied | looks.shareext.permission-denied.primary.001<br>looks.shareext.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.shareext.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
-| fixture.looks.shareext.permission-restricted | shareext / permission-restricted | looks.shareext.permission-restricted.primary.001<br>looks.shareext.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | legacy-migration-fixture: concepts/looks/concept.json + native/apps/looks | looks.shareext.content.001: native/apps/looks/Assets.xcassets existing app-owned catalog; legacy project-owned/approved asset; redistribution rights require separate evidence intake |
+| fixture.looks.phone.default | phone / default | looks.phone.default.primary.001<br>looks.phone.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.phone.loading | phone / loading | looks.phone.loading.primary.001<br>looks.phone.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.phone.error | phone / error | looks.phone.error.primary.001<br>looks.phone.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.phone.offline | phone / offline | looks.phone.offline.primary.001<br>looks.phone.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.code.default | code / default | looks.code.default.primary.001<br>looks.code.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.code.loading | code / loading | looks.code.loading.primary.001<br>looks.code.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.code.error | code / error | looks.code.error.primary.001<br>looks.code.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.code.offline | code / offline | looks.code.offline.primary.001<br>looks.code.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.codefail.default | codefail / default | looks.codefail.default.primary.001<br>looks.codefail.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.codefail.loading | codefail / loading | looks.codefail.loading.primary.001<br>looks.codefail.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.codefail.error | codefail / error | looks.codefail.error.primary.001<br>looks.codefail.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.codefail.offline | codefail / offline | looks.codefail.offline.primary.001<br>looks.codefail.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.home.default | home / default | looks.home.default.primary.001<br>looks.home.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.home.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.home.empty | home / empty | looks.home.empty.primary.001<br>looks.home.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.home.error | home / error | looks.home.error.primary.001<br>looks.home.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.home.offline | home / offline | looks.home.offline.primary.001<br>looks.home.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.home.permission-needed | home / permission-needed | looks.home.permission-needed.primary.001<br>looks.home.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.home.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.home.permission-denied | home / permission-denied | looks.home.permission-denied.primary.001<br>looks.home.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.home.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.home.permission-restricted | home / permission-restricted | looks.home.permission-restricted.primary.001<br>looks.home.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.home.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.home.permission-limited | home / permission-limited | looks.home.permission-limited.primary.001<br>looks.home.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.home.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.search.default | search / default | looks.search.default.primary.001<br>looks.search.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.search.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.search.query | search / query | looks.search.query.primary.001<br>looks.search.query.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.search.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.search.empty | search / empty | looks.search.empty.primary.001<br>looks.search.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.search.loading | search / loading | looks.search.loading.primary.001<br>looks.search.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.search.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.search.error | search / error | looks.search.error.primary.001<br>looks.search.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.search.offline | search / offline | looks.search.offline.primary.001<br>looks.search.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.notifications.unread | notifications / unread | looks.notifications.unread.primary.001<br>looks.notifications.unread.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.notifications.read | notifications / read | looks.notifications.read.primary.001<br>looks.notifications.read.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.notifications.empty | notifications / empty | looks.notifications.empty.primary.001<br>looks.notifications.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.notifications.error | notifications / error | looks.notifications.error.primary.001<br>looks.notifications.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.notifications.offline | notifications / offline | looks.notifications.offline.primary.001<br>looks.notifications.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.post.default | post / default | looks.post.default.primary.001<br>looks.post.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.post.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.post.error | post / error | looks.post.error.primary.001<br>looks.post.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.post.offline | post / offline | looks.post.offline.primary.001<br>looks.post.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.nearby.default | nearby / default | looks.nearby.default.primary.001<br>looks.nearby.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.nearby.empty | nearby / empty | looks.nearby.empty.primary.001<br>looks.nearby.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.nearby.loading | nearby / loading | looks.nearby.loading.primary.001<br>looks.nearby.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.nearby.error | nearby / error | looks.nearby.error.primary.001<br>looks.nearby.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.nearby.offline | nearby / offline | looks.nearby.offline.primary.001<br>looks.nearby.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.nearby.permission-needed | nearby / permission-needed | looks.nearby.permission-needed.primary.001<br>looks.nearby.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.nearby.permission-denied | nearby / permission-denied | looks.nearby.permission-denied.primary.001<br>looks.nearby.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.nearby.permission-restricted | nearby / permission-restricted | looks.nearby.permission-restricted.primary.001<br>looks.nearby.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.nearby.permission-limited | nearby / permission-limited | looks.nearby.permission-limited.primary.001<br>looks.nearby.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.nearby.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.clip.default | clip / default | looks.clip.default.primary.001<br>looks.clip.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.clip.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.clip.error | clip / error | looks.clip.error.primary.001<br>looks.clip.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.clip.offline | clip / offline | looks.clip.offline.primary.001<br>looks.clip.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.create.default | create / default | looks.create.default.primary.001<br>looks.create.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.create.error | create / error | looks.create.error.primary.001<br>looks.create.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.create.success | create / success | looks.create.success.primary.001<br>looks.create.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.create.offline | create / offline | looks.create.offline.primary.001<br>looks.create.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.create.permission-needed | create / permission-needed | looks.create.permission-needed.primary.001<br>looks.create.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.create.permission-denied | create / permission-denied | looks.create.permission-denied.primary.001<br>looks.create.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.create.permission-restricted | create / permission-restricted | looks.create.permission-restricted.primary.001<br>looks.create.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.create.permission-limited | create / permission-limited | looks.create.permission-limited.primary.001<br>looks.create.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.create.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.camera.default | camera / default | looks.camera.default.primary.001<br>looks.camera.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.camera.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.camera.denied | camera / denied | looks.camera.denied.primary.001<br>looks.camera.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.camera.loading | camera / loading | looks.camera.loading.primary.001<br>looks.camera.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.camera.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.camera.error | camera / error | looks.camera.error.primary.001<br>looks.camera.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.camera.offline | camera / offline | looks.camera.offline.primary.001<br>looks.camera.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.camera.permission-needed | camera / permission-needed | looks.camera.permission-needed.primary.001<br>looks.camera.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.camera.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.camera.permission-restricted | camera / permission-restricted | looks.camera.permission-restricted.primary.001<br>looks.camera.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.camera.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.camera.permission-limited | camera / permission-limited | looks.camera.permission-limited.primary.001<br>looks.camera.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.camera.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.media.default | media / default | looks.media.default.primary.001<br>looks.media.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.media.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.chats.default | chats / default | looks.chats.default.primary.001<br>looks.chats.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chats.empty | chats / empty | looks.chats.empty.primary.001<br>looks.chats.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chats.error | chats / error | looks.chats.error.primary.001<br>looks.chats.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chats.offline | chats / offline | looks.chats.offline.primary.001<br>looks.chats.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.default | chat / default | looks.chat.default.primary.001<br>looks.chat.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.error | chat / error | looks.chat.error.primary.001<br>looks.chat.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.offline | chat / offline | looks.chat.offline.primary.001<br>looks.chat.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.permission-needed | chat / permission-needed | looks.chat.permission-needed.primary.001<br>looks.chat.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.permission-denied | chat / permission-denied | looks.chat.permission-denied.primary.001<br>looks.chat.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.chat.permission-restricted | chat / permission-restricted | looks.chat.permission-restricted.primary.001<br>looks.chat.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.voice.default | voice / default | looks.voice.default.primary.001<br>looks.voice.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.voice.denied | voice / denied | looks.voice.denied.primary.001<br>looks.voice.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.voice.error | voice / error | looks.voice.error.primary.001<br>looks.voice.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.voice.offline | voice / offline | looks.voice.offline.primary.001<br>looks.voice.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.profile.default | profile / default | looks.profile.default.primary.001<br>looks.profile.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.profile.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.profile.empty | profile / empty | looks.profile.empty.primary.001<br>looks.profile.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.profile.error | profile / error | looks.profile.error.primary.001<br>looks.profile.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.profile.offline | profile / offline | looks.profile.offline.primary.001<br>looks.profile.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.profile.permission-needed | profile / permission-needed | looks.profile.permission-needed.primary.001<br>looks.profile.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.profile.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.profile.permission-denied | profile / permission-denied | looks.profile.permission-denied.primary.001<br>looks.profile.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.profile.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.profile.permission-restricted | profile / permission-restricted | looks.profile.permission-restricted.primary.001<br>looks.profile.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.profile.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.profile.permission-limited | profile / permission-limited | looks.profile.permission-limited.primary.001<br>looks.profile.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.profile.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.services.default | services / default | looks.services.default.primary.001<br>looks.services.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.services.loading | services / loading | looks.services.loading.primary.001<br>looks.services.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.services.error | services / error | looks.services.error.primary.001<br>looks.services.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.services.offline | services / offline | looks.services.offline.primary.001<br>looks.services.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.default | settings / default | looks.settings.default.primary.001<br>looks.settings.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.error | settings / error | looks.settings.error.primary.001<br>looks.settings.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.offline | settings / offline | looks.settings.offline.primary.001<br>looks.settings.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.permission-needed | settings / permission-needed | looks.settings.permission-needed.primary.001<br>looks.settings.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.permission-denied | settings / permission-denied | looks.settings.permission-denied.primary.001<br>looks.settings.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.settings.permission-restricted | settings / permission-restricted | looks.settings.permission-restricted.primary.001<br>looks.settings.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.widget.default | widget / default | looks.widget.default.primary.001<br>looks.widget.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.widget.permission-needed | widget / permission-needed | looks.widget.permission-needed.primary.001<br>looks.widget.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.widget.permission-denied | widget / permission-denied | looks.widget.permission-denied.primary.001<br>looks.widget.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.widget.permission-restricted | widget / permission-restricted | looks.widget.permission-restricted.primary.001<br>looks.widget.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.fill.default | fill / default | looks.fill.default.primary.001<br>looks.fill.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.fill.permission-needed | fill / permission-needed | looks.fill.permission-needed.primary.001<br>looks.fill.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.fill.permission-denied | fill / permission-denied | looks.fill.permission-denied.primary.001<br>looks.fill.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.fill.permission-restricted | fill / permission-restricted | looks.fill.permission-restricted.primary.001<br>looks.fill.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.default | mates / default | looks.mates.default.primary.001<br>looks.mates.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.empty | mates / empty | looks.mates.empty.primary.001<br>looks.mates.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.denied | mates / denied | looks.mates.denied.primary.001<br>looks.mates.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.error | mates / error | looks.mates.error.primary.001<br>looks.mates.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.offline | mates / offline | looks.mates.offline.primary.001<br>looks.mates.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.permission-needed | mates / permission-needed | looks.mates.permission-needed.primary.001<br>looks.mates.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.permission-restricted | mates / permission-restricted | looks.mates.permission-restricted.primary.001<br>looks.mates.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.mates.permission-limited | mates / permission-limited | looks.mates.permission-limited.primary.001<br>looks.mates.permission-limited.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.wardrobe.populated | wardrobe / populated | looks.wardrobe.populated.primary.001<br>looks.wardrobe.populated.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.wardrobe.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.wardrobe.empty | wardrobe / empty | looks.wardrobe.empty.primary.001<br>looks.wardrobe.empty.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.wardrobe.loading | wardrobe / loading | looks.wardrobe.loading.primary.001<br>looks.wardrobe.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.wardrobe.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.wardrobe.error | wardrobe / error | looks.wardrobe.error.primary.001<br>looks.wardrobe.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.wardrobe.offline | wardrobe / offline | looks.wardrobe.offline.primary.001<br>looks.wardrobe.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.event.available | event / available | looks.event.available.primary.001<br>looks.event.available.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.event.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.event.joined | event / joined | looks.event.joined.primary.001<br>looks.event.joined.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.event.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.event.cancelled | event / cancelled | looks.event.cancelled.primary.001<br>looks.event.cancelled.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.event.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.event.offline | event / offline | looks.event.offline.primary.001<br>looks.event.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.default | ads / default | looks.ads.default.primary.001<br>looks.ads.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.error | ads / error | looks.ads.error.primary.001<br>looks.ads.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.offline | ads / offline | looks.ads.offline.primary.001<br>looks.ads.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.permission-needed | ads / permission-needed | looks.ads.permission-needed.primary.001<br>looks.ads.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.permission-denied | ads / permission-denied | looks.ads.permission-denied.primary.001<br>looks.ads.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.ads.permission-restricted | ads / permission-restricted | looks.ads.permission-restricted.primary.001<br>looks.ads.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.default | lock / default | looks.lock.default.primary.001<br>looks.lock.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.denied | lock / denied | looks.lock.denied.primary.001<br>looks.lock.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.loading | lock / loading | looks.lock.loading.primary.001<br>looks.lock.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.error | lock / error | looks.lock.error.primary.001<br>looks.lock.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.offline | lock / offline | looks.lock.offline.primary.001<br>looks.lock.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.permission-needed | lock / permission-needed | looks.lock.permission-needed.primary.001<br>looks.lock.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.lock.permission-restricted | lock / permission-restricted | looks.lock.permission-restricted.primary.001<br>looks.lock.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.subtitles.default | subtitles / default | looks.subtitles.default.primary.001<br>looks.subtitles.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.subtitles.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.subtitles.error | subtitles / error | looks.subtitles.error.primary.001<br>looks.subtitles.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.subtitles.success | subtitles / success | looks.subtitles.success.primary.001<br>looks.subtitles.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.subtitles.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.subtitles.offline | subtitles / offline | looks.subtitles.offline.primary.001<br>looks.subtitles.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.default | talk / default | looks.talk.default.primary.001<br>looks.talk.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.loading | talk / loading | looks.talk.loading.primary.001<br>looks.talk.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.error | talk / error | looks.talk.error.primary.001<br>looks.talk.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.offline | talk / offline | looks.talk.offline.primary.001<br>looks.talk.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.permission-needed | talk / permission-needed | looks.talk.permission-needed.primary.001<br>looks.talk.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.permission-denied | talk / permission-denied | looks.talk.permission-denied.primary.001<br>looks.talk.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.talk.permission-restricted | talk / permission-restricted | looks.talk.permission-restricted.primary.001<br>looks.talk.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.default | background / default | looks.background.default.primary.001<br>looks.background.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.loading | background / loading | looks.background.loading.primary.001<br>looks.background.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.error | background / error | looks.background.error.primary.001<br>looks.background.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.offline | background / offline | looks.background.offline.primary.001<br>looks.background.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.permission-needed | background / permission-needed | looks.background.permission-needed.primary.001<br>looks.background.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.permission-denied | background / permission-denied | looks.background.permission-denied.primary.001<br>looks.background.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.background.permission-restricted | background / permission-restricted | looks.background.permission-restricted.primary.001<br>looks.background.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.default | call / default | looks.call.default.primary.001<br>looks.call.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.error | call / error | looks.call.error.primary.001<br>looks.call.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.offline | call / offline | looks.call.offline.primary.001<br>looks.call.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.permission-needed | call / permission-needed | looks.call.permission-needed.primary.001<br>looks.call.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.permission-denied | call / permission-denied | looks.call.permission-denied.primary.001<br>looks.call.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.call.permission-restricted | call / permission-restricted | looks.call.permission-restricted.primary.001<br>looks.call.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.default | swap / default | looks.swap.default.primary.001<br>looks.swap.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.loading | swap / loading | looks.swap.loading.primary.001<br>looks.swap.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.error | swap / error | looks.swap.error.primary.001<br>looks.swap.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.offline | swap / offline | looks.swap.offline.primary.001<br>looks.swap.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.permission-needed | swap / permission-needed | looks.swap.permission-needed.primary.001<br>looks.swap.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.permission-denied | swap / permission-denied | looks.swap.permission-denied.primary.001<br>looks.swap.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.swap.permission-restricted | swap / permission-restricted | looks.swap.permission-restricted.primary.001<br>looks.swap.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.default | checkin / default | looks.checkin.default.primary.001<br>looks.checkin.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.error | checkin / error | looks.checkin.error.primary.001<br>looks.checkin.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.denied | checkin / denied | looks.checkin.denied.primary.001<br>looks.checkin.denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.loading | checkin / loading | looks.checkin.loading.primary.001<br>looks.checkin.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.offline | checkin / offline | looks.checkin.offline.primary.001<br>looks.checkin.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.permission-needed | checkin / permission-needed | looks.checkin.permission-needed.primary.001<br>looks.checkin.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.checkin.permission-restricted | checkin / permission-restricted | looks.checkin.permission-restricted.primary.001<br>looks.checkin.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.default | netqr / default | looks.netqr.default.primary.001<br>looks.netqr.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.error | netqr / error | looks.netqr.error.primary.001<br>looks.netqr.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.loading | netqr / loading | looks.netqr.loading.primary.001<br>looks.netqr.loading.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.offline | netqr / offline | looks.netqr.offline.primary.001<br>looks.netqr.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.permission-needed | netqr / permission-needed | looks.netqr.permission-needed.primary.001<br>looks.netqr.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.permission-denied | netqr / permission-denied | looks.netqr.permission-denied.primary.001<br>looks.netqr.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.netqr.permission-restricted | netqr / permission-restricted | looks.netqr.permission-restricted.primary.001<br>looks.netqr.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.shareext.default | shareext / default | looks.shareext.default.primary.001<br>looks.shareext.default.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.shareext.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.shareext.success | shareext / success | looks.shareext.success.primary.001<br>looks.shareext.success.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.shareext.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.shareext.error | shareext / error | looks.shareext.error.primary.001<br>looks.shareext.error.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.shareext.offline | shareext / offline | looks.shareext.offline.primary.001<br>looks.shareext.offline.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>stale-timestamp | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | no media |
+| fixture.looks.shareext.permission-needed | shareext / permission-needed | looks.shareext.permission-needed.primary.001<br>looks.shareext.permission-needed.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.shareext.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.shareext.permission-denied | shareext / permission-denied | looks.shareext.permission-denied.primary.001<br>looks.shareext.permission-denied.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.shareext.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
+| fixture.looks.shareext.permission-restricted | shareext / permission-restricted | looks.shareext.permission-restricted.primary.001<br>looks.shareext.permission-restricted.edge.099 | long-russian-copy<br>accessibility-xxxl<br>zero-one-many-values<br>mixed-recency | curated-product-fixture: concepts/looks/concept.json#ux.fixtures | looks.shareext.content.001: Существующий asset catalog native/apps/looks/Assets.xcassets; источник использования зафиксирован репозиторием; Файл присутствует в проекте; право внешнего распространения требует отдельного подтверждения |
 
 ## Permissions, capabilities, and entitlements
 
 | Permission | Product value | Request timing | Flow | Denied fallback | Native activation |
 |---|---|---|---|---|---|
-| camera | Снять образ | On «Снять» from create | create → camera | Можно выбрать готовый снимок | contextual-gesture |
-| photos | Публикация из медиатеки | On «Из Фото» from create | create → create | Можно снять новый кадр камерой | contextual-gesture |
-| mic | Голосовые сообщения | On «Записать голосовое» from chat | chat → chat | Остаются текст и фото | contextual-gesture |
-| location | События стиля рядом | On «Кто гуляет рядом» from home | home → nearby | Район выбирается вручную | contextual-gesture |
-| push | Уведомления о подписках и ответах | On «Подписки» в «Настройках» from settings | settings → settings | Обновления помечаются точкой внутри приложения | contextual-gesture |
-| commnotif | Чаты с аватарами в уведомлениях | On «Сообщения с аватаром» from chat | chat → chat | Обычное уведомление без аватара | build-artifact |
-| remotenotif | Актуальная серия клипов | On «Тихое обновление клипов» from settings | settings → settings | Состав обновляется при открытии | app-lifecycle |
-| fetch | Свежая лента к запуску | On «Обновлять ленту в фоне» from settings | settings → settings | Лента обновится после открытия | app-lifecycle |
-| appgroups | Виджет сохранённого образа | On «Виджет на экране „Домой“» from settings | settings → settings | Сохранённое остаётся внутри приложения | build-artifact |
-| keychain | Один вход для приложения и виджета | On «Открыть „Образы“» с виджета from widget | widget → profile | Виджет открывает приложение для входа | build-artifact |
-| autofill | Вход на сайт марки сохранённой связкой | On «Вход на сайте» from settings | settings → fill | Вход вручную почтой и паролем | contextual-gesture |
-| wifiinfo | Отметка «я на свопе» подтверждается сетью площадки, а не словом участника | On «Отметиться на свопе» from checkin | checkin → checkin | Остаётся отметка вручную — её подтверждает организатор | build-artifact |
-| contacts | Кто из ваших контактов уже в «Образах» | On «Найти среди контактов» from profile | profile → mates | Остаётся поиск по имени и ссылка-приглашение | contextual-gesture |
-| tracking | Реклама марок и локальных магазинов вместо платной подписки | On «Продолжить» from ads | ads → profile | Реклама остаётся, но перестаёт быть персональной | contextual-gesture |
-| faceid | Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо | On «Замок Face ID» from settings | settings → lock | Остаётся код-пароль устройства | contextual-gesture |
-| speech | Субтитры к снятому клипу без ручного набора | On «Субтитры к клипу» from create | create → create | Субтитры набираются вручную | contextual-gesture |
-| audio | Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина | On «Слушать» from talk | talk → background | Без entitlement звук обрывается — не ship | contextual-gesture |
-| voip | Созвон по свопу без обмена номерами: телефон остаётся у владельца | On «Позвонить» from chat | chat → call | Остаётся переписка в чате | contextual-gesture |
-| calendar | Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене | On «Добавить в Календарь» from swap | swap → swap | Дата остаётся в карточке свопа и в напоминании приложения | contextual-gesture |
-| shareext | Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа | On «Поделиться» в другом приложении from settings | settings → shareext | Остаётся сохранение внутри приложения | contextual-gesture |
-| hotspot | Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит | On «Подключиться» from netqr | netqr → netqr | Сеть выбирается вручную в Настройках | build-artifact |
+| camera | Снять образ: Чтобы снять образ или видео-примерку. | Только после явного действия пользователя «Снять» | create → camera в рамках Снять образ | Можно выбрать готовый снимок | contextual-gesture |
+| photos | Публикация из медиатеки: Чтобы выбрать фото образа из медиатеки. | Только после явного действия пользователя «Из Фото» | create → create в рамках Публикация из медиатеки | Можно снять новый кадр камерой | contextual-gesture |
+| mic | Голосовые сообщения: Чтобы записать голосовое сообщение автору. | Только после явного действия пользователя «Записать голосовое» | chat → chat в рамках Голосовые сообщения | Остаются текст и фото | contextual-gesture |
+| location | События стиля рядом: Чтобы показывать локальные свопы и события стиля. | Только после явного действия пользователя «Кто гуляет рядом» | home → nearby в рамках События стиля рядом | Район выбирается вручную | contextual-gesture |
+| push | Уведомления о подписках и ответах: Сообщим об ответах и новых образах избранных авторов. | Только после явного действия пользователя «Подписки» в «Настройках» | settings → settings в рамках Уведомления о подписках и ответах | Обновления помечаются точкой внутри приложения | contextual-gesture |
+| commnotif | Чаты с аватарами в уведомлениях: Сообщение приходит с аватаром автора и учитывает Focus. | Только после явного действия пользователя «Сообщения с аватаром» | chat → chat в рамках Чаты с аватарами в уведомлениях | Обычное уведомление без аватара | build-artifact |
+| remotenotif | Актуальная серия клипов: Новая часть серии загрузится до открытия приложения. | Только после явного действия пользователя «Тихое обновление клипов» | settings → settings в рамках Актуальная серия клипов | Состав обновляется при открытии | app-lifecycle |
+| fetch | Свежая лента к запуску: Лента друзей готова к первому открытию. | Только после явного действия пользователя «Обновлять ленту в фоне» | settings → settings в рамках Свежая лента к запуску | Лента обновится после открытия | app-lifecycle |
+| appgroups | Виджет сохранённого образа: Виджет показывает последний сохранённый образ. | Только после явного действия пользователя «Виджет на экране „Домой“» | settings → settings в рамках Виджет сохранённого образа | Сохранённое остаётся внутри приложения | build-artifact |
+| keychain | Один вход для приложения и виджета: Приложение и расширения используют один защищённый вход. | Только после явного действия пользователя «Открыть „Образы“» с виджета | widget → profile в рамках Один вход для приложения и виджета | Виджет открывает приложение для входа | build-artifact |
+| autofill | Вход на сайт марки сохранённой связкой: Системное автозаполнение подставит сохранённый аккаунт на сайте. | Только после явного действия пользователя «Вход на сайте» | settings → fill в рамках Вход на сайт марки сохранённой связкой | Вход вручную почтой и паролем | contextual-gesture |
+| wifiinfo | Отметка «я на свопе» подтверждается сетью площадки, а не словом участника: Entitlement без системного запроса: имя текущей сети сверяется с сетью площадки из карточки свопа. | Только после явного действия пользователя «Отметиться на свопе» | checkin → checkin в рамках Отметка «я на свопе» подтверждается сетью площадки, а не словом участника | Остаётся отметка вручную — её подтверждает организатор | build-artifact |
+| contacts | Кто из ваших контактов уже в «Образах»: Чтобы показать, кто из ваших контактов уже публикует образы. | Только после явного действия пользователя «Найти среди контактов» | profile → mates в рамках Кто из ваших контактов уже в «Образах» | Остаётся поиск по имени и ссылка-приглашение | contextual-gesture |
+| tracking | Реклама марок и локальных магазинов вместо платной подписки: Так реклама марок и магазинов будет к месту, а приложение останется бесплатным. | Только после явного действия пользователя «Продолжить» | ads → profile в рамках Реклама марок и локальных магазинов вместо платной подписки | Реклама остаётся, но перестаёт быть персональной | contextual-gesture |
+| faceid | Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо: Чтобы «Сохранённое» и черновики открывались только вам. | Только после явного действия пользователя «Замок Face ID» | settings → lock в рамках Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо | Остаётся код-пароль устройства | contextual-gesture |
+| speech | Субтитры к снятому клипу без ручного набора: Чтобы собрать субтитры к вашему клипу — их читают без звука. | Только после явного действия пользователя «Субтитры к клипу» | create → create в рамках Субтитры к снятому клипу без ручного набора | Субтитры набираются вручную | contextual-gesture |
+| audio | Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина: Разбор продолжит звучать, когда экран погаснет. | Только после явного действия пользователя «Слушать» | talk → background в рамках Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина | Без entitlement звук обрывается — не ship | contextual-gesture |
+| voip | Созвон по свопу без обмена номерами: телефон остаётся у владельца: Входящий звонок по свопу поднимется обычным экраном вызова. | Только после явного действия пользователя «Позвонить» | chat → call в рамках Созвон по свопу без обмена номерами: телефон остаётся у владельца | Остаётся переписка в чате | contextual-gesture |
+| calendar | Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене: Чтобы своп появился в календаре и поправился, если организатор перенесёт дату. | Только после явного действия пользователя «Добавить в Календарь» | swap → swap в рамках Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене | Дата остаётся в карточке свопа и в напоминании приложения | contextual-gesture |
+| shareext | Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа: Отдельный target: «Образы» появятся в системном меню «Поделиться». | Только после явного действия пользователя «Поделиться» в другом приложении | settings → shareext в рамках Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа | Остаётся сохранение внутри приложения | contextual-gesture |
+| hotspot | Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит: «Образы» подключат телефон к гостевой сети площадки. | Только после явного действия пользователя «Подключиться» | netqr → netqr в рамках Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит | Сеть выбирается вручную в Настройках | build-artifact |
 
 **Entitlements:** `aps-environment`, `com.apple.developer.usernotifications.communication`, `com.apple.security.application-groups`, `keychain-access-groups`, `com.apple.developer.networking.wifi-info`, `com.apple.developer.networking.HotspotConfiguration`
 **Extension targets:** `notification-service`, `credential-provider`, `share-extension`, `widget`
@@ -1355,93 +1340,109 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Module | Responsibility | Owns |
 |---|---|---|
-| Product adapter | Own Образы domain state and screens | native/apps/looks |
-| Native runtime | Own iOS lifecycle and permission adapters | native/Runtime |
-| Reference profile | Own evidence-backed mimicry recipes | native/ReferenceProfiles/vk-ios |
+| Product model | Владеет Образ, состояниями core loop и правилами доверия | native/apps/looks |
+| Product development | Владеет Brief, кандидатами, receipt и зрелым Product Contract | concepts/looks/concept.json |
+| UX specification | Владеет графом, состояниями, языком, сценариями и fixtures | concepts/looks/concept.json#ux |
+| Runtime adapters | Владеет системными разрешениями и capability lifecycle без создания фиктивного успеха | native/Runtime |
+| VK reference profile | Владеет только доказанной визуальной и интеракционной грамматикой референса | native/ReferenceProfiles/vk-ios |
 
 **Boundaries**
-- Product state does not leak into shared visual primitives
-- Reference recipes do not invent product behavior
-- System capabilities remain behind runtime adapters
+- Product model не зависит от визуальных рецептов референса
+- UX Specification описывает семантику, но не дублирует SwiftUI hierarchy
+- Runtime adapter не может объявить продуктовый успех без наблюдаемого outcome
+- Generated files не становятся источником продуктовой истины
 
 ## Data, state, persistence, and integrations
 
 **Entities**
 
-- Look
-- Wardrobe
-- Remix
+- Образ
+- Отметка вещи
+- Гардероб
+- Ремикс
+- Пользовательская сессия
+- Черновик
+- Разрешение
 
 **State**
 
-- Session state
-- Product-owned persisted mutations
-- Permission and denied state
-- Capture state through the real product surface
+- Сессия и доступ к продукту
+- Коллекция и detail для Образ
+- Асинхронные loading/error состояния
+- Permission state и denied fallback
+- Локальный черновик и подтверждённый outcome
 
 **Persistence**
 
-- UserDefaults for explicit local product state
-- Keychain/App Group only where capability plans declare them
+- UserDefaults только для небольших явных настроек и локального восстановления
+- Keychain или App Group только по capability contract
+- Черновик сохраняется до отправки или явной отмены
+- Удалённые записи требуют отдельно одобренного provider adapter
 
 **Integrations**
 
-- Лента и профили: Статический контент-пак и локальные реакции в прототипе
-- Распознавание вещей: Vision на устройстве с ручным подтверждением
-- Уведомления: APNs через SDK провайдера
+- Системные iOS frameworks из capability manifest
+- Одобренный identity/provider adapter
+- Notification adapter после явной подписки
+- Reference profile используется только для визуального и интеракционного соответствия
 
 ## Loading, empty, error, denied, and offline states
 
 | State | Required behavior |
 |---|---|
-| loading | Keep product context visible and disable duplicate submission while work is in progress. |
-| empty | Explain what is absent and expose a product action that can create or discover value. |
-| error | Name the failed operation, preserve user input, and offer retry or a useful fallback. |
-| denied | Keep the product task reachable through the permission's declared denied fallback. |
-| offline | Show persisted content or an explicit retry path without claiming fresh remote data. |
+| loading | Сохранять контекст задачи, блокировать повторную отправку и объяснять выполняемую операцию. |
+| empty | Объяснять отсутствие Образ и предлагать конкретное создание или discovery-действие без фиктивного контента. |
+| error | Называть неуспешную операцию, сохранять ввод и давать повтор или полезный fallback. |
+| denied | Оставлять задачу достижимой через declared denied fallback соответствующего разрешения. |
+| offline | Показывать сохранённые данные и черновики, явно отмечать stale remote state и предлагать повтор. |
 
 ## Privacy, security, and trust
 
 **Data inventory**
 
-- User Content · Location: Публикации, клипы-примерки и события рядом
-- Contacts: Совпадения адресной книги: номера сверяются хешами, несовпавшие стираются
-- Identifiers: IDFA только после согласия в ATT — обмен объяснён на экране «Реклама вместо подписки»
+- Профиль и подписки
+- Публикации, сохранения и черновики
+- Опциональные фото, контакты и местоположение события
 
 **Privacy principles**
 
-- Request access only at the declared gesture
-- Keep the declared denied fallback useful
-- Do not infer evidence not present in the source contract
+- Запрашивать данные только из конкретного действия
+- Не выводить точную геопозицию в публичный профиль
+- Сохранять черновик локально до явной публикации
 
-**Retention.** Follow the declared local/provider ownership; migration introduces no new retention claim
+**Retention.** Черновики и capability-derived data хранятся минимально; опубликованные данные и спорные действия имеют явные правила удаления и retention.
 
 **Trust and safety risks**
 
-- User content or social interaction can create abuse, impersonation, or unsafe disclosure
+- Травля по внешности
+- Скрытая реклама под видом совета
+- Публикация чужих людей без согласия
 
 **Controls**
 
-- Scoped visibility, reporting, deterministic denied fallbacks, and explicit review notes
+- Жалоба на публикацию и автора
+- Маркировка коммерческого материала
+- Настройки видимости и блокировка
 
-**Reporting.** Product-owned report and support paths must remain reachable from affected content
+**Reporting.** Жалоба сохраняет контекст объекта и автора, немедленно скрывает опасное взаимодействие и не требует продолжать основной flow.
 
 ## Accessibility and localization
 
 **Accessibility**
 
-- VoiceOver labels and reading order
-- 44pt hit targets
-- Accessibility XXXL without clipping
-- Reduced Motion and sufficient contrast
+- VoiceOver order следует иерархии продуктовой задачи
+- Все интерактивные цели не меньше 44pt
+- Accessibility XXXL не скрывает основной outcome
+- Reduced Motion не меняет смысл состояния
+- Цвет не является единственным носителем статуса
 
 **Locales:** ru
 
 **Localization requirements**
 
-- No concatenated user-facing strings
-- Stress-test long copy and plural forms
-- Keep permission copy aligned with App Store notes
+- Каждая пользовательская строка имеет стабильный key
+- Плейсхолдеры и числительные не собираются конкатенацией
+- Длинные имена, адреса и Accessibility XXXL входят в stress fixtures
 
 ## Analytics event plan and success metrics
 
@@ -1449,34 +1450,40 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 - product_opened
 - activation_completed
-- core_loop_completed
+- primary_unit_opened
+- core_loop_action_completed
+- contribution_published
 - permission_requested
 - permission_denied_fallback_used
+- recovery_completed
 
 **Success metrics**
 
-- Activation completion rate
-- Second core-loop completion
-- Permission fallback task completion
-- Critical-flow error recovery
+- Доля завершения activation
+- Первое и второе завершение core loop
+- Вклад после получения ценности
+- Завершение задачи через denied fallback
+- Восстановление после ошибки и offline
 
-**Core-loop hypothesis.** The declared loop returns the audience for Новые образы знакомых авторов
+**Core-loop hypothesis.** Конкретная полученная ценность повышает вероятность следующего содержательного вклада сильнее пассивной реакции
 
-**Validation plan.** Replay the vertical slice and collect real-user evidence before claiming retention
+**Validation plan.** Провести ограниченный cohort pilot, измерить completion и разобрать причины отказа без подмены результата simulator evidence
 
 ## Testing, evidence, and capture plan
 
 **Levels**
 
-- Product contract compile
-- Interaction replay
-- XCUI smoke
-- Capture and independent product/visual review
+- Product artifact reproduction
+- UX contract and interaction replay
+- Swift and XCUI smoke
+- Deterministic capture comparison
+- Independent product and visual review
 
 **Evidence**
 
-- Preserve provenance for every new product claim
-- Do not convert simulator results into user-demand evidence
+- Не повышать статус market-validation-needed без источника
+- Разделять реализованность, reference evidence и пользовательский спрос
+- Записывать provenance каждого нового продуктового утверждения
 
 **Capture identifiers**
 
@@ -1552,15 +1559,18 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 **Evidence provenance**
 
-- legacy-contract · user-input · approved · concepts/looks/concept.json
-- reference-profile · reference-profile · approved · native/ReferenceProfiles/vk-ios/profile.json
+- approved-product-direction · user-input · approved · concepts/looks/concept.json: accepted product, positioning, and scope before this selection review
+- implemented-native-observation · experiment · observed · native/apps/looks plus deterministic action, replay, capture, and build checks
+- vk-reference-profile · reference-profile · approved · native/ReferenceProfiles/vk-ios/profile.json and its declared screenshot evidence
+- market-validation-needed · assumption · needs-validation · Product hypotheses in concepts/looks/concept.json require interviews and a live cohort pilot
 
 ## Setup, build, and run
 
 **Prerequisites**
 
 - Node 22
-- Xcode with an iOS 26 simulator
+- Xcode с iOS 26 simulator
+- Проверенный embedded Product Development artifact
 
 **Build**
 
@@ -1575,36 +1585,39 @@ Every captured or acceptance-tested state has stable ids, realistic Russian cont
 
 | Generated — do not hand-edit | Product-owned source |
 |---|---|
-| native/build/looks<br>concepts/looks/docs/developer-guide.md | concepts/looks/concept.json<br>native/apps/looks<br>native/apps/looks/capture.json |
+| native/build/looks<br>concepts/looks/docs/developer-guide.md<br>product-contract.json<br>selection-receipt.json<br>ux-specification.json | concepts/looks/concept.json<br>native/apps/looks<br>native/apps/looks/capture.json |
 
 ## Limitations, risks, and acceptance criteria
 
 **Limitations**
 
-- Legacy migration has no original multi-candidate selection receipt
-- Retention and market demand still require real-user evidence
-- Physical-device and VoiceOver gates remain manual
+- Курируемый отбор фиксирует продуктовую связность, но не заменяет генерацию реальной моделью для нового brief
+- Нет подтверждённого исследования спроса, supply и retention
+- Удалённые provider contracts требуют отдельного evidence intake
+- Физическое устройство и VoiceOver остаются human gates
 
 **Risks**
 
-- risk: Legacy product predates comparative selection; mitigation: Keep migration status explicit; killSignal: A new concept attempts to use legacy status
-- risk: Declared return reasons are not retention proof; mitigation: Collect real behavior evidence; killSignal: Retention is claimed from simulator evidence
+- risk: Реального supply для Образ недостаточно после seed-набора; mitigation: Проверить ограниченный cohort и вклад после получения ценности до масштабирования; killSignal: После четырёх недель активная cohort не создаёт минимально достаточное число релевантных единиц
+- risk: Знакомая VK-модель скрывает собственный продуктовый outcome за пассивными реакциями; mitigation: Сохранять primary action и статус outcome заметнее декоративной engagement-механики; killSignal: Большинство активных пользователей ограничивается реакциями и не завершает core loop
 
 **Assumptions still requiring evidence**
 
-- claim: The existing audience recognises the primary value; risk: high; validation: Real-user activation study; status: needs-validation
-- claim: The content supply replenishes after seeded content; risk: high; validation: Supply-side pilot; status: needs-validation
+- claim: Люди сохраняют не отдельный товар, а готовый ответ на вопрос, как сочетать вещи в конкретной жизненной ситуации.; risk: high; validation: Problem interviews и наблюдение текущего поведения целевой аудитории; status: needs-validation
+- claim: Авторы публикуют собственные сочетания, а сохранения и запросы сообщества подсказывают следующие ситуации; risk: high; validation: Четырёхнедельный supply pilot с разбором причин создания и отказа; status: needs-validation
+- claim: Доход с активного сообщества покрывает модерацию, не снижая долю органических сохранений и ремиксов; risk: medium; validation: Посчитать реальные операционные издержки после подтверждения core loop; status: needs-validation
 
 **Acceptance criteria**
 
-- Product contract and native manifest compile
-- Every declared action has an outcome
-- Every permission has timing and denied fallback
-- All declared screenshot states have real capture ownership
-- Independent product/visual review is recorded
+- Embedded receipt и Product Contract воспроизводятся из Brief и трёх кандидатов
+- Все maturity gates победителя проходят с floor не ниже 3/4
+- Каждый action имеет outcome, а каждое разрешение — timing и denied fallback
+- Все критические flows покрыты happy, failure, offline и persistence scenarios
+- Каждое снимаемое состояние имеет deterministic fixture
 
 ## App Store notes
 
-- Permission claims must match reachable behavior and privacy labels
-- Do not claim server, evidence, or reference fidelity that is not present
-- Социальная сеть реального личного стиля.
+- Permission copy должна совпадать с reachable behavior и privacy labels
+- Не заявлять market validation или удалённую интеграцию без evidence
+- Reference mimicry не означает связь продукта с VK или право на бренд
+- Защищённые данные и пользовательский контент требуют отдельной проверки retention и удаления

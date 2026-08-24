@@ -25,7 +25,12 @@ npm run readiness:gate
 
 Между Product Contract и SwiftUI обязателен канонический UX Specification: граф, состояния/переходы, semantic design roles, localization catalog, acceptance scenarios и fixtures. Полностью — [docs/UX-SPECIFICATION.md](docs/UX-SPECIFICATION.md).
 
-`concepts/<slug>/concept.json` связывает канонический Product Contract с delivery-спекой поверхностей. `native/apps/<slug>` — его SwiftUI-адаптер. Генерируемый Xcode-проект и снимки находятся в игнорируемых `native/build` и `native/artifacts`. Looks/Dvor временно используют явный `migration-baseline`: это совместимость, а не задним числом выдуманный selection/evidence.
+`concepts/<slug>/concept.json` связывает воспроизводимый Product Development artifact,
+канонический Product Contract и явную UX Specification с delivery-спекой поверхностей.
+`native/apps/<slug>` — его SwiftUI-адаптер. Генерируемый Xcode-проект и снимки
+находятся в игнорируемых `native/build` и `native/artifacts`. Looks/Dvor содержат
+курируемые портфели из трёх кандидатов; их evidence честно отделяет принятое
+продуктовое направление и наблюдаемую реализацию от ещё не проведённого market research.
 
 Проверка сборки не объявляется визуальным ревью. Финальный выпуск требует свежих снимков всех состояний и отдельной оценки по продукту, композиции, консистентности, деталям и поведению.
 

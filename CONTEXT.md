@@ -28,6 +28,10 @@ _Avoid_: Recommendation, leaderboard
 The mature, canonical product proposition selected for delivery, including its scope, domain, value and supply models, loops, permissions, evidence, delivery obligations, and acceptance criteria.
 _Avoid_: Concept summary, UI brief
 
+**Product development artifact**:
+The reproducible set of one Product Brief, its materially different Concept Candidates, their Selection Receipt, and the selected Product Contract.
+_Avoid_: Approved idea, product metadata
+
 **UX Specification**:
 The canonical interaction model that translates a Product Contract into reachable surfaces, explicit states and transitions, semantic design roles, localized language, acceptance scenarios, and deterministic product fixtures.
 _Avoid_: Wireframe, SwiftUI plan, screen list

@@ -6,6 +6,7 @@ import {
   auditCanonicalProductContract,
   developProductConcept,
   migrateLegacyProductContract,
+  resolveProductDevelopment,
   runDeterministicMaturityGates,
   stableProductArtifactId,
   verifyProductDevelopmentArtifact,
@@ -155,4 +156,23 @@ test("legacy compatibility is explicit and restricted to Looks and Dvor", () => 
   assert.equal(migrated.source.kind, "legacy-migration");
   assert.match(migrated.delivery.limitations.join("\n"), /no original multi-candidate selection receipt/i);
   assert.equal(migrateLegacyProductContract({ ...looks, slug: "new-concept" }), null);
+});
+
+for (const slug of ["looks", "dvor"]) test(`${slug} embeds a reproducible selected Product Development`, () => {
+  const concept = JSON.parse(readFileSync(join(import.meta.dirname, `../../concepts/${slug}/concept.json`), "utf8"));
+  const resolved = resolveProductDevelopment(concept);
+  assert.equal(resolved.source, "embedded-development");
+  assert.deepEqual(resolved.diagnostics, []);
+  assert.equal(resolved.contract.status, "mature");
+  assert.equal(resolved.contract.source.kind, "selected-candidate");
+  assert.equal(concept.productDevelopment.candidates.length >= 3, true);
+  assert.equal(resolved.selectionReceipt.candidates.filter(item => !item.eligible).every(item => item.rejectionReasons.length), true);
+});
+
+test("embedded concept development fails closed when its reproduced selection drifts", () => {
+  const concept = JSON.parse(readFileSync(join(import.meta.dirname, "../../concepts/looks/concept.json"), "utf8"));
+  concept.productDevelopment.selectionReceipt.selectedCandidateId = "private-wardrobe-planner";
+  const resolved = resolveProductDevelopment(concept);
+  assert.equal(resolved.diagnostics.some(item => item.code === "selection.receipt.reproduction-drift"), true);
+  assert.equal(resolved.diagnostics.some(item => item.code === "product.contract.candidate-drift"), true);
 });

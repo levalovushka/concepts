@@ -72,22 +72,25 @@ ids, realistic Russian content, long-copy/numeric/AXXXL edge cases and provenanc
 When media is present, asset role, source and license boundary are mandatory. Missing
 fixture or media provenance is a blocker.
 
-## New products versus migration
+## Explicit product delivery
 
 A new `mature` Product Contract must provide explicit `concept.ux` sections for
 navigation, screens/states, design, localization, acceptance scenarios and fixtures.
 The compiler validates and canonicalizes them; it will not silently derive a new
 application from names and defaults.
 
-Looks and Dvor are allowlisted `migration-baseline` products. Their current
-`concept.json`, UI/action contracts, permissions and native adapters are compiled into
-fully populated UX Specifications. This is intentionally labelled derivation:
+Looks and Dvor now provide explicit `concept.ux` sources compiled from their selected
+Product Contracts and current UI/action contracts. Their specifications include:
 
 - all screen graphs and canonical state applicability are explicit;
 - every existing captured variant and every acceptance-tested recovery state has a fixture;
 - fixtures contain deterministic representative Russian content, not claimed research;
-- existing app-owned media receives an honest legacy license boundary, not invented provenance;
-- future redesigns must replace migration derivation with explicit `concept.ux` source.
+- existing repository media records that external redistribution clearance still
+  requires separate evidence intake;
+- fixture provenance is `curated-product-fixture`, not legacy or production data.
+
+The migration derivation remains an allowlisted compatibility path for older concept
+files, but current Looks and Dvor do not use it.
 
 Generated `concepts/<slug>/docs/developer-guide.md` includes the graph, full state
 handling matrix, tokens/roles, complete string catalog, scenario table and fixture

@@ -546,6 +546,10 @@ writeFileSync(join(OUT, "Info.plist"), infoPlist);
 writeFileSync(join(OUT, `${AppName}.entitlements`), entitlementsPlist);
 writeFileSync(join(OUT, "native-manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 writeFileSync(join(OUT, "product-contract.json"), JSON.stringify(manifest.product.contract, null, 2) + "\n");
+if (manifest.product.selectionReceipt) writeFileSync(
+  join(OUT, "selection-receipt.json"),
+  JSON.stringify(manifest.product.selectionReceipt, null, 2) + "\n",
+);
 writeFileSync(join(OUT, "ux-specification.json"), JSON.stringify(manifest.uxSpecification, null, 2) + "\n");
 writeFileSync(join(OUT, "design-contract.json"), JSON.stringify({
   qualityFloor: manifest.design.qualityFloor,

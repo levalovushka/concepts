@@ -1,7 +1,7 @@
 # Pipeline v6: product spec to native product
 
-Status: **implemented native delivery contract**. Looks and Dvor remain explicit
-migration baselines; new products enter through a Product Brief.
+Status: **implemented native delivery contract**. Looks and Dvor carry embedded,
+reproducible Product Development artifacts and explicit UX Specifications.
 
 ## Outcome
 
@@ -38,8 +38,7 @@ Both strategies share the same product, native, accessibility, interaction, and 
 
 The selected Product Contract owns product truth. The UX Specification owns product
 and interaction semantics needed to implement it reproducibly. `concept.json` binds
-those contracts to native delivery. Looks and Dvor may derive migration-baseline
-contracts from their existing files, but this exception is allowlisted and labelled.
+the full Product Development artifact and UX Specification to native delivery.
 
 Together they own:
 
@@ -79,6 +78,8 @@ developProductConcept({ brief, generator }) -> development artifact | blocked re
 The external generator produces structured candidates. The module validates them,
 applies non-averaged stress floors and hard gates, records explicit rejection reasons,
 and compiles exactly one canonical Product Contract. There is no fake model fallback.
+Existing curated portfolios cross the same comparison interface and explicitly state
+that they are a product review, not model output or market research.
 
 ### UX compiler
 
@@ -141,13 +142,17 @@ It verifies the final build artifacts—not source-code strings—and captures e
 13. Every declared state is captured from a fresh build.
 14. Critic checks product relevance, design strategy, visual defects, and interaction coherence; failed surfaces return to implementation.
 
-## Migration order
+## Existing products
 
-1. Looks and Dvor compile deterministic migration-baseline Product Contracts and UX Specifications from existing native source data.
-2. They do not receive invented multi-candidate receipts, market evidence or transferred reference evidence.
-3. The next substantive redesign replaces derivation with a real Product Brief,
-   model-generated candidates, evidence intake and explicit `concept.ux` source.
-4. No other concept slug may use migration-baseline status.
+1. Looks and Dvor each embed a Product Brief, three materially different curated
+   candidates, a reproducible Selection Receipt, a mature Product Contract, and an
+   explicit `concept.ux` source.
+2. Curated review evidence records accepted product direction and observed native
+   behaviour; it is not presented as interviews, market demand, supply, or retention evidence.
+3. Future re-selection should use a real model adapter and new traceable evidence,
+   while the current artifacts remain reproducible inputs for maintenance.
+4. The allowlisted migration compiler remains only for command compatibility with
+   older checked-out concepts; current Looks and Dvor no longer use it.
 5. Legacy HTML may remain readable as migration material but cannot drive native output.
 
 ## Definition of done for a concept

@@ -15,6 +15,7 @@ test("project generation materialises the compiled native manifest", () => {
   execFileSync(process.execPath, ["native/gen/gen-project.mjs", "looks"], { cwd: platformRoot });
   const manifest = JSON.parse(readFileSync(join(buildRoot, "native-manifest.json"), "utf8"));
   const productContract = JSON.parse(readFileSync(join(buildRoot, "product-contract.json"), "utf8"));
+  const selectionReceipt = JSON.parse(readFileSync(join(buildRoot, "selection-receipt.json"), "utf8"));
   const uxSpecification = JSON.parse(readFileSync(join(buildRoot, "ux-specification.json"), "utf8"));
   const info = plist(join(buildRoot, "Info.plist"));
   const entitlements = plist(join(buildRoot, "Looks.entitlements"));
@@ -35,6 +36,8 @@ test("project generation materialises the compiled native manifest", () => {
     assert.match(generatedSwift, new RegExp(`primaryRegion: "${contract.primaryRegion}"`));
   }
   assert.equal(productContract.contractId, manifest.product.contract.contractId);
+  assert.equal(selectionReceipt.receiptId, manifest.product.selectionReceipt.receiptId);
+  assert.equal(selectionReceipt.selectedCandidateId, productContract.source.candidateId);
   assert.equal(uxSpecification.uxSpecificationId, manifest.uxSpecification.uxSpecificationId);
   for (const screen of uxSpecification.screens) {
     assert.match(generatedSwift, new RegExp(`titleKey: "${screen.titleKey}"`));
