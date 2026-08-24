@@ -395,6 +395,15 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 /* flex:none — иначе при height:auto у .sheet тело схлопывается в 0 */
 .sheet-body { flex:none; overflow:auto; padding:0 16px 16px; position:relative; z-index:2; max-height:min(560px, 70vh); }
 .sheet-body.tight-top { padding-top:0; }
+/* Шторка на сетке экрана. Без модификатора тело шторки добавляет своё поле 16,
+   и всё внутри съезжает: заголовок встаёт на 32 вместо 16, текст строки — на 86
+   вместо 70. С .flush карточки и шапка идут от края, как на обычном экране, а
+   поле 16 остаётся только у служебных блоков ядра. */
+.sheet-body.flush { padding-inline:0; }
+.sheet-body.flush > .searchfield,
+.sheet-body.flush > .home-grid,
+.sheet-body.flush > .state,
+.sheet-body.flush > .place-map { margin-inline:16px; }
 .sheet-footer { flex:none; padding:0 16px var(--safe-bottom); }
 .sheet-footer .btn-filled, .sheet-footer .btn-tinted { width:100%; margin:0; }
 .t-title { font:700 28px/34px var(--face); letter-spacing:-.02em; }

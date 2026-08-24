@@ -1213,3 +1213,9 @@
   margin-top: 16px;
   gap: 8px;
 }
+[data-screen="picker"] .home-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 8px;
+  padding: 12px 0;
+}
+[data-screen="picker"] .home-grid > .ph { height: 58px; border-radius: 8px; }
