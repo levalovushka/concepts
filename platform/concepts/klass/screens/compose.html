@@ -1,0 +1,67 @@
+<div class="screen r-page" id="scr-compose">
+  <div class="navbar">
+    <div class="nav-leading"><div class="btn-plain tap" data-back aria-label="Отмена">Отмена</div></div>
+    <div class="title">Новая публикация</div>
+  </div>
+  <div class="body-scroll r-scroll">
+    <div class="r-card pad r-editor">
+      <div class="r-row-t">Сбор на подарки учителям к 5 октября, 900 ₽ с семьи</div>
+    </div>
+
+    <div class="r-wrap">
+      <div class="r-sec-head"><h2>Медиа</h2><span>2 снимка</span></div>
+      <div class="r-card">
+        <div class="r-thumbs">
+          <div class="ph r-thumb"></div>
+          <div class="ph r-thumb"></div>
+        </div>
+        <div class="r-row tap" data-ask="camera|shoot|compose" aria-label="Снять">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-camera"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Снять</div><div class="r-row-s">фото или видео со звуком прямо сейчас</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-ask="photos|picker|compose" aria-label="Из медиатеки">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-images"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Из медиатеки</div><div class="r-row-s">кадры с праздника, скан справки, фото расписания</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+      </div>
+      <div class="r-note" data-show-denied="camera" hidden>
+        <svg class="ico-svg"><use href="#i-info"/></svg>
+        <span>Без камеры остаётся выбор готового снимка из медиатеки, а публикацию можно отправить и без медиа.</span>
+      </div>
+      <div class="r-note" data-show-denied="photos" hidden>
+        <svg class="ico-svg"><use href="#i-info"/></svg>
+        <span>Без медиатеки остаётся съёмка на камеру: снятый кадр попадает в публикацию напрямую.</span>
+      </div>
+
+      <div class="r-sec-head"><h2>Кому и когда</h2><span>класс и срок</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-toast="3 «Б» · Родительский комитет · Вся параллель" aria-label="Выбрать, кто увидит">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-users"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">3 «Б» · весь класс</div><div class="r-row-s">увидят 24 родителя и классный руководитель</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-ask="location|place|compose" aria-label="Отметить место">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-map-pin"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Отметить место</div><div class="r-row-s">музей, каток, школьный двор — или впишете сами</div></div>
+          <div class="r-end"><svg class="ico-svg ios-disclosure"><use href="#i-chevron-right"/></svg></div>
+        </div>
+        <div class="r-row tap" data-toast="Срок · завтра · 5 октября · без срока" aria-label="Поставить срок">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-clock"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Срок</div><div class="r-row-s">до него объявление висит первым и считает отметки</div></div>
+          <div class="r-end">5 окт.</div>
+        </div>
+      </div>
+      <div class="r-note" data-show-denied="location" hidden>
+        <svg class="ico-svg"><use href="#i-info"/></svg>
+        <span>Без геопозиции место вписывается руками: публикация с ручной меткой ничем не отличается от подставленной.</span>
+      </div>
+
+      <div class="r-cta">
+        <button class="btn-filled tap" data-primary data-go="post" aria-label="Опубликовать">Опубликовать</button>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
