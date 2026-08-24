@@ -2,6 +2,16 @@
 
 ## Что блокируется автоматически
 
+- слабый Product Brief без аудитории, ситуаций/ограничений, reference family и списка permissions;
+- меньше трёх содержательно разных Concept Candidates;
+- generic feature bundle, декоративное/непроверяемое отличие, пустой cold start или content supply;
+- бессвязные permissions, core loop без проверяемой гипотезы и evidence provenance;
+- Product Stress Test с любой осью ниже 3/4 — среднее не используется как допуск;
+- Product Contract без стабильного Selection Receipt;
+- UX Specification с orphan/unreachable surface, отсутствующим переходом/outcome или неполной семантикой back/dismiss;
+- неявная обработка loading/populated/empty/error/offline/permission-needed/denied/restricted/limited;
+- user-facing contract string без localization key, critical flow без acceptance coverage или captured/tested state без fixture;
+- fixture media без provenance/license и developer guide с пустым разделом либо дрейфом;
 - неполный `concept.json`, UI-контракт или неизвестная композиция;
 - действие без результата, хранения, error/retry для async;
 - action contract v3 без семантического variant, совместимого placement,
@@ -49,3 +59,8 @@ launch-environment adapter подтверждает факт правильно�
 `iPhone 16e`: XCUI smoke с Accessibility XXXL и целевые root captures. Tab bar
 остаётся системным SwiftUI `TabView`, поэтому Liquid Glass не симулируется
 кастомной панелью.
+
+Product maturity не выдаётся за market validation. Детерминированные gates
+проверяют структуру, связи и provenance, но реальность insight, supply и
+retention подтверждается только внешним evidence intake. UX gates доказывают
+полноту спецификации, но не то, что пользовательская гипотеза истинна.

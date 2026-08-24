@@ -42,6 +42,8 @@ export function auditReferenceProfile(profile) {
   const blockers = [];
   if (profile.schemaVersion !== 1) blockers.push("schemaVersion должен быть 1");
   if (!profile.id || !profile.product || profile.platform !== "iOS") blockers.push("неполная идентификация профиля");
+  if (!profile.referenceFamily) blockers.push("не указано независимое reference family");
+  if (!profile.mentalModel) blockers.push("не извлечена ментальная модель референс-продукта");
   const required = REQUIRED_SURFACES[profile.id] || profile.capturePlan || [];
   const captured = new Set(profile.evidence?.surfaces || []);
   const missingSurfaces = required.filter(surface => !captured.has(surface));

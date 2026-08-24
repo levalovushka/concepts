@@ -34,7 +34,9 @@ function testCommands(root) {
 export function createNativePipelinePlan(operation, slug, options = {}) {
   const root = options.projectRoot || projectRoot;
   const native = join(root, "native");
+  const productGate = target => command(`product maturity ${target}`, process.execPath, [join(native, "gen", "gate-product.mjs"), target], root);
   const compile = target => command(`compile ${target}`, process.execPath, [join(native, "gen", "compile-concept.mjs"), target, "--write"], root);
+  const docs = target => command(`developer docs ${target}`, process.execPath, [join(native, "gen", "developer-docs.mjs"), target, "--check"], root);
   const generate = target => command(`generate ${target}`, process.execPath, [join(native, "gen", "gen-project.mjs"), target], root);
   const audit = target => command(`audit ${target}`, process.execPath, [join(native, "gen", "audit-native.mjs"), target], root);
   const build = target => {
@@ -43,6 +45,7 @@ export function createNativePipelinePlan(operation, slug, options = {}) {
     return command(`build ${target}`, "/usr/bin/xcodebuild", ["-project", join(directory, `${name}.xcodeproj`), "-target", name, "-sdk", "iphonesimulator", "-configuration", "Debug", "build"], directory);
   };
   const capture = target => command(`capture ${target}`, process.execPath, [join(native, "gen", "shots.mjs"), target], root);
+  const critic = target => command(`critic ${target}`, process.execPath, [join(native, "gen", "critic.mjs"), target], root);
   const smoke = (target, device = process.env.DEVICE || "iPhone 17 Pro") => {
     const name = target[0].toUpperCase() + target.slice(1);
     const directory = join(native, "build", target);
@@ -64,20 +67,25 @@ export function createNativePipelinePlan(operation, slug, options = {}) {
         { DEVICE: device.name, ARTIFACT_VARIANT: device.id },
         root,
       );
-      return [compile(target), generate(target), audit(target), smoke(target, device.name), capture];
+      return [productGate(target), compile(target), docs(target), generate(target), audit(target), smoke(target, device.name), capture];
     }));
   }
   if (operation === "test") return testCommands(root);
-  if (operation === "check-all") return [...testCommands(root), ...discoverNativeConcepts(root).flatMap(target => [compile(target), generate(target), audit(target)])];
+  if (operation === "check-all") return [
+    ...testCommands(root),
+    ...discoverNativeConcepts(root).flatMap(target => [productGate(target), compile(target), docs(target), generate(target), audit(target)]),
+  ];
   if (!slug) throw new Error(`${operation}: нужен slug концепта`);
   if (!discoverNativeConcepts(root).includes(slug)) throw new Error(`нет пары concepts/${slug} + native/apps/${slug}`);
-  if (operation === "compile") return [compile(slug)];
-  if (operation === "check") return [compile(slug), generate(slug), audit(slug)];
-  if (operation === "build") return [compile(slug), generate(slug), audit(slug), build(slug)];
-  if (operation === "capture") return [compile(slug), audit(slug), capture(slug)];
+  if (operation === "product-gate") return [productGate(slug)];
+  if (operation === "compile") return [productGate(slug), compile(slug)];
+  if (operation === "check") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug)];
+  if (operation === "build") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), build(slug)];
+  if (operation === "capture") return [productGate(slug), compile(slug), docs(slug), audit(slug), capture(slug)];
   if (operation === "smoke") {
-    return [compile(slug), generate(slug), audit(slug), smoke(slug)];
+    return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), smoke(slug)];
   }
+  if (operation === "release") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), build(slug), capture(slug), critic(slug)];
   throw new Error(`неизвестная операция: ${operation}`);
 }
 

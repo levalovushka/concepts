@@ -147,6 +147,7 @@ struct DvorRootView: View {
                 DvorMainShell()
             }
         }
+        .nativeSurface(currentSemanticSurface)
         .environment(store)
         .environment(nav)
         .environment(permissions)
@@ -200,6 +201,17 @@ struct DvorRootView: View {
     private func unlock() async {
         guard appLockEnabled else { isLocked = false; return }
         if await permissions.authenticateDeviceOwner() { isLocked = false }
+    }
+
+    private var currentSemanticSurface: String {
+        if let screen = DvorShotMode.screen { return screen }
+        switch entryStage {
+        case .onboarding: return "phone"
+        case .join: return "join"
+        case .residenceVerification: return "verify"
+        case .manual: return "manual"
+        case .main: return NativeConceptSpec.tabs.first(where: { $0.id == nav.tab })?.screen ?? "home"
+        }
     }
 }
 
@@ -290,6 +302,7 @@ struct DvorMainShell: View {
                     ResidencePendingBanner()
                 }
             }
+            .nativeSurface(screen)
             .navigationDestination(for: DvorRoute.self) {
                 destination($0).toolbar(.hidden, for: .tabBar)
             }
@@ -297,27 +310,50 @@ struct DvorMainShell: View {
     }
 
     @ViewBuilder private func destination(_ route: DvorRoute) -> some View {
-        if requiresVerifiedResidence(route), !session.canWriteToHouse {
-            ResidencePendingGateScreen()
-        } else {
-            switch route {
-            case .profile: DvorProfileScreen()
-            case .neighbour(let resident): NeighbourProfileScreen(resident: resident)
-            case .houseSwitcher: HouseSwitcherScreen()
-            case .notifications: HouseNotificationsScreen()
-            case .createPost: CreateHousePostScreen()
-            case .matter(let matter): MatterScreen(matterID: matter.id)
-            case .report: IncidentReportScreen()
-            case .chronicle: ChronicleScreen()
-            case .chat(let conversation): HouseChatScreen(conversation: conversation)
-            case .guest: GuestAccessScreen()
-            case .meters: MeterScreen()
-            case .events: EventsScreen()
-            case .passwords: HouseAccessScreen()
-            case .neighbours: NeighboursScreen()
-            case .settings: DvorSettingsScreen()
-            case .ads: DvorAdsScreen()
+        Group {
+            if requiresVerifiedResidence(route), !session.canWriteToHouse {
+                ResidencePendingGateScreen()
+            } else {
+                switch route {
+                case .profile: DvorProfileScreen()
+                case .neighbour(let resident): NeighbourProfileScreen(resident: resident)
+                case .houseSwitcher: HouseSwitcherScreen()
+                case .notifications: HouseNotificationsScreen()
+                case .createPost: CreateHousePostScreen()
+                case .matter(let matter): MatterScreen(matterID: matter.id)
+                case .report: IncidentReportScreen()
+                case .chronicle: ChronicleScreen()
+                case .chat(let conversation): HouseChatScreen(conversation: conversation)
+                case .guest: GuestAccessScreen()
+                case .meters: MeterScreen()
+                case .events: EventsScreen()
+                case .passwords: HouseAccessScreen()
+                case .neighbours: NeighboursScreen()
+                case .settings: DvorSettingsScreen()
+                case .ads: DvorAdsScreen()
+                }
             }
+        }
+        .nativeSurface(semanticSurface(for: route))
+    }
+
+    private func semanticSurface(for route: DvorRoute) -> String {
+        switch route {
+        case .profile, .neighbour: "profile"
+        case .houseSwitcher: "home"
+        case .notifications: "notifications"
+        case .createPost: "createpost"
+        case .matter: "post"
+        case .report: "problem"
+        case .chronicle: "chronicle"
+        case .chat: "chat"
+        case .guest: "guest"
+        case .meters: "meters"
+        case .events: "events"
+        case .passwords: "passwords"
+        case .neighbours: "neighbors"
+        case .settings: "settings"
+        case .ads: "ads"
         }
     }
 

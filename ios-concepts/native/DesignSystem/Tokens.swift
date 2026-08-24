@@ -6,6 +6,38 @@ extension View {
     func nativeAction(_ id: String) -> some View {
         modifier(NativeActionSemanticModifier(id: id))
     }
+
+    /// Binds the current SwiftUI subtree to the canonical UX surface and its
+    /// semantic component roles without generating or duplicating view code.
+    func nativeSurface(_ id: String) -> some View {
+        modifier(NativeSurfaceSemanticModifier(id: id))
+    }
+}
+
+private struct NativeComponentRolesKey: EnvironmentKey {
+    static let defaultValue: [String] = []
+}
+
+extension EnvironmentValues {
+    var nativeComponentRoles: [String] {
+        get { self[NativeComponentRolesKey.self] }
+        set { self[NativeComponentRolesKey.self] = newValue }
+    }
+}
+
+private struct NativeSurfaceSemanticModifier: ViewModifier {
+    let id: String
+
+    private var definition: NativeSurfaceDefinition? {
+        NativeConceptSpec.surfaces.first { $0.id == id }
+    }
+
+    func body(content: Content) -> some View {
+        let roles = definition?.componentRoles ?? []
+        content
+            .environment(\.nativeComponentRoles, roles)
+            .accessibilityIdentifier((["surface", id] + roles).joined(separator: "."))
+    }
 }
 
 private struct NativeActionSemanticModifier: ViewModifier {

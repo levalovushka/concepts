@@ -4,9 +4,61 @@ Camo turns a constrained product concept into a reviewable native application. I
 
 ## Product
 
+**Product Brief**:
+A statement of the audience, situation, constraints, reference family, and requested permissions that bounds product exploration before a proposition is chosen.
+_Avoid_: Prompt, theme request
+
+**Concept Candidate**:
+One independently coherent product proposition developed from a Product Brief, with its own wedge, value exchange, supply model, loops, risks, assumptions, and evidence provenance.
+_Avoid_: Variation, feature list
+
+**Product evidence**:
+Traceable information that supports or challenges a product claim and states its source and confidence; an untested assumption is identified as such rather than presented as evidence.
+_Avoid_: Rationale, invented proof
+
+**Product stress test**:
+An axis-by-axis challenge of a Concept Candidate in which a failed critical axis cannot be hidden by stronger axes.
+_Avoid_: Average score, vibe check
+
+**Selection receipt**:
+The durable comparison that names the selected Concept Candidate, explains why it survived, and records explicit rejection reasons for every alternative.
+_Avoid_: Recommendation, leaderboard
+
+**Product contract**:
+The mature, canonical product proposition selected for delivery, including its scope, domain, value and supply models, loops, permissions, evidence, delivery obligations, and acceptance criteria.
+_Avoid_: Concept summary, UI brief
+
+**UX Specification**:
+The canonical interaction model that translates a Product Contract into reachable surfaces, explicit states and transitions, semantic design roles, localized language, acceptance scenarios, and deterministic product fixtures.
+_Avoid_: Wireframe, SwiftUI plan, screen list
+
+**Acceptance scenario**:
+An executable product-level statement of initial conditions, user or system events, and observable outcomes for one critical flow or recovery path.
+_Avoid_: Test note, happy-path description
+
+**Product fixture**:
+Deterministic representative content for one observable product state, with stable identity and media provenance where media is present.
+_Avoid_: Placeholder, mock screen
+
 **Concept**:
-A product proposition constrained by a target permission set and expressed through reachable user value.
+A native product delivery whose intent is governed by one Product Contract and whose surfaces realise reachable user value.
 _Avoid_: Prototype, demo
+
+**Product wedge**:
+The narrow mechanism and initial situation through which a Concept Candidate can earn adoption before it expands.
+_Avoid_: Unique feature, tagline
+
+**Observable differentiation**:
+A product distinction expressed as user behaviour or an outcome that can be compared and tested.
+_Avoid_: Decorative difference, novelty claim
+
+**Content supply**:
+The sources, incentives, and controls that make a product's content available at cold start and replenished afterwards.
+_Avoid_: Seed data, content placeholder
+
+**Reference fit**:
+The reason a product model belongs naturally inside a reference product's established mental model, including any tensions that must be resolved.
+_Avoid_: Visual similarity, brand fit
 
 **Product distinction**:
 An observable difference in the product's content model or core loop that gives a user a reason to choose it.
@@ -57,6 +109,10 @@ The measurable visual and interaction constraints that every state of a product 
 _Avoid_: Design system, critic prompt
 
 ## Quality
+
+**Maturity gate**:
+A fail-closed decision that prevents an immature Concept Candidate or Product Contract from entering product delivery when any critical product axis fails.
+_Avoid_: Readiness score, checklist completion
 
 **Gate**:
 An executable check that blocks a build when an observable contract is violated.

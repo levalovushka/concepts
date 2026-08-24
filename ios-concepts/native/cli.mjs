@@ -4,7 +4,7 @@ import { writeFactoryReadinessReport } from "./lib/factory-readiness.mjs";
 
 const [operation, slug] = process.argv.slice(2);
 if (!operation) {
-  console.error("usage: node native/cli.mjs <compile|check|build|capture|smoke|test|check-all|matrix|profiles|readiness|readiness-gate> [slug]");
+  console.error("usage: node native/cli.mjs <product-gate|compile|check|build|capture|smoke|test|check-all|matrix|profiles|readiness|readiness-gate> [slug]");
   process.exit(1);
 }
 try {

@@ -14,6 +14,8 @@ function plist(path) {
 test("project generation materialises the compiled native manifest", () => {
   execFileSync(process.execPath, ["native/gen/gen-project.mjs", "looks"], { cwd: platformRoot });
   const manifest = JSON.parse(readFileSync(join(buildRoot, "native-manifest.json"), "utf8"));
+  const productContract = JSON.parse(readFileSync(join(buildRoot, "product-contract.json"), "utf8"));
+  const uxSpecification = JSON.parse(readFileSync(join(buildRoot, "ux-specification.json"), "utf8"));
   const info = plist(join(buildRoot, "Info.plist"));
   const entitlements = plist(join(buildRoot, "Looks.entitlements"));
   const generatedSwift = readFileSync(join(buildRoot, "App/Generated/NativeConceptSpec.swift"), "utf8");
@@ -31,6 +33,12 @@ test("project generation materialises the compiled native manifest", () => {
   for (const contract of manifest.design.surfaceContracts) {
     assert.match(generatedSwift, new RegExp(`surface: "${contract.surface}"`));
     assert.match(generatedSwift, new RegExp(`primaryRegion: "${contract.primaryRegion}"`));
+  }
+  assert.equal(productContract.contractId, manifest.product.contract.contractId);
+  assert.equal(uxSpecification.uxSpecificationId, manifest.uxSpecification.uxSpecificationId);
+  for (const screen of uxSpecification.screens) {
+    assert.match(generatedSwift, new RegExp(`titleKey: "${screen.titleKey}"`));
+    for (const role of screen.componentRoles) assert.match(generatedSwift, new RegExp(`"${role}"`));
   }
   assert.equal(designContract.qualityFloor, 8);
   assert.equal(designContract.surfaces.length, manifest.surfaces.length);

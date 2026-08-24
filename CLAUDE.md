@@ -4,9 +4,10 @@
 
 Ниже — правила, которые уже стоили ошибок. Они не выводятся из кода, поэтому записаны здесь.
 
-**Контуров два, и главный — нативный.** `concept.json` компилируется в приложение на SwiftUI
-(`platform/native/`), и именно оно показывается заказчику. Веб-контур (`platform/concepts/*/screens/*.html`)
-жив как быстрый черновик и как источник спек 26 концептов, но качество меряется на нативной сборке.
+**Контуров два, и главный — нативный.** Самостоятельный проект `ios-concepts/`
+собирает приложение на SwiftUI, и именно оно показывается заказчику. Веб-контур
+(`platform/concepts/*/screens/*.html`) жив как архив и материал для миграции, но не
+входит в native build graph и не является UX-спецификацией.
 Правила ниже помечены контуром там, где они расходятся.
 
 ## Планка: концепт — это продукт, а не демо
@@ -25,23 +26,33 @@
 
 ## Нативный контур
 
-Порядок: `concept.json` → компилятор → нативный манифест → генерация Xcode-проекта → сборка →
-съёмка состояний → ворота → критик. Спека описывает продукт, компилятор знает про iOS; сырых
+Порядок: Product Brief → несколько Concept Candidates → Product Stress Test → Selection Receipt →
+Product Contract → UX Specification → нативный манифест → developer docs check → генерация
+Xcode-проекта → сборка → съёмка состояний → ворота → критик. Спеки описывают продуктовую и
+интеракционную семантику, компилятор знает про iOS; сырых
 `.pbxproj`, entitlement-синтаксиса и импортов фреймворков в спеке быть не должно. Полностью —
-[PIPELINE-V6.md](PIPELINE-V6.md), словарь — [CONTEXT.md](CONTEXT.md).
+[PIPELINE-V6.md](PIPELINE-V6.md), словарь — [CONTEXT.md](CONTEXT.md), исполняемая документация —
+[`ios-concepts/docs/`](ios-concepts/docs/).
 
-Команды из `platform/`:
+Команды из `ios-concepts/`:
 
 ```bash
-npm run native:compile <slug>    # спека → манифест, диагностика вместо догадок
-npm run native:generate <slug>   # Xcode-проект, Info.plist и entitlements из манифеста
-node native/gen/shots.mjs <slug> # съёмка всех состояний
-npm run native:audit <slug>      # навигация · интерфейс · действия · доступы · мимикрия · кадры
-npm run native:critic <slug>     # балл по осям и отчёт; ниже планки — не показываем
-npm run native:pipeline <slug>   # вся цепочка от спеки до критика одной командой
-npm run native:scaffold <slug>   # каркас нового концепта из манифеста
-npm run test:native              # тесты компилятора и ворот
+npm run product:develop -- <brief.json> --adapter <real-adapter.mjs> --out <artifact.json>
+npm run product:verify -- <artifact.json>
+npm run product:gate -- <slug>   # maturity до UI
+npm run compile -- <slug>        # Product Contract + UX Specification → manifest
+npm run docs:check -- <slug>     # developer guide из той же спецификации
+npm run check -- <slug>          # maturity → compile → docs → generate → audits
+npm run build -- <slug>
+npm run capture -- <slug>
+npm run critic -- <slug>
+npm test
 ```
+
+Генератор кандидатов — внешний adapter seam. В pipeline нет фиктивного «LLM по
+умолчанию»: fixture-generator разрешён только как воспроизводимое тестовое
+свидетельство. Новый mature-продукт без явного UX Specification не компилируется;
+Looks/Dvor временно используют помеченную и allowlisted миграцию.
 
 **Строгий режим — не опция.** При `qualityContractVersion: 2` и `uiContractVersion: 3` компилятор
 требует от каждой поверхности рецепт композиции, названное главное действие, иерархию регионов,

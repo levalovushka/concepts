@@ -48,3 +48,17 @@ test("visual audit accepts a clean visual-language caller", () => {
   `);
   assert.deepEqual(auditVisualLanguage(root, "ghost"), []);
 });
+
+test("visual audit fails closed when a native concept does not bind UX surfaces", () => {
+  const root = fixture(`
+    import SwiftUI
+    let visualLanguage = NativeVisualLanguage.resolve(NativeConceptSpec.design)
+    let body = EmptyView().environment(\\.visualLanguage, visualLanguage)
+    let selected = t.requiredTabIconAsset(role: tab.role, selected: nav.tab == tab.id)
+    let tab = Tab(value: tab.id) { EmptyView() }
+  `);
+  assert.match(
+    auditVisualLanguage(root, "looks").join("\n"),
+    /не связывает SwiftUI surface с canonical UX component roles/,
+  );
+});

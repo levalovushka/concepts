@@ -3,7 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "product:develop": "node native/product-cli.mjs develop",
+    "product:verify": "node native/product-cli.mjs verify",
+    "product:gate": "node native/cli.mjs product-gate",
     "compile": "node native/cli.mjs compile",
+    "docs": "node native/gen/developer-docs.mjs --write",
+    "docs:check": "node native/gen/developer-docs.mjs --check",
     "check": "node native/cli.mjs check",
     "build": "node native/cli.mjs build",
     "capture": "node native/cli.mjs capture",

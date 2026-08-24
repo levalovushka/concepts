@@ -42,6 +42,9 @@ export function auditVisualLanguage(appRoot, slug) {
     diagnostics.push("DvorStyle запрещён: Dvor читает семантические foundations из visualLanguage");
   }
   if (["looks", "dvor"].includes(slug)) {
+    if (!/\.nativeSurface\(/.test(all)) {
+      diagnostics.push(`${slug} не связывает SwiftUI surface с canonical UX component roles`);
+    }
     if (!/requiredTabIconAsset\(role:\s*tab\.role,\s*selected:\s*nav\.tab\s*==\s*tab\.id\)/.test(app)) {
       diagnostics.push(`${slug} tab bar не получает selected/unselected product-chrome asset через visualLanguage`);
     }

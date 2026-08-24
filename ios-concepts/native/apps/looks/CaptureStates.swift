@@ -24,6 +24,7 @@ struct LooksCaptureSurface<Content: View>: View {
                 content
             }
         }
+        .nativeSurface(surface)
         .background {
             GeometryReader { geometry in
                 Color.clear.task {

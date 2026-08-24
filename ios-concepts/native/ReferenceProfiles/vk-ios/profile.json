@@ -3,6 +3,12 @@
   "id": "vk-ios",
   "product": "ВКонтакте",
   "platform": "iOS",
+  "referenceFamily": "vk-family",
+  "mentalModel": {
+    "expectation": "A dense social network organised around people, feed units, conversations, discovery, short video, and a service menu.",
+    "naturalProducts": "Products whose value improves through identity, social graph, publication, response, and repeated contribution.",
+    "conflicts": "A private utility, one-shot tool, or passive catalogue must not borrow VK chrome unless its own core model maps to social identity and contribution."
+  },
   "evidenceStatus": "ready",
   "evidence": {
     "source": "../../vk-visual-profile.md",

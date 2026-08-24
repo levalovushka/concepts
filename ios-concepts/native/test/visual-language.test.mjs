@@ -45,3 +45,13 @@ test("visual adapters own complete semantic foundations", () => {
   assert.match(language, /case system/);
   assert.match(language, /weight: \.semibold/);
 });
+
+test("SwiftUI consumes canonical UX surfaces and semantic component roles", () => {
+  assert.match(tokens, /NativeConceptSpec\.surfaces\.first \{ \$0\.id == id \}/);
+  assert.match(tokens, /definition\?\.componentRoles \?\? \[\]/);
+  assert.match(tokens, /\.environment\(\\\.nativeComponentRoles, roles\)/);
+  assert.match(tokens, /\.accessibilityIdentifier\(\(\["surface", id\] \+ roles\)/);
+  assert.match(looksApp, /semanticSurface\(for: route\)/);
+  assert.match(dvorApp, /\.nativeSurface\(currentSemanticSurface\)/);
+  assert.match(dvorApp, /\.nativeSurface\(semanticSurface\(for: route\)\)/);
+});

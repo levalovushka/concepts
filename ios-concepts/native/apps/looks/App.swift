@@ -244,7 +244,7 @@ struct MainShell: View {
     }
 
     @ViewBuilder private func destination(_ route: LooksRoute) -> some View {
-        LooksCaptureSurface(surface: ShotMode.screen, state: ShotMode.state) {
+        LooksCaptureSurface(surface: ShotMode.screen ?? semanticSurface(for: route), state: ShotMode.state) {
           switch route {
         case .profile: ProfileScreen()
         case .author(let name): ProfileScreen(name: name, isOwn: false)
@@ -267,6 +267,28 @@ struct MainShell: View {
           }
         }
         .toolbar(.hidden, for: .tabBar)
+    }
+
+    private func semanticSurface(for route: LooksRoute) -> String {
+        switch route {
+        case .profile, .author: "profile"
+        case .outfit: "post"
+        case .chat: "chat"
+        case .event: "event"
+        case .settings: "settings"
+        case .notifications: "notifications"
+        case .mates: "mates"
+        case .ads: "ads"
+        case .create: "create"
+        case .nearby: "nearby"
+        case .wardrobe: "wardrobe"
+        case .call: "call"
+        case .talk: "talk"
+        case .checkin: "checkin"
+        case .lock: "lock"
+        case .swap: "swap"
+        case .netqr: "netqr"
+        }
     }
 
     @ViewBuilder private func routeView(_ any: AnyRoute) -> some View {

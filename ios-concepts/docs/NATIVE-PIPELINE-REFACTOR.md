@@ -3,8 +3,12 @@
 ## Target seam
 
 ```text
-concept.json
-  → compiled product/surface/action contracts
+Product Brief
+  → several Concept Candidates
+  → Product Stress Test + Selection Receipt
+  → canonical Product Contract
+  → canonical UX Specification
+  → compiled surface/action/capability contracts
   → product state driver
   → NativeVisualLanguage adapter
   → shared SwiftUI primitives + profile recipes
@@ -17,6 +21,16 @@ replace a real screen with a context-free verification view.
 
 ## Completed foundation
 
+- `developProductConcept({ brief, generator })` hides candidate validation,
+  stress testing, hard maturity gates, comparison and canonical Product Contract
+  compilation behind one provider-neutral generator seam.
+- `compileUXSpecification(concept, productContract)` owns the reachable navigation
+  graph, complete canonical state semantics, localization closure, semantic design
+  roles, executable acceptance scenarios and deterministic fixture coverage.
+- The native manifest embeds both contracts. Checked developer documentation is
+  compiled from that same specification before Xcode generation and build.
+- Looks and Dvor are explicit, allowlisted migration baselines; no selection or
+  market evidence is invented for them.
 - `NativeVisualLanguage` owns semantic palette, spacing, metrics, type, chrome
   and icon roles.
 - VK reference и нативная системная грамматика являются concrete adapters.
@@ -68,15 +82,22 @@ Measured on 2026-08-24:
 
 ## Next stage
 
-1. Закрыть physical iOS и VoiceOver manual checklist с device metadata и
+1. Подключить реальную structured-output model к generator adapter и принимать
+   traceable product evidence вместо fixture-кандидатов.
+2. Заменять legacy UX derivation Looks/Dvor явными `concept.ux` контрактами при
+   следующем содержательном редизайне.
+3. Закрыть physical iOS и VoiceOver manual checklist с device metadata и
    evidence bundle.
-2. Провести независимый human visual/product review current/small-phone captures.
-3. Добавить следующий reference adapter только после полного evidence intake;
+4. Провести независимый human visual/product review current/small-phone captures.
+5. Добавить следующий reference adapter только после полного evidence intake;
    VK Music, VK Video и OK не выводятся из Looks/Dvor по догадке.
 
 ## Definition of factory-ready
 
 - No app-local visual token containers or hardcoded brand colors.
+- Product maturity, UX Specification and developer-documentation drift gates pass.
+- No unreachable screen, implicit canonical state, unlocalized contract copy,
+  uncovered critical flow or captured state without a deterministic fixture.
 - No synthetic capture presentation for an app-owned surface.
 - Every action produces a route, mutation, permission request, persistence or
   explicit system handoff and is replay-tested.

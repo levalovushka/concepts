@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "weak-vk-request",
+  "request": "Сделай что-нибудь как ВКонтакте",
+  "audience": { "primary": "Все", "needs": [] },
+  "context": { "situations": [], "constraints": [] },
+  "reference": { "strategy": "mimicry", "family": "vk-family", "profileId": "vk-ios" },
+  "permissions": [],
+  "candidateCount": 2
+}

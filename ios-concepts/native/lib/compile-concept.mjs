@@ -3,6 +3,8 @@ import { resolveExtension } from "./extension-catalog.mjs";
 import { auditReferenceProfile, resolveReferenceProfile } from "./reference-profile-catalog.mjs";
 import { compileSurfaceContracts } from "./surface-contract.mjs";
 import { compileActionContracts } from "./action-contract.mjs";
+import { auditCanonicalProductContract, migrateLegacyProductContract } from "./product-maturity.mjs";
+import { compileUXSpecification } from "./ux-specification.mjs";
 
 const PRESENTATION_ALIASES = new Map([
   ["tab (root)", "tab"],
@@ -67,6 +69,15 @@ export function compileNativeConcept(concept, options = {}) {
   const slug = concept?.slug;
   if (!slug) diagnostics.push(diagnostic("concept.slug.required", "Concept slug is required", "slug"));
   if (!concept?.name) diagnostics.push(diagnostic("concept.name.required", "Concept name is required", "name"));
+
+  const productContract = concept?.productContract || migrateLegacyProductContract(concept);
+  diagnostics.push(...auditCanonicalProductContract(productContract, concept));
+  if (!concept?.productContract && productContract) diagnostics.push(diagnostic(
+    "product.contract.legacy-migrated",
+    `${concept.name} uses an explicit compatibility migration; new products must carry a selected Product Contract`,
+    "productContract",
+    "warning",
+  ));
 
   const bundleId = options.bundleId || `com.camo.${String(slug || "concept").replace(/[-_]/g, "")}`;
   const native = concept?.native || {};
@@ -243,6 +254,31 @@ export function compileNativeConcept(concept, options = {}) {
     };
   });
 
+  if (productContract) {
+    const declared = new Set((concept?.permissions || []).map(item => item.key));
+    const contracted = new Set((productContract.permissions || []).map(item => item.key));
+    for (const key of contracted) if (!declared.has(key)) diagnostics.push(diagnostic(
+      "product.contract.permission-not-delivered",
+      `Product Contract permission ${key} is absent from the native concept`,
+      "productContract.permissions",
+    ));
+    for (const key of declared) if (!contracted.has(key)) diagnostics.push(diagnostic(
+      "product.contract.permission-unapproved",
+      `Native permission ${key} is absent from the selected Product Contract`,
+      "permissions",
+    ));
+    if (productContract.reference?.strategy !== strategy) diagnostics.push(diagnostic(
+      "product.contract.strategy-drift",
+      `Native strategy ${strategy} differs from Product Contract strategy ${productContract.reference?.strategy}`,
+      "native.design.strategy",
+    ));
+    if (strategy === "mimicry" && productContract.reference?.profileId !== native.design?.referenceProfile) diagnostics.push(diagnostic(
+      "product.contract.reference-drift",
+      `Native reference ${native.design?.referenceProfile} differs from Product Contract reference ${productContract.reference?.profileId}`,
+      "native.design.referenceProfile",
+    ));
+  }
+
   let info = [];
   let entitlements = [];
   try {
@@ -303,6 +339,17 @@ export function compileNativeConcept(concept, options = {}) {
   diagnostics.push(...surfaceContracts.diagnostics);
   const actionContracts = compileActionContracts(concept, surfaces, permissions);
   diagnostics.push(...actionContracts.diagnostics);
+  const designTokens = {
+    ...(referenceProfile?.tokens || {}),
+    ...(native.design?.tokens || {}),
+  };
+  const uxSpecification = compileUXSpecification(concept, productContract, {
+    surfaces,
+    permissions,
+    actions: actionContracts.actions,
+    design: { tokens: designTokens },
+  });
+  diagnostics.push(...uxSpecification.diagnostics);
 
   const manifest = {
     schemaVersion: 1,
@@ -316,13 +363,19 @@ export function compileNativeConcept(concept, options = {}) {
       minimumVersion: native.platform?.minimumVersion || "26.0",
     },
     product: {
-      audience: concept?.product?.audience || null,
-      problem: concept?.product?.problem || null,
-      promise: concept?.product?.promise || null,
+      contract: productContract,
+      audience: productContract?.audience?.primary || concept?.product?.audience || null,
+      problem: productContract?.job?.motivation || concept?.product?.problem || null,
+      promise: productContract?.productThesis || concept?.product?.promise || null,
       distinctions,
       evidenceScreens,
-      coreLoop: concept?.product?.coreLoop || [],
-      nonGoals: concept?.product?.nonGoals || [],
+      coreLoop: productContract ? [
+        productContract.coreLoop?.trigger,
+        productContract.coreLoop?.action,
+        productContract.coreLoop?.reward,
+        productContract.coreLoop?.contribution,
+      ].filter(Boolean) : concept?.product?.coreLoop || [],
+      nonGoals: productContract?.nonGoals || concept?.product?.nonGoals || [],
     },
     design: {
       strategy,
@@ -331,8 +384,7 @@ export function compileNativeConcept(concept, options = {}) {
       density: native.design?.density || "balanced",
       colorScheme: native.design?.colorScheme || "light",
       tokens: {
-        ...(referenceProfile?.tokens || {}),
-        ...(native.design?.tokens || {}),
+        ...designTokens,
       },
       qualityFloor: native.design?.qualityFloor || 8,
       surfaceContracts: surfaceContracts.contracts,
@@ -362,6 +414,7 @@ export function compileNativeConcept(concept, options = {}) {
     verification: {
       states: verificationStates,
     },
+    uxSpecification: uxSpecification.specification,
   };
 
   return {

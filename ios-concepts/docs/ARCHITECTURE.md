@@ -1,8 +1,12 @@
 # Архитектура
 
-Главный модуль — `runNativePipeline({ operation, slug })`. Он скрывает порядок компиляции контракта, генерации, семантических аудитов, Xcode-сборки и съёмки. CLI и тестовый recording adapter проходят через один интерфейс.
+Главный delivery-модуль — `runNativePipeline({ operation, slug })`. Он скрывает порядок maturity gate, компиляции Product Contract и UX Specification, проверки developer docs, генерации, семантических аудитов, Xcode-сборки и съёмки. CLI и тестовый recording adapter проходят через один интерфейс.
 
-Основной seam: `concept.json → compiled native manifest → SwiftUI adapter → Xcode app → verified captures`. HTML может находиться только слева от этого seam как материал для анализа. Ни один HTML-файл, CSS-токен или DOM-класс не попадает в build graph.
+До него работает продуктовый глубокий модуль `developProductConcept({ brief, generator })`. Внешний интерфейс состоит из Product Brief и одного generator adapter; validation, Product Stress Test, hard gates, comparison, стабильный Selection Receipt и компиляция Product Contract скрыты внутри. Provider-neutral `createStructuredModelProductGenerator` и явный fixture adapter делают seam реальным, не подменяя модель фиктивной логикой.
+
+Между Product Contract и SwiftUI стоит второй глубокий модуль `compileUXSpecification(concept, productContract)`. Он компилирует граф экранов, канонические состояния и переходы, tokens/component roles, localization catalog, acceptance DSL и deterministic fixtures. SwiftUI не дублируется в спеке и остаётся adapter/implementation layer; HTML mapping отсутствует полностью.
+
+Основной seam: `Product Brief → Concept Candidates → selected Product Contract → UX Specification → compiled native manifest → SwiftUI adapter → Xcode app → verified captures`. HTML может находиться только слева от delivery seam как материал для анализа. Ни один HTML-файл, CSS-токен или DOM-класс не попадает в build graph.
 
 Reference profile — отдельный модуль продукта-референса. Он считается готовым только при наличии evidence, контракта, нативных токенов и Swift-рецептов. Мимикрия с незавершённым профилем блокируется компилятором.
 

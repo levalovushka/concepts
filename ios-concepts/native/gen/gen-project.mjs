@@ -85,14 +85,17 @@ function generatedDesignBrief() {
 }
 
 function generatedNativeSpec() {
+  const uxScreens = new Map(manifest.uxSpecification.screens.map(screen => [screen.id, screen]));
   const tabs = manifest.navigation.tabs.map(tab =>
     `        NativeTabDefinition(id: "${swift(tab.id)}", label: "${swift(tab.label)}", screen: "${swift(tab.screen)}", role: "${swift(tab.role)}", systemImage: "${swift(tab.systemImage)}")`,
   ).join(",\n");
   const surfaces = manifest.surfaces.map(surface => {
     const states = surface.states.map(state => `"${swift(state)}"`).join(", ");
-    return `        NativeSurfaceDefinition(id: "${swift(surface.id)}", purpose: "${swift(surface.purpose)}", presentation: "${swift(surface.presentation)}", states: [${states}])`;
+    const ux = uxScreens.get(surface.id);
+    const roles = (ux?.componentRoles || []).map(role => `"${swift(role)}"`).join(", ");
+    return `        NativeSurfaceDefinition(id: "${swift(surface.id)}", titleKey: "${swift(ux?.titleKey)}", purposeKey: "${swift(ux?.purposeKey)}", presentation: "${swift(surface.presentation)}", states: [${states}], componentRoles: [${roles}])`;
   }).join(",\n");
-  const tokens = Object.entries(manifest.design.tokens)
+  const tokens = Object.entries(manifest.uxSpecification.design.tokens)
     .map(([key, value]) => `"${swift(key)}": "${swift(value)}"`)
     .join(", ");
   const surfaceContracts = manifest.design.surfaceContracts.map(contract => {
@@ -117,9 +120,11 @@ struct NativeTabDefinition: Identifiable, Hashable {
 
 struct NativeSurfaceDefinition: Identifiable, Hashable {
     let id: String
-    let purpose: String
+    let titleKey: String
+    let purposeKey: String
     let presentation: String
     let states: [String]
+    let componentRoles: [String]
 }
 
 struct NativeDesignDefinition: Hashable {
@@ -540,6 +545,8 @@ mkdirSync(join(APP, "Generated"), { recursive: true });
 writeFileSync(join(OUT, "Info.plist"), infoPlist);
 writeFileSync(join(OUT, `${AppName}.entitlements`), entitlementsPlist);
 writeFileSync(join(OUT, "native-manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
+writeFileSync(join(OUT, "product-contract.json"), JSON.stringify(manifest.product.contract, null, 2) + "\n");
+writeFileSync(join(OUT, "ux-specification.json"), JSON.stringify(manifest.uxSpecification, null, 2) + "\n");
 writeFileSync(join(OUT, "design-contract.json"), JSON.stringify({
   qualityFloor: manifest.design.qualityFloor,
   strategy: manifest.design.strategy,

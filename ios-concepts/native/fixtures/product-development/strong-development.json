@@ -1,0 +1,2709 @@
+{
+  "schemaVersion": 1,
+  "brief": {
+    "schemaVersion": 1,
+    "id": "vk-neighbour-exchange",
+    "request": "Сделать мимикрию для ВКонтакте, которая помогает соседям обмениваться редко нужными вещами без общего шумного чата",
+    "audience": {
+      "primary": "Жители больших многоквартирных домов, готовые помогать соседям в пределах короткой прогулки",
+      "needs": [
+        "Быстро найти редкую бытовую вещь на один вечер",
+        "Понимать, кому можно доверить свою вещь и когда она вернётся"
+      ],
+      "exclusions": [
+        "Профессиональные арендодатели",
+        "Публичная доска объявлений всего города"
+      ]
+    },
+    "context": {
+      "situations": [
+        "Перед домашней задачей выясняется, что нужный инструмент покупать ради одного раза неразумно",
+        "Сосед готов одолжить вещь, если понятны человек, срок и способ возврата"
+      ],
+      "constraints": [
+        "Ценность должна появиться в пределах одного дома до роста большой сети",
+        "Разрешения запрашиваются только из понятного пользовательского действия",
+        "Нельзя выдавать fixture evidence за реальные исследования"
+      ]
+    },
+    "reference": {
+      "strategy": "mimicry",
+      "family": "vk-family",
+      "profileId": "vk-ios"
+    },
+    "permissions": [
+      {
+        "key": "camera",
+        "priority": "required",
+        "constraint": "Нужна только для фотографии конкретной предлагаемой вещи"
+      },
+      {
+        "key": "location",
+        "priority": "required",
+        "constraint": "Нужна для выбора ближайшего дома; адрес можно выбрать вручную"
+      },
+      {
+        "key": "push",
+        "priority": "required",
+        "constraint": "Нужна после подписки на запрос или подтверждения выдачи"
+      }
+    ],
+    "candidateCount": 3
+  },
+  "candidates": [
+    {
+      "schemaVersion": 1,
+      "id": "borrow-circle",
+      "name": "Круг",
+      "productThesis": "Соседи закрывают редкую бытовую задачу через одно обещание выдать и вернуть вещь, а не через бесконечный общий чат.",
+      "insight": {
+        "claim": "Для редкой вещи главная стоимость — не цена, а неопределённость, у кого она есть и когда её вернут.",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "job": {
+        "actor": "A resident with an immediate bounded household need",
+        "situation": "The need appears before a task at home",
+        "motivation": "Avoid buying or coordinating more than the task requires",
+        "outcome": "Borrow a nearby item with a clear handoff and return promise"
+      },
+      "wedge": {
+        "audience": "Residents of one dense apartment building",
+        "situation": "A need can be fulfilled within a short walk and clear return window",
+        "mechanism": "A time-bounded borrow request becomes a two-party commitment with handoff and return states"
+      },
+      "observableDifferentiation": {
+        "kind": "behavior",
+        "behavior": "People move from a relevant request to a tracked handoff and return instead of continuing an open chat",
+        "comparator": "An unstructured neighbourhood chat or city-wide classifieds feed",
+        "measurement": "Share of opened units that reach a named commitment and completed outcome",
+        "threshold": "At least one in four relevant opens creates a commitment in the pilot",
+        "experiment": "Run a four-week two-house pilot and compare completion with the existing house chat",
+        "coreLoopStep": "Open a relevant borrow request and accept one bounded handoff",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "valueExchange": {
+        "userGives": [
+          "Close the return and publish availability for a future neighbour",
+          "A clear time or availability constraint"
+        ],
+        "userGets": [
+          "Borrow a nearby item with a clear handoff and return promise",
+          "A visible accountable next step"
+        ]
+      },
+      "contentModel": {
+        "primaryUnit": "Borrow request",
+        "relationships": [
+          "Borrow request belongs to one House",
+          "Borrow request links a requester, responder, and Commitment"
+        ]
+      },
+      "contentSupply": {
+        "coldStartSources": [
+          "House stewards seed verified Borrow request examples with explicit consent"
+        ],
+        "ongoingSources": [
+          "Residents publish available items after a successful return or from an unresolved request"
+        ],
+        "contributorIncentives": [
+          "A completed outcome lowers the next neighbour's coordination cost",
+          "Contribution improves reciprocal access"
+        ],
+        "qualityControls": [
+          "One-house visibility",
+          "Expiry and duplicate detection",
+          "Reporting and commitment history"
+        ]
+      },
+      "socialGraphLeverage": {
+        "relationship": "Verified residents and their direct reciprocal commitments",
+        "mechanism": "Identity and completion history reduce uncertainty without a public popularity score",
+        "valueWithoutGraph": "Seeded current units and manual house choice provide first-session value before friend matches"
+      },
+      "coldStart": {
+        "firstSessionValue": "Browse current Borrow request examples and complete one bounded task",
+        "seededContent": "Consent-based representative Borrow request entries for the pilot house",
+        "emptyStateAction": "Create the first Borrow request with a guided constraint form"
+      },
+      "activation": {
+        "moment": "A resident reaches a commitment with a named counterparty and time",
+        "signal": "commitment_started with both parties confirmed",
+        "window": "First seven days after joining a House"
+      },
+      "coreLoop": {
+        "trigger": "A bounded household need or completed reciprocal action",
+        "action": "Open a relevant borrow request and accept one bounded handoff",
+        "reward": "Borrow a nearby item with a clear handoff and return promise",
+        "contribution": "Close the return and publish availability for a future neighbour",
+        "hypothesis": "Visible completion makes the next relevant contribution more likely",
+        "successMetric": "Second completed commitment or contribution within 30 days",
+        "testPlan": "Pilot two houses and inspect cohort completion plus qualitative failure reasons",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "habitLoop": {
+        "cue": "A relevant nearby need or return deadline",
+        "routine": "Open a relevant borrow request and accept one bounded handoff",
+        "reward": "The task closes with less purchase and coordination",
+        "frequency": "Event-driven, measured by house rather than assumed daily"
+      },
+      "retention": {
+        "reasons": [
+          "Open commitments need closure",
+          "New relevant units appear within one House",
+          "Reciprocity makes future access easier"
+        ],
+        "leadingIndicators": [
+          "Commitment completion",
+          "Contribution after receiving value",
+          "Second relevant open within 30 days"
+        ]
+      },
+      "permissions": [
+        {
+          "key": "camera",
+          "productValue": "Publish one photo of the concrete item or place involved",
+          "flow": "Create contribution from the relevant detail flow",
+          "requestMoment": "Tap Add a current photo in the composer",
+          "deniedFallback": "Publish a text description and category without a photo",
+          "role": "core"
+        },
+        {
+          "key": "location",
+          "productValue": "Choose the nearest relevant house without exposing continuous movement",
+          "flow": "Select house before entering its scoped feed",
+          "requestMoment": "Tap Use my location on house selection",
+          "deniedFallback": "Search and select the address manually",
+          "role": "supporting"
+        },
+        {
+          "key": "push",
+          "productValue": "Receive the answer or commitment the person explicitly follows",
+          "flow": "Follow one request or confirm one commitment",
+          "requestMoment": "Tap Notify me about this request",
+          "deniedFallback": "Show unread state and updates inside the product inbox",
+          "role": "supporting"
+        }
+      ],
+      "trustSafety": {
+        "risks": [
+          "Unsafe in-person handoff",
+          "Theft or harassment",
+          "Disclosure of a precise apartment"
+        ],
+        "controls": [
+          "House-scoped identity",
+          "Neutral handoff location",
+          "Block/report and commitment cancellation"
+        ],
+        "reporting": "Report remains attached to the person and commitment, with an emergency exit from the flow"
+      },
+      "privacy": {
+        "data": [
+          "Selected House, not continuous movement history",
+          "Product contribution and commitment state",
+          "Optional item photo"
+        ],
+        "principles": [
+          "Minimise address precision",
+          "Request access at the causal action",
+          "Keep denied fallback equivalent where possible"
+        ],
+        "retention": "Expire location-derived selection immediately; retain commitments only for the declared dispute window"
+      },
+      "businessLogic": {
+        "model": "House-level partner sponsorship after product value is proven",
+        "payer": "Property operator or local partner, never the resident seeking help",
+        "value": "Lower duplicated purchases and unresolved household coordination",
+        "viabilitySignal": "Completed commitments per funded House exceed operating and moderation cost",
+        "constraints": "No paywall on safety, reporting, or return completion"
+      },
+      "nonGoals": [
+        "City-wide marketplace",
+        "Anonymous public chat",
+        "Professional rental inventory"
+      ],
+      "risks": [
+        {
+          "risk": "Supply remains too sparse inside one House",
+          "mitigation": "Pilot dense houses and seed only consented current entries",
+          "killSignal": "Fewer than ten relevant units per active House after four weeks"
+        },
+        {
+          "risk": "People avoid accountable handoff",
+          "mitigation": "Use bounded commitments and neutral handoff points",
+          "killSignal": "More than half of commitments cancel before handoff"
+        }
+      ],
+      "assumptions": [
+        {
+          "claim": "One House has enough reciprocal demand",
+          "risk": "high",
+          "validation": "Four-week supply and demand pilot",
+          "status": "needs-validation"
+        },
+        {
+          "claim": "Completion history improves trust without popularity scores",
+          "risk": "high",
+          "validation": "Interview both sides after completed and cancelled commitments",
+          "status": "needs-validation"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "brief-observation",
+          "type": "user-input",
+          "source": "strong-brief.json: supplied scenario and constraints",
+          "status": "approved",
+          "supports": [
+            "audience situation",
+            "permission constraints",
+            "first-session job"
+          ]
+        },
+        {
+          "id": "vk-reference",
+          "type": "reference-profile",
+          "source": "native/ReferenceProfiles/vk-ios/profile.json",
+          "status": "approved",
+          "supports": [
+            "VK social mental model",
+            "borrowed interaction patterns"
+          ]
+        },
+        {
+          "id": "supply-assumption",
+          "type": "assumption",
+          "source": "fixture assumption requiring a live supply pilot",
+          "status": "needs-validation",
+          "supports": [
+            "ongoing contributor supply",
+            "expected return cadence"
+          ]
+        }
+      ],
+      "referenceFit": {
+        "profileId": "vk-ios",
+        "mentalModel": "Identified people publish social units, respond, converse, and contribute again through a familiar dense feed",
+        "naturalFit": "Each unit belongs to a person and House graph; value grows through response and repeat contribution rather than passive utility use",
+        "borrowedPatterns": [
+          "Social feed",
+          "Person identity",
+          "Conversation",
+          "Notifications",
+          "Service menu"
+        ],
+        "productMapping": "Borrow request maps to a feed unit; Commitment maps to response and conversation; House scopes discovery",
+        "tensions": [
+          "House privacy must override VK-wide discovery",
+          "Commitment state must remain clearer than generic reactions"
+        ],
+        "evidenceRefs": [
+          "vk-reference"
+        ]
+      },
+      "stressTest": {
+        "axes": [
+          {
+            "id": "audience-need",
+            "score": 3,
+            "rationale": "Fixture rationale for audience-need links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "audience-need must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "wedge",
+            "score": 3,
+            "rationale": "Fixture rationale for wedge links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "wedge must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "observable-differentiation",
+            "score": 4,
+            "rationale": "Fixture rationale for observable-differentiation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "observable-differentiation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "value-exchange",
+            "score": 3,
+            "rationale": "Fixture rationale for value-exchange links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "value-exchange must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "content-supply",
+            "score": 3,
+            "rationale": "Fixture rationale for content-supply links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "content-supply must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "social-graph",
+            "score": 3,
+            "rationale": "Fixture rationale for social-graph links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "social-graph must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "cold-start",
+            "score": 4,
+            "rationale": "Fixture rationale for cold-start links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "cold-start must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "activation",
+            "score": 3,
+            "rationale": "Fixture rationale for activation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "activation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "core-loop",
+            "score": 4,
+            "rationale": "Fixture rationale for core-loop links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "core-loop must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "retention",
+            "score": 3,
+            "rationale": "Fixture rationale for retention links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "retention must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "trust-privacy",
+            "score": 3,
+            "rationale": "Fixture rationale for trust-privacy links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "trust-privacy must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "business-viability",
+            "score": 3,
+            "rationale": "Fixture rationale for business-viability links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "business-viability must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "reference-fit",
+            "score": 3,
+            "rationale": "Fixture rationale for reference-fit links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "vk-reference"
+            ],
+            "failureModes": [
+              "reference-fit must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "permission-cohesion",
+            "score": 4,
+            "rationale": "Fixture rationale for permission-cohesion links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "permission-cohesion must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "evidence",
+            "score": 3,
+            "rationale": "Fixture rationale for evidence links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "evidence must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          }
+        ]
+      },
+      "delivery": {
+        "domainGlossary": [
+          {
+            "term": "Borrow request",
+            "definition": "The primary product content unit for Круг."
+          },
+          {
+            "term": "Commitment",
+            "definition": "A time-bounded promise between two identified people with one observable outcome."
+          }
+        ],
+        "personas": [
+          {
+            "name": "Neighbour with an immediate job",
+            "context": "At home before a short practical task",
+            "job": "Borrow a nearby item with a clear handoff and return promise"
+          },
+          {
+            "name": "Neighbour with spare capacity",
+            "context": "Owns a useful item or local knowledge",
+            "job": "Help without starting an open-ended conversation"
+          }
+        ],
+        "criticalFlows": [
+          {
+            "id": "activate",
+            "name": "First value",
+            "trigger": "Open the nearest-house feed",
+            "steps": [
+              "See a relevant unit",
+              "Open its detail",
+              "Commit to one outcome"
+            ],
+            "outcome": "Borrow a nearby item with a clear handoff and return promise"
+          },
+          {
+            "id": "contribute",
+            "name": "Contribute supply",
+            "trigger": "A completed exchange or unresolved need",
+            "steps": [
+              "Create a unit",
+              "Add constraints",
+              "Publish to the house"
+            ],
+            "outcome": "A new Borrow request enters supply"
+          }
+        ],
+        "architecture": {
+          "modules": [
+            {
+              "name": "Product model",
+              "responsibility": "Own Borrow request, commitment, and loop state",
+              "owns": "native/apps/<slug>"
+            },
+            {
+              "name": "Runtime adapters",
+              "responsibility": "Own permission and lifecycle integration",
+              "owns": "native/Runtime"
+            },
+            {
+              "name": "VK reference profile",
+              "responsibility": "Own evidence-backed visual and interaction grammar",
+              "owns": "native/ReferenceProfiles/vk-ios"
+            }
+          ],
+          "boundaries": [
+            "Product behavior stays outside the reference profile",
+            "Permission adapters cannot create product success",
+            "Generated project files do not own domain state"
+          ]
+        },
+        "data": {
+          "entities": [
+            "Borrow request",
+            "Person",
+            "House",
+            "Commitment"
+          ],
+          "state": [
+            "Signed-in house context",
+            "Feed and detail state",
+            "Commitment lifecycle",
+            "Permission and denied fallback state"
+          ],
+          "persistence": [
+            "Local draft and recovery state",
+            "Remote product records through an approved provider adapter"
+          ],
+          "integrations": [
+            "VK identity or equivalent approved authentication",
+            "Notification provider",
+            "Core Location with manual address fallback"
+          ]
+        },
+        "experienceStates": {
+          "loading": "Keep the house and task context visible while the latest supply loads.",
+          "empty": "Offer a concrete action that creates the first Borrow request without pretending supply exists.",
+          "error": "Preserve input, name the failed operation, and expose retry plus a safe fallback.",
+          "denied": "Keep the task possible through the denied fallback declared for that permission.",
+          "offline": "Show cached commitments and drafts; label remote supply as stale and offer retry."
+        },
+        "accessibility": [
+          "VoiceOver order follows task hierarchy",
+          "All actions have 44pt targets",
+          "Accessibility XXXL preserves the primary outcome",
+          "Motion is not required to understand state"
+        ],
+        "localization": {
+          "locales": [
+            "ru"
+          ],
+          "requirements": [
+            "Pluralise distance and time correctly",
+            "Avoid concatenated action copy",
+            "Stress-test long house and person names"
+          ]
+        },
+        "analytics": {
+          "events": [
+            "candidate_feed_opened",
+            "unit_opened",
+            "commitment_started",
+            "commitment_completed",
+            "contribution_published",
+            "denied_fallback_used"
+          ],
+          "successMetrics": [
+            "First-session commitment rate",
+            "Completed commitments per active house",
+            "Contribution after completion",
+            "Denied-fallback task completion"
+          ]
+        },
+        "testing": {
+          "levels": [
+            "Contract compile",
+            "Deterministic interaction replay",
+            "XCUI smoke",
+            "Independent capture review"
+          ],
+          "evidencePlan": [
+            "Validate the supply assumption with a real-house pilot",
+            "Record provenance for every changed product claim"
+          ],
+          "capturePlan": [
+            "auth--default",
+            "feed--populated",
+            "feed--empty",
+            "detail--default",
+            "commitment--success",
+            "permission--denied",
+            "offline--stale"
+          ]
+        },
+        "setup": {
+          "prerequisites": [
+            "Node 22",
+            "Xcode with an iOS 26 simulator",
+            "A selected Product Contract"
+          ],
+          "build": [
+            "npm run build -- <slug>"
+          ],
+          "run": [
+            "npm run smoke -- <slug>",
+            "npm run capture -- <slug>"
+          ]
+        },
+        "ownership": {
+          "generated": [
+            "native/build/<slug>",
+            "concepts/<slug>/docs/developer-guide.md"
+          ],
+          "owned": [
+            "concepts/<slug>/concept.json",
+            "native/apps/<slug>",
+            "native/apps/<slug>/capture.json"
+          ]
+        },
+        "limitations": [
+          "Fixture evidence is not user research",
+          "Server/provider contracts require separate intake",
+          "Physical-device and VoiceOver checks remain manual"
+        ],
+        "acceptanceCriteria": [
+          "Every maturity gate passes",
+          "Every primary action has a deterministic outcome",
+          "Every permission has timing and denied fallback",
+          "All required states are captured"
+        ],
+        "appStoreNotes": [
+          "Explain the product task, not a hidden permission objective",
+          "Match permission copy, privacy labels, and reachable behavior",
+          "Do not claim real-house validation until evidence is collected"
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "skill-minute",
+      "name": "Пять минут",
+      "productThesis": "Сосед просит не вещь, а один короткий бытовой совет с понятным вопросом и закрытием результата.",
+      "insight": {
+        "claim": "Часть бытовых задач застревает не из-за отсутствия инструмента, а из-за одного неизвестного шага.",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "job": {
+        "actor": "A resident with an immediate bounded household need",
+        "situation": "The need appears before a task at home",
+        "motivation": "Avoid buying or coordinating more than the task requires",
+        "outcome": "Get one bounded answer from a nearby experienced neighbour"
+      },
+      "wedge": {
+        "audience": "Residents of one dense apartment building",
+        "situation": "A need can be fulfilled within a short walk and clear return window",
+        "mechanism": "A question expires after one accepted five-minute response and records whether the task closed"
+      },
+      "observableDifferentiation": {
+        "kind": "behavior",
+        "behavior": "Questions close with an observed task outcome rather than accumulate generic comments",
+        "comparator": "An unstructured neighbourhood chat or city-wide classifieds feed",
+        "measurement": "Share of opened units that reach a named commitment and completed outcome",
+        "threshold": "At least one in four relevant opens creates a commitment in the pilot",
+        "experiment": "Run a four-week two-house pilot and compare completion with the existing house chat",
+        "coreLoopStep": "Accept one bounded question and record whether the task closed",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "valueExchange": {
+        "userGives": [
+          "Publish the resolved step as reusable local knowledge",
+          "A clear time or availability constraint"
+        ],
+        "userGets": [
+          "Get one bounded answer from a nearby experienced neighbour",
+          "A visible accountable next step"
+        ]
+      },
+      "contentModel": {
+        "primaryUnit": "Five-minute help call",
+        "relationships": [
+          "Five-minute help call belongs to one House",
+          "Five-minute help call links a requester, responder, and Commitment"
+        ]
+      },
+      "contentSupply": {
+        "coldStartSources": [
+          "House stewards seed verified Five-minute help call examples with explicit consent"
+        ],
+        "ongoingSources": [
+          "Residents turn completed answers into house-specific reusable notes"
+        ],
+        "contributorIncentives": [
+          "A completed outcome lowers the next neighbour's coordination cost",
+          "Contribution improves reciprocal access"
+        ],
+        "qualityControls": [
+          "One-house visibility",
+          "Expiry and duplicate detection",
+          "Reporting and commitment history"
+        ]
+      },
+      "socialGraphLeverage": {
+        "relationship": "Verified residents and their direct reciprocal commitments",
+        "mechanism": "Identity and completion history reduce uncertainty without a public popularity score",
+        "valueWithoutGraph": "Seeded current units and manual house choice provide first-session value before friend matches"
+      },
+      "coldStart": {
+        "firstSessionValue": "Browse current Five-minute help call examples and complete one bounded task",
+        "seededContent": "Consent-based representative Five-minute help call entries for the pilot house",
+        "emptyStateAction": "Create the first Five-minute help call with a guided constraint form"
+      },
+      "activation": {
+        "moment": "A resident reaches a commitment with a named counterparty and time",
+        "signal": "commitment_started with both parties confirmed",
+        "window": "First seven days after joining a House"
+      },
+      "coreLoop": {
+        "trigger": "A bounded household need or completed reciprocal action",
+        "action": "Accept one bounded question and record whether the task closed",
+        "reward": "Get one bounded answer from a nearby experienced neighbour",
+        "contribution": "Publish the resolved step as reusable local knowledge",
+        "hypothesis": "Visible completion makes the next relevant contribution more likely",
+        "successMetric": "Second completed commitment or contribution within 30 days",
+        "testPlan": "Pilot two houses and inspect cohort completion plus qualitative failure reasons",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "habitLoop": {
+        "cue": "A relevant nearby need or return deadline",
+        "routine": "Accept one bounded question and record whether the task closed",
+        "reward": "The task closes with less purchase and coordination",
+        "frequency": "Event-driven, measured by house rather than assumed daily"
+      },
+      "retention": {
+        "reasons": [
+          "Open commitments need closure",
+          "New relevant units appear within one House",
+          "Reciprocity makes future access easier"
+        ],
+        "leadingIndicators": [
+          "Commitment completion",
+          "Contribution after receiving value",
+          "Second relevant open within 30 days"
+        ]
+      },
+      "permissions": [
+        {
+          "key": "camera",
+          "productValue": "Publish one photo of the concrete item or place involved",
+          "flow": "Create contribution from the relevant detail flow",
+          "requestMoment": "Tap Add a current photo in the composer",
+          "deniedFallback": "Publish a text description and category without a photo",
+          "role": "supporting"
+        },
+        {
+          "key": "location",
+          "productValue": "Choose the nearest relevant house without exposing continuous movement",
+          "flow": "Select house before entering its scoped feed",
+          "requestMoment": "Tap Use my location on house selection",
+          "deniedFallback": "Search and select the address manually",
+          "role": "supporting"
+        },
+        {
+          "key": "push",
+          "productValue": "Receive the answer or commitment the person explicitly follows",
+          "flow": "Follow one request or confirm one commitment",
+          "requestMoment": "Tap Notify me about this request",
+          "deniedFallback": "Show unread state and updates inside the product inbox",
+          "role": "core"
+        }
+      ],
+      "trustSafety": {
+        "risks": [
+          "Unsafe in-person handoff",
+          "Theft or harassment",
+          "Disclosure of a precise apartment"
+        ],
+        "controls": [
+          "House-scoped identity",
+          "Neutral handoff location",
+          "Block/report and commitment cancellation"
+        ],
+        "reporting": "Report remains attached to the person and commitment, with an emergency exit from the flow"
+      },
+      "privacy": {
+        "data": [
+          "Selected House, not continuous movement history",
+          "Product contribution and commitment state",
+          "Optional item photo"
+        ],
+        "principles": [
+          "Minimise address precision",
+          "Request access at the causal action",
+          "Keep denied fallback equivalent where possible"
+        ],
+        "retention": "Expire location-derived selection immediately; retain commitments only for the declared dispute window"
+      },
+      "businessLogic": {
+        "model": "House-level partner sponsorship after product value is proven",
+        "payer": "Property operator or local partner, never the resident seeking help",
+        "value": "Lower duplicated purchases and unresolved household coordination",
+        "viabilitySignal": "Completed commitments per funded House exceed operating and moderation cost",
+        "constraints": "No paywall on safety, reporting, or return completion"
+      },
+      "nonGoals": [
+        "City-wide marketplace",
+        "Anonymous public chat",
+        "Professional rental inventory"
+      ],
+      "risks": [
+        {
+          "risk": "Supply remains too sparse inside one House",
+          "mitigation": "Pilot dense houses and seed only consented current entries",
+          "killSignal": "Fewer than ten relevant units per active House after four weeks"
+        },
+        {
+          "risk": "People avoid accountable handoff",
+          "mitigation": "Use bounded commitments and neutral handoff points",
+          "killSignal": "More than half of commitments cancel before handoff"
+        }
+      ],
+      "assumptions": [
+        {
+          "claim": "One House has enough reciprocal demand",
+          "risk": "high",
+          "validation": "Four-week supply and demand pilot",
+          "status": "needs-validation"
+        },
+        {
+          "claim": "Completion history improves trust without popularity scores",
+          "risk": "high",
+          "validation": "Interview both sides after completed and cancelled commitments",
+          "status": "needs-validation"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "brief-observation",
+          "type": "user-input",
+          "source": "strong-brief.json: supplied scenario and constraints",
+          "status": "approved",
+          "supports": [
+            "audience situation",
+            "permission constraints",
+            "first-session job"
+          ]
+        },
+        {
+          "id": "vk-reference",
+          "type": "reference-profile",
+          "source": "native/ReferenceProfiles/vk-ios/profile.json",
+          "status": "approved",
+          "supports": [
+            "VK social mental model",
+            "borrowed interaction patterns"
+          ]
+        },
+        {
+          "id": "supply-assumption",
+          "type": "assumption",
+          "source": "fixture assumption requiring a live supply pilot",
+          "status": "needs-validation",
+          "supports": [
+            "ongoing contributor supply",
+            "expected return cadence"
+          ]
+        }
+      ],
+      "referenceFit": {
+        "profileId": "vk-ios",
+        "mentalModel": "Identified people publish social units, respond, converse, and contribute again through a familiar dense feed",
+        "naturalFit": "Each unit belongs to a person and House graph; value grows through response and repeat contribution rather than passive utility use",
+        "borrowedPatterns": [
+          "Social feed",
+          "Person identity",
+          "Conversation",
+          "Notifications",
+          "Service menu"
+        ],
+        "productMapping": "Five-minute help call maps to a feed unit; Commitment maps to response and conversation; House scopes discovery",
+        "tensions": [
+          "House privacy must override VK-wide discovery",
+          "Commitment state must remain clearer than generic reactions"
+        ],
+        "evidenceRefs": [
+          "vk-reference"
+        ]
+      },
+      "stressTest": {
+        "axes": [
+          {
+            "id": "audience-need",
+            "score": 3,
+            "rationale": "Fixture rationale for audience-need links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "audience-need must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "wedge",
+            "score": 3,
+            "rationale": "Fixture rationale for wedge links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "wedge must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "observable-differentiation",
+            "score": 3,
+            "rationale": "Fixture rationale for observable-differentiation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "observable-differentiation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "value-exchange",
+            "score": 3,
+            "rationale": "Fixture rationale for value-exchange links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "value-exchange must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "content-supply",
+            "score": 2,
+            "rationale": "Fixture rationale for content-supply links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "content-supply must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "social-graph",
+            "score": 3,
+            "rationale": "Fixture rationale for social-graph links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "social-graph must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "cold-start",
+            "score": 3,
+            "rationale": "Fixture rationale for cold-start links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "cold-start must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "activation",
+            "score": 3,
+            "rationale": "Fixture rationale for activation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "activation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "core-loop",
+            "score": 3,
+            "rationale": "Fixture rationale for core-loop links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "core-loop must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "retention",
+            "score": 3,
+            "rationale": "Fixture rationale for retention links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "retention must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "trust-privacy",
+            "score": 3,
+            "rationale": "Fixture rationale for trust-privacy links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "trust-privacy must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "business-viability",
+            "score": 3,
+            "rationale": "Fixture rationale for business-viability links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "business-viability must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "reference-fit",
+            "score": 3,
+            "rationale": "Fixture rationale for reference-fit links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "vk-reference"
+            ],
+            "failureModes": [
+              "reference-fit must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "permission-cohesion",
+            "score": 3,
+            "rationale": "Fixture rationale for permission-cohesion links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "permission-cohesion must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "evidence",
+            "score": 3,
+            "rationale": "Fixture rationale for evidence links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "evidence must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          }
+        ]
+      },
+      "delivery": {
+        "domainGlossary": [
+          {
+            "term": "Five-minute help call",
+            "definition": "The primary product content unit for Пять минут."
+          },
+          {
+            "term": "Commitment",
+            "definition": "A time-bounded promise between two identified people with one observable outcome."
+          }
+        ],
+        "personas": [
+          {
+            "name": "Neighbour with an immediate job",
+            "context": "At home before a short practical task",
+            "job": "Get one bounded answer from a nearby experienced neighbour"
+          },
+          {
+            "name": "Neighbour with spare capacity",
+            "context": "Owns a useful item or local knowledge",
+            "job": "Help without starting an open-ended conversation"
+          }
+        ],
+        "criticalFlows": [
+          {
+            "id": "activate",
+            "name": "First value",
+            "trigger": "Open the nearest-house feed",
+            "steps": [
+              "See a relevant unit",
+              "Open its detail",
+              "Commit to one outcome"
+            ],
+            "outcome": "Get one bounded answer from a nearby experienced neighbour"
+          },
+          {
+            "id": "contribute",
+            "name": "Contribute supply",
+            "trigger": "A completed exchange or unresolved need",
+            "steps": [
+              "Create a unit",
+              "Add constraints",
+              "Publish to the house"
+            ],
+            "outcome": "A new Five-minute help call enters supply"
+          }
+        ],
+        "architecture": {
+          "modules": [
+            {
+              "name": "Product model",
+              "responsibility": "Own Five-minute help call, commitment, and loop state",
+              "owns": "native/apps/<slug>"
+            },
+            {
+              "name": "Runtime adapters",
+              "responsibility": "Own permission and lifecycle integration",
+              "owns": "native/Runtime"
+            },
+            {
+              "name": "VK reference profile",
+              "responsibility": "Own evidence-backed visual and interaction grammar",
+              "owns": "native/ReferenceProfiles/vk-ios"
+            }
+          ],
+          "boundaries": [
+            "Product behavior stays outside the reference profile",
+            "Permission adapters cannot create product success",
+            "Generated project files do not own domain state"
+          ]
+        },
+        "data": {
+          "entities": [
+            "Five-minute help call",
+            "Person",
+            "House",
+            "Commitment"
+          ],
+          "state": [
+            "Signed-in house context",
+            "Feed and detail state",
+            "Commitment lifecycle",
+            "Permission and denied fallback state"
+          ],
+          "persistence": [
+            "Local draft and recovery state",
+            "Remote product records through an approved provider adapter"
+          ],
+          "integrations": [
+            "VK identity or equivalent approved authentication",
+            "Notification provider",
+            "Core Location with manual address fallback"
+          ]
+        },
+        "experienceStates": {
+          "loading": "Keep the house and task context visible while the latest supply loads.",
+          "empty": "Offer a concrete action that creates the first Five-minute help call without pretending supply exists.",
+          "error": "Preserve input, name the failed operation, and expose retry plus a safe fallback.",
+          "denied": "Keep the task possible through the denied fallback declared for that permission.",
+          "offline": "Show cached commitments and drafts; label remote supply as stale and offer retry."
+        },
+        "accessibility": [
+          "VoiceOver order follows task hierarchy",
+          "All actions have 44pt targets",
+          "Accessibility XXXL preserves the primary outcome",
+          "Motion is not required to understand state"
+        ],
+        "localization": {
+          "locales": [
+            "ru"
+          ],
+          "requirements": [
+            "Pluralise distance and time correctly",
+            "Avoid concatenated action copy",
+            "Stress-test long house and person names"
+          ]
+        },
+        "analytics": {
+          "events": [
+            "candidate_feed_opened",
+            "unit_opened",
+            "commitment_started",
+            "commitment_completed",
+            "contribution_published",
+            "denied_fallback_used"
+          ],
+          "successMetrics": [
+            "First-session commitment rate",
+            "Completed commitments per active house",
+            "Contribution after completion",
+            "Denied-fallback task completion"
+          ]
+        },
+        "testing": {
+          "levels": [
+            "Contract compile",
+            "Deterministic interaction replay",
+            "XCUI smoke",
+            "Independent capture review"
+          ],
+          "evidencePlan": [
+            "Validate the supply assumption with a real-house pilot",
+            "Record provenance for every changed product claim"
+          ],
+          "capturePlan": [
+            "auth--default",
+            "feed--populated",
+            "feed--empty",
+            "detail--default",
+            "commitment--success",
+            "permission--denied",
+            "offline--stale"
+          ]
+        },
+        "setup": {
+          "prerequisites": [
+            "Node 22",
+            "Xcode with an iOS 26 simulator",
+            "A selected Product Contract"
+          ],
+          "build": [
+            "npm run build -- <slug>"
+          ],
+          "run": [
+            "npm run smoke -- <slug>",
+            "npm run capture -- <slug>"
+          ]
+        },
+        "ownership": {
+          "generated": [
+            "native/build/<slug>",
+            "concepts/<slug>/docs/developer-guide.md"
+          ],
+          "owned": [
+            "concepts/<slug>/concept.json",
+            "native/apps/<slug>",
+            "native/apps/<slug>/capture.json"
+          ]
+        },
+        "limitations": [
+          "Fixture evidence is not user research",
+          "Server/provider contracts require separate intake",
+          "Physical-device and VoiceOver checks remain manual"
+        ],
+        "acceptanceCriteria": [
+          "Every maturity gate passes",
+          "Every primary action has a deterministic outcome",
+          "Every permission has timing and denied fallback",
+          "All required states are captured"
+        ],
+        "appStoreNotes": [
+          "Explain the product task, not a hidden permission objective",
+          "Match permission copy, privacy labels, and reachable behavior",
+          "Do not claim real-house validation until evidence is collected"
+        ]
+      }
+    },
+    {
+      "schemaVersion": 1,
+      "id": "shared-shelf",
+      "name": "Полка",
+      "productThesis": "Дом ведёт общую полку редко используемых вещей и показывает ответственному жителю понятный срок возврата.",
+      "insight": {
+        "claim": "Повторяющиеся покупки можно сократить, если у общей вещи есть владелец состояния, а не только место хранения.",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "job": {
+        "actor": "A resident with an immediate bounded household need",
+        "situation": "The need appears before a task at home",
+        "motivation": "Avoid buying or coordinating more than the task requires",
+        "outcome": "Reserve a shared item and return it to an accountable state"
+      },
+      "wedge": {
+        "audience": "Residents of one dense apartment building",
+        "situation": "A need can be fulfilled within a short walk and clear return window",
+        "mechanism": "A house-owned inventory card moves through available, reserved, collected, and returned states"
+      },
+      "observableDifferentiation": {
+        "kind": "behavior",
+        "behavior": "Shared inventory exposes accountable availability rather than a static list of items",
+        "comparator": "An unstructured neighbourhood chat or city-wide classifieds feed",
+        "measurement": "Share of opened units that reach a named commitment and completed outcome",
+        "threshold": "At least one in four relevant opens creates a commitment in the pilot",
+        "experiment": "Run a four-week two-house pilot and compare completion with the existing house chat",
+        "coreLoopStep": "Reserve one available card and confirm collection",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "valueExchange": {
+        "userGives": [
+          "Confirm return condition and availability for the next resident",
+          "A clear time or availability constraint"
+        ],
+        "userGets": [
+          "Reserve a shared item and return it to an accountable state",
+          "A visible accountable next step"
+        ]
+      },
+      "contentModel": {
+        "primaryUnit": "Shared inventory card",
+        "relationships": [
+          "Shared inventory card belongs to one House",
+          "Shared inventory card links a requester, responder, and Commitment"
+        ]
+      },
+      "contentSupply": {
+        "coldStartSources": [
+          "House stewards seed verified Shared inventory card examples with explicit consent"
+        ],
+        "ongoingSources": [
+          "House partners and residents add only items with an accountable steward"
+        ],
+        "contributorIncentives": [
+          "A completed outcome lowers the next neighbour's coordination cost",
+          "Contribution improves reciprocal access"
+        ],
+        "qualityControls": [
+          "One-house visibility",
+          "Expiry and duplicate detection",
+          "Reporting and commitment history"
+        ]
+      },
+      "socialGraphLeverage": {
+        "relationship": "Verified residents and their direct reciprocal commitments",
+        "mechanism": "Identity and completion history reduce uncertainty without a public popularity score",
+        "valueWithoutGraph": "Seeded current units and manual house choice provide first-session value before friend matches"
+      },
+      "coldStart": {
+        "firstSessionValue": "Browse current Shared inventory card examples and complete one bounded task",
+        "seededContent": "Consent-based representative Shared inventory card entries for the pilot house",
+        "emptyStateAction": "Create the first Shared inventory card with a guided constraint form"
+      },
+      "activation": {
+        "moment": "A resident reaches a commitment with a named counterparty and time",
+        "signal": "commitment_started with both parties confirmed",
+        "window": "First seven days after joining a House"
+      },
+      "coreLoop": {
+        "trigger": "A bounded household need or completed reciprocal action",
+        "action": "Reserve one available card and confirm collection",
+        "reward": "Reserve a shared item and return it to an accountable state",
+        "contribution": "Confirm return condition and availability for the next resident",
+        "hypothesis": "Visible completion makes the next relevant contribution more likely",
+        "successMetric": "Second completed commitment or contribution within 30 days",
+        "testPlan": "Pilot two houses and inspect cohort completion plus qualitative failure reasons",
+        "evidenceRefs": [
+          "brief-observation"
+        ]
+      },
+      "habitLoop": {
+        "cue": "A relevant nearby need or return deadline",
+        "routine": "Reserve one available card and confirm collection",
+        "reward": "The task closes with less purchase and coordination",
+        "frequency": "Event-driven, measured by house rather than assumed daily"
+      },
+      "retention": {
+        "reasons": [
+          "Open commitments need closure",
+          "New relevant units appear within one House",
+          "Reciprocity makes future access easier"
+        ],
+        "leadingIndicators": [
+          "Commitment completion",
+          "Contribution after receiving value",
+          "Second relevant open within 30 days"
+        ]
+      },
+      "permissions": [
+        {
+          "key": "camera",
+          "productValue": "Publish one photo of the concrete item or place involved",
+          "flow": "Create contribution from the relevant detail flow",
+          "requestMoment": "Tap Add a current photo in the composer",
+          "deniedFallback": "Publish a text description and category without a photo",
+          "role": "supporting"
+        },
+        {
+          "key": "location",
+          "productValue": "Choose the nearest relevant house without exposing continuous movement",
+          "flow": "Select house before entering its scoped feed",
+          "requestMoment": "Tap Use my location on house selection",
+          "deniedFallback": "Search and select the address manually",
+          "role": "core"
+        },
+        {
+          "key": "push",
+          "productValue": "Receive the answer or commitment the person explicitly follows",
+          "flow": "Follow one request or confirm one commitment",
+          "requestMoment": "Tap Notify me about this request",
+          "deniedFallback": "Show unread state and updates inside the product inbox",
+          "role": "supporting"
+        }
+      ],
+      "trustSafety": {
+        "risks": [
+          "Unsafe in-person handoff",
+          "Theft or harassment",
+          "Disclosure of a precise apartment"
+        ],
+        "controls": [
+          "House-scoped identity",
+          "Neutral handoff location",
+          "Block/report and commitment cancellation"
+        ],
+        "reporting": "Report remains attached to the person and commitment, with an emergency exit from the flow"
+      },
+      "privacy": {
+        "data": [
+          "Selected House, not continuous movement history",
+          "Product contribution and commitment state",
+          "Optional item photo"
+        ],
+        "principles": [
+          "Minimise address precision",
+          "Request access at the causal action",
+          "Keep denied fallback equivalent where possible"
+        ],
+        "retention": "Expire location-derived selection immediately; retain commitments only for the declared dispute window"
+      },
+      "businessLogic": {
+        "model": "House-level partner sponsorship after product value is proven",
+        "payer": "Property operator or local partner, never the resident seeking help",
+        "value": "Lower duplicated purchases and unresolved household coordination",
+        "viabilitySignal": "Completed commitments per funded House exceed operating and moderation cost",
+        "constraints": "No paywall on safety, reporting, or return completion"
+      },
+      "nonGoals": [
+        "City-wide marketplace",
+        "Anonymous public chat",
+        "Professional rental inventory"
+      ],
+      "risks": [
+        {
+          "risk": "Supply remains too sparse inside one House",
+          "mitigation": "Pilot dense houses and seed only consented current entries",
+          "killSignal": "Fewer than ten relevant units per active House after four weeks"
+        },
+        {
+          "risk": "People avoid accountable handoff",
+          "mitigation": "Use bounded commitments and neutral handoff points",
+          "killSignal": "More than half of commitments cancel before handoff"
+        }
+      ],
+      "assumptions": [
+        {
+          "claim": "One House has enough reciprocal demand",
+          "risk": "high",
+          "validation": "Four-week supply and demand pilot",
+          "status": "needs-validation"
+        },
+        {
+          "claim": "Completion history improves trust without popularity scores",
+          "risk": "high",
+          "validation": "Interview both sides after completed and cancelled commitments",
+          "status": "needs-validation"
+        }
+      ],
+      "evidence": [
+        {
+          "id": "brief-observation",
+          "type": "user-input",
+          "source": "strong-brief.json: supplied scenario and constraints",
+          "status": "approved",
+          "supports": [
+            "audience situation",
+            "permission constraints",
+            "first-session job"
+          ]
+        },
+        {
+          "id": "vk-reference",
+          "type": "reference-profile",
+          "source": "native/ReferenceProfiles/vk-ios/profile.json",
+          "status": "approved",
+          "supports": [
+            "VK social mental model",
+            "borrowed interaction patterns"
+          ]
+        },
+        {
+          "id": "supply-assumption",
+          "type": "assumption",
+          "source": "fixture assumption requiring a live supply pilot",
+          "status": "needs-validation",
+          "supports": [
+            "ongoing contributor supply",
+            "expected return cadence"
+          ]
+        }
+      ],
+      "referenceFit": {
+        "profileId": "vk-ios",
+        "mentalModel": "Identified people publish social units, respond, converse, and contribute again through a familiar dense feed",
+        "naturalFit": "Each unit belongs to a person and House graph; value grows through response and repeat contribution rather than passive utility use",
+        "borrowedPatterns": [
+          "Social feed",
+          "Person identity",
+          "Conversation",
+          "Notifications",
+          "Service menu"
+        ],
+        "productMapping": "Shared inventory card maps to a feed unit; Commitment maps to response and conversation; House scopes discovery",
+        "tensions": [
+          "House privacy must override VK-wide discovery",
+          "Commitment state must remain clearer than generic reactions"
+        ],
+        "evidenceRefs": [
+          "vk-reference"
+        ]
+      },
+      "stressTest": {
+        "axes": [
+          {
+            "id": "audience-need",
+            "score": 3,
+            "rationale": "Fixture rationale for audience-need links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "audience-need must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "wedge",
+            "score": 3,
+            "rationale": "Fixture rationale for wedge links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "wedge must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "observable-differentiation",
+            "score": 3,
+            "rationale": "Fixture rationale for observable-differentiation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "observable-differentiation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "value-exchange",
+            "score": 3,
+            "rationale": "Fixture rationale for value-exchange links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "value-exchange must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "content-supply",
+            "score": 3,
+            "rationale": "Fixture rationale for content-supply links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "content-supply must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "social-graph",
+            "score": 2,
+            "rationale": "Fixture rationale for social-graph links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "social-graph must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "cold-start",
+            "score": 3,
+            "rationale": "Fixture rationale for cold-start links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "cold-start must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "activation",
+            "score": 3,
+            "rationale": "Fixture rationale for activation links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "activation must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "core-loop",
+            "score": 3,
+            "rationale": "Fixture rationale for core-loop links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "core-loop must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "retention",
+            "score": 3,
+            "rationale": "Fixture rationale for retention links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "retention must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "trust-privacy",
+            "score": 3,
+            "rationale": "Fixture rationale for trust-privacy links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "trust-privacy must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "business-viability",
+            "score": 3,
+            "rationale": "Fixture rationale for business-viability links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "business-viability must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "reference-fit",
+            "score": 3,
+            "rationale": "Fixture rationale for reference-fit links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "vk-reference"
+            ],
+            "failureModes": [
+              "reference-fit must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "permission-cohesion",
+            "score": 3,
+            "rationale": "Fixture rationale for permission-cohesion links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "permission-cohesion must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          },
+          {
+            "id": "evidence",
+            "score": 3,
+            "rationale": "Fixture rationale for evidence links the structured claim to supplied brief evidence and names the remaining risk.",
+            "evidenceRefs": [
+              "brief-observation"
+            ],
+            "failureModes": [
+              "evidence must be re-evaluated when real pilot evidence contradicts this fixture"
+            ]
+          }
+        ]
+      },
+      "delivery": {
+        "domainGlossary": [
+          {
+            "term": "Shared inventory card",
+            "definition": "The primary product content unit for Полка."
+          },
+          {
+            "term": "Commitment",
+            "definition": "A time-bounded promise between two identified people with one observable outcome."
+          }
+        ],
+        "personas": [
+          {
+            "name": "Neighbour with an immediate job",
+            "context": "At home before a short practical task",
+            "job": "Reserve a shared item and return it to an accountable state"
+          },
+          {
+            "name": "Neighbour with spare capacity",
+            "context": "Owns a useful item or local knowledge",
+            "job": "Help without starting an open-ended conversation"
+          }
+        ],
+        "criticalFlows": [
+          {
+            "id": "activate",
+            "name": "First value",
+            "trigger": "Open the nearest-house feed",
+            "steps": [
+              "See a relevant unit",
+              "Open its detail",
+              "Commit to one outcome"
+            ],
+            "outcome": "Reserve a shared item and return it to an accountable state"
+          },
+          {
+            "id": "contribute",
+            "name": "Contribute supply",
+            "trigger": "A completed exchange or unresolved need",
+            "steps": [
+              "Create a unit",
+              "Add constraints",
+              "Publish to the house"
+            ],
+            "outcome": "A new Shared inventory card enters supply"
+          }
+        ],
+        "architecture": {
+          "modules": [
+            {
+              "name": "Product model",
+              "responsibility": "Own Shared inventory card, commitment, and loop state",
+              "owns": "native/apps/<slug>"
+            },
+            {
+              "name": "Runtime adapters",
+              "responsibility": "Own permission and lifecycle integration",
+              "owns": "native/Runtime"
+            },
+            {
+              "name": "VK reference profile",
+              "responsibility": "Own evidence-backed visual and interaction grammar",
+              "owns": "native/ReferenceProfiles/vk-ios"
+            }
+          ],
+          "boundaries": [
+            "Product behavior stays outside the reference profile",
+            "Permission adapters cannot create product success",
+            "Generated project files do not own domain state"
+          ]
+        },
+        "data": {
+          "entities": [
+            "Shared inventory card",
+            "Person",
+            "House",
+            "Commitment"
+          ],
+          "state": [
+            "Signed-in house context",
+            "Feed and detail state",
+            "Commitment lifecycle",
+            "Permission and denied fallback state"
+          ],
+          "persistence": [
+            "Local draft and recovery state",
+            "Remote product records through an approved provider adapter"
+          ],
+          "integrations": [
+            "VK identity or equivalent approved authentication",
+            "Notification provider",
+            "Core Location with manual address fallback"
+          ]
+        },
+        "experienceStates": {
+          "loading": "Keep the house and task context visible while the latest supply loads.",
+          "empty": "Offer a concrete action that creates the first Shared inventory card without pretending supply exists.",
+          "error": "Preserve input, name the failed operation, and expose retry plus a safe fallback.",
+          "denied": "Keep the task possible through the denied fallback declared for that permission.",
+          "offline": "Show cached commitments and drafts; label remote supply as stale and offer retry."
+        },
+        "accessibility": [
+          "VoiceOver order follows task hierarchy",
+          "All actions have 44pt targets",
+          "Accessibility XXXL preserves the primary outcome",
+          "Motion is not required to understand state"
+        ],
+        "localization": {
+          "locales": [
+            "ru"
+          ],
+          "requirements": [
+            "Pluralise distance and time correctly",
+            "Avoid concatenated action copy",
+            "Stress-test long house and person names"
+          ]
+        },
+        "analytics": {
+          "events": [
+            "candidate_feed_opened",
+            "unit_opened",
+            "commitment_started",
+            "commitment_completed",
+            "contribution_published",
+            "denied_fallback_used"
+          ],
+          "successMetrics": [
+            "First-session commitment rate",
+            "Completed commitments per active house",
+            "Contribution after completion",
+            "Denied-fallback task completion"
+          ]
+        },
+        "testing": {
+          "levels": [
+            "Contract compile",
+            "Deterministic interaction replay",
+            "XCUI smoke",
+            "Independent capture review"
+          ],
+          "evidencePlan": [
+            "Validate the supply assumption with a real-house pilot",
+            "Record provenance for every changed product claim"
+          ],
+          "capturePlan": [
+            "auth--default",
+            "feed--populated",
+            "feed--empty",
+            "detail--default",
+            "commitment--success",
+            "permission--denied",
+            "offline--stale"
+          ]
+        },
+        "setup": {
+          "prerequisites": [
+            "Node 22",
+            "Xcode with an iOS 26 simulator",
+            "A selected Product Contract"
+          ],
+          "build": [
+            "npm run build -- <slug>"
+          ],
+          "run": [
+            "npm run smoke -- <slug>",
+            "npm run capture -- <slug>"
+          ]
+        },
+        "ownership": {
+          "generated": [
+            "native/build/<slug>",
+            "concepts/<slug>/docs/developer-guide.md"
+          ],
+          "owned": [
+            "concepts/<slug>/concept.json",
+            "native/apps/<slug>",
+            "native/apps/<slug>/capture.json"
+          ]
+        },
+        "limitations": [
+          "Fixture evidence is not user research",
+          "Server/provider contracts require separate intake",
+          "Physical-device and VoiceOver checks remain manual"
+        ],
+        "acceptanceCriteria": [
+          "Every maturity gate passes",
+          "Every primary action has a deterministic outcome",
+          "Every permission has timing and denied fallback",
+          "All required states are captured"
+        ],
+        "appStoreNotes": [
+          "Explain the product task, not a hidden permission objective",
+          "Match permission copy, privacy labels, and reachable behavior",
+          "Do not claim real-house validation until evidence is collected"
+        ]
+      }
+    }
+  ],
+  "selectionReceipt": {
+    "receiptId": "selection-6ae0cd1b3cd8a97e",
+    "schemaVersion": 1,
+    "briefId": "vk-neighbour-exchange",
+    "selectionRule": "fail every hard gate and every axis below 3/4; then maximise the minimum axis, then the total only as a tie-break, then candidate id",
+    "selectedCandidateId": "borrow-circle",
+    "winnerReasons": [
+      "passed all 9 hard gates",
+      "minimum stress axis 3/4",
+      "no stronger candidate survived under the fail-closed ordering"
+    ],
+    "portfolioDiagnostics": [],
+    "candidates": [
+      {
+        "id": "borrow-circle",
+        "name": "Круг",
+        "eligible": true,
+        "minimumAxisScore": 3,
+        "axisScores": {
+          "audience-need": 3,
+          "wedge": 3,
+          "observable-differentiation": 4,
+          "value-exchange": 3,
+          "content-supply": 3,
+          "social-graph": 3,
+          "cold-start": 4,
+          "activation": 3,
+          "core-loop": 4,
+          "retention": 3,
+          "trust-privacy": 3,
+          "business-viability": 3,
+          "reference-fit": 3,
+          "permission-cohesion": 4,
+          "evidence": 3
+        },
+        "gates": [
+          {
+            "id": "non-generic-product",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "observable-differentiation",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "permission-cohesion",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "cold-start",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "content-supply",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "core-loop-evidence",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "reference-mental-model-fit",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "evidence-provenance",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "minimum-axis-floor",
+            "pass": true,
+            "reasons": []
+          }
+        ],
+        "rejectionReasons": []
+      },
+      {
+        "id": "skill-minute",
+        "name": "Пять минут",
+        "eligible": false,
+        "minimumAxisScore": 2,
+        "axisScores": {
+          "audience-need": 3,
+          "wedge": 3,
+          "observable-differentiation": 3,
+          "value-exchange": 3,
+          "content-supply": 2,
+          "social-graph": 3,
+          "cold-start": 3,
+          "activation": 3,
+          "core-loop": 3,
+          "retention": 3,
+          "trust-privacy": 3,
+          "business-viability": 3,
+          "reference-fit": 3,
+          "permission-cohesion": 3,
+          "evidence": 3
+        },
+        "gates": [
+          {
+            "id": "non-generic-product",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "observable-differentiation",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "permission-cohesion",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "cold-start",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "content-supply",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "core-loop-evidence",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "reference-mental-model-fit",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "evidence-provenance",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "minimum-axis-floor",
+            "pass": false,
+            "reasons": [
+              "content-supply failed with 2/4"
+            ]
+          }
+        ],
+        "rejectionReasons": [
+          "minimum-axis-floor: content-supply failed with 2/4"
+        ]
+      },
+      {
+        "id": "shared-shelf",
+        "name": "Полка",
+        "eligible": false,
+        "minimumAxisScore": 2,
+        "axisScores": {
+          "audience-need": 3,
+          "wedge": 3,
+          "observable-differentiation": 3,
+          "value-exchange": 3,
+          "content-supply": 3,
+          "social-graph": 2,
+          "cold-start": 3,
+          "activation": 3,
+          "core-loop": 3,
+          "retention": 3,
+          "trust-privacy": 3,
+          "business-viability": 3,
+          "reference-fit": 3,
+          "permission-cohesion": 3,
+          "evidence": 3
+        },
+        "gates": [
+          {
+            "id": "non-generic-product",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "observable-differentiation",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "permission-cohesion",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "cold-start",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "content-supply",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "core-loop-evidence",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "reference-mental-model-fit",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "evidence-provenance",
+            "pass": true,
+            "reasons": []
+          },
+          {
+            "id": "minimum-axis-floor",
+            "pass": false,
+            "reasons": [
+              "social-graph failed with 2/4"
+            ]
+          }
+        ],
+        "rejectionReasons": [
+          "minimum-axis-floor: social-graph failed with 2/4"
+        ]
+      }
+    ]
+  },
+  "productContract": {
+    "contractId": "product-75b0df2bd5f36b7e",
+    "schemaVersion": 1,
+    "id": "vk-neighbour-exchange:borrow-circle",
+    "source": {
+      "kind": "selected-candidate",
+      "briefId": "vk-neighbour-exchange",
+      "candidateId": "borrow-circle",
+      "selectionReceiptId": "selection-6ae0cd1b3cd8a97e"
+    },
+    "status": "mature",
+    "audience": {
+      "primary": "Жители больших многоквартирных домов, готовые помогать соседям в пределах короткой прогулки",
+      "needs": [
+        "Быстро найти редкую бытовую вещь на один вечер",
+        "Понимать, кому можно доверить свою вещь и когда она вернётся"
+      ],
+      "exclusions": [
+        "Профессиональные арендодатели",
+        "Публичная доска объявлений всего города"
+      ]
+    },
+    "context": {
+      "situations": [
+        "Перед домашней задачей выясняется, что нужный инструмент покупать ради одного раза неразумно",
+        "Сосед готов одолжить вещь, если понятны человек, срок и способ возврата"
+      ],
+      "constraints": [
+        "Ценность должна появиться в пределах одного дома до роста большой сети",
+        "Разрешения запрашиваются только из понятного пользовательского действия",
+        "Нельзя выдавать fixture evidence за реальные исследования"
+      ]
+    },
+    "reference": {
+      "strategy": "mimicry",
+      "family": "vk-family",
+      "profileId": "vk-ios",
+      "mentalModel": "Identified people publish social units, respond, converse, and contribute again through a familiar dense feed",
+      "naturalFit": "Each unit belongs to a person and House graph; value grows through response and repeat contribution rather than passive utility use",
+      "borrowedPatterns": [
+        "Social feed",
+        "Person identity",
+        "Conversation",
+        "Notifications",
+        "Service menu"
+      ],
+      "productMapping": "Borrow request maps to a feed unit; Commitment maps to response and conversation; House scopes discovery",
+      "tensions": [
+        "House privacy must override VK-wide discovery",
+        "Commitment state must remain clearer than generic reactions"
+      ],
+      "evidenceRefs": [
+        "vk-reference"
+      ]
+    },
+    "productThesis": "Соседи закрывают редкую бытовую задачу через одно обещание выдать и вернуть вещь, а не через бесконечный общий чат.",
+    "insight": {
+      "claim": "Для редкой вещи главная стоимость — не цена, а неопределённость, у кого она есть и когда её вернут.",
+      "evidenceRefs": [
+        "brief-observation"
+      ]
+    },
+    "job": {
+      "actor": "A resident with an immediate bounded household need",
+      "situation": "The need appears before a task at home",
+      "motivation": "Avoid buying or coordinating more than the task requires",
+      "outcome": "Borrow a nearby item with a clear handoff and return promise"
+    },
+    "wedge": {
+      "audience": "Residents of one dense apartment building",
+      "situation": "A need can be fulfilled within a short walk and clear return window",
+      "mechanism": "A time-bounded borrow request becomes a two-party commitment with handoff and return states"
+    },
+    "observableDifferentiation": {
+      "kind": "behavior",
+      "behavior": "People move from a relevant request to a tracked handoff and return instead of continuing an open chat",
+      "comparator": "An unstructured neighbourhood chat or city-wide classifieds feed",
+      "measurement": "Share of opened units that reach a named commitment and completed outcome",
+      "threshold": "At least one in four relevant opens creates a commitment in the pilot",
+      "experiment": "Run a four-week two-house pilot and compare completion with the existing house chat",
+      "coreLoopStep": "Open a relevant borrow request and accept one bounded handoff",
+      "evidenceRefs": [
+        "brief-observation"
+      ]
+    },
+    "valueExchange": {
+      "userGives": [
+        "Close the return and publish availability for a future neighbour",
+        "A clear time or availability constraint"
+      ],
+      "userGets": [
+        "Borrow a nearby item with a clear handoff and return promise",
+        "A visible accountable next step"
+      ]
+    },
+    "contentModel": {
+      "primaryUnit": "Borrow request",
+      "relationships": [
+        "Borrow request belongs to one House",
+        "Borrow request links a requester, responder, and Commitment"
+      ]
+    },
+    "contentSupply": {
+      "coldStartSources": [
+        "House stewards seed verified Borrow request examples with explicit consent"
+      ],
+      "ongoingSources": [
+        "Residents publish available items after a successful return or from an unresolved request"
+      ],
+      "contributorIncentives": [
+        "A completed outcome lowers the next neighbour's coordination cost",
+        "Contribution improves reciprocal access"
+      ],
+      "qualityControls": [
+        "One-house visibility",
+        "Expiry and duplicate detection",
+        "Reporting and commitment history"
+      ]
+    },
+    "socialGraphLeverage": {
+      "relationship": "Verified residents and their direct reciprocal commitments",
+      "mechanism": "Identity and completion history reduce uncertainty without a public popularity score",
+      "valueWithoutGraph": "Seeded current units and manual house choice provide first-session value before friend matches"
+    },
+    "coldStart": {
+      "firstSessionValue": "Browse current Borrow request examples and complete one bounded task",
+      "seededContent": "Consent-based representative Borrow request entries for the pilot house",
+      "emptyStateAction": "Create the first Borrow request with a guided constraint form"
+    },
+    "activation": {
+      "moment": "A resident reaches a commitment with a named counterparty and time",
+      "signal": "commitment_started with both parties confirmed",
+      "window": "First seven days after joining a House"
+    },
+    "coreLoop": {
+      "trigger": "A bounded household need or completed reciprocal action",
+      "action": "Open a relevant borrow request and accept one bounded handoff",
+      "reward": "Borrow a nearby item with a clear handoff and return promise",
+      "contribution": "Close the return and publish availability for a future neighbour",
+      "hypothesis": "Visible completion makes the next relevant contribution more likely",
+      "successMetric": "Second completed commitment or contribution within 30 days",
+      "testPlan": "Pilot two houses and inspect cohort completion plus qualitative failure reasons",
+      "evidenceRefs": [
+        "brief-observation"
+      ]
+    },
+    "habitLoop": {
+      "cue": "A relevant nearby need or return deadline",
+      "routine": "Open a relevant borrow request and accept one bounded handoff",
+      "reward": "The task closes with less purchase and coordination",
+      "frequency": "Event-driven, measured by house rather than assumed daily"
+    },
+    "retention": {
+      "reasons": [
+        "Open commitments need closure",
+        "New relevant units appear within one House",
+        "Reciprocity makes future access easier"
+      ],
+      "leadingIndicators": [
+        "Commitment completion",
+        "Contribution after receiving value",
+        "Second relevant open within 30 days"
+      ]
+    },
+    "permissions": [
+      {
+        "key": "camera",
+        "productValue": "Publish one photo of the concrete item or place involved",
+        "flow": "Create contribution from the relevant detail flow",
+        "requestMoment": "Tap Add a current photo in the composer",
+        "deniedFallback": "Publish a text description and category without a photo",
+        "role": "core"
+      },
+      {
+        "key": "location",
+        "productValue": "Choose the nearest relevant house without exposing continuous movement",
+        "flow": "Select house before entering its scoped feed",
+        "requestMoment": "Tap Use my location on house selection",
+        "deniedFallback": "Search and select the address manually",
+        "role": "supporting"
+      },
+      {
+        "key": "push",
+        "productValue": "Receive the answer or commitment the person explicitly follows",
+        "flow": "Follow one request or confirm one commitment",
+        "requestMoment": "Tap Notify me about this request",
+        "deniedFallback": "Show unread state and updates inside the product inbox",
+        "role": "supporting"
+      }
+    ],
+    "trustSafety": {
+      "risks": [
+        "Unsafe in-person handoff",
+        "Theft or harassment",
+        "Disclosure of a precise apartment"
+      ],
+      "controls": [
+        "House-scoped identity",
+        "Neutral handoff location",
+        "Block/report and commitment cancellation"
+      ],
+      "reporting": "Report remains attached to the person and commitment, with an emergency exit from the flow"
+    },
+    "privacy": {
+      "data": [
+        "Selected House, not continuous movement history",
+        "Product contribution and commitment state",
+        "Optional item photo"
+      ],
+      "principles": [
+        "Minimise address precision",
+        "Request access at the causal action",
+        "Keep denied fallback equivalent where possible"
+      ],
+      "retention": "Expire location-derived selection immediately; retain commitments only for the declared dispute window"
+    },
+    "businessLogic": {
+      "model": "House-level partner sponsorship after product value is proven",
+      "payer": "Property operator or local partner, never the resident seeking help",
+      "value": "Lower duplicated purchases and unresolved household coordination",
+      "viabilitySignal": "Completed commitments per funded House exceed operating and moderation cost",
+      "constraints": "No paywall on safety, reporting, or return completion"
+    },
+    "nonGoals": [
+      "City-wide marketplace",
+      "Anonymous public chat",
+      "Professional rental inventory"
+    ],
+    "risks": [
+      {
+        "risk": "Supply remains too sparse inside one House",
+        "mitigation": "Pilot dense houses and seed only consented current entries",
+        "killSignal": "Fewer than ten relevant units per active House after four weeks"
+      },
+      {
+        "risk": "People avoid accountable handoff",
+        "mitigation": "Use bounded commitments and neutral handoff points",
+        "killSignal": "More than half of commitments cancel before handoff"
+      }
+    ],
+    "assumptions": [
+      {
+        "claim": "One House has enough reciprocal demand",
+        "risk": "high",
+        "validation": "Four-week supply and demand pilot",
+        "status": "needs-validation"
+      },
+      {
+        "claim": "Completion history improves trust without popularity scores",
+        "risk": "high",
+        "validation": "Interview both sides after completed and cancelled commitments",
+        "status": "needs-validation"
+      }
+    ],
+    "evidence": [
+      {
+        "id": "brief-observation",
+        "type": "user-input",
+        "source": "strong-brief.json: supplied scenario and constraints",
+        "status": "approved",
+        "supports": [
+          "audience situation",
+          "permission constraints",
+          "first-session job"
+        ]
+      },
+      {
+        "id": "vk-reference",
+        "type": "reference-profile",
+        "source": "native/ReferenceProfiles/vk-ios/profile.json",
+        "status": "approved",
+        "supports": [
+          "VK social mental model",
+          "borrowed interaction patterns"
+        ]
+      },
+      {
+        "id": "supply-assumption",
+        "type": "assumption",
+        "source": "fixture assumption requiring a live supply pilot",
+        "status": "needs-validation",
+        "supports": [
+          "ongoing contributor supply",
+          "expected return cadence"
+        ]
+      }
+    ],
+    "delivery": {
+      "domainGlossary": [
+        {
+          "term": "Borrow request",
+          "definition": "The primary product content unit for Круг."
+        },
+        {
+          "term": "Commitment",
+          "definition": "A time-bounded promise between two identified people with one observable outcome."
+        }
+      ],
+      "personas": [
+        {
+          "name": "Neighbour with an immediate job",
+          "context": "At home before a short practical task",
+          "job": "Borrow a nearby item with a clear handoff and return promise"
+        },
+        {
+          "name": "Neighbour with spare capacity",
+          "context": "Owns a useful item or local knowledge",
+          "job": "Help without starting an open-ended conversation"
+        }
+      ],
+      "criticalFlows": [
+        {
+          "id": "activate",
+          "name": "First value",
+          "trigger": "Open the nearest-house feed",
+          "steps": [
+            "See a relevant unit",
+            "Open its detail",
+            "Commit to one outcome"
+          ],
+          "outcome": "Borrow a nearby item with a clear handoff and return promise"
+        },
+        {
+          "id": "contribute",
+          "name": "Contribute supply",
+          "trigger": "A completed exchange or unresolved need",
+          "steps": [
+            "Create a unit",
+            "Add constraints",
+            "Publish to the house"
+          ],
+          "outcome": "A new Borrow request enters supply"
+        }
+      ],
+      "architecture": {
+        "modules": [
+          {
+            "name": "Product model",
+            "responsibility": "Own Borrow request, commitment, and loop state",
+            "owns": "native/apps/<slug>"
+          },
+          {
+            "name": "Runtime adapters",
+            "responsibility": "Own permission and lifecycle integration",
+            "owns": "native/Runtime"
+          },
+          {
+            "name": "VK reference profile",
+            "responsibility": "Own evidence-backed visual and interaction grammar",
+            "owns": "native/ReferenceProfiles/vk-ios"
+          }
+        ],
+        "boundaries": [
+          "Product behavior stays outside the reference profile",
+          "Permission adapters cannot create product success",
+          "Generated project files do not own domain state"
+        ]
+      },
+      "data": {
+        "entities": [
+          "Borrow request",
+          "Person",
+          "House",
+          "Commitment"
+        ],
+        "state": [
+          "Signed-in house context",
+          "Feed and detail state",
+          "Commitment lifecycle",
+          "Permission and denied fallback state"
+        ],
+        "persistence": [
+          "Local draft and recovery state",
+          "Remote product records through an approved provider adapter"
+        ],
+        "integrations": [
+          "VK identity or equivalent approved authentication",
+          "Notification provider",
+          "Core Location with manual address fallback"
+        ]
+      },
+      "experienceStates": {
+        "loading": "Keep the house and task context visible while the latest supply loads.",
+        "empty": "Offer a concrete action that creates the first Borrow request without pretending supply exists.",
+        "error": "Preserve input, name the failed operation, and expose retry plus a safe fallback.",
+        "denied": "Keep the task possible through the denied fallback declared for that permission.",
+        "offline": "Show cached commitments and drafts; label remote supply as stale and offer retry."
+      },
+      "accessibility": [
+        "VoiceOver order follows task hierarchy",
+        "All actions have 44pt targets",
+        "Accessibility XXXL preserves the primary outcome",
+        "Motion is not required to understand state"
+      ],
+      "localization": {
+        "locales": [
+          "ru"
+        ],
+        "requirements": [
+          "Pluralise distance and time correctly",
+          "Avoid concatenated action copy",
+          "Stress-test long house and person names"
+        ]
+      },
+      "analytics": {
+        "events": [
+          "candidate_feed_opened",
+          "unit_opened",
+          "commitment_started",
+          "commitment_completed",
+          "contribution_published",
+          "denied_fallback_used"
+        ],
+        "successMetrics": [
+          "First-session commitment rate",
+          "Completed commitments per active house",
+          "Contribution after completion",
+          "Denied-fallback task completion"
+        ]
+      },
+      "testing": {
+        "levels": [
+          "Contract compile",
+          "Deterministic interaction replay",
+          "XCUI smoke",
+          "Independent capture review"
+        ],
+        "evidencePlan": [
+          "Validate the supply assumption with a real-house pilot",
+          "Record provenance for every changed product claim"
+        ],
+        "capturePlan": [
+          "auth--default",
+          "feed--populated",
+          "feed--empty",
+          "detail--default",
+          "commitment--success",
+          "permission--denied",
+          "offline--stale"
+        ]
+      },
+      "setup": {
+        "prerequisites": [
+          "Node 22",
+          "Xcode with an iOS 26 simulator",
+          "A selected Product Contract"
+        ],
+        "build": [
+          "npm run build -- <slug>"
+        ],
+        "run": [
+          "npm run smoke -- <slug>",
+          "npm run capture -- <slug>"
+        ]
+      },
+      "ownership": {
+        "generated": [
+          "native/build/<slug>",
+          "concepts/<slug>/docs/developer-guide.md"
+        ],
+        "owned": [
+          "concepts/<slug>/concept.json",
+          "native/apps/<slug>",
+          "native/apps/<slug>/capture.json"
+        ]
+      },
+      "limitations": [
+        "Fixture evidence is not user research",
+        "Server/provider contracts require separate intake",
+        "Physical-device and VoiceOver checks remain manual"
+      ],
+      "acceptanceCriteria": [
+        "Every maturity gate passes",
+        "Every primary action has a deterministic outcome",
+        "Every permission has timing and denied fallback",
+        "All required states are captured"
+      ],
+      "appStoreNotes": [
+        "Explain the product task, not a hidden permission objective",
+        "Match permission copy, privacy labels, and reachable behavior",
+        "Do not claim real-house validation until evidence is collected"
+      ]
+    },
+    "maturity": {
+      "status": "mature",
+      "minimumAxisScore": 3,
+      "axisScores": {
+        "audience-need": 3,
+        "wedge": 3,
+        "observable-differentiation": 4,
+        "value-exchange": 3,
+        "content-supply": 3,
+        "social-graph": 3,
+        "cold-start": 4,
+        "activation": 3,
+        "core-loop": 4,
+        "retention": 3,
+        "trust-privacy": 3,
+        "business-viability": 3,
+        "reference-fit": 3,
+        "permission-cohesion": 4,
+        "evidence": 3
+      },
+      "gates": [
+        {
+          "id": "non-generic-product",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "observable-differentiation",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "permission-cohesion",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "cold-start",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "content-supply",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "core-loop-evidence",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "reference-mental-model-fit",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "evidence-provenance",
+          "pass": true,
+          "reasons": []
+        },
+        {
+          "id": "minimum-axis-floor",
+          "pass": true,
+          "reasons": []
+        }
+      ]
+    }
+  }
+}

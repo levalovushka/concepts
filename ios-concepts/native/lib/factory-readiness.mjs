@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { compileNativeConcept } from "./compile-concept.mjs";
 import { auditReferenceProfiles } from "./reference-profile-catalog.mjs";
 import { auditVisualLanguage } from "./visual-language-audit.mjs";
+import { auditDeveloperDocumentation } from "./developer-documentation.mjs";
 
 const defaultRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const readJSON = path => JSON.parse(readFileSync(path, "utf8"));
@@ -17,6 +18,7 @@ function receipt(root, name) {
 function conceptEvidence(root, slug, matrix) {
   const concept = readJSON(join(root, "concepts", slug, "concept.json"));
   const compiled = compileNativeConcept(concept);
+  const developerDocs = auditDeveloperDocumentation({ root, concept, manifest: compiled.manifest });
   const visualDiagnostics = auditVisualLanguage(join(root, "native", "apps", slug), slug);
   const captureSource = readJSON(join(root, "native", "apps", slug, "capture.json"));
   const captures = matrix.devices.flatMap(device => matrix.concepts[slug].captures.map(id => {
@@ -27,6 +29,8 @@ function conceptEvidence(root, slug, matrix) {
   const appName = slug[0].toUpperCase() + slug.slice(1);
   return {
     compile: { pass: compiled.ok, diagnostics: compiled.diagnostics },
+    uxSpecification: { pass: compiled.ok && Boolean(compiled.manifest.uxSpecification?.uxSpecificationId), diagnostics: compiled.diagnostics.filter(item => item.code.startsWith("ux.")) },
+    developerDocs: { pass: developerDocs.ok, diagnostics: developerDocs.diagnostics },
     visualLanguage: { pass: visualDiagnostics.length === 0, diagnostics: visualDiagnostics },
     buildReceipt: receipt(root, `build-${slug}`),
     matrixReceipt: receipt(root, "matrix"),
@@ -47,6 +51,8 @@ export function createFactoryReadinessReport(root = defaultRoot) {
     const evidence = concepts[slug];
     const checks = {
       productContract: evidence.compile.pass,
+      uxSpecification: evidence.uxSpecification.pass,
+      developerDocumentation: evidence.developerDocs.pass,
       visualConsistency: evidence.visualLanguage.pass && (slug !== "looks" || vk?.ready === true),
       predictableInteractions: Boolean(checkAll && evidence.matrixReceipt),
       permissionsCapabilities: Boolean(checkAll && evidence.buildReceipt),

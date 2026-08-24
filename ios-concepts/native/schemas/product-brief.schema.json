@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/product-brief.schema.json",
+  "title": "Camo Product Brief",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "request", "audience", "context", "reference", "permissions", "candidateCount"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 3 },
+    "request": { "type": "string", "minLength": 8 },
+    "audience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "needs"],
+      "properties": {
+        "primary": { "type": "string", "minLength": 8 },
+        "needs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } },
+        "exclusions": { "type": "array", "items": { "type": "string", "minLength": 3 } }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["situations", "constraints"],
+      "properties": {
+        "situations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } },
+        "constraints": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "family"],
+      "properties": {
+        "strategy": { "enum": ["mimicry", "differentiation"] },
+        "family": { "type": "string", "minLength": 2 },
+        "profileId": { "type": "string", "minLength": 2 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "strategy": { "const": "mimicry" } } },
+          "then": { "required": ["profileId"] }
+        }
+      ]
+    },
+    "permissions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["key", "priority", "constraint"],
+        "properties": {
+          "key": { "type": "string", "minLength": 2 },
+          "priority": { "enum": ["required", "optional", "forbidden"] },
+          "constraint": { "type": "string", "minLength": 8 }
+        }
+      }
+    },
+    "candidateCount": { "type": "integer", "minimum": 3 }
+  }
+}

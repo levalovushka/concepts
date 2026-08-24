@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/selection-receipt.schema.json",
+  "title": "Camo Selection Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["receiptId", "schemaVersion", "briefId", "selectionRule", "selectedCandidateId", "winnerReasons", "portfolioDiagnostics", "candidates"],
+  "properties": {
+    "receiptId": { "type": "string", "pattern": "^selection-[0-9a-f]{16}$" },
+    "schemaVersion": { "const": 1 },
+    "briefId": { "type": "string", "minLength": 3 },
+    "selectionRule": { "type": "string", "minLength": 20 },
+    "selectedCandidateId": { "type": ["string", "null"] },
+    "winnerReasons": { "type": "array", "items": { "type": "string", "minLength": 8 } },
+    "portfolioDiagnostics": { "type": "array", "items": { "type": "object" } },
+    "candidates": {
+      "type": "array", "minItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "name", "eligible", "minimumAxisScore", "axisScores", "gates", "rejectionReasons"],
+        "properties": {
+          "id": { "type": "string" }, "name": { "type": "string" }, "eligible": { "type": "boolean" },
+          "minimumAxisScore": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "axisScores": { "type": "object", "minProperties": 15 },
+          "gates": { "type": "array", "minItems": 8, "items": { "type": "object" } },
+          "rejectionReasons": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

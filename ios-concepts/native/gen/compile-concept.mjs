@@ -21,12 +21,14 @@ for (const item of result.diagnostics) {
   console.error(`${mark} ${item.code} · ${item.path}\n  ${item.message}`);
 }
 
-if (process.argv.includes("--write")) {
+if (process.argv.includes("--write") && result.ok) {
   const out = join(nativeRoot, "build", slug, "native-manifest.json");
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, JSON.stringify(result.manifest, null, 2) + "\n");
+  writeFileSync(join(dirname(out), "product-contract.json"), JSON.stringify(result.manifest.product.contract, null, 2) + "\n");
+  writeFileSync(join(dirname(out), "ux-specification.json"), JSON.stringify(result.manifest.uxSpecification, null, 2) + "\n");
   console.log(`native manifest → ${out}`);
-} else {
+} else if (!process.argv.includes("--write")) {
   process.stdout.write(JSON.stringify(result.manifest, null, 2) + "\n");
 }
 

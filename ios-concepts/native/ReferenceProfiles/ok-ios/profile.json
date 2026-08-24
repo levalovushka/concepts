@@ -3,6 +3,8 @@
   "id": "ok-ios",
   "product": "Одноклассники",
   "platform": "iOS",
+  "referenceFamily": "ok-family",
+  "mentalModel": null,
   "evidenceStatus": "awaiting-evidence",
   "evidence": { "source": null, "surfaces": [] },
   "contract": null,

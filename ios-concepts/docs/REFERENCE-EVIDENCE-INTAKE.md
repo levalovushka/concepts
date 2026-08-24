@@ -10,6 +10,8 @@ Provide original PNG screenshots or lossless screen-recording frames for one
 real iPhone model and one iOS/app version. Every file needs this metadata:
 
 - product (`vk-music-ios`, `vk-video-ios`, `ok-ios`), app version/build;
+- stable `referenceFamily` and a product-specific `mentalModel` covering entities,
+  root destinations, recurring behaviours and interaction expectations;
 - iOS version/build, device model and logical resolution;
 - locale, light/dark mode, text-size category, signed-in/out status;
 - surface, state, selected tab, entry gesture and timestamp;
@@ -34,14 +36,15 @@ for interaction provide a short recording from the previous stable state.
 
 1. Put evidence under `native/ReferenceProfiles/<id>/evidence/<app-version>/`.
 2. Add a manifest with SHA-256, metadata and surface/state mapping.
-3. Extract only repeated/evidence-backed palette, type, metric, icon and chrome
-   decisions into `profile.json`; add Swift recipes only for proven families.
+3. Extract only repeated/evidence-backed mental-model, palette, type, metric,
+   icon and chrome decisions into `profile.json`; add Swift recipes only for proven families.
 4. Keep source frames immutable. Generated crops/contact sheets are derived.
 
 ## Gates unlocked
 
 The adapter remains blocked until all required surfaces exist, hashes and
-metadata validate, source paths resolve, the visual contract is extracted,
+metadata validate, source paths resolve, reference family and mental model are
+extracted, the visual contract is extracted,
 native recipes/tokens exist, tab icon source is licensed and deterministic,
 current + small-phone captures pass, and an independent reviewer signs the
 side-by-side rubric. Passing one product never unlocks another product.
