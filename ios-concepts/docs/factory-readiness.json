@@ -1,0 +1,1018 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-24T12:06:16.758Z",
+  "definition": "factory-ready requires automated evidence plus independent visual/product and physical accessibility gates",
+  "humanReview": {
+    "reviewerKind": "independent-product-visual-review",
+    "independentReviewComplete": true
+  },
+  "evaluations": {
+    "looks": {
+      "strategy": "VK reference mimicry",
+      "automatedConfidence": 100,
+      "automatedChecks": {
+        "productContract": true,
+        "visualConsistency": true,
+        "predictableInteractions": true,
+        "permissionsCapabilities": true,
+        "captures": true,
+        "cleanRegenerationBuild": true
+      },
+      "humanScore": 8.8,
+      "humanAssessment": {
+        "productContract": 8.7,
+        "hierarchy": 8.5,
+        "consistency": 9.1,
+        "visualAccuracy": 8.8,
+        "predictableInteractions": 9,
+        "notes": "Independent review covered 66 current-device states plus the current/small-phone root matrix. Below-9 blockers: the services/profile horizontal carousels and the feed's dense opening viewport still compete for hierarchy; Liquid Glass optics remain simulator-only."
+      }
+    },
+    "dvor": {
+      "strategy": "VK reference mimicry",
+      "automatedConfidence": 100,
+      "automatedChecks": {
+        "productContract": true,
+        "visualConsistency": true,
+        "predictableInteractions": true,
+        "permissionsCapabilities": true,
+        "captures": true,
+        "cleanRegenerationBuild": true
+      },
+      "humanScore": 8.9,
+      "humanAssessment": {
+        "productContract": 8.8,
+        "hierarchy": 8.6,
+        "consistency": 9.1,
+        "visualAccuracy": 8.9,
+        "predictableInteractions": 9,
+        "notes": "Independent review covered 74 current-device states plus the current/small-phone root matrix. Below-9 blockers: the broad service/menu information architecture remains dense, and onboarding/permission secondary states were not all manually repeated on the small phone; Liquid Glass optics remain simulator-only."
+      }
+    }
+  },
+  "pipelineStrategies": {
+    "mimicry": {
+      "validatedConcepts": [
+        "looks",
+        "dvor"
+      ],
+      "automatedConfidence": 100,
+      "humanScore": 8.9
+    },
+    "differentiation": {
+      "validatedConcepts": [],
+      "automatedConfidence": 50,
+      "humanScore": null,
+      "blocker": "no current differentiation concept; adapter and SF grammar exist but have no end-to-end product evidence"
+    }
+  },
+  "evidence": {
+    "profiles": [
+      {
+        "id": "ok-ios",
+        "product": "Одноклассники",
+        "ready": false,
+        "blockers": [
+          "нет референсов состояний: feed, discovery, messages, video, menu, profile, post, group, settings, empty, offline",
+          "не указан источник evidence",
+          "не извлечён визуальный контракт",
+          "нет нативных рецептов компонентов",
+          "нет нативных токенов"
+        ]
+      },
+      {
+        "id": "vk-ios",
+        "product": "ВКонтакте",
+        "ready": true,
+        "blockers": []
+      },
+      {
+        "id": "vk-music-ios",
+        "product": "VK Музыка",
+        "ready": false,
+        "blockers": [
+          "нет референсов состояний: home, search, library, album, artist, player, queue, downloaded, empty, offline",
+          "не указан источник evidence",
+          "не извлечён визуальный контракт",
+          "нет нативных рецептов компонентов",
+          "нет нативных токенов"
+        ]
+      },
+      {
+        "id": "vk-video-ios",
+        "product": "VK Видео",
+        "ready": false,
+        "blockers": [
+          "нет референсов состояний: home, search, subscriptions, video-detail, player, comments, short-video, empty, offline",
+          "не указан источник evidence",
+          "не извлечён визуальный контракт",
+          "нет нативных рецептов компонентов",
+          "нет нативных токенов"
+        ]
+      }
+    ],
+    "concepts": {
+      "looks": {
+        "compile": {
+          "pass": true,
+          "diagnostics": []
+        },
+        "visualLanguage": {
+          "pass": true,
+          "diagnostics": []
+        },
+        "buildReceipt": {
+          "schemaVersion": 1,
+          "operation": "build",
+          "slug": "looks",
+          "completedAt": "2026-08-24T12:01:53.520Z",
+          "steps": [
+            {
+              "label": "compile looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "looks",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "build looks",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/Looks.xcodeproj",
+                "-target",
+                "Looks",
+                "-sdk",
+                "iphonesimulator",
+                "-configuration",
+                "Debug",
+                "build"
+              ],
+              "env": {}
+            }
+          ]
+        },
+        "matrixReceipt": {
+          "schemaVersion": 1,
+          "operation": "matrix",
+          "slug": null,
+          "completedAt": "2026-08-24T12:06:09.050Z",
+          "steps": [
+            {
+              "label": "compile looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "looks",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke looks",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/Looks.xcodeproj",
+                "-scheme",
+                "LooksSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 17 Pro",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture looks on current",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "looks",
+                "home--default",
+                "search--default",
+                "chats--default",
+                "clip--default",
+                "services--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 17 Pro",
+                "ARTIFACT_VARIANT": "current"
+              }
+            },
+            {
+              "label": "compile dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "dvor",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke dvor",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/Dvor.xcodeproj",
+                "-scheme",
+                "DvorSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 17 Pro",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture dvor on current",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "dvor",
+                "home--default",
+                "chats--default",
+                "yard--default",
+                "menu--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 17 Pro",
+                "ARTIFACT_VARIANT": "current"
+              }
+            },
+            {
+              "label": "compile looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "looks",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke looks",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/Looks.xcodeproj",
+                "-scheme",
+                "LooksSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 16e",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture looks on small",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "looks",
+                "home--default",
+                "search--default",
+                "chats--default",
+                "clip--default",
+                "services--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 16e",
+                "ARTIFACT_VARIANT": "small"
+              }
+            },
+            {
+              "label": "compile dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "dvor",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke dvor",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/Dvor.xcodeproj",
+                "-scheme",
+                "DvorSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 16e",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture dvor on small",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "dvor",
+                "home--default",
+                "chats--default",
+                "yard--default",
+                "menu--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 16e",
+                "ARTIFACT_VARIANT": "small"
+              }
+            }
+          ]
+        },
+        "generatedProject": true,
+        "captures": [
+          {
+            "device": "current",
+            "id": "home--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-current/home--default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "search--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-current/search--default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "chats--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-current/chats--default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "clip--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-current/clip--default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "services--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-current/services--default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "home--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-small/home--default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "search--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-small/search--default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "chats--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-small/chats--default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "clip--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-small/clip--default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "services--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/looks/shots-small/services--default.png",
+            "present": true
+          }
+        ]
+      },
+      "dvor": {
+        "compile": {
+          "pass": true,
+          "diagnostics": []
+        },
+        "visualLanguage": {
+          "pass": true,
+          "diagnostics": []
+        },
+        "buildReceipt": {
+          "schemaVersion": 1,
+          "operation": "build",
+          "slug": "dvor",
+          "completedAt": "2026-08-24T12:02:04.135Z",
+          "steps": [
+            {
+              "label": "compile dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "dvor",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "build dvor",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/Dvor.xcodeproj",
+                "-target",
+                "Dvor",
+                "-sdk",
+                "iphonesimulator",
+                "-configuration",
+                "Debug",
+                "build"
+              ],
+              "env": {}
+            }
+          ]
+        },
+        "matrixReceipt": {
+          "schemaVersion": 1,
+          "operation": "matrix",
+          "slug": null,
+          "completedAt": "2026-08-24T12:06:09.050Z",
+          "steps": [
+            {
+              "label": "compile looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "looks",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke looks",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/Looks.xcodeproj",
+                "-scheme",
+                "LooksSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 17 Pro",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture looks on current",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "looks",
+                "home--default",
+                "search--default",
+                "chats--default",
+                "clip--default",
+                "services--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 17 Pro",
+                "ARTIFACT_VARIANT": "current"
+              }
+            },
+            {
+              "label": "compile dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "dvor",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke dvor",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/Dvor.xcodeproj",
+                "-scheme",
+                "DvorSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 17 Pro",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture dvor on current",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "dvor",
+                "home--default",
+                "chats--default",
+                "yard--default",
+                "menu--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 17 Pro",
+                "ARTIFACT_VARIANT": "current"
+              }
+            },
+            {
+              "label": "compile looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "looks",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit looks",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "looks"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke looks",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/Looks.xcodeproj",
+                "-scheme",
+                "LooksSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 16e",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/looks/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture looks on small",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "looks",
+                "home--default",
+                "search--default",
+                "chats--default",
+                "clip--default",
+                "services--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 16e",
+                "ARTIFACT_VARIANT": "small"
+              }
+            },
+            {
+              "label": "compile dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+                "dvor",
+                "--write"
+              ],
+              "env": {}
+            },
+            {
+              "label": "generate dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "audit dvor",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+                "dvor"
+              ],
+              "env": {}
+            },
+            {
+              "label": "xcui smoke dvor",
+              "executable": "/usr/bin/xcodebuild",
+              "args": [
+                "-project",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/Dvor.xcodeproj",
+                "-scheme",
+                "DvorSmoke",
+                "-destination",
+                "platform=iOS Simulator,name=iPhone 16e",
+                "-derivedDataPath",
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/build/dvor/SmokeDerivedData",
+                "test"
+              ],
+              "env": {}
+            },
+            {
+              "label": "capture dvor on small",
+              "executable": "/usr/local/bin/node",
+              "args": [
+                "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/shots.mjs",
+                "dvor",
+                "home--default",
+                "chats--default",
+                "yard--default",
+                "menu--default"
+              ],
+              "env": {
+                "DEVICE": "iPhone 16e",
+                "ARTIFACT_VARIANT": "small"
+              }
+            }
+          ]
+        },
+        "generatedProject": true,
+        "captures": [
+          {
+            "device": "current",
+            "id": "home--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-current/home-default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "chats--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-current/chats-default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "yard--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-current/yard-default.png",
+            "present": true
+          },
+          {
+            "device": "current",
+            "id": "menu--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-current/menu-default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "home--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-small/home-default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "chats--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-small/chats-default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "yard--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-small/yard-default.png",
+            "present": true
+          },
+          {
+            "device": "small",
+            "id": "menu--default",
+            "path": "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/artifacts/dvor/shots-small/menu-default.png",
+            "present": true
+          }
+        ]
+      }
+    },
+    "checkAllReceipt": {
+      "schemaVersion": 1,
+      "operation": "check-all",
+      "slug": null,
+      "completedAt": "2026-08-24T12:01:39.513Z",
+      "steps": [
+        {
+          "label": "native tests",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "--test",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/action-binding-audit.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/action-contract.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/capture-catalog.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/chat-layout.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/compile-concept.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/cross-product-contamination.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/dvor-capture-coverage.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/dvor-design-system.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/dvor-permission-flow.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/extension-security.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/factory-readiness.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/generate-project.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/interaction-replay.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/lucide-assets.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/media-assets.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/migration-readiness.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/mosaic-layout.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/native-pipeline.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/navigation-chrome.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/reference-profiles.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/shot-artifacts.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/surface-contract.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/visual-language-audit.test.mjs",
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/test/visual-language.test.mjs"
+          ],
+          "env": {}
+        },
+        {
+          "label": "compile dvor",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+            "dvor",
+            "--write"
+          ],
+          "env": {}
+        },
+        {
+          "label": "generate dvor",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+            "dvor"
+          ],
+          "env": {}
+        },
+        {
+          "label": "audit dvor",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+            "dvor"
+          ],
+          "env": {}
+        },
+        {
+          "label": "compile looks",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/compile-concept.mjs",
+            "looks",
+            "--write"
+          ],
+          "env": {}
+        },
+        {
+          "label": "generate looks",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/gen-project.mjs",
+            "looks"
+          ],
+          "env": {}
+        },
+        {
+          "label": "audit looks",
+          "executable": "/usr/local/bin/node",
+          "args": [
+            "/Users/vladshukurov/Documents/ChatGPT/VKкамуфляж/ios-concepts/native/gen/audit-native.mjs",
+            "looks"
+          ],
+          "env": {}
+        }
+      ]
+    },
+    "deviceMatrix": {
+      "schemaVersion": 1,
+      "devices": [
+        {
+          "id": "current",
+          "name": "iPhone 17 Pro",
+          "runtime": "iOS 26.2",
+          "class": "current"
+        },
+        {
+          "id": "small",
+          "name": "iPhone 16e",
+          "runtime": "iOS 26.2",
+          "class": "small-phone"
+        }
+      ],
+      "concepts": {
+        "looks": {
+          "xcui": true,
+          "captures": [
+            "home--default",
+            "search--default",
+            "chats--default",
+            "clip--default",
+            "services--default"
+          ],
+          "checks": [
+            "dynamic-type-AXXXL",
+            "safe-area",
+            "mosaic-bounds",
+            "navigation-chrome",
+            "liquid-glass-tab-bar",
+            "lucide-selected-unselected"
+          ]
+        },
+        "dvor": {
+          "xcui": true,
+          "captures": [
+            "home--default",
+            "chats--default",
+            "yard--default",
+            "menu--default"
+          ],
+          "checks": [
+            "dynamic-type-AXXXL",
+            "safe-area",
+            "card-bounds",
+            "navigation-chrome",
+            "liquid-glass-tab-bar",
+            "lucide-selected-unselected"
+          ]
+        }
+      },
+      "manualOnly": [
+        "physical-device launch and real TCC prompts",
+        "VoiceOver reading order, rotor and announcements",
+        "physical-device Liquid Glass optical review"
+      ]
+    }
+  },
+  "blockers": {
+    "automated": [],
+    "manual": [
+      "physical-device",
+      "voiceover"
+    ]
+  },
+  "factoryReady": false
+}

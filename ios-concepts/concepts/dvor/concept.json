@@ -1,0 +1,3039 @@
+{
+  "slug": "dvor",
+  "name": "Двор",
+  "eyebrow": "Двор · Соседская сеть одного дома · iOS",
+  "targetSet": "vkontakte",
+  "domain": "dvor.app",
+  "heroTitle": "Двор — соцсеть одного дома",
+  "heroDeck": "Соседская сеть, в которую нельзя войти снаружи: право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию.",
+  "tagline": "Не лента по интересам, а сеть по адресу: общее у соседей не вкусы, а лифт, стояк, парковка и счётчики",
+  "insight": "соседи живут в двадцати метрах и не знакомы, потому что общего у них не интересы, а инфраструктура — и единственная валюта доверия здесь «ты правда живёшь здесь»",
+  "deck": "Гиперлокальная соседская сеть: 20 доступов набора ВКонтакте, ни одного своего сервера — только SDK провайдеров.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Жильцы многоквартирного дома, которым нужно решать общие бытовые задачи",
+    "situation": "Соседи живут рядом, но не знают друг друга и не доверяют общему чату",
+    "problem": "Объявления, счётчики, заявки и доступы разнесены по чатам, бумаге и личным сообщениям",
+    "promise": "Все дела дома в одном месте, а писать могут только подтверждённые жильцы",
+    "differentiator": "Сеть строится по адресу и домашней Wi-Fi, а не по интересам и алгоритмической ленте",
+    "returnReasons": [
+      "Новые дела и объявления своего дома",
+      "Ответы соседей в активных ветках",
+      "Регулярные показания, заявки и события"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "problem",
+      "result": "post"
+    },
+    "coreLoop": [
+      "Подтвердить свой дом",
+      "Увидеть актуальное дело двора",
+      "Ответить, передать показания или создать заявку"
+    ],
+    "nonGoals": [
+      "Публичная соцсеть",
+      "Лента по интересам",
+      "Замена управляющей компании"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Социальный граф, публикации, чаты и профиль сохраняют ожидания категории Social Networking",
+    "familiarPatterns": [
+      "Лента публикаций и реакций",
+      "Чаты и профиль участника",
+      "Таб-бар социальной сети"
+    ],
+    "distinctions": [
+      "Граф строится по адресу дома",
+      "Публикация доступна подтверждённым жильцам",
+      "Бытовые сценарии важнее контентной ленты"
+    ],
+    "evidenceScreens": [
+      "home",
+      "chats",
+      "yard",
+      "post"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile",
+      "create-post"
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#529EF5",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
+  },
+  "native": {
+    "schemaVersion": 1,
+    "platform": {
+      "minimumVersion": "26.0"
+    },
+    "extensions": [
+      "widget"
+    ],
+    "design": {
+      "strategy": "mimicry",
+      "referenceProfile": "vk-ios",
+      "density": "reference",
+      "colorScheme": "light",
+      "tokens": {
+        "accent": "#0077FF",
+        "background": "#FFFFFF",
+        "groupedBackground": "#F2F3F5",
+        "fill": "#E8EAF0",
+        "separator": "#E7E8EC",
+        "textPrimary": "#000000",
+        "textSecondary": "#818C99",
+        "badge": "#FF3347"
+      }
+    },
+    "navigation": {
+      "profileEntry": "single-contextual",
+      "profileEntryByTab": {
+        "home": "root-avatar",
+        "chats": "root-avatar",
+        "yard": "root-avatar",
+        "menu": "profile-row"
+      },
+      "tabs": [
+        {
+          "id": "home",
+          "label": "Дом",
+          "screen": "home",
+          "role": "house-matters",
+          "systemImage": "house"
+        },
+        {
+          "id": "chats",
+          "label": "Чаты",
+          "screen": "chats",
+          "role": "messaging",
+          "systemImage": "bubble.left"
+        },
+        {
+          "id": "yard",
+          "label": "Двор",
+          "screen": "yard",
+          "role": "infrastructure",
+          "systemImage": "square.grid.2x2"
+        },
+        {
+          "id": "menu",
+          "label": "Меню",
+          "screen": "menu",
+          "role": "services",
+          "systemImage": "line.3.horizontal"
+        }
+      ]
+    },
+    "actionContractVersion": 2
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "home",
+      "label": "Дом"
+    },
+    {
+      "id": "chats",
+      "label": "Чаты"
+    },
+    {
+      "id": "yard",
+      "label": "Двор"
+    },
+    {
+      "id": "menu",
+      "label": "Меню"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к геопозиции",
+        "text": "Чтобы проверить, что вы в границах своего двора, и получить право прочитать имя домашней сети."
+      },
+      "feature": "Пропуск в ветку дома: место плюс домашняя сеть",
+      "gesture": "«Я дома — проверить»",
+      "screen": "join",
+      "target": "verify",
+      "fallback": "Остаётся подтверждение адреса вручную — заявку смотрит старший по подъезду",
+      "snack": "Нет доступа к геопозиции",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CLLocationManager whenInUse: без него iOS не отдаёт имя текущей сети",
+      "grounding": "CLLocationManager и MKLocalSearch, карта — MapKit, схема двора рисуется кодом",
+      "reviewNote": "Геопозиция нужна дважды: показать точку во дворе и получить право прочитать SSID — iOS не отдаёт имя сети без разрешения на геопозицию. Радиус двора 150 м, координаты дома хранятся в профиле, трек не ведётся."
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Чтение имени сети",
+        "text": "Entitlement без системного запроса: имя текущей сети сверяется с сохранённым в профиле дома."
+      },
+      "feature": "Подтверждение «я дома» по имени домашней сети",
+      "gesture": "«Проверить сеть»",
+      "screen": "verify",
+      "target": "home",
+      "activate": true,
+      "fallback": "Без entitlement подтверждение остаётся только ручным — не ship",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CNCopyCurrentNetworkInfo плюс выданная геопозиция — иначе SSID приходит пустым",
+      "grounding": "CNCopyCurrentNetworkInfo, SSID сверяется с записанным локально в профиле дома",
+      "reviewNote": "Имя сети читается один раз при подтверждении дома и сравнивается с сохранённым на устройстве. SSID не отправляется и не логируется. Ключ работает только вместе с разрешением на геопозицию, поэтому оно запрашивается на предыдущем шаге."
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к камере",
+        "text": "Чтобы снять то, что сломалось, и сканировать QR-код гостевой сети двора."
+      },
+      "feature": "Съёмка проблемы во дворе и сканер QR",
+      "gesture": "«Снять» и «Сканировать QR»",
+      "screen": "problem",
+      "target": "shoot",
+      "fallback": "Остаётся фото из медиатеки и ввод имени сети с паролем руками",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVFoundation для съёмки, DataScannerViewController для QR — распознавание на устройстве"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к медиатеке",
+        "text": "Чтобы найти ваши снимки, сделанные в границах двора, — вы не помните, какие из них здешние."
+      },
+      "feature": "Хроника двора: снимки из медиатеки, попавшие в границы двора",
+      "gesture": "«Собрать хронику»",
+      "screen": "home",
+      "target": "chronicle",
+      "fallback": "В хронике остаются только кадры, снятые в приложении",
+      "snack": "Нет доступа к медиатеке",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHAsset с фильтром по геометке и дате; выбор вручную — PHPickerViewController",
+      "reviewNote": "Нужен полный доступ, а не PHPicker: приложение само обходит библиотеку и находит кадры, попавшие в радиус двора, — житель не помнит, какие из тысяч снимков здешние. Библиотека не выгружается: в дом уходят только те кадры, которые он отметил вручную."
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к микрофону",
+        "text": "Чтобы записать голосовое в чат подъезда, когда руки заняты сумками."
+      },
+      "feature": "Голосовое сообщение в чат подъезда",
+      "gesture": "«Записать голосовое»",
+      "screen": "chat",
+      "target": "voice",
+      "fallback": "Остаётся текстовое сообщение",
+      "snack": "Нет доступа к микрофону",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, файл уходит в Firebase Storage через SDK"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к распознаванию речи",
+        "text": "Чтобы рядом с голосовым появилась расшифровка — соседи читают, не включая звук."
+      },
+      "feature": "Расшифровка голосового в текст рядом с сообщением",
+      "gesture": "«Записать голосовое» — цепочкой с микрофоном",
+      "screen": "chat",
+      "target": "voice",
+      "fallback": "Голосовое отправляется без расшифровки",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true",
+      "reviewNote": "Распознавание идёт на устройстве, аудио не уходит в сервис распознавания. Расшифровка нужна, чтобы соседи читали подъездный чат в тишине — в лифте, на работе, ночью."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Двор» запрашивает разрешение на уведомления",
+        "text": "Пришлём, когда управляющая компания ответит на тему, за которой вы следите."
+      },
+      "feature": "Уведомление, когда по теме появился ответ",
+      "gesture": "«Следить за темой»",
+      "screen": "post",
+      "target": "post",
+      "fallback": "Ответы видны при открытии, тема помечается точкой в ленте",
+      "snack": "Уведомления отключены — включить можно в Настройках",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "регистрация в APNs через Firebase Cloud Messaging и отправка из консоли — своего сервера нет",
+      "grounding": "FCM SDK, темы подписок — Firestore, рассылка из консоли провайдера",
+      "reviewNote": "Уведомления приходят только по темам, на которые житель подписался сам кнопкой «Следить за темой». Отправка — из консоли Firebase Cloud Messaging, своего сервера нет."
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Entitlement без системного запроса: уведомление о сообщении соседа показывается с его аватаром."
+      },
+      "feature": "Сообщение соседа приходит с аватаром и попадает в сводку Focus",
+      "gesture": "«Показывать как сообщение»",
+      "screen": "chat",
+      "target": "lockscreen",
+      "activate": true,
+      "fallback": "Без entitlement уведомление обычное: имя в тексте, без аватара и вне сводки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "донат INSendMessageIntent и Notification Service Extension, подставляющий аватар",
+      "grounding": "INSendMessageIntent, Notification Service Extension, аватар из общего контейнера App Group",
+      "reviewNote": "Entitlement запрашивается под подъездный чат: уведомление о сообщении соседа донатит INSendMessageIntent, поэтому приходит с аватаром и уважает Focus. Звонков в приложении нет — VoIP не заявляется."
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихие уведомления",
+        "text": "Entitlement без системного запроса: тихий пуш обновляет показания и срок, пока приложение закрыто."
+      },
+      "feature": "Тихий пуш обновляет счётчики и виджет при закрытом приложении",
+      "gesture": "«Обновлять в фоне»",
+      "screen": "meters",
+      "target": "background",
+      "activate": true,
+      "fallback": "Без режима цифры обновляются только при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "обработчик didReceiveRemoteNotification, который переписывает снапшот виджета",
+      "grounding": "silent push из консоли FCM, снапшот в контейнере App Group"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Обновление в фоне",
+        "text": "Entitlement без системного запроса: объявления дома и срок передачи показаний подтягиваются к утру."
+      },
+      "feature": "Объявления дома и срок показаний готовы к первому открытию",
+      "gesture": "«Обновление в фоне»",
+      "screen": "settings",
+      "target": "background",
+      "activate": true,
+      "fallback": "Без режима лента и срок обновляются в момент открытия",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "BGAppRefreshTask, который реально читает объявления своего дома из Firestore",
+      "grounding": "BGAppRefreshTask, чтение Firestore через SDK, запись снапшота для виджета",
+      "reviewNote": "В фоне обновляются два конкретных предмета: объявления своего дома и срок передачи показаний. Обе строки видны на экране «Счётчики» и в виджете сразу после запуска — проверяется без ожидания."
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Идентификатор фоновой задачи",
+        "text": "Entitlement без системного запроса: app.dvor.refresh объявлен в Info.plist и зарегистрирован в коде."
+      },
+      "feature": "Идентификатор app.dvor.refresh — под ним планируется обновление",
+      "gesture": "«Проверить задачу»",
+      "screen": "background",
+      "target": "meters",
+      "activate": true,
+      "fallback": "Незарегистрированный идентификатор — задача не запустится вообще",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "строка в Info.plist совпадает с BGTaskScheduler.register — иначе падение при регистрации",
+      "grounding": "один идентификатор app.dvor.refresh под BGAppRefreshTask"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Entitlement без системного запроса: виджет и расширения читают данные приложения."
+      },
+      "feature": "Виджет «Двор» и Share Extension видят данные приложения",
+      "gesture": "«Виджет на экран „Домой“»",
+      "screen": "settings",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Без группы виджет пустой, а пересланное объявление не доходит — не ship",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "контейнер group.app.dvor: снапшот в JSON плюс аватары для Notification Service Extension"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая связка ключей",
+        "text": "Entitlement без системного запроса: одна сессия на приложение, виджет и расширения."
+      },
+      "feature": "Одна сессия: из виджета приложение открывается уже войденным",
+      "gesture": "«Открыть Двор» из виджета",
+      "screen": "widget",
+      "target": "home",
+      "activate": true,
+      "fallback": "Без общей группы вход придётся повторять в каждом расширении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с расширениями"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Автозаполнение паролей",
+        "text": "Entitlement без системного запроса: пароли дома подставляются в Safari системным автозаполнением."
+      },
+      "feature": "Пароли дома подставляются в Safari без копирования",
+      "gesture": "«Включить автозаполнение»",
+      "screen": "passwords",
+      "target": "fill",
+      "activate": true,
+      "fallback": "Пароль остаётся копировать руками из карточки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, записи в Keychain общей группы; публикует их старший по дому"
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "«Двор» подключит вас к сети Dvor-Guest",
+        "text": "Приложение настроит подключение к гостевой сети двора по параметрам из QR-кода."
+      },
+      "feature": "Подключение к гостевой сети двора по QR-коду с лавочки",
+      "gesture": "«Подключиться»",
+      "screen": "guest",
+      "target": "guest",
+      "fallback": "Имя сети и пароль показываются текстом — вводится руками в Настройках",
+      "snack": "Не удалось настроить подключение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfigurationManager, параметры сети приходят из QR — сервер не участвует"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к контактам",
+        "text": "Чтобы показать, кто из ваших знакомых уже живёт в этом доме. Книга не покидает устройство."
+      },
+      "feature": "Кто из ваших контактов уже в доме",
+      "gesture": "«Найти среди контактов»",
+      "screen": "menu",
+      "target": "neighbors",
+      "fallback": "Остаётся поиск по номеру квартиры и по подъезду",
+      "snack": "Нет доступа к контактам",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CNContactStore, сверка локально со списком жильцов дома, уже загруженным на устройство",
+      "reviewNote": "Адресная книга не покидает устройство: номера сверяются локально со списком жильцов своего дома, который к этому моменту уже загружен. Ничего не выгружается и не сохраняется, совпадения живут в памяти до выхода с экрана."
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает доступ к календарю",
+        "text": "Чтобы добавить собрание и субботник, а при переносе — поправить уже добавленное событие."
+      },
+      "feature": "События дома в календаре, с правкой при переносе даты",
+      "gesture": "«Добавить в Календарь»",
+      "screen": "events",
+      "target": "events",
+      "fallback": "Событие остаётся только внутри «Двора», с напоминанием в приложении",
+      "snack": "Нет доступа к календарю",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit локально; для iOS ниже 17 в Info.plist остаётся NSCalendarsUsageDescription",
+      "reviewNote": "Нужен полный доступ, а не write-only: управляющая компания переносит собрания, и приложение правит либо удаляет ранее созданное событие. Write-only не позволяет найти своё событие, чтобы его изменить."
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Двор» запрашивает использование Face ID",
+        "text": "Чтобы закрыть приложение: в нём адрес, номера квартир и коды от общих дверей."
+      },
+      "feature": "Замок на приложении: адрес, номера квартир и коды",
+      "gesture": "«Замок Face ID»",
+      "screen": "settings",
+      "target": "lock",
+      "fallback": "Остаётся код-пароль устройства",
+      "snack": "Face ID недоступен — останется код-пароль",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LocalAuthentication, политика deviceOwnerAuthentication — код-пароль как запасной путь"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Двору» отслеживать действия?",
+        "text": "Тогда реклама будет про местные услуги: сантехник в вашем районе, а не случайный баннер.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
+      "feature": "Реклама местных услуг вместо платной подписки",
+      "gesture": "«Продолжить»",
+      "screen": "ads",
+      "target": "menu",
+      "fallback": "Реклама остаётся, но неперсонализированная — не по интересам",
+      "snack": "Отслеживание запрещено — реклама будет обычной",
+      "snackOnce": true,
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "рекламный SDK в сборке, IDFA действительно уходит в SDK — иначе промпт нечем оправдать",
+      "grounding": "AppTrackingTransparency плюс рекламный SDK; ставки и креативы на стороне сети",
+      "reviewNote": "ATT показывается только после экрана с объяснением, никогда на старте. Отказ ничего не отключает: реклама остаётся, но без интересов — это написано на самом экране до промпта."
+    },
+    {
+      "key": "applesignin",
+      "feature": "Безопасный вход без отдельного пароля",
+      "gesture": "Продолжить с Apple",
+      "screen": "phone",
+      "target": "join",
+      "fallback": "Пользователь остаётся на экране входа и может повторить попытку",
+      "conditional": false,
+      "grounding": "Системный Sign in with Apple",
+      "alert": {
+        "title": "Войти в Двор с Apple",
+        "text": "Apple подтвердит личность; адрес дома проверяется отдельно."
+      }
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход с Apple",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения",
+      "native": {
+        "purpose": "Безопасно подтвердить личность через системный вход Apple",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ]
+      },
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Безопасно подтвердить личность через системный вход Apple",
+        "primaryAction": "Продолжить с Apple",
+        "hierarchy": {
+          "primary": "Главная задача: Войти без запроса системных доступов",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "componentFamilies": [
+          "auth-form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "sign-in-apple",
+            "label": "Продолжить с Apple",
+            "outcome": {
+              "type": "request",
+              "capability": "applesignin"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось войти через Apple. Повторите системный вход.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Вход по почте или Google» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Вход по почте или Google»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Вход по почте или Google»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "join",
+      "title": "Найдите свой дом",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "Location · пропуск в дом",
+      "native": {
+        "purpose": "Найти дом и начать подтверждение проживания",
+        "states": [
+          "default",
+          "searching",
+          "denied"
+        ]
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "push",
+        "purpose": "Найти дом и начать подтверждение проживания",
+        "primaryAction": "Я рядом — проверить",
+        "hierarchy": {
+          "primary": "Главная задача: Найти дом и начать подтверждение проживания",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "searching",
+          "denied"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "verify-location",
+            "label": "Я рядом — проверить",
+            "outcome": {
+              "type": "request",
+              "capability": "location"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось определить местоположение. Выберите дом вручную.",
+              "retry": true
+            }
+          },
+          {
+            "id": "manual-address",
+            "label": "Выбрать дом вручную",
+            "outcome": {
+              "type": "navigate",
+              "target": "manual"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Найдите свой дом» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Найдите свой дом»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Найдите свой дом»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "verify",
+      "title": "Проверка сети",
+      "type": "modal",
+      "light": true,
+      "parent": "join",
+      "meta": "Wi-Fi Info · SSID",
+      "native": {
+        "purpose": "Сверить присутствие во дворе и домашнюю сеть",
+        "states": [
+          "default",
+          "checking",
+          "success",
+          "mismatch",
+          "denied"
+        ],
+        "role": "residence-verification",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "modal",
+        "purpose": "Сверить присутствие во дворе и домашнюю сеть",
+        "primaryAction": "Проверить, что я дома",
+        "hierarchy": {
+          "primary": "Главная задача: Сверить присутствие во дворе и домашнюю сеть",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "checking",
+          "success",
+          "mismatch",
+          "denied"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "verify-network",
+            "label": "Проверить, что я дома",
+            "outcome": {
+              "type": "request",
+              "capability": "wifiinfo"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось подтвердить домашнюю сеть. Повторите дома или выберите ручную проверку.",
+              "retry": true
+            }
+          },
+          {
+            "id": "manual-verification",
+            "label": "Подтвердить адрес вручную",
+            "outcome": {
+              "type": "navigate",
+              "target": "manual"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Проверка сети» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Проверка сети»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Проверка сети»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "manual",
+      "title": "Адрес вручную",
+      "type": "push",
+      "light": true,
+      "parent": "join",
+      "meta": "Выбор дома из справочника",
+      "native": {
+        "purpose": "Подать адрес на ручное подтверждение",
+        "states": [
+          "default",
+          "submitted",
+          "error"
+        ]
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "push",
+        "purpose": "Сохранить заявку на ручное подтверждение без ложного обещания отправки",
+        "primaryAction": "Сохранить заявку",
+        "hierarchy": {
+          "primary": "Главная задача: Подать адрес на ручное подтверждение",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "submitted",
+          "error"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "submit-residence",
+            "label": "Сохранить заявку",
+            "outcome": {
+              "type": "mutate",
+              "state": "residenceReview"
+            },
+            "execution": "async",
+            "persistence": "local",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось отправить заявку. Данные останутся в форме для повтора.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Адрес вручную» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Адрес вручную»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Адрес вручную»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Дом",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Лента дома · Photo Library",
+      "native": {
+        "purpose": "Открыть социальную ленту своего дома и участвовать в жизни соседей",
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "liked",
+          "poll",
+          "poll-voted",
+          "end"
+        ],
+        "role": "house-matters",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "feed",
+        "navigation": "root",
+        "purpose": "Читать и создавать публикации соседей: фото, вопросы, объявления, события и проблемы",
+        "primaryAction": "Создать публикацию",
+        "hierarchy": {
+          "primary": "Создание публикации и первая публикация с автором, содержанием, медиа и реакциями",
+          "secondary": "Контекст дома, уведомления и следующие публикации"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "liked",
+          "poll",
+          "poll-voted",
+          "end"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "social-feed"
+        ],
+        "actions": [
+          {
+            "id": "create-post",
+            "label": "Создать публикацию",
+            "outcome": {
+              "type": "navigate",
+              "target": "createpost"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-notifications",
+            "label": "Уведомления дома",
+            "outcome": {
+              "type": "navigate",
+              "target": "notifications"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-post",
+            "label": "Открыть публикацию",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "like-post",
+            "label": "Поставить отметку «Нравится»",
+            "outcome": {
+              "type": "mutate",
+              "state": "likedPosts"
+            },
+            "execution": "sync",
+            "persistence": "server"
+          },
+          {
+            "id": "share-post",
+            "label": "Поделиться публикацией",
+            "outcome": {
+              "type": "external",
+              "destination": "share-sheet"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Фотография двора, обычный текст, объявление, вопрос, событие и проблема от разных соседей"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная публикация с фотографией, реакциями и несколькими комментариями при крупном тексте"
+          },
+          {
+            "kind": "failure",
+            "example": "Лента временно не обновляется, но сохранённые дела остаются доступными"
+          }
+        ]
+      }
+    },
+    {
+      "id": "createpost",
+      "title": "Новая публикация",
+      "type": "sheet",
+      "light": true,
+      "parent": "home",
+      "meta": "Единый вход создания контента дома · PhotosPicker",
+      "native": {
+        "purpose": "Опубликовать текст, фотографию, вопрос, объявление, событие или проблему в ленте дома",
+        "states": [
+          "default",
+          "error"
+        ],
+        "role": "social-publisher",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "modal",
+        "purpose": "Создать предсказуемую публикацию для подтверждённых жильцов дома",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Автор, аудитория и содержание публикации",
+          "secondary": "Тип публикации и фотография"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "comfortable",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "publish-post",
+            "label": "Опубликовать",
+            "outcome": {
+              "type": "mutate",
+              "state": "houseFeed"
+            },
+            "execution": "async",
+            "persistence": "server",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось опубликовать. Черновик сохранён — повторите попытку.",
+              "retry": true
+            }
+          },
+          {
+            "id": "cancel-post",
+            "label": "Отмена",
+            "outcome": {
+              "type": "dismiss"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "change-type",
+            "label": "Изменить тип публикации",
+            "outcome": {
+              "type": "mutate",
+              "state": "composerKind"
+            },
+            "execution": "sync",
+            "persistence": "local"
+          },
+          {
+            "id": "add-photo",
+            "label": "Добавить фотографию",
+            "outcome": {
+              "type": "request",
+              "capability": "photos"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось открыть фотографии. Разрешите доступ в настройках iPhone.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Короткий текст и фотография двора"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная публикация с выбранным типом и фотографией"
+          },
+          {
+            "kind": "failure",
+            "example": "Не удалось опубликовать, содержимое остаётся в редакторе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notifications",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "События дома ведут к исходному объекту",
+      "native": {
+        "purpose": "Понять, что изменилось в доме, и открыть исходное дело, чат или срок",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "role": "activity"
+      },
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать изменения дома с однозначным переходом к их источнику",
+        "primaryAction": "Открыть источник уведомления",
+        "hierarchy": {
+          "primary": "Непрочитанные изменения и их источник",
+          "secondary": "Прочитанные события и действие «Прочитать все»"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "open-source",
+            "label": "Открыть источник уведомления",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "mark-all-read",
+            "label": "Прочитать всё",
+            "outcome": {
+              "type": "mutate",
+              "state": "readNotifications"
+            },
+            "execution": "sync",
+            "persistence": "local"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Статус заявки, сообщение подъезда и срок передачи показаний"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько длинных уведомлений из разных разделов при крупном тексте"
+          },
+          {
+            "kind": "failure",
+            "example": "Новых событий нет, ранее прочитанные объекты остаются доступны в разделах"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Объявление",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "aps-environment",
+      "native": {
+        "purpose": "Разобраться в одном деле дома и выполнить следующее действие",
+        "states": [
+          "default",
+          "following",
+          "resolved"
+        ],
+        "role": "house-matter",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Разобраться в одном деле дома и выполнить следующее действие",
+        "primaryAction": "Следить за изменениями",
+        "hierarchy": {
+          "primary": "Главная задача: Разобраться в одном деле дома и выполнить следующее действие",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "following",
+          "resolved"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "matter-summary",
+          "thread",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "follow-post",
+            "label": "Следить за изменениями",
+            "outcome": {
+              "type": "mutate",
+              "state": "followingMatters"
+            },
+            "execution": "sync",
+            "persistence": "server"
+          },
+          {
+            "id": "open-house-chat",
+            "label": "Написать в чат дома",
+            "outcome": {
+              "type": "navigate",
+              "target": "chat"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "send-comment",
+            "label": "Отправить комментарий",
+            "outcome": {
+              "type": "mutate",
+              "state": "matterReplies"
+            },
+            "execution": "sync",
+            "persistence": "server"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Объявление» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Объявление»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Объявление»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "problem",
+      "title": "Сообщить о проблеме",
+      "type": "sheet",
+      "light": true,
+      "parent": "home",
+      "meta": "Camera",
+      "native": {
+        "purpose": "Сообщить о проблеме с местом и доказательством",
+        "states": [
+          "default",
+          "submitting",
+          "success",
+          "error"
+        ],
+        "role": "incident-report",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "push",
+        "purpose": "Сообщить о проблеме с местом и доказательством",
+        "primaryAction": "Сообщить",
+        "hierarchy": {
+          "primary": "Главная задача: Сообщить о проблеме с местом и доказательством",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "submitting",
+          "success",
+          "error"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "submit-problem",
+            "label": "Сообщить",
+            "outcome": {
+              "type": "mutate",
+              "state": "houseFeed"
+            },
+            "execution": "async",
+            "persistence": "server",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось отправить сообщение. Черновик сохранён для повтора.",
+              "retry": true
+            }
+          },
+          {
+            "id": "add-evidence",
+            "label": "Добавить фото",
+            "outcome": {
+              "type": "request",
+              "capability": "camera"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Камера недоступна. Выберите готовую фотографию.",
+              "retry": true
+            }
+          },
+          {
+            "id": "cancel-problem",
+            "label": "Отмена",
+            "outcome": {
+              "type": "dismiss"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Сообщить о проблеме» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Сообщить о проблеме»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Сообщить о проблеме»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shoot",
+      "title": "Камера",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "problem",
+      "meta": "AVFoundation",
+      "native": {
+        "purpose": "Снять доказательство проблемы",
+        "states": [
+          "default",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "chronicle",
+      "title": "Хроника двора",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Photo Library · обход библиотеки",
+      "native": {
+        "purpose": "Отобрать снимки своего двора из медиатеки",
+        "states": [
+          "scanning",
+          "populated",
+          "selected",
+          "empty",
+          "denied"
+        ],
+        "role": "yard-chronicle",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Отобрать снимки своего двора из медиатеки",
+        "primaryAction": "Выбрать фотографии",
+        "hierarchy": {
+          "primary": "Главная задача: Отобрать снимки своего двора из медиатеки",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "scanning",
+          "populated",
+          "selected",
+          "empty",
+          "denied"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "select-photos",
+            "label": "Выбрать фотографии",
+            "outcome": {
+              "type": "request",
+              "capability": "photos"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось открыть медиатеку. Разрешите доступ в настройках iPhone.",
+              "retry": true
+            }
+          },
+          {
+            "id": "share-chronicle",
+            "label": "Поделиться в ленте дома",
+            "outcome": {
+              "type": "mutate",
+              "state": "houseFeed"
+            },
+            "execution": "async",
+            "persistence": "server",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось опубликовать хронику. Выбранные фото сохранены для повтора.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Хроника двора» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Хроника двора»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Хроника двора»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "chats",
+      "title": "Чаты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Список чатов дома",
+      "native": {
+        "purpose": "Вернуться к разговорам дома и подъезда",
+        "states": [
+          "default",
+          "empty",
+          "loading"
+        ]
+      },
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Вернуться к разговорам дома и подъезда",
+        "primaryAction": "Открыть чат",
+        "hierarchy": {
+          "primary": "Главная задача: Вернуться к разговорам дома и подъезда",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "open-chat",
+            "label": "Открыть чат",
+            "outcome": {
+              "type": "navigate",
+              "target": "chat"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Чаты» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Чаты»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Чаты»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "chat",
+      "title": "Чат подъезда",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Microphone · Speech · Communication",
+      "native": {
+        "purpose": "Обсудить дело с подъездом",
+        "states": [
+          "default",
+          "empty"
+        ]
+      },
+      "ui": {
+        "pattern": "chat",
+        "navigation": "push",
+        "purpose": "Обсудить дело с подъездом",
+        "primaryAction": "Отправить сообщение",
+        "hierarchy": {
+          "primary": "Главная задача: Обсудить дело с подъездом",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "chat",
+          "message-list",
+          "composer"
+        ],
+        "actions": [
+          {
+            "id": "send-message",
+            "label": "Отправить сообщение",
+            "outcome": {
+              "type": "mutate",
+              "state": "conversationMessages"
+            },
+            "execution": "async",
+            "persistence": "server",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Сообщение не отправлено. Нажмите ещё раз, чтобы повторить.",
+              "retry": true
+            }
+          },
+          {
+            "id": "attach-photo",
+            "label": "Добавить фото",
+            "outcome": {
+              "type": "request",
+              "capability": "photos"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось открыть фотографии. Разрешите доступ в настройках iPhone.",
+              "retry": true
+            }
+          },
+          {
+            "id": "record-voice",
+            "label": "Записать голосовое",
+            "outcome": {
+              "type": "request",
+              "capability": "mic"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Микрофон недоступен. Можно отправить текстовое сообщение.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Чат подъезда» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Чат подъезда»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Чат подъезда»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовое",
+      "type": "sheet",
+      "light": true,
+      "parent": "chat",
+      "meta": "Microphone · Speech",
+      "native": {
+        "purpose": "Записать и расшифровать голосовое сообщение",
+        "states": [
+          "recording",
+          "transcribing",
+          "ready",
+          "denied"
+        ]
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Записать и расшифровать голосовое сообщение",
+        "primaryAction": "Отправить голосовое",
+        "hierarchy": {
+          "primary": "Главная задача: Записать и расшифровать голосовое сообщение",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "recording",
+          "transcribing",
+          "ready",
+          "denied"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "send-voice",
+            "label": "Отправить голосовое",
+            "outcome": {
+              "type": "mutate",
+              "state": "conversationMessages"
+            },
+            "execution": "async",
+            "persistence": "server",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Голосовое не отправлено. Запись сохранена для повтора.",
+              "retry": true
+            }
+          },
+          {
+            "id": "cancel-voice",
+            "label": "Отменить запись",
+            "outcome": {
+              "type": "dismiss"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Голосовое» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Голосовое»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Голосовое»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lockscreen",
+      "title": "Экран блокировки",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "chat",
+      "meta": "Communication notification",
+      "native": {
+        "purpose": "Показать сообщение соседа как системное общение",
+        "states": [
+          "default",
+          "fallback"
+        ]
+      }
+    },
+    {
+      "id": "yard",
+      "title": "Двор",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Схема двора · Location",
+      "native": {
+        "purpose": "Открыть инфраструктуру дома одним действием",
+        "states": [
+          "default"
+        ],
+        "role": "infrastructure",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "services",
+        "navigation": "root",
+        "purpose": "Открыть инфраструктуру дома одним действием",
+        "primaryAction": "Открыть текущее дело",
+        "hierarchy": {
+          "primary": "Главная задача: Открыть инфраструктуру дома одним действием",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "service-list"
+        ],
+        "actions": [
+          {
+            "id": "open-incident",
+            "label": "Открыть текущее дело",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-yard-event",
+            "label": "Открыть событие во дворе",
+            "outcome": {
+              "type": "navigate",
+              "target": "events"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-guest",
+            "label": "Открыть гостевую сеть",
+            "outcome": {
+              "type": "navigate",
+              "target": "guest"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-meters",
+            "label": "Открыть счётчики",
+            "outcome": {
+              "type": "navigate",
+              "target": "meters"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-events",
+            "label": "Открыть события",
+            "outcome": {
+              "type": "navigate",
+              "target": "events"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Двор» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Двор»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Двор»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guest",
+      "title": "Гостевая сеть",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Hotspot · Camera",
+      "native": {
+        "purpose": "Подключить гостя к сети без ручного ввода",
+        "states": [
+          "default",
+          "connecting",
+          "connected",
+          "error"
+        ],
+        "role": "house-access",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Подключить гостя к сети без ручного ввода",
+        "primaryAction": "Подключить это устройство",
+        "hierarchy": {
+          "primary": "Главная задача: Подключить гостя к сети без ручного ввода",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "connecting",
+          "connected",
+          "error"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "task-intro",
+          "access-data",
+          "primary-action",
+          "fallback-action"
+        ],
+        "actions": [
+          {
+            "id": "connect-guest",
+            "label": "Подключить это устройство",
+            "outcome": {
+              "type": "request",
+              "capability": "hotspot"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось подключиться. Откройте имя сети и пароль для ручного входа.",
+              "retry": true
+            }
+          },
+          {
+            "id": "scan-guest-qr",
+            "label": "Сканировать QR гостя",
+            "outcome": {
+              "type": "request",
+              "capability": "camera"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Камера недоступна. Подключитесь по имени сети и паролю.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Гостевая сеть» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Гостевая сеть»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Гостевая сеть»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scan",
+      "title": "Сканер QR",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "guest",
+      "meta": "DataScanner",
+      "native": {
+        "purpose": "Считать QR-код гостевой сети",
+        "states": [
+          "default",
+          "denied",
+          "error"
+        ]
+      }
+    },
+    {
+      "id": "meters",
+      "title": "Счётчики",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Remote notification",
+      "native": {
+        "purpose": "Передать показания вовремя и сохранить черновик локально",
+        "states": [
+          "default",
+          "editing",
+          "submitted",
+          "error"
+        ],
+        "role": "metering",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "form",
+        "navigation": "push",
+        "purpose": "Передать показания вовремя и сохранить черновик локально",
+        "primaryAction": "Сохранить показания",
+        "hierarchy": {
+          "primary": "Главная задача: Передать показания вовремя и сохранить черновик локально",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "editing",
+          "submitted",
+          "error"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "save-readings",
+            "label": "Сохранить показания",
+            "outcome": {
+              "type": "mutate",
+              "state": "meterReceipt"
+            },
+            "execution": "async",
+            "persistence": "local",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось сохранить показания. Проверьте значения и повторите попытку.",
+              "retry": true
+            }
+          },
+          {
+            "id": "enable-reminder",
+            "label": "Напомнить о следующем сроке",
+            "outcome": {
+              "type": "request",
+              "capability": "remotenotif"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Уведомления не разрешены. Срок останется виден в приложении.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Счётчики» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Счётчики»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Счётчики»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Обновление в фоне",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "meters",
+      "meta": "Background fetch · BGTaskScheduler",
+      "native": {
+        "purpose": "Проверить свежесть фонового обновления дома",
+        "states": [
+          "current",
+          "stale",
+          "error"
+        ]
+      }
+    },
+    {
+      "id": "events",
+      "title": "События дома",
+      "type": "push",
+      "light": true,
+      "parent": "yard",
+      "meta": "Calendars Full Access",
+      "native": {
+        "purpose": "Увидеть события дома и добавить их в календарь",
+        "states": [
+          "default",
+          "empty",
+          "added",
+          "error"
+        ]
+      },
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Увидеть события дома и добавить их в календарь",
+        "primaryAction": "Добавить в календарь",
+        "hierarchy": {
+          "primary": "Главная задача: Увидеть события дома и добавить их в календарь",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "empty",
+          "added",
+          "error"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "add-calendar",
+            "label": "Добавить в календарь",
+            "outcome": {
+              "type": "request",
+              "capability": "calendar"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось добавить событие. Дата и место останутся видны в Дворе.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «События дома» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «События дома»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «События дома»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "menu",
+      "title": "Меню",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Плитки разделов · Contacts",
+      "native": {
+        "purpose": "Открыть сервисы и защищённые данные дома",
+        "states": [
+          "default"
+        ]
+      },
+      "ui": {
+        "pattern": "services",
+        "navigation": "root",
+        "purpose": "Открыть сервисы и защищённые данные дома",
+        "primaryAction": "Открыть доступы дома",
+        "hierarchy": {
+          "primary": "Главная задача: Открыть сервисы и защищённые данные дома",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "service-grid"
+        ],
+        "actions": [
+          {
+            "id": "open-access",
+            "label": "Открыть доступы дома",
+            "outcome": {
+              "type": "navigate",
+              "target": "passwords"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-neighbors",
+            "label": "Открыть соседей",
+            "outcome": {
+              "type": "navigate",
+              "target": "neighbors"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "open-settings",
+            "label": "Открыть настройки",
+            "outcome": {
+              "type": "navigate",
+              "target": "settings"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Меню» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Меню»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Меню»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "passwords",
+      "title": "Пароли дома",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "AutoFill Credential Provider",
+      "native": {
+        "purpose": "Использовать защищённые доступы дома",
+        "states": [
+          "populated",
+          "empty",
+          "locked"
+        ],
+        "role": "house-access",
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Использовать защищённые доступы дома",
+        "primaryAction": "Разблокировать доступы",
+        "hierarchy": {
+          "primary": "Главная задача: Использовать защищённые доступы дома",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "populated",
+          "empty",
+          "locked"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "task-intro",
+          "access-data",
+          "primary-action",
+          "fallback-action"
+        ],
+        "actions": [
+          {
+            "id": "unlock-access",
+            "label": "Разблокировать доступы",
+            "outcome": {
+              "type": "request",
+              "capability": "autofill"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось разблокировать доступы. Проверьте Face ID и AutoFill в настройках iPhone.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Пароли дома» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Пароли дома»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Пароли дома»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение в Safari",
+      "type": "системная поверхность",
+      "light": true,
+      "parent": "passwords",
+      "meta": "ASCredentialProvider",
+      "native": {
+        "purpose": "Подставить доступ дома через системный AutoFill",
+        "states": [
+          "default",
+          "empty"
+        ]
+      }
+    },
+    {
+      "id": "neighbors",
+      "title": "Соседи из контактов",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Contacts · локальная сверка",
+      "native": {
+        "purpose": "Найти знакомых среди подтверждённых жильцов локально",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ]
+      },
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Найти знакомых среди подтверждённых жильцов локально",
+        "primaryAction": "Найти знакомых в контактах",
+        "hierarchy": {
+          "primary": "Главная задача: Найти знакомых среди подтверждённых жильцов локально",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "high",
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "match-contacts",
+            "label": "Найти знакомых в контактах",
+            "outcome": {
+              "type": "request",
+              "capability": "contacts"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Контакты недоступны. Список соседей продолжит работать без них.",
+              "retry": true
+            }
+          },
+          {
+            "id": "open-neighbor",
+            "label": "Открыть профиль соседа",
+            "outcome": {
+              "type": "navigate",
+              "target": "profile"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Соседи из контактов» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Соседи из контактов»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Соседи из контактов»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль соседа",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Карточка жильца",
+      "native": {
+        "purpose": "Связаться с соседом, не раскрывая номер",
+        "states": [
+          "default"
+        ]
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Связаться с соседом, не раскрывая номер",
+        "primaryAction": "Написать",
+        "hierarchy": {
+          "primary": "Главная задача: Связаться с соседом, не раскрывая номер",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "open-neighbor-chat",
+            "label": "Написать",
+            "outcome": {
+              "type": "navigate",
+              "target": "chat"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Профиль соседа» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Профиль соседа»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Профиль соседа»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "menu",
+      "meta": "Push · Face ID · фон · виджет",
+      "native": {
+        "purpose": "Управлять приватностью, фоновыми функциями и защитой",
+        "states": [
+          "default"
+        ]
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Управлять приватностью, фоновыми функциями и защитой",
+        "primaryAction": "Защитить вход",
+        "hierarchy": {
+          "primary": "Главная задача: Управлять приватностью, фоновыми функциями и защитой",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "enable-app-lock",
+            "label": "Защитить вход",
+            "outcome": {
+              "type": "request",
+              "capability": "faceid"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось включить защиту. Проверьте Face ID в настройках iPhone.",
+              "retry": true
+            }
+          },
+          {
+            "id": "open-personalization",
+            "label": "Настроить предложения",
+            "outcome": {
+              "type": "navigate",
+              "target": "ads"
+            },
+            "execution": "sync",
+            "persistence": "none"
+          },
+          {
+            "id": "enable-background-updates",
+            "label": "Обновлять дом в фоне",
+            "outcome": {
+              "type": "request",
+              "capability": "bgtask"
+            },
+            "execution": "async",
+            "persistence": "local",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Фоновое обновление не включилось. Дом обновится при открытии приложения.",
+              "retry": true
+            }
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Настройки» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Настройки»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Настройки»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Реклама",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT после объяснения",
+      "native": {
+        "purpose": "Объяснить выбор персонализации до системного запроса",
+        "states": [
+          "default",
+          "accepted",
+          "declined"
+        ]
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "modal",
+        "purpose": "Объяснить выбор персонализации до системного запроса",
+        "primaryAction": "Учитывать интересы",
+        "hierarchy": {
+          "primary": "Главная задача: Объяснить выбор персонализации до системного запроса",
+          "secondary": "Контекст, состояние и предсказуемые следующие действия"
+        },
+        "states": [
+          "default",
+          "accepted",
+          "declined"
+        ],
+        "density": "medium",
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "enable-personalization",
+            "label": "Учитывать интересы",
+            "outcome": {
+              "type": "request",
+              "capability": "tracking"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Персонализация не включена. Предложения останутся общими.",
+              "retry": true
+            }
+          },
+          {
+            "id": "decline-personalization",
+            "label": "Не сейчас",
+            "outcome": {
+              "type": "mutate",
+              "state": "personalizedServices"
+            },
+            "execution": "sync",
+            "persistence": "local"
+          }
+        ],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий экрана «Реклама» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные данные, крупный текст и плотное содержимое экрана «Реклама»"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ, ошибка или пустое состояние с понятным следующим действием на экране «Реклама»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lock",
+      "title": "Замок Face ID",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "LocalAuthentication",
+      "native": {
+        "purpose": "Защитить адрес, квартиры и коды",
+        "states": [
+          "locked",
+          "unlocked",
+          "fallback"
+        ]
+      }
+    },
+    {
+      "id": "widget",
+      "title": "Виджет на экране «Домой»",
+      "type": "системная поверхность",
+      "light": false,
+      "parent": "settings",
+      "meta": "App Groups · Keychain",
+      "native": {
+        "purpose": "Показать отключения и срок показаний до открытия приложения",
+        "states": [
+          "current",
+          "stale",
+          "empty"
+        ]
+      }
+    },
+    {
+      "id": "pending",
+      "title": "Заявка сохранена",
+      "type": "state",
+      "light": true,
+      "parent": "home",
+      "meta": "Read-only privacy gate",
+      "native": {
+        "presentation": "state",
+        "purpose": "Не раскрывать чаты и защищённые сервисы по одной локальной заявке",
+        "states": [
+          "default"
+        ],
+        "distinction": true
+      },
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Объяснить read-only режим и честно отделить локальное сохранение от подтверждения дома",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Причина ограничения и текущий статус локальной заявки",
+          "secondary": "Что уже доступно и что откроется после подтверждения"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "componentFamilies": [],
+        "actions": [],
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Заявка сохранена на iPhone, лента доступна только для чтения"
+          },
+          {
+            "kind": "stress",
+            "example": "Подтверждение дома ещё не получено, приватные превью и коды полностью скрыты"
+          },
+          {
+            "kind": "failure",
+            "example": "Статус дома недоступен, приложение сохраняет безопасный read-only режим"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все 30 экранов и все 20 доступов набора",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "join",
+        "verify",
+        "manual",
+        "home",
+        "post",
+        "problem",
+        "shoot",
+        "chronicle",
+        "chats",
+        "chat",
+        "voice",
+        "lockscreen",
+        "yard",
+        "guest",
+        "scan",
+        "meters",
+        "background",
+        "events",
+        "menu",
+        "passwords",
+        "fill",
+        "neighbors",
+        "profile",
+        "settings",
+        "ads",
+        "lock",
+        "widget"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход и пропуск в дом",
+      "note": "Номер, код и выбор дома из справочника",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "join",
+        "verify",
+        "manual",
+        "home"
+      ],
+      "stops": [
+        "home"
+      ]
+    },
+    {
+      "id": "repair",
+      "label": "Проблема во дворе",
+      "note": "Съёмка неисправности, заявка в УК и хроника из медиатеки",
+      "start": "home",
+      "screens": [
+        "home",
+        "problem",
+        "shoot",
+        "chronicle",
+        "post"
+      ]
+    },
+    {
+      "id": "talk",
+      "label": "Разговор с подъездом",
+      "note": "Голосовое с расшифровкой, уведомление с аватаром и звонок в квартиру",
+      "start": "chats",
+      "screens": [
+        "chats",
+        "chat",
+        "voice",
+        "lockscreen",
+        "profile"
+      ]
+    },
+    {
+      "id": "guestnet",
+      "label": "Гостевая сеть по QR",
+      "note": "Скан кода с лавочки и подключение без ввода пароля",
+      "start": "yard",
+      "screens": [
+        "yard",
+        "guest",
+        "scan",
+        "problem",
+        "meters",
+        "events"
+      ],
+      "stops": [
+        "problem",
+        "meters",
+        "events"
+      ]
+    },
+    {
+      "id": "services",
+      "label": "Счётчики, события, фон",
+      "note": "Показания, срок передачи, фоновое обновление и календарь",
+      "start": "yard",
+      "screens": [
+        "yard",
+        "meters",
+        "background",
+        "events",
+        "guest",
+        "problem"
+      ],
+      "stops": [
+        "guest",
+        "problem"
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Доступы, виджет, замок",
+      "note": "Пуш, ATT после объяснения, Face ID, виджет и общая сессия",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "verify",
+        "background",
+        "widget",
+        "lock",
+        "ads",
+        "menu",
+        "home",
+        "meters"
+      ],
+      "stops": [
+        "menu",
+        "home"
+      ]
+    },
+    {
+      "id": "keys",
+      "label": "Соседи и пароли дома",
+      "note": "Локальная сверка контактов и автозаполнение в Safari",
+      "start": "menu",
+      "screens": [
+        "menu",
+        "neighbors",
+        "profile",
+        "passwords",
+        "fill",
+        "chat",
+        "settings",
+        "meters",
+        "events",
+        "guest",
+        "chronicle",
+        "chats",
+        "ads",
+        "yard",
+        "home"
+      ],
+      "stops": [
+        "chat",
+        "settings",
+        "meters",
+        "events",
+        "guest",
+        "chronicle",
+        "chats",
+        "ads",
+        "yard",
+        "home"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Вход по почте или Google и сессия",
+      "solution": "OAuth-провайдер: <code>VK ID</code> или Google Sign-In, токен в Keychain общей группы"
+    },
+    {
+      "needs": "Ветки домов, профили жильцов, соцграф",
+      "solution": "Firestore со security rules: ветка дома пишется только теми, чей дом подтверждён. Правила — конфигурация, не серверный код"
+    },
+    {
+      "needs": "Чат подъезда и голосовые",
+      "solution": "Firestore для сообщений, Firebase Storage для аудио — обращения из клиента через SDK"
+    },
+    {
+      "needs": "Подтверждение «я правда здесь живу»",
+      "solution": "Клиент: геопозиция в радиусе двора плюс <code>CNCopyCurrentNetworkInfo</code> против SSID, записанного в профиле дома. Модерация не нужна"
+    },
+    {
+      "needs": "Уведомления о темах и сообщениях",
+      "solution": "Firebase Cloud Messaging, рассылка из консоли провайдера; аватар подставляет Notification Service Extension"
+    },
+    {
+      "needs": "Объявления управляющей компании",
+      "solution": "Публикует старший по дому в том же Firestore, роль — флаг в документе дома. Парсера сайтов УК нет"
+    },
+    {
+      "needs": "Схема двора и адреса",
+      "solution": "MapKit и <code>MKLocalSearch</code>; поэтажный план и разметка двора рисуются кодом как данные"
+    },
+    {
+      "needs": "Показания счётчиков и срок передачи",
+      "solution": "CoreData на устройстве, срок считается локально по дате; отправка в УК — системный share sheet"
+    },
+    {
+      "needs": "Поиск знакомых среди жильцов",
+      "solution": "Локальная сверка <code>CNContactStore</code> со списком дома, уже загруженным на устройство"
+    },
+    {
+      "needs": "Пароли общих сервисов дома",
+      "solution": "Keychain общей группы плюс Credential Provider extension; публикует записи старший по дому"
+    },
+    {
+      "needs": "Хроника двора из фотографий",
+      "solution": "<code>PHAsset</code> с фильтром по геометке и дате — обход библиотеки идёт на устройстве"
+    },
+    {
+      "needs": "Монетизация без подписки",
+      "solution": "Рекламный SDK, ставки и креативы на стороне сети; ATT после экрана-объяснения"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Двор — соседи вашего дома",
+    "subtitle": "Чат подъезда, счётчики, двор",
+    "promo": "Право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию. Внутри — чат подъезда, схема двора, срок передачи показаний и гостевая сеть по QR.",
+    "keywords": "жкх,тсж,управляющая,домофон,объявления,жильцы,квартира,показания,собрание,общедомовой",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Utilities"
+    },
+    "ageRating": "12+",
+    "price": "Бесплатно, реклама местных услуг, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS через SDK провайдеров",
+    "urls": {
+      "support": "https://dvor.app/support",
+      "marketing": "https://dvor.app",
+      "privacy": "https://dvor.app/privacy"
+    },
+    "description": [
+      "«Двор» — соседская сеть одного дома. Не лента по интересам: общее у соседей не вкусы, а лифт, стояк, парковка и счётчики. Поэтому и вход здесь другой — право писать в ветку дома открывает домашняя сеть Wi-Fi, а не заявка на модерацию.",
+      "ПРОПУСК В ДОМ ПО ДОМАШНЕЙ СЕТИ\nПриложение проверяет две вещи: вы в границах двора и телефон подключён к сети, записанной в профиле дома. Совпало — ветка дома открыта. Не совпало — остаётся подтверждение адреса вручную, его смотрит старший по подъезду.",
+      "ЧАТ ПОДЪЕЗДА С РАСШИФРОВКОЙ\nГолосовое записывается одной кнопкой, когда руки заняты сумками, и приходит с расшифровкой рядом — соседи читают в тишине. Распознавание идёт на устройстве.",
+      "ХРОНИКА ДВОРА ИЗ ВАШИХ ЖЕ ФОТО\nПриложение находит в медиатеке снимки, попавшие в границы двора, и предлагает добавить их в хронику или приложить к заявке. Вы не помните, какие из тысяч кадров здешние, — приложение помнит.",
+      "СЧЁТЧИКИ И СРОК\nПоказания живут на устройстве, срок передачи считается локально, а объявления дома подтягиваются в фоне — к первому открытию они уже на месте. Виджет на экране «Домой» показывает ближайший срок и отключение воды.",
+      "ГОСТЕВАЯ СЕТЬ ПО QR\nQR-код с лавочки во дворе — и телефон подключён к гостевой сети без ввода пароля. Если камера недоступна, имя сети и пароль показываются текстом.",
+      "ПАРОЛИ ДОМА\nДоступы к общим сервисам — кабинет управляющей компании, видеонаблюдение, гостевая сеть — подставляются в Safari системным автозаполнением. Записи публикует старший по дому.",
+      "СВОЕГО СЕРВЕРА У НАС НЕТ\nВход, база и уведомления работают на SDK провайдеров, схема двора — на MapKit, показания и хроника — на устройстве. Все доступы запрашиваются в момент действия, и у каждого есть работающий отказ."
+    ],
+    "whatsNew": "Первая версия: пропуск в дом по домашней сети, чат подъезда с расшифровкой голосовых, хроника двора из медиатеки, счётчики с виджетом, гостевая сеть по QR и пароли дома в автозаполнении Safari.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации, токен лежит в Keychain"
+      },
+      {
+        "type": "Точное местоположение",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Проверка, что житель в границах двора: радиус 150 м на reduced accuracy не проверяется, поэтому лейбл именно precise. Координаты не сохраняются, трек не ведётся"
+      },
+      {
+        "type": "Адрес и номер квартиры",
+        "apple": "Contact Info → Physical Address",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Дом, подъезд и квартира — это и есть профиль жильца: по ним открывается ветка дома и подписываются заявки. Видны только соседям с подтверждённым домом"
+      },
+      {
+        "type": "Сообщения в чате подъезда",
+        "apple": "User Content → Emails or Text Messages",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Текст сообщений и объявлений хранится в Firestore, доступ ограничен security rules ветки дома"
+      },
+      {
+        "type": "Фотографии и видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Кадры, которые житель сам отметил для хроники или заявки. Обход библиотеки идёт на устройстве, целиком она не выгружается"
+      },
+      {
+        "type": "Аудиозаписи",
+        "apple": "User Content → Audio Data",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Голосовые в чате подъезда. Расшифровка делается на устройстве, в сервис распознавания аудио не уходит"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Сверка идёт локально со списком жильцов своего дома. Адресная книга не покидает устройство и не сохраняется"
+      },
+      {
+        "type": "Токен уведомлений",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Push-токен FCM: по нему приходят уведомления о темах и сообщениях. Трекингом не используется"
+      },
+      {
+        "type": "Рекламный идентификатор",
+        "apple": "Identifiers → Advertising Data",
+        "purpose": "Сторонняя реклама",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA уходит в рекламный SDK только после разрешения в ATT. Отказ оставляет неперсонализированную рекламу. Это единственная строка с трекингом"
+      }
+    ],
+    "reviewAccount": {
+      "email": "marina@inbox.ru",
+      "code": "2600",
+      "note": "Вход по почте: тестовый адрес принимает код 2600; альтернативно доступен вход с Google. После входа выберите демо-дом «Полевая, 12» или добавьте адрес через справочник."
+    }
+  },
+  "uiContractVersion": 3
+}

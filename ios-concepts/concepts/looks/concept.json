@@ -1,0 +1,2696 @@
+{
+  "slug": "looks",
+  "name": "Образы",
+  "eyebrow": "Образы · Социальная сеть личного стиля · iOS",
+  "targetSet": "vkontakte",
+  "domain": "looks.social",
+  "heroTitle": "Стиль начинается не с покупки",
+  "heroDeck": "Авторы, публикации, сообщества и разговоры о личном стиле — без витрины маркетплейса.",
+  "tagline": "Не вещи по отдельности, а сочетания, которые уже живут",
+  "insight": "люди сохраняют не товар, а готовый ответ на вопрос «как это носить»",
+  "deck": "Социальная сеть личного стиля: публикации образов, профили авторов, сообщества, клипы-примерки и отметки вещей.",
+  "qualityContractVersion": 2,
+  "uiContractVersion": 3,
+  "product": {
+    "audience": "Люди 18–35 лет, которые собирают повседневный стиль без стилиста",
+    "situation": "Нужно придумать образ из уже знакомых вещей или поделиться удачным сочетанием",
+    "problem": "Маркетплейсы продают отдельные товары, а вдохновение теряется между сохранёнными картинками",
+    "promise": "Найти носибельный образ и разобрать его на вещи",
+    "differentiator": "Социальная единица — образ из реального гардероба, а не товарная карточка",
+    "returnReasons": [
+      "Новые образы знакомых авторов",
+      "Сохранённые сочетания",
+      "Реакции и комментарии к своим публикациям"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "create",
+      "result": "camera"
+    },
+    "coreLoop": [
+      "Увидеть публикацию автора или сообщества",
+      "Отреагировать, обсудить или сохранить",
+      "Подписаться и опубликовать свою версию"
+    ],
+    "nonGoals": [
+      "Маркетплейс",
+      "Услуги стилиста",
+      "Генерация лиц и тел"
+    ]
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Лента, профили, сообщества, короткие видео и сообщения формируют Social Networking",
+    "familiarPatterns": [
+      "Лента и реакции",
+      "Авторы и подписки",
+      "Сообщества",
+      "Клипы-примерки"
+    ],
+    "distinctions": [
+      "Отметки вещей на фото",
+      "Профиль как живой гардероб",
+      "Ремикс образа своими вещами"
+    ],
+    "evidenceScreens": [
+      "home",
+      "post",
+      "nearby",
+      "create",
+      "profile"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile",
+      "create-post",
+      "communities"
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "native": {
+    "schemaVersion": 1,
+    "platform": {
+      "minimumVersion": "26.0"
+    },
+    "extensions": [
+      "widget"
+    ],
+    "design": {
+      "strategy": "mimicry",
+      "referenceProfile": "vk-ios",
+      "density": "reference",
+      "colorScheme": "light",
+      "tokens": {
+        "accent": "#0077FF",
+        "background": "#FFFFFF",
+        "groupedBackground": "#F2F3F5",
+        "outgoingStart": "#0077FF",
+        "outgoingMiddle": "#0077FF",
+        "outgoingEnd": "#0077FF"
+      }
+    },
+    "navigation": {
+      "profileEntry": "root-avatar",
+      "tabs": [
+        {
+          "id": "home",
+          "label": "Главная",
+          "screen": "home",
+          "role": "feed",
+          "systemImage": "house"
+        },
+        {
+          "id": "search",
+          "label": "Поиск",
+          "screen": "search",
+          "role": "discovery",
+          "systemImage": "magnifyingglass"
+        },
+        {
+          "id": "chats",
+          "label": "Сообщения",
+          "screen": "chats",
+          "role": "messaging",
+          "systemImage": "bubble.left"
+        },
+        {
+          "id": "clip",
+          "label": "Клипы",
+          "screen": "clip",
+          "role": "short-video",
+          "systemImage": "play.rectangle"
+        },
+        {
+          "id": "services",
+          "label": "Меню",
+          "screen": "services",
+          "role": "services",
+          "systemImage": "line.3.horizontal"
+        }
+      ]
+    },
+    "actionContractVersion": 3
+  },
+  "start": "phone",
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к камере",
+        "text": "Чтобы снять образ или видео-примерку."
+      },
+      "feature": "Снять образ",
+      "gesture": "«Снять»",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Можно выбрать готовый снимок",
+      "snack": "Камера недоступна — выберите фото",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession, черновик хранится локально"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к фото",
+        "text": "Чтобы выбрать фото образа из медиатеки."
+      },
+      "feature": "Публикация из медиатеки",
+      "gesture": "«Из Фото»",
+      "screen": "create",
+      "target": "create",
+      "fallback": "Можно снять новый кадр камерой",
+      "snack": "Фото недоступны — снимите новый кадр",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker отдаёт только выбранные файлы"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к микрофону",
+        "text": "Чтобы записать голосовое сообщение автору."
+      },
+      "feature": "Голосовые сообщения",
+      "gesture": "«Записать голосовое»",
+      "screen": "chat",
+      "target": "chat",
+      "fallback": "Остаются текст и фото",
+      "snack": "Микрофон недоступен — напишите сообщение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, локальный черновик"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают геопозицию",
+        "text": "Чтобы показывать локальные свопы и события стиля."
+      },
+      "feature": "События стиля рядом",
+      "gesture": "«Кто гуляет рядом»",
+      "screen": "home",
+      "target": "nearby",
+      "fallback": "Район выбирается вручную",
+      "snack": "Выберите район вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CoreLocation + статический каталог парков"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить уведомления от «Образов»?",
+        "text": "Сообщим об ответах и новых образах избранных авторов."
+      },
+      "feature": "Уведомления о подписках и ответах",
+      "gesture": "«Подписки» в «Настройках»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Обновления помечаются точкой внутри приложения",
+      "snack": "Обновления будут отмечены в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "APNs через FCM topics",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Уведомления как сообщения",
+        "text": "Сообщение приходит с аватаром автора и учитывает Focus."
+      },
+      "activate": true,
+      "feature": "Чаты с аватарами в уведомлениях",
+      "gesture": "«Сообщения с аватаром»",
+      "screen": "chat",
+      "target": "chat",
+      "fallback": "Обычное уведомление без аватара",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "INSendMessageIntent + Notification Service Extension",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихое обновление",
+        "text": "Новая часть серии загрузится до открытия приложения."
+      },
+      "activate": true,
+      "feature": "Актуальная серия клипов",
+      "gesture": "«Тихое обновление клипов»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Состав обновляется при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "didReceiveRemoteNotification обновляет локальный snapshot",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновое обновление",
+        "text": "Лента друзей готова к первому открытию."
+      },
+      "activate": true,
+      "feature": "Свежая лента к запуску",
+      "gesture": "«Обновлять ленту в фоне»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Лента обновится после открытия",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "Background fetch обновляет локальный snapshot ленты",
+      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Виджет показывает последний сохранённый образ."
+      },
+      "activate": true,
+      "feature": "Виджет сохранённого образа",
+      "gesture": "«Виджет на экране „Домой“»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Сохранённое остаётся внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "group.app.looks хранит JSON snapshot"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая сессия",
+        "text": "Приложение и расширения используют один защищённый вход."
+      },
+      "activate": true,
+      "feature": "Один вход для приложения и виджета",
+      "gesture": "«Открыть „Образы“» с виджета",
+      "screen": "widget",
+      "target": "profile",
+      "fallback": "Виджет открывает приложение для входа",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Токен SDK в общей Keychain group"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Вход на looks.social",
+        "text": "Системное автозаполнение подставит сохранённый аккаунт на сайте."
+      },
+      "activate": true,
+      "feature": "Вход на сайт марки сохранённой связкой",
+      "gesture": "«Вход на сайте»",
+      "screen": "settings",
+      "target": "fill",
+      "fallback": "Вход вручную почтой и паролем",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController, данные в общей Keychain group"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Чтение имени сети",
+        "text": "Entitlement без системного запроса: имя текущей сети сверяется с сетью площадки из карточки свопа."
+      },
+      "activate": true,
+      "feature": "Отметка «я на свопе» подтверждается сетью площадки, а не словом участника",
+      "gesture": "«Отметиться на свопе»",
+      "screen": "checkin",
+      "target": "checkin",
+      "fallback": "Остаётся отметка вручную — её подтверждает организатор",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "grounding": "CNCopyCurrentNetworkInfo, SSID сверяется с сетью площадки, записанной в карточке свопа",
+      "requires": "CNCopyCurrentNetworkInfo плюс выданная геопозиция — иначе SSID приходит пустым",
+      "reviewNote": "Имя сети читается один раз при отметке на свопе и сравнивается с сетью площадки. SSID не отправляется и не логируется. Ключ работает только вместе с разрешением на геопозицию, поэтому оно запрашивается раньше."
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к контактам",
+        "text": "Чтобы показать, кто из ваших контактов уже публикует образы."
+      },
+      "feature": "Кто из ваших контактов уже в «Образах»",
+      "gesture": "«Найти среди контактов»",
+      "screen": "profile",
+      "target": "mates",
+      "fallback": "Остаётся поиск по имени и ссылка-приглашение",
+      "snack": "Нет доступа к контактам",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactStore, номера сверяются хешами на устройстве",
+      "reviewNote": "Книга контактов не выгружается: номера хешируются на устройстве, на сервер уходят только совпадения, остальные хеши стираются после сверки."
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить отслеживание?",
+        "text": "Так реклама марок и магазинов будет к месту, а приложение останется бесплатным."
+      },
+      "feature": "Реклама марок и локальных магазинов вместо платной подписки",
+      "gesture": "«Продолжить»",
+      "screen": "ads",
+      "target": "profile",
+      "fallback": "Реклама остаётся, но перестаёт быть персональной",
+      "snack": "Отслеживание выключено",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ATTrackingManager: IDFA читается только после явного согласия",
+      "reviewNote": "Запрос показывается после экрана, который объясняет обмен: реклама вместо подписки. Отказ ничего не отключает — реклама просто перестаёт быть персональной."
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к Face ID",
+        "text": "Чтобы «Сохранённое» и черновики открывались только вам."
+      },
+      "feature": "Замок на «Сохранённом»: приватные подборки и черновики не видны через плечо",
+      "gesture": "«Замок Face ID»",
+      "screen": "settings",
+      "target": "lock",
+      "fallback": "Остаётся код-пароль устройства",
+      "snack": "Face ID недоступен",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LAContext, deviceOwnerAuthenticationWithBiometrics с фолбэком на пароль устройства; биометрия не покидает Secure Enclave"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к распознаванию речи",
+        "text": "Чтобы собрать субтитры к вашему клипу — их читают без звука."
+      },
+      "feature": "Субтитры к снятому клипу без ручного набора",
+      "gesture": "«Субтитры к клипу»",
+      "screen": "create",
+      "target": "create",
+      "fallback": "Субтитры набираются вручную",
+      "snack": "Нет доступа к распознаванию речи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SFSpeechRecognizer с requiresOnDeviceRecognition = true",
+      "reviewNote": "Распознавание идёт на устройстве, аудио никуда не отправляется. Субтитры можно поправить руками до публикации."
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Разбор продолжит звучать, когда экран погаснет."
+      },
+      "activate": true,
+      "feature": "Разбор гардероба голосом в фоне: Now Playing и ±15 секунд с локскрина",
+      "gesture": "«Слушать»",
+      "screen": "talk",
+      "target": "background",
+      "fallback": "Без entitlement звук обрывается — не ship",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Реальный playback, заполненный MPNowPlayingInfoCenter и remote-команды",
+      "grounding": "AVAudioSession категории playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter",
+      "reviewNote": "Сценарий: разбор гардероба слушают в дороге, экран в кармане. Приложить видео с локскрином: обложка, название разбора и работающие ±15 секунд."
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Звонки в приложении",
+        "text": "Входящий звонок по свопу поднимется обычным экраном вызова."
+      },
+      "activate": true,
+      "feature": "Созвон по свопу без обмена номерами: телефон остаётся у владельца",
+      "gesture": "«Позвонить»",
+      "screen": "chat",
+      "target": "call",
+      "fallback": "Остаётся переписка в чате",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit + CallKit: входящий звонок поднимается системным экраном вызова, иначе ключ не заявляется",
+      "grounding": "PushKit VoIP push поднимает CallKit, медиапоток идёт через SDK провайдера",
+      "reviewNote": "Звонок нужен, чтобы договориться о встрече на свопе, не раскрывая номер: участники видят имя и профиль, но не телефон. Каждый VoIP-push поднимает CallKit — фонового опроса на этом ключе нет."
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription + NSCalendarsUsageDescription",
+      "alert": {
+        "title": "«Образы» запрашивают доступ к календарю",
+        "text": "Чтобы своп появился в календаре и поправился, если организатор перенесёт дату."
+      },
+      "feature": "Своп и встреча сообщества в системном календаре, с правкой при переносе и удалением при отмене",
+      "gesture": "«Добавить в Календарь»",
+      "screen": "swap",
+      "target": "swap",
+      "fallback": "Дата остаётся в карточке свопа и в напоминании приложения",
+      "snack": "Нет доступа к календарю",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit: EKEvent с сохранённым identifier; на iOS 16 и ниже действует legacy-ключ NSCalendarsUsageDescription",
+      "reviewNote": "Нужен полный доступ, а не только запись: приложение правит и удаляет ранее созданное им событие, когда организатор переносит или отменяет своп. Чужие события не читаются и не меняются."
+    },
+    {
+      "key": "shareext",
+      "plist": "NSExtensionPointIdentifier: com.apple.share-services",
+      "alert": {
+        "title": "Расширение «Поделиться»",
+        "text": "Отдельный target: «Образы» появятся в системном меню «Поделиться»."
+      },
+      "activate": true,
+      "feature": "Поделиться в «Образы» из Safari, «Фото» и мессенджеров — ссылка или кадр падает в черновик образа",
+      "gesture": "«Поделиться» в другом приложении",
+      "screen": "settings",
+      "target": "shareext",
+      "fallback": "Остаётся сохранение внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Отдельный target расширения; черновик кладётся в общий контейнер App Group",
+      "grounding": "Share Extension пишет вложение в App Group, приложение забирает его в черновик образа",
+      "reviewNote": "Расширение не открывает приложение и не ходит в сеть: оно кладёт ссылку или кадр в общий контейнер, разбор происходит при следующем запуске."
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "Подключение к сети",
+        "text": "«Образы» подключат телефон к гостевой сети площадки."
+      },
+      "feature": "Подключение к гостевой сети площадки по QR — без него отметка на свопе не проходит",
+      "gesture": "«Подключиться»",
+      "screen": "netqr",
+      "target": "netqr",
+      "fallback": "Сеть выбирается вручную в Настройках",
+      "snack": "Не удалось подключиться",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfigurationManager, имя сети и пароль приходят из QR-кода на стойке площадки"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по почте",
+      "type": "старт",
+      "light": true,
+      "meta": "Номер телефона",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Войти",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Вход по почте» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Вход по почте»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Вход по почте» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Войти",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "auth-form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "continue-email",
+            "label": "Продолжить",
+            "outcome": {
+              "type": "navigate",
+              "target": "code"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body",
+            "enabledWhen": "input.email.valid"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код из письма",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Подтвердить вход",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Код из письма» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Код из письма»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Код из письма» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Подтвердить вход",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "auth-form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "confirm-code",
+            "label": "Продолжить",
+            "outcome": {
+              "type": "navigate",
+              "target": "home"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body",
+            "enabledWhen": "input.code.complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "codefail",
+      "title": "Неверный код",
+      "type": "push",
+      "light": true,
+      "parent": "code",
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "pattern": "auth",
+        "purpose": "Показать ошибку OTP и вернуть к вводу",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Неверный код» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Неверный код»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Неверный код» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Показать ошибку OTP и вернуть к вводу",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "auth-form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "retry-code",
+            "label": "Продолжить",
+            "outcome": {
+              "type": "navigate",
+              "target": "code"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body",
+            "enabledWhen": "input.code.complete"
+          }
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "code",
+      "meta": "Публикации и истории",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Следить за авторами",
+        "primaryAction": "Открыть публикацию",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Лента» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Лента»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Лента» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Следить за авторами",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection",
+          "filters"
+        ],
+        "actions": [
+          {
+            "id": "open-feed-post",
+            "label": "Открыть публикацию",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "search",
+      "title": "Поиск",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти образы, вещи и авторов",
+        "primaryAction": "Открыть результат",
+        "states": [
+          "default",
+          "query",
+          "empty",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Поиск» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Поиск»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Поиск» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Найти образы, вещи и авторов",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection",
+          "filters"
+        ],
+        "actions": [
+          {
+            "id": "open-search-result",
+            "label": "Открыть результат",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notifications",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к реакциям, комментариям и новым подпискам",
+        "primaryAction": "Открыть уведомление",
+        "states": [
+          "unread",
+          "read",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Уведомления» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Уведомления»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Уведомления» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Вернуться к реакциям, комментариям и новым подпискам",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "open-notification",
+            "label": "Открыть уведомление",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Пост и комментарии",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Обсудить образ",
+        "primaryAction": "Сохранить образ",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Публикация» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Публикация»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Публикация» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Обсудить образ",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "save-look",
+            "label": "Сохранить образ",
+            "outcome": {
+              "type": "mutate",
+              "state": "savedLooks"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "icon",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Рядом",
+      "type": "push",
+      "light": true,
+      "parent": "services",
+      "meta": "Свопы, встречи и авторы поблизости",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти своп или автора поблизости",
+        "primaryAction": "Смотреть подборку",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Рядом» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Рядом»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Рядом» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Найти своп или автора поблизости",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection",
+          "filters"
+        ],
+        "actions": [
+          {
+            "id": "open-nearby-event",
+            "label": "Смотреть подборку",
+            "outcome": {
+              "type": "navigate",
+              "target": "event"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          },
+          {
+            "id": "enable-location",
+            "label": "Разрешить геопозицию",
+            "outcome": {
+              "type": "request",
+              "capability": "location"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Геопозиция недоступна. Выберите район вручную.",
+              "retry": true,
+              "fallback": {
+                "type": "manual",
+                "action": "choose-district"
+              }
+            },
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "clip",
+      "title": "Клип-примерка",
+      "type": "tab (root)",
+      "light": false,
+      "parent": "home",
+      "meta": "Клип сообщества",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Посмотреть серию",
+        "primaryAction": "Собрать свою версию",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Клип-примерка» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Клип-примерка»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Клип-примерка» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Посмотреть серию",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "remix-clip",
+            "label": "Собрать свою версию",
+            "outcome": {
+              "type": "mutate",
+              "state": "outfits"
+            },
+            "execution": "sync",
+            "persistence": "local",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "icon",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Новый образ",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Текст, фото и аудитория",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Опубликовать момент",
+        "primaryAction": "Снять образ",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Новый образ» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Новый образ»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Новый образ» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Опубликовать момент",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "open-camera",
+            "label": "Снять образ",
+            "outcome": {
+              "type": "navigate",
+              "target": "camera"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Съёмка",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Снять момент",
+        "primaryAction": "Сделать снимок",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Камера» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Камера»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Камера» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Снять момент",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "capture-photo",
+            "label": "Сделать снимок",
+            "outcome": {
+              "type": "request",
+              "capability": "camera"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось открыть камеру. Выберите фото из медиатеки.",
+              "retry": true,
+              "fallback": {
+                "type": "alternate",
+                "action": "choose-photo"
+              }
+            },
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "media",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "parent": "create",
+      "meta": "Выбор кадра",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Выбрать фото",
+        "primaryAction": "Выбрать фото",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Фото» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Фото»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Фото» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Выбрать фото",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": []
+      }
+    },
+    {
+      "id": "chats",
+      "title": "Сообщения",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Диалоги",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Вернуться к диалогам",
+        "primaryAction": "Открыть диалог",
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Сообщения» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Сообщения»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Сообщения» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Вернуться к диалогам",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "open-chat",
+            "label": "Открыть диалог",
+            "outcome": {
+              "type": "navigate",
+              "target": "chat"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "chat",
+      "title": "Диалог",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный диалог",
+      "ui": {
+        "pattern": "chat",
+        "purpose": "Договориться",
+        "primaryAction": "Отправить сообщение",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Диалог» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Диалог»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Диалог» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Договориться",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "chat",
+          "message-list",
+          "composer"
+        ],
+        "actions": [
+          {
+            "id": "send-message",
+            "label": "Отправить сообщение",
+            "outcome": {
+              "type": "mutate",
+              "state": "localConversation"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "icon",
+            "placement": "body",
+            "enabledWhen": "input.message.nonEmpty"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовое сообщение",
+      "type": "modal",
+      "light": true,
+      "parent": "chat",
+      "meta": "Запись",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Записать голос",
+        "primaryAction": "Отправить",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Голосовое сообщение» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Голосовое сообщение»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Голосовое сообщение» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Записать голос",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "send-voice",
+            "label": "Отправить",
+            "outcome": {
+              "type": "mutate",
+              "state": "localConversation"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "icon",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль автора",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Публикации и подписки",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Управлять профилем",
+        "primaryAction": "Изменить информацию о себе",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Профиль автора» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Профиль автора»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Профиль автора» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Управлять профилем",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "edit-bio",
+            "label": "Изменить информацию о себе",
+            "outcome": {
+              "type": "mutate",
+              "state": "profileBio"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "secondary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "services",
+      "title": "Меню",
+      "type": "tab (root)",
+      "light": true,
+      "parent": "home",
+      "ui": {
+        "pattern": "services",
+        "purpose": "Открыть гардероб, свопы, знакомых и настройки",
+        "primaryAction": "Открыть гардероб",
+        "states": [
+          "default",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Меню» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Меню»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Меню» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Открыть гардероб, свопы, знакомых и настройки",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "service-list"
+        ],
+        "actions": [
+          {
+            "id": "open-wardrobe",
+            "label": "Открыть гардероб",
+            "outcome": {
+              "type": "navigate",
+              "target": "wardrobe"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "services",
+      "meta": "Доступы, фон и виджет",
+      "ui": {
+        "pattern": "services",
+        "purpose": "Держать доступы и системные функции под рукой",
+        "primaryAction": "Обновлять ленту в фоне",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Настройки» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Настройки»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Настройки» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Держать доступы и системные функции под рукой",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "service-list"
+        ],
+        "actions": [
+          {
+            "id": "toggle-background-feed",
+            "label": "Обновлять ленту в фоне",
+            "outcome": {
+              "type": "mutate",
+              "state": "backgroundFeedEnabled"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "widget",
+      "title": "Виджет на экране «Домой»",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "settings",
+      "meta": "App Group · Keychain",
+      "native": {
+        "presentation": "system"
+      },
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Поставить виджет сохранённого образа на экран «Домой»",
+        "primaryAction": "Открыть «Образы»",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Виджет на экране «Домой»» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Виджет на экране «Домой»»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Виджет на экране «Домой»» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Поставить виджет сохранённого образа на экран «Домой»",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": []
+      }
+    },
+    {
+      "id": "fill",
+      "title": "Автозаполнение на сайте",
+      "type": "fullscreen",
+      "light": true,
+      "parent": "settings",
+      "meta": "AutoFill · Safari",
+      "native": {
+        "presentation": "system"
+      },
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Войти на сайт марки сохранённым в «Образах» входом",
+        "primaryAction": "Войти",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Автозаполнение на сайте» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Автозаполнение на сайте»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Автозаполнение на сайте» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Войти на сайт марки сохранённым в «Образах» входом",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": []
+      }
+    },
+    {
+      "id": "mates",
+      "title": "Контакты в «Образах»",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Contacts · совпадения",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Найти знакомых среди тех, кто уже публикует",
+        "primaryAction": "Открыть профиль",
+        "states": [
+          "default",
+          "empty",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Контакты в «Образах»» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Контакты в «Образах»»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Контакты в «Образах»» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Найти знакомых среди тех, кто уже публикует",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection"
+        ],
+        "actions": [
+          {
+            "id": "open-contact-profile",
+            "label": "Открыть профиль",
+            "outcome": {
+              "type": "navigate",
+              "target": "profile"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wardrobe",
+      "title": "Гардероб",
+      "type": "push",
+      "light": true,
+      "parent": "services",
+      "ui": {
+        "pattern": "collection",
+        "purpose": "Управлять вещами, из которых собираются образы",
+        "primaryAction": "Открыть сохранённый образ",
+        "states": [
+          "populated",
+          "empty",
+          "loading"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Гардероб» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Гардероб»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Гардероб» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Управлять вещами, из которых собираются образы",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "collection",
+          "filters"
+        ],
+        "actions": [
+          {
+            "id": "open-saved-look",
+            "label": "Открыть сохранённый образ",
+            "outcome": {
+              "type": "navigate",
+              "target": "post"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "row",
+            "placement": "row"
+          }
+        ]
+      }
+    },
+    {
+      "id": "event",
+      "title": "Событие",
+      "type": "push",
+      "light": true,
+      "parent": "nearby",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Проверить условия свопа и присоединиться",
+        "primaryAction": "Присоединиться",
+        "states": [
+          "available",
+          "joined",
+          "cancelled"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Событие» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Событие»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Событие» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Проверить условия свопа и присоединиться",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "join-event",
+            "label": "Присоединиться",
+            "outcome": {
+              "type": "mutate",
+              "state": "joinedEvents"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Реклама вместо подписки",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT · обмен объяснён",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Объяснить обмен до системного запроса ATT",
+        "primaryAction": "Продолжить",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Реклама вместо подписки» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Реклама вместо подписки»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Реклама вместо подписки» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Объяснить обмен до системного запроса ATT",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "dismiss-ads-explanation",
+            "label": "Продолжить",
+            "outcome": {
+              "type": "dismiss"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "quiet",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lock",
+      "title": "Замок на «Сохранённом»",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Face ID · приватные подборки",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Закрыть подборки и черновики биометрией",
+        "primaryAction": "Замок Face ID",
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Замок на «Сохранённом»» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Замок на «Сохранённом»»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Замок на «Сохранённом»» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Закрыть подборки и черновики биометрией",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "request-face-id",
+            "label": "Замок Face ID",
+            "outcome": {
+              "type": "request",
+              "capability": "faceid"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Face ID недоступен. Используйте код-пароль устройства.",
+              "retry": true,
+              "fallback": {
+                "type": "manual",
+                "action": "device-passcode"
+              }
+            },
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "subtitles",
+      "title": "Субтитры к клипу",
+      "type": "push",
+      "light": true,
+      "parent": "create",
+      "meta": "Speech · распознавание на устройстве",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Собрать и поправить субтитры перед публикацией",
+        "primaryAction": "Опубликовать клип",
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Субтитры к клипу» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Субтитры к клипу»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Субтитры к клипу» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Собрать и поправить субтитры перед публикацией",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "publish-captioned-clip",
+            "label": "Опубликовать клип",
+            "outcome": {
+              "type": "mutate",
+              "state": "localPublishedClips"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "talk",
+      "title": "Разбор голосом",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Аудио · разбор гардероба",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Слушать разбор и продолжать в фоне",
+        "primaryAction": "Слушать",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Разбор голосом» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Разбор голосом»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Разбор голосом» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Слушать разбор и продолжать в фоне",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "start-background-audio",
+            "label": "Слушать",
+            "outcome": {
+              "type": "request",
+              "capability": "audio"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось начать воспроизведение. Попробуйте ещё раз.",
+              "retry": true,
+              "fallback": {
+                "type": "alternate",
+                "action": "retry-playback"
+              }
+            },
+            "variant": "icon",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "talk",
+      "meta": "Now Playing · локскрин",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Показать, что звук продолжается при погашенном экране",
+        "primaryAction": "Вернуться к разбору",
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Экран погас» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Экран погас»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Экран погас» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Показать, что звук продолжается при погашенном экране",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "return-to-talk",
+            "label": "Вернуться к разбору",
+            "outcome": {
+              "type": "navigate",
+              "target": "talk"
+            },
+            "execution": "sync",
+            "persistence": "none",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "call",
+      "title": "Звонок по свопу",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "chat",
+      "meta": "VoIP · номер не раскрыт",
+      "native": {
+        "presentation": "state"
+      },
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Договориться о встрече, не раскрывая номер",
+        "primaryAction": "Вернуться в чат",
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Звонок по свопу» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Звонок по свопу»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Звонок по свопу» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Договориться о встрече, не раскрывая номер",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": []
+      }
+    },
+    {
+      "id": "swap",
+      "title": "Своп в Новой Голландии",
+      "type": "push",
+      "light": true,
+      "parent": "clip",
+      "meta": "Календарь · дата и место",
+      "ui": {
+        "pattern": "detail",
+        "purpose": "Собрать всё о свопе и положить дату в календарь",
+        "primaryAction": "Добавить в Календарь",
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Своп в Новой Голландии» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Своп в Новой Голландии»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Своп в Новой Голландии» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Собрать всё о свопе и положить дату в календарь",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "summary",
+          "content",
+          "next-action"
+        ],
+        "actions": [
+          {
+            "id": "add-swap-calendar",
+            "label": "Добавить в Календарь",
+            "outcome": {
+              "type": "request",
+              "capability": "calendar"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось добавить своп в календарь. Дата останется в карточке.",
+              "retry": true,
+              "fallback": {
+                "type": "manual",
+                "action": "keep-date-in-card"
+              }
+            },
+            "variant": "secondary",
+            "placement": "body"
+          }
+        ]
+      }
+    },
+    {
+      "id": "checkin",
+      "title": "Отметка на свопе",
+      "type": "push",
+      "light": true,
+      "parent": "swap",
+      "meta": "Wi-Fi Info · сеть площадки",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Подтвердить присутствие сетью площадки",
+        "primaryAction": "Отметиться на свопе",
+        "states": [
+          "default",
+          "error",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Отметка на свопе» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Отметка на свопе»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Отметка на свопе» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Подтвердить присутствие сетью площадки",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "confirm-swap-checkin",
+            "label": "Отметиться на свопе",
+            "outcome": {
+              "type": "request",
+              "capability": "wifiinfo"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось подтвердить площадку по сети. Попросите организатора подтвердить отметку вручную.",
+              "retry": true,
+              "fallback": {
+                "type": "manual",
+                "action": "organizer-confirmation"
+              }
+            },
+            "variant": "row",
+            "placement": "row",
+            "enabledWhen": "venueNetworkJoined && !checking",
+            "successOutcome": {
+              "type": "mutate",
+              "state": "checkedIn",
+              "persistence": "local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "netqr",
+      "title": "Сеть площадки по QR",
+      "type": "modal",
+      "light": true,
+      "parent": "checkin",
+      "meta": "Hotspot · QR со стойки",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Подключиться к гостевой сети площадки",
+        "primaryAction": "Подключиться",
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Сеть площадки по QR» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Сеть площадки по QR»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Сеть площадки по QR» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Подключиться к гостевой сети площадки",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "join-venue-network",
+            "label": "Подключиться",
+            "outcome": {
+              "type": "request",
+              "capability": "hotspot"
+            },
+            "execution": "async",
+            "persistence": "system",
+            "states": [
+              "idle",
+              "loading",
+              "success",
+              "error"
+            ],
+            "failure": {
+              "message": "Не удалось подключиться. Повторите по QR или попросите организатора подтвердить отметку.",
+              "retry": true,
+              "fallback": {
+                "type": "manual",
+                "action": "organizer-confirmation"
+              }
+            },
+            "variant": "primary",
+            "placement": "body",
+            "successOutcome": {
+              "type": "mutate",
+              "state": "venueNetworkJoined",
+              "persistence": "local"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "shareext",
+      "title": "Поделиться в «Образы»",
+      "type": "modal",
+      "light": true,
+      "parent": "settings",
+      "meta": "Share Extension · отдельный target",
+      "ui": {
+        "pattern": "form",
+        "purpose": "Принять ссылку или кадр из другого приложения в черновик",
+        "primaryAction": "Сохранить в черновик",
+        "states": [
+          "default",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий «Поделиться в «Образы»» с реальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные тексты, крупный шрифт и плотное содержимое экрана «Поделиться в «Образы»»"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка, отказ в доступе или пустое состояние «Поделиться в «Образы»» с понятным следующим действием"
+          }
+        ],
+        "hierarchy": {
+          "primary": "Основная задача экрана: Принять ссылку или кадр из другого приложения в черновик",
+          "secondary": "Контекст, состояние и предсказуемое следующее действие"
+        },
+        "componentFamilies": [
+          "task-intro",
+          "form",
+          "primary-action"
+        ],
+        "actions": [
+          {
+            "id": "save-shared-draft",
+            "label": "Сохранить в черновик",
+            "outcome": {
+              "type": "mutate",
+              "state": "sharedDraft"
+            },
+            "persistence": "local",
+            "execution": "sync",
+            "states": [
+              "idle",
+              "success"
+            ],
+            "variant": "primary",
+            "placement": "body"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Социальная лента, сообщества, сообщения, профиль и публикация",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "codefail",
+        "home",
+        "post",
+        "nearby",
+        "clip",
+        "create",
+        "camera",
+        "media",
+        "chats",
+        "chat",
+        "voice",
+        "profile",
+        "settings",
+        "widget",
+        "fill",
+        "mates",
+        "ads",
+        "lock",
+        "subtitles",
+        "talk",
+        "background",
+        "call",
+        "swap",
+        "checkin",
+        "netqr",
+        "shareext"
+      ]
+    },
+    {
+      "id": "discover",
+      "label": "Найти образ",
+      "note": "Лента, разбор вещей и автор",
+      "start": "home",
+      "screens": [
+        "home",
+        "create",
+        "post",
+        "talk",
+        "clip",
+        "nearby",
+        "chats",
+        "profile",
+        "background"
+      ],
+      "stops": [
+        "create",
+        "post",
+        "clip",
+        "nearby",
+        "chats",
+        "profile"
+      ]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать образ",
+      "note": "Камера, Фото и публикация",
+      "start": "create",
+      "screens": [
+        "create",
+        "home",
+        "camera",
+        "media",
+        "subtitles",
+        "shareext"
+      ],
+      "stops": [
+        "home",
+        "subtitles",
+        "shareext"
+      ]
+    },
+    {
+      "id": "clip",
+      "label": "Примерка",
+      "note": "Короткое видео и комментарий",
+      "start": "clip",
+      "screens": [
+        "clip",
+        "swap",
+        "nearby",
+        "checkin",
+        "netqr"
+      ],
+      "stops": [
+        "swap",
+        "nearby"
+      ]
+    },
+    {
+      "id": "meet",
+      "label": "Дойти до свопа",
+      "note": "Своп из клипа: календарь, сеть площадки, отметка и созвон без обмена номерами",
+      "start": "chats",
+      "screens": [
+        "chats",
+        "chat",
+        "nearby",
+        "profile",
+        "voice",
+        "call",
+        "mates"
+      ],
+      "stops": [
+        "nearby",
+        "profile"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Лента и профили",
+      "solution": "Статический контент-пак и локальные реакции в прототипе"
+    },
+    {
+      "needs": "Распознавание вещей",
+      "solution": "Vision на устройстве с ручным подтверждением"
+    },
+    {
+      "needs": "Уведомления",
+      "solution": "APNs через SDK провайдера"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Образы",
+    "subtitle": "Живой стиль реальных людей",
+    "promo": "Сохраняйте сочетания, разбирайте образы на вещи и показывайте свои.",
+    "keywords": "гардероб,сочетания,примерка,авторы,своп",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://looks.social/support",
+      "marketing": "https://looks.social",
+      "privacy": "https://looks.social/privacy"
+    },
+    "description": [
+      "Социальная сеть реального личного стиля.",
+      "ОБРАЗЫ И АВТОРЫ\nСмотрите сочетания, отмечайте вещи, сохраняйте и повторяйте."
+    ],
+    "whatsNew": "Первая версия: лента, клипы-примерки, гардеробы и сообщения.",
+    "privacy": [
+      {
+        "type": "Медиа и геопозиция",
+        "apple": "User Content · Location",
+        "purpose": "Функции приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Публикации, клипы-примерки и события рядом"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts",
+        "purpose": "Функции приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Совпадения адресной книги: номера сверяются хешами, несовпавшие стираются"
+      },
+      {
+        "type": "Идентификаторы",
+        "apple": "Identifiers",
+        "purpose": "Сторонняя реклама",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA только после согласия в ATT — обмен объяснён на экране «Реклама вместо подписки»"
+      }
+    ],
+    "reviewAccount": {
+      "email": "review@looks.social",
+      "code": "0000",
+      "note": "Демо-вход, письмо с кодом не отправляется"
+    }
+  }
+}

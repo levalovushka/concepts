@@ -1,0 +1,23 @@
+{
+  "name": "camo-native-ios-concepts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compile": "node native/cli.mjs compile",
+    "check": "node native/cli.mjs check",
+    "build": "node native/cli.mjs build",
+    "capture": "node native/cli.mjs capture",
+    "smoke": "node native/cli.mjs smoke",
+    "matrix": "node native/cli.mjs matrix",
+    "readiness": "node native/cli.mjs readiness",
+    "readiness:gate": "node native/cli.mjs readiness-gate",
+    "test": "node native/cli.mjs test",
+    "check:all": "node native/cli.mjs check-all",
+    "profiles": "node native/cli.mjs profiles",
+    "migration:audit": "node native/migration-cli.mjs",
+    "critic": "node native/gen/critic.mjs",
+    "shots": "node native/gen/shots.mjs",
+    "pipeline": "node native/gen/pipeline.mjs",
+    "scaffold": "node native/gen/scaffold-app.mjs"
+  }
+}

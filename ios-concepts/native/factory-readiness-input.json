@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "assessmentDate": "2026-08-24",
+  "humanAssessment": {
+    "reviewerKind": "independent-product-visual-review",
+    "independentReviewComplete": true,
+    "looks": {
+      "productContract": 8.7,
+      "hierarchy": 8.5,
+      "consistency": 9.1,
+      "visualAccuracy": 8.8,
+      "predictableInteractions": 9.0,
+      "notes": "Independent review covered 66 current-device states plus the current/small-phone root matrix. Below-9 blockers: the services/profile horizontal carousels and the feed's dense opening viewport still compete for hierarchy; Liquid Glass optics remain simulator-only."
+    },
+    "dvor": {
+      "productContract": 8.8,
+      "hierarchy": 8.6,
+      "consistency": 9.1,
+      "visualAccuracy": 8.9,
+      "predictableInteractions": 9.0,
+      "notes": "Independent review covered 74 current-device states plus the current/small-phone root matrix. Below-9 blockers: the broad service/menu information architecture remains dense, and onboarding/permission secondary states were not all manually repeated on the small phone; Liquid Glass optics remain simulator-only."
+    }
+  },
+  "manualGates": [
+    { "id": "physical-device", "complete": false, "evidence": null },
+    { "id": "voiceover", "complete": false, "evidence": null },
+    { "id": "independent-product-visual-review", "complete": true, "evidence": "docs/INDEPENDENT-PRODUCT-VISUAL-AUDIT.md" }
+  ]
+}
