@@ -44,13 +44,28 @@ struct DocFile: Identifiable, Hashable {
 final class Library {
     var concepts: [Concept] = []
     var rootPath: String {
-        didSet { UserDefaults.standard.set(rootPath, forKey: "rootPath"); reload() }
+        didSet {
+            if !Self.isEphemeralRoot(rootPath) {
+                UserDefaults.standard.set(rootPath, forKey: "rootPath")
+            }
+            reload()
+        }
     }
 
     init() {
+        let configured = ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"]
+            .flatMap(Self.validProjectRoot)
         let stored = UserDefaults.standard.string(forKey: "rootPath")
-        rootPath = stored.flatMap(Self.validProjectRoot) ?? Self.defaultProjectRoot()
+            .flatMap { Self.isEphemeralRoot($0) ? nil : Self.validProjectRoot($0) }
+        rootPath = configured ?? stored ?? Self.defaultProjectRoot()
         reload()
+    }
+
+    private static func isEphemeralRoot(_ path: String) -> Bool {
+        let standardized = URL(fileURLWithPath: path).standardizedFileURL.path
+        return standardized.hasPrefix("/private/tmp/")
+            || standardized.hasPrefix("/tmp/")
+            || standardized.contains("/T/camo-native.")
     }
 
     private static func validProjectRoot(_ path: String) -> String? {

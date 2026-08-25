@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { compileNativeConcept } from "../lib/compile-concept.mjs";
 import { auditDeveloperDocumentation, compileDeveloperDocumentation } from "../lib/developer-documentation.mjs";
@@ -27,7 +27,10 @@ test("documentation blocks instead of emitting an empty mandatory section", () =
 });
 
 test("developer guide contains every required delivery concern", () => {
-  const source = readFileSync(join(root, "concepts", "looks", "docs", "developer-guide.md"), "utf8");
+  const directory = join(root, "concepts", "looks", "docs");
+  assert.equal(existsSync(join(directory, "developer-guide.md")), false);
+  const source = readdirSync(directory).filter(file => file.endsWith(".md"))
+    .sort().map(file => readFileSync(join(directory, file), "utf8")).join("\n");
   for (const heading of [
     "Product vision and scope", "Domain glossary", "Personas and jobs", "Core loop and critical flows",
     "Information architecture and navigation", "Screen, state, and action matrix",

@@ -99,7 +99,7 @@ into the generated build directory. The UX contract and its blocking rules are d
 in [UX-SPECIFICATION.md](UX-SPECIFICATION.md).
 
 `developer docs <slug>` runs before generation/build readiness. The generated
-`concepts/<slug>/docs/developer-guide.md` is compiled from the same Product Contract, UX
+`concepts/<slug>/docs/*.md` are compiled from the same Product Contract, UX
 Specification and native manifest. Missing data blocks generation; check mode compares bytes and blocks
 drift. The guide covers product/scope, glossary, jobs, loops/flows, IA, screens/states/
 actions, permissions and build capabilities, architecture/data, all recovery states,

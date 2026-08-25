@@ -491,11 +491,12 @@ struct ShotURL: Identifiable { let url: URL; var id: String { url.path } }
 
 private struct DocsTab: View {
     let concept: Concept
-    @State private var groups: [DocumentationGroup] = []
-    @State private var selectedID: DocumentationPage.ID?
+    @State private var selectedID: DocFile.ID?
+    @State private var source = ""
+    @State private var isLoading = false
 
-    private var selected: DocumentationPage? {
-        groups.lazy.flatMap(\.pages).first { $0.id == selectedID }
+    private var selected: DocFile? {
+        concept.docs.first { $0.id == selectedID }
     }
 
     var body: some View {
@@ -512,41 +513,40 @@ private struct DocsTab: View {
             .padding(.horizontal, 12).padding(.vertical, 8)
             Divider()
             HSplitView {
-            List(selection: $selectedID) {
-                ForEach(groups) { group in
-                    Section(group.title) {
-                        ForEach(group.pages) { page in
-                            Label(page.title, systemImage: page.isOverview ? "doc.text" : "text.alignleft")
-                                .font(.system(size: 12))
-                                .tag(page.id)
-                        }
-                    }
+                List(concept.docs, selection: $selectedID) { doc in
+                    Label(DocumentationIndex.title(for: doc.name), systemImage: "doc.text")
+                        .font(.system(size: 12))
+                        .tag(doc.id)
                 }
-            }
-            .listStyle(.sidebar)
-            .frame(minWidth: 230, idealWidth: 270, maxWidth: 340)
+                .listStyle(.sidebar)
+                .frame(minWidth: 250, idealWidth: 290, maxWidth: 360)
 
-            Group {
-                if let page = selected {
-                    ScrollView {
-                        MarkdownView(source: page.source)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: 720, alignment: .leading)
-                            .padding(22)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                Group {
+                    if isLoading {
+                        ProgressView("Открываем документ…").controlSize(.small)
+                    } else if selected != nil {
+                        ScrollView {
+                            MarkdownView(source: source)
+                                .frame(maxWidth: 720, alignment: .leading)
+                                .padding(22)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    } else {
+                        Placeholder(icon: "doc.text", title: "Выберите документ", note: nil)
                     }
-                } else {
-                    Placeholder(icon: "doc.text", title: "Выберите документ", note: nil)
                 }
-            }
             }
         }
         .task(id: concept.id) {
-            let docs = concept.docs
-            groups = await Task.detached(priority: .userInitiated) {
-                DocumentationIndex.groups(for: docs)
+            selectedID = concept.docs.first?.id
+        }
+        .task(id: selectedID) {
+            guard let selected else { source = ""; return }
+            isLoading = true
+            source = await Task.detached(priority: .userInitiated) {
+                (try? String(contentsOf: selected.url, encoding: .utf8)) ?? ""
             }.value
-            selectedID = groups.first?.pages.first?.id
+            isLoading = false
         }
     }
 }
