@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/product-contract.schema.json",
+  "title": "Camo Canonical Product Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractId", "schemaVersion", "id", "source", "status", "audience", "context", "reference",
+    "productThesis", "insight", "job", "wedge", "observableDifferentiation", "valueExchange",
+    "contentModel", "contentSupply", "socialGraphLeverage", "coldStart", "activation", "coreLoop",
+    "habitLoop", "retention", "permissions", "trustSafety", "privacy", "businessLogic", "nonGoals",
+    "risks", "assumptions", "evidence", "delivery", "maturity"
+  ],
+  "properties": {
+    "contractId": { "type": "string", "pattern": "^product-[0-9a-f]{16}$" },
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 3 },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "briefId", "candidateId", "selectionReceiptId"],
+      "properties": {
+        "kind": { "enum": ["selected-candidate", "legacy-migration"] },
+        "briefId": { "type": ["string", "null"] },
+        "candidateId": { "type": ["string", "null"] },
+        "selectionReceiptId": { "type": ["string", "null"] }
+      }
+    },
+    "status": { "enum": ["mature", "migration-baseline"] },
+    "audience": {
+      "type": "object", "additionalProperties": false, "required": ["primary", "needs"],
+      "properties": {
+        "primary": { "type": "string", "minLength": 8 },
+        "needs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } },
+        "exclusions": { "type": "array", "items": { "type": "string", "minLength": 3 } }
+      }
+    },
+    "context": {
+      "type": "object", "additionalProperties": false, "required": ["situations", "constraints"],
+      "properties": {
+        "situations": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } },
+        "constraints": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } }
+      }
+    },
+    "reference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["strategy", "family", "profileId", "mentalModel", "naturalFit", "borrowedPatterns", "productMapping", "tensions", "evidenceRefs"],
+      "properties": {
+        "strategy": { "enum": ["mimicry", "differentiation"] },
+        "family": { "type": "string", "minLength": 2 },
+        "profileId": { "type": ["string", "null"], "minLength": 2 },
+        "mentalModel": { "type": "string", "minLength": 8 },
+        "naturalFit": { "type": "string", "minLength": 8 },
+        "borrowedPatterns": { "$ref": "concept-candidate.schema.json#/$defs/nonEmptyIdentifiers" },
+        "productMapping": { "type": "string", "minLength": 8 },
+        "tensions": { "$ref": "concept-candidate.schema.json#/$defs/nonEmptyStrings" },
+        "evidenceRefs": { "$ref": "concept-candidate.schema.json#/$defs/evidenceRefs" }
+      }
+    },
+    "productThesis": { "$ref": "concept-candidate.schema.json#/properties/productThesis" },
+    "insight": { "$ref": "concept-candidate.schema.json#/properties/insight" },
+    "job": { "$ref": "concept-candidate.schema.json#/properties/job" },
+    "wedge": { "$ref": "concept-candidate.schema.json#/properties/wedge" },
+    "observableDifferentiation": { "$ref": "concept-candidate.schema.json#/properties/observableDifferentiation" },
+    "valueExchange": { "$ref": "concept-candidate.schema.json#/properties/valueExchange" },
+    "contentModel": { "$ref": "concept-candidate.schema.json#/properties/contentModel" },
+    "contentSupply": { "$ref": "concept-candidate.schema.json#/properties/contentSupply" },
+    "socialGraphLeverage": { "$ref": "concept-candidate.schema.json#/properties/socialGraphLeverage" },
+    "coldStart": { "$ref": "concept-candidate.schema.json#/properties/coldStart" },
+    "activation": { "$ref": "concept-candidate.schema.json#/properties/activation" },
+    "coreLoop": { "$ref": "concept-candidate.schema.json#/properties/coreLoop" },
+    "habitLoop": { "$ref": "concept-candidate.schema.json#/properties/habitLoop" },
+    "retention": { "$ref": "concept-candidate.schema.json#/properties/retention" },
+    "permissions": { "$ref": "concept-candidate.schema.json#/properties/permissions" },
+    "trustSafety": { "$ref": "concept-candidate.schema.json#/properties/trustSafety" },
+    "privacy": { "$ref": "concept-candidate.schema.json#/properties/privacy" },
+    "businessLogic": { "$ref": "concept-candidate.schema.json#/properties/businessLogic" },
+    "nonGoals": { "$ref": "concept-candidate.schema.json#/properties/nonGoals" },
+    "risks": { "$ref": "concept-candidate.schema.json#/properties/risks" },
+    "assumptions": { "$ref": "concept-candidate.schema.json#/properties/assumptions" },
+    "evidence": { "$ref": "concept-candidate.schema.json#/properties/evidence" },
+    "delivery": { "$ref": "concept-candidate.schema.json#/$defs/delivery" },
+    "maturity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "minimumAxisScore", "axisScores", "gates"],
+      "properties": {
+        "status": { "enum": ["mature", "migration-baseline"] },
+        "minimumAxisScore": { "type": "integer", "minimum": 3, "maximum": 4 },
+        "axisScores": {
+          "type": "object", "additionalProperties": false,
+          "required": [
+            "audience-need", "wedge", "observable-differentiation", "value-exchange", "content-supply",
+            "social-graph", "cold-start", "activation", "core-loop", "retention", "trust-privacy",
+            "business-viability", "reference-fit", "permission-cohesion", "evidence"
+          ],
+          "properties": {
+            "audience-need": { "$ref": "#/$defs/passingAxis" }, "wedge": { "$ref": "#/$defs/passingAxis" },
+            "observable-differentiation": { "$ref": "#/$defs/passingAxis" }, "value-exchange": { "$ref": "#/$defs/passingAxis" },
+            "content-supply": { "$ref": "#/$defs/passingAxis" }, "social-graph": { "$ref": "#/$defs/passingAxis" },
+            "cold-start": { "$ref": "#/$defs/passingAxis" }, "activation": { "$ref": "#/$defs/passingAxis" },
+            "core-loop": { "$ref": "#/$defs/passingAxis" }, "retention": { "$ref": "#/$defs/passingAxis" },
+            "trust-privacy": { "$ref": "#/$defs/passingAxis" }, "business-viability": { "$ref": "#/$defs/passingAxis" },
+            "reference-fit": { "$ref": "#/$defs/passingAxis" }, "permission-cohesion": { "$ref": "#/$defs/passingAxis" },
+            "evidence": { "$ref": "#/$defs/passingAxis" }
+          }
+        },
+        "gates": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "pass", "reasons"],
+            "properties": { "id": { "type": "string", "minLength": 2 }, "pass": { "const": true }, "reasons": { "type": "array", "maxItems": 0 } }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "passingAxis": { "type": "integer", "minimum": 3, "maximum": 4 }
+  }
+}

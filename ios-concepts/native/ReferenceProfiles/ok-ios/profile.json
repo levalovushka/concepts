@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "ok-ios",
+  "product": "Одноклассники",
+  "platform": "iOS",
+  "referenceFamily": "ok-family",
+  "mentalModel": null,
+  "evidenceStatus": "awaiting-evidence",
+  "evidence": { "source": null, "surfaces": [] },
+  "contract": null,
+  "native": { "swiftSources": [], "tokens": {} },
+  "capturePlan": ["launch", "feed", "discovery", "messages", "video", "menu", "profile", "post", "group", "settings", "empty", "offline"]
+}

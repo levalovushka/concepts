@@ -1,0 +1,627 @@
+import PhotosUI
+import SwiftUI
+import UIKit
+
+struct HouseHomeScreen: View {
+    @Environment(HouseStore.self) private var store
+    @Environment(Nav.self) private var nav
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        VStack(spacing: 0) {
+            DvorHomeHeader(
+                address: store.address,
+                resident: store.currentResident.name,
+                openProfile: { nav.present(sheet: DvorRoute.profile) },
+                switchHouse: { nav.present(sheet: DvorRoute.houseSwitcher) },
+                openNotifications: { nav.push(DvorRoute.notifications) }
+            )
+
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(spacing: t.spacing.sectionGap) {
+                        DvorComposer(
+                            resident: store.currentResident.name,
+                            action: { nav.present(sheet: DvorRoute.createPost) }
+                        )
+
+                        if DvorShotMode.isScreen("home", state: "loading") {
+                            DvorCard { ProgressView("Обновляем ленту дома…").frame(maxWidth: .infinity).padding(.vertical, 36) }
+                        } else if visibleMatters.isEmpty {
+                            DvorCard {
+                                AppStatePanel(kind: .empty, title: "Публикаций пока нет", detail: "Станьте первым, кто поделится новостью или задаст вопрос соседям.")
+                                    .padding(.horizontal, t.spacing.contentInset)
+                            }
+                        } else {
+                            ForEach(visibleMatters) { matter in
+                                MatterCard(
+                                    matter: matter,
+                                    open: { nav.push(DvorRoute.matter(matter)) }
+                                )
+                                .id(matter.id)
+                            }
+                        }
+                    }
+                    .padding(.bottom, t.spacing.x4)
+                }
+                .task {
+                    let target: HouseMatter?
+                    let anchor: UnitPoint
+                    if DvorShotMode.isScreen("home", state: "end") {
+                        target = store.matters.last
+                        anchor = .bottom
+                    } else if DvorShotMode.isScreen("home", state: "poll") || DvorShotMode.isScreen("home", state: "poll-voted") {
+                        target = store.matters.first(where: { $0.kind == .poll })
+                        anchor = .top
+                    } else {
+                        target = nil
+                        anchor = .top
+                    }
+                    guard let target else { return }
+                    try? await Task.sleep(nanoseconds: 200_000_000)
+                    proxy.scrollTo(target.id, anchor: anchor)
+                }
+            }
+        }
+        .background(t.palette.groupedBackground)
+        .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var visibleMatters: [HouseMatter] {
+        store.matters.filter { !store.hidden.contains($0.id) }
+    }
+
+}
+
+struct DvorHomeHeader: View {
+    let address: String
+    let resident: String
+    let openProfile: () -> Void
+    let switchHouse: () -> Void
+    let openNotifications: () -> Void
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        HStack(spacing: t.spacing.x3) {
+            Button(action: openProfile) { Avatar(name: resident, size: 32) }
+                .buttonStyle(.plain).accessibilityLabel("Профиль")
+            Button(action: switchHouse) {
+                HStack(spacing: 5) {
+                    Text(address).font(.role(.cardTitle)).lineLimit(1)
+                    Image(systemName: "chevron.down").font(.role(.badge))
+                }
+                .foregroundStyle(t.palette.textPrimary).frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain).accessibilityLabel("Выбрать дом. Сейчас \(address)")
+            Button(action: openNotifications) {
+                Image(systemName: t.icon(.notifications)).font(.system(size: 20, weight: t.icons.weight)).frame(width: t.metrics.hitTarget, height: t.metrics.hitTarget)
+            }
+            .accessibilityLabel("Уведомления дома")
+            .nativeAction("home.open-notifications")
+        }
+        .padding(.horizontal, t.spacing.contentInset).frame(height: 50).background(t.palette.surface)
+        .overlay(alignment: .bottom) { t.palette.separator.frame(height: 0.5) }
+    }
+}
+
+struct DvorComposer: View {
+    let resident: String
+    let action: () -> Void
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: t.spacing.x2) {
+                Avatar(name: resident, size: 38)
+                Text("Что у вас нового?")
+                    .font(.role(.body)).foregroundStyle(t.palette.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("Создать")
+                    .font(.role(.groupHeader)).foregroundStyle(t.palette.accent)
+            }
+            .padding(.horizontal, t.spacing.contentInset).frame(height: 56).contentShape(Rectangle())
+        }
+        .buttonStyle(HighlightStyle())
+        .background(t.palette.surface)
+        .accessibilityLabel("Создать публикацию")
+        .nativeAction("home.create-post")
+    }
+}
+
+struct MatterCard: View {
+    let matter: HouseMatter
+    let open: (() -> Void)?
+    @Environment(HouseStore.self) private var store
+    @Environment(Session.self) private var session
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: t.spacing.x2) {
+            postContent
+                .contentShape(Rectangle())
+                .onTapGesture { open?() }
+                .nativeAction("home.open-post")
+
+            HStack(spacing: t.spacing.x2) {
+                Button { store.toggleLike(matter) } label: {
+                    MatterReaction(
+                        icon: store.liked.contains(matter.id) ? "heart.fill" : "heart",
+                        value: countText(currentMatter.likes),
+                        selected: store.liked.contains(matter.id)
+                    )
+                }
+                .accessibilityLabel(store.liked.contains(matter.id) ? "Убрать отметку Нравится" : "Нравится")
+                .disabled(!session.canWriteToHouse)
+                .nativeAction("home.like-post")
+                if let open {
+                    Button(action: open) {
+                        MatterReaction(icon: "message", value: countText(matter.replies.count))
+                    }
+                    .accessibilityLabel("Открыть комментарии. \(matter.replies.count)")
+                } else {
+                    MatterReaction(icon: "message", value: countText(matter.replies.count))
+                }
+                ShareLink(item: "\(matter.title)\n\(matter.body)") {
+                    MatterReaction(icon: "arrowshape.turn.up.right", value: "")
+                }
+                .accessibilityLabel("Поделиться публикацией")
+                .nativeAction("home.share-post")
+                Spacer()
+                Label("\(84 + matter.likes)", systemImage: "eye")
+                    .foregroundStyle(t.palette.textSecondary)
+            }
+            .font(.system(size: 14, weight: .medium))
+            .buttonStyle(MatterReactionPressStyle())
+            .frame(minHeight: t.metrics.hitTarget)
+
+            if let reply = matter.replies.first, let open {
+                Button(action: open) {
+                    HStack(alignment: .top, spacing: 8) {
+                        Avatar(name: reply.author.name, size: 26)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(reply.author.name).font(.role(.groupHeader))
+                            Text(reply.text).font(.role(.meta)).foregroundStyle(t.palette.textPrimary).lineLimit(2)
+                            if matter.replies.count > 1 {
+                                Text("Показать все \(matter.replies.count) комментария")
+                                    .font(.role(.groupHeader)).foregroundStyle(t.palette.accent)
+                            }
+                        }
+                        Spacer(minLength: 0)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain).accessibilityLabel("Открыть комментарии")
+            }
+        }.padding(.horizontal, t.spacing.contentInset).padding(.vertical, t.spacing.x3).background(t.palette.surface)
+    }
+
+    private var currentMatter: HouseMatter {
+        store.matters.first(where: { $0.id == matter.id }) ?? matter
+    }
+
+    private func countText(_ value: Int) -> String {
+        value == 0 ? "" : "\(value)"
+    }
+
+    @ViewBuilder private var postContent: some View {
+        VStack(alignment: .leading, spacing: t.spacing.x2) {
+            HStack(spacing: t.spacing.x2) {
+                Avatar(name: matter.author.name, size: 38)
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 4) {
+                        Text(matter.author.name).font(.role(.name))
+                        if matter.author.role != nil {
+                            Image(systemName: "checkmark.seal.fill").font(.system(size: 11)).foregroundStyle(t.palette.accent)
+                        }
+                    }
+                    Text("\(matter.published) · \(metaPlace)")
+                        .font(.role(.meta)).foregroundStyle(t.palette.textSecondary)
+                        .lineLimit(1).truncationMode(.tail)
+                }
+                Spacer(minLength: 8)
+                Menu {
+                    Button {
+                        store.toggleSaved(matter)
+                    } label: {
+                        Label(store.saved.contains(matter.id) ? "Убрать из сохранённых" : "Сохранить", systemImage: "bookmark")
+                    }
+                    Button(role: .destructive) {
+                        store.hide(matter)
+                    } label: {
+                        Label("Скрыть из ленты", systemImage: "eye.slash")
+                    }
+                } label: {
+                    Image(systemName: t.icon(.more)).frame(width: 32, height: 36)
+                }
+                .foregroundStyle(t.palette.textSecondary).accessibilityLabel("Действия с публикацией")
+                .disabled(!session.canWriteToHouse)
+            }
+
+            MatterPriorityLabel(matter: matter)
+
+            if !matter.title.isEmpty {
+                Text(matter.title).font(.role(.cardTitle)).foregroundStyle(t.palette.textPrimary)
+            }
+            Text(matter.body).font(.role(.body)).foregroundStyle(t.palette.textPrimary).lineSpacing(2).lineLimit(4)
+
+            if let mediaAsset = matter.mediaAsset {
+                Image(mediaAsset)
+                    .resizable().scaledToFill()
+                    .frame(maxWidth: .infinity).frame(height: 184)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .accessibilityLabel("Фотография двора после субботника")
+            } else if let mediaData = matter.mediaData, let image = UIImage(data: mediaData) {
+                Image(uiImage: image)
+                    .resizable().scaledToFill()
+                    .frame(maxWidth: .infinity).frame(height: 184)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .accessibilityLabel("Фотография в публикации")
+            } else if !matter.mediaItems.isEmpty {
+                LazyVGrid(columns: [GridItem(.flexible(), spacing: 4), GridItem(.flexible(), spacing: 4)], spacing: 4) {
+                    ForEach(Array(matter.mediaItems.enumerated()), id: \.offset) { _, data in
+                        if let image = UIImage(data: data) {
+                            Image(uiImage: image).resizable().scaledToFill().frame(height: 132).clipped()
+                        }
+                    }
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .accessibilityLabel("Фотографии в публикации: \(matter.mediaItems.count)")
+            }
+
+            if !matter.pollOptions.isEmpty {
+                VStack(spacing: 8) {
+                    ForEach(matter.pollOptions, id: \.self) { option in
+                        Button {
+                            store.vote(in: matter, option: option)
+                        } label: {
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 10, style: .continuous).fill(t.palette.fill)
+                                if store.pollVotes[matter.id] != nil {
+                                    GeometryReader { proxy in
+                                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                            .fill(t.palette.accent.opacity(0.12))
+                                            .frame(width: proxy.size.width * pollPercent(option))
+                                    }
+                                }
+                                HStack {
+                                    Text(option).font(.role(.pill))
+                                    Spacer()
+                                    if store.pollVotes[matter.id] != nil {
+                                        Text("\(Int(pollPercent(option) * 100))%")
+                                            .font(.role(.groupHeader)).foregroundStyle(t.palette.accent)
+                                    }
+                                    if store.pollVotes[matter.id] == option {
+                                        Image(systemName: "checkmark.circle.fill").foregroundStyle(t.palette.accent)
+                                    }
+                                }
+                                .padding(.horizontal, 12)
+                            }
+                            .frame(minHeight: t.metrics.hitTarget)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(!session.canWriteToHouse)
+                        .accessibilityLabel("\(option)\(store.pollVotes[matter.id] == nil ? "" : ", \(Int(pollPercent(option) * 100)) процентов")")
+                    }
+                    if store.pollVotes[matter.id] != nil {
+                        HStack(spacing: t.spacing.x2) {
+                            Text("\(pollTotal) голосов")
+                                .font(.role(.meta))
+                                .foregroundStyle(t.palette.textSecondary)
+                            Spacer()
+                            Button("Изменить выбор") { store.clearVote(in: matter) }
+                                .font(.system(size: 13, weight: .medium))
+                                .frame(minHeight: t.metrics.hitTarget)
+                        }
+                    }
+                }
+            }
+
+            if matter.kind == .event {
+                VStack(spacing: 0) {
+                    eventRow(icon: "calendar", title: eventSummary)
+                    t.palette.separator.frame(height: 0.5)
+                    HStack(spacing: t.spacing.x2) {
+                        HStack(spacing: -6) {
+                            Avatar(name: "Анна Котова", size: 28)
+                            Avatar(name: "Михаил Орлов", size: 28)
+                            Avatar(name: "Елена Соколова", size: 28)
+                        }
+                        Text("18 соседей собираются")
+                            .font(.role(.meta)).foregroundStyle(t.palette.textSecondary)
+                        Spacer(minLength: t.spacing.x2)
+                        Button(store.attending.contains(matter.id) ? "Вы пойдёте" : "Пойду") {
+                            store.toggleAttendance(matter)
+                        }
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(store.attending.contains(matter.id) ? t.palette.textSecondary : t.palette.accent)
+                        .frame(minWidth: 72, minHeight: t.metrics.hitTarget)
+                        .accessibilityLabel(store.attending.contains(matter.id) ? "Отменить участие" : "Пойти на событие")
+                        .disabled(!session.canWriteToHouse)
+                    }
+                }
+                .padding(.horizontal, t.spacing.x3)
+                .background(t.palette.groupedBackground, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+            }
+
+            if matter.kind == .incident && matter.status == .inProgress {
+                HStack(spacing: t.spacing.x2) {
+                    Text("Вход со двора · заявка №418")
+                        .font(.role(.groupHeader))
+                        .lineLimit(1).truncationMode(.tail).layoutPriority(1)
+                    Spacer(minLength: t.spacing.x2)
+                    Text("Электрик до завтра")
+                        .font(.role(.meta)).foregroundStyle(t.palette.textSecondary)
+                        .lineLimit(1).truncationMode(.tail)
+                }
+                .padding(.top, 8)
+                .overlay(alignment: .top) { t.palette.separator.frame(height: 0.5) }
+            }
+        }
+    }
+
+    private var metaPlace: String {
+        matter.kind == .incident ? "2 подъезд" : matter.place
+    }
+
+    private func pollPercent(_ option: String) -> Double {
+        guard pollTotal > 0 else { return 0 }
+        return Double(currentMatter.pollCounts[option] ?? 0) / Double(pollTotal)
+    }
+
+    private var pollTotal: Int { currentMatter.pollCounts.values.reduce(0, +) }
+
+    private var eventSummary: String {
+        guard let event = matter.eventDetails else { return "Время уточняется" }
+        return "\(event.startsAt.formatted(.dateTime.weekday(.wide).hour().minute().locale(Locale(identifier: "ru_RU")))) · \(event.location)"
+    }
+
+    private func eventRow(icon: String, title: String) -> some View {
+        HStack(spacing: t.spacing.x2) {
+            Image(systemName: icon).frame(width: 20).foregroundStyle(t.palette.accent)
+            Text(title).font(.role(.pill))
+            Spacer(minLength: 0)
+        }
+        .frame(minHeight: t.metrics.hitTarget)
+    }
+}
+
+struct MatterReaction: View {
+    let icon: String
+    let value: String
+    var selected = false
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: icon)
+            if !value.isEmpty { Text(value) }
+        }
+        .font(.system(size: 14, weight: .medium))
+        .foregroundStyle(selected ? t.palette.accent : t.palette.textSecondary)
+        .padding(.horizontal, 12)
+        .frame(minWidth: 56, minHeight: 36)
+        .background(selected ? t.palette.accent.opacity(0.12) : t.palette.groupedBackground, in: Capsule())
+        .frame(minHeight: t.metrics.hitTarget)
+        .contentShape(Rectangle())
+    }
+}
+
+struct MatterReactionPressStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(configuration.isPressed ? 0.68 : 1)
+            .scaleEffect(configuration.isPressed ? 0.97 : 1)
+            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+    }
+}
+
+struct MatterPriorityLabel: View {
+    let matter: HouseMatter
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        if let title {
+            Text(title)
+                .font(.role(.groupHeader))
+                .foregroundStyle(color)
+                .padding(.horizontal, 8).frame(height: 24)
+                .background(color.opacity(0.1), in: Capsule())
+        }
+    }
+
+    private var title: String? {
+        switch matter.kind {
+        case .post: nil
+        case .incident: matter.status.rawValue
+        case .announcement: "Объявление"
+        case .question: "Вопрос"
+        case .event: "Событие"
+        case .poll: "Опрос"
+        }
+    }
+
+    private var color: Color {
+        if matter.status == .resolved { return t.palette.positive }
+        if matter.kind == .post { return .clear }
+        return matter.kind == .question ? t.palette.warning : t.palette.accent
+    }
+}
+
+struct HouseSwitcherScreen: View {
+    @Environment(Nav.self) private var nav
+    @Environment(\.visualLanguage) private var t
+
+    var body: some View {
+        VStack(spacing: 0) {
+            DvorModalChrome(title: "Ваш дом", onCancel: { nav.dismiss() })
+
+            DvorCard {
+                HStack(spacing: 12) {
+                    Image(systemName: "house.fill").foregroundStyle(t.palette.accent).frame(width: 32, height: 32)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Мясницкая, 24/7").font(.role(.cardTitle))
+                        Text("Подтверждённый адрес").font(.role(.meta)).foregroundStyle(t.palette.textSecondary)
+                    }
+                    Spacer()
+                    Image(systemName: "checkmark").foregroundStyle(t.palette.accent)
+                }
+                .padding(16)
+            }
+            .padding(.top, 12)
+            Spacer()
+        }
+        .background(t.palette.groupedBackground)
+    }
+}
+
+struct CreateHousePostScreen: View {
+    @Environment(HouseStore.self) private var store
+    @Environment(Nav.self) private var nav
+    @Environment(\.visualLanguage) private var t
+    @State private var text = ""
+    @State private var kind: MatterKind = .post
+    @State private var photo: PhotosPickerItem?
+    @State private var photoData: Data?
+    @State private var isPublishing = false
+    @State private var publishError: String?
+    @State private var pollOptionOne = ""
+    @State private var pollOptionTwo = ""
+    @State private var eventDate = Calendar.current.date(byAdding: .day, value: 7, to: .now) ?? .now
+    @State private var eventLocation = "Двор"
+
+    var body: some View {
+        VStack(spacing: 0) {
+            DvorModalChrome(
+                title: "Новая публикация",
+                onCancel: { nav.dismiss() },
+                cancelActionID: "createpost.cancel-post",
+                done: DvorChromeAction(
+                    title: isPublishing ? "Публикуем…" : "Опубликовать",
+                    isDisabled: text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isPublishing,
+                    nativeActionID: "createpost.publish-post",
+                    action: publish
+                )
+            )
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    if DvorShotMode.isScreen("createpost", state: "error") {
+                        AppStatePanel(kind: .error,
+                            title: "Не удалось опубликовать",
+                            detail: "Текст и вложение сохранены. Проверьте соединение и попробуйте ещё раз."
+                        )
+                    }
+                    if let publishError {
+                        AppStatePanel(kind: .warning, title: "Публикация не готова", detail: publishError)
+                    }
+                    HStack(spacing: 10) {
+                        Avatar(name: store.currentResident.name, size: 40)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(store.currentResident.name).font(.role(.name))
+                            Text("Увидят подтверждённые жильцы дома").font(.role(.meta)).foregroundStyle(t.palette.textSecondary)
+                        }
+                    }
+                    TextEditor(text: $text)
+                        .font(.system(size: 17))
+                        .frame(height: 96)
+                        .overlay(alignment: .topLeading) {
+                            if text.isEmpty {
+                                Text("Что у вас нового?").font(.role(.rowTitle)).foregroundStyle(t.palette.textSecondary)
+                                    .padding(.top, 8).allowsHitTesting(false)
+                            }
+                        }
+
+                    Menu {
+                        ForEach([MatterKind.post, .announcement, .question, .poll, .event], id: \.self) { option in
+                            Button(composerTitle(option)) { kind = option }
+                        }
+                    } label: {
+                        HStack(spacing: 6) {
+                            Text("Формат").foregroundStyle(t.palette.textPrimary)
+                            Spacer()
+                            Text(composerTitle(kind)).foregroundStyle(t.palette.accent)
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundStyle(t.palette.textSecondary)
+                        }
+                        .font(.system(size: 15, weight: .medium))
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .contentShape(Rectangle())
+                    }
+                    .overlay(alignment: .bottom) { t.palette.separator.frame(height: 0.5) }
+                    .nativeAction("createpost.change-type")
+
+                    if kind == .poll {
+                        DvorFormField(title: "Первый вариант", placeholder: "Например, в 22:00", text: $pollOptionOne)
+                        DvorFormField(title: "Второй вариант", placeholder: "Например, в 23:00", text: $pollOptionTwo)
+                    }
+
+                    if kind == .event {
+                        DatePicker("Дата и время", selection: $eventDate, in: Date.now...)
+                            .font(.system(size: 15, weight: .medium)).frame(minHeight: 44)
+                        DvorFormField(title: "Место", placeholder: "Двор или подъезд", text: $eventLocation)
+                    }
+
+                    PhotosPicker(selection: $photo, matching: .images) {
+                        Label(photo == nil ? "Добавить фотографию" : "Фотография добавлена", systemImage: photo == nil ? "photo" : "checkmark")
+                            .font(.system(size: 15, weight: .medium)).frame(minHeight: 44)
+                    }
+                    .nativeAction("createpost.add-photo")
+                    if let photoData, let image = UIImage(data: photoData) {
+                        Image(uiImage: image).resizable().scaledToFill()
+                            .frame(maxWidth: .infinity).frame(height: 160).clipped()
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    }
+                }
+                .padding(16)
+            }
+        }
+        .background(t.palette.background)
+        .task(id: photo) {
+            photoData = try? await photo?.loadTransferable(type: Data.self)
+        }
+    }
+
+    private func composerTitle(_ kind: MatterKind) -> String {
+        switch kind {
+        case .post: "Пост"
+        case .announcement: "Объявление"
+        case .question: "Вопрос"
+        default: kind.rawValue
+        }
+    }
+
+    private func publish() {
+        let cleanText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard cleanText.count >= 3 else { publishError = "Добавьте хотя бы несколько слов."; return }
+        let pollOptions = [pollOptionOne, pollOptionTwo].map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        if kind == .poll, pollOptions.contains(where: { $0.count < 2 }) {
+            publishError = "Добавьте два понятных варианта ответа."
+            return
+        }
+        if kind == .event, eventLocation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            publishError = "Укажите место события."
+            return
+        }
+        publishError = nil
+        isPublishing = true
+        Task {
+            try? await Task.sleep(for: .milliseconds(450))
+            let event = kind == .event
+                ? HouseEvent(title: cleanText, startsAt: eventDate, duration: 2 * 3600,
+                             location: eventLocation.trimmingCharacters(in: .whitespacesAndNewlines))
+                : nil
+            guard store.createPost(kind: kind, text: cleanText, mediaData: photoData,
+                                   pollOptions: kind == .poll ? pollOptions : [], eventDetails: event) != nil else {
+                publishError = "Адрес ещё проверяется. Публикации откроются после подтверждения."
+                isPublishing = false
+                return
+            }
+            isPublishing = false
+            nav.dismiss()
+        }
+    }
+}

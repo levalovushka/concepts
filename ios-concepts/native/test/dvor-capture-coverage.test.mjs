@@ -1,0 +1,23 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileCaptureCatalog } from "../lib/capture-catalog.mjs";
+
+test("Dvor capture catalog covers every declared screenshot state", () => {
+  const concept = JSON.parse(readFileSync(join(import.meta.dirname, "../../concepts/dvor/concept.json"), "utf8"));
+  const source = JSON.parse(readFileSync(join(import.meta.dirname, "../apps/dvor/capture.json"), "utf8"));
+  const compiled = compileNativeConcept(concept);
+  const catalog = compileCaptureCatalog(compiled.manifest, source);
+
+  assert.equal(catalog.ok, true, JSON.stringify(catalog.diagnostics, null, 2));
+  assert.deepEqual(catalog.missing.map(item => item.id), []);
+  assert.equal(catalog.drivers.some(item => item.surface === "scan" && item.supplemental), true);
+  const app = readFileSync(join(import.meta.dirname, "../apps/dvor/App.swift"), "utf8");
+  const auth = readFileSync(join(import.meta.dirname, "../DesignSystem/NativeEmailAuth.swift"), "utf8");
+  assert.match(app, /captureState: DvorShotMode\.state/,
+    "Dvor must pass capture state into the shared entry flow");
+  assert.match(auth, /captureState == "error" \|\| initialSurface == "codefail"/,
+    "shared auth must render an explicit product error state");
+});

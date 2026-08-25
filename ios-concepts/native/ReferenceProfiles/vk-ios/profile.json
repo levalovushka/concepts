@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "vk-ios",
+  "product": "ВКонтакте",
+  "platform": "iOS",
+  "referenceFamily": "vk-family",
+  "mentalModel": {
+    "expectation": "A dense social network organised around people, feed units, conversations, discovery, short video, and a service menu.",
+    "naturalProducts": "Products whose value improves through identity, social graph, publication, response, and repeated contribution.",
+    "conflicts": "A private utility, one-shot tool, or passive catalogue must not borrow VK chrome unless its own core model maps to social identity and contribution."
+  },
+  "evidenceStatus": "ready",
+  "evidence": {
+    "source": "../../vk-visual-profile.md",
+    "surfaces": ["home", "search", "clips", "menu", "settings", "friends", "chat", "post"]
+  },
+  "contract": {
+    "navigation": { "rootTabs": 5, "labelsVisible": false, "profileEntry": "root-avatar" },
+    "density": "dense-social",
+    "layout": { "screenBackground": "#FFFFFF", "groupGap": 9, "contentPadding": 16 },
+    "color": { "accent": "#0077FF", "groupedBackground": "#F2F3F5", "separator": "#E7E8EC" },
+    "typography": { "family": "SF Pro", "rootTitle": 24, "navigationTitle": 17, "body": 15, "metadata": 13 },
+    "componentFamilies": ["root-header", "social-feed", "stories", "post", "people-list", "chat", "service-grid", "profile-cards"]
+  },
+  "native": {
+    "swiftSources": ["ReferenceProfiles/vk-ios/Components.swift"],
+    "iconography": {
+      "productChrome": "lucide-assets",
+      "platformActions": "sf-symbols",
+      "version": "0.525.0",
+      "sourceManifest": "IconSources/lucide/0.525.0/manifest.json",
+      "tabRoles": {
+        "feed": "house",
+        "house-matters": "house",
+        "discovery": "search",
+        "messaging": "message-circle",
+        "short-video": "circle-play",
+        "infrastructure": "layout-grid",
+        "services": "menu"
+      }
+    },
+    "tokens": {
+      "accent": "#0077FF", "background": "#FFFFFF", "groupedBackground": "#F2F3F5",
+      "fill": "#F2F3F5", "separator": "#E7E8EC", "textPrimary": "#000000",
+      "textSecondary": "#818C99", "badge": "#FF3347", "outgoingStart": "#4B8BF5",
+      "outgoingMiddle": "#A44BF5", "outgoingEnd": "#F54BA4"
+    }
+  },
+  "capturePlan": ["launch", "home", "search", "clips", "menu", "settings", "friends", "chat", "post", "empty", "offline"]
+}
