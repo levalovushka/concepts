@@ -20,6 +20,34 @@ const PATTERN_FAMILIES = Object.freeze({
   services: ["service-list"],
 });
 
+const TAB_SEMANTICS = Object.freeze({
+  tails: {
+    home: { role: "feed", systemImage: "house" },
+    nearby: { role: "discovery", systemImage: "location" },
+    create: { role: "short-video", systemImage: "plus.circle" },
+    chats: { role: "messaging", systemImage: "message" },
+    profile: { role: "services", systemImage: "person.crop.circle" },
+  },
+  today: {
+    home: { role: "home", systemImage: "sun.max" },
+    nearby: { role: "nearby", systemImage: "person.2" },
+    create: { role: "create", systemImage: "plus.circle" },
+    chats: { role: "plans", systemImage: "calendar" },
+    profile: { role: "profile", systemImage: "person.crop.circle" },
+  },
+  nakat: {
+    lessons: { role: "lessons", systemImage: "calendar" },
+    theory: { role: "theory", systemImage: "book.closed" },
+    menu: { role: "menu", systemImage: "ellipsis" },
+  },
+  peresmenka: {
+    shifts: { role: "shifts", systemImage: "calendar" },
+    swaps: { role: "swaps", systemImage: "arrow.left.arrow.right" },
+    people: { role: "people", systemImage: "person.2" },
+    menu: { role: "menu", systemImage: "ellipsis" },
+  },
+});
+
 function text(value, fallback) {
   return typeof value === "string" && value.trim() ? value.trim() : fallback;
 }
@@ -33,6 +61,7 @@ function patternFor(screen) {
 }
 
 function normalizeScreens(web) {
+  const screenById = new Map((web.screens || []).map(screen => [screen.id, screen]));
   const childByParent = new Map();
   for (const screen of web.screens || []) if (screen.parent) {
     const rows = childByParent.get(screen.parent) || [];
@@ -46,7 +75,8 @@ function normalizeScreens(web) {
       : TYPE_PRESENTATION.get(screen.type) || "push";
     const pattern = patternFor(screen);
     const child = (childByParent.get(screen.id) || [])[0];
-    const label = text(screen.ui?.primaryAction, child ? `Открыть ${child}` : `Продолжить: ${screen.title}`);
+    const childTitle = child ? text(screenById.get(child)?.title, child) : null;
+    const label = text(screen.ui?.primaryAction, child ? `Открыть «${childTitle}»` : `Продолжить`);
     const outcome = child
       ? { type: "navigate", target: child }
       : { type: "mutate", state: `${screen.id}.completed` };
@@ -238,7 +268,12 @@ function normalizedNative(web) {
       },
     },
     navigation: {
-      tabs: (web.tabs || []).map(tab => ({ ...tab, screen: tab.screen || tab.id, role: tab.role || tab.id, systemImage: tab.systemImage || "circle" })),
+      tabs: (web.tabs || []).map(tab => ({
+        ...tab,
+        screen: tab.screen || tab.id,
+        role: TAB_SEMANTICS[web.slug]?.[tab.id]?.role || tab.role || tab.id,
+        systemImage: TAB_SEMANTICS[web.slug]?.[tab.id]?.systemImage || tab.systemImage,
+      })),
     },
   };
 }
@@ -247,12 +282,15 @@ function normalizedNative(web) {
  * Deep migration module. Its interface accepts only reviewed product evidence
  * and three curated proposition descriptors. HTML/CSS/DOM never cross it.
  */
-export async function migrateWebConcept({ webConcept, portfolio }) {
+export async function migrateWebConcept({ webConcept, portfolio, deliveryIdentity }) {
   if (!webConcept || webConcept.targetSet !== "vkontakte") throw new Error("web migration accepts only targetSet=vkontakte");
   if (!Array.isArray(portfolio) || portfolio.length !== 3) throw new Error("web migration requires exactly three curated candidates");
+  if (!deliveryIdentity?.fixture || !deliveryIdentity?.firstFrame || !deliveryIdentity?.coreSurfaces?.length) {
+    throw new Error("web migration requires reviewed product identity anchors and deterministic fixture content");
+  }
   const screens = normalizeScreens(webConcept);
   const permissions = (webConcept.permissions || []).map(item => ({ ...item, key: item.key || item.id }));
-  const native = normalizedNative(webConcept);
+  const native = { ...normalizedNative(webConcept), deliveryIdentity };
   const brief = {
     schemaVersion: 1,
     id: `${webConcept.slug}-native-product-selection`,

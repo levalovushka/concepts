@@ -10,9 +10,11 @@
 // то, что машина не формализует: продуктовый смысл экрана и характер копии.
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
+import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from "node:fs";
+import { dirname, isAbsolute, join, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { reviewProductUI } from "../lib/product-ui-critic.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
@@ -20,6 +22,8 @@ const ROOT = join(NATIVE, "..");
 
 const slug = process.argv[2];
 if (!slug) { console.error("usage: critic.mjs <slug>"); process.exit(1); }
+const adapterIndex = process.argv.indexOf("--adapter");
+const adapterPath = adapterIndex >= 0 ? process.argv[adapterIndex + 1] : null;
 
 function run(script, args = []) {
   try {
@@ -132,4 +136,39 @@ if (total < floor) {
   console.log(`\nНиже планки концепта (${floor}): сборка не показывается человеку.`);
   process.exit(1);
 }
-console.log(`\nПланка ${floor} взята.`);
+console.log(`\nДетерминированная планка ${floor} взята.`);
+
+function captureFiles(directory) {
+  if (!existsSync(directory)) return [];
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const path = join(directory, entry.name);
+    return entry.isDirectory() ? captureFiles(path) : entry.name.endsWith(".png") ? [path] : [];
+  });
+}
+
+const shotsDirectory = join(NATIVE, "artifacts", slug, "shots");
+const captures = captureFiles(shotsDirectory).sort().map(path => ({
+  id: path.slice(shotsDirectory.length + 1).replaceAll("/", ".").replace(/\.png$/, ""),
+  path,
+  sha256: createHash("sha256").update(readFileSync(path)).digest("hex"),
+}));
+
+let reviewer = null;
+if (adapterPath) {
+  const absolute = isAbsolute(adapterPath) ? adapterPath : resolve(process.cwd(), adapterPath);
+  const module = await import(pathToFileURL(absolute));
+  reviewer = module.productUICritic || module.default;
+}
+const independent = await reviewProductUI({ concept: spec, captures, reviewer });
+const requestPath = join(outDir, "product-ui-review-request.json");
+writeFileSync(requestPath, JSON.stringify(independent.request || {
+  schemaVersion: 1, slug, captures,
+  requirement: "Connect an independent reviewer adapter; deterministic audits are not product/UI criticism.",
+}, null, 2) + "\n");
+if (independent.receipt) writeFileSync(join(outDir, "product-ui-review-receipt.json"), JSON.stringify(independent.receipt, null, 2) + "\n");
+if (!independent.ok) {
+  for (const item of independent.diagnostics) console.error(`✗ ${item.code} · ${item.path}\n  ${item.message}`);
+  console.error(`\nНезависимая продуктовая/UI-критика не пройдена. Запрос → ${requestPath}`);
+  process.exit(1);
+}
+console.log(`Независимая критика: ЧИСТО · ${independent.receipt.receiptId}`);

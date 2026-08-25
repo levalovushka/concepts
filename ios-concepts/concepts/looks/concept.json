@@ -134,7 +134,34 @@
         }
       ]
     },
-    "actionContractVersion": 3
+    "actionContractVersion": 3,
+    "deliveryIdentity": {
+      "coreSurfaces": [
+        "home",
+        "post",
+        "search",
+        "wardrobe",
+        "chats"
+      ],
+      "requiredVocabulary": [
+        "тренч",
+        "вещ",
+        "сочетан"
+      ],
+      "forbiddenVocabulary": [
+        "питомец",
+        "прогулка с собакой",
+        "рабочая смена",
+        "учебный билет"
+      ],
+      "firstFrame": {
+        "surface": "home",
+        "mustExpose": [
+          "тренч",
+          "вещ"
+        ]
+      }
+    }
   },
   "start": "phone",
   "permissions": [

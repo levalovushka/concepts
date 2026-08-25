@@ -37,6 +37,7 @@ export function createNativePipelinePlan(operation, slug, options = {}) {
   const productGate = target => command(`product maturity ${target}`, process.execPath, [join(native, "gen", "gate-product.mjs"), target], root);
   const compile = target => command(`compile ${target}`, process.execPath, [join(native, "gen", "compile-concept.mjs"), target, "--write"], root);
   const docs = target => command(`developer docs ${target}`, process.execPath, [join(native, "gen", "developer-docs.mjs"), target, "--check"], root);
+  const delivery = target => command(`native delivery ${target}`, process.execPath, [join(native, "gen", "gate-delivery.mjs"), target], root);
   const generate = target => command(`generate ${target}`, process.execPath, [join(native, "gen", "gen-project.mjs"), target], root);
   const audit = target => command(`audit ${target}`, process.execPath, [join(native, "gen", "audit-native.mjs"), target], root);
   const build = target => {
@@ -73,19 +74,19 @@ export function createNativePipelinePlan(operation, slug, options = {}) {
   if (operation === "test") return testCommands(root);
   if (operation === "check-all") return [
     ...testCommands(root),
-    ...discoverNativeConcepts(root).flatMap(target => [productGate(target), compile(target), docs(target), generate(target), audit(target)]),
+    ...discoverNativeConcepts(root).flatMap(target => [productGate(target), compile(target), docs(target), delivery(target), generate(target), audit(target)]),
   ];
   if (!slug) throw new Error(`${operation}: нужен slug концепта`);
   if (!discoverNativeConcepts(root).includes(slug)) throw new Error(`нет пары concepts/${slug} + native/apps/${slug}`);
   if (operation === "product-gate") return [productGate(slug)];
   if (operation === "compile") return [productGate(slug), compile(slug)];
-  if (operation === "check") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug)];
-  if (operation === "build") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), build(slug)];
+  if (operation === "check") return [productGate(slug), compile(slug), docs(slug), delivery(slug), generate(slug), audit(slug)];
+  if (operation === "build") return [productGate(slug), compile(slug), docs(slug), delivery(slug), generate(slug), audit(slug), build(slug)];
   if (operation === "capture") return [productGate(slug), compile(slug), docs(slug), audit(slug), capture(slug)];
   if (operation === "smoke") {
-    return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), smoke(slug)];
+    return [productGate(slug), compile(slug), docs(slug), delivery(slug), generate(slug), audit(slug), smoke(slug)];
   }
-  if (operation === "release") return [productGate(slug), compile(slug), docs(slug), generate(slug), audit(slug), build(slug), capture(slug), critic(slug)];
+  if (operation === "release") return [productGate(slug), compile(slug), docs(slug), delivery(slug), generate(slug), audit(slug), build(slug), capture(slug), critic(slug)];
   throw new Error(`неизвестная операция: ${operation}`);
 }
 

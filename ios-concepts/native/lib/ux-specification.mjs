@@ -86,8 +86,8 @@ function canonicalStateFor(value) {
   return "populated/default";
 }
 
-function russianStateCopy(slug, title, state) {
-  const product = slug === "dvor" ? "дома" : "образов";
+function russianStateCopy(concept, title, state) {
+  const product = concept.native?.deliveryIdentity?.fixture?.kind || (concept.slug === "dvor" ? "дома" : "образов");
   const copies = {
     loading: `Обновляем данные раздела «${title}»; текущий контекст остаётся доступен.`,
     "populated/default": `Актуальные данные раздела «${title}» готовы к следующему действию.`,
@@ -102,7 +102,8 @@ function russianStateCopy(slug, title, state) {
   return copies[state];
 }
 
-function fixtureData(slug, surface, state) {
+function fixtureData(concept, surface, state) {
+  const slug = concept.slug;
   const stateLabel = state === "default" ? "populated" : state;
   if (slug === "dvor") return {
     fixtureKind: "house-matter",
@@ -114,7 +115,7 @@ function fixtureData(slug, surface, state) {
     stressText: "Подъезд №3, квартиры 41–68: повторная остановка после вчерашнего ремонта; коляска остаётся на первом этаже.",
     edgeValues: [0, 1, 2, 5, 21, 1842.7],
   };
-  return {
+  if (slug === "looks") return {
     fixtureKind: "look",
     actor: "Алина Романова · сегодня, 08:42",
     headline: surface === "wardrobe" ? "Тренч цвета хаки · 7 сохранённых сочетаний" : "Тренч, графитовые брюки и кеды после дождя",
@@ -122,6 +123,21 @@ function fixtureData(slug, surface, state) {
     metadata: "4 вещи · 27 сохранений · ответ через 12 минут",
     stressText: "Пальто оверсайз с очень длинным названием модели, винтажная сумка и заметка автора на три строки для проверки крупного текста.",
     edgeValues: [0, 1, 2, 5, 21, 182],
+  };
+  const fixture = concept.native?.deliveryIdentity?.fixture;
+  if (!fixture) return {
+    fixtureKind: "missing-product-identity",
+    headline: "MISSING REVIEWED PRODUCT FIXTURE",
+    status: stateLabel,
+  };
+  return {
+    fixtureKind: fixture.kind,
+    actor: fixture.actor,
+    headline: fixture.surfaceContent?.[surface] || fixture.defaultHeadline,
+    status: stateLabel,
+    metadata: fixture.metadata,
+    stressText: fixture.stressText,
+    edgeValues: fixture.edgeValues,
   };
 }
 
@@ -136,7 +152,7 @@ function fixtureFor(concept, surface, state) {
       `${concept.slug}.${surface.id}.${slugKey(state)}.primary.001`,
       `${concept.slug}.${surface.id}.${slugKey(state)}.edge.099`,
     ],
-    data: fixtureData(concept.slug, surface.id, state),
+    data: fixtureData(concept, surface.id, state),
     edgeCases: ["long-russian-copy", "accessibility-xxxl", "zero-one-many-values", state === "offline" ? "stale-timestamp" : "mixed-recency"],
     provenance: {
       kind: "legacy-migration-fixture",
@@ -811,7 +827,7 @@ export function compileUXSpecification(concept, productContract, options = {}) {
       const applies = applicability(screen, state, permissions, screenActions);
       if (!applies.applicable) return { id: state, applicable: false, rationale: applies.rationale };
       const stateKey = slugKey(state);
-      const bodyKey = addString(catalog, `screen.${slugKey(screen.id)}.state.${stateKey}.body`, russianStateCopy(concept.slug, screen.title, state), `State copy: ${state}`, [screen.id], "state-body");
+      const bodyKey = addString(catalog, `screen.${slugKey(screen.id)}.state.${stateKey}.body`, russianStateCopy(concept, screen.title, state), `State copy: ${state}`, [screen.id], "state-body");
       const recoveryKey = addString(catalog, `screen.${slugKey(screen.id)}.state.${stateKey}.recovery`, state === "populated/default" ? "Продолжить основное действие." : "Повторить действие или выбрать доступный запасной путь.", `Recovery copy: ${state}`, [screen.id], "recovery");
       const permissionFallbacks = state.startsWith("permission-") ? screenPermissions.map(item => `permission.${item.key}.fallback`) : [];
       let fixtureIds = variants.filter(item => item.canonicalState === state).map(item => item.fixtureId);

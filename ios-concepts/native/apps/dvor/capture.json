@@ -23,6 +23,42 @@
       "artifact": "phone-error"
     },
     {
+      "surface": "code",
+      "state": "default",
+      "launch": "code",
+      "artifact": "code-default"
+    },
+    {
+      "surface": "code",
+      "state": "loading",
+      "launch": "code",
+      "artifact": "code-loading"
+    },
+    {
+      "surface": "code",
+      "state": "error",
+      "launch": "code",
+      "artifact": "code-error"
+    },
+    {
+      "surface": "codefail",
+      "state": "default",
+      "launch": "codefail",
+      "artifact": "codefail-default"
+    },
+    {
+      "surface": "codefail",
+      "state": "loading",
+      "launch": "codefail",
+      "artifact": "codefail-loading"
+    },
+    {
+      "surface": "codefail",
+      "state": "error",
+      "launch": "codefail",
+      "artifact": "codefail-error"
+    },
+    {
       "surface": "join",
       "state": "default",
       "launch": "join",

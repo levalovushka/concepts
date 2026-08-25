@@ -12,6 +12,8 @@
 - неявная обработка loading/populated/empty/error/offline/permission-needed/denied/restricted/limited;
 - user-facing contract string без localization key, critical flow без acceptance coverage или captured/tested state без fixture;
 - fixture media без provenance/license и developer guide с пустым разделом либо дрейфом;
+- generic manifest/specification renderer вместо app-owned core surfaces, чужой продуктовый fixture и первый кадр без identity promise;
+- VK shell в concept со strategy `differentiation`; Today, Nakat и Peresmenka должны оставаться визуально и композиционно самостоятельными;
 - неполный `concept.json`, UI-контракт или неизвестная композиция;
 - действие без результата, хранения, error/retry для async;
 - action contract v3 без семантического variant, совместимого placement,
@@ -35,6 +37,8 @@
 ## Что нельзя честно доказать regex-тестом
 
 Композицию, визуальный ритм, оптическое выравнивание, ясность продукта и сходство с референсом оценивают по свежим снимкам полного flow. Итоговая рубрика имеет пять независимых осей: продукт, иерархия, консистентность, визуальная точность, предсказуемость поведения. Наличие кода или зелёных unit tests не повышает оценку автоматически.
+
+`npm run critic -- <slug> --adapter <reviewer.mjs>` требует независимый reviewer adapter и свежие captures. Без adapter команда блокируется, а не выдаёт детерминированные audits за мнение модели. Каждая ось имеет свой floor; среднее не скрывает провал.
 
 Детерминированный interaction replay проверяет продуктовый outcome через те же
 seams, что runtime: capability adapter, navigation, mutation и persistence. Он

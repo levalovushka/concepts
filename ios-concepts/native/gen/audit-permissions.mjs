@@ -30,9 +30,13 @@ const appSources = readdirSync(appDir).filter(file => file.endsWith(".swift"))
 const manifestAdapterSource = appSources.includes("ManifestConceptRootView")
   ? readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8")
   : "";
-const genericPermissionBinding = manifestAdapterSource.includes("ForEach(surfacePermissions)")
-  && manifestAdapterSource.includes("permissions.request(PermissionKey(rawValue: permission.key))")
-  && manifestAdapterSource.includes("NativeConceptSpec.permissions.filter { $0.screen == surfaceID }");
+const contractSurfacePath = join(nativeRoot, "DesignSystem", "NativeContractSurface.swift");
+const contractSurfaceSource = appSources.includes("NativeCapabilityControls") && existsSync(contractSurfacePath)
+  ? readFileSync(contractSurfacePath, "utf8") : "";
+const permissionAdapterSource = manifestAdapterSource + "\n" + contractSurfaceSource;
+const genericPermissionBinding = permissionAdapterSource.includes("ForEach(surfacePermissions)")
+  && permissionAdapterSource.includes("permissions.request(PermissionKey(rawValue: permission.key))")
+  && permissionAdapterSource.includes("NativeConceptSpec.permissions.filter { $0.screen == surfaceID }");
 const runtimeSource = readFileSync(join(nativeRoot, "Runtime", "Permissions.swift"), "utf8");
 const lifecycleSource = readFileSync(join(nativeRoot, "Runtime", "AppLifecycle.swift"), "utf8");
 const buildDir = join(nativeRoot, "build", slug);

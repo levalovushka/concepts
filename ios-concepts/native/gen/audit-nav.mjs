@@ -55,6 +55,21 @@ if (app.includes("ManifestConceptRootView")) {
   console.log("Дыр и тупиков нет: граф проверен по канонической UX Specification, adapter потребляет его напрямую.");
   process.exit(0);
 }
+if (app.includes("NativeSecondarySurface") && app.includes(".navigationDestination(for: String.self)")) {
+  const nodes = spec?.ux?.navigation?.nodes || [];
+  const reachable = new Set(spec?.ux?.navigation?.reachable || []);
+  const identity = spec?.native?.deliveryIdentity;
+  const allSource = Object.values(src).join("\n");
+  const problems = [];
+  for (const node of nodes) if (!reachable.has(node.id)) problems.push(`${node.id}: поверхность не входит в доказанное reachable-множество`);
+  for (const surface of identity?.coreSurfaces || []) if (!allSource.includes(`.nativeSurface("${surface}")`)) {
+    problems.push(`${surface}: core surface не имеет собственной композиции`);
+  }
+  console.log(`Навигация концепта «${slug}»: собственные core surfaces + contract router для вторичных задач`);
+  if (problems.length) { for (const item of problems) console.log(`  ✗ ${item}`); process.exit(1); }
+  console.log("Граф достижим, а вторичные переходы исполняются через канонический action contract.");
+  process.exit(0);
+}
 const enumName = (app.match(/enum\s+(\w+Route)\s*:/) || [])[1];
 if (!enumName) { console.error("не нашёл enum маршрутов в App.swift"); process.exit(1); }
 

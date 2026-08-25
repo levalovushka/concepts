@@ -1,7 +1,7 @@
 # Накат: developer product guide
 
 > Generated from Product Contract `product-2dc843d470e949f2` and the compiled native manifest. Do not edit by hand.
-> UX Specification: `ux-5ac01f78bbc9c54c`; source: `explicit-product-delivery`.
+> UX Specification: `ux-46e60e3aa42530a5`; source: `explicit-product-delivery`.
 > Contract status: `mature`; maturity floor: `3/4`.
 
 ## Product vision and scope
@@ -123,37 +123,37 @@
 
 | Surface | Product task | Presentation | States | Actions |
 |---|---|---|---|---|
-| phone | Первый экран приложения | root | default<br>loading<br>error<br>offline | Открыть code → navigate:code |
-| code | OTP · автоподстановка | push | default<br>loading<br>error<br>offline | Открыть codefail → navigate:codefail |
-| codefail | Состояние ошибки OTP | push | default<br>loading<br>error<br>offline | Продолжить: Неверный код → mutate:codefail.completed |
-| lessons | Следующее занятие · часы · свободные слоты | tab | default<br>loading<br>error<br>offline | Открыть lesson → navigate:lesson |
-| lesson | Инструктор, машина, точка посадки | push | default<br>loading<br>error<br>offline | Открыть call → navigate:call |
-| call | CallKit · номера скрыты | cover | default<br>loading<br>error<br>offline | Продолжить: Звонок инструктору → mutate:call.completed |
-| pickup | Карта · расстояние · маршруты рядом | push | default<br>loading<br>error<br>offline | Продолжить: Точка посадки → mutate:pickup.completed |
-| scan | Сканер QR учебной машины | cover | default<br>loading<br>error<br>offline | Продолжить: QR на стекле → mutate:scan.completed |
-| drive | Часы, отметки, разбор голосом | push | default<br>loading<br>error<br>offline | Открыть note → navigate:note |
-| note | Запись · расшифровка · привязка к месту | push | default<br>loading<br>error<br>offline | Продолжить: Разбор голосом → mutate:note.completed |
-| reschedule | Свободные слоты · правка события | sheet | default<br>loading<br>error<br>offline | Продолжить: Перенос занятия → mutate:reschedule.completed |
-| chat | Переписка по занятию | push | default<br>loading<br>error<br>offline | Открыть lockscreen → navigate:lockscreen |
+| phone | Первый экран приложения | root | default<br>loading<br>error<br>offline | Открыть «Код из письма» → navigate:code |
+| code | OTP · автоподстановка | push | default<br>loading<br>error<br>offline | Открыть «Неверный код» → navigate:codefail |
+| codefail | Состояние ошибки OTP | push | default<br>loading<br>error<br>offline | Продолжить → mutate:codefail.completed |
+| lessons | Следующее занятие · часы · свободные слоты | tab | default<br>loading<br>error<br>offline | Открыть «Занятие» → navigate:lesson |
+| lesson | Инструктор, машина, точка посадки | push | default<br>loading<br>error<br>offline | Открыть «Звонок инструктору» → navigate:call |
+| call | CallKit · номера скрыты | cover | default<br>loading<br>error<br>offline | Продолжить → mutate:call.completed |
+| pickup | Карта · расстояние · маршруты рядом | push | default<br>loading<br>error<br>offline | Продолжить → mutate:pickup.completed |
+| scan | Сканер QR учебной машины | cover | default<br>loading<br>error<br>offline | Продолжить → mutate:scan.completed |
+| drive | Часы, отметки, разбор голосом | push | default<br>loading<br>error<br>offline | Открыть «Разбор голосом» → navigate:note |
+| note | Запись · расшифровка · привязка к месту | push | default<br>loading<br>error<br>offline | Продолжить → mutate:note.completed |
+| reschedule | Свободные слоты · правка события | sheet | default<br>loading<br>error<br>offline | Продолжить → mutate:reschedule.completed |
+| chat | Переписка по занятию | push | default<br>loading<br>error<br>offline | Открыть «Экран блокировки» → navigate:lockscreen |
 | lockscreen | Сообщение с аватаром · режим «За рулём» | system | default<br>loading<br>error<br>offline | System/contract-owned outcome |
-| notif | Что приходит и когда | push | default<br>loading<br>error<br>offline | Продолжить: Уведомления → mutate:notif.completed |
-| theory | Билеты · разборы · состояние загрузок | tab | default<br>loading<br>error<br>offline | Открыть ticket → navigate:ticket |
-| ticket | Вопросы, ошибки, разбор | push | default<br>loading<br>error<br>offline | Открыть player → navigate:player |
-| player | Аудио · ±15 секунд · Now Playing | cover | default<br>loading<br>error<br>offline | Открыть background → navigate:background |
+| notif | Что приходит и когда | push | default<br>loading<br>error<br>offline | Продолжить → mutate:notif.completed |
+| theory | Билеты · разборы · состояние загрузок | tab | default<br>loading<br>error<br>offline | Открыть «Билет» → navigate:ticket |
+| ticket | Вопросы, ошибки, разбор | push | default<br>loading<br>error<br>offline | Открыть «Разбор билета» → navigate:player |
+| player | Аудио · ±15 секунд · Now Playing | cover | default<br>loading<br>error<br>offline | Открыть «Экран погас» → navigate:background |
 | background | Now Playing на локскрине | system | default<br>loading<br>error<br>offline | System/contract-owned outcome |
-| checklist | Проговаривание · сверка с чек-листом | push | default<br>loading<br>error<br>offline | Продолжить: Алгоритм вслух → mutate:checklist.completed |
-| classroom | Ведомость часов · отметка присутствия | push | default<br>loading<br>error<br>offline | Открыть attend → navigate:attend |
-| attend | SSID против профиля группы | push | default<br>loading<br>error<br>offline | Продолжить: Отметка по сети → mutate:attend.completed |
-| guestnet | QR со стены · подключение | push | default<br>loading<br>error<br>offline | Открыть scanwifi → navigate:scanwifi |
-| scanwifi | Сканер QR сети класса | cover | default<br>loading<br>error<br>offline | Продолжить: QR со стены → mutate:scanwifi.completed |
-| menu | Документы, доступы, виджет, фон | tab | default<br>loading<br>error<br>offline | Открыть notif → navigate:notif |
-| docs | Медсправка, договор, съёмка и медиатека | push | default<br>loading<br>error<br>offline | Продолжить: Документы → mutate:docs.completed |
-| lock | Face ID · код-пароль | push | default<br>loading<br>error<br>offline | Продолжить: Замок приложения → mutate:lock.completed |
-| passwords | Записи автошколы · автозаполнение | push | default<br>loading<br>error<br>offline | Открыть fill → navigate:fill |
+| checklist | Проговаривание · сверка с чек-листом | push | default<br>loading<br>error<br>offline | Продолжить → mutate:checklist.completed |
+| classroom | Ведомость часов · отметка присутствия | push | default<br>loading<br>error<br>offline | Открыть «Отметка по сети» → navigate:attend |
+| attend | SSID против профиля группы | push | default<br>loading<br>error<br>offline | Продолжить → mutate:attend.completed |
+| guestnet | QR со стены · подключение | push | default<br>loading<br>error<br>offline | Открыть «QR со стены» → navigate:scanwifi |
+| scanwifi | Сканер QR сети класса | cover | default<br>loading<br>error<br>offline | Продолжить → mutate:scanwifi.completed |
+| menu | Документы, доступы, виджет, фон | tab | default<br>loading<br>error<br>offline | Открыть «Уведомления» → navigate:notif |
+| docs | Медсправка, договор, съёмка и медиатека | push | default<br>loading<br>error<br>offline | Продолжить → mutate:docs.completed |
+| lock | Face ID · код-пароль | push | default<br>loading<br>error<br>offline | Продолжить → mutate:lock.completed |
+| passwords | Записи автошколы · автозаполнение | push | default<br>loading<br>error<br>offline | Открыть «Автозаполнение в Safari» → navigate:fill |
 | fill | Подстановка логина на сайт тренажёра | system | default<br>loading<br>error<br>offline | System/contract-owned outcome |
 | widget | Следующее занятие · часы | system | default<br>loading<br>error<br>offline | System/contract-owned outcome |
-| bg | Fetch, тихий пуш, идентификаторы задач | push | default<br>loading<br>error<br>offline | Продолжить: Фоновые обновления → mutate:bg.completed |
-| ads | Экран-объяснение до ATT | push | default<br>loading<br>error<br>offline | Продолжить: Почему реклама → mutate:ads.completed |
+| bg | Fetch, тихий пуш, идентификаторы задач | push | default<br>loading<br>error<br>offline | Продолжить → mutate:bg.completed |
+| ads | Экран-объяснение до ATT | push | default<br>loading<br>error<br>offline | Продолжить → mutate:ads.completed |
 
 ## Canonical UX state handling
 
@@ -591,13 +591,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | scenario.signin.happy.name | Вход по номеру: основной путь | none | Acceptance scenario name | phone<br>code<br>codefail<br>lessons | acceptance |
 | scenario.signin.offline.name | Вход по номеру: без сети | none | Acceptance scenario name | phone<br>code<br>codefail<br>lessons | acceptance |
 | scenario.signin.persistence.name | Вход по номеру: возврат после перезапуска | none | Acceptance scenario name | phone<br>code<br>codefail<br>lessons | acceptance |
-| screen.ads.action.complete-ads.label | Продолжить: Почему реклама | none | Action label | ads | control |
+| screen.ads.action.complete-ads.label | Продолжить | none | Action label | ads | control |
 | screen.ads.purpose | Экран-объяснение до ATT | none | Product task | ads | accessibility-and-docs |
 | screen.ads.state.error.body | Не удалось обновить «Почему реклама». Введённые данные сохранены; повторите попытку. | none | State copy: error | ads | state-body |
 | screen.ads.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | ads | recovery |
 | screen.ads.state.loading.body | Обновляем данные раздела «Почему реклама»; текущий контекст остаётся доступен. | none | State copy: loading | ads | state-body |
 | screen.ads.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | ads | recovery |
-| screen.ads.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | ads | state-body |
+| screen.ads.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | ads | state-body |
 | screen.ads.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | ads | recovery |
 | screen.ads.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | ads | state-body |
 | screen.ads.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | ads | recovery |
@@ -608,13 +608,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.ads.state.populated-default.body | Актуальные данные раздела «Почему реклама» готовы к следующему действию. | none | State copy: populated/default | ads | state-body |
 | screen.ads.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | ads | recovery |
 | screen.ads.title | Почему реклама | none | Surface title | ads | navigation-title |
-| screen.attend.action.complete-attend.label | Продолжить: Отметка по сети | none | Action label | attend | control |
+| screen.attend.action.complete-attend.label | Продолжить | none | Action label | attend | control |
 | screen.attend.purpose | SSID против профиля группы | none | Product task | attend | accessibility-and-docs |
 | screen.attend.state.error.body | Не удалось обновить «Отметка по сети». Введённые данные сохранены; повторите попытку. | none | State copy: error | attend | state-body |
 | screen.attend.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | attend | recovery |
 | screen.attend.state.loading.body | Обновляем данные раздела «Отметка по сети»; текущий контекст остаётся доступен. | none | State copy: loading | attend | state-body |
 | screen.attend.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | attend | recovery |
-| screen.attend.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | attend | state-body |
+| screen.attend.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | attend | state-body |
 | screen.attend.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | attend | recovery |
 | screen.attend.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | attend | state-body |
 | screen.attend.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | attend | recovery |
@@ -639,13 +639,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.background.state.populated-default.body | Актуальные данные раздела «Экран погас» готовы к следующему действию. | none | State copy: populated/default | background | state-body |
 | screen.background.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | background | recovery |
 | screen.background.title | Экран погас | none | Surface title | background | navigation-title |
-| screen.bg.action.complete-bg.label | Продолжить: Фоновые обновления | none | Action label | bg | control |
+| screen.bg.action.complete-bg.label | Продолжить | none | Action label | bg | control |
 | screen.bg.purpose | Fetch, тихий пуш, идентификаторы задач | none | Product task | bg | accessibility-and-docs |
 | screen.bg.state.error.body | Не удалось обновить «Фоновые обновления». Введённые данные сохранены; повторите попытку. | none | State copy: error | bg | state-body |
 | screen.bg.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | bg | recovery |
 | screen.bg.state.loading.body | Обновляем данные раздела «Фоновые обновления»; текущий контекст остаётся доступен. | none | State copy: loading | bg | state-body |
 | screen.bg.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | bg | recovery |
-| screen.bg.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | bg | state-body |
+| screen.bg.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | bg | state-body |
 | screen.bg.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | bg | recovery |
 | screen.bg.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | bg | state-body |
 | screen.bg.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | bg | recovery |
@@ -656,13 +656,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.bg.state.populated-default.body | Актуальные данные раздела «Фоновые обновления» готовы к следующему действию. | none | State copy: populated/default | bg | state-body |
 | screen.bg.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | bg | recovery |
 | screen.bg.title | Фоновые обновления | none | Surface title | bg | navigation-title |
-| screen.call.action.complete-call.label | Продолжить: Звонок инструктору | none | Action label | call | control |
+| screen.call.action.complete-call.label | Продолжить | none | Action label | call | control |
 | screen.call.purpose | CallKit · номера скрыты | none | Product task | call | accessibility-and-docs |
 | screen.call.state.error.body | Не удалось обновить «Звонок инструктору». Введённые данные сохранены; повторите попытку. | none | State copy: error | call | state-body |
 | screen.call.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | call | recovery |
 | screen.call.state.loading.body | Обновляем данные раздела «Звонок инструктору»; текущий контекст остаётся доступен. | none | State copy: loading | call | state-body |
 | screen.call.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | call | recovery |
-| screen.call.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | call | state-body |
+| screen.call.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | call | state-body |
 | screen.call.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | call | recovery |
 | screen.call.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | call | state-body |
 | screen.call.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | call | recovery |
@@ -673,13 +673,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.call.state.populated-default.body | Актуальные данные раздела «Звонок инструктору» готовы к следующему действию. | none | State copy: populated/default | call | state-body |
 | screen.call.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | call | recovery |
 | screen.call.title | Звонок инструктору | none | Surface title | call | navigation-title |
-| screen.chat.action.open-lockscreen.label | Открыть lockscreen | none | Action label | chat | control |
+| screen.chat.action.open-lockscreen.label | Открыть «Экран блокировки» | none | Action label | chat | control |
 | screen.chat.purpose | Переписка по занятию | none | Product task | chat | accessibility-and-docs |
 | screen.chat.state.error.body | Не удалось обновить «Инструктор». Введённые данные сохранены; повторите попытку. | none | State copy: error | chat | state-body |
 | screen.chat.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | chat | recovery |
 | screen.chat.state.loading.body | Обновляем данные раздела «Инструктор»; текущий контекст остаётся доступен. | none | State copy: loading | chat | state-body |
 | screen.chat.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | chat | recovery |
-| screen.chat.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | chat | state-body |
+| screen.chat.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | chat | state-body |
 | screen.chat.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | chat | recovery |
 | screen.chat.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | chat | state-body |
 | screen.chat.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | chat | recovery |
@@ -690,24 +690,24 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.chat.state.populated-default.body | Актуальные данные раздела «Инструктор» готовы к следующему действию. | none | State copy: populated/default | chat | state-body |
 | screen.chat.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | chat | recovery |
 | screen.chat.title | Инструктор | none | Surface title | chat | navigation-title |
-| screen.checklist.action.complete-checklist.label | Продолжить: Алгоритм вслух | none | Action label | checklist | control |
+| screen.checklist.action.complete-checklist.label | Продолжить | none | Action label | checklist | control |
 | screen.checklist.purpose | Проговаривание · сверка с чек-листом | none | Product task | checklist | accessibility-and-docs |
 | screen.checklist.state.error.body | Не удалось обновить «Алгоритм вслух». Введённые данные сохранены; повторите попытку. | none | State copy: error | checklist | state-body |
 | screen.checklist.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | checklist | recovery |
 | screen.checklist.state.loading.body | Обновляем данные раздела «Алгоритм вслух»; текущий контекст остаётся доступен. | none | State copy: loading | checklist | state-body |
 | screen.checklist.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | checklist | recovery |
-| screen.checklist.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | checklist | state-body |
+| screen.checklist.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | checklist | state-body |
 | screen.checklist.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | checklist | recovery |
 | screen.checklist.state.populated-default.body | Актуальные данные раздела «Алгоритм вслух» готовы к следующему действию. | none | State copy: populated/default | checklist | state-body |
 | screen.checklist.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | checklist | recovery |
 | screen.checklist.title | Алгоритм вслух | none | Surface title | checklist | navigation-title |
-| screen.classroom.action.open-attend.label | Открыть attend | none | Action label | classroom | control |
+| screen.classroom.action.open-attend.label | Открыть «Отметка по сети» | none | Action label | classroom | control |
 | screen.classroom.purpose | Ведомость часов · отметка присутствия | none | Product task | classroom | accessibility-and-docs |
 | screen.classroom.state.error.body | Не удалось обновить «Теория в классе». Введённые данные сохранены; повторите попытку. | none | State copy: error | classroom | state-body |
 | screen.classroom.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | classroom | recovery |
 | screen.classroom.state.loading.body | Обновляем данные раздела «Теория в классе»; текущий контекст остаётся доступен. | none | State copy: loading | classroom | state-body |
 | screen.classroom.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | classroom | recovery |
-| screen.classroom.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | classroom | state-body |
+| screen.classroom.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | classroom | state-body |
 | screen.classroom.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | classroom | recovery |
 | screen.classroom.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | classroom | state-body |
 | screen.classroom.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | classroom | recovery |
@@ -718,35 +718,35 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.classroom.state.populated-default.body | Актуальные данные раздела «Теория в классе» готовы к следующему действию. | none | State copy: populated/default | classroom | state-body |
 | screen.classroom.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | classroom | recovery |
 | screen.classroom.title | Теория в классе | none | Surface title | classroom | navigation-title |
-| screen.code.action.open-codefail.label | Открыть codefail | none | Action label | code | control |
+| screen.code.action.open-codefail.label | Открыть «Неверный код» | none | Action label | code | control |
 | screen.code.purpose | OTP · автоподстановка | none | Product task | code | accessibility-and-docs |
 | screen.code.state.error.body | Не удалось обновить «Код из письма». Введённые данные сохранены; повторите попытку. | none | State copy: error | code | state-body |
 | screen.code.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | code | recovery |
 | screen.code.state.loading.body | Обновляем данные раздела «Код из письма»; текущий контекст остаётся доступен. | none | State copy: loading | code | state-body |
 | screen.code.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | code | recovery |
-| screen.code.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | code | state-body |
+| screen.code.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | code | state-body |
 | screen.code.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | code | recovery |
 | screen.code.state.populated-default.body | Актуальные данные раздела «Код из письма» готовы к следующему действию. | none | State copy: populated/default | code | state-body |
 | screen.code.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | code | recovery |
 | screen.code.title | Код из письма | none | Surface title | code | navigation-title |
-| screen.codefail.action.complete-codefail.label | Продолжить: Неверный код | none | Action label | codefail | control |
+| screen.codefail.action.complete-codefail.label | Продолжить | none | Action label | codefail | control |
 | screen.codefail.purpose | Состояние ошибки OTP | none | Product task | codefail | accessibility-and-docs |
 | screen.codefail.state.error.body | Не удалось обновить «Неверный код». Введённые данные сохранены; повторите попытку. | none | State copy: error | codefail | state-body |
 | screen.codefail.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | codefail | recovery |
 | screen.codefail.state.loading.body | Обновляем данные раздела «Неверный код»; текущий контекст остаётся доступен. | none | State copy: loading | codefail | state-body |
 | screen.codefail.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | codefail | recovery |
-| screen.codefail.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | codefail | state-body |
+| screen.codefail.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | codefail | state-body |
 | screen.codefail.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | codefail | recovery |
 | screen.codefail.state.populated-default.body | Актуальные данные раздела «Неверный код» готовы к следующему действию. | none | State copy: populated/default | codefail | state-body |
 | screen.codefail.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | codefail | recovery |
 | screen.codefail.title | Неверный код | none | Surface title | codefail | navigation-title |
-| screen.docs.action.complete-docs.label | Продолжить: Документы | none | Action label | docs | control |
+| screen.docs.action.complete-docs.label | Продолжить | none | Action label | docs | control |
 | screen.docs.purpose | Медсправка, договор, съёмка и медиатека | none | Product task | docs | accessibility-and-docs |
 | screen.docs.state.error.body | Не удалось обновить «Документы». Введённые данные сохранены; повторите попытку. | none | State copy: error | docs | state-body |
 | screen.docs.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | docs | recovery |
 | screen.docs.state.loading.body | Обновляем данные раздела «Документы»; текущий контекст остаётся доступен. | none | State copy: loading | docs | state-body |
 | screen.docs.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | docs | recovery |
-| screen.docs.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | docs | state-body |
+| screen.docs.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | docs | state-body |
 | screen.docs.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | docs | recovery |
 | screen.docs.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | docs | state-body |
 | screen.docs.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | docs | recovery |
@@ -759,13 +759,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.docs.state.populated-default.body | Актуальные данные раздела «Документы» готовы к следующему действию. | none | State copy: populated/default | docs | state-body |
 | screen.docs.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | docs | recovery |
 | screen.docs.title | Документы | none | Surface title | docs | navigation-title |
-| screen.drive.action.open-note.label | Открыть note | none | Action label | drive | control |
+| screen.drive.action.open-note.label | Открыть «Разбор голосом» | none | Action label | drive | control |
 | screen.drive.purpose | Часы, отметки, разбор голосом | none | Product task | drive | accessibility-and-docs |
 | screen.drive.state.error.body | Не удалось обновить «Занятие идёт». Введённые данные сохранены; повторите попытку. | none | State copy: error | drive | state-body |
 | screen.drive.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | drive | recovery |
 | screen.drive.state.loading.body | Обновляем данные раздела «Занятие идёт»; текущий контекст остаётся доступен. | none | State copy: loading | drive | state-body |
 | screen.drive.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | drive | recovery |
-| screen.drive.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | drive | state-body |
+| screen.drive.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | drive | state-body |
 | screen.drive.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | drive | recovery |
 | screen.drive.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | drive | state-body |
 | screen.drive.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | drive | recovery |
@@ -790,13 +790,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.fill.state.populated-default.body | Актуальные данные раздела «Автозаполнение в Safari» готовы к следующему действию. | none | State copy: populated/default | fill | state-body |
 | screen.fill.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | fill | recovery |
 | screen.fill.title | Автозаполнение в Safari | none | Surface title | fill | navigation-title |
-| screen.guestnet.action.open-scanwifi.label | Открыть scanwifi | none | Action label | guestnet | control |
+| screen.guestnet.action.open-scanwifi.label | Открыть «QR со стены» | none | Action label | guestnet | control |
 | screen.guestnet.purpose | QR со стены · подключение | none | Product task | guestnet | accessibility-and-docs |
 | screen.guestnet.state.error.body | Не удалось обновить «Сеть класса». Введённые данные сохранены; повторите попытку. | none | State copy: error | guestnet | state-body |
 | screen.guestnet.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | guestnet | recovery |
 | screen.guestnet.state.loading.body | Обновляем данные раздела «Сеть класса»; текущий контекст остаётся доступен. | none | State copy: loading | guestnet | state-body |
 | screen.guestnet.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | guestnet | recovery |
-| screen.guestnet.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | guestnet | state-body |
+| screen.guestnet.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | guestnet | state-body |
 | screen.guestnet.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | guestnet | recovery |
 | screen.guestnet.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | guestnet | state-body |
 | screen.guestnet.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | guestnet | recovery |
@@ -807,13 +807,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.guestnet.state.populated-default.body | Актуальные данные раздела «Сеть класса» готовы к следующему действию. | none | State copy: populated/default | guestnet | state-body |
 | screen.guestnet.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | guestnet | recovery |
 | screen.guestnet.title | Сеть класса | none | Surface title | guestnet | navigation-title |
-| screen.lesson.action.open-call.label | Открыть call | none | Action label | lesson | control |
+| screen.lesson.action.open-call.label | Открыть «Звонок инструктору» | none | Action label | lesson | control |
 | screen.lesson.purpose | Инструктор, машина, точка посадки | none | Product task | lesson | accessibility-and-docs |
 | screen.lesson.state.error.body | Не удалось обновить «Занятие». Введённые данные сохранены; повторите попытку. | none | State copy: error | lesson | state-body |
 | screen.lesson.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | lesson | recovery |
 | screen.lesson.state.loading.body | Обновляем данные раздела «Занятие»; текущий контекст остаётся доступен. | none | State copy: loading | lesson | state-body |
 | screen.lesson.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | lesson | recovery |
-| screen.lesson.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | lesson | state-body |
+| screen.lesson.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | lesson | state-body |
 | screen.lesson.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | lesson | recovery |
 | screen.lesson.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | lesson | state-body |
 | screen.lesson.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | lesson | recovery |
@@ -826,7 +826,7 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.lesson.state.populated-default.body | Актуальные данные раздела «Занятие» готовы к следующему действию. | none | State copy: populated/default | lesson | state-body |
 | screen.lesson.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | lesson | recovery |
 | screen.lesson.title | Занятие | none | Surface title | lesson | navigation-title |
-| screen.lessons.action.open-lesson.label | Открыть lesson | none | Action label | lessons | control |
+| screen.lessons.action.open-lesson.label | Открыть «Занятие» | none | Action label | lessons | control |
 | screen.lessons.purpose | Следующее занятие · часы · свободные слоты | none | Product task | lessons | accessibility-and-docs |
 | screen.lessons.state.empty.body | В разделе «Занятия» пока ничего нет — создайте первое содержательное действие. | none | State copy: empty | lessons | state-body |
 | screen.lessons.state.empty.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: empty | lessons | recovery |
@@ -834,7 +834,7 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.lessons.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | lessons | recovery |
 | screen.lessons.state.loading.body | Обновляем данные раздела «Занятия»; текущий контекст остаётся доступен. | none | State copy: loading | lessons | state-body |
 | screen.lessons.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | lessons | recovery |
-| screen.lessons.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | lessons | state-body |
+| screen.lessons.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | lessons | state-body |
 | screen.lessons.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | lessons | recovery |
 | screen.lessons.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | lessons | state-body |
 | screen.lessons.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | lessons | recovery |
@@ -845,13 +845,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.lessons.state.populated-default.body | Актуальные данные раздела «Занятия» готовы к следующему действию. | none | State copy: populated/default | lessons | state-body |
 | screen.lessons.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | lessons | recovery |
 | screen.lessons.title | Занятия | none | Surface title | lessons | navigation-title |
-| screen.lock.action.complete-lock.label | Продолжить: Замок приложения | none | Action label | lock | control |
+| screen.lock.action.complete-lock.label | Продолжить | none | Action label | lock | control |
 | screen.lock.purpose | Face ID · код-пароль | none | Product task | lock | accessibility-and-docs |
 | screen.lock.state.error.body | Не удалось обновить «Замок приложения». Введённые данные сохранены; повторите попытку. | none | State copy: error | lock | state-body |
 | screen.lock.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | lock | recovery |
 | screen.lock.state.loading.body | Обновляем данные раздела «Замок приложения»; текущий контекст остаётся доступен. | none | State copy: loading | lock | state-body |
 | screen.lock.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | lock | recovery |
-| screen.lock.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | lock | state-body |
+| screen.lock.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | lock | state-body |
 | screen.lock.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | lock | recovery |
 | screen.lock.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | lock | state-body |
 | screen.lock.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | lock | recovery |
@@ -876,7 +876,7 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.lockscreen.state.populated-default.body | Актуальные данные раздела «Экран блокировки» готовы к следующему действию. | none | State copy: populated/default | lockscreen | state-body |
 | screen.lockscreen.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | lockscreen | recovery |
 | screen.lockscreen.title | Экран блокировки | none | Surface title | lockscreen | navigation-title |
-| screen.menu.action.open-notif.label | Открыть notif | none | Action label | menu | control |
+| screen.menu.action.open-notif.label | Открыть «Уведомления» | none | Action label | menu | control |
 | screen.menu.purpose | Документы, доступы, виджет, фон | none | Product task | menu | accessibility-and-docs |
 | screen.menu.state.empty.body | В разделе «Ещё» пока ничего нет — создайте первое содержательное действие. | none | State copy: empty | menu | state-body |
 | screen.menu.state.empty.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: empty | menu | recovery |
@@ -884,7 +884,7 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.menu.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | menu | recovery |
 | screen.menu.state.loading.body | Обновляем данные раздела «Ещё»; текущий контекст остаётся доступен. | none | State copy: loading | menu | state-body |
 | screen.menu.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | menu | recovery |
-| screen.menu.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | menu | state-body |
+| screen.menu.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | menu | state-body |
 | screen.menu.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | menu | recovery |
 | screen.menu.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | menu | state-body |
 | screen.menu.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | menu | recovery |
@@ -895,13 +895,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.menu.state.populated-default.body | Актуальные данные раздела «Ещё» готовы к следующему действию. | none | State copy: populated/default | menu | state-body |
 | screen.menu.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | menu | recovery |
 | screen.menu.title | Ещё | none | Surface title | menu | navigation-title |
-| screen.note.action.complete-note.label | Продолжить: Разбор голосом | none | Action label | note | control |
+| screen.note.action.complete-note.label | Продолжить | none | Action label | note | control |
 | screen.note.purpose | Запись · расшифровка · привязка к месту | none | Product task | note | accessibility-and-docs |
 | screen.note.state.error.body | Не удалось обновить «Разбор голосом». Введённые данные сохранены; повторите попытку. | none | State copy: error | note | state-body |
 | screen.note.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | note | recovery |
 | screen.note.state.loading.body | Обновляем данные раздела «Разбор голосом»; текущий контекст остаётся доступен. | none | State copy: loading | note | state-body |
 | screen.note.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | note | recovery |
-| screen.note.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | note | state-body |
+| screen.note.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | note | state-body |
 | screen.note.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | note | recovery |
 | screen.note.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | note | state-body |
 | screen.note.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | note | recovery |
@@ -912,13 +912,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.note.state.populated-default.body | Актуальные данные раздела «Разбор голосом» готовы к следующему действию. | none | State copy: populated/default | note | state-body |
 | screen.note.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | note | recovery |
 | screen.note.title | Разбор голосом | none | Surface title | note | navigation-title |
-| screen.notif.action.complete-notif.label | Продолжить: Уведомления | none | Action label | notif | control |
+| screen.notif.action.complete-notif.label | Продолжить | none | Action label | notif | control |
 | screen.notif.purpose | Что приходит и когда | none | Product task | notif | accessibility-and-docs |
 | screen.notif.state.error.body | Не удалось обновить «Уведомления». Введённые данные сохранены; повторите попытку. | none | State copy: error | notif | state-body |
 | screen.notif.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | notif | recovery |
 | screen.notif.state.loading.body | Обновляем данные раздела «Уведомления»; текущий контекст остаётся доступен. | none | State copy: loading | notif | state-body |
 | screen.notif.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | notif | recovery |
-| screen.notif.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | notif | state-body |
+| screen.notif.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | notif | state-body |
 | screen.notif.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | notif | recovery |
 | screen.notif.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | notif | state-body |
 | screen.notif.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | notif | recovery |
@@ -929,13 +929,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.notif.state.populated-default.body | Актуальные данные раздела «Уведомления» готовы к следующему действию. | none | State copy: populated/default | notif | state-body |
 | screen.notif.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | notif | recovery |
 | screen.notif.title | Уведомления | none | Surface title | notif | navigation-title |
-| screen.passwords.action.open-fill.label | Открыть fill | none | Action label | passwords | control |
+| screen.passwords.action.open-fill.label | Открыть «Автозаполнение в Safari» | none | Action label | passwords | control |
 | screen.passwords.purpose | Записи автошколы · автозаполнение | none | Product task | passwords | accessibility-and-docs |
 | screen.passwords.state.error.body | Не удалось обновить «Пароли группы». Введённые данные сохранены; повторите попытку. | none | State copy: error | passwords | state-body |
 | screen.passwords.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | passwords | recovery |
 | screen.passwords.state.loading.body | Обновляем данные раздела «Пароли группы»; текущий контекст остаётся доступен. | none | State copy: loading | passwords | state-body |
 | screen.passwords.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | passwords | recovery |
-| screen.passwords.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | passwords | state-body |
+| screen.passwords.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | passwords | state-body |
 | screen.passwords.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | passwords | recovery |
 | screen.passwords.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | passwords | state-body |
 | screen.passwords.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | passwords | recovery |
@@ -946,24 +946,24 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.passwords.state.populated-default.body | Актуальные данные раздела «Пароли группы» готовы к следующему действию. | none | State copy: populated/default | passwords | state-body |
 | screen.passwords.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | passwords | recovery |
 | screen.passwords.title | Пароли группы | none | Surface title | passwords | navigation-title |
-| screen.phone.action.open-code.label | Открыть code | none | Action label | phone | control |
+| screen.phone.action.open-code.label | Открыть «Код из письма» | none | Action label | phone | control |
 | screen.phone.purpose | Первый экран приложения | none | Product task | phone | accessibility-and-docs |
 | screen.phone.state.error.body | Не удалось обновить «Вход по почте». Введённые данные сохранены; повторите попытку. | none | State copy: error | phone | state-body |
 | screen.phone.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | phone | recovery |
 | screen.phone.state.loading.body | Обновляем данные раздела «Вход по почте»; текущий контекст остаётся доступен. | none | State copy: loading | phone | state-body |
 | screen.phone.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | phone | recovery |
-| screen.phone.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | phone | state-body |
+| screen.phone.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | phone | state-body |
 | screen.phone.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | phone | recovery |
 | screen.phone.state.populated-default.body | Актуальные данные раздела «Вход по почте» готовы к следующему действию. | none | State copy: populated/default | phone | state-body |
 | screen.phone.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | phone | recovery |
 | screen.phone.title | Вход по почте | none | Surface title | phone | navigation-title |
-| screen.pickup.action.complete-pickup.label | Продолжить: Точка посадки | none | Action label | pickup | control |
+| screen.pickup.action.complete-pickup.label | Продолжить | none | Action label | pickup | control |
 | screen.pickup.purpose | Карта · расстояние · маршруты рядом | none | Product task | pickup | accessibility-and-docs |
 | screen.pickup.state.error.body | Не удалось обновить «Точка посадки». Введённые данные сохранены; повторите попытку. | none | State copy: error | pickup | state-body |
 | screen.pickup.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | pickup | recovery |
 | screen.pickup.state.loading.body | Обновляем данные раздела «Точка посадки»; текущий контекст остаётся доступен. | none | State copy: loading | pickup | state-body |
 | screen.pickup.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | pickup | recovery |
-| screen.pickup.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | pickup | state-body |
+| screen.pickup.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | pickup | state-body |
 | screen.pickup.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | pickup | recovery |
 | screen.pickup.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | pickup | state-body |
 | screen.pickup.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | pickup | recovery |
@@ -976,13 +976,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.pickup.state.populated-default.body | Актуальные данные раздела «Точка посадки» готовы к следующему действию. | none | State copy: populated/default | pickup | state-body |
 | screen.pickup.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | pickup | recovery |
 | screen.pickup.title | Точка посадки | none | Surface title | pickup | navigation-title |
-| screen.player.action.open-background.label | Открыть background | none | Action label | player | control |
+| screen.player.action.open-background.label | Открыть «Экран погас» | none | Action label | player | control |
 | screen.player.purpose | Аудио · ±15 секунд · Now Playing | none | Product task | player | accessibility-and-docs |
 | screen.player.state.error.body | Не удалось обновить «Разбор билета». Введённые данные сохранены; повторите попытку. | none | State copy: error | player | state-body |
 | screen.player.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | player | recovery |
 | screen.player.state.loading.body | Обновляем данные раздела «Разбор билета»; текущий контекст остаётся доступен. | none | State copy: loading | player | state-body |
 | screen.player.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | player | recovery |
-| screen.player.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | player | state-body |
+| screen.player.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | player | state-body |
 | screen.player.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | player | recovery |
 | screen.player.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | player | state-body |
 | screen.player.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | player | recovery |
@@ -993,24 +993,24 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.player.state.populated-default.body | Актуальные данные раздела «Разбор билета» готовы к следующему действию. | none | State copy: populated/default | player | state-body |
 | screen.player.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | player | recovery |
 | screen.player.title | Разбор билета | none | Surface title | player | navigation-title |
-| screen.reschedule.action.complete-reschedule.label | Продолжить: Перенос занятия | none | Action label | reschedule | control |
+| screen.reschedule.action.complete-reschedule.label | Продолжить | none | Action label | reschedule | control |
 | screen.reschedule.purpose | Свободные слоты · правка события | none | Product task | reschedule | accessibility-and-docs |
 | screen.reschedule.state.error.body | Не удалось обновить «Перенос занятия». Введённые данные сохранены; повторите попытку. | none | State copy: error | reschedule | state-body |
 | screen.reschedule.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | reschedule | recovery |
 | screen.reschedule.state.loading.body | Обновляем данные раздела «Перенос занятия»; текущий контекст остаётся доступен. | none | State copy: loading | reschedule | state-body |
 | screen.reschedule.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | reschedule | recovery |
-| screen.reschedule.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | reschedule | state-body |
+| screen.reschedule.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | reschedule | state-body |
 | screen.reschedule.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | reschedule | recovery |
 | screen.reschedule.state.populated-default.body | Актуальные данные раздела «Перенос занятия» готовы к следующему действию. | none | State copy: populated/default | reschedule | state-body |
 | screen.reschedule.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | reschedule | recovery |
 | screen.reschedule.title | Перенос занятия | none | Surface title | reschedule | navigation-title |
-| screen.scan.action.complete-scan.label | Продолжить: QR на стекле | none | Action label | scan | control |
+| screen.scan.action.complete-scan.label | Продолжить | none | Action label | scan | control |
 | screen.scan.purpose | Сканер QR учебной машины | none | Product task | scan | accessibility-and-docs |
 | screen.scan.state.error.body | Не удалось обновить «QR на стекле». Введённые данные сохранены; повторите попытку. | none | State copy: error | scan | state-body |
 | screen.scan.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | scan | recovery |
 | screen.scan.state.loading.body | Обновляем данные раздела «QR на стекле»; текущий контекст остаётся доступен. | none | State copy: loading | scan | state-body |
 | screen.scan.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | scan | recovery |
-| screen.scan.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | scan | state-body |
+| screen.scan.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | scan | state-body |
 | screen.scan.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | scan | recovery |
 | screen.scan.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | scan | state-body |
 | screen.scan.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | scan | recovery |
@@ -1023,18 +1023,18 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.scan.state.populated-default.body | Актуальные данные раздела «QR на стекле» готовы к следующему действию. | none | State copy: populated/default | scan | state-body |
 | screen.scan.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | scan | recovery |
 | screen.scan.title | QR на стекле | none | Surface title | scan | navigation-title |
-| screen.scanwifi.action.complete-scanwifi.label | Продолжить: QR со стены | none | Action label | scanwifi | control |
+| screen.scanwifi.action.complete-scanwifi.label | Продолжить | none | Action label | scanwifi | control |
 | screen.scanwifi.purpose | Сканер QR сети класса | none | Product task | scanwifi | accessibility-and-docs |
 | screen.scanwifi.state.error.body | Не удалось обновить «QR со стены». Введённые данные сохранены; повторите попытку. | none | State copy: error | scanwifi | state-body |
 | screen.scanwifi.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | scanwifi | recovery |
 | screen.scanwifi.state.loading.body | Обновляем данные раздела «QR со стены»; текущий контекст остаётся доступен. | none | State copy: loading | scanwifi | state-body |
 | screen.scanwifi.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | scanwifi | recovery |
-| screen.scanwifi.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | scanwifi | state-body |
+| screen.scanwifi.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | scanwifi | state-body |
 | screen.scanwifi.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | scanwifi | recovery |
 | screen.scanwifi.state.populated-default.body | Актуальные данные раздела «QR со стены» готовы к следующему действию. | none | State copy: populated/default | scanwifi | state-body |
 | screen.scanwifi.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | scanwifi | recovery |
 | screen.scanwifi.title | QR со стены | none | Surface title | scanwifi | navigation-title |
-| screen.theory.action.open-ticket.label | Открыть ticket | none | Action label | theory | control |
+| screen.theory.action.open-ticket.label | Открыть «Билет» | none | Action label | theory | control |
 | screen.theory.purpose | Билеты · разборы · состояние загрузок | none | Product task | theory | accessibility-and-docs |
 | screen.theory.state.empty.body | В разделе «Теория» пока ничего нет — создайте первое содержательное действие. | none | State copy: empty | theory | state-body |
 | screen.theory.state.empty.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: empty | theory | recovery |
@@ -1042,7 +1042,7 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.theory.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | theory | recovery |
 | screen.theory.state.loading.body | Обновляем данные раздела «Теория»; текущий контекст остаётся доступен. | none | State copy: loading | theory | state-body |
 | screen.theory.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | theory | recovery |
-| screen.theory.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | theory | state-body |
+| screen.theory.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | theory | state-body |
 | screen.theory.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | theory | recovery |
 | screen.theory.state.permission-denied.body | Доступ отключён. Продолжите задачу запасным способом без системного разрешения. | none | State copy: permission-denied | theory | state-body |
 | screen.theory.state.permission-denied.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: permission-denied | theory | recovery |
@@ -1053,13 +1053,13 @@ All user-facing contract copy resolves through a stable key. Fixture data is pro
 | screen.theory.state.populated-default.body | Актуальные данные раздела «Теория» готовы к следующему действию. | none | State copy: populated/default | theory | state-body |
 | screen.theory.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | theory | recovery |
 | screen.theory.title | Теория | none | Surface title | theory | navigation-title |
-| screen.ticket.action.open-player.label | Открыть player | none | Action label | ticket | control |
+| screen.ticket.action.open-player.label | Открыть «Разбор билета» | none | Action label | ticket | control |
 | screen.ticket.purpose | Вопросы, ошибки, разбор | none | Product task | ticket | accessibility-and-docs |
 | screen.ticket.state.error.body | Не удалось обновить «Билет». Введённые данные сохранены; повторите попытку. | none | State copy: error | ticket | state-body |
 | screen.ticket.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | ticket | recovery |
 | screen.ticket.state.loading.body | Обновляем данные раздела «Билет»; текущий контекст остаётся доступен. | none | State copy: loading | ticket | state-body |
 | screen.ticket.state.loading.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: loading | ticket | recovery |
-| screen.ticket.state.offline.body | Нет сети. Показаны сохранённые данные образов; свежесть отмечена явно. | none | State copy: offline | ticket | state-body |
+| screen.ticket.state.offline.body | Нет сети. Показаны сохранённые данные driving-course-step; свежесть отмечена явно. | none | State copy: offline | ticket | state-body |
 | screen.ticket.state.offline.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: offline | ticket | recovery |
 | screen.ticket.state.populated-default.body | Актуальные данные раздела «Билет» готовы к следующему действию. | none | State copy: populated/default | ticket | state-body |
 | screen.ticket.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | ticket | recovery |

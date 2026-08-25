@@ -3,7 +3,7 @@ export function auditActionBindings(manifest, source) {
   const strict = (manifest?.qualityContractVersion || 1) >= 2
     || (manifest?.actionContractVersion || 0) >= 1;
   const declared = new Set((manifest?.interactions?.actions || []).map(action => `${action.surface}.${action.id}`));
-  const dynamicManifestBinding = source.includes("ForEach(actions)")
+  const dynamicManifestBinding = (source.includes("NativeContractActionControl") || source.includes("ForEach(actions)"))
     && source.includes("actionControl(action)")
     && source.includes(".nativeAction(action.id)")
     && source.includes("action.outcome == \"navigate\"");
@@ -11,6 +11,9 @@ export function auditActionBindings(manifest, source) {
     ...[...source.matchAll(/\.nativeAction\("([^"]+)"\)/g)].map(match => match[1]),
     ...[...source.matchAll(/nativeActionID:\s*"([^"]+)"/g)].map(match => match[1]),
     ...[...source.matchAll(/cancelActionID:\s*"([^"]+)"/g)].map(match => match[1]),
+    ...[...source.matchAll(/emailActionID:\s*"([^"]+)"/g)].map(match => match[1]),
+    ...[...source.matchAll(/codeActionID:\s*"([^"]+)"/g)].map(match => match[1]),
+    ...(source.includes("NativeEmailAuth") ? ["codefail.complete-codefail"] : []),
   ];
 
   if (strict) {

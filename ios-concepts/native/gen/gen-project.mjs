@@ -3,7 +3,7 @@
 // Info.plist из concept.json дословно + сборка из DesignSystem + Runtime + apps/<slug>.
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, readdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileNativeConcept } from "../lib/compile-concept.mjs";
 import { materializeLucideTabAssets } from "../lib/lucide-asset-catalog.mjs";
@@ -11,6 +11,7 @@ import { materializeLucideTabAssets } from "../lib/lucide-asset-catalog.mjs";
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
 const ROOT = join(NATIVE, "..");
+const REPOSITORY_ROOT = resolve(ROOT, "..");
 
 const slug = process.argv[2];
 if (!slug) { console.error("usage: gen-project.mjs <slug>"); process.exit(1); }
@@ -561,6 +562,21 @@ if (existsSync(productAssets)) {
     if (item === "Contents.json") continue;
     cpSync(join(productAssets, item), join(APP, "Assets.xcassets", item), { recursive: true });
   }
+}
+for (const media of spec.native?.deliveryIdentity?.media || []) {
+  const source = resolve(REPOSITORY_ROOT, media.source || "");
+  if (!source.startsWith(REPOSITORY_ROOT + sep) || !existsSync(source) || !media.assetName) {
+    throw new Error(`invalid reviewed media source for ${slug}: ${media.source}`);
+  }
+  const imageset = join(APP, "Assets.xcassets", `${media.assetName}.imageset`);
+  mkdirSync(imageset, { recursive: true });
+  const filename = `${media.assetName}.jpg`;
+  cpSync(source, join(imageset, filename));
+  writeFileSync(join(imageset, "Contents.json"), JSON.stringify({
+    images: [{ filename, idiom: "universal", scale: "1x" }],
+    info: { author: "xcode", version: 1 },
+    properties: { "preserves-vector-representation": false },
+  }, null, 2));
 }
 const generatedLucideAssets = materializeLucideTabAssets(
   join(APP, "Assets.xcassets"),

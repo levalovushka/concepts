@@ -54,3 +54,15 @@ test("VK functional icons use a deliberate medium-or-heavier weight", () => {
   assert.match(components, /struct VKRow:[\s\S]*?weight: \.semibold/);
   assert.match(components, /struct VKServiceTile:[\s\S]*?weight: \.semibold/);
 });
+
+test("all native tab bars are icon-only while retaining accessible names", () => {
+  for (const appName of ["looks", "dvor", "tails", "today", "nakat", "peresmenka"]) {
+    const source = readFileSync(join(nativeRoot, `apps/${appName}/App.swift`), "utf8");
+    assert.doesNotMatch(source, /Text\(tab\.label\)/,
+      `${appName} must not render the semantic tab label as visible text`);
+    assert.doesNotMatch(source, /Label\(item\.label,\s*systemImage:/,
+      `${appName} must use an icon-only system tab item`);
+    assert.match(source, /accessibilityLabel\((?:tab|item)\.label\)/,
+      `${appName} icon-only tabs must keep their accessible names`);
+  }
+});

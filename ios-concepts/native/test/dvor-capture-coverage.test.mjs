@@ -14,7 +14,10 @@ test("Dvor capture catalog covers every declared screenshot state", () => {
   assert.equal(catalog.ok, true, JSON.stringify(catalog.diagnostics, null, 2));
   assert.deepEqual(catalog.missing.map(item => item.id), []);
   assert.equal(catalog.drivers.some(item => item.surface === "scan" && item.supplemental), true);
-  const onboarding = readFileSync(join(import.meta.dirname, "../apps/dvor/Onboarding.swift"), "utf8");
-  assert.match(onboarding, /authenticationError: String\? = DvorShotMode\.state == "error"/,
-    "phone error capture must enter a visible product error state");
+  const app = readFileSync(join(import.meta.dirname, "../apps/dvor/App.swift"), "utf8");
+  const auth = readFileSync(join(import.meta.dirname, "../DesignSystem/NativeEmailAuth.swift"), "utf8");
+  assert.match(app, /captureState: DvorShotMode\.state/,
+    "Dvor must pass capture state into the shared entry flow");
+  assert.match(auth, /captureState == "error" \|\| initialSurface == "codefail"/,
+    "shared auth must render an explicit product error state");
 });

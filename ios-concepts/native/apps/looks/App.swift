@@ -169,13 +169,9 @@ struct MainShell: View {
     }
 
     @ViewBuilder private func tabLabel(_ tab: NativeTabDefinition) -> some View {
-        Label {
-            Text(tab.label)
-        } icon: {
-            Image(t.requiredTabIconAsset(role: tab.role, selected: nav.tab == tab.id))
-                .renderingMode(.template)
-                .accessibilityHidden(true)
-        }
+        Image(t.requiredTabIconAsset(role: tab.role, selected: nav.tab == tab.id))
+            .renderingMode(.template)
+            .accessibilityHidden(true)
     }
 
     /// Разводит режим съёмки по вкладкам и маршрутам.

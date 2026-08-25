@@ -8,7 +8,7 @@ test("discovers only concepts that have a native implementation", () => {
 
 test("build cannot bypass product maturity, docs, compile, generation, or audits", () => {
   assert.deepEqual(createNativePipelinePlan("build", "dvor").map(step => step.label), [
-    "product maturity dvor", "compile dvor", "developer docs dvor", "generate dvor", "audit dvor", "build dvor",
+    "product maturity dvor", "compile dvor", "developer docs dvor", "native delivery dvor", "generate dvor", "audit dvor", "build dvor",
   ]);
 });
 
@@ -16,7 +16,7 @@ test("pipeline interface supports a recording adapter", () => {
   const calls = [];
   const result = runNativePipeline({ operation: "check", slug: "looks", adapter: { run: step => calls.push(step.label) } });
   assert.equal(result.ok, true);
-  assert.deepEqual(calls, ["product maturity looks", "compile looks", "developer docs looks", "generate looks", "audit looks"]);
+  assert.deepEqual(calls, ["product maturity looks", "compile looks", "developer docs looks", "native delivery looks", "generate looks", "audit looks"]);
 });
 
 test("unknown concept is rejected before commands execute", () => {

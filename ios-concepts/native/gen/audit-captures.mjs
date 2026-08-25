@@ -31,18 +31,25 @@ if (existsSync(productStatePath)) {
   const captureStatePath = join(nativeRoot, "apps", slug, "CaptureStates.swift");
   const captureStateSource = existsSync(captureStatePath) ? readFileSync(captureStatePath, "utf8") : "";
   const appSource = readFileSync(join(nativeRoot, "apps", slug, "App.swift"), "utf8");
+  const secondaryPath = join(nativeRoot, "DesignSystem", "NativeContractSurface.swift");
+  const secondarySource = appSource.includes("NativeSecondarySurface") && existsSync(secondaryPath)
+    ? readFileSync(secondaryPath, "utf8") : "";
   const manifestAdapterSource = appSource.includes("ManifestConceptRootView")
     ? readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8")
     : "";
   const genericProductState = manifestAdapterSource.includes("productState(for: surfaceID)")
     && manifestAdapterSource.includes("ManifestCaptureMode.productState");
   const violations = [...ownership.diagnostics];
+  const coreSurfaces = new Set(concept.native?.deliveryIdentity?.coreSurfaces || []);
   for (const surface of ownership.product) {
     const escaped = surface.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     if (new RegExp(`"${escaped}\\.[^"]+"\\s*:`).test(captureStateSource)) {
       violations.push(`${surface}: снова объявлен synthetic capture presentation`);
     }
-    if (!genericProductState && !appSource.includes(`productState(for: "${surface}")`)) {
+    const ownedCoreState = appSource.includes(`productState(for: "${surface}")`);
+    const ownedSecondaryState = !coreSurfaces.has(surface)
+      && secondarySource.includes("NativeProductCaptureState.productState(for: surfaceID)");
+    if (!genericProductState && !ownedCoreState && !ownedSecondaryState) {
       violations.push(`${surface}: реальный экран не получает product state`);
     }
   }

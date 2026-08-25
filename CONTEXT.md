@@ -36,6 +36,14 @@ _Avoid_: Approved idea, product metadata
 An existing web concept's observed product tasks, entities, permission map, and interaction intent used to inform a native Concept without treating its layout or implementation as canonical.
 _Avoid_: HTML source, native template, market validation
 
+**Product identity anchors**:
+The small set of domain units, first-frame promises, representative content, and core tasks that must remain recognisable when a product moves between delivery forms.
+_Avoid_: Keywords, theme tags, migration metadata
+
+**Native product realization**:
+An owned interaction composition that expresses a Concept's product identity through its native surfaces and reference grammar.
+_Avoid_: Specification viewer, generic renderer, generated screen list
+
 **UX Specification**:
 The canonical interaction model that translates a Product Contract into reachable surfaces, explicit states and transitions, semantic design roles, localized language, acceptance scenarios, and deterministic product fixtures.
 _Avoid_: Wireframe, SwiftUI plan, screen list

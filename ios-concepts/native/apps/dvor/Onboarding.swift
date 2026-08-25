@@ -1,4 +1,3 @@
-import AuthenticationServices
 import SwiftUI
 
 private struct DvorEntryScaffold<Header: View, Content: View>: View {
@@ -27,59 +26,6 @@ private struct DvorEntryScaffold<Header: View, Content: View>: View {
             }
         }
         .background(t.palette.background.ignoresSafeArea())
-    }
-}
-
-struct ResidenceOnboarding: View {
-    let selectHouse: (String) -> Void
-    @State private var isAuthenticating = false
-    @State private var authenticationError: String? = DvorShotMode.state == "error"
-        ? "Вход отменён или недоступен. Повторите попытку — данные дома ещё не запрашиваются."
-        : nil
-
-    private var isLoading: Bool { isAuthenticating || DvorShotMode.state == "loading" }
-
-    var body: some View {
-        DvorEntryScaffold {
-            DvorRootChrome(title: "Двор")
-        } content: {
-            VStack(alignment: .leading, spacing: 16) {
-                DvorScreenIntro(
-                    title: "Свой дом — без посторонних",
-                    detail: "Объявления, заявки и разговоры соседей в одном месте. Писать могут только подтверждённые жильцы."
-                )
-                if isLoading {
-                    AppStatePanel(kind: .loading, title: "Открываем вход Apple", detail: "Подтвердите личность в системном окне.")
-                } else if let authenticationError {
-                    AppStatePanel(kind: .error, title: "Не удалось войти", detail: authenticationError)
-                }
-                SignInWithAppleButton(.continue) { request in
-                    authenticationError = nil
-                    isAuthenticating = true
-                    request.requestedScopes = [.fullName, .email]
-                } onCompletion: { result in
-                    isAuthenticating = false
-                    switch result {
-                    case .success(let authorization):
-                        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else {
-                            authenticationError = "Apple не вернул данные входа. Повторите попытку."
-                            return
-                        }
-                        selectHouse(credential.user)
-                    case .failure:
-                        authenticationError = "Вход отменён или недоступен. Повторите попытку — данные дома ещё не запрашиваются."
-                    }
-                }
-                .signInWithAppleButtonStyle(.black)
-                .frame(height: 50)
-                .disabled(isLoading)
-                .nativeAction("phone.sign-in-apple")
-
-                Text("Apple подтверждает личность. Адрес дома проверяется отдельно и не передаётся Apple.")
-                    .font(.role(.meta)).foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
     }
 }
 

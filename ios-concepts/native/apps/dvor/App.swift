@@ -92,8 +92,7 @@ struct DvorRootView: View {
             _session = State(initialValue: Session(
                 authenticated: true,
                 residenceStatus: DvorShotMode.screen == "pending" ? .pendingReview : .verified,
-                storageNamespace: "dvor.session",
-                validatesAppleCredential: true
+                storageNamespace: "dvor.session"
             ))
             _entryStage = State(initialValue: {
                 switch DvorShotMode.screen {
@@ -105,7 +104,7 @@ struct DvorRootView: View {
                 }
             }())
         } else {
-            let restored = Session.restored(storageNamespace: "dvor.session", validatesAppleCredential: true)
+            let restored = Session.restored(storageNamespace: "dvor.session")
             _session = State(initialValue: restored)
             _entryStage = State(initialValue: restored.isAuthenticated
                 ? (restored.residenceStatus == .unverified ? .join : .main)
@@ -117,8 +116,15 @@ struct DvorRootView: View {
         Group {
             switch entryStage {
             case .onboarding:
-                ResidenceOnboarding { appleUserIdentifier in
-                    session.signIn(appleUserIdentifier: appleUserIdentifier)
+                NativeEmailAuth(
+                    productName: "Двор",
+                    persistencePromise: "ваш дом, заявки и разговоры соседей",
+                    initialSurface: DvorShotMode.screen,
+                    captureState: DvorShotMode.state,
+                    emailActionID: "phone.continue-email",
+                    codeActionID: "code.confirm-code"
+                ) {
+                    session.signIn()
                     withAnimation(.easeInOut(duration: 0.25)) { entryStage = .join }
                 }
             case .join:
@@ -274,13 +280,9 @@ struct DvorMainShell: View {
     }
 
     @ViewBuilder private func tabLabel(_ tab: NativeTabDefinition) -> some View {
-        Label {
-            Text(tab.label)
-        } icon: {
-            Image(t.requiredTabIconAsset(role: tab.role, selected: nav.tab == tab.id))
-                .renderingMode(.template)
-                .accessibilityHidden(true)
-        }
+        Image(t.requiredTabIconAsset(role: tab.role, selected: nav.tab == tab.id))
+            .renderingMode(.template)
+            .accessibilityHidden(true)
     }
 
     @ViewBuilder private func tabContent(_ tab: String, screen: String) -> some View {

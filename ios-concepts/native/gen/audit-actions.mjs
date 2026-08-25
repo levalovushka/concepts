@@ -24,6 +24,9 @@ let source = readdirSync(appDir).filter(file => file.endsWith(".swift"))
 if (source.includes("ManifestConceptRootView")) {
   source += "\n" + readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8");
 }
+if (source.includes("NativeContractActionControl")) {
+  source += "\n" + readFileSync(join(nativeRoot, "DesignSystem", "NativeContractSurface.swift"), "utf8");
+}
 const problems = auditActionBindings(compiled.manifest, source);
 
 console.log(`Действия концепта «${slug}»: ${compiled.manifest.interactions.actions.length} контрактов`);

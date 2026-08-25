@@ -45,7 +45,7 @@ npm run docs:check -- <slug>     # developer guide из той же специф
 npm run check -- <slug>          # maturity → compile → docs → generate → audits
 npm run build -- <slug>
 npm run capture -- <slug>
-npm run critic -- <slug>
+npm run critic -- <slug> --adapter <reviewer.mjs>
 npm test
 ```
 
@@ -79,11 +79,7 @@ Looks/Dvor и перенесённые VK-концепты Tails/Today/Nakat/Per
 Как только концепт рисует их сам, два концепта одного набора начинают выглядеть
 как два разных продукта.
 
-**Оценка UI — число, а не ощущение.** `native:critic` считает балл по шести осям
-(мимикрия, навигация, интерфейс, действия, доступы, плотность) плюс покрытие
-состояний и берёт **минимум**: одна провальная ось не прячется за пятью хорошими.
-Сборка ниже планки концепта человеку не показывается. Модельная критика
-(`gen/critic.md`) идёт после ворот и разбирает то, что они не формализуют.
+**Критик не имитирует модель.** Детерминированные audits проверяют контракты, но не выдаются за product/UI review. `npm run critic -- <slug> --adapter <reviewer.mjs>` передаёт свежие captures независимому reviewer adapter и fail-closed без него. Пять осей — product identity, task clarity, composition/density, visual craft и strategy integrity — имеют независимые планки; один провал блокирует receipt без усреднения.
 
 **Тост — не исход.** Контрол, который только показывает снекбар, считается дефектом: у действия
 должен быть продуктовый результат (переход, изменение данных, системный лист). Ворота действий это

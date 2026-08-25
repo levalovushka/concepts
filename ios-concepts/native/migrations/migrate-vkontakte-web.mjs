@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { migrateWebConcept } from "../lib/web-concept-migration.mjs";
 import { VKONTAKTE_PORTFOLIOS } from "./vkontakte-portfolios.mjs";
+import { VKONTAKTE_DELIVERY_IDENTITIES } from "./vkontakte-delivery-identities.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const iosRoot = join(here, "..", "..");
@@ -16,7 +17,7 @@ for (const slug of slugs) {
   if (!portfolio) throw new Error(`unsupported VK web migration: ${slug}`);
   const sourcePath = join(repositoryRoot, "platform", "concepts", slug, "concept.json");
   const webConcept = JSON.parse(readFileSync(sourcePath, "utf8"));
-  const result = await migrateWebConcept({ webConcept, portfolio });
+  const result = await migrateWebConcept({ webConcept, portfolio, deliveryIdentity: VKONTAKTE_DELIVERY_IDENTITIES[slug] });
   if (!result.ok) {
     for (const item of result.diagnostics) if (item.severity === "error") {
       console.error(`✗ ${slug} · ${item.code} · ${item.path}\n  ${item.message}`);
