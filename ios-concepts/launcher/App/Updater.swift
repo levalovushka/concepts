@@ -13,8 +13,14 @@ import SwiftUI
 final class Updater {
     static let shared = Updater()
 
-    /// Куда публикуется манифест версий. Заменить на свой адрес.
-    var appcastURL = URL(string: "https://camo.example/appcast.json")!
+    /// Куда публикуется манифест версий. Задаётся при сборке через CAMO_APPCAST_URL
+    /// (см. launcher/gen/gen-launcher.mjs) и попадает в Info.plist как CamoAppcastURL.
+    var appcastURL: URL = {
+        let fallback = URL(string: "https://camo.example/appcast.json")!
+        guard let raw = Bundle.main.infoDictionary?["CamoAppcastURL"] as? String,
+              let url = URL(string: raw) else { return fallback }
+        return url
+    }()
     var status = "Обновления не проверялись"
 
     var currentVersion: String {
