@@ -36,7 +36,26 @@ private struct NativeSurfaceSemanticModifier: ViewModifier {
         let roles = definition?.componentRoles ?? []
         content
             .environment(\.nativeComponentRoles, roles)
+            .background(alignment: .topLeading) {
+                NativeSurfaceAccessibilityMarker(id: id, roles: roles)
+            }
+    }
+}
+
+/// Keeps surface identity observable without assigning it to the root view.
+/// Assigning both surface and action identifiers to the same optimized SwiftUI
+/// node lets the outer modifier overwrite the control's action contract.
+private struct NativeSurfaceAccessibilityMarker: View {
+    let id: String
+    let roles: [String]
+
+    var body: some View {
+        Color.clear
+            .frame(width: 1, height: 1)
+            .accessibilityElement(children: .ignore)
             .accessibilityIdentifier((["surface", id] + roles).joined(separator: "."))
+            .accessibilityLabel("Экран \(id)")
+            .allowsHitTesting(false)
     }
 }
 

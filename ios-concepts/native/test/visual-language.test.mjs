@@ -50,7 +50,9 @@ test("SwiftUI consumes canonical UX surfaces and semantic component roles", () =
   assert.match(tokens, /NativeConceptSpec\.surfaces\.first \{ \$0\.id == id \}/);
   assert.match(tokens, /definition\?\.componentRoles \?\? \[\]/);
   assert.match(tokens, /\.environment\(\\\.nativeComponentRoles, roles\)/);
+  assert.match(tokens, /NativeSurfaceAccessibilityMarker\(id: id, roles: roles\)/);
   assert.match(tokens, /\.accessibilityIdentifier\(\(\["surface", id\] \+ roles\)/);
+  assert.doesNotMatch(tokens, /content\s*\.environment\(\\\.nativeComponentRoles, roles\)\s*\.accessibilityIdentifier/);
   assert.match(looksApp, /semanticSurface\(for: route\)/);
   assert.match(dvorApp, /\.nativeSurface\(currentSemanticSurface\)/);
   assert.match(dvorApp, /\.nativeSurface\(semanticSurface\(for: route\)\)/);
