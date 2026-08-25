@@ -78,8 +78,7 @@ struct AuthScreen: View {
                 )
                 .nativeAction("phone.continue-email")
             } else {
-                OTPField(code: $code) { _ in }
-                    .focused($focused)
+                NativeOTPField(code: $code, length: 4, error: codeError?.1)
                 if let error = codeError {
                     Spacer().frame(height: 12)
                     authError(title: error.0, detail: error.1)
@@ -224,43 +223,6 @@ private enum AuthInfo: String, Identifiable {
             "Образы сохраняют публикации, вещи и настройки профиля. Вы можете удалить локальные данные и выйти из аккаунта в настройках приложения."
         }
     }
-}
-
-struct OTPField: View {
-    @Binding var code: String
-    var onChange: (String) -> Void
-    @Environment(\.visualLanguage) private var t
-    @FocusState private var kb: Bool
-
-    var body: some View {
-        ZStack {
-            TextField("", text: $code)
-                .keyboardType(.numberPad).focused($kb).opacity(0.01)
-                .onChange(of: code) { _, v in
-                    code = String(v.filter(\.isNumber).prefix(4))
-                    onChange(code)
-                }
-            HStack(spacing: 10) {
-                ForEach(0..<4, id: \.self) { i in
-                    let ch = i < code.count ? String(Array(code)[i]) : ""
-                    Text(ch)
-                        .font(.role(.code)).monospacedDigit()
-                        .foregroundStyle(t.palette.textPrimary)
-                        .frame(maxWidth: .infinity).frame(height: 56)
-                        .background(t.palette.fill, in: RoundedRectangle(cornerRadius: t.metrics.controlRadius, style: .continuous))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: t.metrics.controlRadius, style: .continuous)
-                                .stroke(i == code.count ? t.palette.accent : .clear, lineWidth: 2)
-                        )
-                }
-            }
-            .allowsHitTesting(false)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture { kb = true }
-        .onAppear { kb = true }
-    }
-    func focused(_ b: FocusState<Bool>.Binding) -> some View { self }
 }
 
 // MARK: - Список диалогов

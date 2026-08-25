@@ -311,69 +311,6 @@ struct DvorFormField: View {
     }
 }
 
-struct DvorOTPField: View {
-    @Binding var code: String
-    var length = 6
-    var error: String? = nil
-    var isDisabled = false
-    @FocusState private var focused: Bool
-    @Environment(\.visualLanguage) private var t
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: t.spacing.x2) {
-            Text("Код из письма")
-                .font(.role(.pill))
-                .foregroundStyle(error == nil ? t.palette.textPrimary : t.palette.danger)
-            ZStack {
-                HStack(spacing: t.spacing.x2) {
-                    ForEach(0..<length, id: \.self) { index in
-                        Text(character(at: index))
-                            .font(.role(.section))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 48)
-                            .background(t.palette.fill, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                    .stroke(cellColor(at: index), lineWidth: index == code.count && focused ? 1.5 : 1)
-                            }
-                    }
-                }
-                TextField("", text: $code)
-                    .keyboardType(.numberPad)
-                    .textContentType(.oneTimeCode)
-                    .focused($focused)
-                    .disabled(isDisabled)
-                    .opacity(0.01)
-                    .onChange(of: code) { _, value in
-                        code = String(value.filter(\.isNumber).prefix(length))
-                    }
-            }
-            .contentShape(Rectangle())
-            .onTapGesture { focused = true }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Код из письма")
-            .accessibilityValue(code.isEmpty ? "Не введён" : "Введено цифр: \(code.count) из \(length)")
-            if let error {
-                Label(error, systemImage: "exclamationmark.circle.fill")
-                    .font(.system(size: 13)).foregroundStyle(t.palette.danger)
-            }
-        }
-        .onAppear { if code.isEmpty { focused = true } }
-    }
-
-    private func character(at index: Int) -> String {
-        guard index < code.count else { return "" }
-        let position = code.index(code.startIndex, offsetBy: index)
-        return String(code[position])
-    }
-
-    private func cellColor(at index: Int) -> Color {
-        if error != nil { return t.palette.danger.opacity(0.75) }
-        if index == code.count && focused { return t.palette.accent }
-        return t.palette.separator
-    }
-}
-
 struct DvorCard<Content: View>: View {
     @Environment(\.visualLanguage) private var t
     @ViewBuilder let content: Content

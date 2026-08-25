@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 function diagnostic(code, message, path) {
@@ -30,6 +30,65 @@ function section(title, body) {
   return `## ${title}\n\n${body}\n`;
 }
 
+const DOCUMENT_NAMES = [
+  "00-overview", "01-product-vision", "02-domain-glossary", "03-personas-and-jobs",
+  "04-core-loop-and-flows", "05-navigation", "06-screen-state-action-matrix",
+  "07-state-handling", "08-design-system", "09-localization", "10-acceptance-scenarios",
+  "11-fixtures", "12-permissions", "13-architecture", "14-data-and-integrations",
+  "15-service-states", "16-privacy-and-trust", "17-accessibility-and-localization",
+  "18-analytics", "19-testing-and-evidence", "20-setup-build-run", "21-file-map",
+  "22-risks-and-acceptance", "23-app-store",
+];
+const DOCUMENT_BYTE_BUDGET = 20_000;
+const TABLE_ROWS_PER_FILE = 32;
+
+function splitLargeSection(source) {
+  const lines = source.trim().split("\n");
+  const tableStart = lines.findIndex(line => line.trim().startsWith("|"));
+  if (tableStart < 0) return [source.trim() + "\n"];
+  let tableEnd = tableStart;
+  while (tableEnd < lines.length && lines[tableEnd].trim().startsWith("|")) tableEnd += 1;
+  const table = lines.slice(tableStart, tableEnd);
+  if (table.length <= TABLE_ROWS_PER_FILE + 2 && Buffer.byteLength(source) <= DOCUMENT_BYTE_BUDGET) {
+    return [source.trim() + "\n"];
+  }
+  const before = lines.slice(0, tableStart);
+  const after = lines.slice(tableEnd);
+  const heading = before.find(line => line.startsWith("## ")) || "";
+  const header = table.slice(0, 2);
+  const rows = table.slice(2);
+  const chunks = [];
+  for (let start = 0; start < rows.length; start += TABLE_ROWS_PER_FILE) {
+    const prefix = start === 0 ? before : [heading, ""];
+    const suffix = start + TABLE_ROWS_PER_FILE >= rows.length ? after : [];
+    chunks.push([...prefix, ...header, ...rows.slice(start, start + TABLE_ROWS_PER_FILE), ...suffix]
+      .join("\n").trim() + "\n");
+  }
+  return chunks;
+}
+
+function compileDocumentFiles(markdown) {
+  const lines = markdown.trim().split("\n");
+  const sections = [];
+  let current = [];
+  for (const line of lines) {
+    if (line.startsWith("## ")) {
+      if (current.length) sections.push(current.join("\n").trim() + "\n");
+      current = [];
+    }
+    current.push(line);
+  }
+  if (current.length) sections.push(current.join("\n").trim() + "\n");
+  return sections.flatMap((source, sectionIndex) => {
+    const chunks = splitLargeSection(source);
+    const base = DOCUMENT_NAMES[sectionIndex] || `${String(sectionIndex).padStart(2, "0")}-section`;
+    return chunks.map((content, chunkIndex) => ({
+      fileName: `${base}${chunks.length > 1 ? `-${String(chunkIndex + 1).padStart(2, "0")}` : ""}.md`,
+      markdown: content,
+    }));
+  });
+}
+
 function requireArray(diagnostics, value, path) {
   if (!items(value).length) diagnostics.push(diagnostic(
     "developer-docs.source-empty",
@@ -54,12 +113,12 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
   if (!contract) return {
     ok: false,
     diagnostics: [diagnostic("developer-docs.contract-required", "Product Contract is required", "manifest.product.contract")],
-    markdown: "",
+    markdown: "", documents: [],
   };
   if (!ux) return {
     ok: false,
     diagnostics: [diagnostic("developer-docs.ux-required", "UX Specification is required", "manifest.uxSpecification")],
-    markdown: "",
+    markdown: "", documents: [],
   };
 
   const requiredArrays = [
@@ -106,7 +165,7 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
   requireArray(diagnostics, manifest.surfaces, "manifest.surfaces");
   requireArray(diagnostics, manifest.permissions, "manifest.permissions");
 
-  if (diagnostics.length) return { ok: false, diagnostics, markdown: "" };
+  if (diagnostics.length) return { ok: false, diagnostics, markdown: "", documents: [] };
 
   const actionIndex = new Map();
   for (const action of manifest.interactions?.actions || []) {
@@ -116,6 +175,8 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
   }
   const permissionPlan = new Map((manifest.capabilities?.plans || []).map(plan => [plan.permissionKey, plan]));
   const entitlements = (manifest.capabilities?.entitlements || []).map(item => item.key);
+  const generatedOwnership = delivery.ownership.generated.map(item => text(item)
+    .replace(/concepts\/([^/]+)\/docs\/developer-guide\.md/g, "concepts/$1/docs/"));
 
   const markdown = [
     `# ${concept.name}: developer product guide`,
@@ -286,7 +347,7 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
     section("Generated and owned file map", [
       "| Generated — do not hand-edit | Product-owned source |",
       "|---|---|",
-      `| ${tableCell(delivery.ownership.generated)} | ${tableCell(delivery.ownership.owned)} |`,
+      `| ${tableCell(generatedOwnership)} | ${tableCell(delivery.ownership.owned)} |`,
     ].join("\n")),
     section("Limitations, risks, and acceptance criteria", [
       "**Limitations**",
@@ -301,20 +362,23 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
     section("App Store notes", bullets(delivery.appStoreNotes)),
   ].join("\n").trim() + "\n";
 
-  return { ok: true, diagnostics: [], markdown };
+  return { ok: true, diagnostics: [], markdown, documents: compileDocumentFiles(markdown) };
 }
 
 export function developerDocumentationPath(root, slug) {
-  return join(root, "concepts", slug, "docs", "developer-guide.md");
+  return join(root, "concepts", slug, "docs");
 }
 
 export function writeDeveloperDocumentation({ root, concept, manifest }) {
   const result = compileDeveloperDocumentation({ concept, manifest });
   if (!result.ok) return { ...result, path: developerDocumentationPath(root, concept.slug) };
   const path = developerDocumentationPath(root, concept.slug);
-  mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, result.markdown);
-  return { ...result, path };
+  mkdirSync(path, { recursive: true });
+  for (const file of readdirSync(path)) {
+    if (file === "developer-guide.md" || /^\d{2}-.*\.md$/.test(file)) rmSync(join(path, file));
+  }
+  for (const document of result.documents) writeFileSync(join(path, document.fileName), document.markdown);
+  return { ...result, path, paths: result.documents.map(item => join(path, item.fileName)) };
 }
 
 export function auditDeveloperDocumentation({ root, concept, manifest }) {
@@ -323,14 +387,24 @@ export function auditDeveloperDocumentation({ root, concept, manifest }) {
   const path = developerDocumentationPath(root, concept.slug);
   if (!existsSync(path)) return {
     ok: false,
-    diagnostics: [diagnostic("developer-docs.missing", `Generated developer guide is missing: ${path}`, path)],
+    diagnostics: [diagnostic("developer-docs.missing", `Generated documentation directory is missing: ${path}`, path)],
     markdown: result.markdown,
   };
-  const current = readFileSync(path, "utf8");
-  if (current !== result.markdown) return {
-    ok: false,
-    diagnostics: [diagnostic("developer-docs.drift", `Developer guide has drifted from Product Contract: ${path}`, path)],
-    markdown: result.markdown,
-  };
-  return { ok: true, diagnostics: [], markdown: result.markdown, path };
+  const diagnostics = [];
+  if (existsSync(join(path, "developer-guide.md"))) diagnostics.push(diagnostic(
+    "developer-docs.monolith-forbidden", "Monolithic developer-guide.md must not be present", join(path, "developer-guide.md"),
+  ));
+  const expected = new Set(result.documents.map(item => item.fileName));
+  const generated = readdirSync(path).filter(file => /^\d{2}-.*\.md$/.test(file));
+  for (const document of result.documents) {
+    const filePath = join(path, document.fileName);
+    if (!existsSync(filePath)) diagnostics.push(diagnostic("developer-docs.missing", `Generated document is missing: ${filePath}`, filePath));
+    else if (readFileSync(filePath, "utf8") !== document.markdown) diagnostics.push(diagnostic(
+      "developer-docs.drift", `Generated document has drifted from Product Contract: ${filePath}`, filePath,
+    ));
+  }
+  for (const file of generated) if (!expected.has(file)) diagnostics.push(diagnostic(
+    "developer-docs.stale", `Stale generated document must be removed: ${join(path, file)}`, join(path, file),
+  ));
+  return { ok: diagnostics.length === 0, diagnostics, markdown: result.markdown, documents: result.documents, path };
 }

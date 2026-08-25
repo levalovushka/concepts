@@ -116,18 +116,7 @@ struct NativeEmailAuth: View {
 
     private var codeStep: some View {
         VStack(spacing: 14) {
-            HStack(spacing: 10) {
-                ForEach(0..<4, id: \.self) { index in
-                    Text(index < code.count ? String(code[code.index(code.startIndex, offsetBy: index)]) : "")
-                        .textStyle(.code)
-                        .frame(maxWidth: .infinity, minHeight: 52)
-                        .background(t.palette.fill, in: RoundedRectangle(cornerRadius: t.metrics.controlRadius))
-                }
-            }
-            .overlay {
-                TextField("", text: $code).keyboardType(.numberPad).focused($focused).opacity(0.01)
-                    .onChange(of: code) { _, value in code = String(value.filter(\.isNumber).prefix(4)) }
-            }
+            NativeOTPField(code: $code, length: 4, error: error)
             if let error { NativeStatePanel(kind: .error, title: "Неверный код", detail: error) }
             NativeActionButton(title: error == nil ? "Продолжить" : "Ввести снова",
                                loadingTitle: "Проверяем код", isLoading: loading,

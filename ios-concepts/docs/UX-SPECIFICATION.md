@@ -92,7 +92,7 @@ Product Contracts and current UI/action contracts. Their specifications include:
 The migration derivation remains an allowlisted compatibility path for older concept
 files, but current Looks and Dvor do not use it.
 
-Generated `concepts/<slug>/docs/developer-guide.md` includes the graph, full state
+Generated `concepts/<slug>/docs/*.md` files include the graph, full state
 handling matrix, tokens/roles, complete string catalog, scenario table and fixture
 catalog together with Product Contract delivery documentation. Check mode compares it
 byte-for-byte with compiler output and blocks drift before project generation/build.
