@@ -1,0 +1,6 @@
+.DS_Store
+native/build/
+native/artifacts/
+DerivedData/
+launcher/build/
+docs/factory-readiness.json

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "devices": [
+    { "id": "current", "name": "iPhone 17 Pro", "runtime": "iOS 26.2", "class": "current" },
+    { "id": "small", "name": "iPhone 16e", "runtime": "iOS 26.2", "class": "small-phone" }
+  ],
+  "concepts": {
+    "looks": {
+      "xcui": true,
+      "captures": ["home--default", "search--default", "chats--default", "clip--default", "services--default"],
+      "checks": ["dynamic-type-AXXXL", "safe-area", "mosaic-bounds", "navigation-chrome", "liquid-glass-tab-bar", "lucide-selected-unselected"]
+    },
+    "dvor": {
+      "xcui": true,
+      "captures": ["home--default", "chats--default", "yard--default", "menu--default"],
+      "checks": ["dynamic-type-AXXXL", "safe-area", "card-bounds", "navigation-chrome", "liquid-glass-tab-bar", "lucide-selected-unselected"]
+    }
+  },
+  "manualOnly": [
+    "physical-device launch and real TCC prompts",
+    "VoiceOver reading order, rotor and announcements",
+    "physical-device Liquid Glass optical review"
+  ]
+}

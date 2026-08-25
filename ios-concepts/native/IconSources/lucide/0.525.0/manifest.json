@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "package": "lucide-static",
+  "version": "0.525.0",
+  "license": "ISC",
+  "source": "https://www.npmjs.com/package/lucide-static/v/0.525.0",
+  "opticalBox": 24,
+  "stroke": { "regular": 2, "selected": 2.5 },
+  "icons": ["house", "search", "message-circle", "circle-play", "layout-grid", "menu"]
+}
