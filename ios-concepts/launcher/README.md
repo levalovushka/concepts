@@ -6,8 +6,9 @@
 ```bash
 npm run launcher
 cd launcher/build
-xcodebuild -project Camo.xcodeproj -target Camo -configuration Debug build
-open build/Debug/Camo.app
+xcodebuild -project Camo.xcodeproj -scheme Camo -configuration Debug \
+  -derivedDataPath LocalDerivedData CODE_SIGNING_ALLOWED=NO build
+open LocalDerivedData/Build/Products/Debug/Camo.app
 ```
 
 ## Что внутри

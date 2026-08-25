@@ -10,8 +10,9 @@ Camo поставляется в двух режимах из одного ис�
 ```bash
 npm run launcher
 cd launcher/build
-xcodebuild -project Camo.xcodeproj -scheme Camo -configuration Debug build
-open build/Debug/Camo.app
+xcodebuild -project Camo.xcodeproj -scheme Camo -configuration Debug \
+  -derivedDataPath LocalDerivedData CODE_SIGNING_ALLOWED=NO build
+open LocalDerivedData/Build/Products/Debug/Camo.app
 ```
 
 ## TestFlight catalog
@@ -34,7 +35,7 @@ TestFlight-каталог намеренно не запускает `simctl` и
 npm run launcher:testflight
 cd launcher/build
 xcodebuild -project Camo.xcodeproj -scheme Camo -configuration Debug \
-  CODE_SIGNING_ALLOWED=NO build
+  -derivedDataPath TestFlightDerivedData CODE_SIGNING_ALLOWED=NO build
 ```
 
 ### Архив для App Store Connect
