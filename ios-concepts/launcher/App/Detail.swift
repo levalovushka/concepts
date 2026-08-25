@@ -8,16 +8,18 @@ struct ConceptDetail: View {
     @Environment(Library.self) private var library
     @Environment(Runner.self) private var runner
     @State private var tab: Tab = .overview
+    @State private var isExportingKit = false
 
     enum Tab: String, CaseIterable {
         case overview = "Обзор", permissions = "Доступы", screens = "Экраны"
-        case docs = "Документы", log = "Журнал"
+        case docs = "Документы", files = "Файлы", log = "Журнал"
         var icon: String {
             switch self {
             case .overview: return "info.circle"
             case .permissions: return "lock.shield"
             case .screens: return "iphone"
             case .docs: return "doc.text"
+            case .files: return "folder"
             case .log: return "terminal"
             }
         }
@@ -76,28 +78,35 @@ struct ConceptDetail: View {
     private var runControls: some View {
         VStack(alignment: .leading, spacing: 7) {
             if concept.hasNative {
-                Button { runner.run(concept, root: library.rootPath) } label: {
+                Button { primaryAction() } label: {
                     HStack(spacing: 6) {
-                        if runner.busySlug == concept.slug {
+                        if runner.busySlug == concept.slug || isExportingKit {
                             ProgressView().controlSize(.small).scaleEffect(0.6).frame(width: 12)
                         } else {
-                            Image(systemName: "play.fill").font(.system(size: 10, weight: .bold))
+                            Image(systemName: LauncherDistribution.canRunToolchain ? "play.fill" : "hammer.fill")
+                                .font(.system(size: 10, weight: .bold))
                         }
-                        Text(runner.busySlug == concept.slug ? runner.stageTitle : "Запустить")
+                        Text(isExportingKit ? "Сохраняем…" : (runner.busySlug == concept.slug ? runner.stageTitle : primaryTitle))
                     }
                 }
                 .buttonStyle(PrimaryPill(height: Self.controlHeight))
-                .disabled(runner.isBusy)
+                .disabled(runner.isBusy || isExportingKit)
 
-                Picker("", selection: Binding(get: { runner.device },
-                                              set: { runner.setDevice($0) })) {
-                    ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
+                if LauncherDistribution.canRunToolchain {
+                    Picker("", selection: Binding(get: { runner.device },
+                                                  set: { runner.setDevice($0) })) {
+                        ForEach(runner.devices, id: \.self) { Text($0).tag($0) }
+                    }
+                    .labelsHidden().controlSize(.small)
                 }
-                .labelsHidden().controlSize(.small)
 
                 HStack(spacing: 6) {
-                    MiniAction("Finder", "folder", height: 26) { reveal(concept.path) }
-                    MiniAction("Xcode", "hammer", height: 26) { openXcode() }
+                    if LauncherDistribution.isTestFlightCatalog {
+                        MiniAction("Скачать kit", "arrow.down.circle", height: 26) { exportKit() }
+                    } else {
+                        MiniAction("Finder", "folder", height: 26) { reveal(concept.path) }
+                        MiniAction("Xcode", "hammer", height: 26) { openXcode() }
+                    }
                 }
             } else {
                 Text("Нативной сборки нет")
@@ -119,10 +128,34 @@ struct ConceptDetail: View {
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: path)
     }
     private func openXcode() {
+        if LauncherDistribution.isTestFlightCatalog {
+            exportKit()
+            return
+        }
         let name = concept.slug.prefix(1).uppercased() + concept.slug.dropFirst()
         let p = "\(library.rootPath)/native/build/\(concept.slug)/\(name).xcodeproj"
         if FileManager.default.fileExists(atPath: p) {
             NSWorkspace.shared.open(URL(fileURLWithPath: p))
+        }
+    }
+    private var primaryTitle: String {
+        LauncherDistribution.canRunToolchain ? "Запустить" : "Открыть в Xcode"
+    }
+    private func primaryAction() {
+        if LauncherDistribution.canRunToolchain { runner.run(concept, root: library.rootPath) }
+        else { exportKit() }
+    }
+    private func exportKit() {
+        guard !isExportingKit else { return }
+        isExportingKit = true
+        Task {
+            defer { isExportingKit = false }
+            if let root = await DeveloperKitExporter.exportKitAndOpen(
+                concept: concept,
+                currentRoot: library.rootPath
+            ) {
+                library.rootPath = root
+            }
         }
     }
 
@@ -132,6 +165,7 @@ struct ConceptDetail: View {
         case .permissions: PermissionsTab(concept: concept)
         case .screens: ScreensTab(concept: concept, root: library.rootPath)
         case .docs: DocsTab(concept: concept)
+        case .files: ProjectFilesTab(concept: concept, root: library.rootPath)
         case .log: LogTab()
         }
     }
@@ -457,23 +491,45 @@ struct ShotURL: Identifiable { let url: URL; var id: String { url.path } }
 
 private struct DocsTab: View {
     let concept: Concept
-    @State private var selected: DocFile?
+    @State private var groups: [DocumentationGroup] = []
+    @State private var selectedID: DocumentationPage.ID?
+
+    private var selected: DocumentationPage? {
+        groups.lazy.flatMap(\.pages).first { $0.id == selectedID }
+    }
 
     var body: some View {
-        HSplitView {
-            List(concept.docs, selection: Binding(
-                get: { selected?.id },
-                set: { id in selected = concept.docs.first { $0.id == id } })
-            ) { d in
-                Text(prettyName(d.name)).font(.system(size: 12)).tag(d.id)
+        VStack(spacing: 0) {
+            HStack {
+                Text("Документация для разработки")
+                    .font(.system(size: 12, weight: .medium))
+                Spacer()
+                Button("Сохранить всю документацию") {
+                    DeveloperKitExporter.exportDocumentation(for: concept)
+                }
+                .controlSize(.small)
+            }
+            .padding(.horizontal, 12).padding(.vertical, 8)
+            Divider()
+            HSplitView {
+            List(selection: $selectedID) {
+                ForEach(groups) { group in
+                    Section(group.title) {
+                        ForEach(group.pages) { page in
+                            Label(page.title, systemImage: page.isOverview ? "doc.text" : "text.alignleft")
+                                .font(.system(size: 12))
+                                .tag(page.id)
+                        }
+                    }
+                }
             }
             .listStyle(.sidebar)
-            .frame(minWidth: 190, idealWidth: 205, maxWidth: 250)
+            .frame(minWidth: 230, idealWidth: 270, maxWidth: 340)
 
             Group {
-                if let doc = selected, let text = try? String(contentsOf: doc.url, encoding: .utf8) {
+                if let page = selected {
                     ScrollView {
-                        MarkdownView(source: text)
+                        MarkdownView(source: page.source)
                             .textSelection(.enabled)
                             .frame(maxWidth: 720, alignment: .leading)
                             .padding(22)
@@ -483,14 +539,15 @@ private struct DocsTab: View {
                     Placeholder(icon: "doc.text", title: "Выберите документ", note: nil)
                 }
             }
+            }
         }
-        .onAppear { if selected == nil { selected = concept.docs.first } }
-    }
-
-    private func prettyName(_ s: String) -> String {
-        let parts = s.split(separator: "-").dropFirst()
-        let text = parts.joined(separator: " ")
-        return text.isEmpty ? s : text.prefix(1).uppercased() + text.dropFirst()
+        .task(id: concept.id) {
+            let docs = concept.docs
+            groups = await Task.detached(priority: .userInitiated) {
+                DocumentationIndex.groups(for: docs)
+            }.value
+            selectedID = groups.first?.pages.first?.id
+        }
     }
 }
 

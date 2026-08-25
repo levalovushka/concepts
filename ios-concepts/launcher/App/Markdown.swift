@@ -3,7 +3,7 @@ import SwiftUI
 // Блочный рендерер Markdown. Системный AttributedString умеет только инлайн —
 // заголовки, списки, код, цитаты и таблицы он показывает сырыми символами.
 
-enum MDBlock: Identifiable {
+enum MDBlock {
     case heading(level: Int, text: String)
     case paragraph(String)
     case bullet([String])
@@ -13,18 +13,6 @@ enum MDBlock: Identifiable {
     case table(header: [String], rows: [[String]])
     case rule
 
-    var id: String {
-        switch self {
-        case .heading(let l, let t): return "h\(l)-\(t.hashValue)"
-        case .paragraph(let t): return "p-\(t.hashValue)"
-        case .bullet(let i): return "ul-\(i.joined().hashValue)"
-        case .ordered(let i): return "ol-\(i.joined().hashValue)"
-        case .code(_, let b): return "code-\(b.hashValue)"
-        case .quote(let t): return "q-\(t.hashValue)"
-        case .table(let h, let r): return "t-\(h.joined().hashValue)-\(r.count)"
-        case .rule: return "hr-\(UUID().uuidString)"
-        }
-    }
 }
 
 enum MarkdownParser {
@@ -138,12 +126,15 @@ enum MarkdownParser {
 // MARK: - Отрисовка
 
 struct MarkdownView: View {
-    let source: String
-    private var blocks: [MDBlock] { MarkdownParser.parse(source) }
+    private let blocks: [MDBlock]
+
+    init(source: String) {
+        blocks = MarkdownParser.parse(source)
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 13) {
-            ForEach(blocks) { block in
+        LazyVStack(alignment: .leading, spacing: 13) {
+            ForEach(Array(blocks.enumerated()), id: \.offset) { _, block in
                 switch block {
                 case .heading(let level, let text):
                     Text(inline(text))
@@ -224,7 +215,7 @@ private struct MDTable: View {
     let header: [String]
     let rows: [[String]]
     var body: some View {
-        VStack(spacing: 0) {
+        LazyVStack(spacing: 0) {
             HStack(spacing: 0) {
                 ForEach(Array(header.enumerated()), id: \.offset) { _, h in
                     Text(h).font(.system(size: 12, weight: .semibold))

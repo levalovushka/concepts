@@ -64,6 +64,10 @@ final class Library {
     private static func defaultProjectRoot() -> String {
         let fm = FileManager.default
         var seeds = [URL(fileURLWithPath: fm.currentDirectoryPath, isDirectory: true), Bundle.main.bundleURL]
+        if LauncherDistribution.isTestFlightCatalog,
+           let bundled = LauncherDistribution.bundledDeveloperKit {
+            seeds.insert(bundled, at: 0)
+        }
         if let configured = ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"] {
             seeds.insert(URL(fileURLWithPath: configured, isDirectory: true), at: 0)
         }
