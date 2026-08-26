@@ -5,3 +5,6 @@ DerivedData/
 launcher/build/
 docs/factory-readiness.json
 native/FactoryRuns/model-cache/
+# Cold-run receipts are local diagnostics. Curated reports already tracked in
+# the repository remain versioned, but new transient retries stay out of Git.
+native/FactoryRuns/cold-vk-*/

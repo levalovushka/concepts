@@ -5,6 +5,9 @@ import { dirname, join, resolve } from "node:path";
 import { compileProductBlueprint } from "./lean-native-factory.mjs";
 import { createLeanDeliveryProof } from "./lean-delivery-proof.mjs";
 import { writeLeanDeveloperDocumentation } from "./lean-developer-documentation.mjs";
+import { compileLeanNativeShell } from "./lean-native-shell-compiler.mjs";
+import { auditActionBindings } from "./action-binding-audit.mjs";
+import { auditLeanProduct } from "./lean-product-audit.mjs";
 import { shotArtifactDirectory } from "./shot-artifacts.mjs";
 import { NATIVE_RENDERER_INSTRUCTIONS } from "./structured-model-native-renderer.mjs";
 
@@ -17,11 +20,38 @@ function sourceFileSchema() {
 
 export function leanNativeSourceSchema() {
   return {
-    type: "object", additionalProperties: false, required: ["appFiles", "uiTestFiles", "smokeTestNames"],
+    type: "object", additionalProperties: false,
+    required: ["appFiles", "uiTestFiles", "smokeTestNames", "screenImplementations", "capabilityImplementations"],
     properties: {
       appFiles: { type: "array", minItems: 3, maxItems: 14, items: sourceFileSchema() },
       uiTestFiles: { type: "array", minItems: 1, maxItems: 4, items: sourceFileSchema() },
       smokeTestNames: { type: "array", minItems: 3, maxItems: 6, items: { type: "string", minLength: 8 } },
+      screenImplementations: {
+        type: "array", minItems: 3, maxItems: 40,
+        items: {
+          type: "object", additionalProperties: false,
+          required: ["screenId", "sourceFile", "actionIds"],
+          properties: {
+            screenId: { type: "string", minLength: 2 },
+            sourceFile: { type: "string", minLength: 7 },
+            actionIds: { type: "array", minItems: 0, maxItems: 30, items: { type: "string", minLength: 2 } },
+          },
+        },
+      },
+      capabilityImplementations: {
+        type: "array", minItems: 1, maxItems: 40,
+        items: {
+          type: "object", additionalProperties: false,
+          required: ["key", "screenId", "actionId", "sourceFile", "grantedOutcomeIdentifier", "deniedOutcomeIdentifier", "testName"],
+          properties: {
+            key: { type: "string", minLength: 2 }, screenId: { type: "string", minLength: 2 },
+            actionId: { type: "string", minLength: 2 }, sourceFile: { type: "string", minLength: 7 },
+            grantedOutcomeIdentifier: { type: "string", minLength: 4 },
+            deniedOutcomeIdentifier: { type: "string", minLength: 4 },
+            testName: { type: "string", minLength: 8 },
+          },
+        },
+      },
     },
   };
 }
@@ -88,7 +118,42 @@ function validateSourceBundle(bundle, blueprint) {
     throw new Error("VK mimicry must keep the native TabView shell so iOS owns Liquid Glass tab-bar behavior");
   }
   if (blueprint.selectionReceipt) {
-    for (const item of blueprint.localization || []) if (!appSource.includes(item.key) && !appSource.includes(item.source)) {
+    const fileByPath = new Map(bundle.appFiles.map(file => [file.path, file.contents]));
+    const implementationByScreen = new Map((bundle.screenImplementations || []).map(item => [item.screenId, item]));
+    for (const screen of blueprint.navigation.screens) {
+      if (screen.id === "login") continue;
+      const implementation = implementationByScreen.get(screen.id);
+      if (!implementation) throw new Error(`Generated source has no implementation map for screen ${screen.id}`);
+      const expected = [...screen.actionIds].sort();
+      const actual = [...new Set(implementation.actionIds)].sort();
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(
+        `Screen ${screen.id} action implementation drift: expected ${expected.join(", ")}; got ${actual.join(", ")}`,
+      );
+      const source = fileByPath.get(implementation.sourceFile);
+      if (!source) throw new Error(`Screen ${screen.id} points to missing source ${implementation.sourceFile}`);
+      for (const actionId of expected) {
+        const marker = `${screen.id}.${actionId}`;
+        if (!source.includes(`.nativeAction("${marker}")`)) throw new Error(`${marker} is not bound in ${implementation.sourceFile}`);
+      }
+    }
+    const capabilityMap = new Map((bundle.capabilityImplementations || []).map(item => [item.key, item]));
+    for (const capability of blueprint.capabilities) {
+      const implementation = capabilityMap.get(capability.key);
+      if (!implementation || implementation.actionId !== capability.actionId) throw new Error(
+        `Capability ${capability.key} has no implementation receipt for ${capability.actionId}`,
+      );
+      const source = fileByPath.get(implementation.sourceFile) || "";
+      for (const marker of [implementation.grantedOutcomeIdentifier, implementation.deniedOutcomeIdentifier]) {
+        if (!source.includes(marker) || !uiTestSource.includes(marker)) throw new Error(
+          `Capability ${capability.key} outcome ${marker} is not present in source and XCUI`,
+        );
+      }
+      if (!uiTestSource.includes(implementation.testName)) throw new Error(
+        `Capability ${capability.key} test ${implementation.testName} is missing`,
+      );
+    }
+    for (const item of blueprint.localization || []) if (!(item.screenIds || []).every(screen => screen === "login")
+        && !appSource.includes(item.key) && !appSource.includes(item.source)) {
       throw new Error(`Generated source does not consume localization ${item.key}`);
     }
     for (const fixture of blueprint.fixtures || []) if (!appSource.includes(fixture.id)) {
@@ -102,7 +167,21 @@ function validateSourceBundle(bundle, blueprint) {
   return Object.freeze({
     appFiles: bundle.appFiles.map(Object.freeze), uiTestFiles: bundle.uiTestFiles.map(Object.freeze),
     smokeTestNames: Object.freeze([...new Set(bundle.smokeTestNames)]),
+    screenImplementations: Object.freeze((bundle.screenImplementations || []).map(Object.freeze)),
+    capabilityImplementations: Object.freeze((bundle.capabilityImplementations || []).map(Object.freeze)),
   });
+}
+
+function auditGeneratedImplementation({ bundle, blueprint, manifest, projectRoot }) {
+  const swiftSource = bundle.appFiles.map(file => file.contents).join("\n");
+  const uiTestSource = bundle.uiTestFiles.map(file => file.contents).join("\n");
+  const runtimeSource = ["Permissions.swift", "AppLifecycle.swift"]
+    .map(file => readFileSync(join(projectRoot, "native", "Runtime", file), "utf8")).join("\n");
+  const problems = [
+    ...auditActionBindings(manifest, swiftSource),
+    ...auditLeanProduct({ blueprint, manifest, swiftSource, runtimeSource, uiTestSource }),
+  ];
+  if (problems.length) throw new Error(`Generated implementation violates ${problems.length} executable contracts:\n${problems.join("\n")}`);
 }
 
 export function implementationBlueprint(blueprint) {
@@ -206,6 +285,9 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
     async build({ blueprint, target, reference, calibration }) {
       const compiled = compileProductBlueprint(blueprint, { bundleId: `com.camo.${blueprint.id.replace(/[-_]/g, "")}` });
       if (!compiled.ok) throw new Error(compiled.diagnostics.map(item => `${item.code}: ${item.message}`).join("\n"));
+      const documentationReceipt = writeLeanDeveloperDocumentation({
+        projectRoot: root, blueprint, manifest: compiled.manifest,
+      });
       const output = await model.generateStructured({
         operation: "camo.lean-native-swiftui-builder.v1",
         input: {
@@ -216,6 +298,8 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
           calibration,
           instructions: [
             "NON-NEGOTIABLE PRE-FLIGHT: before returning source, verify NativeEmailAuth, NativeVisualLanguage.resolve, CaptureIdentity.report and reportLayout are present; VK TabView uses compiled Lucide image assets; every capability action calls Permissions.request and performs its declared platformEffect; every declared control has its own outcome and XCUI assertion. Missing any item makes the source invalid.",
+            "Return screenImplementations as an exhaustive ownership map: one entry per non-login screen, exact actionIds from that screen, and the source file where actual Button/NavigationLink controls bind them. Inventories, comments and unused string constants are forbidden.",
+            "Return capabilityImplementations as an exhaustive map. Each entry names real granted and denied accessibility outcome identifiers present both in its product source file and XCUI test, plus the exact test method name.",
             ...NATIVE_RENDERER_INSTRUCTIONS,
             "Generate only app Swift files and one compact XCUI smoke suite; the compiler owns blueprint, capture.json, Xcode, assets and docs.",
             "Bind every declared action exactly once with .nativeAction(\"surface.action_id\") on the actual control.",
@@ -232,7 +316,15 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
         },
         schema: leanNativeSourceSchema(),
       });
-      const bundle = validateSourceBundle(formatSourceBundle(output), blueprint);
+      const hasGeneratedApp = output.appFiles?.some(file => /@main\s+[\s\S]{0,40}?struct\s+\w+\s*:\s*App\b/.test(file.contents));
+      const shellOwned = hasGeneratedApp
+        ? compileLeanNativeShell({ blueprint, bundle: output })
+        : output;
+      const formattedBundle = formatSourceBundle(shellOwned);
+      if (hasGeneratedApp) auditGeneratedImplementation({
+        bundle: formattedBundle, blueprint, manifest: compiled.manifest, projectRoot: root,
+      });
+      const bundle = validateSourceBundle(formattedBundle, blueprint);
       const slug = blueprint.id;
       const blueprintPath = join(root, "native", "ProductBlueprints", `${slug}-vk.json`);
       const appDirectory = join(root, "native", "apps", slug);
@@ -253,7 +345,6 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
       }
       const catalog = captureCatalog(blueprint);
       writeFileSync(join(appDirectory, "capture.json"), `${JSON.stringify(catalog, null, 2)}\n`);
-      const documentationReceipt = writeLeanDeveloperDocumentation({ projectRoot: root, blueprint, manifest: compiled.manifest });
       ownedSlugs.add(slug);
       const execution = await executor({ projectRoot: root, slug, blueprint, manifest: compiled.manifest, catalog, smokeTestNames: bundle.smokeTestNames });
       const proof = createLeanDeliveryProof({

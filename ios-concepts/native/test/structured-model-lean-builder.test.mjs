@@ -49,6 +49,8 @@ test("lean builder owns source materialization, execution and proof behind one b
       ],
       uiTestFiles: [{ path: "SmokeTests.swift", contents: `import XCTest\nfinal class SmokeTests: XCTestCase { func testProductCoreLoop() { XCTAssertTrue(true) } }\n` }],
       smokeTestNames: ["testLocalAuthentication", "testProductCoreLoop", "testSettingsCapability"],
+      screenImplementations: [],
+      capabilityImplementations: [],
     };
   } };
   const executor = async ({ manifest, catalog, smokeTestNames }) => ({
@@ -63,11 +65,13 @@ test("lean builder owns source materialization, execution and proof behind one b
     }),
   });
   const builder = createStructuredModelLeanBuilder({ model, projectRoot: root, executor });
-  const delivery = await builder.build({ blueprint, target, reference, calibration: null });
+  const delivery = await builder.build({ blueprint: { ...blueprint, selectionReceipt: undefined }, target, reference, calibration: null });
   assert.equal(delivery.proof.passed, true);
   assert.equal(delivery.interactionReceipt.passed, true);
   assert.equal(delivery.documentationReceipt.passed, true);
-  assert.equal(delivery.documentationReceipt.files.length, 13);
+  assert.ok(delivery.documentationReceipt.files.length >= 23);
+  assert.ok(delivery.documentationReceipt.files.some(path => path.endsWith("19-testing-and-evidence.md")));
+  assert.ok(delivery.documentationReceipt.files.some(path => path.endsWith("21-file-map.md")));
   assert.equal(delivery.documentationReceipt.files.some(path => path.endsWith("developer-guide.md")), false);
   assert.equal(delivery.captures.length, delivery.manifest.surfaces.length);
   assert.match(readFileSync(join(root, "native/ProductBlueprints/circles-vk.json"), "utf8"), /"selectionReceipt"|"schemaVersion"/);

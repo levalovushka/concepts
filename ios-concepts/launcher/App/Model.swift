@@ -99,6 +99,7 @@ final class Library {
 
     var conceptsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("concepts") }
     var productBlueprintsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/ProductBlueprints") }
+    var nativeDocumentationURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/Documentation") }
     var query: String = ""
 
     var filtered: [Concept] {
@@ -148,9 +149,9 @@ final class Library {
             guard let data = try? Data(contentsOf: url),
                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   let slug = json["id"] as? String,
-                  !known.contains(slug), nativeSlugs.contains(slug)
+                  !known.contains(slug)
             else { continue }
-            found.append(parseBlueprint(json, slug: slug))
+            found.append(parseBlueprint(json, slug: slug, native: nativeSlugs.contains(slug)))
         }
         concepts = found
     }
@@ -186,9 +187,11 @@ final class Library {
         )
     }
 
-    private func parseBlueprint(_ j: [String: Any], slug: String) -> Concept {
+    private func parseBlueprint(_ j: [String: Any], slug: String, native: Bool) -> Concept {
         let appDir = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps/\(slug)")
-        let docsDir = appDir.appendingPathComponent("Documentation")
+        let compiledDocs = nativeDocumentationURL.appendingPathComponent(slug)
+        let legacyDocs = appDir.appendingPathComponent("Documentation")
+        let docsDir = FileManager.default.fileExists(atPath: compiledDocs.path) ? compiledDocs : legacyDocs
         let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
             .filter { $0.pathExtension == "md" }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
@@ -222,7 +225,7 @@ final class Library {
             permissions: permissions,
             docs: docs,
             docsDirectory: docsDir,
-            hasNative: true,
+            hasNative: native,
             path: appDir.path
         )
     }

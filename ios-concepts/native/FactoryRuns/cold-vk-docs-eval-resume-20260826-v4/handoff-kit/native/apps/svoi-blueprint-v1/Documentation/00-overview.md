@@ -1,7 +1,6 @@
-# Свои: Developer Kit
+# Свои: developer product guide
+
+> Product Blueprint: `svoi-blueprint-v1`; target: `vkontakte`; strategy: `mimicry`.
+> Generated documentation is reproducible and must not drift from the native manifest.
 
 Знакомая авторская лента, в которой люди и сообщества публично доводят небольшие дела до результата: объявляют конкретный итог, получают помощь, показывают ход работы, завершают доказательством и передают продолжение другим.
-
-Целевая семья: **vkontakte** · стратегия: **mimicry**.
-
-Этот пакет сгенерирован из Product Blueprint и проверенной нативной сборки. Файлы документации не редактируются вручную.
