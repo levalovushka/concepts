@@ -247,6 +247,17 @@ const CAPABILITY_ICONS = Object.freeze({
   autofill: "person.text.rectangle", faceid: "faceid", calendar: "calendar",
 });
 
+const CAPABILITY_HINTS = Object.freeze({
+  camera: "Чтобы снять новую главу", photos: "Чтобы выбрать готовый кадр", mic: "Чтобы записать голосовое продолжение",
+  speech: "Чтобы превратить голос в текст", audio: "Чтобы слушать главы в фоне", location: "Чтобы показать место эстафеты",
+  wifiinfo: "Чтобы найти участников в общей сети", hotspot: "Чтобы подключиться к локальной встрече", tracking: "Чтобы подобрать более точные рекомендации",
+  associateddomains: "Чтобы открывать цепочку прямо по ссылке", push: "Чтобы узнать о новой главе", commnotif: "Чтобы не пропустить переданный ход",
+  remotenotif: "Чтобы цепочки обновлялись вовремя", voip: "Чтобы быстро связаться с участником", contacts: "Чтобы передать ход знакомому",
+  fetch: "Чтобы показывать свежие главы", bgtask: "Чтобы готовить подборку заранее", appgroups: "Чтобы передать черновик в расширение",
+  keychain: "Чтобы безопасно сохранить вход", autofill: "Чтобы входить без повторного ввода", faceid: "Чтобы скрыть личные черновики",
+  calendar: "Чтобы не пропустить срок принятого хода",
+});
+
 function actionControl(surfaceId, action, capabilityByAction, primary) {
   const call = actionCall(action.id, capabilityByAction);
   const capability = capabilityByAction.get(action.id);
@@ -257,7 +268,7 @@ function actionControl(surfaceId, action, capabilityByAction, primary) {
     ? `VKButton(title: ${swiftString(action.label)}) { ${call} }
             ${modifier}`
     : `Button { ${call} } label: {
-                VKRow(title: ${swiftString(action.label)}, icon: ${swiftString(icon)}, chevron: false)
+                VKRow(title: ${swiftString(action.label)}, subtitle: ${capability ? swiftString(CAPABILITY_HINTS[capability.key] || capability.purpose) : "nil"}, icon: ${swiftString(icon)}, chevron: false)
             }
             .buttonStyle(.plain)
             ${modifier}`;
@@ -475,7 +486,7 @@ ${detailRows}
             }` : ""}
             ${outcomeNotices}
         }`;
-  const profileBody = `VStack(alignment: .leading, spacing: 8) {
+  const profileBody = `VStack(alignment: .leading, spacing: 0) {
             VKGroup {
                 VStack(spacing: 12) {
                     Avatar(name: ${swiftString(surface.content.author || "Ты")}, size: 86, online: true)
@@ -491,13 +502,14 @@ ${detailRows}
                     }
                 }.padding(16)
             }
-            ${detailRows ? `GroupGap()
-            VKGroup {
-                Text(${swiftString(surface.content.sectionTitle || surface.content.headline)}).font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+            ${detailRows ? `VKGroup {
+                VKSectionHeader(title: ${swiftString(surface.content.sectionTitle || surface.content.headline)})
                 ${detailRows}
             }` : ""}
-            ${detailRows ? "GroupGap()" : ""}
-            VKGroup { ${allRowControls} }
+            VKGroup {
+                VKSectionHeader(title: "Профиль и безопасность")
+                ${allRowControls}
+            }
             ${outcomeNotices}
         }`;
   const publicationBody = `VStack(alignment: .leading, spacing: 0) {
@@ -526,7 +538,7 @@ ${detailRows}
             GroupGap()
             VKPrimaryActionArea { ${primaryControl} }
             ${secondaryControls ? `VKGroup {
-                Text("Добавить материал").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                VKSectionHeader(title: "Добавить материал")
                 ${secondaryControls}
             }` : ""}
             ${outcomeNotices}
@@ -549,7 +561,7 @@ ${detailRows}
                 .padding(.horizontal, 16)
             VKPrimaryActionArea { ${primaryControl} }
             ${secondaryControls ? `VKGroup {
-                Text("Перед отправкой").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                VKSectionHeader(title: "Перед отправкой")
                 ${secondaryControls}
             }` : ""}
             ${outcomeNotices}

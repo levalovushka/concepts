@@ -49,6 +49,14 @@ export function auditNativeProductQualityV2({ spec, fullContract, capabilityPlan
   if (settingsCapabilities > 3) diagnostics.push(diagnostic(
     "quality.settings-capability-dump", `Settings owns ${settingsCapabilities} capability gestures; move product features to their natural objects`, "surfaces.settings.actionIds",
   ));
+  for (const binding of capabilityPlan.bindings) {
+    if (!binding.purpose || !binding.requestMoment || !binding.platformEffect || !binding.fallback || !binding.outcome?.proof) diagnostics.push(diagnostic(
+      "quality.capability-context", `${binding.key} needs purpose, request moment, platform effect, visible proof and denied fallback`, `capabilityPlan.bindings.${binding.key}`,
+    ));
+    if (/launch|startup|запуск/i.test(binding.requestMoment || "")) diagnostics.push(diagnostic(
+      "quality.capability-on-launch", `${binding.key} cannot be requested on launch; attach it to the owning feature gesture`, `capabilityPlan.bindings.${binding.key}.requestMoment`,
+    ));
+  }
   return Object.freeze(diagnostics);
 }
 
@@ -78,6 +86,12 @@ export function createNativeVisualReviewPacketV2({ spec, fullContract, capabilit
       axes: PRODUCT_UI_CRITIC_AXES,
       iterationFloor: ITERATION_FLOOR,
       releaseFloor: RELEASE_FLOOR,
+      layoutContract: {
+        minimumSingleLineRowHeight: 56,
+        minimumTwoLineRowHeight: 64,
+        sectionHeaderInsets: { top: 18, bottom: 12 },
+        rule: "Separate product content, navigation and capability actions into named groups; no unlabeled dense utility stack.",
+      },
       questions: [
         "Is the product promise and next action clear within two seconds?",
         "Does the complete core loop read as one causal journey rather than disconnected demos?",
@@ -86,6 +100,7 @@ export function createNativeVisualReviewPacketV2({ spec, fullContract, capabilit
         "Does each screen have VK-like hierarchy, density, chrome and content attachment?",
         "Are empty, offline, error and permission-denied states useful and recoverable?",
         "Does each screen use a domain-specific composition inherited from the HTML concepts instead of a generic card or capability list?",
+        "Do rows breathe, section labels explain the grouping, and separators align without making the page look like one dense settings dump?",
       ],
     },
     agentLoop: {

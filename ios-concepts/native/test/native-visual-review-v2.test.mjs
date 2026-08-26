@@ -19,10 +19,11 @@ const packet = createNativeVisualReviewPacketV2({
       { from: "capture", to: "handoff", actionId: "capture" },
     ],
   },
-  capabilityPlan: { bindings: [
-    { key: "camera", actionId: "camera" }, { key: "photos", actionId: "photos" },
-    { key: "contacts", actionId: "contacts" }, { key: "push", actionId: "push" },
-  ] },
+  capabilityPlan: { bindings: ["camera", "photos", "contacts", "push"].map(key => ({
+    key, actionId: key, purpose: `Use ${key} for the owning feature`,
+    requestMoment: `After the explicit ${key} action`, platformEffect: `Perform ${key}`,
+    fallback: `Continue without ${key}`, outcome: { proof: `Show the ${key} result` },
+  })) },
   delivery: {
     buildReceipt: { passed: true }, interactionReceipt: { passed: true },
     captures: [
@@ -57,4 +58,15 @@ test("visual gate returns a bounded repair brief instead of averaging blockers a
   assert.equal(result.passed, false);
   assert.equal(result.repairBrief[0].code, "media-empty");
   assert.equal(result.diagnostics.some(item => item.code === "review.independence"), true);
+});
+
+test("structural quality rejects launch-time permissions and a capability dump in settings", () => {
+  const broken = structuredClone(packet);
+  broken.structuralDiagnostics = [
+    { code: "quality.capability-on-launch", path: "camera", message: "camera on launch", severity: "error" },
+    { code: "quality.settings-capability-dump", path: "settings", message: "too many", severity: "error" },
+  ];
+  const result = verifyNativeVisualReviewV2({ packet: broken, review: review() });
+  assert.equal(result.passed, false);
+  assert.equal(result.diagnostics.some(item => item.code === "quality.capability-on-launch"), true);
 });

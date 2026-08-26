@@ -413,7 +413,7 @@ struct VKRow: View {
             }
         }
         .padding(.horizontal, t.spacing.contentInset)
-        .frame(minHeight: 48)
+        .frame(minHeight: subtitle == nil ? 56 : 64)
         .contentShape(Rectangle())
     }
 }
@@ -613,7 +613,7 @@ struct VKSectionHeader: View {
             }
         }
         .padding(.horizontal, t.spacing.contentInset)
-        .padding(.top, 16).padding(.bottom, 10)
+        .padding(.top, 18).padding(.bottom, 12)
     }
 }
 

@@ -385,35 +385,35 @@ private struct DiscoverSurface: View {
             VKGroup {
                 Text("Инструменты поиска").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
                 Button { Task { await store.performCapability(.capabilityLocation, key: "location", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Добавить место", icon: "location.fill", chevron: false)
+                VKRow(title: "Добавить место", subtitle: "Чтобы показать место эстафеты", icon: "location.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("discover.capability_location")
             .accessibilityIdentifier("action.discover.capability_location")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityWifiinfo, key: "wifiinfo", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Проверить общую сеть", icon: "wifi", chevron: false)
+                VKRow(title: "Проверить общую сеть", subtitle: "Чтобы найти участников в общей сети", icon: "wifi", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("discover.capability_wifiinfo")
             .accessibilityIdentifier("action.discover.capability_wifiinfo")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityTracking, key: "tracking", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Настроить рекомендации", icon: "slider.horizontal.3", chevron: false)
+                VKRow(title: "Настроить рекомендации", subtitle: "Чтобы подобрать более точные рекомендации", icon: "slider.horizontal.3", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("discover.capability_tracking")
             .accessibilityIdentifier("action.discover.capability_tracking")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityAssociateddomains, key: "associateddomains", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Открывать ссылки на эстафеты", icon: "link", chevron: false)
+                VKRow(title: "Открывать ссылки на эстафеты", subtitle: "Чтобы открывать цепочку прямо по ссылке", icon: "link", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("discover.capability_associateddomains")
             .accessibilityIdentifier("action.discover.capability_associateddomains")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityHotspot, key: "hotspot", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Подключиться к встрече", icon: "personalhotspot", chevron: false)
+                VKRow(title: "Подключиться к встрече", subtitle: "Чтобы подключиться к локальной встрече", icon: "personalhotspot", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("discover.capability_hotspot")
@@ -508,37 +508,37 @@ private struct CreateSurface: View {
             .nativeAction("create.start_relay")
             .accessibilityIdentifier("action.create.start_relay") }
             VKGroup {
-                Text("Добавить материал").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                VKSectionHeader(title: "Добавить материал")
                 Button { Task { await store.performCapability(.capabilityPhotos, key: "photos", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Выбрать из медиатеки", icon: "photo.on.rectangle", chevron: false)
+                VKRow(title: "Выбрать из медиатеки", subtitle: "Чтобы выбрать готовый кадр", icon: "photo.on.rectangle", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("create.capability_photos")
             .accessibilityIdentifier("action.create.capability_photos")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityMic, key: "mic", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Записать голос", icon: "mic.fill", chevron: false)
+                VKRow(title: "Записать голос", subtitle: "Чтобы записать голосовое продолжение", icon: "mic.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("create.capability_mic")
             .accessibilityIdentifier("action.create.capability_mic")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityAppgroups, key: "appgroups", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Поделиться черновиком", icon: "square.and.arrow.up", chevron: false)
+                VKRow(title: "Поделиться черновиком", subtitle: "Чтобы передать черновик в расширение", icon: "square.and.arrow.up", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("create.capability_appgroups")
             .accessibilityIdentifier("action.create.capability_appgroups")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilitySpeech, key: "speech", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Расшифровать голос", icon: "waveform", chevron: false)
+                VKRow(title: "Расшифровать голос", subtitle: "Чтобы превратить голос в текст", icon: "waveform", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("create.capability_speech")
             .accessibilityIdentifier("action.create.capability_speech")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityAudio, key: "audio", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Слушать продолжения", icon: "headphones", chevron: false)
+                VKRow(title: "Слушать продолжения", subtitle: "Чтобы слушать главы в фоне", icon: "headphones", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("create.capability_audio")
@@ -620,35 +620,35 @@ private struct MessagesSurface: View {
             VKGroup {
                 Text("Связь с участниками").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
                 Button { Task { await store.performCapability(.capabilityPush, key: "push", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Следить за эстафетой", icon: "bell.fill", chevron: false)
+                VKRow(title: "Следить за эстафетой", subtitle: "Чтобы узнать о новой главе", icon: "bell.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("messages.capability_push")
             .accessibilityIdentifier("action.messages.capability_push")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityCommnotif, key: "commnotif", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Включить важные ответы", icon: "message.badge.fill", chevron: false)
+                VKRow(title: "Включить важные ответы", subtitle: "Чтобы не пропустить переданный ход", icon: "message.badge.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("messages.capability_commnotif")
             .accessibilityIdentifier("action.messages.capability_commnotif")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityRemotenotif, key: "remotenotif", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Обновлять цепочки", icon: "arrow.clockwise", chevron: false)
+                VKRow(title: "Обновлять цепочки", subtitle: "Чтобы цепочки обновлялись вовремя", icon: "arrow.clockwise", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("messages.capability_remotenotif")
             .accessibilityIdentifier("action.messages.capability_remotenotif")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityContacts, key: "contacts", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Выбрать знакомого", icon: "person.crop.circle.badge.plus", chevron: false)
+                VKRow(title: "Выбрать знакомого", subtitle: "Чтобы передать ход знакомому", icon: "person.crop.circle.badge.plus", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("messages.capability_contacts")
             .accessibilityIdentifier("action.messages.capability_contacts")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityVoip, key: "voip", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Позвонить участнику", icon: "phone.fill", chevron: false)
+                VKRow(title: "Позвонить участнику", subtitle: "Чтобы быстро связаться с участником", icon: "phone.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("messages.capability_voip")
@@ -798,7 +798,7 @@ private struct ProfileSurface: View {
         } content: {
             if NativeV2Capture.state == "populated/default" {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 0) {
             VKGroup {
                 VStack(spacing: 12) {
                     Avatar(name: "Тимур Орлов", size: 86, online: true)
@@ -814,9 +814,8 @@ private struct ProfileSurface: View {
                     }
                 }.padding(16)
             }
-            GroupGap()
             VKGroup {
-                Text("Мои эстафеты").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                VKSectionHeader(title: "Мои эстафеты")
 
                     VKRow(title: "Идеально круглое", subtitle: "Ход у Лены · 4 главы", icon: "circle.dashed", chevron: false)
                     RowSeparator()
@@ -824,28 +823,30 @@ private struct ProfileSurface: View {
                     VKRow(title: "Кадр одним цветом", subtitle: "Твой черновик сохранён", icon: "photo.on.rectangle", chevron: false)
 
             }
-            GroupGap()
-            VKGroup { Button { store.perform(.openSettings) } label: {
-                VKRow(title: "Настройки приложения", icon: "arrow.right", chevron: false)
+            VKGroup {
+                VKSectionHeader(title: "Профиль и безопасность")
+                Button { store.perform(.openSettings) } label: {
+                VKRow(title: "Настройки приложения", subtitle: nil, icon: "arrow.right", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("profile.open_settings")
             .accessibilityIdentifier("action.profile.open_settings")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityKeychain, key: "keychain", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Сохранить защищённую сессию", icon: "key.fill", chevron: false)
+                VKRow(title: "Сохранить защищённую сессию", subtitle: "Чтобы безопасно сохранить вход", icon: "key.fill", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("profile.capability_keychain")
             .accessibilityIdentifier("action.profile.capability_keychain")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityFaceid, key: "faceid", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Защитить черновики", icon: "faceid", chevron: false)
+                VKRow(title: "Защитить черновики", subtitle: "Чтобы скрыть личные черновики", icon: "faceid", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("profile.capability_faceid")
             .accessibilityIdentifier("action.profile.capability_faceid")
-            RowSeparator() }
+            RowSeparator()
+            }
             if let granted = store.permissionOutcomes["keychain"] {
                 VKInlineNotice(
                     title: granted ? "Доступ выполнен" : "Продолжим без доступа",
@@ -1085,9 +1086,9 @@ private struct HandoffSurface: View {
             .nativeAction("handoff.pass_turn")
             .accessibilityIdentifier("action.handoff.pass_turn") }
             VKGroup {
-                Text("Перед отправкой").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                VKSectionHeader(title: "Перед отправкой")
                 Button { Task { await store.performCapability(.capabilityCalendar, key: "calendar", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Запланировать ход", icon: "calendar", chevron: false)
+                VKRow(title: "Запланировать ход", subtitle: "Чтобы не пропустить срок принятого хода", icon: "calendar", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("handoff.capability_calendar")
@@ -1137,21 +1138,21 @@ private struct SettingsSurface: View {
 
             GroupGap()
             VKGroup { Button { Task { await store.performCapability(.capabilityFetch, key: "fetch", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Обновлять ленту", icon: "arrow.triangle.2.circlepath", chevron: false)
+                VKRow(title: "Обновлять ленту", subtitle: "Чтобы показывать свежие главы", icon: "arrow.triangle.2.circlepath", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("settings.capability_fetch")
             .accessibilityIdentifier("action.settings.capability_fetch")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityBgtask, key: "bgtask", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Готовить подборку", icon: "clock.arrow.circlepath", chevron: false)
+                VKRow(title: "Готовить подборку", subtitle: "Чтобы готовить подборку заранее", icon: "clock.arrow.circlepath", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("settings.capability_bgtask")
             .accessibilityIdentifier("action.settings.capability_bgtask")
             RowSeparator()
 Button { Task { await store.performCapability(.capabilityAutofill, key: "autofill", fallback: "Сохранить текущий продуктовый контекст и предложить повторить действие позже", permissions: permissions) } } label: {
-                VKRow(title: "Добавить быстрый вход", icon: "person.text.rectangle", chevron: false)
+                VKRow(title: "Добавить быстрый вход", subtitle: "Чтобы входить без повторного ввода", icon: "person.text.rectangle", chevron: false)
             }
             .buttonStyle(.plain)
             .nativeAction("settings.capability_autofill")
