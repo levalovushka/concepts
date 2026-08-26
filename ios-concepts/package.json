@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "native:lean": "node native/lean-cli.mjs",
+    "native:v2": "node native/simple-v2-cli.mjs",
+    "native:v2:orchestrated": "node native/pipeline-v2-cli.mjs",
     "native:cold": "node native/lean-cold-cli.mjs",
     "native:contracts": "node native/lean-contracts-cli.mjs",
     "factory:run": "node native/factory-run-cli.mjs",

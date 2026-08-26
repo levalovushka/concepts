@@ -28,3 +28,20 @@ test("VK golden implementation accepts the calibrated component family", () => {
   });
   assert.deepEqual(diagnostics, []);
 });
+
+test("vertical slice requires only primitives applicable to its three proof surfaces", () => {
+  const diagnostics = auditVKGoldenImplementation({
+    strategy: "mimicry", referenceProfile: "vk-ios", deliveryMode: "slice",
+    swiftSource: "VKRootSurface VKTabHeader VKAuthoredPost VKPrimaryActionArea VKGroup VKRow",
+  });
+  assert.deepEqual(diagnostics, []);
+});
+
+test("VK navigation modifier is the public use of the golden navigation chrome", () => {
+  const diagnostics = auditVKGoldenImplementation({
+    strategy: "mimicry", referenceProfile: "vk-ios", deliveryMode: "full",
+    applicability: { recipes: ["authoredFeed", "publicationEditor"], presentations: ["tab", "push"] },
+    swiftSource: "VKRootSurface VKTabHeader VKAuthoredPost VKPostActions .vkNavigation( VKModalChrome VKPrimaryActionArea VKGroup VKRow",
+  });
+  assert.deepEqual(diagnostics, []);
+});

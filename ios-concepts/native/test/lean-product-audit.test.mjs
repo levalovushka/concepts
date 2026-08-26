@@ -30,3 +30,14 @@ test("lean product audit rejects permission-only creation controls without real 
   assert.equal(problems.some(item => item.includes("generic capability control")), true);
   assert.equal(problems.some(item => item.includes("real platform effect is missing")), true);
 });
+
+test("full capability products cannot hide requests in one accesses screen", () => {
+  const capabilityHeavy = structuredClone(blueprint);
+  capabilityHeavy.deliveryMode = "full";
+  capabilityHeavy.navigation.screens.push({
+    id: "accesses", title: "Доступы", presentation: "push",
+    actionIds: capabilityHeavy.capabilities.map(item => item.actionId), entityIds: [],
+  });
+  const problems = auditLeanProduct({ blueprint: capabilityHeavy, manifest, swiftSource: "UIApplication.openSettingsURLString" });
+  assert.equal(problems.some(item => item.includes("not an accesses screen")), true);
+});

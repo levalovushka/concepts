@@ -1,0 +1,1195 @@
+{
+  "schemaVersion": 1,
+  "productId": "estafeta",
+  "targetProduct": "vkontakte",
+  "strategy": "mimicry",
+  "design": {
+    "referenceProfile": "vk-ios",
+    "tokens": {
+      "accent": "#0077FF",
+      "background": "#FFFFFF",
+      "groupedBackground": "#F2F3F5",
+      "fill": "#F2F3F5",
+      "separator": "#E7E8EC",
+      "textPrimary": "#000000",
+      "textSecondary": "#818C99",
+      "badge": "#FF3347",
+      "outgoingStart": "#4B8BF5",
+      "outgoingMiddle": "#A44BF5",
+      "outgoingEnd": "#F54BA4"
+    },
+    "iconPolicy": {
+      "productChrome": "lucide-assets",
+      "platformActions": "sf-symbols",
+      "version": "0.525.0",
+      "sourceManifest": "IconSources/lucide/0.525.0/manifest.json",
+      "tabRoles": {
+        "feed": "house",
+        "house-matters": "house",
+        "discovery": "search",
+        "messaging": "message-circle",
+        "short-video": "circle-play",
+        "infrastructure": "layout-grid",
+        "services": "menu"
+      }
+    }
+  },
+  "rootTabs": [
+    {
+      "screenId": "relay_feed",
+      "title": "Лента",
+      "icon": "feed"
+    },
+    {
+      "screenId": "discover",
+      "title": "Поиск",
+      "icon": "discovery"
+    },
+    {
+      "screenId": "create",
+      "title": "Создать",
+      "icon": "short-video"
+    },
+    {
+      "screenId": "messages",
+      "title": "Ответы",
+      "icon": "messaging"
+    },
+    {
+      "screenId": "services",
+      "title": "Профиль",
+      "icon": "services"
+    }
+  ],
+  "surfaces": [
+    {
+      "screenId": "relay_feed",
+      "title": "Эстафета",
+      "recipe": "authoredFeed",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "VKAuthoredPost",
+        "VKPostActions"
+      ],
+      "presentation": "tab",
+      "entityIds": [
+        "relay"
+      ],
+      "actions": [
+        {
+          "id": "open_relay",
+          "label": "Открыть эстафету",
+          "outcome": {
+            "type": "mutate",
+            "target": "relay_feed",
+            "reducer": {
+              "type": "update",
+              "stateField": "lastOpenedRelay",
+              "value": "current"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "lastOpenedRelay",
+            "value": "current"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "populated/default",
+        "empty",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "relay_feed",
+        "job": "Выполнить задачу экрана «Эстафета» в общем продуктовом цикле",
+        "primaryAction": "open_relay",
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Эстафета",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "turn",
+      "title": "Твой ход",
+      "recipe": "contributionEditor",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKModalChrome",
+        "VKGroup",
+        "VKPrimaryActionArea"
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [
+        "handoff"
+      ],
+      "actions": [
+        {
+          "id": "accept_turn",
+          "label": "Принять ход",
+          "outcome": {
+            "type": "mutate",
+            "target": "turn",
+            "reducer": {
+              "type": "update",
+              "stateField": "turnStatus",
+              "value": "accepted"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "turnStatus",
+            "value": "accepted"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "populated/default",
+        "error"
+      ],
+      "surfaceContract": {
+        "surface": "turn",
+        "job": "Выполнить задачу экрана «Твой ход» в общем продуктовом цикле",
+        "primaryAction": "accept_turn",
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Твой ход",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "chapter_result",
+      "title": "Продолжение",
+      "recipe": "completion",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKNavigationChrome",
+        "VKInlineNotice",
+        "VKPrimaryActionArea"
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [
+        "chapter"
+      ],
+      "actions": [
+        {
+          "id": "capture_chapter",
+          "label": "Снять продолжение",
+          "outcome": {
+            "type": "mutate",
+            "target": "chapter_result",
+            "reducer": {
+              "type": "create",
+              "collectionField": "chapters"
+            }
+          },
+          "effect": {
+            "type": "create",
+            "collectionField": "chapters"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "camera",
+              "requestMoment": "После нажатия «Снять продолжение» на принятом ходе",
+              "observableResult": "Новая глава показывает сохранённый снимок и автора продолжения",
+              "deniedFallback": "Сохранить принятый ход без медиа и вернуться к съёмке позже",
+              "stateField": "capturedMedia"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default",
+        "permission-denied"
+      ],
+      "surfaceContract": {
+        "surface": "chapter_result",
+        "job": "Выполнить задачу экрана «Продолжение» в общем продуктовом цикле",
+        "primaryAction": "capture_chapter",
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Продолжение",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "discover",
+      "title": "Найти",
+      "recipe": "socialDiscovery",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "VKGroup",
+        "VKRow"
+      ],
+      "presentation": "tab",
+      "entityIds": [
+        "chapter",
+        "relay",
+        "person"
+      ],
+      "actions": [
+        {
+          "id": "support_chapter",
+          "label": "Поддержать продолжение",
+          "outcome": {
+            "type": "mutate",
+            "target": "discover",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "supported"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "supported"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "capability_location",
+          "label": "Добавить место",
+          "outcome": {
+            "type": "system",
+            "target": "discover",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_location",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_location",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "location",
+              "requestMoment": "После явного действия «Добавить место» на соответствующей поверхности",
+              "observableResult": "Добавить место: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_location"
+            }
+          ]
+        },
+        {
+          "id": "capability_wifiinfo",
+          "label": "Проверить общую сеть",
+          "outcome": {
+            "type": "system",
+            "target": "discover",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_wifiinfo",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_wifiinfo",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "wifiinfo",
+              "requestMoment": "После явного действия «Проверить общую сеть» на соответствующей поверхности",
+              "observableResult": "Проверить общую сеть: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_wifiinfo"
+            }
+          ]
+        },
+        {
+          "id": "capability_tracking",
+          "label": "Настроить рекомендации",
+          "outcome": {
+            "type": "system",
+            "target": "discover",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_tracking",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_tracking",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "tracking",
+              "requestMoment": "После явного действия «Настроить рекомендации» на соответствующей поверхности",
+              "observableResult": "Настроить рекомендации: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_tracking"
+            }
+          ]
+        },
+        {
+          "id": "capability_associateddomains",
+          "label": "Открывать ссылки на эстафеты",
+          "outcome": {
+            "type": "system",
+            "target": "discover",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_associateddomains",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_associateddomains",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "associateddomains",
+              "requestMoment": "После явного действия «Открывать ссылки на эстафеты» на соответствующей поверхности",
+              "observableResult": "Открывать ссылки на эстафеты: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_associateddomains"
+            }
+          ]
+        },
+        {
+          "id": "capability_hotspot",
+          "label": "Подключиться к встрече",
+          "outcome": {
+            "type": "system",
+            "target": "discover",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_hotspot",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_hotspot",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "hotspot",
+              "requestMoment": "После явного действия «Подключиться к встрече» на соответствующей поверхности",
+              "observableResult": "Подключиться к встрече: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_hotspot"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default",
+        "empty"
+      ],
+      "surfaceContract": {
+        "surface": "discover",
+        "job": "Выполнить задачу экрана «Найти» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Найти",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "create",
+      "title": "Создать",
+      "recipe": "publicationEditor",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "VKGroup",
+        "VKPrimaryActionArea"
+      ],
+      "presentation": "tab",
+      "entityIds": [
+        "relay",
+        "chapter"
+      ],
+      "actions": [
+        {
+          "id": "start_relay",
+          "label": "Начать эстафету",
+          "outcome": {
+            "type": "mutate",
+            "target": "create",
+            "reducer": {
+              "type": "create",
+              "collectionField": "relays"
+            }
+          },
+          "effect": {
+            "type": "create",
+            "collectionField": "relays"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        },
+        {
+          "id": "capability_photos",
+          "label": "Выбрать из медиатеки",
+          "outcome": {
+            "type": "system",
+            "target": "create",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_photos",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_photos",
+            "value": "completed"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "photos",
+              "requestMoment": "После явного действия «Выбрать из медиатеки» на соответствующей поверхности",
+              "observableResult": "Выбрать из медиатеки: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_photos"
+            }
+          ]
+        },
+        {
+          "id": "capability_mic",
+          "label": "Записать голос",
+          "outcome": {
+            "type": "system",
+            "target": "create",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_mic",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_mic",
+            "value": "completed"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "mic",
+              "requestMoment": "После явного действия «Записать голос» на соответствующей поверхности",
+              "observableResult": "Записать голос: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_mic"
+            }
+          ]
+        },
+        {
+          "id": "capability_speech",
+          "label": "Расшифровать голос",
+          "outcome": {
+            "type": "system",
+            "target": "create",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_speech",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_speech",
+            "value": "completed"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "speech",
+              "requestMoment": "После явного действия «Расшифровать голос» на соответствующей поверхности",
+              "observableResult": "Расшифровать голос: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_speech"
+            }
+          ]
+        },
+        {
+          "id": "capability_audio",
+          "label": "Слушать продолжения",
+          "outcome": {
+            "type": "system",
+            "target": "create",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_audio",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_audio",
+            "value": "completed"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "audio",
+              "requestMoment": "После явного действия «Слушать продолжения» на соответствующей поверхности",
+              "observableResult": "Слушать продолжения: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_audio"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default",
+        "permission-denied"
+      ],
+      "surfaceContract": {
+        "surface": "create",
+        "job": "Выполнить задачу экрана «Создать» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Создать",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "messages",
+      "title": "Ответы",
+      "recipe": "conversationList",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "VKGroup",
+        "VKRow"
+      ],
+      "presentation": "tab",
+      "entityIds": [
+        "handoff",
+        "relay",
+        "person"
+      ],
+      "actions": [
+        {
+          "id": "pass_turn",
+          "label": "Передать ход",
+          "outcome": {
+            "type": "mutate",
+            "target": "messages",
+            "reducer": {
+              "type": "update",
+              "stateField": "nextParticipant",
+              "value": "selected"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "nextParticipant",
+            "value": "selected"
+          },
+          "placement": "composer",
+          "capabilities": []
+        },
+        {
+          "id": "capability_push",
+          "label": "Следить за эстафетой",
+          "outcome": {
+            "type": "system",
+            "target": "messages",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_push",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_push",
+            "value": "completed"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "push",
+              "requestMoment": "После явного действия «Следить за эстафетой» на соответствующей поверхности",
+              "observableResult": "Следить за эстафетой: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_push"
+            }
+          ]
+        },
+        {
+          "id": "capability_commnotif",
+          "label": "Включить важные ответы",
+          "outcome": {
+            "type": "system",
+            "target": "messages",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_commnotif",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_commnotif",
+            "value": "completed"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "commnotif",
+              "requestMoment": "После явного действия «Включить важные ответы» на соответствующей поверхности",
+              "observableResult": "Включить важные ответы: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_commnotif"
+            }
+          ]
+        },
+        {
+          "id": "capability_remotenotif",
+          "label": "Обновлять цепочки",
+          "outcome": {
+            "type": "system",
+            "target": "messages",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_remotenotif",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_remotenotif",
+            "value": "completed"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "remotenotif",
+              "requestMoment": "После явного действия «Обновлять цепочки» на соответствующей поверхности",
+              "observableResult": "Обновлять цепочки: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_remotenotif"
+            }
+          ]
+        },
+        {
+          "id": "capability_contacts",
+          "label": "Выбрать знакомого",
+          "outcome": {
+            "type": "system",
+            "target": "messages",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_contacts",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_contacts",
+            "value": "completed"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "contacts",
+              "requestMoment": "После явного действия «Выбрать знакомого» на соответствующей поверхности",
+              "observableResult": "Выбрать знакомого: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_contacts"
+            }
+          ]
+        },
+        {
+          "id": "capability_voip",
+          "label": "Позвонить участнику",
+          "outcome": {
+            "type": "system",
+            "target": "messages",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_voip",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_voip",
+            "value": "completed"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "voip",
+              "requestMoment": "После явного действия «Позвонить участнику» на соответствующей поверхности",
+              "observableResult": "Позвонить участнику: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_voip"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default",
+        "empty"
+      ],
+      "surfaceContract": {
+        "surface": "messages",
+        "job": "Выполнить задачу экрана «Ответы» в общем продуктовом цикле",
+        "primaryAction": "pass_turn",
+        "pattern": "tab",
+        "composition": [
+          "messages",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Ответы",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "messages",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "services",
+      "title": "Профиль",
+      "recipe": "ownedProfile",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "Avatar",
+        "VKGroup",
+        "VKRow"
+      ],
+      "presentation": "tab",
+      "entityIds": [
+        "person"
+      ],
+      "actions": [
+        {
+          "id": "open_settings",
+          "label": "Настройки приложения",
+          "outcome": {
+            "type": "mutate",
+            "target": "services",
+            "reducer": {
+              "type": "update",
+              "stateField": "profileDestination",
+              "value": "settings"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "profileDestination",
+            "value": "settings"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "populated/default",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "services",
+        "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Профиль",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "settings",
+      "title": "Настройки",
+      "recipe": "settings",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKNavigationChrome",
+        "VKGroup",
+        "VKRow"
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [
+        "relay",
+        "chapter",
+        "person",
+        "handoff"
+      ],
+      "actions": [
+        {
+          "id": "capability_fetch",
+          "label": "Освежать ленту",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_fetch",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_fetch",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "fetch",
+              "requestMoment": "После явного действия «Освежать ленту» на соответствующей поверхности",
+              "observableResult": "Освежать ленту: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_fetch"
+            }
+          ]
+        },
+        {
+          "id": "capability_bgtask",
+          "label": "Готовить подборку",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_bgtask",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_bgtask",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "bgtask",
+              "requestMoment": "После явного действия «Готовить подборку» на соответствующей поверхности",
+              "observableResult": "Готовить подборку: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_bgtask"
+            }
+          ]
+        },
+        {
+          "id": "capability_appgroups",
+          "label": "Поделиться черновиком",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_appgroups",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_appgroups",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "appgroups",
+              "requestMoment": "После явного действия «Поделиться черновиком» на соответствующей поверхности",
+              "observableResult": "Поделиться черновиком: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_appgroups"
+            }
+          ]
+        },
+        {
+          "id": "capability_keychain",
+          "label": "Сохранить защищённую сессию",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_keychain",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_keychain",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "keychain",
+              "requestMoment": "После явного действия «Сохранить защищённую сессию» на соответствующей поверхности",
+              "observableResult": "Сохранить защищённую сессию: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_keychain"
+            }
+          ]
+        },
+        {
+          "id": "capability_autofill",
+          "label": "Добавить быстрый вход",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_autofill",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_autofill",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "autofill",
+              "requestMoment": "После явного действия «Добавить быстрый вход» на соответствующей поверхности",
+              "observableResult": "Добавить быстрый вход: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_autofill"
+            }
+          ]
+        },
+        {
+          "id": "capability_faceid",
+          "label": "Защитить черновики",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_faceid",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_faceid",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "faceid",
+              "requestMoment": "После явного действия «Защитить черновики» на соответствующей поверхности",
+              "observableResult": "Защитить черновики: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_faceid"
+            }
+          ]
+        },
+        {
+          "id": "capability_calendar",
+          "label": "Запланировать ход",
+          "outcome": {
+            "type": "system",
+            "target": "settings",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_calendar",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_calendar",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "calendar",
+              "requestMoment": "После явного действия «Запланировать ход» на соответствующей поверхности",
+              "observableResult": "Запланировать ход: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_calendar"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default"
+      ],
+      "surfaceContract": {
+        "surface": "settings",
+        "job": "Выполнить задачу экрана «Настройки» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Настройки",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    }
+  ],
+  "invariants": [
+    "one-visible-control-per-action",
+    "object-attached-social-feedback",
+    "permission-from-owning-product-gesture",
+    "granted-and-denied-observable-outcomes",
+    "single-profile-entry",
+    "native-tabview-owns-liquid-glass",
+    "lucide-product-chrome-for-vk",
+    "shared-native-authentication"
+  ],
+  "contractId": "ui-3203c2b6c8f8c1c0"
+}

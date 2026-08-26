@@ -29,7 +29,8 @@ if (!compiled.ok) { for (const item of compiled.diagnostics) console.log(`✗ ${
 const swiftSource = sources(appDirectory, false);
 const uiTestDirectory = join(appDirectory, "UITests");
 const uiTestSource = existsSync(uiTestDirectory) ? sources(uiTestDirectory, true) : "";
-const runtimeSource = ["Permissions.swift", "AppLifecycle.swift"].map(file => readFileSync(join(nativeRoot, "Runtime", file), "utf8")).join("\n");
+const runtimeSource = ["Permissions.swift", "AppLifecycle.swift", "CapabilityOperations.swift"]
+  .map(file => readFileSync(join(nativeRoot, "Runtime", file), "utf8")).join("\n");
 const problems = auditLeanProduct({ blueprint, manifest: compiled.manifest, swiftSource, runtimeSource, uiTestSource });
 if (problems.length) {
   for (const problem of problems) console.log(`  ✗ ${problem}`);

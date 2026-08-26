@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "id": "estafeta",
+  "targetProduct": "vkontakte",
+  "strategy": "mimicry",
+  "capabilities": "all",
+  "product": {
+    "schemaVersion": 2,
+    "id": "estafeta",
+    "name": "Эстафета",
+    "thesis": "Знакомый человек передаёт небольшой выполнимый ход, участник показывает собственное продолжение и передаёт цепочку дальше.",
+    "audience": {
+      "who": "Друзья и знакомые, которым нравится делать небольшие творческие или полезные вещи вместе",
+      "need": "Не просто реагировать на чужой контент, а легко становиться автором следующего осмысленного продолжения"
+    },
+    "situation": "Человек видит в ленте короткую эстафету от знакомого, которую реально продолжить сегодня без долгой подготовки.",
+    "problem": "Обычные челленджи быстро превращаются в безличный поток публикаций, где неясно, чей сейчас ход и что стало продолжением конкретного друга.",
+    "mechanism": "Каждая эстафета хранит последовательность участников: принять можно только текущий ход, результат становится следующей главой, после чего автор выбирает знакомого для продолжения.",
+    "world": {
+      "entities": [
+        { "id": "person", "name": "Участник" },
+        { "id": "relay", "name": "Эстафета" },
+        { "id": "chapter", "name": "Продолжение" },
+        { "id": "handoff", "name": "Передача хода" }
+      ],
+      "actions": [
+        { "id": "open_relay", "label": "Открыть эстафету", "entityId": "relay", "outcome": "Человек видит текущий ход, условие и цепочку знакомых участников", "effect": { "type": "update", "stateField": "lastOpenedRelay", "value": "current" } },
+        { "id": "accept_turn", "label": "Принять ход", "entityId": "handoff", "outcome": "Текущий ход закрепляется за участником и открывает создание продолжения", "effect": { "type": "update", "stateField": "turnStatus", "value": "accepted" } },
+        { "id": "capture_chapter", "label": "Снять продолжение", "entityId": "chapter", "outcome": "Снятый результат становится новой видимой главой эстафеты", "effect": { "type": "create", "collectionField": "chapters" } },
+        { "id": "pass_turn", "label": "Передать ход", "entityId": "handoff", "outcome": "Следующий знакомый получает персональный ход с готовым продолжением", "effect": { "type": "update", "stateField": "nextParticipant", "value": "selected" } },
+        { "id": "support_chapter", "label": "Поддержать продолжение", "entityId": "chapter", "outcome": "Поддержка остаётся на конкретной главе и видна её автору", "effect": { "type": "toggle", "stateField": "supported" } },
+        { "id": "start_relay", "label": "Начать эстафету", "entityId": "relay", "outcome": "Новая эстафета с первым условием появляется у выбранного знакомого", "effect": { "type": "create", "collectionField": "relays" } }
+      ]
+    },
+    "coreLoop": {
+      "actionIds": ["open_relay", "accept_turn", "capture_chapter", "pass_turn"],
+      "returnReason": "Участник возвращается, чтобы увидеть ответ следующего знакомого и движение персонально переданной цепочки."
+    },
+    "returnReasons": [
+      "Знакомый принял переданный ход",
+      "В цепочке появилось новое продолжение",
+      "Ход вернулся через нескольких друзей с неожиданным развитием"
+    ],
+    "nonGoals": [
+      "Безличный каталог массовых челленджей",
+      "Соревнование по числу просмотров и публичный рейтинг участников"
+    ],
+    "proof": {
+      "steps": [
+        { "role": "entry", "actionId": "open_relay", "observable": "В ленте видны знакомый автор, условие и текущая цепочка эстафеты" },
+        { "role": "action", "actionId": "accept_turn", "observable": "Ход закреплён за человеком, а условие стало его конкретной задачей" },
+        { "role": "result", "actionId": "capture_chapter", "observable": "Собственное продолжение появилось новой главой в цепочке" }
+      ]
+    }
+  },
+  "sliceSurfaceIds": ["relay_feed", "turn", "chapter_result"],
+  "rootTabs": [
+    { "surfaceId": "relay_feed", "title": "Лента", "role": "feed" },
+    { "surfaceId": "discover", "title": "Поиск", "role": "discovery" },
+    { "surfaceId": "create", "title": "Создать", "role": "short-video" },
+    { "surfaceId": "messages", "title": "Ответы", "role": "messaging" },
+    { "surfaceId": "services", "title": "Профиль", "role": "services" }
+  ],
+  "surfaces": [
+    {
+      "id": "relay_feed", "role": "entry", "title": "Эстафета", "recipe": "authoredFeed",
+      "states": ["populated/default", "empty", "offline"], "actionIds": ["open_relay"],
+      "content": { "author": "Аня Коваль", "headline": "Найди во дворе что-то идеально круглое", "body": "Аня продолжила эстафету Саши и передала следующий ход тебе. В цепочке уже четыре знакомых." }
+    },
+    {
+      "id": "turn", "role": "action", "title": "Твой ход", "recipe": "contributionEditor",
+      "states": ["populated/default", "error"], "actionIds": ["accept_turn"],
+      "content": {
+        "headline": "Продолжить сегодня", "body": "Прими ход, чтобы закрепить его за собой и добавить следующую главу в цепочку друзей.",
+        "details": [
+          { "title": "Условие", "detail": "Найти идеально круглое во дворе", "icon": "scope" },
+          { "title": "Передала", "detail": "Аня Коваль · 12 минут назад", "icon": "person.crop.circle" },
+          { "title": "На выполнение", "detail": "До конца сегодняшнего дня", "icon": "clock" }
+        ]
+      }
+    },
+    {
+      "id": "chapter_result", "role": "result", "title": "Продолжение", "recipe": "completion",
+      "states": ["populated/default", "permission-denied"], "actionIds": ["capture_chapter"],
+      "content": {
+        "headline": "Теперь это твоя глава", "body": "Сними найденный объект — результат появится после главы Ани и сохранит связь со всей цепочкой.",
+        "summary": { "title": "Продолжение увидят участники", "detail": "После съёмки останется выбрать знакомого, которому перейдёт следующий ход." }
+      }
+    },
+    {
+      "id": "discover", "role": "support", "title": "Найти", "recipe": "socialDiscovery", "capabilityRole": "discover",
+      "states": ["populated/default", "empty"], "actionIds": ["support_chapter"],
+      "content": { "headline": "Эстафеты друзей", "body": "Продолжения знакомых и короткие цепочки, к которым можно присоединиться сегодня." }
+    },
+    {
+      "id": "create", "role": "support", "title": "Создать", "recipe": "publicationEditor", "capabilityRole": "create",
+      "states": ["populated/default", "permission-denied"], "actionIds": ["start_relay"],
+      "content": { "headline": "Новая эстафета", "body": "Задай одно простое условие, покажи первый пример и передай персональный ход знакомому." }
+    },
+    {
+      "id": "messages", "role": "support", "title": "Ответы", "recipe": "conversationList", "capabilityRole": "messages",
+      "states": ["populated/default", "empty"], "actionIds": ["pass_turn"],
+      "content": { "headline": "Ход принят", "body": "Здесь видно, кто продолжил цепочку, кому передан следующий ход и где ждут твоего ответа." }
+    },
+    {
+      "id": "services", "role": "support", "title": "Профиль", "recipe": "ownedProfile",
+      "states": ["populated/default", "offline"], "actionIds": [],
+      "content": { "headline": "Мои цепочки", "body": "Продолжения, приватные черновики, расписание и настройки участия собраны в одном месте." }
+    }
+  ],
+  "transitions": [
+    { "from": "relay_feed", "to": "turn", "actionId": "open_relay" },
+    { "from": "turn", "to": "chapter_result", "actionId": "accept_turn" },
+    { "from": "messages", "to": "relay_feed", "actionId": "pass_turn" }
+  ],
+  "capabilityOverrides": {
+    "camera": {
+      "actionId": "capture_chapter", "surfaceId": "chapter_result", "strengthensActionId": "capture_chapter",
+      "purpose": "Снять собственное продолжение и сразу сделать его новой главой знакомой эстафеты",
+      "requestMoment": "После нажатия «Снять продолжение» на принятом ходе",
+      "platformEffect": "Открыть системную камеру и сохранить полученный локальный снимок как медиа новой главы",
+      "fallback": "Сохранить принятый ход без медиа и вернуться к съёмке позже",
+      "testScenario": "Разрешить камеру, завершить системную съёмку и увидеть новую главу в цепочке",
+      "entityId": "chapter", "stateField": "capturedMedia", "proof": "Новая глава показывает сохранённый снимок и автора продолжения"
+    }
+  }
+}

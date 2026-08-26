@@ -48,7 +48,7 @@ export function verifyProductBlueprint(blueprint, request, target) {
   ));
   const screens = new Map((blueprint.navigation?.screens || []).map(item => [item.id, item]));
   const roots = blueprint.navigation?.rootTabs || [];
-  if (request.strategy === "mimicry" && request.targetProduct === "vkontakte" && roots.length !== 5) diagnostics.push(diagnostic(
+  if (request.deliveryMode !== "slice" && request.strategy === "mimicry" && request.targetProduct === "vkontakte" && roots.length !== 5) diagnostics.push(diagnostic(
     "blueprint.vk.tabs", "VK mimicry needs exactly five intentional root tabs", "navigation.rootTabs",
   ));
   for (const root of roots) if (!screens.has(root.screenId)) diagnostics.push(diagnostic(
@@ -112,7 +112,9 @@ export function verifyProductBlueprint(blueprint, request, target) {
       }
     }
   }
-  const requiredStates = new Set(["loading", "populated/default", "empty", "error", "offline"]);
+  const requiredStates = new Set(request.deliveryMode === "slice" || request.statePolicy === "applicable"
+    ? ["populated/default"]
+    : ["loading", "populated/default", "empty", "error", "offline"]);
   const stateByScreen = new Map((blueprint.states || []).map(item => [item.screenId, new Set(item.variants || [])]));
   for (const id of screens.keys()) for (const state of requiredStates) if (!stateByScreen.get(id)?.has(state)) diagnostics.push(diagnostic(
     "blueprint.state.missing", `Screen ${id} lacks ${state}`, `states.${id}`,
@@ -168,13 +170,22 @@ function screenRoles(screen) {
 
 export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blueprint.id}` } = {}) {
   blueprint = normalizeLeanActionEffects(structuredClone(blueprint));
-  const request = { targetProduct: blueprint.targetProduct, strategy: blueprint.strategy, capabilityPolicy: "all" };
+  const request = {
+    targetProduct: blueprint.targetProduct,
+    strategy: blueprint.strategy,
+    capabilityPolicy: blueprint.capabilityPolicy || "all",
+    deliveryMode: blueprint.deliveryMode || "full",
+    statePolicy: blueprint.statePolicy || "canonical",
+  };
   const target = resolveProductTarget(blueprint.targetProduct);
   const diagnostics = target ? verifyProductBlueprint(blueprint, request, target) : [diagnostic("blueprint.target", "Unknown target product", "targetProduct")];
   const reference = blueprint.strategy === "mimicry" ? resolveReferenceProfile(target?.mimicryProfileId) : null;
   if (diagnostics.length) return { ok: false, diagnostics, manifest: null };
   const bindingByKey = new Map(blueprint.capabilities.map(item => [item.key, item]));
-  const capabilityPlans = target.permissions.map(item => {
+  const targetCapabilities = request.capabilityPolicy === "all"
+    ? target.permissions
+    : target.permissions.filter(item => bindingByKey.has(item.key));
+  const capabilityPlans = targetCapabilities.map(item => {
     const plan = resolveCapability(item.key, { bundleId });
     const domains = bindingByKey.get(item.key)?.configuration?.domains;
     if (!plan || item.key !== "associateddomains" || !Array.isArray(domains)) return plan;
@@ -195,7 +206,7 @@ export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blue
   const actions = blueprint.world.actions.map(action => ({
     id: action.id,
     surface: actionSurface.get(action.id),
-    label: action.outcome,
+    label: action.label || action.outcome,
     outcome: action.effect.type === "navigate"
       ? { type: "navigate", target: `${action.effect.targetScreenId}${action.effect.targetState ? `#${action.effect.targetState}` : ""}` }
       : { type: action.effect.type === "system" ? "system" : "mutate", target: actionSurface.get(action.id), reducer: action.effect },
@@ -222,7 +233,7 @@ export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blue
     forbiddenFamilies: ["decorative-gradient", "colored-icon-placeholder", "unowned-selector", "detached-action-panel"],
     source: blueprint.strategy === "mimicry" ? "vk-ios-reference-ui-kit" : "native-system-kit",
   }));
-  const permissions = target.permissions.map(item => {
+  const permissions = targetCapabilities.map(item => {
     const binding = bindingByKey.get(item.key);
     return {
       key: item.key, capability: item.key, screen: actionSurface.get(binding.actionId),

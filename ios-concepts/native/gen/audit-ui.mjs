@@ -58,12 +58,19 @@ const conceptPath = join(NATIVE, "..", "concepts", slug, "concept.json");
 const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
 const sourceSpecPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
 const concept = existsSync(sourceSpecPath) ? JSON.parse(readFileSync(sourceSpecPath, "utf8")) : {};
+const productUIPath = join(NATIVE, "ProductUIContracts", `${slug}.json`);
+const productUI = existsSync(productUIPath) ? JSON.parse(readFileSync(productUIPath, "utf8")) : null;
 const compiledDesign = existsSync(sourceSpecPath) ? compileNativeConcept(concept).manifest?.design : null;
 const appSource = files.filter(([name]) => name.startsWith("apps/"))
   .map(([, path]) => readFileSync(path, "utf8")).join("\n");
 for (const item of auditVKGoldenImplementation({
   strategy: concept.native?.design?.strategy || compiledDesign?.strategy,
   referenceProfile: concept.native?.design?.referenceProfile || compiledDesign?.referenceProfile?.id,
+  deliveryMode: concept.deliveryMode || "full",
+  applicability: productUI ? {
+    recipes: productUI.surfaces.map(item => item.recipe),
+    presentations: (concept.navigation?.screens || []).map(item => item.presentation),
+  } : null,
   swiftSource: appSource,
 })) problems.push(`✗ VK golden ${item.code}: ${item.message}`);
 

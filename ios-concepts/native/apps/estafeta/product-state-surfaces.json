@@ -1,0 +1,17 @@
+{
+  "product": [
+    "relay_feed",
+    "turn",
+    "chapter_result",
+    "discover",
+    "create",
+    "messages",
+    "services",
+    "settings"
+  ],
+  "pendingProduct": [],
+  "system": [
+    "login"
+  ],
+  "extensionSurface": []
+}

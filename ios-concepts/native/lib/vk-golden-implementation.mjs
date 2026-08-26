@@ -11,14 +11,25 @@ const FORBIDDEN_PATTERNS = Object.freeze([
   Object.freeze({ pattern: /\.background\s*\(\s*\.(?:ultraThin|thin|regular|thick)Material/m, label: "ad-hoc glass material" }),
 ]);
 
-export function auditVKGoldenImplementation({ strategy, referenceProfile, swiftSource }) {
+export function auditVKGoldenImplementation({ strategy, referenceProfile, swiftSource, deliveryMode = "full", applicability = null }) {
   if (strategy !== "mimicry" || referenceProfile !== "vk-ios") return [];
   const diagnostics = [];
   for (const rule of FORBIDDEN_PATTERNS) if (rule.pattern.test(swiftSource)) diagnostics.push(Object.freeze({
     code: "vk-golden.forbidden-generic-composition",
     message: `VK mimicry cannot use ${rule.label}; compose the approved Looks/VK primitives instead`,
   }));
-  for (const primitive of REQUIRED_PRIMITIVES) if (!swiftSource.includes(primitive)) diagnostics.push(Object.freeze({
+  const requiredPrimitives = deliveryMode === "slice"
+    ? REQUIRED_PRIMITIVES.filter(item => !["VKPostActions", "VKNavigationChrome", "VKModalChrome"].includes(item))
+    : applicability ? REQUIRED_PRIMITIVES.filter(item => {
+      if (item === "VKPostActions") return applicability.recipes.some(recipe => ["authoredFeed", "authoredPostDetail"].includes(recipe));
+      if (item === "VKNavigationChrome") return applicability.presentations.includes("push");
+      if (item === "VKModalChrome") return applicability.recipes.some(recipe => ["publicationEditor", "contributionEditor"].includes(recipe));
+      return true;
+    }) : REQUIRED_PRIMITIVES;
+  for (const primitive of requiredPrimitives) if (
+    !swiftSource.includes(primitive)
+    && !(primitive === "VKNavigationChrome" && swiftSource.includes(".vkNavigation("))
+  ) diagnostics.push(Object.freeze({
     code: "vk-golden.primitive-missing",
     message: `VK mimicry is missing required golden primitive ${primitive}`,
   }));
