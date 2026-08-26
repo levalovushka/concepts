@@ -8,7 +8,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { compileCaptureCatalog, selectCaptureDrivers } from "../lib/capture-catalog.mjs";
 import { findIndistinguishableArtifacts, prepareShotArtifacts, shotArtifactDirectory } from "../lib/shot-artifacts.mjs";
 import { auditLightStatusBarScreenshot } from "../lib/capture-pixel-audit.mjs";
@@ -31,12 +31,12 @@ let manifest;
 if (reuseBuild && existsSync(reusableManifestPath)) {
   manifest = JSON.parse(readFileSync(reusableManifestPath, "utf8"));
 } else {
-  const conceptPath = join(NATIVE, "..", "concepts", slug, "concept.json");
-  if (!existsSync(conceptPath)) {
-    console.error(`нет legacy concept или свежего native manifest: ${slug}`);
+  const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
+  if (!existsSync(blueprintPath)) {
+    console.error(`нет Product Blueprint или свежего native manifest: ${slug}`);
     process.exit(1);
   }
-  const compiled = compileNativeConcept(JSON.parse(readFileSync(conceptPath, "utf8")));
+  const compiled = compileProductBlueprint(JSON.parse(readFileSync(blueprintPath, "utf8")));
   if (!compiled.ok) {
     console.error("концепт не прошёл native compiler");
     process.exit(1);

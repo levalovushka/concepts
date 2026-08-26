@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Генератор Xcode-проекта. Детерминированная часть пайплайна:
-// Info.plist из concept.json дословно + сборка из DesignSystem + Runtime + apps/<slug>.
+// Info.plist из Product Blueprint + сборка из DesignSystem + Runtime + apps/<slug>.
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, cpSync, existsSync, readdirSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { materializeLucideTabAssets } from "../lib/lucide-asset-catalog.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
@@ -15,12 +15,15 @@ const ROOT = join(NATIVE, "..");
 const slug = process.argv[2];
 if (!slug) { console.error("usage: gen-project.mjs <slug>"); process.exit(1); }
 
-const conceptPath = join(ROOT, "concepts", slug, "concept.json");
 const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
-const spec = JSON.parse(readFileSync(existsSync(conceptPath) ? conceptPath : blueprintPath, "utf8"));
+if (!existsSync(blueprintPath)) {
+  console.error(`missing Product Blueprint: ${blueprintPath}`);
+  process.exit(1);
+}
+const spec = JSON.parse(readFileSync(blueprintPath, "utf8"));
 const AppName = slug[0].toUpperCase() + slug.slice(1);
 const bundleId = `com.camo.${slug.replace(/[-_]/g, "")}`;
-const compiled = compileNativeConcept(spec, { bundleId });
+const compiled = compileProductBlueprint(spec, { bundleId });
 if (!compiled.ok) {
   for (const item of compiled.diagnostics) {
     console.error(`✗ ${item.code} · ${item.path}\n  ${item.message}`);
@@ -299,9 +302,8 @@ const P = {
   uiDependency: "CA000000000000000000002A",
 };
 const productUITests = join(NATIVE, "apps", slug, "UITests");
-const legacyUITest = join(NATIVE, "UITests", `${AppName}SmokeTests.swift`);
 const hasProductUITests = directoryContainsSwiftSources(productUITests);
-const hasSmokeTests = hasProductUITests || existsSync(legacyUITest);
+const hasSmokeTests = hasProductUITests;
 const smokeTarget = `${AppName}SmokeTests`;
 const smokeScheme = `${AppName}Smoke`;
 
@@ -560,8 +562,7 @@ mkdirSync(join(APP, "Assets.xcassets", "AppIcon.appiconset"), { recursive: true 
 mkdirSync(join(OUT, `${AppName}.xcodeproj`), { recursive: true });
 if (hasSmokeTests) {
   mkdirSync(join(OUT, smokeTarget), { recursive: true });
-  if (hasProductUITests) cpSync(productUITests, join(OUT, smokeTarget), { recursive: true });
-  else cpSync(legacyUITest, join(OUT, smokeTarget, `${AppName}SmokeTests.swift`));
+  cpSync(productUITests, join(OUT, smokeTarget), { recursive: true });
 }
 
 cpSync(join(NATIVE, "DesignSystem"), join(APP, "DesignSystem"), { recursive: true });

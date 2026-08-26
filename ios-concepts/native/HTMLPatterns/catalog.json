@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "sourceRepository": "https://github.com/levalovushka/concepts",
+  "sourceCommit": "9fac5e9",
+  "policy": "Preserve observed product and composition rules; never port HTML, CSS, DOM structure or web runtime into generated SwiftUI.",
+  "patterns": [
+    {
+      "id": "social-context-before-feed",
+      "recipes": ["authoredFeed", "socialDiscovery"],
+      "rule": "Lead with one compact social context or urgent object, then authored content with identity, metadata and object-attached proof.",
+      "evidence": [
+        { "concept": "druzya", "screen": "feed", "image": "screenshots/vk-social-feed.png", "observation": "A close-circle context appears before authored feed units." },
+        { "concept": "klass", "screen": "feed", "image": "screenshots/ok-social-feed.png", "observation": "Class context and an urgent read status precede the publication stream." }
+      ]
+    },
+    {
+      "id": "structured-social-progress",
+      "recipes": ["authoredFeed", "notificationCenter", "ownedProfile", "serviceMenu", "featureList"],
+      "rule": "Express status as product facts: who acted, how many completed, whose turn it is and what is due. Avoid generic activity labels.",
+      "evidence": [
+        { "concept": "klass", "screen": "feed", "image": "screenshots/ok-social-feed.png", "observation": "Read count and deadline are shown as one actionable fact." },
+        { "concept": "druzya", "screen": "feed", "image": "screenshots/vk-social-feed.png", "observation": "Relationship context explains why a feed item matters." }
+      ]
+    },
+    {
+      "id": "profile-from-topbar",
+      "recipes": ["authoredFeed", "socialDiscovery", "conversationList", "serviceMenu", "ownedProfile"],
+      "rule": "Treat profile as an identity destination opened from the root top bar; reserve the service tab for product features and utilities.",
+      "evidence": [
+        { "concept": "druzya", "screen": "profile", "image": "screenshots/vk-profile.png", "observation": "Identity entry and service navigation have different jobs." },
+        { "concept": "klass", "screen": "profile", "image": "screenshots/ok-profile.png", "observation": "The social root keeps identity separate from feature navigation." }
+      ]
+    },
+    {
+      "id": "media-continue-hero",
+      "recipes": ["mediaHome", "authoredFeed", "resultCompletion"],
+      "rule": "A media-led root begins with one resumable hero containing subject, progress and one next action; a semantic gray placeholder is valid when imagery is unavailable.",
+      "evidence": [
+        { "concept": "strochka", "screen": "program", "image": "screenshots/vk-music-home.png", "observation": "Continue, program identity and progress form one primary object." }
+      ]
+    },
+    {
+      "id": "persistent-media-context",
+      "recipes": ["musicPlayer", "mediaHome"],
+      "rule": "Keep the playing object, progress and next control together; queues and secondary collections follow the playback task.",
+      "evidence": [
+        { "concept": "strochka", "screen": "player", "image": "screenshots/vk-music-player.png", "observation": "Current piece, time progress and next item remain one context." }
+      ]
+    },
+    {
+      "id": "video-subject-detail",
+      "recipes": ["videoDetail", "mediaHome", "socialDiscovery"],
+      "rule": "Attach title, source identity, live or duration metadata, actions, comments and timeline to the same media subject.",
+      "evidence": [
+        { "concept": "liga", "screen": "watch", "image": "screenshots/vk-video-detail.png", "observation": "Live state, match identity, channel, comments and moments describe one event." },
+        { "concept": "liga", "screen": "home", "image": "screenshots/vk-video-home.png", "observation": "Live, moments and upcoming events use distinct content rhythms." }
+      ]
+    },
+    {
+      "id": "capability-inside-feature",
+      "recipes": ["publicationEditor", "conversationList", "socialDiscovery", "ownedProfile", "settings", "recipientPicker", "serviceMenu"],
+      "rule": "Reach every capability through a useful feature gesture, explain the value before the system prompt, show the granted result and preserve a denied fallback. Never create an access catalogue.",
+      "evidence": [
+        { "concept": "druzya", "screen": "sections", "observation": "Capabilities are distributed across creation, communication and discovery." },
+        { "concept": "klass", "screen": "sections", "observation": "Permission moments belong to complete user scenarios." }
+      ]
+    },
+    {
+      "id": "domain-first-differentiation",
+      "recipes": ["authoredFeed", "contributionEditor", "completion", "recipientPicker", "ownedProfile", "featureList"],
+      "rule": "Differentiate through the world model, causal loop and one signature domain composition; vary accent, type or radius only after product structure is clear.",
+      "evidence": [
+        { "concept": "today", "screen": "home", "image": "screenshots/differentiation-social-plan.png", "observation": "The shared-plan object drives the screen more strongly than decoration." },
+        { "concept": "dvor", "screen": "home", "image": "screenshots/differentiation-local-community.png", "observation": "House matter, audience and evidence form a product-specific object." }
+      ]
+    },
+    {
+      "id": "calm-native-grouping",
+      "recipes": ["ownedProfile", "settings", "featureList", "serviceMenu", "recipientPicker"],
+      "rule": "Separate content, navigation and capability actions into named groups with native row heights and breathing room; do not render one dense utility dump.",
+      "evidence": [
+        { "concept": "druzya", "screen": "settings", "image": "screenshots/vk-settings.png", "observation": "Related controls are grouped by user intent." },
+        { "concept": "strochka", "screen": "settings", "image": "screenshots/vk-music-settings.png", "observation": "Secondary utilities follow the primary product context." }
+      ]
+    }
+  ]
+}

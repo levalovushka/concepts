@@ -1,7 +1,7 @@
 import SwiftUI
 
-// Лаунчер держит библиотеку концептов: читает concept.json прямо из репозитория,
-// собирает и запускает их в симуляторе, показывает документацию.
+// Лаунчер читает скомпилированные Product Blueprints, собирает нативные приложения
+// и показывает документацию. Старый каталог HTML-концептов ему не нужен.
 
 struct Concept: Identifiable, Hashable {
     let slug: String
@@ -72,7 +72,7 @@ final class Library {
     private static func validProjectRoot(_ path: String) -> String? {
         let root = URL(fileURLWithPath: path, isDirectory: true)
         let fm = FileManager.default
-        let required = ["package.json", "concepts", "native"]
+        let required = ["package.json", "native/ProductBlueprints", "native/apps"]
         return required.allSatisfy { fm.fileExists(atPath: root.appendingPathComponent($0).path) }
             ? root.standardizedFileURL.path : nil
     }
@@ -97,7 +97,6 @@ final class Library {
         return fm.currentDirectoryPath
     }
 
-    var conceptsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("concepts") }
     var productBlueprintsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/ProductBlueprints") }
     var nativeDocumentationURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/Documentation") }
     var query: String = ""
@@ -108,7 +107,7 @@ final class Library {
             || $0.targetSet.localizedCaseInsensitiveContains(query)
         }
     }
-    /// Сайдбар: сверху полные SwiftUI adapters, ниже — контракты без реализации.
+    /// Сайдбар: сверху собранные приложения, ниже — контракты без реализации.
     var groups: [(String, [Concept])] {
         let ready = filtered.filter(\.hasNative).sorted { $0.name < $1.name }
         let rest = filtered.filter { !$0.hasNative }.sorted { $0.name < $1.name }
@@ -130,68 +129,21 @@ final class Library {
         var found: [Concept] = []
         let nativeSlugs = self.nativeSlugs
         let fm = FileManager.default
-        guard let dirs = try? fm.contentsOfDirectory(at: conceptsURL,
-                                                     includingPropertiesForKeys: nil) else {
-            concepts = []; return
-        }
-        for dir in dirs.sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
-            // служебные каталоги (_template, _prototype-*) в библиотеку не попадают
-            if dir.lastPathComponent.hasPrefix("_") { continue }
-            let specURL = dir.appendingPathComponent("concept.json")
-            guard let data = try? Data(contentsOf: specURL),
-                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-            else { continue }
-            found.append(parse(json, dir: dir, native: nativeSlugs))
-        }
-        let known = Set(found.map(\.slug))
         let blueprints = (try? fm.contentsOfDirectory(at: productBlueprintsURL, includingPropertiesForKeys: nil)) ?? []
         for url in blueprints.filter({ $0.lastPathComponent.hasSuffix("-vk.json") }).sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
             guard let data = try? Data(contentsOf: url),
                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let slug = json["id"] as? String,
-                  !known.contains(slug)
+                  let slug = json["id"] as? String
             else { continue }
             found.append(parseBlueprint(json, slug: slug, native: nativeSlugs.contains(slug)))
         }
         concepts = found
     }
 
-    private func parse(_ j: [String: Any], dir: URL, native: Set<String>) -> Concept {
-        let perms = (j["permissions"] as? [[String: Any]] ?? []).map {
-            PermissionRow(key: $0["key"] as? String ?? "",
-                          plist: $0["plist"] as? String ?? "",
-                          feature: $0["feature"] as? String ?? "",
-                          screen: $0["screen"] as? String ?? "",
-                          risk: $0["risk"] as? String ?? "low")
-        }
-        let docsDir = dir.appendingPathComponent("docs")
-        let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
-            .filter { $0.pathExtension == "md" }
-            .sorted { $0.lastPathComponent < $1.lastPathComponent }
-            .map { DocFile(name: $0.deletingPathExtension().lastPathComponent, url: $0) }
-        let brand = j["brand"] as? [String: Any]
-        let pos = j["positioning"] as? [String: Any]
-        return Concept(
-            slug: j["slug"] as? String ?? dir.lastPathComponent,
-            name: j["name"] as? String ?? dir.lastPathComponent,
-            tagline: j["tagline"] as? String ?? j["deck"] as? String ?? "",
-            targetSet: j["targetSet"] as? String ?? "",
-            mode: pos?["mode"] as? String ?? "differentiation",
-            accent: Color(hex: brand?["accent"] as? String ?? "#0077FF"),
-            screens: (j["screens"] as? [[String: Any]])?.count ?? 0,
-            permissions: perms,
-            docs: docs,
-            docsDirectory: docsDir,
-            hasNative: native.contains(j["slug"] as? String ?? dir.lastPathComponent),
-            path: dir.path
-        )
-    }
-
     private func parseBlueprint(_ j: [String: Any], slug: String, native: Bool) -> Concept {
         let appDir = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps/\(slug)")
         let compiledDocs = nativeDocumentationURL.appendingPathComponent(slug)
-        let legacyDocs = appDir.appendingPathComponent("Documentation")
-        let docsDir = FileManager.default.fileExists(atPath: compiledDocs.path) ? compiledDocs : legacyDocs
+        let docsDir = compiledDocs
         let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
             .filter { $0.pathExtension == "md" }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }

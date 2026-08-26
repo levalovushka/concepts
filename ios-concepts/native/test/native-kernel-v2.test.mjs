@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import test from "node:test";
 import { compileNativeKernelV2, compileNativeSliceBlueprintV2 } from "../lib/native-kernel-v2.mjs";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { createProductCoreArtifact } from "../lib/product-core-v2.mjs";
 import { compileCapabilityPlanV2 } from "../lib/capability-plan-v2.mjs";
-import { portfolio, strongCore } from "../fixtures/pipeline-v2/strong-product.mjs";
+import { portfolio, strongCore } from "../fixtures/native-pipeline/strong-product.mjs";
 
 const product = createProductCoreArtifact({ request: { id: "native-kernel-test" }, core: strongCore, portfolio }).artifact;
 const capability = compileCapabilityPlanV2({
@@ -86,7 +86,7 @@ test("capability dispatch uses runtime keys instead of a brittle Swift static-me
 
 test("vertical slice compiles into the existing deterministic Xcode manifest without the full target capability pool", () => {
   const blueprint = compileNativeSliceBlueprintV2({ productCoreArtifact: product, capabilityPlan: capability, sliceContract: slice });
-  const compiled = compileNativeConcept(blueprint, { bundleId: "com.camo.neighbourpromises" });
+  const compiled = compileProductBlueprint(blueprint, { bundleId: "com.camo.neighbourpromises" });
   assert.equal(compiled.ok, true, compiled.diagnostics.map(item => `${item.code}: ${item.message}`).join("\n"));
   assert.deepEqual(compiled.manifest.permissions.map(item => item.key), ["camera"]);
   assert.equal(compiled.manifest.surfaces.length, 3);

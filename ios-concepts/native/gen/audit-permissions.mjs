@@ -6,24 +6,21 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { countCapabilityRequestHits } from "../lib/capability-source-detection.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const nativeRoot = join(here, "..");
-const projectRoot = join(nativeRoot, "..");
 const slug = process.argv[2];
 if (!slug) {
   console.error("usage: audit-permissions.mjs <slug>");
   process.exit(1);
 }
 
-const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
 const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
-const specPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
-if (!existsSync(specPath)) { console.error(`missing concept or Product Blueprint for ${slug}`); process.exit(1); }
-const spec = JSON.parse(readFileSync(specPath, "utf8"));
-const compiled = compileNativeConcept(spec);
+if (!existsSync(blueprintPath)) { console.error(`missing Product Blueprint for ${slug}`); process.exit(1); }
+const spec = JSON.parse(readFileSync(blueprintPath, "utf8"));
+const compiled = compileProductBlueprint(spec);
 const problems = compiled.diagnostics
   .filter(item => item.severity === "error")
   .map(item => `✗ spec ${item.code}: ${item.message}`);

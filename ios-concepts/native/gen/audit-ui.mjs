@@ -19,7 +19,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { auditVKGoldenImplementation } from "../lib/vk-golden-implementation.mjs";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
@@ -54,13 +54,11 @@ const legacyNames = existsSync(legacyPath)
 const problems = [];
 const legacyUse = {};
 
-const conceptPath = join(NATIVE, "..", "concepts", slug, "concept.json");
 const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
-const sourceSpecPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
-const concept = existsSync(sourceSpecPath) ? JSON.parse(readFileSync(sourceSpecPath, "utf8")) : {};
+const concept = existsSync(blueprintPath) ? JSON.parse(readFileSync(blueprintPath, "utf8")) : {};
 const productUIPath = join(NATIVE, "ProductUIContracts", `${slug}.json`);
 const productUI = existsSync(productUIPath) ? JSON.parse(readFileSync(productUIPath, "utf8")) : null;
-const compiledDesign = existsSync(sourceSpecPath) ? compileNativeConcept(concept).manifest?.design : null;
+const compiledDesign = existsSync(blueprintPath) ? compileProductBlueprint(concept).manifest?.design : null;
 const appSource = files.filter(([name]) => name.startsWith("apps/"))
   .map(([, path]) => readFileSync(path, "utf8")).join("\n");
 for (const item of auditVKGoldenImplementation({

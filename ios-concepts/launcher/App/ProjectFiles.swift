@@ -11,13 +11,23 @@ enum ProjectFileIndex {
     static func files(for concept: Concept, root: String) -> [ProjectFile] {
         let rootURL = URL(fileURLWithPath: root, isDirectory: true)
         let locations = [
-            rootURL.appendingPathComponent("concepts/\(concept.slug)"),
+            rootURL.appendingPathComponent("native/specs/\(concept.slug).json"),
+            rootURL.appendingPathComponent("native/ProductBlueprints/\(concept.slug)-vk.json"),
+            rootURL.appendingPathComponent("native/ProductUIContracts/\(concept.slug).json"),
+            rootURL.appendingPathComponent("native/Documentation/\(concept.slug)"),
             rootURL.appendingPathComponent("native/apps/\(concept.slug)"),
             rootURL.appendingPathComponent("native/build/\(concept.slug)"),
         ]
         let ignored = ["build/Debug-", "DerivedData", "SmokeDerivedData", ".xcresult", ".DS_Store"]
         var result: [ProjectFile] = []
         for location in locations where FileManager.default.fileExists(atPath: location.path) {
+            var isDirectory: ObjCBool = false
+            FileManager.default.fileExists(atPath: location.path, isDirectory: &isDirectory)
+            if !isDirectory.boolValue {
+                let relative = location.path.replacingOccurrences(of: rootURL.path + "/", with: "")
+                result.append(ProjectFile(url: location, relativePath: relative))
+                continue
+            }
             guard let enumerator = FileManager.default.enumerator(
                 at: location,
                 includingPropertiesForKeys: [.isRegularFileKey],

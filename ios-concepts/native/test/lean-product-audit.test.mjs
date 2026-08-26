@@ -1,17 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { auditLeanProduct } from "../lib/lean-product-audit.mjs";
 
-const blueprint = JSON.parse(readFileSync(new URL("../ProductBlueprints/circles-vk.json", import.meta.url), "utf8"));
-const manifest = compileNativeConcept(blueprint).manifest;
-
-test("lean product audit rejects the original comment-to-generic-post regression", () => {
-  const bad = `onComment: { nav.push(CirclesRoute.post(current)) }`;
-  const problems = auditLeanProduct({ blueprint, manifest, swiftSource: bad });
-  assert.equal(problems.some(item => item.includes("feed.open_comments")), true);
-});
+const blueprint = JSON.parse(readFileSync(new URL("../ProductBlueprints/estafeta-vk.json", import.meta.url), "utf8"));
+const manifest = compileProductBlueprint(blueprint).manifest;
 
 test("lean product audit rejects permission-only creation controls without real outcomes", () => {
   const bad = `

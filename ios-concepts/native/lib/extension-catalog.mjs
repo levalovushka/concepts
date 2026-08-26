@@ -43,14 +43,13 @@ final class NotificationService: UNNotificationServiceExtension {
       { key: "keychain-access-groups", value: [`$(AppIdentifierPrefix)${bundleId}.shared`] },
     ],
     sourceFile: "CredentialProviderViewController.swift",
-    source: ({ productName, bundleId, slug }) => {
-      const house = slug === "dvor";
-      const title = house ? "Доступы дома" : `Пароли · ${productName}`;
-      const firstTitle = house ? "Домофон · квартира 48" : `Аккаунт · ${productName}`;
-      const secondTitle = house ? "Гостевая сеть · Dvor-Guest" : "Резервный аккаунт";
-      const firstUser = house ? "Квартира 48" : "Основной аккаунт";
-      const secondUser = house ? "Dvor-Guest" : "Резервный аккаунт";
-      const keychainService = `${bundleId}.${house ? "house-access" : "credentials"}`;
+    source: ({ productName, bundleId }) => {
+      const title = `Пароли · ${productName}`;
+      const firstTitle = `Аккаунт · ${productName}`;
+      const secondTitle = "Резервный аккаунт";
+      const firstUser = "Основной аккаунт";
+      const secondUser = "Резервный аккаунт";
+      const keychainService = `${bundleId}.credentials`;
       return `import AuthenticationServices
 import Security
 import UIKit
@@ -196,10 +195,8 @@ final class ShareViewController: UIViewController {
     frameworks: ["SwiftUI", "WidgetKit"],
     sourceFile: "ProductWidget.swift",
     source: ({ productName, slug }) => {
-      const title = slug === "looks" ? "Образ дня" : productName;
-      const detail = slug === "looks"
-        ? "Соберите сочетание из сохранённых вещей"
-        : "Актуальные данные доступны в приложении";
+      const title = productName;
+      const detail = "Актуальные данные доступны в приложении";
       return `import SwiftUI
 import WidgetKit
 

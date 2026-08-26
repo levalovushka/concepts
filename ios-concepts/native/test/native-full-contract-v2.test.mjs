@@ -3,7 +3,7 @@ import test from "node:test";
 import { verifyNativeFullContractV2 } from "../lib/native-full-contract-v2.mjs";
 import { createProductCoreArtifact } from "../lib/product-core-v2.mjs";
 import { compileCapabilityPlanV2 } from "../lib/capability-plan-v2.mjs";
-import { portfolio, strongCapabilityProposal, strongCore, strongSlice } from "../fixtures/pipeline-v2/strong-product.mjs";
+import { portfolio, strongCapabilityProposal, strongCore, strongSlice } from "../fixtures/native-pipeline/strong-product.mjs";
 
 const productCoreArtifact = createProductCoreArtifact({ request: { id: "full-contract-test" }, core: strongCore, portfolio }).artifact;
 const capabilityPlan = compileCapabilityPlanV2({

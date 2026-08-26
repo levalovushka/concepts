@@ -1,68 +1,46 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { verifyNativeDelivery } from "../lib/native-delivery.mjs";
+import { join } from "node:path";
+import test from "node:test";
+import { compileCapabilityPlanV2 } from "../lib/capability-plan-v2.mjs";
+import { createProductCoreArtifact } from "../lib/product-core-v2.mjs";
+import { materializeNativeConcept } from "../lib/native-delivery.mjs";
+import { portfolio, strongCapabilityProposal, strongCore, strongFullContract, strongSlice } from "../fixtures/native-pipeline/strong-product.mjs";
 
-function concept() {
-  return {
-    native: { navigation: { tabs: [{ id: "home", systemImage: "house" }] }, deliveryIdentity: {
-      coreSurfaces: ["home"], requiredVocabulary: ["питомец", "прогул"],
-      forbiddenVocabulary: ["тренч"], firstFrame: { surface: "home", mustExpose: ["прогул"] },
-    } },
-    ux: { fixtures: [{ surface: "home", state: "default", data: { headline: "Питомец ищет прогулку рядом" } }] },
-  };
+function contracts() {
+  const productCore = createProductCoreArtifact({ request: { id: "adapter-test" }, core: strongCore, portfolio }).artifact;
+  const capabilityPlan = compileCapabilityPlanV2({
+    productCoreArtifact: productCore, target: { permissions: [{ key: "camera" }] },
+    proposal: strongCapabilityProposal, bundleId: "com.camo.neighbourpromises",
+  }).plan;
+  return { productCore, capabilityPlan, sliceContract: strongSlice };
 }
 
-test("native delivery rejects a specification viewer as production UI", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct App { var body: some View { ManifestConceptRootView() } }\n");
-  const result = verifyNativeDelivery(concept(), directory);
-  assert.equal(result.ok, false);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.generic-renderer.forbidden"), true);
+test("materializer owns complete compiler-generated output and refuses foreign app sources", () => {
+  const projectRoot = mkdtempSync(join(tmpdir(), "camo-materializer-"));
+  const output = materializeNativeConcept({ projectRoot, ...contracts(), fullContract: strongFullContract });
+  assert.equal(output.documentationReceipt.passed, true);
+  assert.equal(JSON.parse(readFileSync(join(output.paths.appDirectory, "capture.json"))).schemaVersion, 1);
+  assert.match(
+    readFileSync(join(output.paths.appDirectory, "NativeV2ProductStore.swift"), "utf8"),
+    /permissions\.request\(PermissionKey\(rawValue: "camera"\)\)/,
+  );
+  writeFileSync(join(output.paths.appDirectory, ".camo-native-pipeline.json"), "{}\n");
+  assert.throws(
+    () => materializeNativeConcept({ projectRoot, ...contracts(), fullContract: strongFullContract }),
+    /ownership marker/,
+  );
 });
 
-test("differentiation cannot silently inherit the VK product shell", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct TodayHome: View { var body: some View { VKTabHeader(title: \"Сегодня\") {}.nativeSurface(\"home\") } }\n");
-  const input = concept();
-  input.native.design = { strategy: "differentiation" };
-  const result = verifyNativeDelivery(input, directory);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.differentiation.reference-shell-forbidden"), true);
-});
-
-test("native delivery fails closed on cross-product fixtures and unrealized core surfaces", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct TailsHome: View { var body: some View { Text(\"Хвосты\") } }\n");
-  const input = concept();
-  input.ux.fixtures[0].data.headline = "Тренч для питомца";
-  const result = verifyNativeDelivery(input, directory);
-  assert.equal(result.ok, false);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.fixture.cross-product-contamination"), true);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.core-surface.unrealized"), true);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.first-frame.promise-missing"), true);
-});
-
-test("owned product realization passes through the small delivery interface", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct TailsHome: View { var body: some View { Text(\"Прогулка\").nativeSurface(\"home\") } }\n");
-  const result = verifyNativeDelivery(concept(), directory);
-  assert.equal(result.ok, true, JSON.stringify(result.diagnostics));
-});
-
-test("native delivery rejects placeholder tab symbols", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct Home: View { var body: some View { Text(\"Прогулка\").nativeSurface(\"home\") } }\n");
-  const input = concept();
-  input.native.navigation.tabs[0].systemImage = "circle";
-  const result = verifyNativeDelivery(input, directory);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.navigation.placeholder-icon"), true);
-});
-
-test("native delivery rejects a raw permission pre-prompt in the first frame", () => {
-  const directory = mkdtempSync(join(tmpdir(), "camo-delivery-"));
-  writeFileSync(join(directory, "App.swift"), "struct Home: View { var body: some View { NativeCapabilityControls(surfaceID: \"home\").nativeSurface(\"home\") } }\n");
-  const result = verifyNativeDelivery(concept(), directory);
-  assert.equal(result.diagnostics.some(item => item.code === "delivery.first-frame.permission-preprompt"), true);
+test("full materializer replaces preview tabs with five contracted roots and explicit state captures", () => {
+  const projectRoot = mkdtempSync(join(tmpdir(), "camo-full-"));
+  const output = materializeNativeConcept({ projectRoot, ...contracts(), fullContract: strongFullContract });
+  assert.equal(output.blueprint.deliveryMode, "full");
+  assert.equal(output.blueprint.navigation.rootTabs.length, 5);
+  assert.equal(output.kernel.captureCatalog.scope, "full-expansion");
+  assert.deepEqual(
+    output.captureCatalog.drivers.map(item => item.id),
+    strongFullContract.verification.captures.map(item => item.id),
+  );
 });

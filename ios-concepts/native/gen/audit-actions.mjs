@@ -2,25 +2,22 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { auditActionBindings } from "../lib/action-binding-audit.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const nativeRoot = join(here, "..");
-const projectRoot = join(nativeRoot, "..");
 const slug = process.argv[2];
 if (!slug) { console.error("usage: audit-actions.mjs <slug>"); process.exit(1); }
 
-const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
 const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
-const specPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
 const appDir = join(nativeRoot, "apps", slug);
-if (!existsSync(specPath) || !existsSync(appDir)) {
-  console.error(`missing concept or native app for ${slug}`);
+if (!existsSync(blueprintPath) || !existsSync(appDir)) {
+  console.error(`missing Product Blueprint or native app for ${slug}`);
   process.exit(1);
 }
-const concept = JSON.parse(readFileSync(specPath, "utf8"));
-const compiled = compileNativeConcept(concept);
+const blueprint = JSON.parse(readFileSync(blueprintPath, "utf8"));
+const compiled = compileProductBlueprint(blueprint);
 function swiftSources(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     const path = join(directory, entry.name);

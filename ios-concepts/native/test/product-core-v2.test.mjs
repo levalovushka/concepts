@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createProductCoreArtifact, validateProductCoreV2, validateProductPortfolio } from "../lib/product-core-v2.mjs";
-import { portfolio, strongCore } from "../fixtures/pipeline-v2/strong-product.mjs";
+import { portfolio, strongCore } from "../fixtures/native-pipeline/strong-product.mjs";
 
 test("Product Core v2 closes the product mechanism before permissions or screens", () => {
   assert.deepEqual(validateProductCoreV2(strongCore), []);
