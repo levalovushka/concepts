@@ -14,7 +14,7 @@ final class EstafetaFullTests: XCTestCase {
         app.buttons["action.turn.accept_turn"].tap()
         app.buttons["action.chapter_result.capture_chapter"].tap()
         let result = app.descendants(matching: .any)
-            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.chapter_result"))
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.handoff"))
             .firstMatch
         XCTAssertTrue(result.exists)
     }
@@ -23,11 +23,89 @@ final class EstafetaFullTests: XCTestCase {
         let app = XCUIApplication()
         app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
 
-        app.launchArguments = ["-shot", "messages", "-state", "populated/default"]
+        app.launchArguments = ["-shot", "handoff", "-state", "populated/default"]
         app.launch()
-        app.buttons["action.messages.pass_turn"].tap()
+        app.buttons["action.handoff.pass_turn"].tap()
         let result = app.descendants(matching: .any)
             .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.relay_feed"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenReply() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "messages", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.messages.open_reply"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.handoff"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenProfile() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "relay_feed", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.relay_feed.open_profile"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.profile"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenActiveRelays() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "services", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.services.open_active_relays"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.active_relays"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenDrafts() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "services", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.services.open_drafts"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.drafts"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenSchedule() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "services", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.services.open_schedule"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.schedule"))
+            .firstMatch
+        XCTAssertTrue(result.exists)
+    }
+
+    func testJourneyNavigationOpenSettings() {
+        let app = XCUIApplication()
+        app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+
+        app.launchArguments = ["-shot", "profile", "-state", "populated/default"]
+        app.launch()
+        app.buttons["action.profile.open_settings"].tap()
+        let result = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.settings"))
             .firstMatch
         XCTAssertTrue(result.exists)
     }
@@ -40,7 +118,13 @@ final class EstafetaFullTests: XCTestCase {
             app.launchArguments = ["-shot", "chapter_result", "-state", "populated/default"]
             app.launch()
             app.buttons["action.chapter_result.capture_chapter"].tap()
-            XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.camera.\(answer)"].waitForExistence(timeout: 2))
+            if answer == "granted" {
+                XCTAssertTrue(app.descendants(matching: .any)
+                    .matching(NSPredicate(format: "identifier BEGINSWITH %@", "surface.handoff"))
+                    .firstMatch.waitForExistence(timeout: 2))
+            } else {
+                XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.camera.denied"].waitForExistence(timeout: 2))
+            }
             app.terminate()
         }
     }
@@ -97,6 +181,32 @@ final class EstafetaFullTests: XCTestCase {
         }
     }
 
+    func testPermissionKeychainGrantedAndDenied() {
+        for answer in ["granted", "denied"] {
+            let app = XCUIApplication()
+            app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+            app.launchEnvironment["NATIVE_UI_TEST_PERMISSION_KEYCHAIN"] = answer
+            app.launchArguments = ["-shot", "profile", "-state", "populated/default"]
+            app.launch()
+            app.buttons["action.profile.capability_keychain"].tap()
+            XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.keychain.\(answer)"].waitForExistence(timeout: 2))
+            app.terminate()
+        }
+    }
+
+    func testPermissionCalendarGrantedAndDenied() {
+        for answer in ["granted", "denied"] {
+            let app = XCUIApplication()
+            app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
+            app.launchEnvironment["NATIVE_UI_TEST_PERMISSION_CALENDAR"] = answer
+            app.launchArguments = ["-shot", "handoff", "-state", "populated/default"]
+            app.launch()
+            app.buttons["action.handoff.capability_calendar"].tap()
+            XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.calendar.\(answer)"].waitForExistence(timeout: 2))
+            app.terminate()
+        }
+    }
+
     func testRootTabsStayVisibleInCapturedStates() {
         let app = XCUIApplication()
         app.launchEnvironment["NATIVE_UI_TESTING"] = "1"
@@ -106,7 +216,7 @@ final class EstafetaFullTests: XCTestCase {
         XCTAssertTrue(app.tabBars.buttons["Поиск"].isHittable)
         XCTAssertTrue(app.tabBars.buttons["Создать"].isHittable)
         XCTAssertTrue(app.tabBars.buttons["Ответы"].isHittable)
-        XCTAssertTrue(app.tabBars.buttons["Профиль"].isHittable)
+        XCTAssertTrue(app.tabBars.buttons["Ещё"].isHittable)
     }
 
 }

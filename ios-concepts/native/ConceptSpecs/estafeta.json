@@ -28,8 +28,13 @@
         { "id": "accept_turn", "label": "Принять ход", "entityId": "handoff", "outcome": "Текущий ход закрепляется за участником и открывает создание продолжения", "effect": { "type": "update", "stateField": "turnStatus", "value": "accepted" } },
         { "id": "capture_chapter", "label": "Снять продолжение", "entityId": "chapter", "outcome": "Снятый результат становится новой видимой главой эстафеты", "effect": { "type": "create", "collectionField": "chapters" } },
         { "id": "pass_turn", "label": "Передать ход", "entityId": "handoff", "outcome": "Следующий знакомый получает персональный ход с готовым продолжением", "effect": { "type": "update", "stateField": "nextParticipant", "value": "selected" } },
+        { "id": "open_reply", "label": "Открыть ответ", "entityId": "handoff", "outcome": "Открывается готовое продолжение и выбор следующего знакомого", "effect": { "type": "update", "stateField": "replyStatus", "value": "opened" } },
         { "id": "support_chapter", "label": "Поддержать продолжение", "entityId": "chapter", "outcome": "Поддержка остаётся на конкретной главе и видна её автору", "effect": { "type": "toggle", "stateField": "supported" } },
         { "id": "start_relay", "label": "Начать эстафету", "entityId": "relay", "outcome": "Новая эстафета с первым условием появляется у выбранного знакомого", "effect": { "type": "create", "collectionField": "relays" } }
+        ,{ "id": "open_profile", "label": "Открыть профиль", "entityId": "person", "outcome": "Открывается личный профиль участника", "effect": { "type": "update", "stateField": "profileVisible", "value": "true" } }
+        ,{ "id": "open_active_relays", "label": "Активные эстафеты", "entityId": "relay", "outcome": "Открывается список цепочек, где ещё идёт ход", "effect": { "type": "update", "stateField": "relayFilter", "value": "active" } }
+        ,{ "id": "open_drafts", "label": "Черновики", "entityId": "chapter", "outcome": "Открываются незаконченные главы", "effect": { "type": "update", "stateField": "chapterFilter", "value": "drafts" } }
+        ,{ "id": "open_schedule", "label": "Мои сроки", "entityId": "handoff", "outcome": "Открываются принятые ходы и сроки", "effect": { "type": "update", "stateField": "scheduleVisible", "value": "true" } }
       ]
     },
     "coreLoop": {
@@ -59,13 +64,13 @@
     { "surfaceId": "discover", "title": "Поиск", "role": "discovery" },
     { "surfaceId": "create", "title": "Создать", "role": "short-video" },
     { "surfaceId": "messages", "title": "Ответы", "role": "messaging" },
-    { "surfaceId": "services", "title": "Профиль", "role": "services" }
+    { "surfaceId": "services", "title": "Ещё", "role": "services" }
   ],
   "surfaces": [
     {
       "id": "relay_feed", "role": "entry", "title": "Эстафета", "recipe": "authoredFeed",
-      "states": ["populated/default", "empty", "offline"], "actionIds": ["open_relay"],
-      "content": { "author": "Аня Коваль", "headline": "Найди во дворе что-то идеально круглое", "body": "Аня продолжила эстафету Саши и передала следующий ход тебе. В цепочке уже четыре знакомых." }
+      "states": ["populated/default", "empty", "offline"], "actionIds": ["open_relay", "open_profile"],
+      "content": { "author": "Аня Коваль", "headline": "Найди во дворе что-то идеально круглое", "body": "Аня добавила свою главу и передала следующий ход тебе. В цепочке уже четыре знакомых.", "mediaPlaceholder": "Продолжение Ани" }
     },
     {
       "id": "turn", "role": "action", "title": "Твой ход", "recipe": "contributionEditor",
@@ -84,6 +89,7 @@
       "states": ["populated/default", "permission-denied"], "actionIds": ["capture_chapter"],
       "content": {
         "headline": "Теперь это твоя глава", "body": "Сними найденный объект — результат появится после главы Ани и сохранит связь со всей цепочкой.",
+        "mediaPlaceholder": "Твоя глава появится здесь",
         "summary": { "title": "Продолжение увидят участники", "detail": "После съёмки останется выбрать знакомого, которому перейдёт следующий ход." }
       }
     },
@@ -99,19 +105,58 @@
     },
     {
       "id": "messages", "role": "support", "title": "Ответы", "recipe": "conversationList", "capabilityRole": "messages",
-      "states": ["populated/default", "empty"], "actionIds": ["pass_turn"],
+      "states": ["populated/default", "empty"], "actionIds": ["open_reply"],
       "content": { "headline": "Ход принят", "body": "Здесь видно, кто продолжил цепочку, кому передан следующий ход и где ждут твоего ответа." }
     },
     {
-      "id": "services", "role": "support", "title": "Профиль", "recipe": "ownedProfile",
-      "states": ["populated/default", "offline"], "actionIds": [],
-      "content": { "headline": "Мои цепочки", "body": "Продолжения, приватные черновики, расписание и настройки участия собраны в одном месте." }
+      "id": "services", "role": "support", "title": "Меню", "recipe": "serviceMenu",
+      "states": ["populated/default", "offline"], "actionIds": ["open_active_relays", "open_drafts", "open_schedule"],
+      "content": {
+        "headline": "Всё для участия",
+        "body": "Вернись к активным цепочкам, допиши черновик или проверь срок.",
+        "details": [
+          { "title": "Сохранённое", "detail": "8 глав и цепочек", "icon": "bookmark.fill" }
+        ]
+      }
+    },
+    {
+      "id": "profile", "role": "support", "title": "Профиль", "recipe": "ownedProfile",
+      "states": ["populated/default"], "actionIds": [],
+      "content": {
+        "author": "Тимур Орлов", "headline": "@timur.orlov", "sectionTitle": "Мои эстафеты",
+        "body": "Продолжаю идеи друзей и передаю ход тем, кто точно подхватит.",
+        "details": [
+          { "title": "Идеально круглое", "detail": "Ход у Лены · 4 главы", "icon": "circle.dashed" },
+          { "title": "Кадр одним цветом", "detail": "Твой черновик сохранён", "icon": "photo.on.rectangle" }
+        ]
+      }
+    },
+    { "id": "active_relays", "role": "support", "title": "Активные", "recipe": "featureList", "states": ["populated/default"], "actionIds": [], "content": { "headline": "3 эстафеты в движении", "body": "Видно, у кого сейчас ход и когда появилась последняя глава.", "details": [{ "title": "Идеально круглое", "detail": "Ход у Лены · 4 главы", "icon": "circle.dashed" }, { "title": "Доброе дело", "detail": "Миша ответил час назад", "icon": "heart.fill" }] } },
+    { "id": "drafts", "role": "support", "title": "Черновики", "recipe": "featureList", "states": ["populated/default"], "actionIds": [], "content": { "headline": "1 незаконченная глава", "body": "Черновик остаётся приватным, пока ты его не передашь.", "details": [{ "title": "Кадр одним цветом", "detail": "Изменён 12 минут назад", "icon": "photo.on.rectangle" }] } },
+    { "id": "schedule", "role": "support", "title": "Мои сроки", "recipe": "featureList", "states": ["populated/default"], "actionIds": [], "content": { "headline": "Ближайший ход — сегодня", "body": "Сроки показываются только для принятых ходов.", "details": [{ "title": "Найти круглое", "detail": "До 21:00 · передала Аня", "icon": "calendar" }] } },
+    {
+      "id": "handoff", "role": "action", "title": "Передать ход", "recipe": "recipientPicker",
+      "states": ["populated/default", "error"], "actionIds": ["pass_turn"],
+      "content": {
+        "headline": "Кому продолжать?", "body": "Выбери одного знакомого — он получит твою главу, условие и персональный срок.",
+        "details": [
+          { "title": "Лена Морозова", "detail": "часто отвечает вечером", "icon": "person.crop.circle.fill" },
+          { "title": "Миша Волков", "detail": "продолжил 3 эстафеты", "icon": "person.crop.circle.fill" },
+          { "title": "Оля Смирнова", "detail": "сейчас онлайн", "icon": "person.crop.circle.fill" }
+        ]
+      }
     }
   ],
   "transitions": [
     { "from": "relay_feed", "to": "turn", "actionId": "open_relay" },
     { "from": "turn", "to": "chapter_result", "actionId": "accept_turn" },
-    { "from": "messages", "to": "relay_feed", "actionId": "pass_turn" }
+    { "from": "chapter_result", "to": "handoff", "actionId": "capture_chapter" },
+    { "from": "messages", "to": "handoff", "actionId": "open_reply" },
+    { "from": "handoff", "to": "relay_feed", "actionId": "pass_turn" }
+    ,{ "from": "relay_feed", "to": "profile", "actionId": "open_profile" }
+    ,{ "from": "services", "to": "active_relays", "actionId": "open_active_relays" }
+    ,{ "from": "services", "to": "drafts", "actionId": "open_drafts" }
+    ,{ "from": "services", "to": "schedule", "actionId": "open_schedule" }
   ],
   "capabilityOverrides": {
     "camera": {
@@ -122,6 +167,10 @@
       "fallback": "Сохранить принятый ход без медиа и вернуться к съёмке позже",
       "testScenario": "Разрешить камеру, завершить системную съёмку и увидеть новую главу в цепочке",
       "entityId": "chapter", "stateField": "capturedMedia", "proof": "Новая глава показывает сохранённый снимок и автора продолжения"
-    }
+    },
+    "appgroups": { "surfaceId": "create" },
+    "keychain": { "surfaceId": "profile" },
+    "faceid": { "surfaceId": "profile" },
+    "calendar": { "surfaceId": "handoff" }
   }
 }

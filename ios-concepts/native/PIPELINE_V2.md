@@ -13,6 +13,32 @@ handoff. Product Core, capability grounding, slice/full contracts и Kernel
 npm run native:v2 -- native/ConceptSpecs/estafeta.json
 ```
 
+После build, XCUI и screenshots в `native/artifacts/<id>/visual-review-request.json`
+появляется короткий пакет для просмотра глазами. Он содержит только
+реальные captures, карту продукта, 11 критериев и вопросы к ревьюеру.
+Для пользователя это всё ещё один запуск: агент сам открывает captures, делает
+один bounded repair и повторяет сборку. Формат `--review` остаётся внутренним протоколом
+для CI и независимой release-приёмки:
+
+```sh
+npm run native:v2 -- native/ConceptSpecs/estafeta.json --review review.json
+```
+
+Для iteration нужно не меньше 8/10, для release — 8.5/10 по каждой оси, без
+усреднения blockers. Release-review должен выполнить независимый человек или
+vision-capable ревьюер. Неудачная проверка возвращает bounded repair brief; не более
+двух итераций до повторной продуктовой развилки.
+Операционный цикл агента закреплён в `native/AGENT-PIPELINE-V2.md`.
+
+## Что перенесено из HTML-концептов
+
+`native/lib/html-concept-patterns.mjs` извлекает не CSS, а продуктовые композиции:
+социальный контекст перед лентой из VK/ОК-мимикрий, прогресс и сроки как факты,
+continue-hero и постоянный media context из музыкальных концептов, а также цельный
+media subject из видео-концептов. Отстройка делается предметной моделью и одним
+узнаваемым domain component, а не случайным декором. SwiftUI recipes наследуют эти правила,
+а review packet обязан проверить их по реальным экранам.
+
 `capabilities: "all"` автоматически разворачивает полный набор выбранного
 Product Target. Пользовательские разрешения получают контекстные действия,
 lifecycle-возможности подключаются к приложению, build capabilities становятся
@@ -31,6 +57,10 @@ Info.plist, entitlements и extension targets. Документация выво
 8. Expander после принятого среза возвращает только типизированный Full Contract:
    пять root tabs, поверхности, владение действиями, journeys и capture matrix.
    Полный SwiftUI-код снова компилируется локальным Kernel v2, а не моделью.
+
+Медиа не являются обязательным входом. Если изображений нет, медиа-зависимый
+экран должен иметь детерминированный серый placeholder с понятным смыслом; это
+проверяется до Swift и на visual review.
 
 ## Разрешения
 
@@ -62,5 +92,6 @@ Adapter module владеет только творческими seams: `studio
 - Screenshot без подтверждённого runtime state не считается evidence.
 - Formatter не заменяет Xcode typecheck.
 - Build без XCUI granted/denied и свежих captures не считается доставкой.
-- На iOS 26 пять root tabs обязаны оставаться видимыми во всех capture-состояниях.
+- На iOS 26 пять root tabs обязаны оставаться видимыми на root-экранах; на внутренних экранах они скрываются.
+- Release без полного visual-review packet и независимой оценки всех captures запрещён.
 - Существующий app directory без marker Native Pipeline v2 никогда не перезаписывается.

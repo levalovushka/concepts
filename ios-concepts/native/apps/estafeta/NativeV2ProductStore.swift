@@ -8,6 +8,11 @@ enum ProductRoute: String, CaseIterable, Identifiable {
     case create = "create"
     case messages = "messages"
     case services = "services"
+    case profile = "profile"
+    case activeRelays = "active_relays"
+    case drafts = "drafts"
+    case schedule = "schedule"
+    case handoff = "handoff"
     case settings = "settings"
     var id: String { rawValue }
 }
@@ -17,8 +22,13 @@ enum ProductAction: String, CaseIterable, Identifiable {
     case acceptTurn = "accept_turn"
     case captureChapter = "capture_chapter"
     case passTurn = "pass_turn"
+    case openReply = "open_reply"
     case supportChapter = "support_chapter"
     case startRelay = "start_relay"
+    case openProfile = "open_profile"
+    case openActiveRelays = "open_active_relays"
+    case openDrafts = "open_drafts"
+    case openSchedule = "open_schedule"
     case openSettings = "open_settings"
     case capabilityPhotos = "capability_photos"
     case capabilityMic = "capability_mic"
@@ -73,16 +83,37 @@ final class NativeV2ProductStore {
         case .captureChapter:
             collections["chapters", default: []].append(UUID().uuidString)
             lastOutcome = "Снятый результат становится новой видимой главой эстафеты"
+            route = .handoff
         case .passTurn:
             values["nextParticipant"] = "selected"
             lastOutcome = "Следующий знакомый получает персональный ход с готовым продолжением"
             route = .relayFeed
+        case .openReply:
+            values["replyStatus"] = "opened"
+            lastOutcome = "Открывается готовое продолжение и выбор следующего знакомого"
+            route = .handoff
         case .supportChapter:
             flags["supported", default: false].toggle()
             lastOutcome = "Поддержка остаётся на конкретной главе и видна её автору"
         case .startRelay:
             collections["relays", default: []].append(UUID().uuidString)
             lastOutcome = "Новая эстафета с первым условием появляется у выбранного знакомого"
+        case .openProfile:
+            values["profileVisible"] = "true"
+            lastOutcome = "Открывается личный профиль участника"
+            route = .profile
+        case .openActiveRelays:
+            values["relayFilter"] = "active"
+            lastOutcome = "Открывается список цепочек, где ещё идёт ход"
+            route = .activeRelays
+        case .openDrafts:
+            values["chapterFilter"] = "drafts"
+            lastOutcome = "Открываются незаконченные главы"
+            route = .drafts
+        case .openSchedule:
+            values["scheduleVisible"] = "true"
+            lastOutcome = "Открываются принятые ходы и сроки"
+            route = .schedule
         case .openSettings:
             values["profileDestination"] = "settings"
             lastOutcome = "Открываются настройки приватности, уведомлений и безопасности"
@@ -107,7 +138,7 @@ final class NativeV2ProductStore {
             lastOutcome = "Обновлять цепочки: результат сохранён в текущей эстафете и остаётся видимым пользователю"
         case .capabilityFetch:
             values["capability_fetch"] = "completed"
-            lastOutcome = "Освежать ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю"
+            lastOutcome = "Обновлять ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю"
         case .capabilityBgtask:
             values["capability_bgtask"] = "completed"
             lastOutcome = "Готовить подборку: результат сохранён в текущей эстафете и остаётся видимым пользователю"

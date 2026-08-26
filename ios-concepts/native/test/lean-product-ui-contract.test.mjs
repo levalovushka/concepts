@@ -15,6 +15,7 @@ test("product UI contract closes recipes, actions, states and capability ownersh
   assert.equal(contract.surfaces.find(item => item.screenId === "comments").recipe, "commentThread");
   assert.equal(contract.surfaces.find(item => item.screenId === "conversation").recipe, "conversation");
   const feed = contract.surfaces.find(item => item.screenId === "feed");
+  assert.ok(feed.inheritedPatterns.some(item => item.id === "social-context-before-feed"));
   assert.equal(feed.actions.find(item => item.id === "open_deed").effect.type, "navigate");
   assert.equal(feed.actions.find(item => item.id === "open_deed").effect.targetScreenId, "post_detail");
   assert.equal(feed.actions.find(item => item.id === "support_deed").effect.stateField, "isSupported");

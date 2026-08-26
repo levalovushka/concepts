@@ -108,6 +108,48 @@
       "reviewPriority": "risk"
     },
     {
+      "surface": "profile",
+      "state": "populated/default",
+      "launch": "profile",
+      "artifact": "profile--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "active_relays",
+      "state": "populated/default",
+      "launch": "active_relays",
+      "artifact": "active-relays--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "drafts",
+      "state": "populated/default",
+      "launch": "drafts",
+      "artifact": "drafts--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "schedule",
+      "state": "populated/default",
+      "launch": "schedule",
+      "artifact": "schedule--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "handoff",
+      "state": "populated/default",
+      "launch": "handoff",
+      "artifact": "handoff--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "handoff",
+      "state": "error",
+      "launch": "handoff",
+      "artifact": "handoff--error",
+      "reviewPriority": "risk"
+    },
+    {
       "surface": "settings",
       "state": "populated/default",
       "launch": "settings",

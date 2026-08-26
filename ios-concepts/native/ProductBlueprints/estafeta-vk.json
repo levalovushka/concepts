@@ -76,6 +76,17 @@
         }
       },
       {
+        "id": "open_reply",
+        "label": "Открыть ответ",
+        "entityId": "handoff",
+        "outcome": "Открывается готовое продолжение и выбор следующего знакомого",
+        "effect": {
+          "type": "update",
+          "stateField": "replyStatus",
+          "value": "opened"
+        }
+      },
+      {
         "id": "support_chapter",
         "label": "Поддержать продолжение",
         "entityId": "chapter",
@@ -93,6 +104,50 @@
         "effect": {
           "type": "create",
           "collectionField": "relays"
+        }
+      },
+      {
+        "id": "open_profile",
+        "label": "Открыть профиль",
+        "entityId": "person",
+        "outcome": "Открывается личный профиль участника",
+        "effect": {
+          "type": "update",
+          "stateField": "profileVisible",
+          "value": "true"
+        }
+      },
+      {
+        "id": "open_active_relays",
+        "label": "Активные эстафеты",
+        "entityId": "relay",
+        "outcome": "Открывается список цепочек, где ещё идёт ход",
+        "effect": {
+          "type": "update",
+          "stateField": "relayFilter",
+          "value": "active"
+        }
+      },
+      {
+        "id": "open_drafts",
+        "label": "Черновики",
+        "entityId": "chapter",
+        "outcome": "Открываются незаконченные главы",
+        "effect": {
+          "type": "update",
+          "stateField": "chapterFilter",
+          "value": "drafts"
+        }
+      },
+      {
+        "id": "open_schedule",
+        "label": "Мои сроки",
+        "entityId": "handoff",
+        "outcome": "Открываются принятые ходы и сроки",
+        "effect": {
+          "type": "update",
+          "stateField": "scheduleVisible",
+          "value": "true"
         }
       },
       {
@@ -174,9 +229,9 @@
       },
       {
         "id": "capability_fetch",
-        "label": "Освежать ленту",
+        "label": "Обновлять ленту",
         "entityId": "relay",
-        "outcome": "Освежать ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю",
+        "outcome": "Обновлять ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю",
         "effect": {
           "type": "system",
           "stateField": "capability_fetch",
@@ -381,7 +436,7 @@
       },
       {
         "screenId": "services",
-        "title": "Профиль",
+        "title": "Ещё",
         "icon": "services"
       }
     ],
@@ -392,10 +447,12 @@
         "recipe": "authoredFeed",
         "presentation": "tab",
         "actionIds": [
-          "open_relay"
+          "open_relay",
+          "open_profile"
         ],
         "entityIds": [
-          "relay"
+          "relay",
+          "person"
         ]
       },
       {
@@ -452,6 +509,7 @@
           "start_relay",
           "capability_photos",
           "capability_mic",
+          "capability_appgroups",
           "capability_speech",
           "capability_audio"
         ],
@@ -466,7 +524,7 @@
         "recipe": "conversationList",
         "presentation": "tab",
         "actionIds": [
-          "pass_turn",
+          "open_reply",
           "capability_push",
           "capability_commnotif",
           "capability_remotenotif",
@@ -481,14 +539,75 @@
       },
       {
         "id": "services",
-        "title": "Профиль",
-        "recipe": "ownedProfile",
+        "title": "Меню",
+        "recipe": "serviceMenu",
         "presentation": "tab",
         "actionIds": [
-          "open_settings"
+          "open_active_relays",
+          "open_drafts",
+          "open_schedule"
         ],
         "entityIds": [
-          "person"
+          "relay",
+          "chapter",
+          "handoff"
+        ]
+      },
+      {
+        "id": "profile",
+        "title": "Профиль",
+        "recipe": "ownedProfile",
+        "presentation": "push",
+        "parent": "relay_feed",
+        "actionIds": [
+          "open_settings",
+          "capability_keychain",
+          "capability_faceid"
+        ],
+        "entityIds": [
+          "person",
+          "chapter"
+        ]
+      },
+      {
+        "id": "active_relays",
+        "title": "Активные",
+        "recipe": "featureList",
+        "presentation": "push",
+        "parent": "relay_feed",
+        "actionIds": [],
+        "entityIds": []
+      },
+      {
+        "id": "drafts",
+        "title": "Черновики",
+        "recipe": "featureList",
+        "presentation": "push",
+        "parent": "relay_feed",
+        "actionIds": [],
+        "entityIds": []
+      },
+      {
+        "id": "schedule",
+        "title": "Мои сроки",
+        "recipe": "featureList",
+        "presentation": "push",
+        "parent": "relay_feed",
+        "actionIds": [],
+        "entityIds": []
+      },
+      {
+        "id": "handoff",
+        "title": "Передать ход",
+        "recipe": "recipientPicker",
+        "presentation": "push",
+        "parent": "relay_feed",
+        "actionIds": [
+          "pass_turn",
+          "capability_calendar"
+        ],
+        "entityIds": [
+          "handoff"
         ]
       },
       {
@@ -500,17 +619,11 @@
         "actionIds": [
           "capability_fetch",
           "capability_bgtask",
-          "capability_appgroups",
-          "capability_keychain",
-          "capability_autofill",
-          "capability_faceid",
-          "capability_calendar"
+          "capability_autofill"
         ],
         "entityIds": [
           "relay",
-          "chapter",
-          "person",
-          "handoff"
+          "person"
         ]
       }
     ]
@@ -624,16 +737,16 @@
     {
       "key": "fetch",
       "actionId": "capability_fetch",
-      "purpose": "Освежать ленту внутри основного социального сценария приложения",
-      "requestMoment": "После явного действия «Освежать ленту» на соответствующей поверхности",
+      "purpose": "Обновлять ленту внутри основного социального сценария приложения",
+      "requestMoment": "После явного действия «Обновлять ленту» на соответствующей поверхности",
       "platformEffect": "Выполнить системную операцию fetch через проверенный iOS runtime adapter",
-      "observableResult": "Освежать ленту: на поверхности появляется подтверждённый продуктовый результат",
+      "observableResult": "Обновлять ленту: на поверхности появляется подтверждённый продуктовый результат",
       "fallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
       "testScenario": "Проверить успешную и отклонённую ветки fetch через общий runtime seam",
       "outcome": {
         "entityId": "relay",
         "stateField": "capability_fetch",
-        "proof": "Освежать ленту: на поверхности появляется подтверждённый продуктовый результат"
+        "proof": "Обновлять ленту: на поверхности появляется подтверждённый продуктовый результат"
       }
     },
     {
@@ -899,6 +1012,37 @@
       ]
     },
     {
+      "screenId": "profile",
+      "variants": [
+        "populated/default"
+      ]
+    },
+    {
+      "screenId": "active_relays",
+      "variants": [
+        "populated/default"
+      ]
+    },
+    {
+      "screenId": "drafts",
+      "variants": [
+        "populated/default"
+      ]
+    },
+    {
+      "screenId": "schedule",
+      "variants": [
+        "populated/default"
+      ]
+    },
+    {
+      "screenId": "handoff",
+      "variants": [
+        "populated/default",
+        "error"
+      ]
+    },
+    {
       "screenId": "settings",
       "variants": [
         "populated/default"
@@ -916,7 +1060,7 @@
     },
     {
       "key": "screen.relay_feed.body",
-      "source": "Аня продолжила эстафету Саши и передала следующий ход тебе. В цепочке уже четыре знакомых.",
+      "source": "Аня добавила свою главу и передала следующий ход тебе. В цепочке уже четыре знакомых.",
       "context": "Основной текст экрана Эстафета",
       "screenIds": [
         "relay_feed"
@@ -1004,18 +1148,98 @@
     },
     {
       "key": "screen.services.title",
-      "source": "Профиль",
-      "context": "Заголовок экрана Профиль",
+      "source": "Меню",
+      "context": "Заголовок экрана Меню",
       "screenIds": [
         "services"
       ]
     },
     {
       "key": "screen.services.body",
-      "source": "Продолжения, приватные черновики, расписание и настройки участия собраны в одном месте.",
-      "context": "Основной текст экрана Профиль",
+      "source": "Вернись к активным цепочкам, допиши черновик или проверь срок.",
+      "context": "Основной текст экрана Меню",
       "screenIds": [
         "services"
+      ]
+    },
+    {
+      "key": "screen.profile.title",
+      "source": "Профиль",
+      "context": "Заголовок экрана Профиль",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "screen.profile.body",
+      "source": "Продолжаю идеи друзей и передаю ход тем, кто точно подхватит.",
+      "context": "Основной текст экрана Профиль",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "screen.active_relays.title",
+      "source": "Активные",
+      "context": "Заголовок экрана Активные",
+      "screenIds": [
+        "active_relays"
+      ]
+    },
+    {
+      "key": "screen.active_relays.body",
+      "source": "Видно, у кого сейчас ход и когда появилась последняя глава.",
+      "context": "Основной текст экрана Активные",
+      "screenIds": [
+        "active_relays"
+      ]
+    },
+    {
+      "key": "screen.drafts.title",
+      "source": "Черновики",
+      "context": "Заголовок экрана Черновики",
+      "screenIds": [
+        "drafts"
+      ]
+    },
+    {
+      "key": "screen.drafts.body",
+      "source": "Черновик остаётся приватным, пока ты его не передашь.",
+      "context": "Основной текст экрана Черновики",
+      "screenIds": [
+        "drafts"
+      ]
+    },
+    {
+      "key": "screen.schedule.title",
+      "source": "Мои сроки",
+      "context": "Заголовок экрана Мои сроки",
+      "screenIds": [
+        "schedule"
+      ]
+    },
+    {
+      "key": "screen.schedule.body",
+      "source": "Сроки показываются только для принятых ходов.",
+      "context": "Основной текст экрана Мои сроки",
+      "screenIds": [
+        "schedule"
+      ]
+    },
+    {
+      "key": "screen.handoff.title",
+      "source": "Передать ход",
+      "context": "Заголовок экрана Передать ход",
+      "screenIds": [
+        "handoff"
+      ]
+    },
+    {
+      "key": "screen.handoff.body",
+      "source": "Выбери одного знакомого — он получит твою главу, условие и персональный срок.",
+      "context": "Основной текст экрана Передать ход",
+      "screenIds": [
+        "handoff"
       ]
     },
     {
@@ -1047,7 +1271,7 @@
         },
         {
           "key": "body",
-          "value": "Аня продолжила эстафету Саши и передала следующий ход тебе. В цепочке уже четыре знакомых."
+          "value": "Аня добавила свою главу и передала следующий ход тебе. В цепочке уже четыре знакомых."
         }
       ]
     },
@@ -1128,16 +1352,91 @@
     },
     {
       "id": "fixture-services",
+      "entityId": "relay",
+      "purpose": "Канонический контент экрана Меню",
+      "values": [
+        {
+          "key": "headline",
+          "value": "Всё для участия"
+        },
+        {
+          "key": "body",
+          "value": "Вернись к активным цепочкам, допиши черновик или проверь срок."
+        }
+      ]
+    },
+    {
+      "id": "fixture-profile",
       "entityId": "person",
       "purpose": "Канонический контент экрана Профиль",
       "values": [
         {
           "key": "headline",
-          "value": "Мои цепочки"
+          "value": "@timur.orlov"
         },
         {
           "key": "body",
-          "value": "Продолжения, приватные черновики, расписание и настройки участия собраны в одном месте."
+          "value": "Продолжаю идеи друзей и передаю ход тем, кто точно подхватит."
+        }
+      ]
+    },
+    {
+      "id": "fixture-active_relays",
+      "entityId": "person",
+      "purpose": "Канонический контент экрана Активные",
+      "values": [
+        {
+          "key": "headline",
+          "value": "3 эстафеты в движении"
+        },
+        {
+          "key": "body",
+          "value": "Видно, у кого сейчас ход и когда появилась последняя глава."
+        }
+      ]
+    },
+    {
+      "id": "fixture-drafts",
+      "entityId": "person",
+      "purpose": "Канонический контент экрана Черновики",
+      "values": [
+        {
+          "key": "headline",
+          "value": "1 незаконченная глава"
+        },
+        {
+          "key": "body",
+          "value": "Черновик остаётся приватным, пока ты его не передашь."
+        }
+      ]
+    },
+    {
+      "id": "fixture-schedule",
+      "entityId": "person",
+      "purpose": "Канонический контент экрана Мои сроки",
+      "values": [
+        {
+          "key": "headline",
+          "value": "Ближайший ход — сегодня"
+        },
+        {
+          "key": "body",
+          "value": "Сроки показываются только для принятых ходов."
+        }
+      ]
+    },
+    {
+      "id": "fixture-handoff",
+      "entityId": "handoff",
+      "purpose": "Канонический контент экрана Передать ход",
+      "values": [
+        {
+          "key": "headline",
+          "value": "Кому продолжать?"
+        },
+        {
+          "key": "body",
+          "value": "Выбери одного знакомого — он получит твою главу, условие и персональный срок."
         }
       ]
     },
@@ -1173,7 +1472,7 @@
     {
       "id": "core-pass_turn",
       "title": "Приёмочный сценарий 2",
-      "startScreenId": "messages",
+      "startScreenId": "handoff",
       "actionIds": [
         "pass_turn"
       ],
@@ -1247,7 +1546,7 @@
       "actionIds": [
         "capability_fetch"
       ],
-      "observableResult": "Освежать ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю",
+      "observableResult": "Обновлять ленту: результат сохранён в текущей эстафете и остаётся видимым пользователю",
       "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
     },
     {
@@ -1263,7 +1562,7 @@
     {
       "id": "capability-appgroups",
       "title": "Приёмочный сценарий 11",
-      "startScreenId": "settings",
+      "startScreenId": "create",
       "actionIds": [
         "capability_appgroups"
       ],
@@ -1273,7 +1572,7 @@
     {
       "id": "capability-keychain",
       "title": "Приёмочный сценарий 12",
-      "startScreenId": "settings",
+      "startScreenId": "profile",
       "actionIds": [
         "capability_keychain"
       ],
@@ -1323,7 +1622,7 @@
     {
       "id": "capability-faceid",
       "title": "Приёмочный сценарий 17",
-      "startScreenId": "settings",
+      "startScreenId": "profile",
       "actionIds": [
         "capability_faceid"
       ],
@@ -1363,7 +1662,7 @@
     {
       "id": "capability-calendar",
       "title": "Приёмочный сценарий 21",
-      "startScreenId": "settings",
+      "startScreenId": "handoff",
       "actionIds": [
         "capability_calendar"
       ],
@@ -1388,6 +1687,66 @@
         "capability_hotspot"
       ],
       "observableResult": "Подключиться к встрече: результат сохранён в текущей эстафете и остаётся видимым пользователю",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_reply",
+      "title": "Приёмочный сценарий 24",
+      "startScreenId": "messages",
+      "actionIds": [
+        "open_reply"
+      ],
+      "observableResult": "Открывается готовое продолжение и выбор следующего знакомого",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_profile",
+      "title": "Приёмочный сценарий 25",
+      "startScreenId": "relay_feed",
+      "actionIds": [
+        "open_profile"
+      ],
+      "observableResult": "Открывается личный профиль участника",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_active_relays",
+      "title": "Приёмочный сценарий 26",
+      "startScreenId": "services",
+      "actionIds": [
+        "open_active_relays"
+      ],
+      "observableResult": "Открывается список цепочек, где ещё идёт ход",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_drafts",
+      "title": "Приёмочный сценарий 27",
+      "startScreenId": "services",
+      "actionIds": [
+        "open_drafts"
+      ],
+      "observableResult": "Открываются незаконченные главы",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_schedule",
+      "title": "Приёмочный сценарий 28",
+      "startScreenId": "services",
+      "actionIds": [
+        "open_schedule"
+      ],
+      "observableResult": "Открываются принятые ходы и сроки",
+      "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
+    },
+    {
+      "id": "navigation-open_settings",
+      "title": "Приёмочный сценарий 29",
+      "startScreenId": "profile",
+      "actionIds": [
+        "open_settings"
+      ],
+      "observableResult": "Открываются настройки приватности, уведомлений и безопасности",
       "failureRecovery": "Последний подтверждённый шаг сохраняется, действие можно повторить."
     }
   ],

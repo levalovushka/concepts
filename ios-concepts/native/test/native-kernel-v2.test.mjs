@@ -48,8 +48,21 @@ test("Native Kernel v2 compiles shell, reducers, permission outcomes and XCUI wi
   assert.match(tests, /outcome\.permission\.camera\.\\\(answer\)/);
   assert.match(tests, /testProductProof/);
   assert.match(source, /\.tabBarMinimizeBehavior\(\.never\)/);
+  assert.match(source, /\.toolbar\(\["feed"/);
   assert.match(source, /\.accessibilityLabel\("Рядом"\)/);
   assert.ok(output.captureCatalog.drivers.some(item => item.surface === "result" && item.state === "permission-denied"));
+});
+
+test("permission acceptance follows a capability transition while denial stays visibly recoverable", () => {
+  const transitioningSlice = {
+    ...slice,
+    transitions: [...slice.transitions, { from: "result", to: "feed", actionId: "capture_result" }],
+  };
+  const output = compileNativeKernelV2({ productCoreArtifact: product, capabilityPlan: capability, sliceContract: transitioningSlice });
+  const tests = output.uiTestFiles.map(item => item.contents).join("\n");
+  assert.match(tests, /if answer == "granted"/);
+  assert.match(tests, /identifier BEGINSWITH %@", "surface\.feed"/);
+  assert.match(tests, /outcome\.permission\.camera\.denied/);
 });
 
 test("every compiler-owned Swift file passes swift-format parsing", () => {

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeLeanActionEffects } from "./structured-model-lean-architect.mjs";
+import { resolveHTMLConceptPatterns } from "./html-concept-patterns.mjs";
 
 const recipes = Object.freeze({
   login: "emailAuthentication",
@@ -32,6 +33,9 @@ const nativeComponents = Object.freeze({
   ownedProfile: ["VKRootSurface", "VKTabHeader", "Avatar", "VKGroup", "VKRow"],
   capabilityCenter: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow", "VKInlineNotice"],
   settings: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow"],
+  recipientPicker: ["VKRootSurface", "VKModalChrome", "VKGroup", "VKRow", "VKPrimaryActionArea"],
+  serviceMenu: ["VKRootSurface", "VKTabHeader", "LazyVGrid"],
+  featureList: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow"],
 });
 
 for (const recipe of Object.keys(nativeComponents)) allowedRecipes.add(recipe);
@@ -83,6 +87,7 @@ export function compileLeanProductUIContract(blueprint, manifest) {
       title: screen.title,
       recipe: screen.recipe || recipes[screen.id] || (screen.presentation === "tab" ? "authoredFeed" : "authoredPostDetail"),
       nativeComponents: Object.freeze([...(nativeComponents[screen.recipe || recipes[screen.id]] || ["VKRootSurface", "VKGroup"])]),
+      inheritedPatterns: resolveHTMLConceptPatterns(screen.recipe || recipes[screen.id]),
       presentation: screen.presentation,
       parent: screen.parent,
       entityIds: Object.freeze([...(screen.entityIds || [])]),

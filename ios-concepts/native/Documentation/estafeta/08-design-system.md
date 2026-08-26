@@ -155,7 +155,7 @@
   {
     "surface": "messages",
     "job": "Выполнить задачу экрана «Ответы» в общем продуктовом цикле",
-    "primaryAction": "pass_turn",
+    "primaryAction": null,
     "pattern": "tab",
     "composition": [
       "messages",
@@ -180,7 +180,7 @@
   },
   {
     "surface": "services",
-    "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+    "job": "Выполнить задачу экрана «Меню» в общем продуктовом цикле",
     "primaryAction": null,
     "pattern": "tab",
     "composition": [
@@ -189,11 +189,141 @@
     ],
     "primaryRegion": "product-content",
     "aboveFold": {
-      "mustExpose": "Профиль",
+      "mustExpose": "Меню",
       "maxPreludeLayers": 1
     },
     "allowedFamilies": [
       "root-header",
+      "people-list"
+    ],
+    "forbiddenFamilies": [
+      "decorative-gradient",
+      "colored-icon-placeholder",
+      "unowned-selector",
+      "detached-action-panel"
+    ],
+    "source": "vk-ios-reference-ui-kit"
+  },
+  {
+    "surface": "profile",
+    "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+    "primaryAction": null,
+    "pattern": "push",
+    "composition": [
+      "profile-cards",
+      "people-list"
+    ],
+    "primaryRegion": "product-content",
+    "aboveFold": {
+      "mustExpose": "Профиль",
+      "maxPreludeLayers": 1
+    },
+    "allowedFamilies": [
+      "profile-cards",
+      "people-list"
+    ],
+    "forbiddenFamilies": [
+      "decorative-gradient",
+      "colored-icon-placeholder",
+      "unowned-selector",
+      "detached-action-panel"
+    ],
+    "source": "vk-ios-reference-ui-kit"
+  },
+  {
+    "surface": "active_relays",
+    "job": "Выполнить задачу экрана «Активные» в общем продуктовом цикле",
+    "primaryAction": null,
+    "pattern": "push",
+    "composition": [
+      "post",
+      "people-list"
+    ],
+    "primaryRegion": "product-content",
+    "aboveFold": {
+      "mustExpose": "Активные",
+      "maxPreludeLayers": 1
+    },
+    "allowedFamilies": [
+      "post",
+      "people-list"
+    ],
+    "forbiddenFamilies": [
+      "decorative-gradient",
+      "colored-icon-placeholder",
+      "unowned-selector",
+      "detached-action-panel"
+    ],
+    "source": "vk-ios-reference-ui-kit"
+  },
+  {
+    "surface": "drafts",
+    "job": "Выполнить задачу экрана «Черновики» в общем продуктовом цикле",
+    "primaryAction": null,
+    "pattern": "push",
+    "composition": [
+      "post",
+      "people-list"
+    ],
+    "primaryRegion": "product-content",
+    "aboveFold": {
+      "mustExpose": "Черновики",
+      "maxPreludeLayers": 1
+    },
+    "allowedFamilies": [
+      "post",
+      "people-list"
+    ],
+    "forbiddenFamilies": [
+      "decorative-gradient",
+      "colored-icon-placeholder",
+      "unowned-selector",
+      "detached-action-panel"
+    ],
+    "source": "vk-ios-reference-ui-kit"
+  },
+  {
+    "surface": "schedule",
+    "job": "Выполнить задачу экрана «Мои сроки» в общем продуктовом цикле",
+    "primaryAction": null,
+    "pattern": "push",
+    "composition": [
+      "post",
+      "people-list"
+    ],
+    "primaryRegion": "product-content",
+    "aboveFold": {
+      "mustExpose": "Мои сроки",
+      "maxPreludeLayers": 1
+    },
+    "allowedFamilies": [
+      "post",
+      "people-list"
+    ],
+    "forbiddenFamilies": [
+      "decorative-gradient",
+      "colored-icon-placeholder",
+      "unowned-selector",
+      "detached-action-panel"
+    ],
+    "source": "vk-ios-reference-ui-kit"
+  },
+  {
+    "surface": "handoff",
+    "job": "Выполнить задачу экрана «Передать ход» в общем продуктовом цикле",
+    "primaryAction": "pass_turn",
+    "pattern": "push",
+    "composition": [
+      "post",
+      "people-list"
+    ],
+    "primaryRegion": "product-content",
+    "aboveFold": {
+      "mustExpose": "Передать ход",
+      "maxPreludeLayers": 1
+    },
+    "allowedFamilies": [
+      "post",
       "people-list"
     ],
     "forbiddenFamilies": [

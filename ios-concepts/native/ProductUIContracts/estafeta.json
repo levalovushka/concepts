@@ -57,7 +57,7 @@
     },
     {
       "screenId": "services",
-      "title": "Профиль",
+      "title": "Ещё",
       "icon": "services"
     }
   ],
@@ -72,9 +72,43 @@
         "VKAuthoredPost",
         "VKPostActions"
       ],
+      "inheritedPatterns": [
+        {
+          "id": "social-context-before-feed",
+          "sources": [
+            "platform/concepts/druzya/screens/feed.html",
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Lead with a compact social context or urgent object, then authored content with identity, metadata and object-attached proof."
+        },
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        },
+        {
+          "id": "media-continue-hero",
+          "sources": [
+            "platform/concepts/strochka/screens/program.html"
+          ],
+          "rule": "A media-led root starts with one resumable hero carrying subject, progress and a single next action; gray media placeholders are valid evidence."
+        },
+        {
+          "id": "domain-first-differentiation",
+          "sources": [
+            "platform/concepts/today/docs/01-product-vision.md",
+            "platform/concepts/dvor/docs/03-design-system.md",
+            "platform/concepts/strochka/docs/03-design-system.md"
+          ],
+          "rule": "Differentiate with the domain model and one signature component; preserve native hierarchy and vary accent, type or radius only after the product structure is clear."
+        }
+      ],
       "presentation": "tab",
       "entityIds": [
-        "relay"
+        "relay",
+        "person"
       ],
       "actions": [
         {
@@ -93,6 +127,26 @@
             "type": "update",
             "stateField": "lastOpenedRelay",
             "value": "current"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_profile",
+          "label": "Открыть профиль",
+          "outcome": {
+            "type": "mutate",
+            "target": "relay_feed",
+            "reducer": {
+              "type": "update",
+              "stateField": "profileVisible",
+              "value": "true"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "profileVisible",
+            "value": "true"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -139,6 +193,17 @@
         "VKModalChrome",
         "VKGroup",
         "VKPrimaryActionArea"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "domain-first-differentiation",
+          "sources": [
+            "platform/concepts/today/docs/01-product-vision.md",
+            "platform/concepts/dvor/docs/03-design-system.md",
+            "platform/concepts/strochka/docs/03-design-system.md"
+          ],
+          "rule": "Differentiate with the domain model and one signature component; preserve native hierarchy and vary accent, type or radius only after the product structure is clear."
+        }
       ],
       "presentation": "push",
       "parent": "relay_feed",
@@ -207,6 +272,17 @@
         "VKNavigationChrome",
         "VKInlineNotice",
         "VKPrimaryActionArea"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "domain-first-differentiation",
+          "sources": [
+            "platform/concepts/today/docs/01-product-vision.md",
+            "platform/concepts/dvor/docs/03-design-system.md",
+            "platform/concepts/strochka/docs/03-design-system.md"
+          ],
+          "rule": "Differentiate with the domain model and one signature component; preserve native hierarchy and vary accent, type or radius only after the product structure is clear."
+        }
       ],
       "presentation": "push",
       "parent": "relay_feed",
@@ -281,6 +357,32 @@
         "VKTabHeader",
         "VKGroup",
         "VKRow"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "social-context-before-feed",
+          "sources": [
+            "platform/concepts/druzya/screens/feed.html",
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Lead with a compact social context or urgent object, then authored content with identity, metadata and object-attached proof."
+        },
+        {
+          "id": "video-subject-detail",
+          "sources": [
+            "platform/concepts/liga/screens/watch.html",
+            "platform/concepts/liga/screens/home.html"
+          ],
+          "rule": "Attach title, source identity, live or duration metadata, actions and timeline to the same media subject."
+        },
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
       ],
       "presentation": "tab",
       "entityIds": [
@@ -489,6 +591,16 @@
         "VKGroup",
         "VKPrimaryActionArea"
       ],
+      "inheritedPatterns": [
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
+      ],
       "presentation": "tab",
       "entityIds": [
         "relay",
@@ -566,6 +678,34 @@
               "observableResult": "Записать голос: на поверхности появляется подтверждённый продуктовый результат",
               "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
               "stateField": "capability_mic"
+            }
+          ]
+        },
+        {
+          "id": "capability_appgroups",
+          "label": "Поделиться черновиком",
+          "outcome": {
+            "type": "system",
+            "target": "create",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_appgroups",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_appgroups",
+            "value": "completed"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "appgroups",
+              "requestMoment": "После явного действия «Поделиться черновиком» на соответствующей поверхности",
+              "observableResult": "Поделиться черновиком: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_appgroups"
             }
           ]
         },
@@ -667,6 +807,16 @@
         "VKGroup",
         "VKRow"
       ],
+      "inheritedPatterns": [
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
+      ],
       "presentation": "tab",
       "entityIds": [
         "handoff",
@@ -675,21 +825,21 @@
       ],
       "actions": [
         {
-          "id": "pass_turn",
-          "label": "Передать ход",
+          "id": "open_reply",
+          "label": "Открыть ответ",
           "outcome": {
             "type": "mutate",
             "target": "messages",
             "reducer": {
               "type": "update",
-              "stateField": "nextParticipant",
-              "value": "selected"
+              "stateField": "replyStatus",
+              "value": "opened"
             }
           },
           "effect": {
             "type": "update",
-            "stateField": "nextParticipant",
-            "value": "selected"
+            "stateField": "replyStatus",
+            "value": "opened"
           },
           "placement": "composer",
           "capabilities": []
@@ -842,7 +992,7 @@
       "surfaceContract": {
         "surface": "messages",
         "job": "Выполнить задачу экрана «Ответы» в общем продуктовом цикле",
-        "primaryAction": "pass_turn",
+        "primaryAction": null,
         "pattern": "tab",
         "composition": [
           "messages",
@@ -868,36 +1018,93 @@
     },
     {
       "screenId": "services",
-      "title": "Профиль",
-      "recipe": "ownedProfile",
+      "title": "Меню",
+      "recipe": "serviceMenu",
       "nativeComponents": [
         "VKRootSurface",
         "VKTabHeader",
-        "Avatar",
-        "VKGroup",
-        "VKRow"
+        "LazyVGrid"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        },
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
       ],
       "presentation": "tab",
       "entityIds": [
-        "person"
+        "relay",
+        "chapter",
+        "handoff"
       ],
       "actions": [
         {
-          "id": "open_settings",
-          "label": "Настройки приложения",
+          "id": "open_active_relays",
+          "label": "Активные эстафеты",
           "outcome": {
             "type": "mutate",
             "target": "services",
             "reducer": {
               "type": "update",
-              "stateField": "profileDestination",
-              "value": "settings"
+              "stateField": "relayFilter",
+              "value": "active"
             }
           },
           "effect": {
             "type": "update",
-            "stateField": "profileDestination",
-            "value": "settings"
+            "stateField": "relayFilter",
+            "value": "active"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_drafts",
+          "label": "Черновики",
+          "outcome": {
+            "type": "mutate",
+            "target": "services",
+            "reducer": {
+              "type": "update",
+              "stateField": "chapterFilter",
+              "value": "drafts"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "chapterFilter",
+            "value": "drafts"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_schedule",
+          "label": "Мои сроки",
+          "outcome": {
+            "type": "mutate",
+            "target": "services",
+            "reducer": {
+              "type": "update",
+              "stateField": "scheduleVisible",
+              "value": "true"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "scheduleVisible",
+            "value": "true"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -909,7 +1116,7 @@
       ],
       "surfaceContract": {
         "surface": "services",
-        "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+        "job": "Выполнить задачу экрана «Меню» в общем продуктовом цикле",
         "primaryAction": null,
         "pattern": "tab",
         "composition": [
@@ -918,11 +1125,437 @@
         ],
         "primaryRegion": "product-content",
         "aboveFold": {
-          "mustExpose": "Профиль",
+          "mustExpose": "Меню",
           "maxPreludeLayers": 1
         },
         "allowedFamilies": [
           "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "profile",
+      "title": "Профиль",
+      "recipe": "ownedProfile",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKTabHeader",
+        "Avatar",
+        "VKGroup",
+        "VKRow"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        },
+        {
+          "id": "domain-first-differentiation",
+          "sources": [
+            "platform/concepts/today/docs/01-product-vision.md",
+            "platform/concepts/dvor/docs/03-design-system.md",
+            "platform/concepts/strochka/docs/03-design-system.md"
+          ],
+          "rule": "Differentiate with the domain model and one signature component; preserve native hierarchy and vary accent, type or radius only after the product structure is clear."
+        },
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [
+        "person",
+        "chapter"
+      ],
+      "actions": [
+        {
+          "id": "open_settings",
+          "label": "Настройки приложения",
+          "outcome": {
+            "type": "mutate",
+            "target": "profile",
+            "reducer": {
+              "type": "update",
+              "stateField": "profileDestination",
+              "value": "settings"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "profileDestination",
+            "value": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": []
+        },
+        {
+          "id": "capability_keychain",
+          "label": "Сохранить защищённую сессию",
+          "outcome": {
+            "type": "system",
+            "target": "profile",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_keychain",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_keychain",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "keychain",
+              "requestMoment": "После явного действия «Сохранить защищённую сессию» на соответствующей поверхности",
+              "observableResult": "Сохранить защищённую сессию: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_keychain"
+            }
+          ]
+        },
+        {
+          "id": "capability_faceid",
+          "label": "Защитить черновики",
+          "outcome": {
+            "type": "system",
+            "target": "profile",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_faceid",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_faceid",
+            "value": "completed"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "faceid",
+              "requestMoment": "После явного действия «Защитить черновики» на соответствующей поверхности",
+              "observableResult": "Защитить черновики: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_faceid"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default"
+      ],
+      "surfaceContract": {
+        "surface": "profile",
+        "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "profile-cards",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Профиль",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "profile-cards",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "active_relays",
+      "title": "Активные",
+      "recipe": "featureList",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKNavigationChrome",
+        "VKGroup",
+        "VKRow"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        }
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [],
+      "actions": [],
+      "states": [
+        "populated/default"
+      ],
+      "surfaceContract": {
+        "surface": "active_relays",
+        "job": "Выполнить задачу экрана «Активные» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Активные",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "drafts",
+      "title": "Черновики",
+      "recipe": "featureList",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKNavigationChrome",
+        "VKGroup",
+        "VKRow"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        }
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [],
+      "actions": [],
+      "states": [
+        "populated/default"
+      ],
+      "surfaceContract": {
+        "surface": "drafts",
+        "job": "Выполнить задачу экрана «Черновики» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Черновики",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "schedule",
+      "title": "Мои сроки",
+      "recipe": "featureList",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKNavigationChrome",
+        "VKGroup",
+        "VKRow"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "structured-social-progress",
+          "sources": [
+            "platform/concepts/klass/screens/feed.html"
+          ],
+          "rule": "Turn status into product facts such as who acted, how many completed and what is due; avoid generic activity labels."
+        }
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [],
+      "actions": [],
+      "states": [
+        "populated/default"
+      ],
+      "surfaceContract": {
+        "surface": "schedule",
+        "job": "Выполнить задачу экрана «Мои сроки» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Мои сроки",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "handoff",
+      "title": "Передать ход",
+      "recipe": "recipientPicker",
+      "nativeComponents": [
+        "VKRootSurface",
+        "VKModalChrome",
+        "VKGroup",
+        "VKRow",
+        "VKPrimaryActionArea"
+      ],
+      "inheritedPatterns": [
+        {
+          "id": "domain-first-differentiation",
+          "sources": [
+            "platform/concepts/today/docs/01-product-vision.md",
+            "platform/concepts/dvor/docs/03-design-system.md",
+            "platform/concepts/strochka/docs/03-design-system.md"
+          ],
+          "rule": "Differentiate with the domain model and one signature component; preserve native hierarchy and vary accent, type or radius only after the product structure is clear."
+        },
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
+      ],
+      "presentation": "push",
+      "parent": "relay_feed",
+      "entityIds": [
+        "handoff"
+      ],
+      "actions": [
+        {
+          "id": "pass_turn",
+          "label": "Передать ход",
+          "outcome": {
+            "type": "mutate",
+            "target": "handoff",
+            "reducer": {
+              "type": "update",
+              "stateField": "nextParticipant",
+              "value": "selected"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "nextParticipant",
+            "value": "selected"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "capability_calendar",
+          "label": "Запланировать ход",
+          "outcome": {
+            "type": "system",
+            "target": "handoff",
+            "reducer": {
+              "type": "system",
+              "stateField": "capability_calendar",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "capability_calendar",
+            "value": "completed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "calendar",
+              "requestMoment": "После явного действия «Запланировать ход» на соответствующей поверхности",
+              "observableResult": "Запланировать ход: на поверхности появляется подтверждённый продуктовый результат",
+              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
+              "stateField": "capability_calendar"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "populated/default",
+        "error"
+      ],
+      "surfaceContract": {
+        "surface": "handoff",
+        "job": "Выполнить задачу экрана «Передать ход» в общем продуктовом цикле",
+        "primaryAction": "pass_turn",
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Передать ход",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
           "people-list"
         ],
         "forbiddenFamilies": [
@@ -944,18 +1577,26 @@
         "VKGroup",
         "VKRow"
       ],
+      "inheritedPatterns": [
+        {
+          "id": "capability-inside-feature",
+          "sources": [
+            "platform/concepts/druzya/sections.html",
+            "platform/concepts/klass/sections.html"
+          ],
+          "rule": "A capability is reached through a useful feature in two or three taps, with a visible granted result and denied fallback; never collect requests in an access catalogue."
+        }
+      ],
       "presentation": "push",
       "parent": "relay_feed",
       "entityIds": [
         "relay",
-        "chapter",
-        "person",
-        "handoff"
+        "person"
       ],
       "actions": [
         {
           "id": "capability_fetch",
-          "label": "Освежать ленту",
+          "label": "Обновлять ленту",
           "outcome": {
             "type": "system",
             "target": "settings",
@@ -974,8 +1615,8 @@
           "capabilities": [
             {
               "key": "fetch",
-              "requestMoment": "После явного действия «Освежать ленту» на соответствующей поверхности",
-              "observableResult": "Освежать ленту: на поверхности появляется подтверждённый продуктовый результат",
+              "requestMoment": "После явного действия «Обновлять ленту» на соответствующей поверхности",
+              "observableResult": "Обновлять ленту: на поверхности появляется подтверждённый продуктовый результат",
               "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
               "stateField": "capability_fetch"
             }
@@ -1010,62 +1651,6 @@
           ]
         },
         {
-          "id": "capability_appgroups",
-          "label": "Поделиться черновиком",
-          "outcome": {
-            "type": "system",
-            "target": "settings",
-            "reducer": {
-              "type": "system",
-              "stateField": "capability_appgroups",
-              "value": "completed"
-            }
-          },
-          "effect": {
-            "type": "system",
-            "stateField": "capability_appgroups",
-            "value": "completed"
-          },
-          "placement": "settings-row",
-          "capabilities": [
-            {
-              "key": "appgroups",
-              "requestMoment": "После явного действия «Поделиться черновиком» на соответствующей поверхности",
-              "observableResult": "Поделиться черновиком: на поверхности появляется подтверждённый продуктовый результат",
-              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
-              "stateField": "capability_appgroups"
-            }
-          ]
-        },
-        {
-          "id": "capability_keychain",
-          "label": "Сохранить защищённую сессию",
-          "outcome": {
-            "type": "system",
-            "target": "settings",
-            "reducer": {
-              "type": "system",
-              "stateField": "capability_keychain",
-              "value": "completed"
-            }
-          },
-          "effect": {
-            "type": "system",
-            "stateField": "capability_keychain",
-            "value": "completed"
-          },
-          "placement": "settings-row",
-          "capabilities": [
-            {
-              "key": "keychain",
-              "requestMoment": "После явного действия «Сохранить защищённую сессию» на соответствующей поверхности",
-              "observableResult": "Сохранить защищённую сессию: на поверхности появляется подтверждённый продуктовый результат",
-              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
-              "stateField": "capability_keychain"
-            }
-          ]
-        },
-        {
           "id": "capability_autofill",
           "label": "Добавить быстрый вход",
           "outcome": {
@@ -1090,62 +1675,6 @@
               "observableResult": "Добавить быстрый вход: на поверхности появляется подтверждённый продуктовый результат",
               "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
               "stateField": "capability_autofill"
-            }
-          ]
-        },
-        {
-          "id": "capability_faceid",
-          "label": "Защитить черновики",
-          "outcome": {
-            "type": "system",
-            "target": "settings",
-            "reducer": {
-              "type": "system",
-              "stateField": "capability_faceid",
-              "value": "completed"
-            }
-          },
-          "effect": {
-            "type": "system",
-            "stateField": "capability_faceid",
-            "value": "completed"
-          },
-          "placement": "settings-row",
-          "capabilities": [
-            {
-              "key": "faceid",
-              "requestMoment": "После явного действия «Защитить черновики» на соответствующей поверхности",
-              "observableResult": "Защитить черновики: на поверхности появляется подтверждённый продуктовый результат",
-              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
-              "stateField": "capability_faceid"
-            }
-          ]
-        },
-        {
-          "id": "capability_calendar",
-          "label": "Запланировать ход",
-          "outcome": {
-            "type": "system",
-            "target": "settings",
-            "reducer": {
-              "type": "system",
-              "stateField": "capability_calendar",
-              "value": "completed"
-            }
-          },
-          "effect": {
-            "type": "system",
-            "stateField": "capability_calendar",
-            "value": "completed"
-          },
-          "placement": "settings-row",
-          "capabilities": [
-            {
-              "key": "calendar",
-              "requestMoment": "После явного действия «Запланировать ход» на соответствующей поверхности",
-              "observableResult": "Запланировать ход: на поверхности появляется подтверждённый продуктовый результат",
-              "deniedFallback": "Сохранить текущий продуктовый контекст и предложить повторить действие позже",
-              "stateField": "capability_calendar"
             }
           ]
         }
@@ -1191,5 +1720,5 @@
     "lucide-product-chrome-for-vk",
     "shared-native-authentication"
   ],
-  "contractId": "ui-3203c2b6c8f8c1c0"
+  "contractId": "ui-718011b3022b7276"
 }

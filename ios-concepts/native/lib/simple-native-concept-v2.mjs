@@ -5,6 +5,7 @@ import { verifyNativeFullContractV2 } from "./native-full-contract-v2.mjs";
 import { verifyNativeSliceContract } from "./native-slice-contract.mjs";
 import { validateProductCoreV2 } from "./product-core-v2.mjs";
 import { resolveProductTarget } from "./product-target-catalog.mjs";
+import { auditNativeProductQualityV2, createNativeVisualReviewPacketV2, verifyNativeVisualReviewV2 } from "./native-visual-review-v2.mjs";
 
 const CAPABILITY_FEATURES = Object.freeze({
   camera: ["Снять продолжение", "chapter", "create"],
@@ -22,7 +23,7 @@ const CAPABILITY_FEATURES = Object.freeze({
   remotenotif: ["Обновлять цепочки", "relay", "messages"],
   voip: ["Позвонить участнику", "person", "messages"],
   contacts: ["Выбрать знакомого", "person", "messages"],
-  fetch: ["Освежать ленту", "relay", "services"],
+  fetch: ["Обновлять ленту", "relay", "services"],
   bgtask: ["Готовить подборку", "relay", "services"],
   appgroups: ["Поделиться черновиком", "chapter", "services"],
   keychain: ["Сохранить защищённую сессию", "person", "services"],
@@ -158,6 +159,10 @@ function compileContracts(spec) {
     journeys.push({ id: `capability-${binding.key}`, actionIds: [binding.actionId] });
     covered.add(binding.actionId);
   }
+  for (const transition of transitions) if (!covered.has(transition.actionId)) {
+    journeys.push({ id: `navigation-${transition.actionId}`, actionIds: [transition.actionId] });
+    covered.add(transition.actionId);
+  }
   const fullContract = {
     schemaVersion: 2,
     surfaces,
@@ -188,9 +193,11 @@ export function verifySimpleNativeConceptV2(spec) {
   }
 }
 
-export function generateNativeConceptV2({ projectRoot, spec, execute = true, simulator }) {
+export function generateNativeConceptV2({ projectRoot, spec, execute = true, simulator, visualReview = null }) {
   const compiled = compileContracts(spec);
   if (compiled.diagnostics.length) return Object.freeze({ ok: false, diagnostics: Object.freeze(compiled.diagnostics) });
+  const qualityDiagnostics = auditNativeProductQualityV2({ spec, fullContract: compiled.fullContract, capabilityPlan: compiled.capabilityPlan });
+  if (qualityDiagnostics.length) return Object.freeze({ ok: false, diagnostics: qualityDiagnostics });
   const materialized = materializeNativeFullV2({
     projectRoot,
     productCore: compiled.productCore,
@@ -200,9 +207,14 @@ export function generateNativeConceptV2({ projectRoot, spec, execute = true, sim
     strategy: spec.strategy,
   });
   const delivery = execute ? executeNativeSliceV2({ projectRoot, materialized, simulator }) : null;
+  const visualReviewPacket = delivery ? createNativeVisualReviewPacketV2({
+    spec, fullContract: compiled.fullContract, capabilityPlan: compiled.capabilityPlan, delivery,
+  }) : null;
+  const visualReviewResult = visualReviewPacket && visualReview
+    ? verifyNativeVisualReviewV2({ packet: visualReviewPacket, review: visualReview }) : null;
   return Object.freeze({
-    ok: true,
-    diagnostics: Object.freeze([]),
+    ok: visualReviewResult ? visualReviewResult.passed : true,
+    diagnostics: visualReviewResult?.diagnostics || Object.freeze([]),
     spec: structuredClone(spec),
     productCore: compiled.productCore,
     capabilityPlan: compiled.capabilityPlan,
@@ -210,6 +222,8 @@ export function generateNativeConceptV2({ projectRoot, spec, execute = true, sim
     fullContract: compiled.fullContract,
     materialized,
     delivery,
+    visualReviewPacket,
+    visualReviewResult,
   });
 }
 

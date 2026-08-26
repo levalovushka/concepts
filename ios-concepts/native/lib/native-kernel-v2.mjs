@@ -237,15 +237,27 @@ function actionCall(actionId, capabilityByAction) {
   return `store.perform(.${swiftCase(actionId)})`;
 }
 
+const CAPABILITY_ICONS = Object.freeze({
+  camera: "camera.fill", photos: "photo.on.rectangle", mic: "mic.fill", speech: "waveform",
+  audio: "headphones", location: "location.fill", wifiinfo: "wifi", hotspot: "personalhotspot",
+  tracking: "slider.horizontal.3", associateddomains: "link", push: "bell.fill",
+  commnotif: "message.badge.fill", remotenotif: "arrow.clockwise", voip: "phone.fill",
+  contacts: "person.crop.circle.badge.plus", fetch: "arrow.triangle.2.circlepath",
+  bgtask: "clock.arrow.circlepath", appgroups: "square.and.arrow.up", keychain: "key.fill",
+  autofill: "person.text.rectangle", faceid: "faceid", calendar: "calendar",
+});
+
 function actionControl(surfaceId, action, capabilityByAction, primary) {
   const call = actionCall(action.id, capabilityByAction);
+  const capability = capabilityByAction.get(action.id);
+  const icon = capability ? CAPABILITY_ICONS[capability.key] || "gearshape.fill" : "arrow.right";
   const modifier = `.nativeAction(${swiftString(`${surfaceId}.${action.id}`)})
             .accessibilityIdentifier(${swiftString(`action.${surfaceId}.${action.id}`)})`;
   return primary
     ? `VKButton(title: ${swiftString(action.label)}) { ${call} }
             ${modifier}`
     : `Button { ${call} } label: {
-                VKRow(title: ${swiftString(action.label)}, icon: "arrow.right", chevron: false)
+                VKRow(title: ${swiftString(action.label)}, icon: ${swiftString(icon)}, chevron: false)
             }
             .buttonStyle(.plain)
             ${modifier}`;
@@ -253,7 +265,9 @@ function actionControl(surfaceId, action, capabilityByAction, primary) {
 
 function compileSurface(surface, core, capabilityByAction, firstPerson, isRoot) {
   const actionById = new Map(core.world.actions.map(item => [item.id, item]));
-  const actions = surface.actionIds.map(id => actionById.get(id)).filter(Boolean);
+  const ownedActions = surface.actionIds.map(id => actionById.get(id)).filter(Boolean);
+  const headerAction = ownedActions.find(action => action.id === "open_profile");
+  const actions = ownedActions.filter(action => action.id !== "open_profile");
   const primary = actions[0];
   const secondary = actions.slice(1);
   const primaryControl = primary ? actionControl(surface.id, primary, capabilityByAction, true) : "EmptyView()";
@@ -266,6 +280,45 @@ function compileSurface(surface, core, capabilityByAction, firstPerson, isRoot) 
   const detailRows = (surface.content.details || []).map((detail, index) => `
                     VKRow(title: ${swiftString(detail.title)}, subtitle: ${swiftString(detail.detail)}, icon: ${swiftString(detail.icon || "circle")}, chevron: false)
                     ${index < surface.content.details.length - 1 ? "RowSeparator()" : ""}`).join("\n");
+  const recipientRows = (surface.content.details || []).map((detail, index) => `
+                    Button { selectedRecipient = ${swiftString(detail.title)} } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: ${swiftString(detail.icon || "person.crop.circle.fill")})
+                                .font(.system(size: 30))
+                                .foregroundStyle(theme.palette.accent)
+                                .frame(width: 40)
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(${swiftString(detail.title)}).font(.vkBody)
+                                Text(${swiftString(detail.detail)}).font(.vkMeta).foregroundStyle(theme.palette.textSecondary)
+                            }
+                            Spacer()
+                            Image(systemName: selectedRecipient == ${swiftString(detail.title)} ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(selectedRecipient == ${swiftString(detail.title)} ? theme.palette.accent : theme.palette.textSecondary)
+                        }
+                        .padding(.horizontal, 16)
+                        .frame(minHeight: 64)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier(${swiftString(`recipient.${surface.id}.${index + 1}`)})
+                    ${index < surface.content.details.length - 1 ? "RowSeparator()" : ""}`).join("\n");
+  const serviceIcons = ["arrow.triangle.branch", "doc.text.fill", "calendar", "bookmark.fill", "gearshape.fill"];
+  const serviceTiles = actions.map((action, index) => `Button { store.perform(.${swiftCase(action.id)}) } label: {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Image(systemName: ${swiftString(serviceIcons[index % serviceIcons.length])})
+                            .font(.system(size: 24, weight: .semibold))
+                            .foregroundStyle(theme.palette.accent)
+                            .frame(width: 48, height: 48)
+                            .background(theme.palette.fill, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        Text(${swiftString(action.label)}).font(.vkName).foregroundStyle(theme.palette.textPrimary)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 124, alignment: .topLeading)
+                    .padding(16)
+                    .background(.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                }
+                .buttonStyle(.plain)
+                .nativeAction(${swiftString(`${surface.id}.${action.id}`)})
+                .accessibilityIdentifier(${swiftString(`action.${surface.id}.${action.id}`)})`).join("\n");
   const outcomeNotices = permissionKeys.map(key => `if let granted = store.permissionOutcomes[${swiftString(key)}] {
                 VKInlineNotice(
                     title: granted ? "Доступ выполнен" : "Продолжим без доступа",
@@ -273,6 +326,20 @@ function compileSurface(surface, core, capabilityByAction, firstPerson, isRoot) 
                 )
                 .accessibilityIdentifier(granted ? ${swiftString(`outcome.permission.${key}.granted`)} : ${swiftString(`outcome.permission.${key}.denied`)})
             }`).join("\n");
+  const mediaPlaceholder = surface.content.mediaPlaceholder ? `ZStack {
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(theme.palette.fill)
+                    VStack(spacing: 10) {
+                        Image(systemName: "photo")
+                            .font(.system(size: 34, weight: .medium))
+                            .foregroundStyle(theme.palette.textSecondary)
+                        Text(${swiftString(surface.content.mediaPlaceholder)})
+                            .font(.vkMeta)
+                            .foregroundStyle(theme.palette.textSecondary)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 250)` : "";
   const entryBody = `VStack(alignment: .leading, spacing: 0) {
             VKAuthoredPost {
                 HStack(spacing: 10) {
@@ -286,8 +353,10 @@ function compileSurface(surface, core, capabilityByAction, firstPerson, isRoot) 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(${swiftString(surface.content.headline)}).font(.vkSection)
                     Text(${swiftString(surface.content.body)}).font(.vkBody).fixedSize(horizontal: false, vertical: true)
+                    ${mediaPlaceholder}
                 }
                 .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             } actions: {
                 VStack(alignment: .leading, spacing: 12) {
                     VKPostActions(
@@ -341,6 +410,7 @@ ${detailRows}
                 VStack(alignment: .leading, spacing: 10) {
                     Text(${swiftString(surface.content.headline)}).font(.vkTabTitle)
                     Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                    ${mediaPlaceholder}
                     VKInlineNotice(title: ${swiftString(surface.content.summary?.title || "Результат виден")}, detail: ${swiftString(surface.content.summary?.detail || surface.content.body)})
                 }
                 .padding(.horizontal, 16)
@@ -408,8 +478,9 @@ ${detailRows}
   const profileBody = `VStack(alignment: .leading, spacing: 8) {
             VKGroup {
                 VStack(spacing: 12) {
-                    Avatar(name: "Ты", size: 86, online: true)
-                    Text(${swiftString(core.name)}).font(.vkTabTitle)
+                    Avatar(name: ${swiftString(surface.content.author || "Ты")}, size: 86, online: true)
+                    Text(${swiftString(surface.content.author || "Ты")}).font(.vkTabTitle)
+                    ${surface.content.headline ? `Text(${swiftString(surface.content.headline)}).font(.vkMeta).foregroundStyle(theme.palette.textSecondary)` : ""}
                     Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary).multilineTextAlignment(.center)
                     HStack(spacing: 0) {
                         VStack { Text("3").font(.vkName); Text("активные").font(.vkMeta) }.frame(maxWidth: .infinity)
@@ -420,18 +491,106 @@ ${detailRows}
                     }
                 }.padding(16)
             }
+            ${detailRows ? `GroupGap()
+            VKGroup {
+                Text(${swiftString(surface.content.sectionTitle || surface.content.headline)}).font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                ${detailRows}
+            }` : ""}
+            ${detailRows ? "GroupGap()" : ""}
             VKGroup { ${allRowControls} }
+            ${outcomeNotices}
+        }`;
+  const publicationBody = `VStack(alignment: .leading, spacing: 0) {
+            VKGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(${swiftString(surface.content.headline)}).font(.vkTabTitle)
+                    Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                }.padding(16)
+            }
+            GroupGap()
+            VKGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Условие").font(.vkSection)
+                    Text("Например: найди что-то идеально круглое").font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(theme.palette.fill)
+                        .frame(height: 140)
+                        .overlay {
+                            VStack(spacing: 8) {
+                                Image(systemName: "photo.on.rectangle").font(.system(size: 28, weight: .medium))
+                                Text("Первая глава").font(.vkMeta)
+                            }.foregroundStyle(theme.palette.textSecondary)
+                        }
+                }.padding(16)
+            }
+            GroupGap()
+            VKPrimaryActionArea { ${primaryControl} }
+            ${secondaryControls ? `VKGroup {
+                Text("Добавить материал").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                ${secondaryControls}
+            }` : ""}
+            ${outcomeNotices}
+        }`;
+  const recipientBody = `VStack(alignment: .leading, spacing: 0) {
+            VKGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(${swiftString(surface.content.headline)}).font(.vkTabTitle)
+                    Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                }.padding(16)
+            }
+            GroupGap()
+            VKGroup {
+                VStack(spacing: 0) {
+                    ${recipientRows}
+                }
+            }
+            GroupGap()
+            VKInlineNotice(title: "\\(selectedRecipient) получит следующий ход", detail: "Продолжение и условие будут отправлены только выбранному знакомому.")
+                .padding(.horizontal, 16)
+            VKPrimaryActionArea { ${primaryControl} }
+            ${secondaryControls ? `VKGroup {
+                Text("Перед отправкой").font(.vkSection).padding(.horizontal, 16).padding(.top, 12)
+                ${secondaryControls}
+            }` : ""}
+            ${outcomeNotices}
+        }`;
+  const serviceMenuBody = `VStack(alignment: .leading, spacing: 0) {
+            VKGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(${swiftString(surface.content.headline)}).font(.vkTabTitle)
+                    Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                }.padding(16)
+            }
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                ${serviceTiles}
+            }
+            .padding(16)
+        }`;
+  const featureListBody = `VStack(alignment: .leading, spacing: 0) {
+            VKGroup {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(${swiftString(surface.content.headline)}).font(.vkTabTitle)
+                    Text(${swiftString(surface.content.body)}).font(.vkBody).foregroundStyle(theme.palette.textSecondary)
+                }.padding(16)
+            }
+            ${detailRows ? `GroupGap()
+            VKGroup { ${detailRows} }` : ""}
         }`;
   const recipeBody = surface.recipe === "socialDiscovery" ? discoveryBody
     : surface.recipe === "conversationList" ? conversationsBody
-      : surface.recipe === "ownedProfile" ? profileBody : supportBody;
-  const roleBody = surface.role === "entry" ? entryBody
+      : surface.recipe === "ownedProfile" ? profileBody
+        : surface.recipe === "publicationEditor" ? publicationBody
+          : surface.recipe === "serviceMenu" ? serviceMenuBody
+            : surface.recipe === "featureList" ? featureListBody : supportBody;
+  const roleBody = surface.recipe === "recipientPicker" ? recipientBody
+    : surface.role === "entry" ? entryBody
     : surface.role === "action" ? actionBody
       : surface.role === "result" ? resultBody : recipeBody;
   const header = surface.role === "action"
     ? `VKModalChrome(title: ${swiftString(surface.title)}, onCancel: { store.route = ProductRoute.allCases[0] })`
     : isRoot && surface.role === "entry"
-      ? `VKTabHeader(title: ${swiftString(surface.title)}, avatar: ${swiftString(surfacePerson)}) { EmptyView() }`
+      ? `VKTabHeader(title: ${swiftString(surface.title)}, avatar: ${swiftString(surfacePerson)}, avatarAction: ${headerAction ? `{ store.perform(.${swiftCase(headerAction.id)}) }` : "nil"}) { EmptyView() }${headerAction ? `
+            .nativeAction(${swiftString(`${surface.id}.${headerAction.id}`)})` : ""}`
       : isRoot ? `VKTabHeader(title: ${swiftString(surface.title)}) { EmptyView() }` : "EmptyView()";
   const navigation = !isRoot && surface.role !== "action" ? `
         .vkNavigation(${swiftString(surface.title)})` : "";
@@ -439,6 +598,7 @@ ${detailRows}
     @Environment(NativeV2ProductStore.self) private var store
     @Environment(Permissions.self) private var permissions
     @Environment(\\.visualLanguage) private var theme
+    ${surface.recipe === "recipientPicker" ? `@State private var selectedRecipient = ${swiftString(surface.content.details?.[0]?.title || "Получатель")}` : ""}
 
     var body: some View {
         VKRootSurface {
@@ -455,6 +615,7 @@ ${detailRows}
         }
         ${navigation}
         .nativeSurface(${swiftString(surface.id)})
+        ${isRoot ? "" : ".toolbar(.hidden, for: .tabBar)"}
     }
 }
 `;
@@ -558,6 +719,7 @@ struct NativeV2ProductRoot: View {
 ${additionalTabSource}
         }
         .tabBarMinimizeBehavior(.never)
+        .toolbar([${rootIds.map(swiftString).join(", ")}].contains(store.route.rawValue) ? .visible : .hidden, for: .tabBar)
         .onChange(of: selectedTab) { _, value in
             if let route = ProductRoute(rawValue: value) { store.route = route }
         }
@@ -673,6 +835,7 @@ ${steps}
   }
   const permissionTests = representativeBindings.map(item => {
     const surface = surfaceByAction.get(item.actionId);
+    const grantedDestination = transitionByAction.get(item.actionId);
     const name = `testPermission${swiftType(item.key)}`;
     return `    func ${name}GrantedAndDenied() {
         for answer in ["granted", "denied"] {
@@ -682,7 +845,13 @@ ${steps}
             app.launchArguments = ["-shot", ${swiftString(surface)}, "-state", "populated/default"]
             app.launch()
             app.buttons[${swiftString(`action.${surface}.${item.actionId}`)}].tap()
-            XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.${item.key}.\\(answer)"].waitForExistence(timeout: 2))
+${grantedDestination ? `            if answer == "granted" {
+                XCTAssertTrue(app.descendants(matching: .any)
+                    .matching(NSPredicate(format: "identifier BEGINSWITH %@", ${swiftString(`surface.${grantedDestination}`)}))
+                    .firstMatch.waitForExistence(timeout: 2))
+            } else {
+                XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.${item.key}.denied"].waitForExistence(timeout: 2))
+            }` : `            XCTAssertTrue(app.descendants(matching: .any)["outcome.permission.${item.key}.\\(answer)"].waitForExistence(timeout: 2))`}
             app.terminate()
         }
     }`;
@@ -713,12 +882,14 @@ ${tabStabilityTest}
 export function compileNativeKernelV2({ productCoreArtifact, capabilityPlan, sliceContract }) {
   const core = productCoreArtifact?.core;
   if (!core || !capabilityPlan || !sliceContract) throw new TypeError("Native Kernel v2 needs verified product, capability and slice contracts");
+  const cleanSwift = contents => `${contents.replace(/[ \t]+$/gm, "").trimEnd()}\n`;
   const files = [
     { path: "NativeV2App.swift", contents: compileApp(core) },
     { path: "NativeV2ProductStore.swift", contents: compileStore(core, sliceContract, capabilityPlan) },
     { path: "NativeV2ProductScreens.swift", contents: compileScreens(core, sliceContract, capabilityPlan) },
-  ].map(Object.freeze);
-  const uiTestFiles = [{ path: `${swiftType(core.id, "SliceTests")}.swift`, contents: compileUITests(core, sliceContract, capabilityPlan) }].map(Object.freeze);
+  ].map(file => Object.freeze({ ...file, contents: cleanSwift(file.contents) }));
+  const uiTestFiles = [{ path: `${swiftType(core.id, "SliceTests")}.swift`, contents: compileUITests(core, sliceContract, capabilityPlan) }]
+    .map(file => Object.freeze({ ...file, contents: cleanSwift(file.contents) }));
   const captureCatalog = Object.freeze({
     schemaVersion: 1,
     scope: sliceContract.rootTabs ? "full-expansion" : "vertical-slice",

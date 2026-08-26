@@ -63,6 +63,7 @@ struct VKTabHeader<Trailing: View>: View {
             if let avatar {
                 if let avatarAction {
                     Button(action: avatarAction) { Avatar(name: avatar, size: 32) }
+                        .accessibilityIdentifier("action.relay_feed.open_profile")
                         .buttonStyle(.plain)
                         .accessibilityLabel("Профиль")
                 } else {

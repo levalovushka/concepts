@@ -7,6 +7,11 @@
     "create",
     "messages",
     "services",
+    "profile",
+    "active_relays",
+    "drafts",
+    "schedule",
+    "handoff",
     "settings"
   ],
   "pendingProduct": [],

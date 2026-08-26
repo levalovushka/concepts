@@ -22,12 +22,12 @@
 
 ## Product scale
 
-- 8 product screens.
-- 28 declared actions.
+- 13 product screens.
+- 33 declared actions.
 - 22 contextual iOS capabilities.
-- 16 localized interface strings.
-- 23 acceptance scenarios.
-- 8 deterministic fixture groups.
+- 26 localized interface strings.
+- 29 acceptance scenarios.
+- 13 deterministic fixture groups.
 
 ## Primary loop
 
