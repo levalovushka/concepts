@@ -1,0 +1,997 @@
+{
+  "schemaVersion": 1,
+  "distinctStateGroups": [
+    [
+      "phone-default",
+      "phone-loading",
+      "phone-error",
+      "phone-offline"
+    ],
+    [
+      "code-default",
+      "code-loading",
+      "code-error",
+      "code-offline"
+    ],
+    [
+      "codefail-default",
+      "codefail-loading",
+      "codefail-error",
+      "codefail-offline"
+    ],
+    [
+      "join-default",
+      "join-loading",
+      "join-error",
+      "join-offline"
+    ],
+    [
+      "manual-default",
+      "manual-loading",
+      "manual-error",
+      "manual-offline"
+    ],
+    [
+      "shifts-default",
+      "shifts-loading",
+      "shifts-error",
+      "shifts-offline"
+    ],
+    [
+      "import-default",
+      "import-loading",
+      "import-error",
+      "import-offline"
+    ],
+    [
+      "shift-default",
+      "shift-loading",
+      "shift-error",
+      "shift-offline"
+    ],
+    [
+      "checkin-default",
+      "checkin-loading",
+      "checkin-error",
+      "checkin-offline"
+    ],
+    [
+      "netqr-default",
+      "netqr-loading",
+      "netqr-error",
+      "netqr-offline"
+    ],
+    [
+      "scan-default",
+      "scan-loading",
+      "scan-error",
+      "scan-offline"
+    ],
+    [
+      "handover-default",
+      "handover-loading",
+      "handover-error",
+      "handover-offline"
+    ],
+    [
+      "shoot-default",
+      "shoot-loading",
+      "shoot-error",
+      "shoot-offline"
+    ],
+    [
+      "brief-default",
+      "brief-loading",
+      "brief-error",
+      "brief-offline"
+    ],
+    [
+      "record-default",
+      "record-loading",
+      "record-error",
+      "record-offline"
+    ],
+    [
+      "player-default",
+      "player-loading",
+      "player-error",
+      "player-offline"
+    ],
+    [
+      "swaps-default",
+      "swaps-loading",
+      "swaps-error",
+      "swaps-offline"
+    ],
+    [
+      "swap-default",
+      "swap-loading",
+      "swap-error",
+      "swap-offline"
+    ],
+    [
+      "people-default",
+      "people-loading",
+      "people-error",
+      "people-offline"
+    ],
+    [
+      "mates-default",
+      "mates-loading",
+      "mates-error",
+      "mates-offline"
+    ],
+    [
+      "person-default",
+      "person-loading",
+      "person-error",
+      "person-offline"
+    ],
+    [
+      "call-default",
+      "call-loading",
+      "call-error",
+      "call-offline"
+    ],
+    [
+      "chat-default",
+      "chat-loading",
+      "chat-error",
+      "chat-offline"
+    ],
+    [
+      "lockscreen-default",
+      "lockscreen-loading",
+      "lockscreen-error",
+      "lockscreen-offline"
+    ],
+    [
+      "menu-default",
+      "menu-loading",
+      "menu-error",
+      "menu-offline"
+    ],
+    [
+      "lock-default",
+      "lock-loading",
+      "lock-error",
+      "lock-offline"
+    ],
+    [
+      "money-default",
+      "money-loading",
+      "money-error",
+      "money-offline"
+    ],
+    [
+      "passwords-default",
+      "passwords-loading",
+      "passwords-error",
+      "passwords-offline"
+    ],
+    [
+      "fill-default",
+      "fill-loading",
+      "fill-error",
+      "fill-offline"
+    ],
+    [
+      "settings-default",
+      "settings-loading",
+      "settings-error",
+      "settings-offline"
+    ],
+    [
+      "background-default",
+      "background-loading",
+      "background-error",
+      "background-offline"
+    ],
+    [
+      "widget-default",
+      "widget-loading",
+      "widget-error",
+      "widget-offline"
+    ],
+    [
+      "ads-default",
+      "ads-loading",
+      "ads-error",
+      "ads-offline"
+    ]
+  ],
+  "drivers": [
+    {
+      "surface": "phone",
+      "state": "default",
+      "launch": "phone",
+      "artifact": "phone-default"
+    },
+    {
+      "surface": "phone",
+      "state": "loading",
+      "launch": "phone",
+      "artifact": "phone-loading"
+    },
+    {
+      "surface": "phone",
+      "state": "error",
+      "launch": "phone",
+      "artifact": "phone-error"
+    },
+    {
+      "surface": "phone",
+      "state": "offline",
+      "launch": "phone",
+      "artifact": "phone-offline"
+    },
+    {
+      "surface": "code",
+      "state": "default",
+      "launch": "code",
+      "artifact": "code-default"
+    },
+    {
+      "surface": "code",
+      "state": "loading",
+      "launch": "code",
+      "artifact": "code-loading"
+    },
+    {
+      "surface": "code",
+      "state": "error",
+      "launch": "code",
+      "artifact": "code-error"
+    },
+    {
+      "surface": "code",
+      "state": "offline",
+      "launch": "code",
+      "artifact": "code-offline"
+    },
+    {
+      "surface": "codefail",
+      "state": "default",
+      "launch": "codefail",
+      "artifact": "codefail-default"
+    },
+    {
+      "surface": "codefail",
+      "state": "loading",
+      "launch": "codefail",
+      "artifact": "codefail-loading"
+    },
+    {
+      "surface": "codefail",
+      "state": "error",
+      "launch": "codefail",
+      "artifact": "codefail-error"
+    },
+    {
+      "surface": "codefail",
+      "state": "offline",
+      "launch": "codefail",
+      "artifact": "codefail-offline"
+    },
+    {
+      "surface": "join",
+      "state": "default",
+      "launch": "join",
+      "artifact": "join-default"
+    },
+    {
+      "surface": "join",
+      "state": "loading",
+      "launch": "join",
+      "artifact": "join-loading"
+    },
+    {
+      "surface": "join",
+      "state": "error",
+      "launch": "join",
+      "artifact": "join-error"
+    },
+    {
+      "surface": "join",
+      "state": "offline",
+      "launch": "join",
+      "artifact": "join-offline"
+    },
+    {
+      "surface": "manual",
+      "state": "default",
+      "launch": "manual",
+      "artifact": "manual-default"
+    },
+    {
+      "surface": "manual",
+      "state": "loading",
+      "launch": "manual",
+      "artifact": "manual-loading"
+    },
+    {
+      "surface": "manual",
+      "state": "error",
+      "launch": "manual",
+      "artifact": "manual-error"
+    },
+    {
+      "surface": "manual",
+      "state": "offline",
+      "launch": "manual",
+      "artifact": "manual-offline"
+    },
+    {
+      "surface": "shifts",
+      "state": "default",
+      "launch": "shifts",
+      "artifact": "shifts-default"
+    },
+    {
+      "surface": "shifts",
+      "state": "loading",
+      "launch": "shifts",
+      "artifact": "shifts-loading"
+    },
+    {
+      "surface": "shifts",
+      "state": "error",
+      "launch": "shifts",
+      "artifact": "shifts-error"
+    },
+    {
+      "surface": "shifts",
+      "state": "offline",
+      "launch": "shifts",
+      "artifact": "shifts-offline"
+    },
+    {
+      "surface": "import",
+      "state": "default",
+      "launch": "import",
+      "artifact": "import-default"
+    },
+    {
+      "surface": "import",
+      "state": "loading",
+      "launch": "import",
+      "artifact": "import-loading"
+    },
+    {
+      "surface": "import",
+      "state": "error",
+      "launch": "import",
+      "artifact": "import-error"
+    },
+    {
+      "surface": "import",
+      "state": "offline",
+      "launch": "import",
+      "artifact": "import-offline"
+    },
+    {
+      "surface": "shift",
+      "state": "default",
+      "launch": "shift",
+      "artifact": "shift-default"
+    },
+    {
+      "surface": "shift",
+      "state": "loading",
+      "launch": "shift",
+      "artifact": "shift-loading"
+    },
+    {
+      "surface": "shift",
+      "state": "error",
+      "launch": "shift",
+      "artifact": "shift-error"
+    },
+    {
+      "surface": "shift",
+      "state": "offline",
+      "launch": "shift",
+      "artifact": "shift-offline"
+    },
+    {
+      "surface": "checkin",
+      "state": "default",
+      "launch": "checkin",
+      "artifact": "checkin-default"
+    },
+    {
+      "surface": "checkin",
+      "state": "loading",
+      "launch": "checkin",
+      "artifact": "checkin-loading"
+    },
+    {
+      "surface": "checkin",
+      "state": "error",
+      "launch": "checkin",
+      "artifact": "checkin-error"
+    },
+    {
+      "surface": "checkin",
+      "state": "offline",
+      "launch": "checkin",
+      "artifact": "checkin-offline"
+    },
+    {
+      "surface": "netqr",
+      "state": "default",
+      "launch": "netqr",
+      "artifact": "netqr-default"
+    },
+    {
+      "surface": "netqr",
+      "state": "loading",
+      "launch": "netqr",
+      "artifact": "netqr-loading"
+    },
+    {
+      "surface": "netqr",
+      "state": "error",
+      "launch": "netqr",
+      "artifact": "netqr-error"
+    },
+    {
+      "surface": "netqr",
+      "state": "offline",
+      "launch": "netqr",
+      "artifact": "netqr-offline"
+    },
+    {
+      "surface": "scan",
+      "state": "default",
+      "launch": "scan",
+      "artifact": "scan-default"
+    },
+    {
+      "surface": "scan",
+      "state": "loading",
+      "launch": "scan",
+      "artifact": "scan-loading"
+    },
+    {
+      "surface": "scan",
+      "state": "error",
+      "launch": "scan",
+      "artifact": "scan-error"
+    },
+    {
+      "surface": "scan",
+      "state": "offline",
+      "launch": "scan",
+      "artifact": "scan-offline"
+    },
+    {
+      "surface": "handover",
+      "state": "default",
+      "launch": "handover",
+      "artifact": "handover-default"
+    },
+    {
+      "surface": "handover",
+      "state": "loading",
+      "launch": "handover",
+      "artifact": "handover-loading"
+    },
+    {
+      "surface": "handover",
+      "state": "error",
+      "launch": "handover",
+      "artifact": "handover-error"
+    },
+    {
+      "surface": "handover",
+      "state": "offline",
+      "launch": "handover",
+      "artifact": "handover-offline"
+    },
+    {
+      "surface": "shoot",
+      "state": "default",
+      "launch": "shoot",
+      "artifact": "shoot-default"
+    },
+    {
+      "surface": "shoot",
+      "state": "loading",
+      "launch": "shoot",
+      "artifact": "shoot-loading"
+    },
+    {
+      "surface": "shoot",
+      "state": "error",
+      "launch": "shoot",
+      "artifact": "shoot-error"
+    },
+    {
+      "surface": "shoot",
+      "state": "offline",
+      "launch": "shoot",
+      "artifact": "shoot-offline"
+    },
+    {
+      "surface": "brief",
+      "state": "default",
+      "launch": "brief",
+      "artifact": "brief-default"
+    },
+    {
+      "surface": "brief",
+      "state": "loading",
+      "launch": "brief",
+      "artifact": "brief-loading"
+    },
+    {
+      "surface": "brief",
+      "state": "error",
+      "launch": "brief",
+      "artifact": "brief-error"
+    },
+    {
+      "surface": "brief",
+      "state": "offline",
+      "launch": "brief",
+      "artifact": "brief-offline"
+    },
+    {
+      "surface": "record",
+      "state": "default",
+      "launch": "record",
+      "artifact": "record-default"
+    },
+    {
+      "surface": "record",
+      "state": "loading",
+      "launch": "record",
+      "artifact": "record-loading"
+    },
+    {
+      "surface": "record",
+      "state": "error",
+      "launch": "record",
+      "artifact": "record-error"
+    },
+    {
+      "surface": "record",
+      "state": "offline",
+      "launch": "record",
+      "artifact": "record-offline"
+    },
+    {
+      "surface": "player",
+      "state": "default",
+      "launch": "player",
+      "artifact": "player-default"
+    },
+    {
+      "surface": "player",
+      "state": "loading",
+      "launch": "player",
+      "artifact": "player-loading"
+    },
+    {
+      "surface": "player",
+      "state": "error",
+      "launch": "player",
+      "artifact": "player-error"
+    },
+    {
+      "surface": "player",
+      "state": "offline",
+      "launch": "player",
+      "artifact": "player-offline"
+    },
+    {
+      "surface": "swaps",
+      "state": "default",
+      "launch": "swaps",
+      "artifact": "swaps-default"
+    },
+    {
+      "surface": "swaps",
+      "state": "loading",
+      "launch": "swaps",
+      "artifact": "swaps-loading"
+    },
+    {
+      "surface": "swaps",
+      "state": "error",
+      "launch": "swaps",
+      "artifact": "swaps-error"
+    },
+    {
+      "surface": "swaps",
+      "state": "offline",
+      "launch": "swaps",
+      "artifact": "swaps-offline"
+    },
+    {
+      "surface": "swap",
+      "state": "default",
+      "launch": "swap",
+      "artifact": "swap-default"
+    },
+    {
+      "surface": "swap",
+      "state": "loading",
+      "launch": "swap",
+      "artifact": "swap-loading"
+    },
+    {
+      "surface": "swap",
+      "state": "error",
+      "launch": "swap",
+      "artifact": "swap-error"
+    },
+    {
+      "surface": "swap",
+      "state": "offline",
+      "launch": "swap",
+      "artifact": "swap-offline"
+    },
+    {
+      "surface": "people",
+      "state": "default",
+      "launch": "people",
+      "artifact": "people-default"
+    },
+    {
+      "surface": "people",
+      "state": "loading",
+      "launch": "people",
+      "artifact": "people-loading"
+    },
+    {
+      "surface": "people",
+      "state": "error",
+      "launch": "people",
+      "artifact": "people-error"
+    },
+    {
+      "surface": "people",
+      "state": "offline",
+      "launch": "people",
+      "artifact": "people-offline"
+    },
+    {
+      "surface": "mates",
+      "state": "default",
+      "launch": "mates",
+      "artifact": "mates-default"
+    },
+    {
+      "surface": "mates",
+      "state": "loading",
+      "launch": "mates",
+      "artifact": "mates-loading"
+    },
+    {
+      "surface": "mates",
+      "state": "error",
+      "launch": "mates",
+      "artifact": "mates-error"
+    },
+    {
+      "surface": "mates",
+      "state": "offline",
+      "launch": "mates",
+      "artifact": "mates-offline"
+    },
+    {
+      "surface": "person",
+      "state": "default",
+      "launch": "person",
+      "artifact": "person-default"
+    },
+    {
+      "surface": "person",
+      "state": "loading",
+      "launch": "person",
+      "artifact": "person-loading"
+    },
+    {
+      "surface": "person",
+      "state": "error",
+      "launch": "person",
+      "artifact": "person-error"
+    },
+    {
+      "surface": "person",
+      "state": "offline",
+      "launch": "person",
+      "artifact": "person-offline"
+    },
+    {
+      "surface": "call",
+      "state": "default",
+      "launch": "call",
+      "artifact": "call-default"
+    },
+    {
+      "surface": "call",
+      "state": "loading",
+      "launch": "call",
+      "artifact": "call-loading"
+    },
+    {
+      "surface": "call",
+      "state": "error",
+      "launch": "call",
+      "artifact": "call-error"
+    },
+    {
+      "surface": "call",
+      "state": "offline",
+      "launch": "call",
+      "artifact": "call-offline"
+    },
+    {
+      "surface": "chat",
+      "state": "default",
+      "launch": "chat",
+      "artifact": "chat-default"
+    },
+    {
+      "surface": "chat",
+      "state": "loading",
+      "launch": "chat",
+      "artifact": "chat-loading"
+    },
+    {
+      "surface": "chat",
+      "state": "error",
+      "launch": "chat",
+      "artifact": "chat-error"
+    },
+    {
+      "surface": "chat",
+      "state": "offline",
+      "launch": "chat",
+      "artifact": "chat-offline"
+    },
+    {
+      "surface": "lockscreen",
+      "state": "default",
+      "launch": "lockscreen",
+      "artifact": "lockscreen-default"
+    },
+    {
+      "surface": "lockscreen",
+      "state": "loading",
+      "launch": "lockscreen",
+      "artifact": "lockscreen-loading"
+    },
+    {
+      "surface": "lockscreen",
+      "state": "error",
+      "launch": "lockscreen",
+      "artifact": "lockscreen-error"
+    },
+    {
+      "surface": "lockscreen",
+      "state": "offline",
+      "launch": "lockscreen",
+      "artifact": "lockscreen-offline"
+    },
+    {
+      "surface": "menu",
+      "state": "default",
+      "launch": "menu",
+      "artifact": "menu-default"
+    },
+    {
+      "surface": "menu",
+      "state": "loading",
+      "launch": "menu",
+      "artifact": "menu-loading"
+    },
+    {
+      "surface": "menu",
+      "state": "error",
+      "launch": "menu",
+      "artifact": "menu-error"
+    },
+    {
+      "surface": "menu",
+      "state": "offline",
+      "launch": "menu",
+      "artifact": "menu-offline"
+    },
+    {
+      "surface": "lock",
+      "state": "default",
+      "launch": "lock",
+      "artifact": "lock-default"
+    },
+    {
+      "surface": "lock",
+      "state": "loading",
+      "launch": "lock",
+      "artifact": "lock-loading"
+    },
+    {
+      "surface": "lock",
+      "state": "error",
+      "launch": "lock",
+      "artifact": "lock-error"
+    },
+    {
+      "surface": "lock",
+      "state": "offline",
+      "launch": "lock",
+      "artifact": "lock-offline"
+    },
+    {
+      "surface": "money",
+      "state": "default",
+      "launch": "money",
+      "artifact": "money-default"
+    },
+    {
+      "surface": "money",
+      "state": "loading",
+      "launch": "money",
+      "artifact": "money-loading"
+    },
+    {
+      "surface": "money",
+      "state": "error",
+      "launch": "money",
+      "artifact": "money-error"
+    },
+    {
+      "surface": "money",
+      "state": "offline",
+      "launch": "money",
+      "artifact": "money-offline"
+    },
+    {
+      "surface": "passwords",
+      "state": "default",
+      "launch": "passwords",
+      "artifact": "passwords-default"
+    },
+    {
+      "surface": "passwords",
+      "state": "loading",
+      "launch": "passwords",
+      "artifact": "passwords-loading"
+    },
+    {
+      "surface": "passwords",
+      "state": "error",
+      "launch": "passwords",
+      "artifact": "passwords-error"
+    },
+    {
+      "surface": "passwords",
+      "state": "offline",
+      "launch": "passwords",
+      "artifact": "passwords-offline"
+    },
+    {
+      "surface": "fill",
+      "state": "default",
+      "launch": "fill",
+      "artifact": "fill-default"
+    },
+    {
+      "surface": "fill",
+      "state": "loading",
+      "launch": "fill",
+      "artifact": "fill-loading"
+    },
+    {
+      "surface": "fill",
+      "state": "error",
+      "launch": "fill",
+      "artifact": "fill-error"
+    },
+    {
+      "surface": "fill",
+      "state": "offline",
+      "launch": "fill",
+      "artifact": "fill-offline"
+    },
+    {
+      "surface": "settings",
+      "state": "default",
+      "launch": "settings",
+      "artifact": "settings-default"
+    },
+    {
+      "surface": "settings",
+      "state": "loading",
+      "launch": "settings",
+      "artifact": "settings-loading"
+    },
+    {
+      "surface": "settings",
+      "state": "error",
+      "launch": "settings",
+      "artifact": "settings-error"
+    },
+    {
+      "surface": "settings",
+      "state": "offline",
+      "launch": "settings",
+      "artifact": "settings-offline"
+    },
+    {
+      "surface": "background",
+      "state": "default",
+      "launch": "background",
+      "artifact": "background-default"
+    },
+    {
+      "surface": "background",
+      "state": "loading",
+      "launch": "background",
+      "artifact": "background-loading"
+    },
+    {
+      "surface": "background",
+      "state": "error",
+      "launch": "background",
+      "artifact": "background-error"
+    },
+    {
+      "surface": "background",
+      "state": "offline",
+      "launch": "background",
+      "artifact": "background-offline"
+    },
+    {
+      "surface": "widget",
+      "state": "default",
+      "launch": "widget",
+      "artifact": "widget-default"
+    },
+    {
+      "surface": "widget",
+      "state": "loading",
+      "launch": "widget",
+      "artifact": "widget-loading"
+    },
+    {
+      "surface": "widget",
+      "state": "error",
+      "launch": "widget",
+      "artifact": "widget-error"
+    },
+    {
+      "surface": "widget",
+      "state": "offline",
+      "launch": "widget",
+      "artifact": "widget-offline"
+    },
+    {
+      "surface": "ads",
+      "state": "default",
+      "launch": "ads",
+      "artifact": "ads-default"
+    },
+    {
+      "surface": "ads",
+      "state": "loading",
+      "launch": "ads",
+      "artifact": "ads-loading"
+    },
+    {
+      "surface": "ads",
+      "state": "error",
+      "launch": "ads",
+      "artifact": "ads-error"
+    },
+    {
+      "surface": "ads",
+      "state": "offline",
+      "launch": "ads",
+      "artifact": "ads-offline"
+    }
+  ]
+}

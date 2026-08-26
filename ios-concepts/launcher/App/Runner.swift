@@ -44,7 +44,8 @@ final class Runner {
             }
             return await set(.failed)
         }
-        guard await sh(node, ["\(root)/native/gen/gen-project.mjs", slug], cwd: root) else {
+        let generator = concept.isLegacy ? "gen-legacy-project.mjs" : "gen-project.mjs"
+        guard await sh(node, ["\(root)/native/gen/\(generator)", slug], cwd: root) else {
             return await set(.failed)
         }
 

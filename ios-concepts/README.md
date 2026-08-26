@@ -29,6 +29,7 @@ navigation, permissions and rendering stay native.
 - `native/specs/` — product inputs;
 - `native/lib/` — internal compilers and quality gates;
 - `native/HTMLPatterns/` — curated knowledge from HTML concepts;
+- `native/Legacy/` — read-only SwiftUI applications preserved from the old stack;
 - `native/ReferenceProfiles/` — native mimicry grammars;
 - `native/DesignSystem/` and `native/Runtime/` — shared Swift sources;
 - `native/apps/`, `native/ProductBlueprints/`, `native/ProductUIContracts/` and
@@ -46,5 +47,9 @@ npm run launcher
 The pipeline refuses to overwrite an app directory it does not own. A release is
 not considered visually accepted until every review axis scores at least 8.5/10
 without blockers.
+
+The launcher lists preserved legacy applications in a separate group. They use
+an isolated compatibility builder and never become inputs or outputs of the
+active pipeline. `Образы` remains the reviewed VK-mimicry reference.
 
 More detail: [docs/PIPELINE.md](docs/PIPELINE.md).

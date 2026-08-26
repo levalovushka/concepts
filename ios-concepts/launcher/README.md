@@ -25,9 +25,15 @@ open LocalDerivedData/Build/Products/Debug/Camo.app
 Кнопка **Запустить** делает полный цикл: `gen-project.mjs` → `xcodebuild` →
 `simctl install` → `simctl launch`, с выбором устройства.
 
+Сайдбар отдельно показывает приложения нового пайплайна и сохранённые
+**Legacy-приложения**. Для legacy используется изолированный compatibility
+builder; такие приложения не становятся входом нового генератора. «Образы»
+дополнительно помечены как эталон VK-мимикрии.
+
 Библиотека читает только корень repository: путь можно задать через
 `IOS_CONCEPTS_ROOT` или выбрать в настройках. Источник для launcher —
-`native/ProductBlueprints`; HTML-концепты и legacy-платформа ему не нужны.
+`native/ProductBlueprints` и read-only `native/Legacy/catalog.json`;
+HTML-концепты и legacy web-платформа ему не нужны.
 
 ## Распространение
 

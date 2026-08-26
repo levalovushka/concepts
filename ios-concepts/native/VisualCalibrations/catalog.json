@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "profiles": [
     {
-      "id": "estafeta-vk-mimicry-v1",
+      "id": "looks-vk-mimicry-v1",
       "strategy": "mimicry",
       "referenceProfileId": "vk-ios",
       "kind": "approved-golden-concept",
-      "sourceConcept": "estafeta",
+      "sourceConcept": "looks",
       "sourcePaths": [
-        "native/specs/estafeta.json",
-        "native/apps/estafeta",
+        "native/Legacy/concepts/looks/concept.json",
+        "native/Legacy/apps/looks",
         "native/ReferenceProfiles/vk-ios/profile.json"
       ],
       "transferScope": [
@@ -21,22 +21,25 @@
       ],
       "nonTransferable": [
         "fashion entities and copy",
-        "Estafeta navigation graph",
-        "Estafeta feature names",
+        "Looks navigation graph",
+        "Looks feature names",
         "product actions not present in the selected World Model"
       ],
       "implementationRecipes": {
         "shell": "Compose every root with VKRootSurface so the white top safe area, VKTabHeader and content alignment are identical. Use the system TabView solely for Liquid Glass. Its labels are icon-only template assets from NativeVisualLanguage.requiredTabIconAsset; accessible names stay semantic and are not rendered as extra captions.",
         "feed": "Use VKRootSurface, then ScrollView/LazyVStack with VKAuthoredPost and GroupGap. VKAuthoredPost must own author/meta header, product text/media and the attached VKPostActions; never render feedback as a separate panel.",
         "navigation": "Use VKNavigationChrome and VKModalChrome for pushed and modal product surfaces. Do not let automatic toolbar glass create capsules in VK content chrome.",
-        "messages": "Use compact conversation rows, an attached composer and keyboard-safe bottom spacing from the VK reference profile.",
-        "profile": "Use one top-bar profile entry, VKGroup/VKRow anatomy, section hierarchy and predictable chevrons only on navigable rows.",
-        "contentBoundary": "Transfer only components declared in ReferenceProfiles/vk-ios/profile.json compositionCatalog. Preserve the new product World Model, entities, copy, journeys and actions without importing Estafeta-specific features. Decorative selectors and unowned affordances are prohibited.",
+        "messages": "Follow native/Legacy/apps/looks/Messaging.swift for conversation rows, compact chat header, message grouping, composer attachment and keyboard-safe bottom spacing.",
+        "profile": "Follow native/Legacy/apps/looks/Profile.swift for one profile entry, VKGroup/VKRow anatomy, section hierarchy and predictable chevrons only on navigable rows.",
+        "contentBoundary": "Transfer only components declared in ReferenceProfiles/vk-ios/profile.json compositionCatalog. Preserve the new product World Model, entities, copy, journeys and actions without importing Looks-specific features. Decorative selectors and unowned affordances are prohibited.",
         "forms": "Use VKModalChrome, native fields/sections and VKPrimaryActionArea. Keep 16pt below the primary button and show permission recovery through VKInlineNotice, never through a fake system prompt."
       },
       "goldenCaptures": {
-        "feed": "native/artifacts/estafeta/shots/relay-feed--populated-default.png",
-        "profile": "native/artifacts/estafeta/shots/profile--populated-default.png"
+        "feed": "native/Legacy/evidence/looks/feed.png",
+        "post": "native/Legacy/evidence/looks/post.png",
+        "messages": "native/Legacy/evidence/looks/messages.png",
+        "conversation": "native/Legacy/evidence/looks/conversation.png",
+        "profile": "native/Legacy/evidence/looks/profile.png"
       },
       "requiredEvidenceRefs": ["selected-product-contract", "verified-experience-contract"]
     },
