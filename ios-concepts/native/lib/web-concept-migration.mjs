@@ -260,7 +260,7 @@ function normalizedNative(web) {
       ...(mimicry ? { referenceProfile: "vk-ios" } : {}),
       density: mimicry ? "reference" : "product",
       colorScheme: "light",
-      qualityFloor: 8,
+      qualityFloor: 8.5,
       tokens: {
         accent: web.brand?.accent || (mimicry ? "#0077FF" : "#5B5FC7"), background: "#FFFFFF",
         groupedBackground: "#F2F3F5", fill: "#E7E8EC", separator: "#D7D8DC",

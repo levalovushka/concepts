@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// «Клипы» ВК: табы сверху, кадр во весь экран, правый рельс белых иконок
+// «Клипы» ВК: кадр во весь экран, правый рельс белых иконок
 // с числами, внизу автор с обводочной капсулой «Подписаться», текст с «Ещё»
 // и капсула «Оригинальный звук». Полоса воспроизведения по нижнему краю.
 
@@ -9,32 +9,24 @@ struct ClipsScreen: View {
     @Environment(LooksStore.self) private var store
     @Environment(Nav.self) private var nav
     @State private var index = 0
-    @State private var tab = 0
-
-    private var clips: [Outfit] {
-        switch tab {
-        case 1: store.outfits.filter { $0.saved || $0.liked }
-        case 2: Array(store.outfits.sorted { $0.likes > $1.likes }.prefix(4))
-        default: store.outfits
-        }
-    }
 
     var body: some View {
         ZStack(alignment: .top) {
             TabView(selection: $index) {
-                ForEach(Array(clips.enumerated()), id: \.element.id) { i, outfit in
+                ForEach(Array(store.outfits.enumerated()), id: \.element.id) { i, outfit in
                     ClipPage(outfit: outfit).tag(i)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
             .ignoresSafeArea()
 
-            HStack(spacing: 16) {
-                VKDarkTabs(items: ["Для вас", "Примерки", "Тренды"], selection: $tab)
-                Spacer(minLength: 8)
+            HStack {
+                Spacer()
                 Button { nav.present(cover: LooksRoute.create) } label: {
                     Image(systemName: "plus").font(.system(size: 22, weight: .medium))
                         .foregroundStyle(.white)
+                        .frame(width: 44, height: 44)
+                        .background(.black.opacity(0.34), in: Circle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Снять клип")
@@ -43,7 +35,6 @@ struct ClipsScreen: View {
             .padding(.top, 8)
         }
         .background(.black)
-        .onChange(of: tab) { _, _ in index = 0 }
     }
 }
 
@@ -149,12 +140,10 @@ private struct ClipPage: View {
                             nav.toast("Ссылка скопирована")
                         }
                         VKClipAction(icon: outfit.saved ? "bookmark.fill" : "bookmark",
-                                     label: "Сохранить") { store.toggleSave(outfit.id) }
-                        VKClipAction(icon: "arrow.triangle.branch", label: "Собрать свою версию") {
-                            store.remix(outfit)
-                            nav.toast("Ремикс добавлен в вашу ленту")
+                                     label: outfit.saved ? "Сохранено" : "Сохранить") {
+                            store.toggleSave(outfit.id)
                         }
-                        .nativeAction("clip.remix-clip")
+                        .nativeAction("clip.save-clip")
                         VKClipAction(icon: "ellipsis", label: "Ещё") {
                             showMore = true
                         }

@@ -15,7 +15,9 @@ const ROOT = join(NATIVE, "..");
 const slug = process.argv[2];
 if (!slug) { console.error("usage: gen-project.mjs <slug>"); process.exit(1); }
 
-const spec = JSON.parse(readFileSync(join(ROOT, "concepts", slug, "concept.json"), "utf8"));
+const conceptPath = join(ROOT, "concepts", slug, "concept.json");
+const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
+const spec = JSON.parse(readFileSync(existsSync(conceptPath) ? conceptPath : blueprintPath, "utf8"));
 const AppName = slug[0].toUpperCase() + slug.slice(1);
 const bundleId = `com.camo.${slug.replace(/[-_]/g, "")}`;
 const compiled = compileNativeConcept(spec, { bundleId });
@@ -56,6 +58,16 @@ ${body}
 </dict>
 </plist>
 `;
+}
+
+function directoryContainsSwiftSources(directory) {
+  if (!existsSync(directory)) return false;
+  return readdirSync(directory, { withFileTypes: true }).some(entry => {
+    const path = join(directory, entry.name);
+    return entry.isDirectory()
+      ? directoryContainsSwiftSources(path)
+      : entry.isFile() && entry.name.endsWith(".swift");
+  });
 }
 
 const swift = value => String(value ?? "")
@@ -286,7 +298,10 @@ const P = {
   uiRsc: "CA0000000000000000000028", uiProxy: "CA0000000000000000000029",
   uiDependency: "CA000000000000000000002A",
 };
-const hasSmokeTests = ["looks", "dvor"].includes(slug);
+const productUITests = join(NATIVE, "apps", slug, "UITests");
+const legacyUITest = join(NATIVE, "UITests", `${AppName}SmokeTests.swift`);
+const hasProductUITests = directoryContainsSwiftSources(productUITests);
+const hasSmokeTests = hasProductUITests || existsSync(legacyUITest);
 const smokeTarget = `${AppName}SmokeTests`;
 const smokeScheme = `${AppName}Smoke`;
 
@@ -545,16 +560,18 @@ mkdirSync(join(APP, "Assets.xcassets", "AppIcon.appiconset"), { recursive: true 
 mkdirSync(join(OUT, `${AppName}.xcodeproj`), { recursive: true });
 if (hasSmokeTests) {
   mkdirSync(join(OUT, smokeTarget), { recursive: true });
-  cpSync(join(NATIVE, "UITests", `${AppName}SmokeTests.swift`),
-         join(OUT, smokeTarget, `${AppName}SmokeTests.swift`));
+  if (hasProductUITests) cpSync(productUITests, join(OUT, smokeTarget), { recursive: true });
+  else cpSync(legacyUITest, join(OUT, smokeTarget, `${AppName}SmokeTests.swift`));
 }
 
 cpSync(join(NATIVE, "DesignSystem"), join(APP, "DesignSystem"), { recursive: true });
 cpSync(join(NATIVE, "Runtime"), join(APP, "Runtime"), { recursive: true });
 const productAssets = join(NATIVE, "apps", slug, "Assets.xcassets");
+const productUITestSources = join(NATIVE, "apps", slug, "UITests");
 cpSync(join(NATIVE, "apps", slug), join(APP, "Screens"), {
   recursive: true,
-  filter: source => source !== productAssets && !source.startsWith(`${productAssets}/`),
+  filter: source => source !== productAssets && !source.startsWith(`${productAssets}/`)
+    && source !== productUITestSources && !source.startsWith(`${productUITestSources}/`),
 });
 if (existsSync(productAssets)) {
   for (const item of readdirSync(productAssets)) {

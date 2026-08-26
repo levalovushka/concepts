@@ -147,7 +147,6 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
     [delivery?.limitations, "delivery.limitations"],
     [contract?.risks, "risks"],
     [delivery?.acceptanceCriteria, "delivery.acceptanceCriteria"],
-    [delivery?.appStoreNotes, "delivery.appStoreNotes"],
     [ux?.navigation?.nodes, "ux.navigation.nodes"],
     [ux?.screens, "ux.screens"],
     [ux?.design?.semanticComponentRoles, "ux.design.semanticComponentRoles"],
@@ -359,7 +358,7 @@ export function compileDeveloperDocumentation({ concept, manifest }) {
       "**Acceptance criteria**",
       bullets(delivery.acceptanceCriteria),
     ].join("\n\n")),
-    section("App Store notes", bullets(delivery.appStoreNotes)),
+    ...(delivery.appStoreNotes?.length ? [section("App Store notes", bullets(delivery.appStoreNotes))] : []),
   ].join("\n").trim() + "\n";
 
   return { ok: true, diagnostics: [], markdown, documents: compileDocumentFiles(markdown) };

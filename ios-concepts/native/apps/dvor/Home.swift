@@ -11,8 +11,6 @@ struct HouseHomeScreen: View {
         VStack(spacing: 0) {
             DvorHomeHeader(
                 address: store.address,
-                resident: store.currentResident.name,
-                openProfile: { nav.present(sheet: DvorRoute.profile) },
                 switchHouse: { nav.present(sheet: DvorRoute.houseSwitcher) },
                 openNotifications: { nav.push(DvorRoute.notifications) }
             )
@@ -61,9 +59,10 @@ struct HouseHomeScreen: View {
                     try? await Task.sleep(nanoseconds: 200_000_000)
                     proxy.scrollTo(target.id, anchor: anchor)
                 }
+                .background(t.palette.groupedBackground)
             }
         }
-        .background(t.palette.groupedBackground)
+        .background(t.palette.surface)
         .toolbar(.hidden, for: .navigationBar)
     }
 
@@ -75,16 +74,12 @@ struct HouseHomeScreen: View {
 
 struct DvorHomeHeader: View {
     let address: String
-    let resident: String
-    let openProfile: () -> Void
     let switchHouse: () -> Void
     let openNotifications: () -> Void
     @Environment(\.visualLanguage) private var t
 
     var body: some View {
         HStack(spacing: t.spacing.x3) {
-            Button(action: openProfile) { Avatar(name: resident, size: 32) }
-                .buttonStyle(.plain).accessibilityLabel("Профиль")
             Button(action: switchHouse) {
                 HStack(spacing: 5) {
                     Text(address).font(.role(.cardTitle)).lineLimit(1)

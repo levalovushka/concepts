@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/visual-direction.schema.json",
+  "title": "Native Visual Direction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "name", "strategy", "rationale", "composition", "tokens", "iconography", "componentRecipes", "rules", "evidenceRefs"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 3 },
+    "name": { "type": "string", "minLength": 2 },
+    "strategy": { "enum": ["mimicry", "differentiation"] },
+    "rationale": { "type": "string", "minLength": 16 },
+    "composition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chrome", "density", "contentRhythm", "screenFamilies"],
+      "properties": {
+        "chrome": { "enum": ["reference-flat", "system"] },
+        "density": { "type": "string", "minLength": 3 },
+        "contentRhythm": { "type": "string", "minLength": 8 },
+        "screenFamilies": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["id", "screens", "structure", "primaryRole"],
+            "properties": {
+              "id": { "type": "string", "minLength": 2 },
+              "screens": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+              "structure": { "type": "string", "minLength": 8 },
+              "primaryRole": { "type": "string", "minLength": 3 }
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accent", "background", "groupedBackground", "surface", "fill", "separator", "textPrimary", "textSecondary"],
+      "properties": {
+        "accent": { "type": "string", "minLength": 4 },
+        "background": { "type": "string", "minLength": 4 },
+        "groupedBackground": { "type": "string", "minLength": 4 },
+        "surface": { "type": "string", "minLength": 4 },
+        "fill": { "type": "string", "minLength": 4 },
+        "separator": { "type": "string", "minLength": 4 },
+        "textPrimary": { "type": "string", "minLength": 4 },
+        "textSecondary": { "type": "string", "minLength": 4 }
+      }
+    },
+    "iconography": {
+      "type": "object", "additionalProperties": false,
+      "required": ["productChromeSource", "weight", "tabRoles"],
+      "properties": {
+        "productChromeSource": { "enum": ["lucide-assets", "sf-symbols"] },
+        "weight": { "enum": ["semibold", "bold"] },
+        "tabRoles": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["screenId", "icon"],
+            "properties": {
+              "screenId": { "type": "string", "minLength": 2 },
+              "icon": { "type": "string", "minLength": 2 }
+            }
+          }
+        }
+      }
+    },
+    "componentRecipes": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["role", "nativePrimitive", "anatomy", "states", "prohibitions"],
+        "properties": {
+          "role": { "type": "string", "pattern": "^screen:" },
+          "nativePrimitive": { "enum": ["NavigationStack", "TabView", "List", "Form", "ScrollView", "Grid", "Section", "Toolbar", "Button", "TextField", "SecureField", "Picker", "PhotosPicker", "ContentUnavailableView", "ShareLink", "Map", "VideoPlayer"] },
+          "anatomy": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 3 } },
+          "states": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 3 } },
+          "prohibitions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } }
+        }
+      }
+    },
+    "rules": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allowedPatterns", "forbiddenPatterns"],
+      "properties": {
+        "allowedPatterns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 3 } },
+        "forbiddenPatterns": { "type": "array", "items": { "type": "string", "minLength": 3 } }
+      }
+    },
+    "evidenceRefs": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 2 } }
+  }
+}

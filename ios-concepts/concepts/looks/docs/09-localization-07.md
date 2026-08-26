@@ -19,7 +19,7 @@
 | screen.checkin.state.populated-default.body | Актуальные данные раздела «Отметка на свопе» готовы к следующему действию. | none | State copy: populated/default | checkin | state-body |
 | screen.checkin.state.populated-default.recovery | Продолжить основное действие. | none | Recovery copy: populated/default | checkin | recovery |
 | screen.checkin.title | Отметка на свопе | none | Surface title | checkin | navigation-title |
-| screen.clip.action.remix-clip.label | Собрать свою версию | none | Action label | clip | control |
+| screen.clip.action.save-clip.label | Сохранить клип | none | Action label | clip | control |
 | screen.clip.purpose | Посмотреть серию | none | Product task | clip | accessibility-and-docs |
 | screen.clip.state.error.body | Не удалось обновить «Клип-примерка». Введённые данные сохранены; повторите попытку. | none | State copy: error | clip | state-body |
 | screen.clip.state.error.recovery | Повторить действие или выбрать доступный запасной путь. | none | Recovery copy: error | clip | recovery |

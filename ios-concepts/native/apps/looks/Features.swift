@@ -85,7 +85,7 @@ struct TalkScreen: View {
         ("11 вещей, которые лежат год", "24 мин · вторник", "скачивается 62 %"),
         ("Разбор по цветам: почему всё серое", "9 мин · 14 окт", "прослушан"),
         ("Капсула на ноябрь", "31 мин · 9 окт", "не скачан, 38 МБ"),
-        ("Что отдать на своп", "12 мин · 2 окт", "прослушан"),
+        ("Что принести на обмен вещами", "12 мин · 2 окт", "прослушан"),
     ]
 
     var body: some View {
@@ -185,7 +185,7 @@ struct TalkScreen: View {
     }
 }
 
-// MARK: - Отметка на свопе по сети площадки (wifiinfo + hotspot)
+// MARK: - Подтверждение участия в обмене по сети площадки (wifiinfo + hotspot)
 
 struct CheckinScreen: View {
     var captureState: String? = nil
@@ -220,7 +220,7 @@ struct CheckinScreen: View {
             VStack(spacing: 0) {
                 VKGroup {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Своп у Ани на Мясницкой").font(.vkSection)
+                        Text("Обмен вещами у Ани на Мясницкой").font(.vkSection)
                         Text("Отметятся 34 человека · вы ещё нет")
                             .font(.vkBody).foregroundStyle(t.palette.textSecondary)
                             .fixedSize(horizontal: false, vertical: true)
@@ -253,7 +253,7 @@ struct CheckinScreen: View {
                         nav.push(LooksRoute.netqr)
                     }
                     RowSeparator(leading: 60)
-                    stepRow(n: 2, title: "Отметиться на свопе",
+                    stepRow(n: 2, title: "Подтвердить участие",
                             sub: store.checkedIn ? "Вы на месте" : (feedback == .checking ? "Проверяем сеть…" : (networkJoined ? "Проверим сеть" : "Сначала подключитесь")),
                             done: store.checkedIn, enabled: networkJoined && feedback != .checking,
                             nativeActionID: "checkin.confirm-swap-checkin") {
@@ -292,7 +292,7 @@ struct CheckinScreen: View {
             .padding(.bottom, 88)
         }
         .background(t.palette.background)
-        .vkNavigation("Отметка на свопе")
+        .vkNavigation("Участие в обмене")
     }
 
     private func attemptCheckin() {
@@ -427,28 +427,39 @@ struct LockScreen: View {
 
 
 
-// MARK: - Своп в календарь (calendar)
+// MARK: - Предложение обмена и встреча (calendar)
 
 struct SwapScreen: View {
+    @Environment(LooksStore.self) private var store
     @Environment(Permissions.self) private var perms
     @Environment(Nav.self) private var nav
     @Environment(\.visualLanguage) private var t
     @State private var added = false
     @State private var calendarError = false
+    @State private var proposalSent = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
                 VKGroup {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Обмен с Аней Котовой").font(.vkSection)
-                        InfoLine(icon: "arrow.left.arrow.right", text: "Тренч оверсайз ↔ Жакет")
-                        InfoLine(icon: "calendar", text: "Суббота, 15:00")
-                        InfoLine(icon: "mappin.and.ellipse", text: "Лофт на Мясницкой")
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Предложение Ане Котовой").font(.vkSection)
+                        Text("Проверьте обе вещи до отправки. Аня сможет принять предложение или обсудить детали в сообщениях.")
+                            .font(.vkBody).foregroundStyle(t.palette.textSecondary)
+                        exchangeItem(title: "Вы отдаёте", item: "Тренч оверсайз", detail: "Zara · хорошее состояние", seed: 2)
+                        HStack { Spacer(); Image(systemName: "arrow.up.arrow.down").foregroundStyle(t.palette.textSecondary); Spacer() }
+                        exchangeItem(title: "Вы получите", item: "Жакет", detail: "12 Storeez · размер M", seed: 5)
                     }
                     .padding(12)
                 }
                 VKGroup {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Встреча после подтверждения").font(.role(.cardTitle))
+                        InfoLine(icon: "calendar", text: "Суббота, 15:00")
+                        InfoLine(icon: "mappin.and.ellipse", text: "Лофт на Мясницкой")
+                    }
+                    .padding(12)
+                    RowSeparator()
                     if calendarError {
                         NativeStatePanel(kind: .error,
                                          title: "Календарь недоступен",
@@ -471,31 +482,42 @@ struct SwapScreen: View {
                     .nativeAction("swap.add-swap-calendar")
                     .buttonStyle(HighlightStyle())
                 }
-                // Отметка на свопе живёт под обменом — как в спеке (parent: swap).
                 VKGroup {
-                    Button { nav.push(LooksRoute.checkin) } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "mappin.circle").font(.system(size: 20))
-                                .foregroundStyle(t.palette.accent).frame(width: 24)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Отметиться на месте").font(.vkRow)
-                                    .foregroundStyle(t.palette.textPrimary)
-                                Text("34 человека уже отметились")
-                                    .font(.vkMeta).foregroundStyle(t.palette.textSecondary)
-                            }
-                            Spacer()
-                            Image(systemName: t.icon(.disclosure)).font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(t.palette.textTertiary)
+                    VStack(spacing: 10) {
+                        VKButton(title: proposalSent ? "Предложение отправлено" : "Предложить обмен",
+                                 icon: proposalSent ? "checkmark" : "arrow.left.arrow.right") {
+                            guard !proposalSent else { return }
+                            proposalSent = true
+                            store.send("Предлагаю обменять мой тренч на ваш жакет. Подойдёт встреча в субботу?", to: "Аня Котова")
+                            nav.toast("Аня получила предложение")
                         }
-                        .padding(.horizontal, 16).padding(.vertical, 12)
+                        .disabled(proposalSent)
+                        Button("Обсудить в сообщениях") {
+                            nav.push(LooksRoute.chat(store.dialogs[0]))
+                        }
+                        .font(.role(.action)).foregroundStyle(t.palette.accent)
+                        .frame(maxWidth: .infinity, minHeight: 44)
                     }
-                    .buttonStyle(HighlightStyle())
+                    .padding(12)
                 }
             }
             .padding(.bottom, 88)
         }
         .background(t.palette.background)
         .vkNavigation("Обмен")
+    }
+
+    private func exchangeItem(title: String, item: String, detail: String, seed: Int) -> some View {
+        HStack(spacing: 12) {
+            VKMedia(assetName: LooksMediaAssets.detail(seed), height: 64)
+                .frame(width: 64).clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title).font(.vkMeta).foregroundStyle(t.palette.textSecondary)
+                Text(item).font(.role(.rowTitle)).foregroundStyle(t.palette.textPrimary)
+                Text(detail).font(.vkMeta).foregroundStyle(t.palette.textSecondary)
+            }
+            Spacer()
+        }
     }
 
     private func addToCalendar() {
@@ -568,7 +590,7 @@ struct NetQRScreen: View {
             Text(store.venueNetworkJoined ? "PUDRA-GUEST" : "Наведите на QR площадки")
                 .font(.role(.section)).foregroundStyle(t.palette.textPrimary)
             Text(store.venueNetworkJoined
-                 ? "Подключено. Теперь отметка на свопе пройдёт"
+                 ? "Подключено. Теперь можно подтвердить участие"
                  : "Код на входе у организатора")
                 .font(.vkBody).foregroundStyle(t.palette.textSecondary)
                 .multilineTextAlignment(.center).padding(.horizontal, 26)

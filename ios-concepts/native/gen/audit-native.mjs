@@ -10,6 +10,6 @@ if (!slug) {
   process.exit(1);
 }
 
-for (const gate of ["audit-nav.mjs", "audit-ui.mjs", "audit-actions.mjs", "audit-permissions.mjs", "audit-captures.mjs", "audit-visual-language.mjs"]) {
+for (const gate of ["audit-nav.mjs", "audit-ui.mjs", "audit-actions.mjs", "audit-permissions.mjs", "audit-captures.mjs", "audit-visual-language.mjs", "audit-interface-anatomy.mjs"]) {
   execFileSync(process.execPath, [join(here, gate), slug], { stdio: "inherit" });
 }

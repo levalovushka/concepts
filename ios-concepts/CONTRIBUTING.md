@@ -4,6 +4,8 @@
 
 ```sh
 npm test
+npm run factory:run -- native/fixtures/product-factory/request.example.json --adapter native/fixtures/product-factory/fixture-adapter.mjs --out /tmp/camo-factory-tracer
+npm run factory:develop -- native/fixtures/product-factory/request.example.json --adapter path/to/factory-adapter.mjs --out path/to/product-development.json
 npm run check -- looks
 npm run build -- looks
 npm run capture -- looks

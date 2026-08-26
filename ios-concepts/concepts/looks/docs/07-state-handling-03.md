@@ -11,10 +11,10 @@
 | nearby | permission-restricted | yes | screen.nearby.state.permission-restricted.body | open-nearby-event<br>enable-location<br>permission.location.fallback | open-nearby-event:navigate→event<br>enable-location:request | screen.nearby.state.permission-restricted.recovery | fixture.looks.nearby.permission-restricted |
 | nearby | permission-limited | yes | screen.nearby.state.permission-limited.body | open-nearby-event<br>enable-location<br>permission.location.fallback | open-nearby-event:navigate→event<br>enable-location:request | screen.nearby.state.permission-limited.recovery | fixture.looks.nearby.permission-limited |
 | clip | loading | N/A | This surface owns no asynchronous or loading operation. |  |  | — |  |
-| clip | populated/default | yes | screen.clip.state.populated-default.body | remix-clip | remix-clip:mutate | screen.clip.state.populated-default.recovery | fixture.looks.clip.default |
+| clip | populated/default | yes | screen.clip.state.populated-default.body | save-clip | save-clip:mutate | screen.clip.state.populated-default.recovery | fixture.looks.clip.default |
 | clip | empty | N/A | The surface represents one required task or system-owned object, not a collection. |  |  | — |  |
-| clip | error | yes | screen.clip.state.error.body | remix-clip | remix-clip:mutate | screen.clip.state.error.recovery | fixture.looks.clip.error |
-| clip | offline | yes | screen.clip.state.offline.body | remix-clip | remix-clip:mutate | screen.clip.state.offline.recovery | fixture.looks.clip.offline |
+| clip | error | yes | screen.clip.state.error.body | save-clip | save-clip:mutate | screen.clip.state.error.recovery | fixture.looks.clip.error |
+| clip | offline | yes | screen.clip.state.offline.body | save-clip | save-clip:mutate | screen.clip.state.offline.recovery | fixture.looks.clip.offline |
 | clip | permission-needed | N/A | No permission is requested from or resolved on this surface. |  |  | — |  |
 | clip | permission-denied | N/A | No permission is requested from or resolved on this surface. |  |  | — |  |
 | clip | permission-restricted | N/A | No permission is requested from or resolved on this surface. |  |  | — |  |

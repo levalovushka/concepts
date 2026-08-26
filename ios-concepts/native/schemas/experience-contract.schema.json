@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/experience-contract.schema.json",
+  "title": "Camo Experience Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "productContractId", "worldModelId", "authentication", "navigation", "actions", "states", "permissionFlows", "content", "entryPoints", "screenBlueprints", "journeys"],
+  "properties": {
+    "experienceContractId": { "type": "string", "pattern": "^experience-[0-9a-f]{16}$" },
+    "schemaVersion": { "const": 2 },
+    "productContractId": { "type": "string", "pattern": "^product-[0-9a-f]{16}$" },
+    "worldModelId": { "type": "string", "minLength": 3 },
+    "authentication": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "entrySurface", "successSurface", "restoreSession"],
+      "properties": {
+        "required": { "const": true }, "entrySurface": { "type": "string", "minLength": 2 },
+        "successSurface": { "type": "string", "minLength": 2 }, "restoreSession": { "const": true }
+      }
+    },
+    "navigation": {
+      "type": "object", "additionalProperties": false, "required": ["roots", "nodes"],
+      "properties": {
+        "roots": { "$ref": "#/$defs/idList" },
+        "nodes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screen" } }
+      }
+    },
+    "actions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/action" } },
+    "states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenStates" } },
+    "permissionFlows": { "type": "array", "items": { "$ref": "#/$defs/permissionFlow" } },
+    "content": {
+      "type": "object", "additionalProperties": false,
+      "required": ["records", "media", "screenBindings"],
+      "properties": {
+        "records": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/contentRecord" } },
+        "media": { "type": "array", "items": { "$ref": "#/$defs/mediaContract" } },
+        "screenBindings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenBinding" } }
+      }
+    },
+    "entryPoints": { "type": "array", "items": { "$ref": "#/$defs/entryPoint" } },
+    "screenBlueprints": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/screenBlueprint" } },
+    "journeys": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/journey" } }
+  },
+  "$defs": {
+    "idList": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+    "screen": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "purpose", "presentation", "parent", "entityIds", "actionIds"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 }, "title": { "type": "string", "minLength": 2 },
+        "purpose": { "type": "string", "minLength": 8 },
+        "presentation": { "enum": ["root", "tab", "push", "sheet", "cover", "system", "external"] },
+        "parent": { "type": ["string", "null"] }, "entityIds": { "$ref": "#/$defs/idList" },
+        "actionIds": { "type": "array", "items": { "type": "string", "minLength": 2 } }
+      }
+    },
+    "action": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "worldActionId", "surface", "label", "outcome", "persistence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 }, "worldActionId": { "type": ["string", "null"] },
+        "surface": { "type": "string", "minLength": 2 }, "label": { "type": "string", "minLength": 2 },
+        "outcome": { "$ref": "#/$defs/outcome" }, "persistence": { "type": "string", "minLength": 3 }
+      }
+    },
+    "outcome": {
+      "type": "object", "additionalProperties": false, "required": ["type"],
+      "properties": {
+        "type": { "enum": ["navigate", "mutate", "request", "dismiss", "external", "system"] },
+        "target": { "type": "string" }, "state": { "type": "string" }, "capability": { "type": "string" },
+        "destination": { "type": "string" }
+      }
+    },
+    "screenStates": {
+      "type": "object", "additionalProperties": false, "required": ["screenId", "variants"],
+      "properties": {
+        "screenId": { "type": "string", "minLength": 2 },
+        "variants": { "type": "array", "minItems": 9, "maxItems": 9, "items": { "$ref": "#/$defs/state" } }
+      }
+    },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "applicable", "productMeaning", "availableActions", "recoveryActionId"],
+      "properties": {
+        "id": { "enum": ["loading", "populated/default", "empty", "error", "offline", "permission-needed", "permission-denied", "permission-restricted", "permission-limited"] },
+        "applicable": { "type": "boolean" }, "productMeaning": { "type": "string", "minLength": 8 },
+        "availableActions": { "type": "array", "items": { "type": "string", "minLength": 2 } },
+        "recoveryActionId": { "type": ["string", "null"] }
+      }
+    },
+    "permissionFlow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["key", "worldActionId", "surface", "triggerActionId", "deniedActionId"],
+      "properties": {
+        "key": { "type": "string", "minLength": 2 }, "worldActionId": { "type": "string", "minLength": 2 },
+        "surface": { "type": "string", "minLength": 2 }, "triggerActionId": { "type": "string", "minLength": 2 },
+        "deniedActionId": { "type": "string", "minLength": 2 }
+      }
+    },
+    "contentRecord": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "entityId", "displayName", "facts", "mediaIds"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 }, "entityId": { "type": "string", "minLength": 2 },
+        "displayName": { "type": "string", "minLength": 2 },
+        "facts": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["key", "value"],
+            "properties": {
+              "key": { "type": "string", "minLength": 1 },
+              "value": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "mediaIds": { "type": "array", "items": { "type": "string", "minLength": 2 } }
+      }
+    },
+    "mediaContract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "ownerRecordId", "role", "semanticDescription"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 }, "ownerRecordId": { "type": "string", "minLength": 2 },
+        "role": { "type": "string", "minLength": 2 }, "semanticDescription": { "type": "string", "minLength": 12 }
+      }
+    },
+    "screenBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["screenId", "recordIds", "mediaIds"],
+      "properties": {
+        "screenId": { "type": "string", "minLength": 2 },
+        "recordIds": { "type": "array", "items": { "type": "string", "minLength": 2 } },
+        "mediaIds": { "type": "array", "items": { "type": "string", "minLength": 2 } }
+      }
+    },
+    "entryPoint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["destinationScreenId", "primaryActionId", "secondaryActionIds", "duplicationRationale"],
+      "properties": {
+        "destinationScreenId": { "type": "string", "minLength": 2 }, "primaryActionId": { "type": "string", "minLength": 2 },
+        "secondaryActionIds": { "type": "array", "items": { "type": "string", "minLength": 2 } },
+        "duplicationRationale": { "type": ["string", "null"], "minLength": 12 }
+      }
+    },
+    "screenBlueprint": {
+      "type": "object", "additionalProperties": false,
+      "required": ["screenId", "primaryRecordId", "contentOrder", "primaryActionId", "secondaryActionIds", "prohibitedPatterns"],
+      "properties": {
+        "screenId": { "type": "string", "minLength": 2 }, "primaryRecordId": { "type": ["string", "null"] },
+        "contentOrder": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 2 } },
+        "primaryActionId": { "type": ["string", "null"] },
+        "secondaryActionIds": { "type": "array", "items": { "type": "string", "minLength": 2 } },
+        "prohibitedPatterns": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } }
+      }
+    },
+    "journey": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "startScreenId", "actionIds", "observableResult", "failureRecovery"],
+      "properties": {
+        "id": { "type": "string", "minLength": 2 }, "title": { "type": "string", "minLength": 4 },
+        "startScreenId": { "type": "string", "minLength": 2 },
+        "actionIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } },
+        "observableResult": { "type": "string", "minLength": 12 }, "failureRecovery": { "type": "string", "minLength": 12 }
+      }
+    }
+  }
+}

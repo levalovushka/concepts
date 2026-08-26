@@ -15,6 +15,7 @@ import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { reviewProductUI } from "../lib/product-ui-critic.mjs";
+import { effectiveQualityFloor } from "../lib/quality-policy.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
@@ -131,7 +132,7 @@ writeFileSync(join(outDir, "critique.md"), report);
 console.log(`\n  отчёт → native/artifacts/${slug}/critique.md`);
 
 const spec = JSON.parse(readFileSync(join(ROOT, "concepts", slug, "concept.json"), "utf8"));
-const floor = spec.native?.design?.qualityFloor ?? 8;
+const floor = effectiveQualityFloor(spec.native?.design?.qualityFloor);
 if (total < floor) {
   console.log(`\nНиже планки концепта (${floor}): сборка не показывается человеку.`);
   process.exit(1);

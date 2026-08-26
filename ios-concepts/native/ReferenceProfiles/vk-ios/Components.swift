@@ -78,6 +78,15 @@ struct VKTabHeader<Trailing: View>: View {
         .frame(height: 52)
         .padding(.horizontal, t.spacing.contentInset)
         .background(t.palette.background)
+        .background {
+            GeometryReader { geometry in
+                Color.clear
+                    .onAppear { CaptureIdentity.reportNavigationChrome(minY: geometry.frame(in: .global).minY) }
+                    .onChange(of: geometry.frame(in: .global).minY) { _, minY in
+                        CaptureIdentity.reportNavigationChrome(minY: minY)
+                    }
+            }
+        }
     }
 }
 
@@ -134,6 +143,15 @@ struct VKChatHeader: View {
         .frame(height: 52)
         .padding(.horizontal, 4)
         .background(t.palette.background)
+        .background {
+            GeometryReader { geometry in
+                Color.clear
+                    .onAppear { CaptureIdentity.reportNavigationChrome(minY: geometry.frame(in: .global).minY) }
+                    .onChange(of: geometry.frame(in: .global).minY) { _, minY in
+                        CaptureIdentity.reportNavigationChrome(minY: minY)
+                    }
+            }
+        }
         .overlay(alignment: .bottom) {
             Rectangle().fill(t.palette.separator).frame(height: 0.5)
         }
@@ -239,11 +257,11 @@ struct VKModalChrome: View {
                     Button(doneTitle, action: onDone)
                         .fontWeight(.semibold)
                         .frame(minWidth: 96, minHeight: 44, alignment: .trailing)
+                        .foregroundStyle(doneDisabled ? theme.palette.textSecondary : theme.palette.accent)
                         .disabled(doneDisabled)
                 }
             }
             .font(.system(size: 15))
-            .foregroundStyle(theme.palette.accent)
             .padding(.horizontal, 16)
         }
         .frame(height: 52)
@@ -258,6 +276,92 @@ struct GroupGap: View {
     var height: CGFloat = 9
     @Environment(\.visualLanguage) private var t
     var body: some View { t.palette.groupedBackground.frame(height: height) }
+}
+
+// MARK: - Канонические композиции экранов
+
+/// Корневая VK-поверхность: белый status-bar surface, плоский header и
+/// контент без лишнего контейнера. Композиция владеет safe area, чтобы
+/// статус-бар не получал случайный серый фон.
+struct VKRootSurface<Header: View, Content: View>: View {
+    @ViewBuilder var header: Header
+    @ViewBuilder var content: Content
+    @Environment(\.visualLanguage) private var theme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            header
+            content.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+        .background(theme.palette.background)
+        .background(theme.palette.background.ignoresSafeArea(edges: .top))
+    }
+}
+
+/// Одна авторская единица ленты. Панель реакций входит в тот же блок,
+/// поэтому не может визуально «оторваться» от поста.
+struct VKAuthoredPost<Header: View, Content: View, Actions: View>: View {
+    @ViewBuilder var header: Header
+    @ViewBuilder var content: Content
+    @ViewBuilder var actions: Actions
+    @Environment(\.visualLanguage) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            header
+                .padding(.horizontal, theme.spacing.contentInset)
+                .padding(.vertical, 10)
+            content
+            actions
+                .padding(.horizontal, theme.spacing.contentInset)
+                .padding(.top, 12)
+                .padding(.bottom, 14)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(theme.palette.surface)
+        .accessibilityElement(children: .contain)
+    }
+}
+
+/// Нижняя зона одного primary action. Она гарантирует воздух под
+/// кнопкой и не даёт следующей секции прилипнуть к ней.
+struct VKPrimaryActionArea<Content: View>: View {
+    @ViewBuilder var content: Content
+    @Environment(\.visualLanguage) private var theme
+
+    var body: some View {
+        content
+            .padding(.horizontal, theme.spacing.contentInset)
+            .padding(.top, 12)
+            .padding(.bottom, 16)
+            .background(theme.palette.surface)
+    }
+}
+
+/// Компактное объяснение к контекстному доступу или recovery. Это не
+/// псевдо-системный permission dialog и не декоративная hero-card.
+struct VKInlineNotice: View {
+    let title: String
+    let detail: String
+    var actionTitle: String? = nil
+    var action: (() -> Void)? = nil
+    @Environment(\.visualLanguage) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title).font(.vkName).foregroundStyle(theme.palette.textPrimary)
+            Text(detail).font(.vkMeta).foregroundStyle(theme.palette.textSecondary)
+            if let actionTitle, let action {
+                Button(actionTitle, action: action)
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(theme.palette.accent)
+                    .frame(minHeight: 44)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, theme.spacing.contentInset)
+        .padding(.vertical, 12)
+    }
 }
 
 /// Разделитель внутри списка — начинается от текста, не от края.
@@ -715,6 +819,12 @@ struct VKDarkTabs: View {
                     Text(items[i])
                         .font(.system(size: 17, weight: selection == i ? .bold : .semibold))
                         .foregroundStyle(.white.opacity(selection == i ? 1 : 0.55))
+                        .padding(.horizontal, 9)
+                        .frame(height: 34)
+                        .background(
+                            selection == i ? .white.opacity(0.18) : .clear,
+                            in: Capsule()
+                        )
                 }
                 .buttonStyle(.plain)
             }

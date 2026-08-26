@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "vk-cold-start-2026-08-25",
+  "request": "Сделай полностью новый цельный нативный концепт приложения в мимикрии ВКонтакте",
+  "targetProduct": "vkontakte",
+  "strategy": "mimicry",
+  "capabilityPolicy": "all",
+  "preferences": []
+}

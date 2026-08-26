@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "id": "looks-vk-mimicry-v1",
+      "strategy": "mimicry",
+      "referenceProfileId": "vk-ios",
+      "kind": "approved-golden-concept",
+      "sourceConcept": "looks",
+      "sourcePaths": [
+        "concepts/looks/concept.json",
+        "native/apps/looks",
+        "native/ReferenceProfiles/vk-ios/profile.json"
+      ],
+      "transferScope": [
+        "flat VK navigation chrome",
+        "dense content-first hierarchy",
+        "semantic VK color and type roles",
+        "consistent feed action attachment",
+        "Lucide product chrome with native platform actions"
+      ],
+      "nonTransferable": [
+        "fashion entities and copy",
+        "Looks navigation graph",
+        "Looks feature names",
+        "product actions not present in the selected World Model"
+      ],
+      "implementationRecipes": {
+        "shell": "Compose every root with VKRootSurface so the white top safe area, VKTabHeader and content alignment are identical. Use the system TabView solely for Liquid Glass. Its labels are icon-only template assets from NativeVisualLanguage.requiredTabIconAsset; accessible names stay semantic and are not rendered as extra captions.",
+        "feed": "Use VKRootSurface, then ScrollView/LazyVStack with VKAuthoredPost and GroupGap. VKAuthoredPost must own author/meta header, product text/media and the attached VKPostActions; never render feedback as a separate panel.",
+        "navigation": "Use VKNavigationChrome and VKModalChrome for pushed and modal product surfaces. Do not let automatic toolbar glass create capsules in VK content chrome.",
+        "messages": "Follow native/apps/looks/Messaging.swift for conversation rows, compact chat header, message grouping, composer attachment and keyboard-safe bottom spacing.",
+        "profile": "Follow native/apps/looks/Profile.swift for one profile entry, VKGroup/VKRow anatomy, section hierarchy and predictable chevrons only on navigable rows.",
+        "contentBoundary": "Transfer only components declared in ReferenceProfiles/vk-ios/profile.json compositionCatalog. Preserve the new product World Model, entities, copy, journeys and actions without importing Looks-specific features. Decorative selectors and unowned affordances are prohibited.",
+        "forms": "Use VKModalChrome, native fields/sections and VKPrimaryActionArea. Keep 16pt below the primary button and show permission recovery through VKInlineNotice, never through a fake system prompt."
+      },
+      "goldenCaptures": {
+        "feed": "native/artifacts/looks/shots-current/home--default.png",
+        "post": "native/artifacts/looks/shots-current/post--default.png",
+        "messages": "native/artifacts/looks/shots-current/chats--default.png",
+        "conversation": "native/artifacts/looks/shots-current/chat--default.png",
+        "profile": "native/artifacts/looks/shots-current/profile--default.png"
+      },
+      "requiredEvidenceRefs": ["selected-product-contract", "verified-experience-contract"]
+    },
+    {
+      "id": "native-product-baseline-v1",
+      "strategy": "differentiation",
+      "referenceProfileId": null,
+      "kind": "approved-system-baseline",
+      "sourceConcept": null,
+      "sourcePaths": [
+        "native/DesignSystem/README.md",
+        "native/DesignSystem/NativeVisualLanguage.swift"
+      ],
+      "transferScope": [
+        "system navigation and presentation",
+        "semantic tokens",
+        "native content hierarchy",
+        "one component family per semantic role",
+        "product-specific empty, error and permission states"
+      ],
+      "nonTransferable": [
+        "generic hero cards",
+        "decorative gradients",
+        "colored icon placeholders",
+        "VK reference shell",
+        "template card stacks"
+      ],
+      "excludedPositiveConcepts": ["today", "nakat"],
+      "requiredEvidenceRefs": ["selected-product-contract", "verified-experience-contract"]
+    }
+  ]
+}

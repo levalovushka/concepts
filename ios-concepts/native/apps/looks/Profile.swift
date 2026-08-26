@@ -195,7 +195,7 @@ struct ProfileScreen: View {
 
     // MARK: пилюли-табы
 
-    private let tabTitles = ["Образы", "Вещи", "Свопы"]
+    private let tabTitles = ["Образы", "Вещи", "Обмен"]
 
     private var tabsRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -237,7 +237,7 @@ struct ProfileScreen: View {
                 }
             }
         } else if tab == 2 {
-            contentSection(title: "Свопы") {
+            contentSection(title: "Обмен вещами") {
                 ForEach(store.events) { e in
                     contentCard(glyph: "arrow.left.arrow.right", title: e.title,
                                 sub: e.when, seed: e.going) {

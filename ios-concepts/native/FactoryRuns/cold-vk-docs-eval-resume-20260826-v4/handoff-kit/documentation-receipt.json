@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "directory": "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation",
+  "files": [
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/00-overview.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/01-product-world.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/02-navigation-and-flows.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/03-screen-states.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/04-design-system.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/05-localization.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/06-permissions-user-consent.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/07-platform-capabilities.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/08-acceptance-scenarios.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/08-fixtures-and-data.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/09-accessibility.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/10-privacy-analytics-risks.md",
+    "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/11-architecture-build-run.md"
+  ],
+  "sha256": "f32bb4e1fa256099c2525eb8097bd957aa05ad2f12135c9844bd33f0ce3c4e72",
+  "audit": {
+    "passed": true,
+    "directory": "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation",
+    "files": [
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/00-overview.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/01-product-world.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/02-navigation-and-flows.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/03-screen-states.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/04-design-system.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/05-localization.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/06-permissions-user-consent.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/07-platform-capabilities.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/08-acceptance-scenarios.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/08-fixtures-and-data.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/09-accessibility.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/10-privacy-analytics-risks.md",
+      "/Users/vladshukurov/.codex/worktrees/f137/VKкамуфляж/ios-concepts/native/FactoryRuns/cold-vk-docs-eval-resume-20260826-v4/handoff-kit/native/apps/svoi-blueprint-v1/Documentation/11-architecture-build-run.md"
+    ],
+    "problems": []
+  }
+}

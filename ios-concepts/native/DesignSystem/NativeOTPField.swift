@@ -7,6 +7,7 @@ struct NativeOTPField: View {
     var length = 4
     var error: String? = nil
     var isDisabled = false
+    var textFieldIdentifier = "codeField"
     var onChange: (String) -> Void = { _ in }
 
     @Environment(\.visualLanguage) private var t
@@ -40,6 +41,10 @@ struct NativeOTPField: View {
                 .focused($isFocused)
                 .disabled(isDisabled)
                 .opacity(0.001)
+                .accessibilityIdentifier(textFieldIdentifier)
+                .accessibilityLabel("Код из письма")
+                .accessibilityValue(code.isEmpty ? "Не введён" : "Введено цифр: \(code.count) из \(length)")
+                .accessibilityHint("Введите код с клавиатуры или вставьте его целиком")
                 .onChange(of: code) { _, value in
                     let normalized = String(value.filter(\.isNumber).prefix(length))
                     if normalized != code { code = normalized }
@@ -50,11 +55,6 @@ struct NativeOTPField: View {
         .contentShape(Rectangle())
         .onTapGesture { guard !isDisabled else { return }; isFocused = true }
         .onAppear { if !isDisabled { isFocused = true } }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Код из письма")
-        .accessibilityValue(code.isEmpty ? "Не введён" : "Введено цифр: \(code.count) из \(length)")
-        .accessibilityHint("Введите код с клавиатуры или вставьте его целиком")
-        .accessibilityAddTraits(.isKeyboardKey)
     }
 
     private func character(at index: Int) -> String {

@@ -19,6 +19,13 @@ export const PRODUCT_STRESS_AXES = Object.freeze([
   "permission-cohesion",
   "evidence",
 ]);
+export const FACTORY_PRODUCT_QUALITY_AXES = Object.freeze([
+  "world-model-coherence",
+  "feature-economy",
+  "first-screen-value",
+  "semantic-clarity",
+  "content-credibility",
+]);
 
 const LEGACY_MIGRATION_SLUGS = new Set(["looks", "dvor"]);
 const VAGUE_VALUE = /^(удобно|быстро|просто|полезно|интересно|всё в одном|all[- ]?in[- ]?one)$/iu;
@@ -170,7 +177,6 @@ function validateDelivery(candidate, diagnostics, base) {
     ["ownership.owned", "Owned files"],
     ["limitations", "Limitations"],
     ["acceptanceCriteria", "Acceptance criteria"],
-    ["appStoreNotes", "App Store notes"],
   ];
   for (const [path, label] of requiredArrays) {
     const value = path.split(".").reduce((current, key) => current?.[key], delivery);
@@ -183,7 +189,7 @@ function validateDelivery(candidate, diagnostics, base) {
     ["analytics.successMetrics", 8], ["testing.levels", 8], ["testing.evidencePlan", 8],
     ["testing.capturePlan", 3], ["setup.prerequisites", 3], ["setup.build", 3],
     ["setup.run", 3], ["ownership.generated", 3], ["ownership.owned", 3],
-    ["limitations", 8], ["acceptanceCriteria", 8], ["appStoreNotes", 8],
+    ["limitations", 8], ["acceptanceCriteria", 8],
   ]) {
     const value = path.split(".").reduce((current, key) => current?.[key], delivery);
     for (const [index, item] of (Array.isArray(value) ? value : []).entries()) pushText(
@@ -373,6 +379,33 @@ export function validateConceptCandidate(candidate, brief, index = 0) {
   for (const axis of PRODUCT_STRESS_AXES) if (!axisIds.has(axis)) diagnostics.push(diagnostic(
     "candidate.stress-axis.missing", `Missing stress axis ${axis}`, `${base}.stressTest.axes`,
   ));
+  if (candidate?.factoryQuality !== undefined) {
+    const factoryAxes = candidate.factoryQuality?.axes;
+    pushItems(diagnostics, factoryAxes, `${base}.factoryQuality.axes`, "Factory product quality axes", FACTORY_PRODUCT_QUALITY_AXES.length);
+    const factoryAxisIds = new Set();
+    for (const [axisIndex, axis] of (factoryAxes || []).entries()) {
+      const path = `${base}.factoryQuality.axes[${axisIndex}]`;
+      if (!FACTORY_PRODUCT_QUALITY_AXES.includes(axis?.id)) diagnostics.push(diagnostic(
+        "candidate.factory-axis.unknown", `Unknown factory quality axis ${axis?.id}`, `${path}.id`,
+      ));
+      if (factoryAxisIds.has(axis?.id)) diagnostics.push(diagnostic(
+        "candidate.factory-axis.duplicate", `Duplicate factory quality axis ${axis?.id}`, `${path}.id`,
+      ));
+      factoryAxisIds.add(axis?.id);
+      if (!Number.isInteger(axis?.score) || axis.score < 0 || axis.score > 4) diagnostics.push(diagnostic(
+        "candidate.factory-axis.score-invalid", "Factory quality score must be an integer from 0 to 4", `${path}.score`,
+      ));
+      pushText(diagnostics, axis?.rationale, `${path}.rationale`, "Factory quality rationale", 16);
+      pushStringItems(diagnostics, axis?.evidenceRefs, `${path}.evidenceRefs`, "Factory quality evidence references", 2);
+      for (const ref of axis?.evidenceRefs || []) if (!evidenceIds.has(ref)) diagnostics.push(diagnostic(
+        "candidate.evidence.reference-missing", `Factory quality evidence reference ${ref} does not exist`, `${path}.evidenceRefs`,
+      ));
+      pushStringItems(diagnostics, axis?.failureModes, `${path}.failureModes`, "Factory quality failure modes");
+    }
+    for (const axis of FACTORY_PRODUCT_QUALITY_AXES) if (!factoryAxisIds.has(axis)) diagnostics.push(diagnostic(
+      "candidate.factory-axis.missing", `Missing factory quality axis ${axis}`, `${base}.factoryQuality.axes`,
+    ));
+  }
   validateDelivery(candidate, diagnostics, base);
   return diagnostics;
 }
@@ -380,6 +413,15 @@ export function validateConceptCandidate(candidate, brief, index = 0) {
 function provenEvidence(candidate, refs) {
   const index = new Map((candidate.evidence || []).map(item => [item.id, item]));
   return (refs || []).some(ref => PROVEN_EVIDENCE_STATUS.has(index.get(ref)?.status));
+}
+
+function traceableEvidence(candidate, refs) {
+  const index = new Map((candidate.evidence || []).map(item => [item.id, item]));
+  return hasItems(refs) && refs.every(ref => index.has(ref));
+}
+
+function hasEvidencePlan(candidate) {
+  return hasTextItems(candidate.delivery?.testing?.evidencePlan);
 }
 
 function gate(id, reasons) {
@@ -431,7 +473,10 @@ export function runDeterministicMaturityGates(brief, candidate) {
   for (const key of ["trigger", "action", "reward", "contribution", "successMetric", "testPlan"]) {
     if (!hasText(candidate.coreLoop?.[key])) coreLoop.push(`core loop ${key} is not explicit`);
   }
-  if (!provenEvidence(candidate, candidate.coreLoop?.evidenceRefs)) coreLoop.push("core loop has no observed, validated, or approved evidence provenance");
+  if (!traceableEvidence(candidate, candidate.coreLoop?.evidenceRefs)) coreLoop.push("core loop has no traceable evidence provenance");
+  if (!provenEvidence(candidate, candidate.coreLoop?.evidenceRefs) && !hasEvidencePlan(candidate)) {
+    coreLoop.push("unvalidated core loop has no explicit evidence plan");
+  }
   gates.push(gate("core-loop-evidence", coreLoop));
 
   const reference = [];
@@ -453,8 +498,11 @@ export function runDeterministicMaturityGates(brief, candidate) {
   gates.push(gate("reference-mental-model-fit", reference));
 
   const evidence = [];
-  if (!provenEvidence(candidate, candidate.insight?.evidenceRefs)) evidence.push("product insight is only an unvalidated assumption");
-  if (!provenEvidence(candidate, candidate.observableDifferentiation?.evidenceRefs)) evidence.push("observable difference lacks proven provenance");
+  if (!traceableEvidence(candidate, candidate.insight?.evidenceRefs)) evidence.push("product insight has no traceable provenance");
+  if (!traceableEvidence(candidate, candidate.observableDifferentiation?.evidenceRefs)) evidence.push("observable difference has no traceable provenance");
+  const hasUnvalidatedProductClaim = !provenEvidence(candidate, candidate.insight?.evidenceRefs)
+    || !provenEvidence(candidate, candidate.observableDifferentiation?.evidenceRefs);
+  if (hasUnvalidatedProductClaim && !hasEvidencePlan(candidate)) evidence.push("unvalidated product claims have no explicit evidence plan");
   gates.push(gate("evidence-provenance", evidence));
 
   const stress = [];
@@ -481,6 +529,13 @@ function candidateComparison(candidate, brief, index) {
     ...diagnostics.filter(item => item.severity === "error").map(item => `${item.code}: ${item.message}`),
     ...gates.filter(item => !item.pass).flatMap(item => item.reasons.map(reason => `${item.id}: ${reason}`)),
   ];
+  if (candidate.factoryQuality) {
+    const factoryScores = new Map(candidate.factoryQuality.axes?.map(axis => [axis.id, axis.score]));
+    for (const axis of FACTORY_PRODUCT_QUALITY_AXES) {
+      if (!factoryScores.has(axis)) rejectionReasons.push(`factory-quality: ${axis} was not assessed`);
+      else if (factoryScores.get(axis) < 3) rejectionReasons.push(`factory-quality: ${axis} failed with ${factoryScores.get(axis)}/4`);
+    }
+  }
   return {
     id: candidate.id || `candidate-${index + 1}`,
     name: candidate.name || candidate.id || `Candidate ${index + 1}`,
@@ -498,6 +553,21 @@ function diversityDiagnostics(candidates) {
   const diagnostics = [];
   const fingerprints = new Map();
   const ids = new Set();
+  const semanticFingerprints = [];
+  const semanticTokens = candidate => new Set([
+    candidate?.productThesis,
+    candidate?.wedge?.mechanism,
+    candidate?.contentModel?.primaryUnit,
+    candidate?.coreLoop?.action,
+    candidate?.observableDifferentiation?.behavior,
+  ].join(" ").toLocaleLowerCase("ru").match(/[\p{L}\p{N}]{4,}/gu) || []);
+  const similarity = (left, right) => {
+    const union = new Set([...left, ...right]);
+    if (!union.size) return 1;
+    let intersection = 0;
+    for (const token of left) if (right.has(token)) intersection += 1;
+    return intersection / union.size;
+  };
   for (const [index, candidate] of candidates.entries()) {
     if (ids.has(candidate?.id)) diagnostics.push(diagnostic(
       "candidate.portfolio.id-duplicate",
@@ -517,6 +587,16 @@ function diversityDiagnostics(candidates) {
       `candidates[${index}]`,
     ));
     else fingerprints.set(fingerprint, candidate.id || index + 1);
+    const tokens = semanticTokens(candidate);
+    for (const previous of semanticFingerprints) {
+      const overlap = similarity(tokens, previous.tokens);
+      if (overlap >= 0.72) diagnostics.push(diagnostic(
+        "candidate.portfolio.semantically-duplicated",
+        `Candidates ${previous.id} and ${candidate.id || index + 1} describe substantially the same product mechanism (${Math.round(overlap * 100)}% token overlap)`,
+        `candidates[${index}]`,
+      ));
+    }
+    semanticFingerprints.push({ id: candidate.id || index + 1, tokens });
   }
   return diagnostics;
 }
@@ -590,6 +670,7 @@ function compileWinner(brief, candidate, comparison, receipt) {
     risks: candidate.risks,
     assumptions: candidate.assumptions,
     evidence: candidate.evidence,
+    ...(candidate.factoryQuality ? { factoryQuality: candidate.factoryQuality } : {}),
     delivery: candidate.delivery,
     maturity: {
       status: "mature",
@@ -670,6 +751,67 @@ export async function developProductConcept({ brief, generator }) {
     ok: Boolean(derived.selected),
     diagnostics,
     candidates,
+    selectionReceipt: derived.receipt,
+    productContract: derived.productContract,
+  };
+}
+
+function deriveSelectedDevelopmentArtifacts(brief, candidate, explorationReceipt) {
+  const comparison = candidateComparison(candidate, brief, 0);
+  const explorationReasons = [];
+  if (!explorationReceipt || explorationReceipt.selectedSeedId !== candidate?.id) {
+    explorationReasons.push("expanded candidate does not match the independently selected idea seed");
+  }
+  if (!Array.isArray(explorationReceipt?.seeds) || explorationReceipt.seeds.length !== brief.candidateCount) {
+    explorationReasons.push(`idea exploration must compare exactly ${brief.candidateCount} seeds`);
+  }
+  const eligible = comparison.eligible && explorationReasons.length === 0;
+  const base = {
+    schemaVersion: PRODUCT_MATURITY_SCHEMA_VERSION,
+    briefId: brief.id,
+    selectionRule: "compare three concise product mechanisms independently; expand only the selected seed; fail every mature-product gate and every axis below 3/4",
+    selectedCandidateId: eligible ? candidate.id : null,
+    winnerReasons: eligible ? [
+      `independent idea selection: ${explorationReceipt.selectedSeedId}`,
+      `selected product thesis: ${candidate.productThesis}`,
+      `passed all ${comparison.gates.length} hard gates after expansion`,
+      `minimum stress axis ${comparison.minimumAxisScore}/4`,
+    ] : [],
+    portfolioDiagnostics: explorationReasons.map(message => diagnostic("product.exploration.invalid", message, "explorationReceipt")),
+    candidates: [{
+      id: comparison.id,
+      name: comparison.name,
+      eligible,
+      minimumAxisScore: comparison.minimumAxisScore,
+      axisScores: comparison.axisScores,
+      gates: comparison.gates,
+      rejectionReasons: eligible ? [] : [...comparison.rejectionReasons, ...explorationReasons],
+    }],
+    explorationReceiptId: explorationReceipt?.receiptId || null,
+  };
+  const receipt = Object.freeze({ receiptId: stableProductArtifactId("selection", base), ...base });
+  return {
+    comparison,
+    receipt,
+    productContract: eligible ? compileWinner(brief, candidate, comparison, receipt) : null,
+    diagnostics: [...comparison.diagnostics, ...base.portfolioDiagnostics],
+  };
+}
+
+export function developSelectedProductConcept({ brief, candidate, explorationReceipt }) {
+  const briefDiagnostics = validateProductBrief(brief);
+  if (briefDiagnostics.some(item => item.severity === "error")) return {
+    ok: false, diagnostics: briefDiagnostics, candidates: [], explorationReceipt, selectionReceipt: null, productContract: null,
+  };
+  const derived = deriveSelectedDevelopmentArtifacts(brief, candidate, explorationReceipt);
+  const ok = Boolean(derived.productContract);
+  return {
+    ok,
+    diagnostics: ok ? derived.diagnostics : [...derived.diagnostics, diagnostic(
+      "product.maturity.no-winner", "The selected idea failed mature-product validation after expansion", "selectionReceipt",
+    )],
+    candidates: candidate ? [candidate] : [],
+    explorationReceipt,
     selectionReceipt: derived.receipt,
     productContract: derived.productContract,
   };
@@ -989,7 +1131,9 @@ export function verifyProductDevelopmentArtifact(artifact) {
   );
   const derived = briefDiagnostics.some(item => item.severity === "error")
     ? null
-    : deriveDevelopmentArtifacts(artifact.brief, candidates);
+    : artifact?.explorationReceipt
+      ? deriveSelectedDevelopmentArtifacts(artifact.brief, candidates[0], artifact.explorationReceipt)
+      : deriveDevelopmentArtifacts(artifact.brief, candidates);
   const receipt = artifact?.selectionReceipt;
   if (!receipt) diagnostics.push(diagnostic(
     "selection.receipt.required", "Product development artifact has no Selection Receipt", "selectionReceipt",

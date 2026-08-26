@@ -56,6 +56,18 @@ test("strong brief creates diverse candidates, a stable receipt, and one canonic
   assert.equal(first.productContract.maturity.minimumAxisScore, 3);
 });
 
+test("native concept maturity does not require App Store materials", async () => {
+  const brief = read("strong-brief.json");
+  const candidates = await productGenerator.generateCandidates({ brief, rubric: { minimumAxisScore: 3 } });
+  for (const candidate of candidates) delete candidate.delivery.appStoreNotes;
+  const result = await developProductConcept({
+    brief,
+    generator: { async generateCandidates() { return candidates; } },
+  });
+  assert.equal(result.ok, true, result.diagnostics.map(item => item.message).join("\n"));
+  assert.equal(result.productContract.delivery.appStoreNotes, undefined);
+});
+
 test("a strong average cannot mask one failed stress axis", async () => {
   const result = await developProductConcept({ brief: read("strong-brief.json"), generator: productGenerator });
   const rejected = result.selectionReceipt.candidates.find(item => item.id === "skill-minute");
@@ -77,9 +89,9 @@ test("deterministic gates fail closed for the named weak-product modes", async (
     ["permission-cohesion", candidate => { candidate.permissions.find(item => item.key === "camera").deniedFallback = ""; }],
     ["cold-start", candidate => { candidate.coldStart.seededContent = ""; }],
     ["content-supply", candidate => { candidate.contentSupply.ongoingSources = [""]; }],
-    ["core-loop-evidence", candidate => { candidate.coreLoop.evidenceRefs = ["supply-assumption"]; }],
+    ["core-loop-evidence", candidate => { candidate.coreLoop.evidenceRefs = ["missing-evidence"]; }],
     ["reference-mental-model-fit", candidate => { candidate.referenceFit.naturalFit = ""; }],
-    ["evidence-provenance", candidate => { candidate.insight.evidenceRefs = ["supply-assumption"]; }],
+    ["evidence-provenance", candidate => { candidate.insight.evidenceRefs = ["missing-evidence"]; }],
   ];
   for (const [gateId, mutate] of cases) {
     const candidate = structuredClone(source);
@@ -88,6 +100,19 @@ test("deterministic gates fail closed for the named weak-product modes", async (
     assert.equal(gate.pass, false, `${gateId} unexpectedly passed`);
     assert.equal(gate.reasons.length > 0, true);
   }
+});
+
+test("honest concept assumptions pass provenance gates when they have a falsifiable evidence plan", async () => {
+  const brief = read("strong-brief.json");
+  const [candidate] = await productGenerator.generateCandidates({ brief, rubric: { minimumAxisScore: 3 } });
+  const assumption = candidate.evidence.find(item => item.status === "needs-validation");
+  assert.ok(assumption, "fixture must contain an explicitly unvalidated assumption");
+  candidate.insight.evidenceRefs = [assumption.id];
+  candidate.coreLoop.evidenceRefs = [assumption.id];
+  candidate.observableDifferentiation.evidenceRefs = [assumption.id];
+  const gates = runDeterministicMaturityGates(brief, candidate);
+  assert.equal(gates.find(item => item.id === "core-loop-evidence").pass, true);
+  assert.equal(gates.find(item => item.id === "evidence-provenance").pass, true);
 });
 
 test("VK Music, VK Video, and OK remain blocked without their own evidence", async () => {

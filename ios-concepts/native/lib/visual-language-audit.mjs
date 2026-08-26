@@ -6,10 +6,18 @@ const LEGACY_HEX_BUDGET = Object.freeze({ looks: 0, dvor: 0 });
 export function auditVisualLanguage(appRoot, slug) {
   const diagnostics = [];
   if (!existsSync(appRoot)) return [`нет native/apps/${slug}`];
-  const files = readdirSync(appRoot).filter(file => file.endsWith(".swift"));
+  function swiftFiles(directory, prefix = "") {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const relative = join(prefix, entry.name);
+      if (entry.isDirectory()) return swiftFiles(join(directory, entry.name), relative);
+      return entry.name.endsWith(".swift") ? [relative] : [];
+    });
+  }
+  const files = swiftFiles(appRoot);
   const sources = files.map(file => ({ file, source: readFileSync(join(appRoot, file), "utf8") }));
   const all = sources.map(item => item.source).join("\n");
-  const app = sources.find(item => item.file === "App.swift")?.source || "";
+  const app = sources.find(item => /(^|\/)App\.swift$/.test(item.file))?.source
+    || sources.find(item => /App\.swift$/.test(item.file))?.source || "";
   const sharedPath = join(appRoot, "..", "..", "DesignSystem", "ManifestConcept.swift");
   const shared = app.includes("ManifestConceptRootView") && existsSync(sharedPath)
     ? readFileSync(sharedPath, "utf8")

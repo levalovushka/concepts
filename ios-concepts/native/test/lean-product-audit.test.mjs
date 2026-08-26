@@ -1,0 +1,32 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { auditLeanProduct } from "../lib/lean-product-audit.mjs";
+
+const blueprint = JSON.parse(readFileSync(new URL("../ProductBlueprints/circles-vk.json", import.meta.url), "utf8"));
+const manifest = compileNativeConcept(blueprint).manifest;
+
+test("lean product audit rejects the original comment-to-generic-post regression", () => {
+  const bad = `onComment: { nav.push(CirclesRoute.post(current)) }`;
+  const problems = auditLeanProduct({ blueprint, manifest, swiftSource: bad });
+  assert.equal(problems.some(item => item.includes("feed.open_comments")), true);
+});
+
+test("lean product audit rejects permission-only creation controls without real outcomes", () => {
+  const bad = `
+    func actionRow(_ title: String, key: PermissionKey) {
+      Task {
+        if await permissions.request(key) { attachments.append(title) }
+      }
+    }
+    actionRow("Снять фото", key: .camera)
+    actionRow("Выбрать из медиатеки", key: .photos)
+    actionRow("Записать голосом", key: .mic)
+    actionRow("Надиктовать текст", key: .speech)
+    actionRow("Добавить место", key: .location)
+  `;
+  const problems = auditLeanProduct({ blueprint, manifest, swiftSource: bad });
+  assert.equal(problems.some(item => item.includes("generic capability control")), true);
+  assert.equal(problems.some(item => item.includes("real platform effect is missing")), true);
+});

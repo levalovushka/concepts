@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "concepts": [
+    { "slug": "looks", "productContractId": "product-ac1985d41f899878", "strategy": "mimicry", "status": "calibration-source", "order": 2 },
+    { "slug": "dvor", "productContractId": "product-d05a9d23c76a0a9d", "strategy": "mimicry", "status": "next", "order": 1, "requestPath": "native/FactoryRequests/dvor.json" },
+    { "slug": "tails", "productContractId": "product-22f06361067049de", "strategy": "mimicry", "status": "queued", "order": 3 },
+    { "slug": "peresmenka", "productContractId": "product-b9b9d2622bd023b1", "strategy": "differentiation", "status": "queued", "order": 4 },
+    { "slug": "today", "productContractId": "product-c09f599227f7c0b9", "strategy": "differentiation", "status": "product-rework-required", "order": 5 },
+    { "slug": "nakat", "productContractId": "product-2dc843d470e949f2", "strategy": "differentiation", "status": "product-rework-required", "order": 6 },
+    { "slug": "vk-neighbor-help", "productContractId": "product-869f242d34b68f9b", "strategy": "mimicry", "status": "product-rework-required", "order": 7 }
+  ]
+}

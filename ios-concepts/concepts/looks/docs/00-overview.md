@@ -1,5 +1,5 @@
 # Образы: developer product guide
 
-> Generated from Product Contract `product-2e716bbde2f39c82` and the compiled native manifest. Do not edit by hand.
-> UX Specification: `ux-8234c1d00406f8ad`; source: `explicit-product-delivery`.
+> Generated from Product Contract `product-ac1985d41f899878` and the compiled native manifest. Do not edit by hand.
+> UX Specification: `ux-f1862ecf97c4fe3b`; source: `explicit-product-delivery`.
 > Contract status: `mature`; maturity floor: `3/4`.

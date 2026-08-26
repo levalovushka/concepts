@@ -55,9 +55,8 @@ struct NakatShell: View {
                     NakatRootSurface(surfaceID: item.screen)
                         .navigationDestination(for: String.self) { NakatDestination(surfaceID: $0) }
                 }
-                .tabItem { Image(systemName: item.systemImage) }
+                .tabItem { Image(systemName: item.systemImage).accessibilityLabel(item.label).accessibilityIdentifier(item.label) }
                 .tag(item.id)
-                .accessibilityLabel(item.label)
             }
         }
         .task {

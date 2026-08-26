@@ -17,7 +17,11 @@ if (!slug) {
   process.exit(1);
 }
 
-const spec = JSON.parse(readFileSync(join(projectRoot, "concepts", slug, "concept.json"), "utf8"));
+const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
+const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
+const specPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
+if (!existsSync(specPath)) { console.error(`missing concept or Product Blueprint for ${slug}`); process.exit(1); }
+const spec = JSON.parse(readFileSync(specPath, "utf8"));
 const compiled = compileNativeConcept(spec);
 const problems = compiled.diagnostics
   .filter(item => item.severity === "error")
@@ -25,8 +29,14 @@ const problems = compiled.diagnostics
 const manifest = compiled.manifest;
 
 const appDir = join(nativeRoot, "apps", slug);
-const appSources = readdirSync(appDir).filter(file => file.endsWith(".swift"))
-  .map(file => readFileSync(join(appDir, file), "utf8")).join("\n");
+function swiftSources(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) return swiftSources(path);
+    return entry.name.endsWith(".swift") ? [readFileSync(path, "utf8")] : [];
+  });
+}
+const appSources = swiftSources(appDir).join("\n");
 const manifestAdapterSource = appSources.includes("ManifestConceptRootView")
   ? readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8")
   : "";
@@ -98,9 +108,12 @@ for (const permission of manifest.permissions) {
   if (permission.activation === "build-artifact") continue;
   const requestPattern = new RegExp(`request\\(\\.${permission.key}(?:\\s*,|\\s*\\))`, "g");
   const requestHits = (appSources.match(requestPattern) || []).length;
+  const genericHelperHits = appSources.includes("permissions.request(key")
+    ? (appSources.match(new RegExp(`(?:key:\\s*|run\\()\\.${permission.key}(?:\\s*,|\\s*\\))`, "g")) || []).length
+    : 0;
   const directPattern = directGesturePatterns[permission.key];
   const directHits = directPattern ? (appSources.match(directPattern) || []).length : 0;
-  const hits = genericPermissionBinding ? 1 : requestHits + directHits;
+  const hits = genericPermissionBinding ? 1 : requestHits + genericHelperHits + directHits;
   if (hits === 0) {
     problems.push(`✗ ${permission.key}: no product gesture calls the capability adapter`);
   }

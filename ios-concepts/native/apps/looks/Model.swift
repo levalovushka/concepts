@@ -53,14 +53,14 @@ struct Outfit: Identifiable, Hashable {
 enum GarmentState: Hashable {
     case worn(String)      // «надета 3 дня назад»
     case idle(String)      // «не носили 7 месяцев»
-    case onSwap            // отдана на своп
+    case onSwap            // выставлена для обмена
     case wanted            // хочу такую
 
     var label: String {
         switch self {
         case .worn(let w): return w
         case .idle(let w): return "не носили \(w)"
-        case .onSwap: return "на свопе"
+        case .onSwap: return "для обмена"
         case .wanted: return "в вишлисте"
         }
     }
@@ -195,7 +195,7 @@ final class LooksStore {
                        Garment(title: "Сумка через плечо", brand: "мамина", inOutfits: 63, state: .idle("4 дня"))],
                likes: 341, comments: 57, shares: 12, views: "12,4K", seed: 1),
         Outfit(author: "Аня Котова", meta: "3 д",
-               text: "Разобрала гардероб: 11 вещей уезжают на своп в субботу",
+               text: "Разобрала гардероб: 11 вещей принесу на обмен в субботу",
                items: [Garment(title: "Юбка миди", brand: "H&M", inOutfits: 3, state: .onSwap),
                        Garment(title: "Свитер крупной вязки", brand: "бабушкин", inOutfits: 21, state: .onSwap)],
                likes: 87, comments: 113, shares: 4, views: "5,2K", seed: 3),
@@ -237,7 +237,7 @@ final class LooksStore {
     ]
 
     var dialogs: [Dialog] = [
-        Dialog(name: "Аня Котова", last: "Своп в субботу в 15:00, придёте?", time: "12:40", unread: 2),
+        Dialog(name: "Аня Котова", last: "Обмен вещами в субботу в 15:00, придёте?", time: "12:40", unread: 2),
         Dialog(name: "Даша Ким", last: "Скинула образ, глянь вещи", time: "11:05", online: true),
         Dialog(name: "Марк Львов", last: "Спасибо за совет по тренчу", time: "вчера"),
         Dialog(name: "Соседки по стилю", last: "Даша: принесу два платья", time: "вчера", unread: 5),
@@ -246,10 +246,10 @@ final class LooksStore {
     ]
 
     private var messagesByPeer: [String: [Message]] = ["Аня Котова": [
-        Message(text: "Тренч я всё-таки отдаю на своп", mine: false, time: "19:04", day: "27 октября"),
+        Message(text: "Тренч я всё-таки готова обменять", mine: false, time: "19:04", day: "27 октября"),
         Message(text: "Тот самый? Я его два года у вас вижу", mine: true, time: "19:06"),
         Message(text: "Он самый. Надела дважды за год", mine: false, time: "19:07"),
-        Message(text: "Привет! Своп в эту субботу в 15:00", mine: false, time: "12:30", day: "Сегодня"),
+        Message(text: "Привет! Обмен вещами в эту субботу в 15:00", mine: false, time: "12:30", day: "Сегодня"),
         Message(text: "Приду! Что приносить?", mine: true, time: "12:35"),
         Message(text: "Всё, что не носите — верх, обувь, аксессуары", mine: false, time: "12:38"),
         Message(text: "И вешалки, если есть лишние", mine: false, time: "12:38"),
@@ -258,7 +258,7 @@ final class LooksStore {
     ]]
 
     var events: [NearbyEvent] = [
-        NearbyEvent(title: "Своп у Ани на Мясницкой", place: "Лофт на Мясницкой", when: "Суббота, 15:00", distance: "1,2 км", going: 34),
+        NearbyEvent(title: "Обмен вещами у Ани", place: "Лофт на Мясницкой", when: "Суббота, 15:00", distance: "1,2 км", going: 34),
         NearbyEvent(title: "Барахолка винтажа", place: "Дизайн-завод «Флакон»", when: "Воскресенье, 12:00", distance: "3,4 км", going: 128),
         NearbyEvent(title: "Обмен верхней одеждой", place: "Кофейня «Заря»", when: "5 ноября, 19:00", distance: "600 м", going: 12),
     ]
@@ -285,16 +285,6 @@ final class LooksStore {
         guard let i = outfits.firstIndex(where: { $0.id == id }) else { return }
         outfits[i].saved.toggle()
     }
-    /// Ремикс: свой образ, собранный из чужого — ядровое отличие продукта.
-    func remix(_ outfit: Outfit) {
-        var copy = outfit
-        copy = Outfit(author: "Ника Орлова", meta: "только что · ваш ремикс",
-                      text: "Собрала свою версию образа @\(outfit.author.split(separator: " ").first ?? "")",
-                      items: outfit.items, likes: 0, comments: 0, shares: 0,
-                      views: "0", seed: outfit.seed + 1)
-        outfits.insert(copy, at: 0)
-    }
-
     func publish(text: String) {
         let draft = Outfit(
             author: "Ника Орлова",
