@@ -73,6 +73,7 @@ export function createNativeVisualReviewPacketV2({ spec, fullContract, capabilit
       coreLoop: [...spec.product.coreLoop.actionIds],
       targetProduct: spec.targetProduct, strategy: spec.strategy,
     },
+    referenceAssetsRoot: "native/HTMLPatterns",
     surfaces: fullContract.surfaces.map(surface => ({
       id: surface.id, role: surface.role, recipe: surface.recipe,
       states: [...surface.states], actions: [...surface.actionIds], content: structuredClone(surface.content),

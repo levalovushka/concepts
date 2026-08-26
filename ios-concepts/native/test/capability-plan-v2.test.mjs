@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { compileCapabilityPlanV2 } from "../lib/capability-plan-v2.mjs";
 import { createProductCoreArtifact } from "../lib/product-core-v2.mjs";
-import { portfolio, strongCore } from "../fixtures/pipeline-v2/strong-product.mjs";
+import { portfolio, strongCore } from "../fixtures/native-pipeline/strong-product.mjs";
 
 const artifact = createProductCoreArtifact({ request: { id: "request-1" }, core: strongCore, portfolio }).artifact;
 const target = { permissions: [{ key: "camera" }, { key: "push" }] };

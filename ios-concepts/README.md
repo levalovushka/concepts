@@ -1,119 +1,50 @@
-# Нативные iOS-концепты
+# Camo Native Pipeline
 
-Самостоятельный проект SwiftUI-концептов. Он не запускает HTML, не копирует DOM/CSS в приложение и не зависит от launcher/kernel старой платформы.
+Camo turns one product specification into a runnable native SwiftUI concept.
+There is one public command and no adapter setup:
 
+```sh
+npm run generate -- native/specs/estafeta.json
+```
 
-Не нужно клонировать репозиторий и разбираться в пайплайне, чтобы посмотреть Looks, Dvor и остальные концепты в деле — для этого есть лаунчер **Camo** (macOS-приложение). На машине нужен установленный Xcode и хотя бы один симулятор — Camo сам вызывает `xcodebuild`/`simctl`, руками собирать ничего не надо.
+The result is an Xcode project with working navigation and product actions,
+contextual iOS capability requests, XCUI journeys, screenshots and developer
+documentation. The same run also prepares a visual-review packet; the agent
+inspects the captures, repairs concrete UI or product problems and runs the
+pipeline again.
 
-Что показывает каждая вкладка:
+This is not an HTML-to-Swift converter. `native/HTMLPatterns` contains the useful
+product and composition rules learned from the HTML concepts, while all runtime,
+navigation, permissions and rendering stay native.
 
-| Вкладка | Что внутри |
-|---|---|
-| Обзор | режим концепта (мимикрия / отстройка), целевой набор доступов, счётчики |
-| Доступы | таблица `permissions[]`: ключ Info.plist, какой фичей отработан, на каком экране |
-| Экраны | готовые снимки по состояниям |
-| Документы | доки концепта прямо в приложении, без похода в репозиторий |
-| Файлы | исходники и сгенерированный `.xcodeproj` — можно открыть в Xcode и посмотреть/поредактировать код |
-| Журнал | вывод сборки в реальном времени |
+## Requirements
 
-Кнопка **Запустить** делает всё сама: генерирует Xcode-проект, собирает, ставит и запускает в выбранном симуляторе.
+- macOS with Xcode and an installed `iPhone 17 Pro` simulator;
+- Node.js 20 or newer;
+- no npm dependencies.
 
-Подробнее об устройстве лаунчера и его сборке — [launcher/README.md](launcher/README.md). Инструкция для релиз-инженера, которая делает Camo.app подписанным и раздаваемым, — [launcher/RELEASE.md](launcher/RELEASE.md).
+## Repository map
 
-## Для тех, кто делает новые концепты: пайплайн
+- `native/pipeline.mjs` — the only public generation interface;
+- `native/specs/` — product inputs;
+- `native/lib/` — internal compilers and quality gates;
+- `native/HTMLPatterns/` — curated knowledge from HTML concepts;
+- `native/ReferenceProfiles/` — native mimicry grammars;
+- `native/DesignSystem/` and `native/Runtime/` — shared Swift sources;
+- `native/apps/`, `native/ProductBlueprints/`, `native/ProductUIContracts/` and
+  `native/Documentation/` — generated, reviewable output;
+- `native/build/` and `native/artifacts/` — local build and screenshot evidence;
+- `launcher/` — macOS browser for generated concepts and documentation.
 
-Один вход:
+## Checks
 
 ```sh
 npm test
-npm run factory:run -- native/fixtures/product-factory/request.example.json --adapter path/to/factory-pipeline-adapter.mjs --out path/to/artifacts
-npm run factory:develop -- native/fixtures/product-factory/request.example.json --adapter path/to/factory-adapter.mjs --out path/to/product-development.json
-npm run factory:experience -- path/to/factory-artifact.json --adapter path/to/experience-adapter.mjs --out path/to/experience-contract.json
-npm run factory:visual -- path/to/factory-artifact.json path/to/experience-contract.json --adapter path/to/visual-adapter.mjs --out path/to/visual-development.json
-npm run factory:release -- path/to/factory-artifact.json path/to/experience-contract.json path/to/visual-development.json --adapter path/to/release-adapter.mjs --out path/to/release-receipt.json
-npm run product:develop -- path/to/brief.json --adapter path/to/real-adapter.mjs --out path/to/development.json
-npm run product:verify -- path/to/development.json
-npm run product:gate -- dvor
-npm run docs -- dvor
-npm run check -- dvor
-npm run build -- dvor
-npm run capture -- dvor
-npm run release -- dvor
-npm run smoke -- looks
-npm run check:all
-npm run isolation
-npm run profiles
-npm run matrix
-npm run readiness
-npm run readiness:gate
 npm run launcher
 ```
 
-Канонический новый вход — короткий Factory Request: тема, целевой продукт и
-стратегия. Аудиторию, ситуации и World Models выводит generator, а отдельный
-evaluator независимо оценивает пять proposals. Permission profile компилируется
-из capability-to-action bindings выбранного продукта. Контракт и пример —
-[docs/PRODUCT-FACTORY-CONTRACT.md](docs/PRODUCT-FACTORY-CONTRACT.md).
+The pipeline refuses to overwrite an app directory it does not own. A release is
+not considered visually accepted until every review axis scores at least 8.5/10
+without blockers.
 
-Основной поток запускается одной командой `factory:run` и сохраняет пять
-физически разделённых артефактов: запрос, product development, Experience
-Contract, visual development и release. Поэтапные команды остаются открытыми
-для диагностики конкретного seam.
-
-Старый `product:develop` остаётся compatibility interface для уже созданных
-Product Brief и воспроизводимых fixtures.
-
-Для нового продукта входом служит Product Brief: adapter реальной модели выдаёт несколько кандидатов, fail-closed stress test формирует Selection Receipt и только победитель становится каноническим Product Contract. Полный контракт — [docs/PRODUCT-MATURITY.md](docs/PRODUCT-MATURITY.md).
-
-Между Product Contract и SwiftUI обязателен канонический UX Specification: граф, состояния/переходы, semantic design roles, localization catalog, acceptance scenarios и fixtures. Полностью — [docs/UX-SPECIFICATION.md](docs/UX-SPECIFICATION.md).
-
-`concepts/<slug>/concept.json` связывает воспроизводимый Product Development artifact,
-канонический Product Contract и явную UX Specification с delivery-спекой поверхностей.
-`native/apps/<slug>` — его SwiftUI-адаптер. Генерируемый Xcode-проект и снимки
-находятся в игнорируемых `native/build` и `native/artifacts`. Looks/Dvor и
-перенесённые из web evidence Tails/Today/Nakat/Peresmenka содержат курируемые
-портфели из трёх кандидатов; их evidence честно отделяет принятое продуктовое
-направление и наблюдаемую реализацию от ещё не проведённого market research.
-
-Оставшиеся концепты семейства `vkontakte` можно воспроизводимо обновить только
-через optional legacy evidence adapter с явным внешним входом:
-
-```sh
-npm run legacy:migrate:vk -- --legacy-root /path/to/legacy/platform
-```
-
-Normal pipeline не ищет соседний `platform/`. Adapter принимает только явно
-указанный проверенный web concept и три курируемых продуктовых предложения;
-HTML/CSS/DOM не входят в native contract.
-
-Проверка сборки не объявляется визуальным ревью. Финальный выпуск требует свежих снимков всех состояний и отдельной оценки по продукту, композиции, консистентности, деталям и поведению.
-
-`matrix` прогоняет Looks и Dvor как VK-mimicry на current и small-phone
-симуляторах. `readiness` пишет машинный отчёт, а строгий `readiness:gate`
-остаётся красным до независимого visual/product review, physical iPhone и
-VoiceOver manual pass. Этот локальный отчёт игнорируется Git: canonical source
-не хранит machine-local paths или устаревшие receipts.
-
-## Структура
-
-- `concepts/` — только нативные концепты и их контент.
-- `native/DesignSystem/` — общие нативные примитивы.
-- `native/Runtime/` — системные адаптеры iOS.
-- `native/ReferenceProfiles/` — доказанные грамматики мимикрии.
-- `native/VisualCalibrations/` — golden grammar и нативный baseline без переноса продуктовых шаблонов.
-- `native/apps/` — продуктовые SwiftUI-модули.
-- `native/lib/native-pipeline.mjs` — единый интерфейс пайплайна.
-- `native/lib/project-paths.mjs` — project-root seam для всех рабочих и output paths.
-- `native/gates/isolation.mjs` — executable isolation gate со standalone-copy прогоном.
-- `native/legacy-adapter/` — единственный optional adapter к старым HTML-свидетельствам.
-- `native/lib/product-maturity.mjs` — глубокий модуль brief → candidates → receipt → contract.
-- `native/lib/factory-pipeline.mjs` — единый короткий interface нового потока.
-- `native/lib/ux-specification.mjs` — глубокий UX compiler перед SwiftUI.
-- `native/schemas/` — детерминированные схемы продуктового и UX seams.
-- `docs/` — актуальные правила переноса, качества и профилей; индекс —
-  [docs/README.md](docs/README.md).
-- `launcher/` — самостоятельный macOS launcher для этой native-библиотеки.
-
-Старый `platform/` остаётся снаружи как архив и может быть только явным входом
-legacy adapter. Он не является зависимостью этого проекта; repository
-клонируется, собирается и проверяется самостоятельно.
+More detail: [docs/PIPELINE.md](docs/PIPELINE.md).

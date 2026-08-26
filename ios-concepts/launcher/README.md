@@ -16,7 +16,7 @@ open LocalDerivedData/Build/Products/Debug/Camo.app
 | Раздел | Что показывает |
 |---|---|
 | Обзор | режим (мимикрия / отстройка), целевой набор, счётчики |
-| Доступы | таблица `permissions[]` из спеки: ключ, фича, экран, риск, ключ Info.plist |
+| Возможности | контекстные iOS capabilities из скомпилированного Product Blueprint |
 | Экраны | снимки из `native/artifacts/<slug>/shots` |
 | Документы | отдельные тематические Markdown-файлы; читается только выбранный файл |
 | Файлы | исходники концепта, сгенерированный Xcode-проект и текстовый preview |
@@ -26,8 +26,8 @@ open LocalDerivedData/Build/Products/Debug/Camo.app
 `simctl install` → `simctl launch`, с выбором устройства.
 
 Библиотека читает только корень repository: путь можно задать через
-`IOS_CONCEPTS_ROOT` или выбрать в настройках. `concept.json` — источник правды,
-а launcher не обращается к legacy `platform/`.
+`IOS_CONCEPTS_ROOT` или выбрать в настройках. Источник для launcher —
+`native/ProductBlueprints`; HTML-концепты и legacy-платформа ему не нужны.
 
 ## Распространение
 

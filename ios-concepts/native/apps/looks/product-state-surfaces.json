@@ -1,7 +1,0 @@
-{
-  "schemaVersion": 2,
-  "product": ["home", "search", "chats", "notifications", "wardrobe", "nearby", "services", "create", "mates", "lock", "talk", "netqr", "phone", "code", "codefail", "event", "checkin"],
-  "pendingProduct": [],
-  "system": ["camera", "voice", "subtitles", "background"],
-  "extension": ["shareext"]
-}

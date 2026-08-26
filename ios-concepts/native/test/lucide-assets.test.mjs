@@ -31,12 +31,9 @@ test("VK tab assets regenerate deterministically as template vectors", () => {
   }
   assert.equal(config.tabRoles["house-matters"], "house");
   assert.equal(config.tabRoles.infrastructure, "layout-grid");
-  for (const app of ["looks", "dvor"]) {
-    const source = readFileSync(join(import.meta.dirname, `../apps/${app}/App.swift`), "utf8");
-    const label = source.slice(source.indexOf("private func tabLabel"), source.indexOf("private func tabContent"));
-    assert.match(label, /requiredTabIconAsset/);
-    assert.doesNotMatch(label, /systemImage:/, `${app} tab bar must never fall back to SF Symbols`);
-  }
+  const source = readFileSync(join(import.meta.dirname, "../apps/estafeta/NativeV2ProductScreens.swift"), "utf8");
+  assert.match(source, /requiredTabIconAsset/);
+  assert.doesNotMatch(source, /Label\([^\n]+systemImage:/, "generated tab bar must not fall back to SF Symbols");
 });
 
 test("selected Lucide tab glyphs are optically heavier without changing the 24pt box", () => {

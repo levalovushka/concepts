@@ -18,7 +18,6 @@ const bundleId = process.env.CAMO_BUNDLE_ID || "app.camo.launcher";
 const developmentTeam = process.env.CAMO_DEVELOPMENT_TEAM || "";
 const marketingVersion = process.env.CAMO_MARKETING_VERSION || "1.0";
 const buildNumber = process.env.CAMO_BUILD_NUMBER || "1";
-const appcastURL = process.env.CAMO_APPCAST_URL || "https://camo.example/appcast.json";
 
 const infoPlist = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -32,8 +31,6 @@ const infoPlist = `<?xml version="1.0" encoding="UTF-8"?>
 	<false/>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
-	<key>CamoAppcastURL</key>
-	<string>${appcastURL}</string>
 </dict>
 </plist>
 `;
@@ -223,7 +220,7 @@ if (testFlight) {
     });
   };
   mkdirSync(kit, { recursive: true });
-  for (const name of ["package.json", "README.md", "docs", "permission-sets", "concepts", "native"]) copy(name);
+  for (const name of ["package.json", "README.md", "docs", "native"]) copy(name);
   const slugs = readdirSync(join(kit, "native", "apps"), { withFileTypes: true })
     .filter(entry => entry.isDirectory()).map(entry => entry.name).sort();
   for (const slug of slugs) execFileSync(process.execPath, [join(kit, "native", "gen", "gen-project.mjs"), slug], {

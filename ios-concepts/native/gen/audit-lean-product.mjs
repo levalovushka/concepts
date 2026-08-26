@@ -2,7 +2,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { compileProductBlueprint } from "../lib/lean-native-factory.mjs";
+import { compileProductBlueprint } from "../lib/native-blueprint-compiler.mjs";
 import { auditLeanProduct } from "../lib/lean-product-audit.mjs";
 
 const nativeRoot = join(dirname(fileURLToPath(import.meta.url)), "..");

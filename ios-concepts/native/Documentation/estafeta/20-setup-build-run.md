@@ -17,8 +17,4 @@
 
 ## Запуск
 
-`npm run build -- estafeta`
-
-`npm run capture -- estafeta`
-
-`npm run smoke -- estafeta`
+`npm run generate -- native/specs/estafeta.json`
