@@ -12,7 +12,7 @@
 
 Внешний seam всего проекта — команды `test`, `check`, `build`, `capture`,
 `release`, `launcher`. Их рабочий каталог и все generated/build/artifact paths
-разрешаются через корень `ios-concepts/`; module не предполагает форму или даже
+разрешаются через корень repository; module не предполагает форму или даже
 наличие родительского репозитория. `npm run isolation` проверяет этот interface и
 повторяет `npm test` + non-Xcode `check:all` в отдельной копии без `platform/`.
 

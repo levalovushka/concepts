@@ -197,7 +197,7 @@ export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blue
     surface: actionSurface.get(action.id),
     label: action.outcome,
     outcome: action.effect.type === "navigate"
-      ? { type: "navigate", target: action.effect.targetScreenId }
+      ? { type: "navigate", target: `${action.effect.targetScreenId}${action.effect.targetState ? `#${action.effect.targetState}` : ""}` }
       : { type: action.effect.type === "system" ? "system" : "mutate", target: actionSurface.get(action.id), reducer: action.effect },
     variant: blueprint.coreLoop.actionIds.includes(action.id) ? "primary" : "secondary",
     placement: blueprint.coreLoop.actionIds.includes(action.id) ? "content" : "attached",

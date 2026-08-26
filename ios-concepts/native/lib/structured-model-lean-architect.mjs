@@ -64,6 +64,7 @@ function actionSchema() {
         properties: {
           type: { enum: ["navigate", "create", "update", "toggle", "append", "delete", "system"] },
           targetScreenId: { type: "string", minLength: 2 },
+          targetState: { type: "string", minLength: 2 },
           stateField: { type: "string", minLength: 2 },
           value: { type: "string", minLength: 1 },
           collectionField: { type: "string", minLength: 2 },
@@ -253,7 +254,7 @@ function humanize(id) {
 }
 
 const canonicalNavigationTargets = Object.freeze({
-  open_feed: "feed", open_deed: "post_detail", open_post: "post_detail", open_comments: "comments",
+  open_feed: "feed", open_deed: "post_detail", open_post: "post_detail",
   open_messages: "messages", open_conversation: "conversation", open_profile: "profile", open_saved: "saved",
   open_settings: "settings", open_accesses: "accesses", open_notifications: "notifications",
 });
@@ -271,6 +272,9 @@ function inferActionEffect(action, screens, capability) {
   if (capability?.outcome?.stateField) {
     return { type: "update", stateField: capability.outcome.stateField, value: "enabled" };
   }
+  if (id === "open_comments") return screens.has("comments")
+    ? { type: "navigate", targetScreenId: "comments" }
+    : { type: "navigate", targetScreenId: "post_detail", targetState: "comments" };
   const target = canonicalNavigationTargets[id]
     || (id.startsWith("open_") && screens.has(id.slice(5)) ? id.slice(5) : null)
     || (id.startsWith("open_") && ["deed", "comment", "notification", "search_result"].includes(action.entityId) ? "post_detail" : null);

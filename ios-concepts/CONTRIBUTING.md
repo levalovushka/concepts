@@ -1,6 +1,6 @@
 # Изменения native-модуля
 
-Работайте из корня `ios-concepts/`. Малый command interface проекта:
+Работайте из корня repository. Малый command interface проекта:
 
 ```sh
 npm test
@@ -20,7 +20,7 @@ npm run check:all
 
 Правила locality:
 
-- source, canonical docs и vendored evidence живут внутри `ios-concepts/`;
+- source, canonical docs и vendored evidence живут внутри repository;
 - Xcode generation, builds, captures и receipts живут только в игнорируемых
   `native/build`, `native/artifacts` и `launcher/build`;
 - normal commands не читают и не изменяют `platform/`;

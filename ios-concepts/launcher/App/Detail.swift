@@ -595,7 +595,7 @@ struct SettingsView: View {
         Form {
             Section("Библиотека") {
                 HStack {
-                    TextField("Путь к ios-concepts/", text: Binding(get: { library.rootPath },
+                    TextField("Путь к Camo", text: Binding(get: { library.rootPath },
                                                                 set: { library.rootPath = $0 }))
                     Button("Выбрать…") { pick() }
                 }

@@ -16,7 +16,9 @@ function swiftCase(id) {
 function reducerBody(action) {
   const effect = action.effect;
   switch (effect.type) {
-  case "navigate": return `route = .${swiftCase(effect.targetScreenId)}`;
+  case "navigate": return effect.targetState
+    ? `route = .${swiftCase(effect.targetScreenId)}; values["routeState"] = ${swiftString(effect.targetState)}`
+    : `route = .${swiftCase(effect.targetScreenId)}`;
   case "create": return `collections[${swiftString(effect.collectionField)}] = [UUID().uuidString]`;
   case "append": return `collections[${swiftString(effect.collectionField)}, default: []].append(UUID().uuidString)`;
   case "delete": return `collections[${swiftString(effect.collectionField)}, default: []].removeLastIfPresent()`;

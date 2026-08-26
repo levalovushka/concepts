@@ -25,7 +25,7 @@ open LocalDerivedData/Build/Products/Debug/Camo.app
 Кнопка **Запустить** делает полный цикл: `gen-project.mjs` → `xcodebuild` →
 `simctl install` → `simctl launch`, с выбором устройства.
 
-Библиотека читает только корень `ios-concepts/`: путь можно задать через
+Библиотека читает только корень repository: путь можно задать через
 `IOS_CONCEPTS_ROOT` или выбрать в настройках. `concept.json` — источник правды,
 а launcher не обращается к legacy `platform/`.
 

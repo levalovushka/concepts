@@ -2,7 +2,7 @@
 
 Это самостоятельный проект SwiftUI-концептов. Он не запускает HTML, не копирует DOM/CSS в приложение и не зависит от launcher/kernel старой платформы.
 
-[![Скачать Camo для macOS](https://img.shields.io/badge/Скачать_Camo-для_macOS-0A84FF?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/levalovushka/concepts/releases/latest/download/Camo-macOS.zip)
+[![Скачать Camo для macOS](https://img.shields.io/badge/Скачать_Camo-для_macOS-0A84FF?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/vladshukurov/camo/releases/latest/download/Camo-macOS.zip)
 
 Лаунчер показывает нативные концепты, разбитую по разделам документацию и исходные файлы. Публичная сборка публикуется только после подписи Developer ID и нотариализации Apple; инструкция для релиз-инженера — [launcher/RELEASE.md](launcher/RELEASE.md).
 
@@ -99,5 +99,5 @@ VoiceOver manual pass. Этот локальный отчёт игнорируе
 - `launcher/` — самостоятельный macOS launcher для этой native-библиотеки.
 
 Старый `platform/` остаётся снаружи как архив и может быть только явным входом
-legacy adapter. Он не является зависимостью этого проекта; `ios-concepts/`
-можно копировать и проверять отдельно.
+legacy adapter. Он не является зависимостью этого проекта; repository
+клонируется, собирается и проверяется самостоятельно.
