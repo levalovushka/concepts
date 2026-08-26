@@ -1,0 +1,494 @@
+{
+  "schemaVersion": 1,
+  "distinctStateGroups": [
+    ["post-default", "post-following", "post-resolved"]
+  ],
+  "drivers": [
+    {
+      "surface": "phone",
+      "state": "default",
+      "launch": "phone",
+      "artifact": "phone-default"
+    },
+    {
+      "surface": "phone",
+      "state": "loading",
+      "launch": "phone",
+      "artifact": "phone-loading"
+    },
+    {
+      "surface": "phone",
+      "state": "error",
+      "launch": "phone",
+      "artifact": "phone-error"
+    },
+    {
+      "surface": "code",
+      "state": "default",
+      "launch": "code",
+      "artifact": "code-default"
+    },
+    {
+      "surface": "code",
+      "state": "loading",
+      "launch": "code",
+      "artifact": "code-loading"
+    },
+    {
+      "surface": "code",
+      "state": "error",
+      "launch": "code",
+      "artifact": "code-error"
+    },
+    {
+      "surface": "codefail",
+      "state": "default",
+      "launch": "codefail",
+      "artifact": "codefail-default"
+    },
+    {
+      "surface": "codefail",
+      "state": "loading",
+      "launch": "codefail",
+      "artifact": "codefail-loading"
+    },
+    {
+      "surface": "codefail",
+      "state": "error",
+      "launch": "codefail",
+      "artifact": "codefail-error"
+    },
+    {
+      "surface": "join",
+      "state": "default",
+      "launch": "join",
+      "artifact": "join-default"
+    },
+    {
+      "surface": "join",
+      "state": "searching",
+      "launch": "join",
+      "artifact": "join-searching"
+    },
+    {
+      "surface": "join",
+      "state": "denied",
+      "launch": "join",
+      "artifact": "join-denied"
+    },
+    {
+      "surface": "verify",
+      "state": "default",
+      "launch": "verify",
+      "artifact": "verify-default"
+    },
+    {
+      "surface": "verify",
+      "state": "checking",
+      "launch": "verify",
+      "artifact": "verify-checking"
+    },
+    {
+      "surface": "verify",
+      "state": "success",
+      "launch": "verify",
+      "artifact": "verify-success"
+    },
+    {
+      "surface": "verify",
+      "state": "mismatch",
+      "launch": "verify",
+      "artifact": "verify-mismatch"
+    },
+    {
+      "surface": "verify",
+      "state": "denied",
+      "launch": "verify",
+      "artifact": "verify-denied"
+    },
+    {
+      "surface": "manual",
+      "state": "default",
+      "launch": "manual",
+      "artifact": "manual-default"
+    },
+    {
+      "surface": "manual",
+      "state": "submitted",
+      "launch": "manual",
+      "artifact": "manual-submitted"
+    },
+    {
+      "surface": "manual",
+      "state": "error",
+      "launch": "manual",
+      "artifact": "manual-error"
+    },
+    {
+      "surface": "home",
+      "state": "default",
+      "launch": "home",
+      "artifact": "home-default",
+      "expectedTopSurface": "light"
+    },
+    {
+      "surface": "home",
+      "state": "empty",
+      "launch": "home",
+      "artifact": "home-empty"
+    },
+    {
+      "surface": "home",
+      "state": "loading",
+      "launch": "home",
+      "artifact": "home-loading"
+    },
+    {
+      "surface": "home",
+      "state": "liked",
+      "launch": "home",
+      "artifact": "home-liked"
+    },
+    {
+      "surface": "home",
+      "state": "poll",
+      "launch": "home",
+      "artifact": "home-poll"
+    },
+    {
+      "surface": "home",
+      "state": "poll-voted",
+      "launch": "home",
+      "artifact": "home-poll-voted"
+    },
+    {
+      "surface": "home",
+      "state": "end",
+      "launch": "home",
+      "artifact": "home-end"
+    },
+    {
+      "surface": "notifications",
+      "state": "default",
+      "launch": "notifications",
+      "artifact": "notifications-default"
+    },
+    {
+      "surface": "notifications",
+      "state": "empty",
+      "launch": "notifications",
+      "artifact": "notifications-empty"
+    },
+    {
+      "surface": "createpost",
+      "state": "default",
+      "launch": "createpost",
+      "artifact": "createpost-default"
+    },
+    {
+      "surface": "createpost",
+      "state": "error",
+      "launch": "createpost",
+      "artifact": "createpost-error"
+    },
+    {
+      "surface": "post",
+      "state": "default",
+      "launch": "post",
+      "artifact": "post-default"
+    },
+    {
+      "surface": "post",
+      "state": "following",
+      "launch": "post",
+      "artifact": "post-following"
+    },
+    {
+      "surface": "post",
+      "state": "resolved",
+      "launch": "post",
+      "artifact": "post-resolved"
+    },
+    {
+      "surface": "problem",
+      "state": "default",
+      "launch": "problem",
+      "artifact": "problem-default"
+    },
+    {
+      "surface": "problem",
+      "state": "submitting",
+      "launch": "problem",
+      "artifact": "problem-submitting"
+    },
+    {
+      "surface": "problem",
+      "state": "success",
+      "launch": "problem",
+      "artifact": "problem-success"
+    },
+    {
+      "surface": "problem",
+      "state": "error",
+      "launch": "problem",
+      "artifact": "problem-error"
+    },
+    {
+      "surface": "chronicle",
+      "state": "scanning",
+      "launch": "chronicle",
+      "artifact": "chronicle-scanning"
+    },
+    {
+      "surface": "chronicle",
+      "state": "populated",
+      "launch": "chronicle",
+      "artifact": "chronicle-populated"
+    },
+    {
+      "surface": "chronicle",
+      "state": "selected",
+      "launch": "chronicle",
+      "artifact": "chronicle-selected"
+    },
+    {
+      "surface": "chronicle",
+      "state": "empty",
+      "launch": "chronicle",
+      "artifact": "chronicle-empty"
+    },
+    {
+      "surface": "chronicle",
+      "state": "denied",
+      "launch": "chronicle",
+      "artifact": "chronicle-denied"
+    },
+    {
+      "surface": "chats",
+      "state": "default",
+      "launch": "chats",
+      "artifact": "chats-default",
+      "expectedTopSurface": "light"
+    },
+    {
+      "surface": "chats",
+      "state": "empty",
+      "launch": "chats",
+      "artifact": "chats-empty"
+    },
+    {
+      "surface": "chats",
+      "state": "loading",
+      "launch": "chats",
+      "artifact": "chats-loading"
+    },
+    {
+      "surface": "chat",
+      "state": "default",
+      "launch": "chat",
+      "artifact": "chat-default"
+    },
+    {
+      "surface": "chat",
+      "state": "empty",
+      "launch": "chat",
+      "artifact": "chat-empty"
+    },
+    {
+      "surface": "voice",
+      "state": "recording",
+      "launch": "voice",
+      "artifact": "voice-recording"
+    },
+    {
+      "surface": "voice",
+      "state": "transcribing",
+      "launch": "voice",
+      "artifact": "voice-transcribing"
+    },
+    {
+      "surface": "voice",
+      "state": "ready",
+      "launch": "voice",
+      "artifact": "voice-ready"
+    },
+    {
+      "surface": "voice",
+      "state": "denied",
+      "launch": "voice",
+      "artifact": "voice-denied"
+    },
+    {
+      "surface": "yard",
+      "state": "default",
+      "launch": "yard",
+      "artifact": "yard-default",
+      "expectedTopSurface": "light"
+    },
+    {
+      "surface": "guest",
+      "state": "default",
+      "launch": "guest",
+      "artifact": "guest-default"
+    },
+    {
+      "surface": "guest",
+      "state": "connecting",
+      "launch": "guest",
+      "artifact": "guest-connecting"
+    },
+    {
+      "surface": "guest",
+      "state": "connected",
+      "launch": "guest",
+      "artifact": "guest-connected"
+    },
+    {
+      "surface": "guest",
+      "state": "error",
+      "launch": "guest",
+      "artifact": "guest-error"
+    },
+    {
+      "surface": "meters",
+      "state": "default",
+      "launch": "meters",
+      "artifact": "meters-default"
+    },
+    {
+      "surface": "meters",
+      "state": "editing",
+      "launch": "meters",
+      "artifact": "meters-editing"
+    },
+    {
+      "surface": "meters",
+      "state": "submitted",
+      "launch": "meters",
+      "artifact": "meters-submitted"
+    },
+    {
+      "surface": "meters",
+      "state": "error",
+      "launch": "meters",
+      "artifact": "meters-error"
+    },
+    {
+      "surface": "events",
+      "state": "default",
+      "launch": "events",
+      "artifact": "events-default"
+    },
+    {
+      "surface": "events",
+      "state": "empty",
+      "launch": "events",
+      "artifact": "events-empty"
+    },
+    {
+      "surface": "events",
+      "state": "added",
+      "launch": "events",
+      "artifact": "events-added"
+    },
+    {
+      "surface": "events",
+      "state": "error",
+      "launch": "events",
+      "artifact": "events-error"
+    },
+    {
+      "surface": "menu",
+      "state": "default",
+      "launch": "menu",
+      "artifact": "menu-default",
+      "expectedTopSurface": "light"
+    },
+    {
+      "surface": "passwords",
+      "state": "populated",
+      "launch": "passwords",
+      "artifact": "passwords-populated"
+    },
+    {
+      "surface": "passwords",
+      "state": "empty",
+      "launch": "passwords",
+      "artifact": "passwords-empty"
+    },
+    {
+      "surface": "passwords",
+      "state": "locked",
+      "launch": "passwords",
+      "artifact": "passwords-locked"
+    },
+    {
+      "surface": "neighbors",
+      "state": "default",
+      "launch": "neighbors",
+      "artifact": "neighbors-default"
+    },
+    {
+      "surface": "neighbors",
+      "state": "empty",
+      "launch": "neighbors",
+      "artifact": "neighbors-empty"
+    },
+    {
+      "surface": "neighbors",
+      "state": "denied",
+      "launch": "neighbors",
+      "artifact": "neighbors-denied"
+    },
+    {
+      "surface": "profile",
+      "state": "default",
+      "launch": "profile",
+      "artifact": "profile-default"
+    },
+    {
+      "surface": "settings",
+      "state": "default",
+      "launch": "settings",
+      "artifact": "settings-default"
+    },
+    {
+      "surface": "ads",
+      "state": "default",
+      "launch": "ads",
+      "artifact": "ads-default"
+    },
+    {
+      "surface": "ads",
+      "state": "accepted",
+      "launch": "ads",
+      "artifact": "ads-accepted"
+    },
+    {
+      "surface": "ads",
+      "state": "declined",
+      "launch": "ads",
+      "artifact": "ads-declined"
+    },
+    {
+      "surface": "pending",
+      "state": "default",
+      "launch": "pending",
+      "artifact": "pending-default"
+    },
+    {
+      "surface": "scan",
+      "state": "default",
+      "launch": "scan",
+      "artifact": "scan-fallback",
+      "supplemental": true
+    },
+    {
+      "surface": "lockscreen",
+      "state": "default",
+      "launch": "lockscreen",
+      "artifact": "lockscreen-default",
+      "supplemental": true
+    }
+  ]
+}

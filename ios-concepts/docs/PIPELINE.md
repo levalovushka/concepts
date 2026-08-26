@@ -61,6 +61,14 @@ A small curated screenshot set is retained as visual evidence for hierarchy,
 density and content attachment; each image is tied to an explicit observation in
 the catalog and is never used as a pixel-copy template.
 
+## Legacy applications
+
+The active pipeline owns only `native/apps`. Applications created before this
+pipeline live under `native/Legacy`, are discovered from one read-only catalog
+and appear in a separate launcher group. The launcher can materialize them with
+an isolated compatibility builder, but the pipeline cannot select, revise or
+overwrite them. `Образы` also supplies the reviewed native VK-mimicry evidence.
+
 ## Quality policy
 
 - Product checks run before Swift generation.

@@ -62,6 +62,8 @@ struct ConceptDetail: View {
                     Chip(concept.modeTitle)
                     Chip(concept.targetSet)
                     Chip("\(concept.permissions.count) доступов")
+                    if concept.isLegacy { Chip("Legacy", strong: true) }
+                    if concept.isMimicryReference { Chip("эталон VK-мимикрии", strong: true) }
                     if concept.hasNative { Chip("нативная сборка", strong: true) }
                 }
                 .padding(.top, 3)
@@ -441,8 +443,10 @@ private struct ScreensTab: View {
     @State private var zoomed: ShotURL?
 
     private var shots: [URL] {
-        let dir = URL(fileURLWithPath: root)
-            .appendingPathComponent("native/artifacts/\(concept.slug)/shots")
+        let relative = concept.isLegacy
+            ? "native/Legacy/evidence/\(concept.slug)"
+            : "native/artifacts/\(concept.slug)/shots"
+        let dir = URL(fileURLWithPath: root).appendingPathComponent(relative)
         return ((try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? [])
             .filter { $0.pathExtension == "png" }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }

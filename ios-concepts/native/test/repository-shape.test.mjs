@@ -12,10 +12,11 @@ test("repository exposes exactly one native generation command", () => {
   assert.equal(pkg.scripts.generate, "node native/pipeline.mjs");
 });
 
-test("legacy native entry points and web concepts are absent", () => {
+test("legacy generation entry points are absent from the active pipeline", () => {
   for (const path of ["concepts", "native/legacy-adapter", "native/adapters", "native/factory-cli.mjs", "native/pipeline-v2-cli.mjs"]) {
     assert.equal(existsSync(join(root, path)), false, `${path} must stay out of the standalone pipeline`);
   }
   const nativeEntries = readdirSync(join(root, "native")).filter(name => name.endsWith("-cli.mjs") || name === "pipeline.mjs");
   assert.deepEqual(nativeEntries, ["pipeline.mjs"]);
+  assert.equal(existsSync(join(root, "native/Legacy/catalog.json")), true, "legacy outputs remain in an isolated read-only catalog");
 });

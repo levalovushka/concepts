@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "product": [
+    "auth-email",
+    "auth-code",
+    "main-shell",
+    "nearby-feed",
+    "post-detail",
+    "response-compose",
+    "messages-list",
+    "conversation-detail",
+    "create-post",
+    "profile",
+    "neighborhood-picker",
+    "notification-settings"
+  ],
+  "pendingProduct": [],
+  "system": [
+    "photo-picker"
+  ],
+  "extension": [
+    "share-extension"
+  ]
+}

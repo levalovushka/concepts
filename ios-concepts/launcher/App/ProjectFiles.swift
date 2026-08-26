@@ -10,7 +10,7 @@ struct ProjectFile: Identifiable, Hashable {
 enum ProjectFileIndex {
     static func files(for concept: Concept, root: String) -> [ProjectFile] {
         let rootURL = URL(fileURLWithPath: root, isDirectory: true)
-        let locations = [
+        let currentLocations = [
             rootURL.appendingPathComponent("native/specs/\(concept.slug).json"),
             rootURL.appendingPathComponent("native/ProductBlueprints/\(concept.slug)-vk.json"),
             rootURL.appendingPathComponent("native/ProductUIContracts/\(concept.slug).json"),
@@ -18,6 +18,13 @@ enum ProjectFileIndex {
             rootURL.appendingPathComponent("native/apps/\(concept.slug)"),
             rootURL.appendingPathComponent("native/build/\(concept.slug)"),
         ]
+        let legacyLocations = [
+            rootURL.appendingPathComponent("native/Legacy/concepts/\(concept.slug)"),
+            rootURL.appendingPathComponent("native/Legacy/blueprints/\(concept.slug)-vk.json"),
+            rootURL.appendingPathComponent("native/Legacy/apps/\(concept.slug)"),
+            rootURL.appendingPathComponent("native/build/\(concept.slug)"),
+        ]
+        let locations = concept.isLegacy ? legacyLocations : currentLocations
         let ignored = ["build/Debug-", "DerivedData", "SmokeDerivedData", ".xcresult", ".DS_Store"]
         var result: [ProjectFile] = []
         for location in locations where FileManager.default.fileExists(atPath: location.path) {

@@ -1,0 +1,36 @@
+## Canonical UX state handling
+
+| Surface | State | Applies | Content key / rationale | Available actions | Transitions | Recovery | Fixtures |
+|---|---|---:|---|---|---|---|---|
+| profile | empty | yes | screen.profile.state.empty.body | open-settings | open-settings:navigate→settings | screen.profile.state.empty.recovery | fixture.tails.profile.empty |
+| profile | error | yes | screen.profile.state.error.body | open-settings | open-settings:navigate→settings | screen.profile.state.error.recovery | fixture.tails.profile.error |
+| profile | offline | yes | screen.profile.state.offline.body | open-settings | open-settings:navigate→settings | screen.profile.state.offline.recovery | fixture.tails.profile.offline |
+| profile | permission-needed | yes | screen.profile.state.permission-needed.body | open-settings<br>permission.contacts.fallback<br>permission.tracking.fallback | open-settings:navigate→settings | screen.profile.state.permission-needed.recovery | fixture.tails.profile.permission-needed |
+| profile | permission-denied | yes | screen.profile.state.permission-denied.body | open-settings<br>permission.contacts.fallback<br>permission.tracking.fallback | open-settings:navigate→settings | screen.profile.state.permission-denied.recovery | fixture.tails.profile.permission-denied |
+| profile | permission-restricted | yes | screen.profile.state.permission-restricted.body | open-settings<br>permission.contacts.fallback<br>permission.tracking.fallback | open-settings:navigate→settings | screen.profile.state.permission-restricted.recovery | fixture.tails.profile.permission-restricted |
+| profile | permission-limited | yes | screen.profile.state.permission-limited.body | open-settings<br>permission.contacts.fallback<br>permission.tracking.fallback | open-settings:navigate→settings | screen.profile.state.permission-limited.recovery | fixture.tails.profile.permission-limited |
+| settings | loading | yes | screen.settings.state.loading.body | open-widget | open-widget:navigate→widget | screen.settings.state.loading.recovery | fixture.tails.settings.loading |
+| settings | populated/default | yes | screen.settings.state.populated-default.body | open-widget | open-widget:navigate→widget | screen.settings.state.populated-default.recovery | fixture.tails.settings.default |
+| settings | empty | yes | screen.settings.state.empty.body | open-widget | open-widget:navigate→widget | screen.settings.state.empty.recovery | fixture.tails.settings.empty |
+| settings | error | yes | screen.settings.state.error.body | open-widget | open-widget:navigate→widget | screen.settings.state.error.recovery | fixture.tails.settings.error |
+| settings | offline | yes | screen.settings.state.offline.body | open-widget | open-widget:navigate→widget | screen.settings.state.offline.recovery | fixture.tails.settings.offline |
+| settings | permission-needed | yes | screen.settings.state.permission-needed.body | open-widget<br>permission.push.fallback<br>permission.fetch.fallback<br>permission.appgroups.fallback<br>permission.autofill.fallback<br>permission.faceid.fallback<br>permission.shareext.fallback | open-widget:navigate→widget | screen.settings.state.permission-needed.recovery | fixture.tails.settings.permission-needed |
+| settings | permission-denied | yes | screen.settings.state.permission-denied.body | open-widget<br>permission.push.fallback<br>permission.fetch.fallback<br>permission.appgroups.fallback<br>permission.autofill.fallback<br>permission.faceid.fallback<br>permission.shareext.fallback | open-widget:navigate→widget | screen.settings.state.permission-denied.recovery | fixture.tails.settings.permission-denied |
+| settings | permission-restricted | yes | screen.settings.state.permission-restricted.body | open-widget<br>permission.push.fallback<br>permission.fetch.fallback<br>permission.appgroups.fallback<br>permission.autofill.fallback<br>permission.faceid.fallback<br>permission.shareext.fallback | open-widget:navigate→widget | screen.settings.state.permission-restricted.recovery | fixture.tails.settings.permission-restricted |
+| settings | permission-limited | N/A | The linked capabilities have no useful limited-data mode. |  |  | — |  |
+| widget | loading | yes | screen.widget.state.loading.body | complete-widget | complete-widget:mutate | screen.widget.state.loading.recovery | fixture.tails.widget.loading |
+| widget | populated/default | yes | screen.widget.state.populated-default.body | complete-widget | complete-widget:mutate | screen.widget.state.populated-default.recovery | fixture.tails.widget.default |
+| widget | empty | N/A | The surface represents one required task or system-owned object, not a collection. |  |  | — |  |
+| widget | error | yes | screen.widget.state.error.body | complete-widget | complete-widget:mutate | screen.widget.state.error.recovery | fixture.tails.widget.error |
+| widget | offline | yes | screen.widget.state.offline.body | complete-widget | complete-widget:mutate | screen.widget.state.offline.recovery | fixture.tails.widget.offline |
+| widget | permission-needed | yes | screen.widget.state.permission-needed.body | complete-widget<br>permission.appgroups.fallback<br>permission.keychain.fallback | complete-widget:mutate | screen.widget.state.permission-needed.recovery | fixture.tails.widget.permission-needed |
+| widget | permission-denied | yes | screen.widget.state.permission-denied.body | complete-widget<br>permission.appgroups.fallback<br>permission.keychain.fallback | complete-widget:mutate | screen.widget.state.permission-denied.recovery | fixture.tails.widget.permission-denied |
+| widget | permission-restricted | yes | screen.widget.state.permission-restricted.body | complete-widget<br>permission.appgroups.fallback<br>permission.keychain.fallback | complete-widget:mutate | screen.widget.state.permission-restricted.recovery | fixture.tails.widget.permission-restricted |
+| widget | permission-limited | N/A | The linked capabilities have no useful limited-data mode. |  |  | — |  |
+| fill | loading | yes | screen.fill.state.loading.body | complete-fill | complete-fill:mutate | screen.fill.state.loading.recovery | fixture.tails.fill.loading |
+| fill | populated/default | yes | screen.fill.state.populated-default.body | complete-fill | complete-fill:mutate | screen.fill.state.populated-default.recovery | fixture.tails.fill.default |
+| fill | empty | N/A | The surface represents one required task or system-owned object, not a collection. |  |  | — |  |
+| fill | error | yes | screen.fill.state.error.body | complete-fill | complete-fill:mutate | screen.fill.state.error.recovery | fixture.tails.fill.error |
+| fill | offline | yes | screen.fill.state.offline.body | complete-fill | complete-fill:mutate | screen.fill.state.offline.recovery | fixture.tails.fill.offline |
+| fill | permission-needed | yes | screen.fill.state.permission-needed.body | complete-fill<br>permission.autofill.fallback | complete-fill:mutate | screen.fill.state.permission-needed.recovery | fixture.tails.fill.permission-needed |
+| fill | permission-denied | yes | screen.fill.state.permission-denied.body | complete-fill<br>permission.autofill.fallback | complete-fill:mutate | screen.fill.state.permission-denied.recovery | fixture.tails.fill.permission-denied |

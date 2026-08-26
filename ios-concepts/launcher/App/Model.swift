@@ -16,11 +16,14 @@ struct Concept: Identifiable, Hashable {
     let docsDirectory: URL
     /// Есть ли нативные исходники (native/apps/<slug>).
     let hasNative: Bool
+    let isLegacy: Bool
+    let isMimicryReference: Bool
     let path: String
     var id: String { slug }
 
     var isMimicry: Bool { mode == "mimicry" }
     var modeTitle: String { isMimicry ? "Мимикрия" : "Отстройка" }
+    var lifecycleTitle: String { isLegacy ? "Legacy" : "Новый пайплайн" }
 }
 
 struct PermissionRow: Identifiable, Hashable {
@@ -109,10 +112,12 @@ final class Library {
     }
     /// Сайдбар: сверху собранные приложения, ниже — контракты без реализации.
     var groups: [(String, [Concept])] {
-        let ready = filtered.filter(\.hasNative).sorted { $0.name < $1.name }
+        let ready = filtered.filter { $0.hasNative && !$0.isLegacy }.sorted { $0.name < $1.name }
+        let legacy = filtered.filter(\.isLegacy).sorted { $0.name < $1.name }
         let rest = filtered.filter { !$0.hasNative }.sorted { $0.name < $1.name }
         var out: [(String, [Concept])] = []
-        if !ready.isEmpty { out.append(("Собираются нативно", ready)) }
+        if !ready.isEmpty { out.append(("Новый пайплайн", ready)) }
+        if !legacy.isEmpty { out.append(("Legacy-приложения", legacy)) }
         if !rest.isEmpty { out.append(("Только спека и доки", rest)) }
         return out
     }
@@ -137,7 +142,87 @@ final class Library {
             else { continue }
             found.append(parseBlueprint(json, slug: slug, native: nativeSlugs.contains(slug)))
         }
+        found.append(contentsOf: loadLegacyConcepts())
         concepts = found
+    }
+
+    private func loadLegacyConcepts() -> [Concept] {
+        let root = URL(fileURLWithPath: rootPath, isDirectory: true)
+        let legacy = root.appendingPathComponent("native/Legacy", isDirectory: true)
+        let catalogURL = legacy.appendingPathComponent("catalog.json")
+        guard let data = try? Data(contentsOf: catalogURL),
+              let catalog = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let entries = catalog["apps"] as? [[String: Any]]
+        else { return [] }
+        return entries.compactMap { entry in
+            guard let slug = entry["slug"] as? String,
+                  let manifestPath = entry["manifest"] as? String
+            else { return nil }
+            let manifestURL = legacy.appendingPathComponent(manifestPath)
+            guard let manifestData = try? Data(contentsOf: manifestURL),
+                  let manifest = try? JSONSerialization.jsonObject(with: manifestData) as? [String: Any]
+            else { return nil }
+            return parseLegacy(
+                manifest,
+                slug: slug,
+                format: entry["format"] as? String ?? "concept",
+                referenceRole: entry["referenceRole"] as? String,
+                legacyRoot: legacy
+            )
+        }
+    }
+
+    private func parseLegacy(_ j: [String: Any], slug: String, format: String,
+                             referenceRole: String?, legacyRoot: URL) -> Concept {
+        let isBlueprint = format == "blueprint"
+        let native = j["native"] as? [String: Any]
+        let design = native?["design"] as? [String: Any]
+        let navigation = j["navigation"] as? [String: Any]
+        let screens = isBlueprint
+            ? navigation?["screens"] as? [[String: Any]] ?? []
+            : j["screens"] as? [[String: Any]] ?? []
+        let actionScreen = screens.flatMap { screen in
+            let screenID = screen["id"] as? String ?? ""
+            return (screen["actionIds"] as? [String] ?? []).map { ($0, screenID) }
+        }.reduce(into: [String: String]()) { result, pair in
+            if result[pair.0] == nil { result[pair.0] = pair.1 }
+        }
+        let permissionSource = isBlueprint
+            ? j["capabilities"] as? [[String: Any]] ?? []
+            : j["permissions"] as? [[String: Any]] ?? []
+        let permissions = permissionSource.map { item in
+            let action = item["actionId"] as? String ?? ""
+            return PermissionRow(
+                key: item["key"] as? String ?? "",
+                plist: item["plist"] as? String ?? "legacy capability",
+                feature: item["feature"] as? String ?? item["purpose"] as? String ?? "",
+                screen: item["screen"] as? String ?? actionScreen[action] ?? "",
+                risk: item["risk"] as? String ?? "legacy"
+            )
+        }
+        let docsDir = isBlueprint
+            ? legacyRoot.appendingPathComponent("blueprints")
+            : legacyRoot.appendingPathComponent("concepts/\(slug)/docs")
+        let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
+            .filter { $0.pathExtension == "md" }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            .map { DocFile(name: $0.deletingPathExtension().lastPathComponent, url: $0) }
+        return Concept(
+            slug: slug,
+            name: j["name"] as? String ?? slug,
+            tagline: j["tagline"] as? String ?? j["thesis"] as? String ?? "Архивный нативный концепт",
+            targetSet: j["targetSet"] as? String ?? j["targetProduct"] as? String ?? "iOS",
+            mode: design?["strategy"] as? String ?? j["strategy"] as? String ?? "differentiation",
+            accent: Color(hex: "#0077FF"),
+            screens: screens.count,
+            permissions: permissions,
+            docs: docs,
+            docsDirectory: docsDir,
+            hasNative: true,
+            isLegacy: true,
+            isMimicryReference: referenceRole == "vk-mimicry-golden",
+            path: legacyRoot.appendingPathComponent("apps/\(slug)").path
+        )
     }
 
     private func parseBlueprint(_ j: [String: Any], slug: String, native: Bool) -> Concept {
@@ -178,6 +263,8 @@ final class Library {
             docs: docs,
             docsDirectory: docsDir,
             hasNative: native,
+            isLegacy: false,
+            isMimicryReference: false,
             path: appDir.path
         )
     }

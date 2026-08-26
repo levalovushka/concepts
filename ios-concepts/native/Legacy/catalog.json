@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "9fac5e9",
+  "policy": "Read-only application archive. The active native pipeline must never generate into this directory.",
+  "apps": [
+    { "slug": "circles", "manifest": "blueprints/circles-vk.json", "format": "blueprint" },
+    { "slug": "dvor", "manifest": "concepts/dvor/concept.json", "format": "concept" },
+    { "slug": "looks", "manifest": "concepts/looks/concept.json", "format": "concept", "referenceRole": "vk-mimicry-golden" },
+    { "slug": "nakat", "manifest": "concepts/nakat/concept.json", "format": "concept" },
+    { "slug": "peresmenka", "manifest": "concepts/peresmenka/concept.json", "format": "concept" },
+    { "slug": "tails", "manifest": "concepts/tails/concept.json", "format": "concept" },
+    { "slug": "today", "manifest": "concepts/today/concept.json", "format": "concept" },
+    { "slug": "vk-neighbor-help", "manifest": "concepts/vk-neighbor-help/concept.json", "format": "concept" }
+  ]
+}
