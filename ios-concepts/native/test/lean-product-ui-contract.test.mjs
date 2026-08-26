@@ -14,6 +14,10 @@ test("product UI contract closes recipes, actions, states and capability ownersh
   assert.equal(contract.surfaces.find(item => item.screenId === "feed").recipe, "authoredFeed");
   assert.equal(contract.surfaces.find(item => item.screenId === "comments").recipe, "commentThread");
   assert.equal(contract.surfaces.find(item => item.screenId === "conversation").recipe, "conversation");
+  const feed = contract.surfaces.find(item => item.screenId === "feed");
+  assert.equal(feed.actions.find(item => item.id === "open_deed").effect.type, "navigate");
+  assert.equal(feed.actions.find(item => item.id === "open_deed").effect.targetScreenId, "post_detail");
+  assert.equal(feed.actions.find(item => item.id === "support_deed").effect.stateField, "isSupported");
   const camera = contract.surfaces.flatMap(item => item.actions).find(item => item.capabilities.some(capability => capability.key === "camera"));
   assert.equal(camera.capabilities.find(capability => capability.key === "camera").deniedFallback.length > 10, true);
 });

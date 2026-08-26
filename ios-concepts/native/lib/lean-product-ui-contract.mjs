@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { normalizeLeanActionEffects } from "./structured-model-lean-architect.mjs";
 
 const recipes = Object.freeze({
   login: "emailAuthentication",
@@ -33,7 +34,9 @@ function placement(action, screen) {
 }
 
 export function compileLeanProductUIContract(blueprint, manifest) {
+  blueprint = normalizeLeanActionEffects(structuredClone(blueprint));
   const actionById = new Map(manifest.interactions.actions.map(action => [action.id, action]));
+  const blueprintActionById = new Map(blueprint.world.actions.map(action => [action.id, action]));
   const stateByScreen = new Map(blueprint.states.map(item => [item.screenId, item.variants]));
   const capabilitiesByAction = new Map();
   for (const capability of blueprint.capabilities) {
@@ -49,6 +52,7 @@ export function compileLeanProductUIContract(blueprint, manifest) {
         id,
         label: action?.label,
         outcome: action?.outcome,
+        effect: blueprintActionById.get(id)?.effect || action?.outcome?.reducer,
         placement: placement(action || {}, screen),
         capabilities: Object.freeze(capabilities.map(capability => Object.freeze({
           key: capability.key,
@@ -109,6 +113,10 @@ export function verifyLeanProductUIContract(contract, blueprint) {
       problems.push(`${screen.id}: canonical state coverage is incomplete`);
     }
     for (const action of surface.actions) {
+      if (!action.effect?.type) problems.push(`${screen.id}.${action.id}: machine-readable effect is missing`);
+      if (action.effect?.type === "navigate" && !surfaceById.has(action.effect.targetScreenId)) {
+        problems.push(`${screen.id}.${action.id}: route ${action.effect.targetScreenId} does not exist`);
+      }
       const capabilities = blueprint.capabilities.filter(item => item.actionId === action.id);
       const ownedKeys = new Set((action.capabilities || []).map(item => item.key));
       for (const capability of capabilities) if (!ownedKeys.has(capability.key)) {

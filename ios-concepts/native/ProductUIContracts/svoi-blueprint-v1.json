@@ -42,8 +42,18 @@
           "id": "request_email_code",
           "label": "Создан локальный код входа для введённой почты.",
           "outcome": {
-            "type": "mutate",
-            "target": "login"
+            "type": "system",
+            "target": "login",
+            "reducer": {
+              "type": "system",
+              "stateField": "request_email_code_result",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "request_email_code_result",
+            "value": "completed"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -53,7 +63,17 @@
           "label": "Сессия становится активной, открывается лента.",
           "outcome": {
             "type": "mutate",
-            "target": "login"
+            "target": "login",
+            "reducer": {
+              "type": "update",
+              "stateField": "verify_email_code_state",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "verify_email_code_state",
+            "value": "completed"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -104,20 +124,28 @@
           "id": "open_feed",
           "label": "Показан сохранённый снимок авторской ленты.",
           "outcome": {
-            "type": "system",
+            "type": "navigate",
             "target": "feed"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "feed"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         },
         {
           "id": "open_deed",
           "label": "Открыта история выбранного дела с обновлениями и вкладами.",
           "outcome": {
-            "type": "system",
-            "target": "private_deeds"
+            "type": "navigate",
+            "target": "post_detail"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "post_detail"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         },
         {
@@ -125,7 +153,15 @@
           "label": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isSupported"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isSupported"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -135,7 +171,15 @@
           "label": "Создан вклад kind=offer с конкретным предложением помощи.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "contributions"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "contributions"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -145,7 +189,15 @@
           "label": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isFollowing"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isFollowing"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -155,7 +207,15 @@
           "label": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "deeds"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "deeds"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -165,7 +225,15 @@
           "label": "Дело добавлено в сохранённые текущего пользователя.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isSaved"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isSaved"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -174,18 +242,32 @@
           "id": "open_notifications",
           "label": "Показан список уведомлений; открытые записи отмечены прочитанными.",
           "outcome": {
-            "type": "system",
-            "target": "feed"
+            "type": "navigate",
+            "target": "notifications"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "notifications"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         },
         {
           "id": "open_deed_link",
           "label": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
           "outcome": {
-            "type": "system",
-            "target": "feed"
+            "type": "mutate",
+            "target": "feed",
+            "reducer": {
+              "type": "update",
+              "stateField": "lastOpenedFromLinkAt",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "lastOpenedFromLinkAt",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -203,7 +285,11 @@
           "label": "Открыта ветка комментариев выбранного дела.",
           "outcome": {
             "type": "navigate",
-            "target": "post_detail#comments"
+            "target": "comments"
+          },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "comments"
           },
           "placement": "attached-to-object",
           "capabilities": []
@@ -258,7 +344,15 @@
           "label": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isSupported"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isSupported"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -268,7 +362,15 @@
           "label": "Создан вклад kind=offer с конкретным предложением помощи.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "contributions"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "contributions"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -278,7 +380,15 @@
           "label": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isFollowing"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isFollowing"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -288,7 +398,15 @@
           "label": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "deeds"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "deeds"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -298,7 +416,15 @@
           "label": "Дело добавлено в сохранённые текущего пользователя.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "isSaved"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "isSaved"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -308,7 +434,15 @@
           "label": "К делу добавлено текстовое обновление; updatedAt изменён.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "updates"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "updates"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -318,7 +452,15 @@
           "label": "К делу добавлен выполненный вклад участника kind=delivered.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "contributions"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "contributions"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -328,7 +470,17 @@
           "label": "После выбора доказательства дело получает status=completed и completedAt.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "complete_deed_state",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "complete_deed_state",
+            "value": "completed"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -338,7 +490,15 @@
           "label": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "helpersThanked"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "helpersThanked"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -348,7 +508,15 @@
           "label": "Создан новый черновик с parentDeedId исходного дела.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "deeds"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "deeds"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -358,7 +526,17 @@
           "label": "Аудиообновление воспроизводится в фоне; Now Playing показывает автора, дело и прогресс.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "update",
+              "stateField": "nowPlayingUpdateId",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "nowPlayingUpdateId",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -376,7 +554,17 @@
           "label": "Распознанный русский текст сохранён как transcript аудиообновления.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "update",
+              "stateField": "transcript",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "transcript",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -394,7 +582,17 @@
           "label": "SSID сохранён как подтверждение присутствия на площадке дела без хранения сетевого пароля.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "update",
+              "stateField": "verified",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "verified",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -412,7 +610,17 @@
           "label": "Событие с названием дела и deep link создано в выбранном календаре; eventIdentifier сохранён.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "update",
+              "stateField": "eventIdentifier",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "eventIdentifier",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -430,7 +638,17 @@
           "label": "Участник получает connected=true и может затем подтвердить площадку.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "update",
+              "stateField": "connected",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "connected",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -448,7 +666,15 @@
           "label": "Комментарий добавлен к делу и виден в ветке.",
           "outcome": {
             "type": "mutate",
-            "target": "post_detail"
+            "target": "post_detail",
+            "reducer": {
+              "type": "append",
+              "collectionField": "comments"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "comments"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -541,8 +767,18 @@
           "id": "search_world",
           "label": "Сохранён запрос и показаны совпадения среди дел, людей и сообществ.",
           "outcome": {
-            "type": "mutate",
-            "target": "search"
+            "type": "system",
+            "target": "search",
+            "reducer": {
+              "type": "system",
+              "stateField": "search_world_result",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "system",
+            "stateField": "search_world_result",
+            "value": "completed"
           },
           "placement": "attached-to-content",
           "capabilities": []
@@ -551,10 +787,14 @@
           "id": "open_search_result",
           "label": "Открыта сущность выбранного результата.",
           "outcome": {
-            "type": "system",
-            "target": "search"
+            "type": "navigate",
+            "target": "post_detail"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "post_detail"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         }
       ],
@@ -604,7 +844,15 @@
           "label": "Создан черновик дела.",
           "outcome": {
             "type": "mutate",
-            "target": "create"
+            "target": "create",
+            "reducer": {
+              "type": "create",
+              "collectionField": "deeds"
+            }
+          },
+          "effect": {
+            "type": "create",
+            "collectionField": "deeds"
           },
           "placement": "form-flow",
           "capabilities": []
@@ -614,7 +862,17 @@
           "label": "Сохранены результат и описание дела.",
           "outcome": {
             "type": "mutate",
-            "target": "create"
+            "target": "create",
+            "reducer": {
+              "type": "update",
+              "stateField": "edit_deed_text_state",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "edit_deed_text_state",
+            "value": "completed"
           },
           "placement": "form-flow",
           "capabilities": []
@@ -624,7 +882,17 @@
           "label": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "localImagePath",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "localImagePath",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -642,7 +910,17 @@
           "label": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "localImagePath",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "localImagePath",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -660,7 +938,17 @@
           "label": "Локальный аудиофайл прикреплён к обновлению с длительностью.",
           "outcome": {
             "type": "mutate",
-            "target": "create"
+            "target": "create",
+            "reducer": {
+              "type": "update",
+              "stateField": "audioPath",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "audioPath",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -678,7 +966,17 @@
           "label": "К делу прикреплено выбранное место с координатами либо ручным названием.",
           "outcome": {
             "type": "mutate",
-            "target": "create"
+            "target": "create",
+            "reducer": {
+              "type": "update",
+              "stateField": "coordinateOrManualName",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "coordinateOrManualName",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -696,7 +994,15 @@
           "label": "Дело опубликовано в ленте со статусом active.",
           "outcome": {
             "type": "mutate",
-            "target": "create"
+            "target": "create",
+            "reducer": {
+              "type": "append",
+              "collectionField": "deeds"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "deeds"
           },
           "placement": "form-flow",
           "capabilities": []
@@ -749,7 +1055,17 @@
           "label": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "localImagePath",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "localImagePath",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -767,7 +1083,17 @@
           "label": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "localImagePath",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "localImagePath",
+            "value": "enabled"
           },
           "placement": "form-flow",
           "capabilities": [
@@ -785,7 +1111,17 @@
           "label": "После выбора доказательства дело получает status=completed и completedAt.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "update",
+              "stateField": "complete_deed_state",
+              "value": "completed"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "complete_deed_state",
+            "value": "completed"
           },
           "placement": "form-flow",
           "capabilities": []
@@ -795,7 +1131,15 @@
           "label": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
           "outcome": {
             "type": "mutate",
-            "target": "complete"
+            "target": "complete",
+            "reducer": {
+              "type": "toggle",
+              "stateField": "helpersThanked"
+            }
+          },
+          "effect": {
+            "type": "toggle",
+            "stateField": "helpersThanked"
           },
           "placement": "form-flow",
           "capabilities": []
@@ -846,10 +1190,14 @@
           "id": "open_messages",
           "label": "Показаны локальные диалоги.",
           "outcome": {
-            "type": "system",
+            "type": "navigate",
             "target": "messages"
           },
-          "placement": "composer",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "messages"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         },
         {
@@ -858,6 +1206,10 @@
           "outcome": {
             "type": "navigate",
             "target": "conversation"
+          },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "conversation"
           },
           "placement": "attached-to-object",
           "capabilities": []
@@ -910,7 +1262,15 @@
           "label": "Сообщение добавлено в диалог со статусом delivered.",
           "outcome": {
             "type": "mutate",
-            "target": "conversation"
+            "target": "conversation",
+            "reducer": {
+              "type": "append",
+              "collectionField": "messages"
+            }
+          },
+          "effect": {
+            "type": "append",
+            "collectionField": "messages"
           },
           "placement": "composer",
           "capabilities": []
@@ -920,7 +1280,17 @@
           "label": "Создан локальный CallKit-вызов помощнику; завершение сохраняет длительность в диалоге.",
           "outcome": {
             "type": "mutate",
-            "target": "conversation"
+            "target": "conversation",
+            "reducer": {
+              "type": "update",
+              "stateField": "durationSeconds",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "durationSeconds",
+            "value": "enabled"
           },
           "placement": "composer",
           "capabilities": [
@@ -982,6 +1352,10 @@
             "type": "navigate",
             "target": "profile"
           },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "profile"
+          },
           "placement": "attached-to-object",
           "capabilities": []
         },
@@ -992,6 +1366,10 @@
             "type": "navigate",
             "target": "saved"
           },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "saved"
+          },
           "placement": "attached-to-object",
           "capabilities": []
         },
@@ -1001,6 +1379,10 @@
           "outcome": {
             "type": "navigate",
             "target": "settings"
+          },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "settings"
           },
           "placement": "attached-to-object",
           "capabilities": []
@@ -1052,10 +1434,14 @@
           "id": "open_deed",
           "label": "Открыта история выбранного дела с обновлениями и вкладами.",
           "outcome": {
-            "type": "system",
-            "target": "private_deeds"
+            "type": "navigate",
+            "target": "post_detail"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "post_detail"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         }
       ],
@@ -1105,10 +1491,14 @@
           "id": "open_notification",
           "label": "Открыта связанная сущность и уведомление отмечено прочитанным.",
           "outcome": {
-            "type": "system",
-            "target": "notifications"
+            "type": "navigate",
+            "target": "post_detail"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "post_detail"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         },
         {
@@ -1116,7 +1506,17 @@
           "label": "Включены уведомления для явно отслеживаемых дел.",
           "outcome": {
             "type": "mutate",
-            "target": "notifications"
+            "target": "notifications",
+            "reducer": {
+              "type": "update",
+              "stateField": "resultAlertsEnabled",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "resultAlertsEnabled",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -1179,6 +1579,10 @@
             "type": "navigate",
             "target": "accesses"
           },
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "accesses"
+          },
           "placement": "attached-to-object",
           "capabilities": []
         },
@@ -1187,7 +1591,17 @@
           "label": "Включены уведомления категории сообщений с данными отправителя и диалога.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "communicationAlertsEnabled",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "communicationAlertsEnabled",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1205,7 +1619,17 @@
           "label": "После системного выбора сохранён режим измерения promotedOnly; основной продукт от него не зависит.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "mode",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "mode",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1223,7 +1647,17 @@
           "label": "Демонстрационная учётная запись сохранена или удалена из Credential Provider.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "providerRecordId",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "providerRecordId",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1241,7 +1675,17 @@
           "label": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
           "outcome": {
             "type": "mutate",
-            "target": "private_deeds"
+            "target": "private_deeds",
+            "reducer": {
+              "type": "update",
+              "stateField": "unlockedUntilBackground",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "unlockedUntilBackground",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1259,7 +1703,17 @@
           "label": "Выбранные совпадения контактов добавлены в круг своих без загрузки адресной книги наружу.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "memberIds",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "memberIds",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1277,7 +1731,17 @@
           "label": "Обновление записано в App Group и отражено в виджете и истории дела.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "lastUpdateId",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "lastUpdateId",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1295,7 +1759,17 @@
           "label": "Идентификатор активной сессии сохранён в общей связке ключей и доступен приложению и виджету.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "sharedSessionId",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "sharedSessionId",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1313,7 +1787,17 @@
           "label": "Версия локального снимка ленты обновлена без показа уведомления.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "version",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "version",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1331,7 +1815,17 @@
           "label": "Background fetch сохраняет новые fixture-обновления для следующего открытия.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "fetchedAt",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "fetchedAt",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1349,7 +1843,17 @@
           "label": "Задача com.svoi.digest.refresh зарегистрирована и сохраняет число изменившихся отслеживаемых дел.",
           "outcome": {
             "type": "mutate",
-            "target": "settings"
+            "target": "settings",
+            "reducer": {
+              "type": "update",
+              "stateField": "lastPreparedAt",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "lastPreparedAt",
+            "value": "enabled"
           },
           "placement": "settings-row",
           "capabilities": [
@@ -1452,7 +1956,17 @@
           "label": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
           "outcome": {
             "type": "mutate",
-            "target": "private_deeds"
+            "target": "private_deeds",
+            "reducer": {
+              "type": "update",
+              "stateField": "unlockedUntilBackground",
+              "value": "enabled"
+            }
+          },
+          "effect": {
+            "type": "update",
+            "stateField": "unlockedUntilBackground",
+            "value": "enabled"
           },
           "placement": "attached-to-content",
           "capabilities": [
@@ -1469,10 +1983,14 @@
           "id": "open_deed",
           "label": "Открыта история выбранного дела с обновлениями и вкладами.",
           "outcome": {
-            "type": "system",
-            "target": "private_deeds"
+            "type": "navigate",
+            "target": "post_detail"
           },
-          "placement": "attached-to-content",
+          "effect": {
+            "type": "navigate",
+            "targetScreenId": "post_detail"
+          },
+          "placement": "attached-to-object",
           "capabilities": []
         }
       ],
@@ -1521,5 +2039,5 @@
     "lucide-product-chrome-for-vk",
     "shared-native-authentication"
   ],
-  "contractId": "ui-830ccd4e6e8e9525"
+  "contractId": "ui-f7cd00c43b0ee9dc"
 }

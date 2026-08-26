@@ -19,7 +19,8 @@ export function auditLeanProduct({ blueprint, manifest, swiftSource, runtimeSour
   }
   if (blueprint.socialGrammar.feedbackModes.includes("comment")) {
     if (!actions.has("open_comments") || !actions.has("respond_to_post")) problems.push("comments need separate open and submit actions");
-    if (compiled.get("open_comments")?.outcome?.target !== "post_detail#comments") problems.push("open_comments must navigate to the focused comment thread");
+    const commentTarget = compiled.get("open_comments")?.outcome?.target;
+    if (commentTarget !== "comments" && commentTarget !== "post_detail#comments") problems.push("open_comments must navigate to the focused comment thread");
     for (const marker of ["feed.open_comments", "post_detail.respond_to_post"]) {
       if (!swiftSource.includes(`.nativeAction("${marker}")`)) problems.push(`${marker}: comment intent is not bound to its own control`);
     }

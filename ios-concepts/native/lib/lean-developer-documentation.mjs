@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { normalizeLeanActionEffects } from "./structured-model-lean-architect.mjs";
 
 const json = value => `\n\n\`\`\`json\n${JSON.stringify(value, null, 2)}\n\`\`\`\n`;
 const table = (headers, rows) => [
@@ -57,6 +58,7 @@ function chunkTableDocument(name, heading, intro, headers, rows) {
 }
 
 function documents(blueprint, manifest) {
+  blueprint = normalizeLeanActionEffects(structuredClone(blueprint));
   const technical = new Map(technicalDocuments(blueprint, manifest));
   const actions = new Map(blueprint.world.actions.map(action => [action.id, action]));
   const capabilities = new Map(blueprint.capabilities.map(item => [item.key, item]));
@@ -87,7 +89,8 @@ function documents(blueprint, manifest) {
   const capabilityRows = blueprint.capabilities.map(item => [item.key, item.actionId, item.purpose, item.requestMoment,
     item.observableResult, item.fallback, manifest.capabilities.plans.find(plan => plan.permissionKey === item.key)?.verification || "—"]);
   const actionRows = blueprint.world.actions.map(action => [action.id, action.actorId || action.actor, action.entityId || action.target,
-    action.intent, action.outcome, action.persistence || "local-model"]);
+    action.intent, action.effect.type, action.effect.targetScreenId || action.effect.stateField || action.effect.collectionField,
+    action.outcome, action.persistence || "local-model"]);
   const assumptions = blueprint.delivery?.assumptions || [];
   const risks = blueprint.delivery?.risks || [];
   const criticalFlows = scenarios.filter(item =>
@@ -108,7 +111,7 @@ function documents(blueprint, manifest) {
     ...chunkTableDocument("11-fixtures", "Deterministic fixture catalog", "Fixtures use stable IDs and power captures, edge cases and acceptance flows.", ["Fixture", "Entity", "Purpose", "Values"], fixtureRows),
     ...chunkTableDocument("12-permissions", "Permissions and native capabilities", "Every capability begins from a product gesture and has granted and denied outcomes.", ["Capability", "Action", "Product value", "Request moment", "Observable result", "Denied fallback", "Evidence"], capabilityRows),
     ["13-architecture.md", `# Architecture and module seams\n\n- **Product Blueprint module:** entities, actions, invariants, navigation and states.\n- **Native Shell Compiler module:** auth, session, theme, Liquid Glass TabView, Lucide product chrome and capture instrumentation.\n- **Capability Runtime module:** real iOS requests, platform operation and persisted product outcome.\n- **Product UI module:** SwiftUI screen bodies and product reducers only.\n- **Documentation Compiler module:** this reproducible handoff kit.\n- **Evidence module:** XCUI journeys, screenshots, geometry and visual review receipts.\n\nThe app-specific renderer may not redeclare shell or platform infrastructure.\n`],
-    ...chunkTableDocument("14-data-and-actions", "Data, actions and persistence", "The local world model is the source of truth for reducers and fixture storage.", ["Action", "Actor", "Entity", "Intent", "Outcome", "Persistence"], actionRows),
+    ...chunkTableDocument("14-data-and-actions", "Data, actions and persistence", "The local world model is the source of truth for reducers and fixture storage. Effect type and target are executable compiler input, while outcome is acceptance copy.", ["Action", "Actor", "Entity", "Intent", "Effect", "Effect target", "Outcome", "Persistence"], actionRows),
     ["15-service-states.md", technical.get("03-screen-states.md")],
     ["16-privacy-and-trust.md", `# Privacy, security and trust\n\n## Data\n\n${(blueprint.delivery?.privacy?.data || []).map(item => `- ${item}`).join("\n")}\n\n## Principles\n\n${(blueprint.delivery?.privacy?.principles || []).map(item => `- ${item}`).join("\n")}\n\n## Retention\n\n${blueprint.delivery?.privacy?.retention || "Local deterministic concept data."}\n`],
     ["17-accessibility-and-localization.md", `# Accessibility and localization requirements\n\n${(blueprint.delivery?.accessibility || []).map(item => `- ${item}`).join("\n")}\n\n- Dynamic Type must preserve hierarchy without horizontal escape.\n- Every meaningful control has a stable accessibility label and identifier.\n- VoiceOver order follows visual and task order.\n- Russian copy is canonical; no forced uppercase or renderer-invented terminology.\n`],

@@ -126,262 +126,497 @@
       {
         "id": "request_email_code",
         "entityId": "session",
-        "outcome": "Создан локальный код входа для введённой почты."
+        "outcome": "Создан локальный код входа для введённой почты.",
+        "effect": {
+          "type": "system",
+          "stateField": "request_email_code_result",
+          "value": "completed"
+        }
       },
       {
         "id": "verify_email_code",
         "entityId": "session",
-        "outcome": "Сессия становится активной, открывается лента."
+        "outcome": "Сессия становится активной, открывается лента.",
+        "effect": {
+          "type": "update",
+          "stateField": "verify_email_code_state",
+          "value": "completed"
+        }
       },
       {
         "id": "open_feed",
         "entityId": "deed",
-        "outcome": "Показан сохранённый снимок авторской ленты."
+        "outcome": "Показан сохранённый снимок авторской ленты.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "feed"
+        }
       },
       {
         "id": "open_deed",
         "entityId": "deed",
-        "outcome": "Открыта история выбранного дела с обновлениями и вкладами."
+        "outcome": "Открыта история выбранного дела с обновлениями и вкладами.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
       },
       {
         "id": "create_deed",
         "entityId": "deed",
-        "outcome": "Создан черновик дела."
+        "outcome": "Создан черновик дела.",
+        "effect": {
+          "type": "create",
+          "collectionField": "deeds"
+        }
       },
       {
         "id": "edit_deed_text",
         "entityId": "deed",
-        "outcome": "Сохранены результат и описание дела."
+        "outcome": "Сохранены результат и описание дела.",
+        "effect": {
+          "type": "update",
+          "stateField": "edit_deed_text_state",
+          "value": "completed"
+        }
       },
       {
         "id": "publish_deed",
         "entityId": "deed",
-        "outcome": "Дело опубликовано в ленте со статусом active."
+        "outcome": "Дело опубликовано в ленте со статусом active.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
       },
       {
         "id": "support_deed",
         "entityId": "deed",
-        "outcome": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз."
+        "outcome": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isSupported"
+        }
       },
       {
         "id": "offer_help",
         "entityId": "contribution",
-        "outcome": "Создан вклад kind=offer с конкретным предложением помощи."
+        "outcome": "Создан вклад kind=offer с конкретным предложением помощи.",
+        "effect": {
+          "type": "append",
+          "collectionField": "contributions"
+        }
       },
       {
         "id": "follow_result",
         "entityId": "deed",
-        "outcome": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления."
+        "outcome": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isFollowing"
+        }
       },
       {
         "id": "open_comments",
         "entityId": "comment",
-        "outcome": "Открыта ветка комментариев выбранного дела."
+        "outcome": "Открыта ветка комментариев выбранного дела.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "comments"
+        }
       },
       {
         "id": "respond_to_post",
         "entityId": "comment",
-        "outcome": "Комментарий добавлен к делу и виден в ветке."
+        "outcome": "Комментарий добавлен к делу и виден в ветке.",
+        "effect": {
+          "type": "append",
+          "collectionField": "comments"
+        }
       },
       {
         "id": "share_deed",
         "entityId": "deed",
-        "outcome": "Создана локальная публикация-продолжение со ссылкой на исходное дело."
+        "outcome": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
       },
       {
         "id": "save_deed",
         "entityId": "deed",
-        "outcome": "Дело добавлено в сохранённые текущего пользователя."
+        "outcome": "Дело добавлено в сохранённые текущего пользователя.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isSaved"
+        }
       },
       {
         "id": "add_update",
         "entityId": "update",
-        "outcome": "К делу добавлено текстовое обновление; updatedAt изменён."
+        "outcome": "К делу добавлено текстовое обновление; updatedAt изменён.",
+        "effect": {
+          "type": "append",
+          "collectionField": "updates"
+        }
       },
       {
         "id": "add_contribution",
         "entityId": "contribution",
-        "outcome": "К делу добавлен выполненный вклад участника kind=delivered."
+        "outcome": "К делу добавлен выполненный вклад участника kind=delivered.",
+        "effect": {
+          "type": "append",
+          "collectionField": "contributions"
+        }
       },
       {
         "id": "complete_deed",
         "entityId": "deed",
-        "outcome": "После выбора доказательства дело получает status=completed и completedAt."
+        "outcome": "После выбора доказательства дело получает status=completed и completedAt.",
+        "effect": {
+          "type": "update",
+          "stateField": "complete_deed_state",
+          "value": "completed"
+        }
       },
       {
         "id": "thank_helpers",
         "entityId": "deed",
-        "outcome": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления."
+        "outcome": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "helpersThanked"
+        }
       },
       {
         "id": "take_baton",
         "entityId": "deed",
-        "outcome": "Создан новый черновик с parentDeedId исходного дела."
+        "outcome": "Создан новый черновик с parentDeedId исходного дела.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
       },
       {
         "id": "search_world",
         "entityId": "search_result",
-        "outcome": "Сохранён запрос и показаны совпадения среди дел, людей и сообществ."
+        "outcome": "Сохранён запрос и показаны совпадения среди дел, людей и сообществ.",
+        "effect": {
+          "type": "system",
+          "stateField": "search_world_result",
+          "value": "completed"
+        }
       },
       {
         "id": "open_search_result",
         "entityId": "search_result",
-        "outcome": "Открыта сущность выбранного результата."
+        "outcome": "Открыта сущность выбранного результата.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
       },
       {
         "id": "open_notifications",
         "entityId": "notification",
-        "outcome": "Показан список уведомлений; открытые записи отмечены прочитанными."
+        "outcome": "Показан список уведомлений; открытые записи отмечены прочитанными.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "notifications"
+        }
       },
       {
         "id": "open_notification",
         "entityId": "notification",
-        "outcome": "Открыта связанная сущность и уведомление отмечено прочитанным."
+        "outcome": "Открыта связанная сущность и уведомление отмечено прочитанным.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
       },
       {
         "id": "open_messages",
         "entityId": "conversation",
-        "outcome": "Показаны локальные диалоги."
+        "outcome": "Показаны локальные диалоги.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "messages"
+        }
       },
       {
         "id": "open_conversation",
         "entityId": "conversation",
-        "outcome": "Открыт выбранный диалог."
+        "outcome": "Открыт выбранный диалог.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "conversation"
+        }
       },
       {
         "id": "send_message",
         "entityId": "message",
-        "outcome": "Сообщение добавлено в диалог со статусом delivered."
+        "outcome": "Сообщение добавлено в диалог со статусом delivered.",
+        "effect": {
+          "type": "append",
+          "collectionField": "messages"
+        }
       },
       {
         "id": "open_profile",
         "entityId": "user",
-        "outcome": "Показан профиль с делами, вкладами и сохранёнными публикациями."
+        "outcome": "Показан профиль с делами, вкладами и сохранёнными публикациями.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "profile"
+        }
       },
       {
         "id": "open_saved",
         "entityId": "deed",
-        "outcome": "Показаны сохранённые дела пользователя."
+        "outcome": "Показаны сохранённые дела пользователя.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "saved"
+        }
       },
       {
         "id": "open_settings",
         "entityId": "preference",
-        "outcome": "Открыты настройки продукта и приватности."
+        "outcome": "Открыты настройки продукта и приватности.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "settings"
+        }
       },
       {
         "id": "open_accesses",
         "entityId": "access_state",
-        "outcome": "Показаны состояния системных доступов и связанные функции."
+        "outcome": "Показаны состояния системных доступов и связанные функции.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "accesses"
+        }
       },
       {
         "id": "capture_deed_photo",
         "entityId": "attachment",
-        "outcome": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству."
+        "outcome": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
+        "effect": {
+          "type": "update",
+          "stateField": "localImagePath",
+          "value": "enabled"
+        }
       },
       {
         "id": "choose_deed_photo",
         "entityId": "attachment",
-        "outcome": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу."
+        "outcome": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
+        "effect": {
+          "type": "update",
+          "stateField": "localImagePath",
+          "value": "enabled"
+        }
       },
       {
         "id": "record_voice_update",
         "entityId": "update",
-        "outcome": "Локальный аудиофайл прикреплён к обновлению с длительностью."
+        "outcome": "Локальный аудиофайл прикреплён к обновлению с длительностью.",
+        "effect": {
+          "type": "update",
+          "stateField": "audioPath",
+          "value": "enabled"
+        }
       },
       {
         "id": "choose_deed_place",
         "entityId": "place",
-        "outcome": "К делу прикреплено выбранное место с координатами либо ручным названием."
+        "outcome": "К делу прикреплено выбранное место с координатами либо ручным названием.",
+        "effect": {
+          "type": "update",
+          "stateField": "coordinateOrManualName",
+          "value": "enabled"
+        }
       },
       {
         "id": "enable_result_alerts",
         "entityId": "notification_preference",
-        "outcome": "Включены уведомления для явно отслеживаемых дел."
+        "outcome": "Включены уведомления для явно отслеживаемых дел.",
+        "effect": {
+          "type": "update",
+          "stateField": "resultAlertsEnabled",
+          "value": "enabled"
+        }
       },
       {
         "id": "enable_message_alerts",
         "entityId": "notification_preference",
-        "outcome": "Включены уведомления категории сообщений с данными отправителя и диалога."
+        "outcome": "Включены уведомления категории сообщений с данными отправителя и диалога.",
+        "effect": {
+          "type": "update",
+          "stateField": "communicationAlertsEnabled",
+          "value": "enabled"
+        }
       },
       {
         "id": "apply_silent_snapshot",
         "entityId": "feed_snapshot",
-        "outcome": "Версия локального снимка ленты обновлена без показа уведомления."
+        "outcome": "Версия локального снимка ленты обновлена без показа уведомления.",
+        "effect": {
+          "type": "update",
+          "stateField": "version",
+          "value": "enabled"
+        }
       },
       {
         "id": "refresh_feed_on_fetch",
         "entityId": "feed_snapshot",
-        "outcome": "Background fetch сохраняет новые fixture-обновления для следующего открытия."
+        "outcome": "Background fetch сохраняет новые fixture-обновления для следующего открытия.",
+        "effect": {
+          "type": "update",
+          "stateField": "fetchedAt",
+          "value": "enabled"
+        }
       },
       {
         "id": "schedule_digest_task",
         "entityId": "digest",
-        "outcome": "Задача com.svoi.digest.refresh зарегистрирована и сохраняет число изменившихся отслеживаемых дел."
+        "outcome": "Задача com.svoi.digest.refresh зарегистрирована и сохраняет число изменившихся отслеживаемых дел.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastPreparedAt",
+          "value": "enabled"
+        }
       },
       {
         "id": "publish_quick_update_widget",
         "entityId": "widget_snapshot",
-        "outcome": "Обновление записано в App Group и отражено в виджете и истории дела."
+        "outcome": "Обновление записано в App Group и отражено в виджете и истории дела.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastUpdateId",
+          "value": "enabled"
+        }
       },
       {
         "id": "share_session_with_widget",
         "entityId": "session",
-        "outcome": "Идентификатор активной сессии сохранён в общей связке ключей и доступен приложению и виджету."
+        "outcome": "Идентификатор активной сессии сохранён в общей связке ключей и доступен приложению и виджету.",
+        "effect": {
+          "type": "update",
+          "stateField": "sharedSessionId",
+          "value": "enabled"
+        }
       },
       {
         "id": "manage_demo_credential",
         "entityId": "credential",
-        "outcome": "Демонстрационная учётная запись сохранена или удалена из Credential Provider."
+        "outcome": "Демонстрационная учётная запись сохранена или удалена из Credential Provider.",
+        "effect": {
+          "type": "update",
+          "stateField": "providerRecordId",
+          "value": "enabled"
+        }
       },
       {
         "id": "verify_site_network",
         "entityId": "site_check",
-        "outcome": "SSID сохранён как подтверждение присутствия на площадке дела без хранения сетевого пароля."
+        "outcome": "SSID сохранён как подтверждение присутствия на площадке дела без хранения сетевого пароля.",
+        "effect": {
+          "type": "update",
+          "stateField": "verified",
+          "value": "enabled"
+        }
       },
       {
         "id": "import_helpers",
         "entityId": "circle",
-        "outcome": "Выбранные совпадения контактов добавлены в круг своих без загрузки адресной книги наружу."
+        "outcome": "Выбранные совпадения контактов добавлены в круг своих без загрузки адресной книги наружу.",
+        "effect": {
+          "type": "update",
+          "stateField": "memberIds",
+          "value": "enabled"
+        }
       },
       {
         "id": "enable_promotion_measurement",
         "entityId": "measurement_preference",
-        "outcome": "После системного выбора сохранён режим измерения promotedOnly; основной продукт от него не зависит."
+        "outcome": "После системного выбора сохранён режим измерения promotedOnly; основной продукт от него не зависит.",
+        "effect": {
+          "type": "update",
+          "stateField": "mode",
+          "value": "enabled"
+        }
       },
       {
         "id": "unlock_private_deeds",
         "entityId": "private_vault",
-        "outcome": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон."
+        "outcome": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
+        "effect": {
+          "type": "update",
+          "stateField": "unlockedUntilBackground",
+          "value": "enabled"
+        }
       },
       {
         "id": "transcribe_voice_update",
         "entityId": "update",
-        "outcome": "Распознанный русский текст сохранён как transcript аудиообновления."
+        "outcome": "Распознанный русский текст сохранён как transcript аудиообновления.",
+        "effect": {
+          "type": "update",
+          "stateField": "transcript",
+          "value": "enabled"
+        }
       },
       {
         "id": "play_voice_update",
         "entityId": "playback",
-        "outcome": "Аудиообновление воспроизводится в фоне; Now Playing показывает автора, дело и прогресс."
+        "outcome": "Аудиообновление воспроизводится в фоне; Now Playing показывает автора, дело и прогресс.",
+        "effect": {
+          "type": "update",
+          "stateField": "nowPlayingUpdateId",
+          "value": "enabled"
+        }
       },
       {
         "id": "start_helper_call",
         "entityId": "call",
-        "outcome": "Создан локальный CallKit-вызов помощнику; завершение сохраняет длительность в диалоге."
+        "outcome": "Создан локальный CallKit-вызов помощнику; завершение сохраняет длительность в диалоге.",
+        "effect": {
+          "type": "update",
+          "stateField": "durationSeconds",
+          "value": "enabled"
+        }
       },
       {
         "id": "add_deadline_to_calendar",
         "entityId": "calendar_link",
-        "outcome": "Событие с названием дела и deep link создано в выбранном календаре; eventIdentifier сохранён."
+        "outcome": "Событие с названием дела и deep link создано в выбранном календаре; eventIdentifier сохранён.",
+        "effect": {
+          "type": "update",
+          "stateField": "eventIdentifier",
+          "value": "enabled"
+        }
       },
       {
         "id": "open_deed_link",
         "entityId": "deed",
-        "outcome": "Приложение открывает существующее дело либо понятный экран отсутствующей записи."
+        "outcome": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastOpenedFromLinkAt",
+          "value": "enabled"
+        }
       },
       {
         "id": "join_deed_network",
         "entityId": "site_connection",
-        "outcome": "Участник получает connected=true и может затем подтвердить площадку."
+        "outcome": "Участник получает connected=true и может затем подтвердить площадку.",
+        "effect": {
+          "type": "update",
+          "stateField": "connected",
+          "value": "enabled"
+        }
       }
     ]
   },

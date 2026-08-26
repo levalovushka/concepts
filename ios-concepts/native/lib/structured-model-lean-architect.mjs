@@ -55,10 +55,20 @@ export function leanIdeaEvaluationSchema(ids) {
 
 function actionSchema() {
   return {
-    type: "object", additionalProperties: false, required: ["id", "entityId", "outcome"],
+    type: "object", additionalProperties: false, required: ["id", "entityId", "outcome", "effect"],
     properties: {
       id: { type: "string", pattern: "^[a-z][a-z0-9_]{2,50}$" },
       entityId: { type: "string", minLength: 2 }, outcome: { type: "string", minLength: 12 },
+      effect: {
+        type: "object", additionalProperties: false, required: ["type"],
+        properties: {
+          type: { enum: ["navigate", "create", "update", "toggle", "append", "delete", "system"] },
+          targetScreenId: { type: "string", minLength: 2 },
+          stateField: { type: "string", minLength: 2 },
+          value: { type: "string", minLength: 1 },
+          collectionField: { type: "string", minLength: 2 },
+        },
+      },
     },
   };
 }
@@ -242,6 +252,50 @@ function humanize(id) {
   return value[0].toUpperCase() + value.slice(1);
 }
 
+const canonicalNavigationTargets = Object.freeze({
+  open_feed: "feed", open_deed: "post_detail", open_post: "post_detail", open_comments: "comments",
+  open_messages: "messages", open_conversation: "conversation", open_profile: "profile", open_saved: "saved",
+  open_settings: "settings", open_accesses: "accesses", open_notifications: "notifications",
+});
+
+function inferredToggleField(id) {
+  if (id.startsWith("support_")) return "isSupported";
+  if (id.startsWith("follow_")) return "isFollowing";
+  if (id.startsWith("save_")) return "isSaved";
+  if (id.startsWith("thank_")) return "helpersThanked";
+  return `${id.replace(/^(?:save|follow|support|thank)_/, "")}Enabled`;
+}
+
+function inferActionEffect(action, screens, capability) {
+  const id = action.id;
+  if (capability?.outcome?.stateField) {
+    return { type: "update", stateField: capability.outcome.stateField, value: "enabled" };
+  }
+  const target = canonicalNavigationTargets[id]
+    || (id.startsWith("open_") && screens.has(id.slice(5)) ? id.slice(5) : null)
+    || (id.startsWith("open_") && ["deed", "comment", "notification", "search_result"].includes(action.entityId) ? "post_detail" : null);
+  if (target) return { type: "navigate", targetScreenId: target };
+  if (/^create_/.test(id)) return { type: "create", collectionField: `${action.entityId}s` };
+  if (/^(?:publish|send|respond|add|offer|share|take)_/.test(id)) {
+    return { type: "append", collectionField: `${action.entityId}s` };
+  }
+  if (/^(?:save|follow|support|thank)_/.test(id)) {
+    return { type: "toggle", stateField: inferredToggleField(id) };
+  }
+  if (/^(?:delete|remove)_/.test(id)) return { type: "delete", collectionField: `${action.entityId}s` };
+  if (/^(?:edit|complete|mark|verify|set|change)_/.test(id)) return { type: "update", stateField: `${id}_state`, value: "completed" };
+  return { type: "system", stateField: `${id}_result`, value: "completed" };
+}
+
+export function normalizeLeanActionEffects(body, { force = false } = {}) {
+  const screens = new Set((body.navigation?.screens || []).map(screen => screen.id));
+  const capabilities = new Map((body.capabilities || []).map(item => [item.actionId, item]));
+  for (const action of body.world?.actions || []) if (force || !action.effect) {
+    action.effect = inferActionEffect(action, screens, capabilities.get(action.id));
+  }
+  return body;
+}
+
 export function normalizeLeanBlueprintBody(source) {
   const body = structuredClone(source);
   body.world ||= { entities: [], actions: [] };
@@ -311,7 +365,7 @@ export function normalizeLeanBlueprintBody(source) {
     { key: `screen.${screen.id}.title`, source: screen.title, context: `Заголовок экрана ${screen.title}`, screenIds: [screen.id] },
     { key: `screen.${screen.id}.empty`, source: `Здесь пока ничего нет`, context: `Пустое состояние экрана ${screen.title}`, screenIds: [screen.id] },
   );
-  return body;
+  return normalizeLeanActionEffects(body);
 }
 
 export function createStructuredModelLeanArchitect({ ideaModel, evaluatorModel, qualityFloor = 8.5, reservedIds = [] }) {
@@ -357,6 +411,7 @@ export function createStructuredModelLeanArchitect({ ideaModel, evaluatorModel, 
           instructions: [
             "Expand only the selected idea into one coherent executable Product Blueprint.",
             "Every visible control needs one distinct action and observable entity-owned outcome.",
+            "Every action also needs a machine-readable effect. Use navigate for a route, create/append/delete for collection mutations, update/toggle for state changes, and system only for a real platform operation.",
             "Comments require separate open_comments navigation and respond_to_post mutation actions.",
             "Capability-rich products need settings and accesses screens, but permissions stay contextual to useful features.",
             "Use exactly five meaningful VK root tabs. No decorative filters, segments, duplicate profile entries or dead chevrons.",

@@ -54,17 +54,17 @@
 
 | ID | Экран | Тип | Цель | Размещение |
 |---|---|---|---|---|
-| request_email_code | login | mutate | login | attached |
+| request_email_code | login | system | login | attached |
 | verify_email_code | login | mutate | login | attached |
-| open_feed | feed | system | feed | attached |
-| open_deed | private_deeds | system | private_deeds | attached |
+| open_feed | feed | navigate | feed | attached |
+| open_deed | private_deeds | navigate | post_detail | attached |
 | create_deed | create | mutate | create | content |
 | edit_deed_text | create | mutate | create | content |
 | publish_deed | create | mutate | create | content |
 | support_deed | post_detail | mutate | post_detail | content |
 | offer_help | post_detail | mutate | post_detail | attached |
 | follow_result | post_detail | mutate | post_detail | attached |
-| open_comments | feed | navigate | post_detail#comments | attached |
+| open_comments | feed | navigate | comments | attached |
 | respond_to_post | post_detail | mutate | post_detail | attached |
 | share_deed | post_detail | mutate | post_detail | attached |
 | save_deed | post_detail | mutate | post_detail | attached |
@@ -73,11 +73,11 @@
 | complete_deed | complete | mutate | complete | attached |
 | thank_helpers | complete | mutate | complete | attached |
 | take_baton | post_detail | mutate | post_detail | attached |
-| search_world | search | mutate | search | attached |
-| open_search_result | search | system | search | attached |
-| open_notifications | feed | system | feed | attached |
-| open_notification | notifications | system | notifications | attached |
-| open_messages | messages | system | messages | attached |
+| search_world | search | system | search | attached |
+| open_search_result | search | navigate | post_detail | attached |
+| open_notifications | feed | navigate | notifications | attached |
+| open_notification | notifications | navigate | post_detail | attached |
+| open_messages | messages | navigate | messages | attached |
 | open_conversation | messages | navigate | conversation | attached |
 | send_message | conversation | mutate | conversation | attached |
 | open_profile | profile | navigate | profile | attached |
@@ -104,5 +104,5 @@
 | play_voice_update | post_detail | mutate | post_detail | attached |
 | start_helper_call | conversation | mutate | conversation | attached |
 | add_deadline_to_calendar | post_detail | mutate | post_detail | attached |
-| open_deed_link | feed | system | feed | attached |
+| open_deed_link | feed | mutate | feed | attached |
 | join_deed_network | post_detail | mutate | post_detail | attached |

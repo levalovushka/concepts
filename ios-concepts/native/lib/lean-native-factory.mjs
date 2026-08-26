@@ -5,6 +5,7 @@ import { resolveVisualCalibration } from "./visual-calibration-catalog.mjs";
 import { resolveCapability } from "./capability-catalog.mjs";
 import { resolveExtension } from "./extension-catalog.mjs";
 import { validateCapabilityOutcome } from "./capability-outcome-contract.mjs";
+import { normalizeLeanActionEffects } from "./structured-model-lean-architect.mjs";
 
 function diagnostic(code, message, path) {
   return Object.freeze({ code, message, path, severity: "error" });
@@ -17,6 +18,7 @@ function hasText(value, minimum = 3) {
 export function verifyProductBlueprint(blueprint, request, target) {
   const diagnostics = [];
   if (!blueprint || typeof blueprint !== "object") return [diagnostic("blueprint.required", "Product Blueprint is required", "blueprint")];
+  blueprint = normalizeLeanActionEffects(structuredClone(blueprint));
   if (blueprint.schemaVersion !== 1) diagnostics.push(diagnostic("blueprint.schema", "Product Blueprint schemaVersion must be 1", "schemaVersion"));
   if (!hasText(blueprint.id) || !hasText(blueprint.name, 2) || !hasText(blueprint.thesis, 24)) diagnostics.push(diagnostic(
     "blueprint.identity", "Product Blueprint needs a stable id, name and concrete thesis", "blueprint",
@@ -27,9 +29,17 @@ export function verifyProductBlueprint(blueprint, request, target) {
   const entities = new Set((blueprint.world?.entities || []).map(item => item.id));
   const actions = new Map((blueprint.world?.actions || []).map(item => [item.id, item]));
   if (entities.size < 3) diagnostics.push(diagnostic("blueprint.world.shallow", "Product world needs at least three meaningful entities", "world.entities"));
-  for (const [id, action] of actions) if (!entities.has(action.entityId) || !hasText(action.outcome, 8)) diagnostics.push(diagnostic(
-    "blueprint.action.unowned", `Action ${id} needs an owning entity and observable outcome`, `world.actions.${id}`,
-  ));
+  for (const [id, action] of actions) {
+    if (!entities.has(action.entityId) || !hasText(action.outcome, 8)) diagnostics.push(diagnostic(
+      "blueprint.action.unowned", `Action ${id} needs an owning entity and observable outcome`, `world.actions.${id}`,
+    ));
+    if (!action.effect?.type) diagnostics.push(diagnostic(
+      "blueprint.action.effect-missing", `Action ${id} needs a machine-readable reducer effect`, `world.actions.${id}.effect`,
+    ));
+    if (action.effect?.type === "navigate" && !hasText(action.effect.targetScreenId, 2)) diagnostics.push(diagnostic(
+      "blueprint.action.route-missing", `Navigation action ${id} needs targetScreenId`, `world.actions.${id}.effect.targetScreenId`,
+    ));
+  }
   for (const id of blueprint.coreLoop?.actionIds || []) if (!actions.has(id)) diagnostics.push(diagnostic(
     "blueprint.core-loop.action-missing", `Core loop references unknown action ${id}`, "coreLoop.actionIds",
   ));
@@ -157,6 +167,7 @@ function screenRoles(screen) {
 }
 
 export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blueprint.id}` } = {}) {
+  blueprint = normalizeLeanActionEffects(structuredClone(blueprint));
   const request = { targetProduct: blueprint.targetProduct, strategy: blueprint.strategy, capabilityPolicy: "all" };
   const target = resolveProductTarget(blueprint.targetProduct);
   const diagnostics = target ? verifyProductBlueprint(blueprint, request, target) : [diagnostic("blueprint.target", "Unknown target product", "targetProduct")];
@@ -181,18 +192,13 @@ export function compileProductBlueprint(blueprint, { bundleId = `com.camo.${blue
   const extensions = extensionTargets.map(id => resolveExtension(id, { productName: blueprint.name, slug: blueprint.id, bundleId })).filter(Boolean);
   const actionSurface = new Map();
   for (const screen of blueprint.navigation.screens) for (const id of screen.actionIds) actionSurface.set(id, screen.id);
-  const routeTargets = {
-    open_post: "post_detail", open_comments: "post_detail#comments", open_create_post: "create_post",
-    open_circle: "circle_detail", open_conversation: "conversation", open_profile: "profile",
-    open_saved: "saved", open_settings: "settings", open_accesses: "accesses",
-  };
   const actions = blueprint.world.actions.map(action => ({
     id: action.id,
     surface: actionSurface.get(action.id),
     label: action.outcome,
-    outcome: routeTargets[action.id]
-      ? { type: "navigate", target: routeTargets[action.id] }
-      : { type: action.id.startsWith("open_") ? "system" : "mutate", target: actionSurface.get(action.id) },
+    outcome: action.effect.type === "navigate"
+      ? { type: "navigate", target: action.effect.targetScreenId }
+      : { type: action.effect.type === "system" ? "system" : "mutate", target: actionSurface.get(action.id), reducer: action.effect },
     variant: blueprint.coreLoop.actionIds.includes(action.id) ? "primary" : "secondary",
     placement: blueprint.coreLoop.actionIds.includes(action.id) ? "content" : "attached",
     enabledWhen: "available",
