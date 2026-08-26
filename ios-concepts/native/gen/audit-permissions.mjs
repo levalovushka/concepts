@@ -7,6 +7,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileNativeConcept } from "../lib/compile-concept.mjs";
+import { countCapabilityRequestHits } from "../lib/capability-source-detection.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const nativeRoot = join(here, "..");
@@ -106,8 +107,7 @@ for (const permission of manifest.permissions) {
     continue;
   }
   if (permission.activation === "build-artifact") continue;
-  const requestPattern = new RegExp(`request\\(\\.${permission.key}(?:\\s*,|\\s*\\))`, "g");
-  const requestHits = (appSources.match(requestPattern) || []).length;
+  const requestHits = countCapabilityRequestHits(appSources, permission.key);
   const genericHelperHits = appSources.includes("permissions.request(key")
     ? (appSources.match(new RegExp(`(?:key:\\s*|run\\()\\.${permission.key}(?:\\s*,|\\s*\\))`, "g")) || []).length
     : 0;

@@ -1,0 +1,22 @@
+{
+  "product": [
+    "relay_feed",
+    "turn",
+    "chapter_result",
+    "discover",
+    "create",
+    "messages",
+    "services",
+    "profile",
+    "active_relays",
+    "drafts",
+    "schedule",
+    "handoff",
+    "settings"
+  ],
+  "pendingProduct": [],
+  "system": [
+    "login"
+  ],
+  "extensionSurface": []
+}

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "scope": "full-expansion",
+  "drivers": [
+    {
+      "surface": "relay_feed",
+      "state": "populated/default",
+      "launch": "relay_feed",
+      "artifact": "relay-feed--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "relay_feed",
+      "state": "empty",
+      "launch": "relay_feed",
+      "artifact": "relay-feed--empty",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "relay_feed",
+      "state": "offline",
+      "launch": "relay_feed",
+      "artifact": "relay-feed--offline",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "turn",
+      "state": "populated/default",
+      "launch": "turn",
+      "artifact": "turn--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "turn",
+      "state": "error",
+      "launch": "turn",
+      "artifact": "turn--error",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "chapter_result",
+      "state": "populated/default",
+      "launch": "chapter_result",
+      "artifact": "chapter-result--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "chapter_result",
+      "state": "permission-denied",
+      "launch": "chapter_result",
+      "artifact": "chapter-result--permission-denied",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "discover",
+      "state": "populated/default",
+      "launch": "discover",
+      "artifact": "discover--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "discover",
+      "state": "empty",
+      "launch": "discover",
+      "artifact": "discover--empty",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "create",
+      "state": "populated/default",
+      "launch": "create",
+      "artifact": "create--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "create",
+      "state": "permission-denied",
+      "launch": "create",
+      "artifact": "create--permission-denied",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "messages",
+      "state": "populated/default",
+      "launch": "messages",
+      "artifact": "messages--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "messages",
+      "state": "empty",
+      "launch": "messages",
+      "artifact": "messages--empty",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "services",
+      "state": "populated/default",
+      "launch": "services",
+      "artifact": "services--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "services",
+      "state": "offline",
+      "launch": "services",
+      "artifact": "services--offline",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "profile",
+      "state": "populated/default",
+      "launch": "profile",
+      "artifact": "profile--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "active_relays",
+      "state": "populated/default",
+      "launch": "active_relays",
+      "artifact": "active-relays--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "drafts",
+      "state": "populated/default",
+      "launch": "drafts",
+      "artifact": "drafts--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "schedule",
+      "state": "populated/default",
+      "launch": "schedule",
+      "artifact": "schedule--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "handoff",
+      "state": "populated/default",
+      "launch": "handoff",
+      "artifact": "handoff--populated-default",
+      "reviewPriority": "core"
+    },
+    {
+      "surface": "handoff",
+      "state": "error",
+      "launch": "handoff",
+      "artifact": "handoff--error",
+      "reviewPriority": "risk"
+    },
+    {
+      "surface": "settings",
+      "state": "populated/default",
+      "launch": "settings",
+      "artifact": "settings--populated-default",
+      "reviewPriority": "core"
+    }
+  ]
+}

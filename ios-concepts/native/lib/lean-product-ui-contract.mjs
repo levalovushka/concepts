@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { normalizeLeanActionEffects } from "./structured-model-lean-architect.mjs";
+import { resolveHTMLConceptPatterns } from "./html-concept-patterns.mjs";
 
 const recipes = Object.freeze({
   login: "emailAuthentication",
@@ -20,6 +21,24 @@ const recipes = Object.freeze({
 });
 
 const allowedRecipes = new Set(Object.values(recipes));
+
+const nativeComponents = Object.freeze({
+  authoredFeed: ["VKRootSurface", "VKTabHeader", "VKAuthoredPost", "VKPostActions"],
+  authoredPostDetail: ["VKRootSurface", "VKNavigationChrome", "VKAuthoredPost", "VKPostActions"],
+  contributionEditor: ["VKRootSurface", "VKModalChrome", "VKGroup", "VKPrimaryActionArea"],
+  completion: ["VKRootSurface", "VKNavigationChrome", "VKInlineNotice", "VKPrimaryActionArea"],
+  socialDiscovery: ["VKRootSurface", "VKTabHeader", "VKGroup", "VKRow"],
+  publicationEditor: ["VKRootSurface", "VKTabHeader", "VKGroup", "VKPrimaryActionArea"],
+  conversationList: ["VKRootSurface", "VKTabHeader", "VKGroup", "VKRow"],
+  ownedProfile: ["VKRootSurface", "VKTabHeader", "Avatar", "VKGroup", "VKRow"],
+  capabilityCenter: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow", "VKInlineNotice"],
+  settings: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow"],
+  recipientPicker: ["VKRootSurface", "VKModalChrome", "VKGroup", "VKRow", "VKPrimaryActionArea"],
+  serviceMenu: ["VKRootSurface", "VKTabHeader", "LazyVGrid"],
+  featureList: ["VKRootSurface", "VKNavigationChrome", "VKGroup", "VKRow"],
+});
+
+for (const recipe of Object.keys(nativeComponents)) allowedRecipes.add(recipe);
 
 function sha(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex").slice(0, 16);
@@ -66,7 +85,9 @@ export function compileLeanProductUIContract(blueprint, manifest) {
     return Object.freeze({
       screenId: screen.id,
       title: screen.title,
-      recipe: recipes[screen.id] || (screen.presentation === "root" ? "authoredFeed" : "authoredPostDetail"),
+      recipe: screen.recipe || recipes[screen.id] || (screen.presentation === "tab" ? "authoredFeed" : "authoredPostDetail"),
+      nativeComponents: Object.freeze([...(nativeComponents[screen.recipe || recipes[screen.id]] || ["VKRootSurface", "VKGroup"])]),
+      inheritedPatterns: resolveHTMLConceptPatterns(screen.recipe || recipes[screen.id]),
       presentation: screen.presentation,
       parent: screen.parent,
       entityIds: Object.freeze([...(screen.entityIds || [])]),
@@ -81,6 +102,11 @@ export function compileLeanProductUIContract(blueprint, manifest) {
     productId: blueprint.id,
     targetProduct: blueprint.targetProduct,
     strategy: blueprint.strategy,
+    design: Object.freeze({
+      referenceProfile: manifest.design.referenceProfile?.id || null,
+      tokens: Object.freeze({ ...(manifest.design.tokens || {}) }),
+      iconPolicy: Object.freeze({ ...(manifest.design.referenceProfile?.native?.iconography || {}) }),
+    }),
     rootTabs: blueprint.navigation.rootTabs,
     surfaces,
     invariants: [
@@ -106,10 +132,14 @@ export function verifyLeanProductUIContract(contract, blueprint) {
     const surface = surfaceById.get(screen.id);
     if (!surface) { problems.push(`${screen.id}: UI surface is missing`); continue; }
     if (!allowedRecipes.has(surface.recipe)) problems.push(`${screen.id}: unknown recipe ${surface.recipe}`);
+    if (!surface.nativeComponents?.length) problems.push(`${screen.id}: native component mapping is missing`);
     const expected = [...screen.actionIds].sort();
     const actual = [...new Set(surface.actions.map(item => item.id))].sort();
     if (JSON.stringify(expected) !== JSON.stringify(actual)) problems.push(`${screen.id}: action ownership drift`);
-    if (!["loading", "populated/default", "empty", "error", "offline"].every(state => surface.states.includes(state))) {
+    const requiredStates = blueprint.deliveryMode === "slice" || blueprint.statePolicy === "applicable"
+      ? ["populated/default"]
+      : ["loading", "populated/default", "empty", "error", "offline"];
+    if (!requiredStates.every(state => surface.states.includes(state))) {
       problems.push(`${screen.id}: canonical state coverage is incomplete`);
     }
     for (const action of surface.actions) {
@@ -124,6 +154,7 @@ export function verifyLeanProductUIContract(contract, blueprint) {
       }
     }
   }
+  if (!contract.design?.tokens || Object.keys(contract.design.tokens).length < 6) problems.push("semantic design tokens are missing");
   if (contract.strategy === "mimicry" && contract.targetProduct === "vkontakte") {
     for (const invariant of ["object-attached-social-feedback", "native-tabview-owns-liquid-glass", "lucide-product-chrome-for-vk"]) {
       if (!contract.invariants.includes(invariant)) problems.push(`VK invariant ${invariant} is missing`);

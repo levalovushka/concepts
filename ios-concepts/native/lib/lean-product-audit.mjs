@@ -26,8 +26,14 @@ export function auditLeanProduct({ blueprint, manifest, swiftSource, runtimeSour
     }
   }
   if ((blueprint.capabilities || []).length >= 10) {
-    for (const id of ["settings", "accesses"]) if (!screens.has(id)) problems.push(`${id}: capability-rich product needs this real screen`);
+    if (!screens.has("settings")) problems.push("settings: capability-rich product needs a recovery and configuration screen");
     if (!swiftSource.includes("UIApplication.openSettingsURLString")) problems.push("denied capabilities need a route to iPhone settings");
+    if (blueprint.deliveryMode === "full") {
+      const screenByAction = new Map(blueprint.navigation.screens.flatMap(screen => screen.actionIds.map(id => [id, screen.id])));
+      const featureOwners = new Set(blueprint.capabilities.map(item => screenByAction.get(item.actionId)).filter(Boolean));
+      if (featureOwners.has("accesses")) problems.push("capabilities must be requested by product features, not an accesses screen");
+      if (featureOwners.size < 3) problems.push("capabilities must be distributed across contextual product features");
+    }
   }
   problems.push(...auditCapabilityOutcomeImplementation({ capabilities: blueprint.capabilities, manifest, swiftSource, runtimeSource, uiTestSource }));
   return problems;
