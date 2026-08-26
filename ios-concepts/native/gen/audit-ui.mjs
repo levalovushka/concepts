@@ -18,6 +18,8 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { auditVKGoldenImplementation } from "../lib/vk-golden-implementation.mjs";
+import { compileNativeConcept } from "../lib/compile-concept.mjs";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const NATIVE = join(__dir, "..");
@@ -37,7 +39,7 @@ function swiftFiles(root, label) {
   });
 }
 const files = [
-  ...readdirSync(appDir).filter(f => f.endsWith(".swift")).map(f => ["apps/" + f, join(appDir, f)]),
+  ...swiftFiles(appDir, "apps"),
   ...readdirSync(dsDir).filter(f => f.endsWith(".swift")).map(f => ["ds/" + f, join(dsDir, f)]),
   ...swiftFiles(profilesDir, "profiles"),
 ];
@@ -51,6 +53,19 @@ const legacyNames = existsSync(legacyPath)
 
 const problems = [];
 const legacyUse = {};
+
+const conceptPath = join(NATIVE, "..", "concepts", slug, "concept.json");
+const blueprintPath = join(NATIVE, "ProductBlueprints", `${slug}-vk.json`);
+const sourceSpecPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
+const concept = existsSync(sourceSpecPath) ? JSON.parse(readFileSync(sourceSpecPath, "utf8")) : {};
+const compiledDesign = existsSync(sourceSpecPath) ? compileNativeConcept(concept).manifest?.design : null;
+const appSource = files.filter(([name]) => name.startsWith("apps/"))
+  .map(([, path]) => readFileSync(path, "utf8")).join("\n");
+for (const item of auditVKGoldenImplementation({
+  strategy: concept.native?.design?.strategy || compiledDesign?.strategy,
+  referenceProfile: concept.native?.design?.referenceProfile || compiledDesign?.referenceProfile?.id,
+  swiftSource: appSource,
+})) problems.push(`✗ VK golden ${item.code}: ${item.message}`);
 
 for (const [name, path] of files) {
   const lines = readFileSync(path, "utf8").split("\n");
@@ -69,6 +84,9 @@ for (const [name, path] of files) {
         if (letters.length >= 2 && !hasLowercase) {
           problems.push(`✗ ${name}:${i + 1} продуктовый текст написан капсом: «${match[1]}»`);
         }
+      }
+      if (/демонстрацион|демоданн/i.test(line)) {
+        problems.push(`✗ ${name}:${i + 1} служебная маркировка демоданных попала в продуктовый интерфейс`);
       }
     }
     if (/\bButton\s*\{\s*\}/.test(line) || /\blink\([^\n]+\)\s*\{\s*\}/.test(line)) {

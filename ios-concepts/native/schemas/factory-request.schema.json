@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/factory-request.schema.json",
+  "title": "Camo Native Factory Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "request", "targetProduct", "strategy"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 3 },
+    "request": { "type": "string", "minLength": 12 },
+    "targetProduct": { "enum": ["vkontakte", "vk-music", "vk-video", "ok"] },
+    "strategy": { "enum": ["mimicry", "differentiation"] },
+    "capabilityPolicy": { "enum": ["organic", "all"] },
+    "preferences": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 4 },
+      "maxItems": 8
+    }
+  }
+}

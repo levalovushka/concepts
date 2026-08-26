@@ -15,11 +15,11 @@ test("VK push surfaces own their navigation chrome instead of inheriting glass t
 
   assert.match(components, /struct VKNavigationChrome</,
     "the VK profile must own reusable push-screen navigation chrome");
-  assert.match(screens, /\.vkNavigation\("\u0421\u0432\u043e\u043f\u044b \u0440\u044f\u0434\u043e\u043c"\)/,
+  assert.match(screens, /\.vkNavigation\("Обмен рядом"\)/,
     "nearby must use profile navigation");
   assert.match(screens, /\.vkNavigation\("\u0413\u0430\u0440\u0434\u0435\u0440\u043e\u0431"/,
     "wardrobe must use profile navigation");
-  assert.doesNotMatch(screens, /navigationTitle\("\u0421\u0432\u043e\u043f\u044b \u0440\u044f\u0434\u043e\u043c"\)/,
+  assert.doesNotMatch(screens, /navigationTitle\("Обмен рядом"\)/,
     "native glass navigation must not leak onto nearby");
   assert.match(components, /VKNavigationChrome[\s\S]*?\.buttonStyle\(\.plain\)/,
     "VK chrome back controls must opt out of automatic iOS glass button styling");

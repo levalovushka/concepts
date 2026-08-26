@@ -2,7 +2,7 @@
 
 Кнопка в корневом README всегда скачивает один asset:
 
-`https://github.com/levalovushka/concepts/releases/latest/download/Camo-macOS.zip`
+`https://github.com/vladshukurov/camo/releases/latest/download/Camo-macOS.zip`
 
 ## Один раз для команды
 
@@ -21,7 +21,7 @@ export CAMO_NOTARY_PROFILE="CAMO_NOTARY"
 npm run launcher:package
 
 gh release create camo-v1.0.0 launcher/dist/Camo-macOS.zip \
-  --repo levalovushka/concepts \
+  --repo vladshukurov/camo \
   --title "Camo 1.0.0" \
   --notes "Первый публичный релиз лаунчера нативных концептов"
 ```

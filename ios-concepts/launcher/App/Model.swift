@@ -13,6 +13,7 @@ struct Concept: Identifiable, Hashable {
     let screens: Int
     let permissions: [PermissionRow]
     let docs: [DocFile]
+    let docsDirectory: URL
     /// Есть ли нативные исходники (native/apps/<slug>).
     let hasNative: Bool
     let path: String
@@ -97,6 +98,8 @@ final class Library {
     }
 
     var conceptsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("concepts") }
+    var productBlueprintsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/ProductBlueprints") }
+    var nativeDocumentationURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/Documentation") }
     var query: String = ""
 
     var filtered: [Concept] {
@@ -140,6 +143,16 @@ final class Library {
             else { continue }
             found.append(parse(json, dir: dir, native: nativeSlugs))
         }
+        let known = Set(found.map(\.slug))
+        let blueprints = (try? fm.contentsOfDirectory(at: productBlueprintsURL, includingPropertiesForKeys: nil)) ?? []
+        for url in blueprints.filter({ $0.lastPathComponent.hasSuffix("-vk.json") }).sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
+            guard let data = try? Data(contentsOf: url),
+                  let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let slug = json["id"] as? String,
+                  !known.contains(slug)
+            else { continue }
+            found.append(parseBlueprint(json, slug: slug, native: nativeSlugs.contains(slug)))
+        }
         concepts = found
     }
 
@@ -168,8 +181,52 @@ final class Library {
             screens: (j["screens"] as? [[String: Any]])?.count ?? 0,
             permissions: perms,
             docs: docs,
+            docsDirectory: docsDir,
             hasNative: native.contains(j["slug"] as? String ?? dir.lastPathComponent),
             path: dir.path
+        )
+    }
+
+    private func parseBlueprint(_ j: [String: Any], slug: String, native: Bool) -> Concept {
+        let appDir = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps/\(slug)")
+        let compiledDocs = nativeDocumentationURL.appendingPathComponent(slug)
+        let legacyDocs = appDir.appendingPathComponent("Documentation")
+        let docsDir = FileManager.default.fileExists(atPath: compiledDocs.path) ? compiledDocs : legacyDocs
+        let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
+            .filter { $0.pathExtension == "md" }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            .map { DocFile(name: $0.deletingPathExtension().lastPathComponent, url: $0) }
+        let navigation = j["navigation"] as? [String: Any]
+        let screens = navigation?["screens"] as? [[String: Any]] ?? []
+        let actionScreen = screens.flatMap { screen in
+            let screenID = screen["id"] as? String ?? ""
+            return (screen["actionIds"] as? [String] ?? []).map { ($0, screenID) }
+        }.reduce(into: [String: String]()) { result, pair in
+            if result[pair.0] == nil { result[pair.0] = pair.1 }
+        }
+        let permissions = (j["capabilities"] as? [[String: Any]] ?? []).map { capability in
+            let key = capability["key"] as? String ?? ""
+            let action = capability["actionId"] as? String ?? ""
+            return PermissionRow(
+                key: key, plist: "compiled from iOS capability catalog",
+                feature: capability["purpose"] as? String ?? capability["observableResult"] as? String ?? "",
+                screen: actionScreen[action] ?? "", risk: "contextual"
+            )
+        }
+        let audience = j["audience"] as? [String: Any]
+        return Concept(
+            slug: slug,
+            name: j["name"] as? String ?? slug,
+            tagline: j["thesis"] as? String ?? audience?["need"] as? String ?? "",
+            targetSet: j["targetProduct"] as? String ?? "iOS",
+            mode: j["strategy"] as? String ?? "differentiation",
+            accent: Color(hex: "#0077FF"),
+            screens: screens.count,
+            permissions: permissions,
+            docs: docs,
+            docsDirectory: docsDir,
+            hasNative: native,
+            path: appDir.path
         )
     }
 }

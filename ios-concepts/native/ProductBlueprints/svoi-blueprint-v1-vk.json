@@ -1,0 +1,2555 @@
+{
+  "schemaVersion": 1,
+  "id": "svoi-blueprint-v1",
+  "name": "Свои",
+  "thesis": "Знакомая авторская лента, в которой люди и сообщества публично доводят небольшие дела до результата: объявляют конкретный итог, получают помощь, показывают ход работы, завершают доказательством и передают продолжение другим.",
+  "audience": {
+    "who": "Друзья, локальные сообщества и небольшие команды.",
+    "need": "Доводить небольшие намерения до видимого результата благодаря поддержке и конкретному участию знакомых, не превращая общение в контроль продуктивности."
+  },
+  "world": {
+    "entities": [
+      {
+        "id": "user",
+        "name": "Пользователь"
+      },
+      {
+        "id": "session",
+        "name": "Сессия"
+      },
+      {
+        "id": "credential",
+        "name": "Способ входа"
+      },
+      {
+        "id": "circle",
+        "name": "Круг своих"
+      },
+      {
+        "id": "community",
+        "name": "Сообщество"
+      },
+      {
+        "id": "deed",
+        "name": "Дело"
+      },
+      {
+        "id": "update",
+        "name": "Обновление дела"
+      },
+      {
+        "id": "contribution",
+        "name": "Вклад помощника или предложение помощи как частный вид вклада в дело; поле kind различает offer и delivered."
+      },
+      {
+        "id": "comment",
+        "name": "Comment"
+      },
+      {
+        "id": "search_result",
+        "name": "Search result"
+      },
+      {
+        "id": "notification",
+        "name": "Notification"
+      },
+      {
+        "id": "conversation",
+        "name": "Conversation"
+      },
+      {
+        "id": "message",
+        "name": "Message"
+      },
+      {
+        "id": "preference",
+        "name": "Preference"
+      },
+      {
+        "id": "access_state",
+        "name": "Access state"
+      },
+      {
+        "id": "attachment",
+        "name": "Attachment"
+      },
+      {
+        "id": "place",
+        "name": "Place"
+      },
+      {
+        "id": "notification_preference",
+        "name": "Notification preference"
+      },
+      {
+        "id": "feed_snapshot",
+        "name": "Feed snapshot"
+      },
+      {
+        "id": "digest",
+        "name": "Digest"
+      },
+      {
+        "id": "widget_snapshot",
+        "name": "Widget snapshot"
+      },
+      {
+        "id": "site_check",
+        "name": "Site check"
+      },
+      {
+        "id": "measurement_preference",
+        "name": "Measurement preference"
+      },
+      {
+        "id": "private_vault",
+        "name": "Private vault"
+      },
+      {
+        "id": "playback",
+        "name": "Playback"
+      },
+      {
+        "id": "call",
+        "name": "Call"
+      },
+      {
+        "id": "calendar_link",
+        "name": "Calendar link"
+      },
+      {
+        "id": "site_connection",
+        "name": "Site connection"
+      }
+    ],
+    "actions": [
+      {
+        "id": "request_email_code",
+        "entityId": "session",
+        "outcome": "Создан локальный код входа для введённой почты.",
+        "effect": {
+          "type": "system",
+          "stateField": "request_email_code_result",
+          "value": "completed"
+        }
+      },
+      {
+        "id": "verify_email_code",
+        "entityId": "session",
+        "outcome": "Сессия становится активной, открывается лента.",
+        "effect": {
+          "type": "update",
+          "stateField": "verify_email_code_state",
+          "value": "completed"
+        }
+      },
+      {
+        "id": "open_feed",
+        "entityId": "deed",
+        "outcome": "Показан сохранённый снимок авторской ленты.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "feed"
+        }
+      },
+      {
+        "id": "open_deed",
+        "entityId": "deed",
+        "outcome": "Открыта история выбранного дела с обновлениями и вкладами.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
+      },
+      {
+        "id": "create_deed",
+        "entityId": "deed",
+        "outcome": "Создан черновик дела.",
+        "effect": {
+          "type": "create",
+          "collectionField": "deeds"
+        }
+      },
+      {
+        "id": "edit_deed_text",
+        "entityId": "deed",
+        "outcome": "Сохранены результат и описание дела.",
+        "effect": {
+          "type": "update",
+          "stateField": "edit_deed_text_state",
+          "value": "completed"
+        }
+      },
+      {
+        "id": "publish_deed",
+        "entityId": "deed",
+        "outcome": "Дело опубликовано в ленте со статусом active.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
+      },
+      {
+        "id": "support_deed",
+        "entityId": "deed",
+        "outcome": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isSupported"
+        }
+      },
+      {
+        "id": "offer_help",
+        "entityId": "contribution",
+        "outcome": "Создан вклад kind=offer с конкретным предложением помощи.",
+        "effect": {
+          "type": "append",
+          "collectionField": "contributions"
+        }
+      },
+      {
+        "id": "follow_result",
+        "entityId": "deed",
+        "outcome": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isFollowing"
+        }
+      },
+      {
+        "id": "open_comments",
+        "entityId": "comment",
+        "outcome": "Открыта ветка комментариев выбранного дела.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "comments"
+        }
+      },
+      {
+        "id": "respond_to_post",
+        "entityId": "comment",
+        "outcome": "Комментарий добавлен к делу и виден в ветке.",
+        "effect": {
+          "type": "append",
+          "collectionField": "comments"
+        }
+      },
+      {
+        "id": "share_deed",
+        "entityId": "deed",
+        "outcome": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
+      },
+      {
+        "id": "save_deed",
+        "entityId": "deed",
+        "outcome": "Дело добавлено в сохранённые текущего пользователя.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "isSaved"
+        }
+      },
+      {
+        "id": "add_update",
+        "entityId": "update",
+        "outcome": "К делу добавлено текстовое обновление; updatedAt изменён.",
+        "effect": {
+          "type": "append",
+          "collectionField": "updates"
+        }
+      },
+      {
+        "id": "add_contribution",
+        "entityId": "contribution",
+        "outcome": "К делу добавлен выполненный вклад участника kind=delivered.",
+        "effect": {
+          "type": "append",
+          "collectionField": "contributions"
+        }
+      },
+      {
+        "id": "complete_deed",
+        "entityId": "deed",
+        "outcome": "После выбора доказательства дело получает status=completed и completedAt.",
+        "effect": {
+          "type": "update",
+          "stateField": "complete_deed_state",
+          "value": "completed"
+        }
+      },
+      {
+        "id": "thank_helpers",
+        "entityId": "deed",
+        "outcome": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
+        "effect": {
+          "type": "toggle",
+          "stateField": "helpersThanked"
+        }
+      },
+      {
+        "id": "take_baton",
+        "entityId": "deed",
+        "outcome": "Создан новый черновик с parentDeedId исходного дела.",
+        "effect": {
+          "type": "append",
+          "collectionField": "deeds"
+        }
+      },
+      {
+        "id": "search_world",
+        "entityId": "search_result",
+        "outcome": "Сохранён запрос и показаны совпадения среди дел, людей и сообществ.",
+        "effect": {
+          "type": "system",
+          "stateField": "search_world_result",
+          "value": "completed"
+        }
+      },
+      {
+        "id": "open_search_result",
+        "entityId": "search_result",
+        "outcome": "Открыта сущность выбранного результата.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
+      },
+      {
+        "id": "open_notifications",
+        "entityId": "notification",
+        "outcome": "Показан список уведомлений; открытые записи отмечены прочитанными.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "notifications"
+        }
+      },
+      {
+        "id": "open_notification",
+        "entityId": "notification",
+        "outcome": "Открыта связанная сущность и уведомление отмечено прочитанным.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "post_detail"
+        }
+      },
+      {
+        "id": "open_messages",
+        "entityId": "conversation",
+        "outcome": "Показаны локальные диалоги.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "messages"
+        }
+      },
+      {
+        "id": "open_conversation",
+        "entityId": "conversation",
+        "outcome": "Открыт выбранный диалог.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "conversation"
+        }
+      },
+      {
+        "id": "send_message",
+        "entityId": "message",
+        "outcome": "Сообщение добавлено в диалог со статусом delivered.",
+        "effect": {
+          "type": "append",
+          "collectionField": "messages"
+        }
+      },
+      {
+        "id": "open_profile",
+        "entityId": "user",
+        "outcome": "Показан профиль с делами, вкладами и сохранёнными публикациями.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "profile"
+        }
+      },
+      {
+        "id": "open_saved",
+        "entityId": "deed",
+        "outcome": "Показаны сохранённые дела пользователя.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "saved"
+        }
+      },
+      {
+        "id": "open_settings",
+        "entityId": "preference",
+        "outcome": "Открыты настройки продукта и приватности.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "settings"
+        }
+      },
+      {
+        "id": "open_accesses",
+        "entityId": "access_state",
+        "outcome": "Показаны состояния системных доступов и связанные функции.",
+        "effect": {
+          "type": "navigate",
+          "targetScreenId": "accesses"
+        }
+      },
+      {
+        "id": "capture_deed_photo",
+        "entityId": "attachment",
+        "outcome": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
+        "effect": {
+          "type": "update",
+          "stateField": "localImagePath",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "choose_deed_photo",
+        "entityId": "attachment",
+        "outcome": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
+        "effect": {
+          "type": "update",
+          "stateField": "localImagePath",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "record_voice_update",
+        "entityId": "update",
+        "outcome": "Локальный аудиофайл прикреплён к обновлению с длительностью.",
+        "effect": {
+          "type": "update",
+          "stateField": "audioPath",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "choose_deed_place",
+        "entityId": "place",
+        "outcome": "К делу прикреплено выбранное место с координатами либо ручным названием.",
+        "effect": {
+          "type": "update",
+          "stateField": "coordinateOrManualName",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "enable_result_alerts",
+        "entityId": "notification_preference",
+        "outcome": "Включены уведомления для явно отслеживаемых дел.",
+        "effect": {
+          "type": "update",
+          "stateField": "resultAlertsEnabled",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "enable_message_alerts",
+        "entityId": "notification_preference",
+        "outcome": "Включены уведомления категории сообщений с данными отправителя и диалога.",
+        "effect": {
+          "type": "update",
+          "stateField": "communicationAlertsEnabled",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "apply_silent_snapshot",
+        "entityId": "feed_snapshot",
+        "outcome": "Версия локального снимка ленты обновлена без показа уведомления.",
+        "effect": {
+          "type": "update",
+          "stateField": "version",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "refresh_feed_on_fetch",
+        "entityId": "feed_snapshot",
+        "outcome": "Background fetch сохраняет новые fixture-обновления для следующего открытия.",
+        "effect": {
+          "type": "update",
+          "stateField": "fetchedAt",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "schedule_digest_task",
+        "entityId": "digest",
+        "outcome": "Задача com.svoi.digest.refresh зарегистрирована и сохраняет число изменившихся отслеживаемых дел.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastPreparedAt",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "publish_quick_update_widget",
+        "entityId": "widget_snapshot",
+        "outcome": "Обновление записано в App Group и отражено в виджете и истории дела.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastUpdateId",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "share_session_with_widget",
+        "entityId": "session",
+        "outcome": "Идентификатор активной сессии сохранён в общей связке ключей и доступен приложению и виджету.",
+        "effect": {
+          "type": "update",
+          "stateField": "sharedSessionId",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "manage_demo_credential",
+        "entityId": "credential",
+        "outcome": "Демонстрационная учётная запись сохранена или удалена из Credential Provider.",
+        "effect": {
+          "type": "update",
+          "stateField": "providerRecordId",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "verify_site_network",
+        "entityId": "site_check",
+        "outcome": "SSID сохранён как подтверждение присутствия на площадке дела без хранения сетевого пароля.",
+        "effect": {
+          "type": "update",
+          "stateField": "verified",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "import_helpers",
+        "entityId": "circle",
+        "outcome": "Выбранные совпадения контактов добавлены в круг своих без загрузки адресной книги наружу.",
+        "effect": {
+          "type": "update",
+          "stateField": "memberIds",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "enable_promotion_measurement",
+        "entityId": "measurement_preference",
+        "outcome": "После системного выбора сохранён режим измерения promotedOnly; основной продукт от него не зависит.",
+        "effect": {
+          "type": "update",
+          "stateField": "mode",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "unlock_private_deeds",
+        "entityId": "private_vault",
+        "outcome": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
+        "effect": {
+          "type": "update",
+          "stateField": "unlockedUntilBackground",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "transcribe_voice_update",
+        "entityId": "update",
+        "outcome": "Распознанный русский текст сохранён как transcript аудиообновления.",
+        "effect": {
+          "type": "update",
+          "stateField": "transcript",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "play_voice_update",
+        "entityId": "playback",
+        "outcome": "Аудиообновление воспроизводится в фоне; Now Playing показывает автора, дело и прогресс.",
+        "effect": {
+          "type": "update",
+          "stateField": "nowPlayingUpdateId",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "start_helper_call",
+        "entityId": "call",
+        "outcome": "Создан локальный CallKit-вызов помощнику; завершение сохраняет длительность в диалоге.",
+        "effect": {
+          "type": "update",
+          "stateField": "durationSeconds",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "add_deadline_to_calendar",
+        "entityId": "calendar_link",
+        "outcome": "Событие с названием дела и deep link создано в выбранном календаре; eventIdentifier сохранён.",
+        "effect": {
+          "type": "update",
+          "stateField": "eventIdentifier",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "open_deed_link",
+        "entityId": "deed",
+        "outcome": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
+        "effect": {
+          "type": "update",
+          "stateField": "lastOpenedFromLinkAt",
+          "value": "enabled"
+        }
+      },
+      {
+        "id": "join_deed_network",
+        "entityId": "site_connection",
+        "outcome": "Участник получает connected=true и может затем подтвердить площадку.",
+        "effect": {
+          "type": "update",
+          "stateField": "connected",
+          "value": "enabled"
+        }
+      }
+    ]
+  },
+  "coreLoop": {
+    "actionIds": [
+      "create_deed",
+      "edit_deed_text",
+      "publish_deed",
+      "support_deed"
+    ],
+    "returnReason": "Обновления и предложения помощи возвращают подписчиков к развивающейся истории; доказательство завершения и эстафета создают следующий авторский пост."
+  },
+  "socialGrammar": {
+    "primarySurface": "feed",
+    "authorship": "person-or-community",
+    "feedbackModes": [
+      "reaction",
+      "comment",
+      "share",
+      "save"
+    ],
+    "distribution": "Лента ранжируется детерминированно: непрочитанные изменения отслеживаемых дел, затем дела близкого круга и сообществ, затем завершения; внутри группы — updatedAt по убыванию. Продвижение не влияет на основную выдачу."
+  },
+  "navigation": {
+    "rootTabs": [
+      {
+        "screenId": "feed",
+        "title": "Лента",
+        "icon": "house"
+      },
+      {
+        "screenId": "search",
+        "title": "Поиск",
+        "icon": "magnifyingglass"
+      },
+      {
+        "screenId": "create",
+        "title": "Создать",
+        "icon": "plus.circle.fill"
+      },
+      {
+        "screenId": "messages",
+        "title": "Сообщения",
+        "icon": "message"
+      },
+      {
+        "screenId": "profile",
+        "title": "Профиль",
+        "icon": "person.crop.circle"
+      }
+    ],
+    "screens": [
+      {
+        "id": "login",
+        "title": "Вход",
+        "presentation": "root",
+        "actionIds": [
+          "request_email_code",
+          "verify_email_code"
+        ]
+      },
+      {
+        "id": "feed",
+        "title": "Лента",
+        "presentation": "tab",
+        "actionIds": [
+          "open_feed",
+          "open_deed",
+          "support_deed",
+          "offer_help",
+          "follow_result",
+          "share_deed",
+          "save_deed",
+          "open_notifications",
+          "open_deed_link",
+          "open_comments"
+        ]
+      },
+      {
+        "id": "post_detail",
+        "title": "Дело",
+        "presentation": "push",
+        "parent": "feed",
+        "actionIds": [
+          "support_deed",
+          "offer_help",
+          "follow_result",
+          "share_deed",
+          "save_deed",
+          "add_update",
+          "add_contribution",
+          "complete_deed",
+          "thank_helpers",
+          "take_baton",
+          "play_voice_update",
+          "transcribe_voice_update",
+          "verify_site_network",
+          "add_deadline_to_calendar",
+          "join_deed_network",
+          "respond_to_post"
+        ]
+      },
+      {
+        "id": "comments",
+        "title": "Комментарии",
+        "presentation": "sheet",
+        "parent": "post_detail",
+        "actionIds": []
+      },
+      {
+        "id": "search",
+        "title": "Поиск",
+        "presentation": "tab",
+        "actionIds": [
+          "search_world",
+          "open_search_result"
+        ]
+      },
+      {
+        "id": "create",
+        "title": "Новое дело",
+        "presentation": "tab",
+        "actionIds": [
+          "create_deed",
+          "edit_deed_text",
+          "capture_deed_photo",
+          "choose_deed_photo",
+          "record_voice_update",
+          "choose_deed_place",
+          "publish_deed"
+        ]
+      },
+      {
+        "id": "complete",
+        "title": "Завершить дело",
+        "presentation": "sheet",
+        "parent": "post_detail",
+        "actionIds": [
+          "capture_deed_photo",
+          "choose_deed_photo",
+          "complete_deed",
+          "thank_helpers"
+        ]
+      },
+      {
+        "id": "messages",
+        "title": "Сообщения",
+        "presentation": "tab",
+        "actionIds": [
+          "open_messages",
+          "open_conversation"
+        ]
+      },
+      {
+        "id": "conversation",
+        "title": "Диалог",
+        "presentation": "push",
+        "parent": "messages",
+        "actionIds": [
+          "send_message",
+          "start_helper_call"
+        ]
+      },
+      {
+        "id": "profile",
+        "title": "Профиль",
+        "presentation": "tab",
+        "actionIds": [
+          "open_profile",
+          "open_saved",
+          "open_settings"
+        ]
+      },
+      {
+        "id": "saved",
+        "title": "Сохранённые",
+        "presentation": "push",
+        "parent": "profile",
+        "actionIds": [
+          "open_deed"
+        ]
+      },
+      {
+        "id": "notifications",
+        "title": "Уведомления",
+        "presentation": "push",
+        "parent": "feed",
+        "actionIds": [
+          "open_notification",
+          "enable_result_alerts"
+        ]
+      },
+      {
+        "id": "settings",
+        "title": "Настройки",
+        "presentation": "push",
+        "parent": "profile",
+        "actionIds": [
+          "open_accesses",
+          "enable_message_alerts",
+          "enable_promotion_measurement",
+          "manage_demo_credential",
+          "unlock_private_deeds",
+          "import_helpers",
+          "publish_quick_update_widget",
+          "share_session_with_widget",
+          "apply_silent_snapshot",
+          "refresh_feed_on_fetch",
+          "schedule_digest_task"
+        ]
+      },
+      {
+        "id": "accesses",
+        "title": "Доступы",
+        "presentation": "push",
+        "parent": "settings",
+        "actionIds": []
+      },
+      {
+        "id": "private_deeds",
+        "title": "Приватные дела",
+        "presentation": "push",
+        "parent": "profile",
+        "actionIds": [
+          "unlock_private_deeds",
+          "open_deed"
+        ]
+      }
+    ]
+  },
+  "capabilities": [
+    {
+      "key": "camera",
+      "actionId": "capture_deed_photo",
+      "purpose": "Снять исходное состояние, обновление или доказательство результата.",
+      "requestMoment": "После нажатия «Снять фото» в черновике либо на экране завершения.",
+      "platformEffect": "Показывается системный запрос камеры, затем UIImagePickerController или AVCapture-сеанс.",
+      "observableResult": "Новый снимок появляется во вложениях выбранного дела.",
+      "fallback": "Остаются выбор из медиатеки и текстовое доказательство.",
+      "testScenario": "Открыть новое дело, нажать «Снять фото», разрешить доступ, сделать снимок и убедиться, что он прикреплён.",
+      "outcome": {
+        "entityId": "attachment",
+        "stateField": "localImagePath",
+        "proof": "Карточка вложения показывает снятое изображение после перезапуска."
+      }
+    },
+    {
+      "key": "photos",
+      "actionId": "choose_deed_photo",
+      "purpose": "Выбрать существующее изображение для дела или доказательства.",
+      "requestMoment": "После нажатия «Выбрать фото».",
+      "platformEffect": "Открывается PHPicker; выбранный файл копируется в контейнер приложения.",
+      "observableResult": "Изображение появляется в черновике и сохраняется локально.",
+      "fallback": "Можно снять фото или продолжить без изображения.",
+      "testScenario": "Выбрать fixture-изображение в PHPicker и проверить его в черновике после повторного открытия.",
+      "outcome": {
+        "entityId": "attachment",
+        "stateField": "localImagePath",
+        "proof": "Миниатюра импортированного файла видна в деле."
+      }
+    },
+    {
+      "key": "mic",
+      "actionId": "record_voice_update",
+      "purpose": "Записать короткое голосовое обновление о ходе дела.",
+      "requestMoment": "При первом нажатии «Записать голосом» в форме обновления.",
+      "platformEffect": "Запрашивается микрофон и запускается AVAudioRecorder.",
+      "observableResult": "В обновлении появляется аудиовложение с длительностью.",
+      "fallback": "Пользователь вводит обновление текстом.",
+      "testScenario": "Разрешить микрофон, записать три секунды, остановить и воспроизвести файл из обновления.",
+      "outcome": {
+        "entityId": "update",
+        "stateField": "audioPath",
+        "proof": "Плашка записи с ненулевой длительностью сохраняется после перезапуска."
+      }
+    },
+    {
+      "key": "location",
+      "actionId": "choose_deed_place",
+      "purpose": "Прикрепить площадку к делу, где нужна очная помощь.",
+      "requestMoment": "После выбора «Текущее место» на экране «Добавить место».",
+      "platformEffect": "Запрашивается геопозиция when-in-use и читается одна координата.",
+      "observableResult": "У дела появляется место с названием и координатами.",
+      "fallback": "Доступен ручной ввод названия без координат.",
+      "testScenario": "Запретить доступ, ввести «Двор на Абая» вручную и опубликовать дело с этим местом.",
+      "outcome": {
+        "entityId": "place",
+        "stateField": "coordinateOrManualName",
+        "proof": "Место отображается в карточке и деталях дела."
+      }
+    },
+    {
+      "key": "push",
+      "actionId": "enable_result_alerts",
+      "purpose": "Сообщать об обновлениях только явно отслеживаемых дел.",
+      "requestMoment": "После первого включения «Следить за результатом», на поясняющем экране.",
+      "platformEffect": "UNUserNotificationCenter запрашивает alert, sound и badge.",
+      "observableResult": "Изменение отслеживаемого fixture-дела создаёт локальное уведомление и запись центра уведомлений.",
+      "fallback": "Изменения остаются в разделе «Уведомления» внутри приложения.",
+      "testScenario": "Подписаться на дело, разрешить уведомления, применить fixture-обновление и открыть уведомление в нужное дело.",
+      "outcome": {
+        "entityId": "notification_preference",
+        "stateField": "resultAlertsEnabled",
+        "proof": "Связанная запись появляется в центре уведомлений приложения."
+      }
+    },
+    {
+      "key": "commnotif",
+      "actionId": "enable_message_alerts",
+      "purpose": "Показывать уведомления сообщений с именем отправителя и аватаром.",
+      "requestMoment": "При включении «Уведомления о сообщениях» в настройках после существования хотя бы одного диалога.",
+      "platformEffect": "Регистрируется communication notification category и intent с участниками.",
+      "observableResult": "Fixture-сообщение отображается как коммуникационное уведомление и открывает диалог.",
+      "fallback": "Непрочитанное сообщение показывается значком внутри вкладки.",
+      "testScenario": "Включить настройку, запустить fixture-сообщение от Марины и открыть conversation-marina из уведомления.",
+      "outcome": {
+        "entityId": "notification_preference",
+        "stateField": "communicationAlertsEnabled",
+        "proof": "В журнале уведомлений сохранены senderId и conversationId."
+      }
+    },
+    {
+      "key": "remotenotif",
+      "actionId": "apply_silent_snapshot",
+      "purpose": "Обновлять локальную версию ленты без видимого оповещения.",
+      "requestMoment": "После активной сессии и подписки хотя бы на одно дело; системного запроса нет.",
+      "platformEffect": "content-available payload запускает ограниченное фоновое обновление снимка.",
+      "observableResult": "При следующем открытии у дела уже показано новое обновление.",
+      "fallback": "Снимок обновляется при ручном открытии ленты.",
+      "testScenario": "Передать тестовый silent payload snapshotVersion=4 и проверить версию и обновление deed-garden.",
+      "outcome": {
+        "entityId": "feed_snapshot",
+        "stateField": "version",
+        "proof": "Версия 4 и fixture-обновление видны после холодного запуска."
+      }
+    },
+    {
+      "key": "fetch",
+      "actionId": "refresh_feed_on_fetch",
+      "purpose": "Подготовить изменения отслеживаемых дел до следующего запуска.",
+      "requestMoment": "После включения подписки на результат; выполняется системой без запроса.",
+      "platformEffect": "BGAppRefresh или legacy fetch читает локальную очередь fixture-изменений.",
+      "observableResult": "Сохранён новый fetchedAt и обновлённая карточка.",
+      "fallback": "Очередь применяется при foreground-запуске.",
+      "testScenario": "Положить update-fetch-1 в локальную очередь, симулировать fetch и проверить его в deed-bench.",
+      "outcome": {
+        "entityId": "feed_snapshot",
+        "stateField": "fetchedAt",
+        "proof": "Дата обновлена, а update-fetch-1 показан в истории."
+      }
+    },
+    {
+      "key": "bgtask",
+      "actionId": "schedule_digest_task",
+      "purpose": "Подготовить локальный дайджест изменившихся отслеживаемых дел.",
+      "requestMoment": "После включения «Дайджест изменений» в настройках.",
+      "platformEffect": "Регистрируется и планируется BGTask com.svoi.digest.refresh.",
+      "observableResult": "В профиле показывается время подготовки и число изменений.",
+      "fallback": "Дайджест рассчитывается при открытии профиля.",
+      "testScenario": "Включить дайджест, симулировать запуск зарегистрированной задачи и проверить changedCount=2.",
+      "outcome": {
+        "entityId": "digest",
+        "stateField": "lastPreparedAt",
+        "proof": "Строка «Подготовлено: 2 изменения» видна в настройках."
+      }
+    },
+    {
+      "key": "appgroups",
+      "actionId": "publish_quick_update_widget",
+      "purpose": "Добавить короткое обновление активного дела из обязательного виджета.",
+      "requestMoment": "После сохранения текста в виджете «Быстрое обновление».",
+      "platformEffect": "В App Group group.app.svoi.shared записывается update и перезагружается timeline.",
+      "observableResult": "Один update появляется и в виджете, и в истории дела.",
+      "fallback": "То же обновление добавляется из экрана дела.",
+      "testScenario": "Ввести «Краска куплена» в виджете, открыть приложение и проверить update-widget-1.",
+      "outcome": {
+        "entityId": "widget_snapshot",
+        "stateField": "lastUpdateId",
+        "proof": "Одинаковый update-widget-1 показан в обоих интерфейсах."
+      }
+    },
+    {
+      "key": "keychain",
+      "actionId": "share_session_with_widget",
+      "purpose": "Разрешить виджету связать быстрое обновление с вошедшим пользователем.",
+      "requestMoment": "Автоматически после успешной проверки кода; отдельного системного запроса нет.",
+      "platformEffect": "Session ID сохраняется в keychain access group приложения и расширения.",
+      "observableResult": "Виджет показывает активное дело пользователя, не раскрывая код входа.",
+      "fallback": "Виджет предлагает открыть приложение без показа приватных данных.",
+      "testScenario": "Войти, перезапустить устройство в тесте и проверить, что виджет видит user-alex, но не хранит email-код.",
+      "outcome": {
+        "entityId": "session",
+        "stateField": "sharedSessionId",
+        "proof": "Виджет отображает deed-bench текущего пользователя."
+      }
+    },
+    {
+      "key": "autofill",
+      "actionId": "manage_demo_credential",
+      "purpose": "Управлять демонстрационным локальным способом входа через Credential Provider.",
+      "requestMoment": "После нажатия «Сохранить способ входа» в настройках.",
+      "platformEffect": "Открывается Credential Provider для сохранения идентификатора без одноразового кода.",
+      "observableResult": "В настройках отображается сохранённая почта и доступно её удаление.",
+      "fallback": "Почта и код вводятся вручную.",
+      "testScenario": "Сохранить alex@example.test, выйти, выбрать запись провайдера и запросить новый локальный код.",
+      "outcome": {
+        "entityId": "credential",
+        "stateField": "providerRecordId",
+        "proof": "После повторного входа почта подставлена, а новый код всё равно обязателен."
+      }
+    },
+    {
+      "key": "wifiinfo",
+      "actionId": "verify_site_network",
+      "purpose": "Подтвердить, что помощник прибыл на площадку совместного дела.",
+      "requestMoment": "После нажатия «Подтвердить площадку по сети» у дела с ожидаемым SSID.",
+      "platformEffect": "После требуемой iOS-авторизации читается SSID текущей Wi-Fi сети.",
+      "observableResult": "К вкладу добавляется проверка совпадения SSID и время.",
+      "fallback": "Помощник подтверждает площадку фото или ручной отметкой.",
+      "testScenario": "Для deed-garden вернуть тестовый SSID Svoi-Yard и проверить verified=true.",
+      "outcome": {
+        "entityId": "site_check",
+        "stateField": "verified",
+        "proof": "В истории вклада видна отметка «Площадка подтверждена»."
+      }
+    },
+    {
+      "key": "contacts",
+      "actionId": "import_helpers",
+      "purpose": "Найти уже знакомых помощников по локальному сопоставлению контактов.",
+      "requestMoment": "После нажатия «Найти своих в контактах» на экране настроек круга.",
+      "platformEffect": "CNContactStore запрашивает чтение; нормализованные значения сопоставляются на устройстве.",
+      "observableResult": "Выбранные совпадения добавляются в круг своих.",
+      "fallback": "Доступен ручной поиск по имени или почте.",
+      "testScenario": "Разрешить fixture-контакты, выбрать Марину и проверить user-marina в circle-alex.",
+      "outcome": {
+        "entityId": "circle",
+        "stateField": "memberIds",
+        "proof": "Марина появляется среди доступных адресатов помощи."
+      }
+    },
+    {
+      "key": "tracking",
+      "actionId": "enable_promotion_measurement",
+      "purpose": "Измерять переходы только у добровольно продвигаемых публикаций сообщества.",
+      "requestMoment": "После включения «Измерять продвигаемые публикации» и пояснения, что функция не влияет на ленту.",
+      "platformEffect": "Показывается AppTrackingTransparency prompt; результат ограничивает promotedOnly measurement.",
+      "observableResult": "Сохраняется режим allowed или contextualOnly; обычные события остаются локальными.",
+      "fallback": "Используются только агрегированные локальные показы без межприложного идентификатора.",
+      "testScenario": "Отказать в ATT, открыть promoted fixture и проверить contextualOnly без изменения ранжирования.",
+      "outcome": {
+        "entityId": "measurement_preference",
+        "stateField": "mode",
+        "proof": "Настройка показывает «Только локальное измерение»."
+      }
+    },
+    {
+      "key": "faceid",
+      "actionId": "unlock_private_deeds",
+      "purpose": "Защитить приватные дела, видимые только автору.",
+      "requestMoment": "При открытии раздела «Приватные дела».",
+      "platformEffect": "LAContext выполняет биометрическую проверку перед расшифровкой индекса.",
+      "observableResult": "До ухода в фон отображается список приватных дел.",
+      "fallback": "Доступен код устройства; при неуспехе содержимое остаётся скрытым.",
+      "testScenario": "Открыть раздел, успешно пройти Face ID, увидеть deed-private; отправить приложение в фон и проверить повторную блокировку.",
+      "outcome": {
+        "entityId": "private_vault",
+        "stateField": "unlockedUntilBackground",
+        "proof": "Приватная карточка видна только в разблокированной сессии."
+      }
+    },
+    {
+      "key": "speech",
+      "actionId": "transcribe_voice_update",
+      "purpose": "Сделать голосовое обновление доступным для чтения и поиска.",
+      "requestMoment": "После нажатия «Расшифровать» у записанного пользователем аудио.",
+      "platformEffect": "Запрашивается Speech Recognition и локальный аудиофайл передаётся SFSpeechRecognizer ru-RU.",
+      "observableResult": "Под аудио появляется редактируемая расшифровка.",
+      "fallback": "Автор вводит подпись вручную; аудио остаётся доступным.",
+      "testScenario": "Разрешить распознавание, обработать fixture audio-update-1 и проверить заданный transcript.",
+      "outcome": {
+        "entityId": "update",
+        "stateField": "transcript",
+        "proof": "Русский текст виден под аудиоплеером и находится поиском."
+      }
+    },
+    {
+      "key": "audio",
+      "actionId": "play_voice_update",
+      "purpose": "Слушать голосовые обновления при заблокированном экране.",
+      "requestMoment": "После нажатия воспроизведения у аудиообновления.",
+      "platformEffect": "AVAudioSession включает playback, MPNowPlayingInfoCenter получает автора, дело и прогресс.",
+      "observableResult": "Запись продолжает играть в фоне и управляется с экрана блокировки.",
+      "fallback": "При невозможности фонового режима запись играет только внутри приложения.",
+      "testScenario": "Запустить audio-update-1, заблокировать экран, проверить название дела и паузу в Now Playing.",
+      "outcome": {
+        "entityId": "playback",
+        "stateField": "nowPlayingUpdateId",
+        "proof": "Now Playing показывает update-voice-1 и сохраняет позицию."
+      }
+    },
+    {
+      "key": "voip",
+      "actionId": "start_helper_call",
+      "purpose": "Созвониться с помощником из существующего диалога для координации дела.",
+      "requestMoment": "После нажатия «Позвонить» в диалоге и подтверждения локального демонстрационного звонка.",
+      "platformEffect": "CXCallController создаёт исходящий CallKit-вызов; локальный аудиоканал симулирует соединение.",
+      "observableResult": "Системный экран показывает звонок, а после завершения в диалоге появляется запись с длительностью.",
+      "fallback": "Координация продолжается текстовыми и голосовыми сообщениями.",
+      "testScenario": "Позвонить Марине, дождаться локального соединения, завершить и проверить call-marina-1 в диалоге.",
+      "outcome": {
+        "entityId": "call",
+        "stateField": "durationSeconds",
+        "proof": "В conversation-marina видна завершённая запись звонка."
+      }
+    },
+    {
+      "key": "calendar",
+      "actionId": "add_deadline_to_calendar",
+      "purpose": "Добавить выбранный автором срок конкретного дела в личный календарь.",
+      "requestMoment": "После нажатия «Добавить срок в календарь» у дела с deadline.",
+      "platformEffect": "EventKit запрашивает добавление событий и создаёт событие с deep link.",
+      "observableResult": "У дела появляется отметка добавленного календарного события.",
+      "fallback": "Срок остаётся видимым в деле и локальном дайджесте.",
+      "testScenario": "Добавить срок deed-bench в тестовый календарь и проверить eventIdentifier и ссылку.",
+      "outcome": {
+        "entityId": "calendar_link",
+        "stateField": "eventIdentifier",
+        "proof": "Экран дела показывает «Срок добавлен в календарь»."
+      }
+    },
+    {
+      "key": "associateddomains",
+      "actionId": "open_deed_link",
+      "purpose": "Открывать конкретное дело из сообщения, календаря или уведомления.",
+      "requestMoment": "При переходе по https://svoi.example/deeds/{id}; разрешение пользователя не требуется.",
+      "platformEffect": "Associated Domains маршрутизирует Universal Link в приложение.",
+      "observableResult": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
+      "fallback": "В браузере показывается статическая страница с предложением открыть приложение.",
+      "testScenario": "Открыть https://svoi.example/deeds/deed-garden и проверить экран deed_detail с правильным id.",
+      "outcome": {
+        "entityId": "deed",
+        "stateField": "lastOpenedFromLinkAt",
+        "proof": "deed-garden открыт, источник universalLink сохранён."
+      },
+      "configuration": {
+        "domains": [
+          "applinks:svoi.example"
+        ]
+      }
+    },
+    {
+      "key": "hotspot",
+      "actionId": "join_deed_network",
+      "purpose": "Подключить участника к временной сети площадки для совместной офлайн-работы.",
+      "requestMoment": "После нажатия «Подключиться к сети площадки» у дела, где сообщество опубликовало конфигурацию.",
+      "platformEffect": "NEHotspotConfigurationManager применяет конфигурацию SSID Svoi-Yard; пароль не сохраняется в модели приложения.",
+      "observableResult": "Участник получает connected=true и может затем подтвердить площадку.",
+      "fallback": "Показываются имя сети и инструкция для ручного подключения в настройках iOS.",
+      "testScenario": "Применить тестовую конфигурацию Svoi-Yard, симулировать успех и проверить siteConnection у deed-garden.",
+      "outcome": {
+        "entityId": "site_connection",
+        "stateField": "connected",
+        "proof": "В деле появляется строка «Подключено к сети площадки»."
+      }
+    }
+  ],
+  "localization": [
+    {
+      "key": "auth.title",
+      "source": "Вход",
+      "context": "Заголовок входа",
+      "screenIds": [
+        "login"
+      ]
+    },
+    {
+      "key": "auth.email",
+      "source": "Почта",
+      "context": "Поле почты для локального кода",
+      "screenIds": [
+        "login"
+      ]
+    },
+    {
+      "key": "auth.send",
+      "source": "Получить код",
+      "context": "Запрос кода входа",
+      "screenIds": [
+        "login"
+      ]
+    },
+    {
+      "key": "auth.code",
+      "source": "Код из письма",
+      "context": "Поле кода; в локальной сборке код показан рядом",
+      "screenIds": [
+        "login"
+      ]
+    },
+    {
+      "key": "auth.enter",
+      "source": "Войти",
+      "context": "Проверка кода",
+      "screenIds": [
+        "login"
+      ]
+    },
+    {
+      "key": "feed.title",
+      "source": "Лента",
+      "context": "Первая вкладка",
+      "screenIds": [
+        "feed"
+      ]
+    },
+    {
+      "key": "feed.notifications",
+      "source": "Уведомления",
+      "context": "Открывает центр уведомлений",
+      "screenIds": [
+        "feed"
+      ]
+    },
+    {
+      "key": "deed.support",
+      "source": "Поддержать",
+      "context": "Однократная реакция поддержки",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.help",
+      "source": "Предложить помощь",
+      "context": "Создание конкретного предложения",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.follow",
+      "source": "Следить за результатом",
+      "context": "Подписка на изменения",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.comments",
+      "source": "Комментарии",
+      "context": "Открытие отдельной ветки",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.share",
+      "source": "Продолжить у себя",
+      "context": "Публикация со ссылкой на исходное дело",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.save",
+      "source": "Сохранить",
+      "context": "Добавление в сохранённые",
+      "screenIds": [
+        "feed",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "comment.placeholder",
+      "source": "Напишите по делу",
+      "context": "Поле комментария",
+      "screenIds": [
+        "comments"
+      ]
+    },
+    {
+      "key": "comment.send",
+      "source": "Отправить",
+      "context": "Публикация комментария или сообщения",
+      "screenIds": [
+        "comments",
+        "conversation"
+      ]
+    },
+    {
+      "key": "create.title",
+      "source": "Новое дело",
+      "context": "Третья вкладка",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "create.result",
+      "source": "Какой результат должен появиться?",
+      "context": "Главное поле дела",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "create.details",
+      "source": "Что уже известно и где нужна помощь?",
+      "context": "Описание дела",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "media.camera",
+      "source": "Снять фото",
+      "context": "Открытие камеры",
+      "screenIds": [
+        "create",
+        "complete"
+      ]
+    },
+    {
+      "key": "media.library",
+      "source": "Выбрать фото",
+      "context": "Открытие медиатеки",
+      "screenIds": [
+        "create",
+        "complete"
+      ]
+    },
+    {
+      "key": "media.voice",
+      "source": "Записать голосом",
+      "context": "Начало записи",
+      "screenIds": [
+        "create",
+        "post_detail"
+      ]
+    },
+    {
+      "key": "place.add",
+      "source": "Добавить место",
+      "context": "Выбор места дела",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "deed.publish",
+      "source": "Опубликовать дело",
+      "context": "Публикация валидного черновика",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "deed.update",
+      "source": "Добавить обновление",
+      "context": "Новое обновление",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.contribution",
+      "source": "Добавить свой вклад",
+      "context": "Фиксация помощи участника",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.complete",
+      "source": "Завершить с доказательством",
+      "context": "Переход к завершению",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "deed.thank",
+      "source": "Поблагодарить помощников",
+      "context": "Выбор участников после завершения",
+      "screenIds": [
+        "complete"
+      ]
+    },
+    {
+      "key": "deed.baton",
+      "source": "Забрать продолжение",
+      "context": "Создание связанного черновика",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "search.title",
+      "source": "Поиск",
+      "context": "Вторая вкладка",
+      "screenIds": [
+        "search"
+      ]
+    },
+    {
+      "key": "search.placeholder",
+      "source": "Дела, люди и сообщества",
+      "context": "Поле поиска без декоративных фильтров",
+      "screenIds": [
+        "search"
+      ]
+    },
+    {
+      "key": "messages.title",
+      "source": "Сообщения",
+      "context": "Четвёртая вкладка",
+      "screenIds": [
+        "messages"
+      ]
+    },
+    {
+      "key": "call.start",
+      "source": "Позвонить",
+      "context": "Локальный CallKit-звонок",
+      "screenIds": [
+        "conversation"
+      ]
+    },
+    {
+      "key": "profile.title",
+      "source": "Профиль",
+      "context": "Пятая вкладка",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "profile.saved",
+      "source": "Сохранённые",
+      "context": "Список сохранённых дел",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "profile.settings",
+      "source": "Настройки",
+      "context": "Настройки продукта",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "profile.private",
+      "source": "Приватные дела",
+      "context": "Защищённый список",
+      "screenIds": [
+        "profile"
+      ]
+    },
+    {
+      "key": "settings.accesses",
+      "source": "Доступы",
+      "context": "Сводка системных доступов без кнопок запроса",
+      "screenIds": [
+        "settings",
+        "accesses"
+      ]
+    },
+    {
+      "key": "settings.contacts",
+      "source": "Найти своих в контактах",
+      "context": "Контекстный импорт",
+      "screenIds": [
+        "settings"
+      ]
+    },
+    {
+      "key": "settings.messages",
+      "source": "Уведомления о сообщениях",
+      "context": "Коммуникационные уведомления",
+      "screenIds": [
+        "settings"
+      ]
+    },
+    {
+      "key": "settings.digest",
+      "source": "Дайджест изменений",
+      "context": "Фоновая подготовка дайджеста",
+      "screenIds": [
+        "settings"
+      ]
+    },
+    {
+      "key": "settings.measurement",
+      "source": "Измерять продвигаемые публикации",
+      "context": "Отдельная добровольная настройка tracking",
+      "screenIds": [
+        "settings"
+      ]
+    },
+    {
+      "key": "settings.credential",
+      "source": "Сохранить способ входа",
+      "context": "Credential Provider",
+      "screenIds": [
+        "settings"
+      ]
+    },
+    {
+      "key": "speech.transcribe",
+      "source": "Расшифровать",
+      "context": "Преобразование голоса в текст",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "calendar.add",
+      "source": "Добавить срок в календарь",
+      "context": "Создание события",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "network.join",
+      "source": "Подключиться к сети площадки",
+      "context": "Подключение к опубликованной сети",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "network.verify",
+      "source": "Подтвердить площадку по сети",
+      "context": "Проверка текущего SSID",
+      "screenIds": [
+        "post_detail"
+      ]
+    },
+    {
+      "key": "error.required",
+      "source": "Опишите конкретный результат.",
+      "context": "Ошибка пустого дела",
+      "screenIds": [
+        "create"
+      ]
+    },
+    {
+      "key": "empty.notifications",
+      "source": "Здесь появятся изменения дел, за которыми вы следите.",
+      "context": "Пустой центр уведомлений",
+      "screenIds": [
+        "notifications"
+      ]
+    },
+    {
+      "key": "empty.search",
+      "source": "Ничего не найдено. Попробуйте имя или часть результата.",
+      "context": "Пустой поиск",
+      "screenIds": [
+        "search"
+      ]
+    },
+    {
+      "key": "screen.saved.title",
+      "source": "Сохранённые",
+      "context": "Заголовок экрана Сохранённые",
+      "screenIds": [
+        "saved"
+      ]
+    },
+    {
+      "key": "screen.saved.empty",
+      "source": "Здесь пока ничего нет",
+      "context": "Пустое состояние экрана Сохранённые",
+      "screenIds": [
+        "saved"
+      ]
+    },
+    {
+      "key": "screen.private_deeds.title",
+      "source": "Приватные дела",
+      "context": "Заголовок экрана Приватные дела",
+      "screenIds": [
+        "private_deeds"
+      ]
+    },
+    {
+      "key": "screen.private_deeds.empty",
+      "source": "Здесь пока ничего нет",
+      "context": "Пустое состояние экрана Приватные дела",
+      "screenIds": [
+        "private_deeds"
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "fixture-user-alex",
+      "entityId": "user",
+      "purpose": "Текущий пользователь и автор собственного активного дела.",
+      "values": [
+        {
+          "key": "id",
+          "value": "user-alex"
+        },
+        {
+          "key": "name",
+          "value": "Алексей Воронцов"
+        },
+        {
+          "key": "email",
+          "value": "alex@example.test"
+        },
+        {
+          "key": "avatar",
+          "value": "avatar_alex"
+        }
+      ]
+    },
+    {
+      "id": "fixture-user-marina",
+      "entityId": "user",
+      "purpose": "Друг, помощник и участник диалога.",
+      "values": [
+        {
+          "key": "id",
+          "value": "user-marina"
+        },
+        {
+          "key": "name",
+          "value": "Марина Ким"
+        },
+        {
+          "key": "avatar",
+          "value": "avatar_marina"
+        }
+      ]
+    },
+    {
+      "id": "fixture-community-yard",
+      "entityId": "community",
+      "purpose": "Автор локального совместного дела.",
+      "values": [
+        {
+          "key": "id",
+          "value": "community-yard"
+        },
+        {
+          "key": "name",
+          "value": "Соседи на Абая"
+        },
+        {
+          "key": "avatar",
+          "value": "avatar_yard"
+        }
+      ]
+    },
+    {
+      "id": "fixture-deed-bench",
+      "entityId": "deed",
+      "purpose": "Активное дело текущего пользователя с предложением помощи и сроком.",
+      "values": [
+        {
+          "key": "id",
+          "value": "deed-bench"
+        },
+        {
+          "key": "authorId",
+          "value": "user-alex"
+        },
+        {
+          "key": "result",
+          "value": "Починить деревянную скамейку во дворе"
+        },
+        {
+          "key": "details",
+          "value": "Нужно заменить две доски. Ищу дрель и совет по пропитке."
+        },
+        {
+          "key": "status",
+          "value": "active"
+        },
+        {
+          "key": "deadline",
+          "value": "2026-08-30T12:00:00+06:00"
+        },
+        {
+          "key": "supporterIds",
+          "value": "user-marina,user-timur"
+        },
+        {
+          "key": "followerIds",
+          "value": "user-marina"
+        },
+        {
+          "key": "updatedAt",
+          "value": "2026-08-26T09:10:00+06:00"
+        }
+      ]
+    },
+    {
+      "id": "fixture-deed-garden",
+      "entityId": "deed",
+      "purpose": "Дело сообщества с площадкой, сетью и развивающейся историей.",
+      "values": [
+        {
+          "key": "id",
+          "value": "deed-garden"
+        },
+        {
+          "key": "authorId",
+          "value": "community-yard"
+        },
+        {
+          "key": "result",
+          "value": "Высадить клумбу у третьего подъезда"
+        },
+        {
+          "key": "details",
+          "value": "Саженцы уже есть. Нужны две пары рук в субботу."
+        },
+        {
+          "key": "status",
+          "value": "active"
+        },
+        {
+          "key": "place",
+          "value": "Двор на Абая, 48"
+        },
+        {
+          "key": "expectedSSID",
+          "value": "Svoi-Yard"
+        },
+        {
+          "key": "updatedAt",
+          "value": "2026-08-26T10:30:00+06:00"
+        }
+      ]
+    },
+    {
+      "id": "fixture-deed-library",
+      "entityId": "deed",
+      "purpose": "Завершённое дело, доказывающее финал и эстафету.",
+      "values": [
+        {
+          "key": "id",
+          "value": "deed-library"
+        },
+        {
+          "key": "authorId",
+          "value": "user-marina"
+        },
+        {
+          "key": "result",
+          "value": "Собрать полку обмена книгами"
+        },
+        {
+          "key": "status",
+          "value": "completed"
+        },
+        {
+          "key": "proofAttachment",
+          "value": "proof_library"
+        },
+        {
+          "key": "thankedUserIds",
+          "value": "user-alex,user-timur"
+        },
+        {
+          "key": "completedAt",
+          "value": "2026-08-25T18:40:00+06:00"
+        }
+      ]
+    },
+    {
+      "id": "fixture-update-voice",
+      "entityId": "update",
+      "purpose": "Голосовое обновление для микрофона, распознавания и фонового аудио.",
+      "values": [
+        {
+          "key": "id",
+          "value": "update-voice-1"
+        },
+        {
+          "key": "deedId",
+          "value": "deed-bench"
+        },
+        {
+          "key": "authorId",
+          "value": "user-alex"
+        },
+        {
+          "key": "audioPath",
+          "value": "audio-update-1.m4a"
+        },
+        {
+          "key": "durationSeconds",
+          "value": "8"
+        },
+        {
+          "key": "transcript",
+          "value": "Доски нашёл, завтра сниму старые и сверю размеры."
+        }
+      ]
+    },
+    {
+      "id": "fixture-help-offer",
+      "entityId": "contribution",
+      "purpose": "Конкретная помощь вместо абстрактной реакции.",
+      "values": [
+        {
+          "key": "id",
+          "value": "contribution-drill"
+        },
+        {
+          "key": "deedId",
+          "value": "deed-bench"
+        },
+        {
+          "key": "authorId",
+          "value": "user-marina"
+        },
+        {
+          "key": "kind",
+          "value": "offer"
+        },
+        {
+          "key": "text",
+          "value": "Могу принести дрель после 18:00."
+        }
+      ]
+    },
+    {
+      "id": "fixture-conversation-marina",
+      "entityId": "conversation",
+      "purpose": "Достижимый сценарий сообщений и звонка.",
+      "values": [
+        {
+          "key": "id",
+          "value": "conversation-marina"
+        },
+        {
+          "key": "participantIds",
+          "value": "user-alex,user-marina"
+        },
+        {
+          "key": "relatedDeedId",
+          "value": "deed-bench"
+        },
+        {
+          "key": "lastMessage",
+          "value": "Принесу дрель после работы."
+        }
+      ]
+    },
+    {
+      "id": "fixture-private-deed",
+      "entityId": "deed",
+      "purpose": "Содержимое, реально защищаемое биометрией.",
+      "values": [
+        {
+          "key": "id",
+          "value": "deed-private"
+        },
+        {
+          "key": "authorId",
+          "value": "user-alex"
+        },
+        {
+          "key": "result",
+          "value": "Подготовить сюрприз для Марины"
+        },
+        {
+          "key": "visibility",
+          "value": "private"
+        },
+        {
+          "key": "status",
+          "value": "active"
+        }
+      ]
+    },
+    {
+      "id": "fixture-notification-update",
+      "entityId": "notification",
+      "purpose": "Детерминированное открытие изменения из центра уведомлений.",
+      "values": [
+        {
+          "key": "id",
+          "value": "notification-garden-update"
+        },
+        {
+          "key": "deedId",
+          "value": "deed-garden"
+        },
+        {
+          "key": "title",
+          "value": "У клумбы появилось обновление"
+        },
+        {
+          "key": "read",
+          "value": "false"
+        }
+      ]
+    }
+  ],
+  "acceptanceScenarios": [
+    {
+      "id": "accept-auth-feed",
+      "title": "Локальный вход открывает наполненную ленту",
+      "startScreenId": "login",
+      "actionIds": [
+        "request_email_code",
+        "verify_email_code",
+        "open_feed"
+      ],
+      "observableResult": "После ввода показанного локального кода активна session-alex, а лента содержит deed-bench, deed-garden и deed-library.",
+      "failureRecovery": "Неверный код не создаёт сессию; можно запросить новый детерминированный код."
+    },
+    {
+      "id": "accept-publish",
+      "title": "Пользователь публикует конкретное дело",
+      "startScreenId": "create",
+      "actionIds": [
+        "create_deed",
+        "edit_deed_text",
+        "choose_deed_photo",
+        "choose_deed_place",
+        "publish_deed"
+      ],
+      "observableResult": "Новое active-дело появляется первым среди дел близкого круга с импортированным фото и местом.",
+      "failureRecovery": "При пустом результате черновик сохраняется и показывается «Опишите конкретный результат.»"
+    },
+    {
+      "id": "accept-social-response",
+      "title": "Друг поддерживает дело, предлагает помощь и подписывается",
+      "startScreenId": "feed",
+      "actionIds": [
+        "support_deed",
+        "offer_help",
+        "follow_result"
+      ],
+      "observableResult": "У deed-bench увеличена поддержка, создан contribution kind=offer и user-marina записан в followers.",
+      "failureRecovery": "Повторная поддержка не дублируется; пустое предложение остаётся черновиком."
+    },
+    {
+      "id": "accept-comments",
+      "title": "Комментарий открывается и создаётся отдельными действиями",
+      "startScreenId": "feed",
+      "actionIds": [
+        "open_comments",
+        "respond_to_post"
+      ],
+      "observableResult": "Открывается comments для deed-garden, а новый комментарий появляется в ветке и увеличивает commentCount.",
+      "failureRecovery": "Пустой текст не публикуется и экран комментариев остаётся открыт."
+    },
+    {
+      "id": "accept-progress-completion",
+      "title": "Дело проходит от обновления до доказанного завершения",
+      "startScreenId": "post_detail",
+      "actionIds": [
+        "add_update",
+        "add_contribution",
+        "choose_deed_photo",
+        "complete_deed",
+        "thank_helpers",
+        "take_baton"
+      ],
+      "observableResult": "Исходное дело становится completed с доказательством и благодарностями; создаётся связанный черновик с parentDeedId.",
+      "failureRecovery": "Без доказательства завершение не применяется, обновления и вклады сохраняются."
+    },
+    {
+      "id": "accept-voice",
+      "title": "Голосовое обновление записывается, расшифровывается и играет в фоне",
+      "startScreenId": "post_detail",
+      "actionIds": [
+        "record_voice_update",
+        "transcribe_voice_update",
+        "play_voice_update"
+      ],
+      "observableResult": "Update содержит audioPath, transcript и активный Now Playing с правильным названием дела.",
+      "failureRecovery": "При отказе в микрофоне или speech доступны текстовое обновление и ручная подпись."
+    },
+    {
+      "id": "accept-place-network",
+      "title": "Участник подключается и подтверждает площадку",
+      "startScreenId": "post_detail",
+      "actionIds": [
+        "join_deed_network",
+        "verify_site_network",
+        "add_contribution"
+      ],
+      "observableResult": "Для deed-garden сохранены connected=true, verified=true и выполненный вклад участника.",
+      "failureRecovery": "При ошибке подключения показываются SSID и ручная инструкция; вклад можно подтвердить фото."
+    },
+    {
+      "id": "accept-message-call",
+      "title": "Диалог поддерживает сообщение и локальный системный звонок",
+      "startScreenId": "messages",
+      "actionIds": [
+        "open_conversation",
+        "send_message",
+        "start_helper_call"
+      ],
+      "observableResult": "Сообщение delivered и завершённая запись CallKit-звонка появляются в conversation-marina.",
+      "failureRecovery": "Если звонок недоступен, диалог остаётся открыт и предлагает отправить сообщение."
+    },
+    {
+      "id": "accept-background",
+      "title": "Подписка даёт наблюдаемое фоновое обновление",
+      "startScreenId": "notifications",
+      "actionIds": [
+        "enable_result_alerts",
+        "apply_silent_snapshot",
+        "refresh_feed_on_fetch",
+        "schedule_digest_task"
+      ],
+      "observableResult": "Версия snapshot повышена, fixture-обновление видно в ленте, а digest сообщает два изменения.",
+      "failureRecovery": "При запрете уведомлений данные обновляются при открытии и остаются в центре приложения."
+    },
+    {
+      "id": "accept-widget-session",
+      "title": "Виджет публикует обновление от вошедшего пользователя",
+      "startScreenId": "settings",
+      "actionIds": [
+        "share_session_with_widget",
+        "publish_quick_update_widget"
+      ],
+      "observableResult": "update-widget-1 появляется в App Group, виджете и истории deed-bench от user-alex.",
+      "failureRecovery": "Без общей сессии виджет не показывает данные и открывает приложение для входа."
+    },
+    {
+      "id": "accept-private",
+      "title": "Приватное дело защищено биометрией",
+      "startScreenId": "private_deeds",
+      "actionIds": [
+        "unlock_private_deeds",
+        "open_deed"
+      ],
+      "observableResult": "После успешной проверки видно deed-private; после ухода в фон список снова закрыт.",
+      "failureRecovery": "После отказа содержимое и заголовки приватных дел не раскрываются."
+    },
+    {
+      "id": "accept-link-calendar",
+      "title": "Календарное событие возвращает в конкретное дело",
+      "startScreenId": "post_detail",
+      "actionIds": [
+        "add_deadline_to_calendar",
+        "open_deed_link"
+      ],
+      "observableResult": "Событие хранит Universal Link, который открывает deed-bench внутри приложения.",
+      "failureRecovery": "При запрете календаря срок остаётся в деле; неизвестный link показывает состояние отсутствующей записи."
+    },
+    {
+      "id": "accept-contacts-manual",
+      "title": "Круг помощников пополняется без обязательного доступа к контактам",
+      "startScreenId": "settings",
+      "actionIds": [
+        "import_helpers",
+        "search_world",
+        "open_search_result"
+      ],
+      "observableResult": "При разрешении выбранный контакт добавлен в circle; при отказе тот же пользователь находится ручным поиском.",
+      "failureRecovery": "Отказ не блокирует создание дел, помощь и сообщения."
+    },
+    {
+      "id": "accept-tracking-denied",
+      "title": "Отказ в tracking не влияет на основной цикл",
+      "startScreenId": "settings",
+      "actionIds": [
+        "enable_promotion_measurement",
+        "open_feed",
+        "support_deed"
+      ],
+      "observableResult": "Сохраняется contextualOnly, лента не меняет порядок, поддержка дела работает.",
+      "failureRecovery": "Настройку можно выключить; локальные продуктовые события продолжают собираться без межприложного идентификатора."
+    },
+    {
+      "id": "accept-credential",
+      "title": "Credential Provider хранит идентификатор, но не обходит код",
+      "startScreenId": "settings",
+      "actionIds": [
+        "manage_demo_credential",
+        "request_email_code",
+        "verify_email_code"
+      ],
+      "observableResult": "Почта подставлена из provider record, новый локальный код проверен, новая сессия активна.",
+      "failureRecovery": "После удаления записи вход остаётся доступен ручным вводом почты."
+    }
+  ],
+  "delivery": {
+    "accessibility": [
+      "Поддерживаются Dynamic Type и перенос строк без обрезки результата дела.",
+      "Карточка дела имеет единый заголовок доступности: автор, результат, статус, срок и число новых обновлений.",
+      "Статусы active и completed различаются текстом и символом, а не только цветом.",
+      "Все изображения имеют подпись автора; доказательство получает редактируемое описание.",
+      "Кнопки поддержки, подписки, воспроизведения и сохранения объявляют выбранное состояние.",
+      "Голосовые обновления имеют расшифровку или подпись «Расшифровка недоступна».",
+      "Минимальная область нажатия — 44 на 44 точки; порядок VoiceOver следует визуальному порядку.",
+      "Reduce Motion отключает анимацию завершения и заменяет её статическим подтверждением.",
+      "Контраст текста соответствует WCAG AA; акцент #0077FF не используется как единственный носитель смысла.",
+      "CallKit, системные медиапикеры и разрешения сохраняют стандартное управление доступностью iOS."
+    ],
+    "privacy": {
+      "data": [
+        "Локальная почта и идентификатор сессии",
+        "Профиль и выбранный круг своих",
+        "Тексты дел, обновлений, комментариев и сообщений",
+        "Импортированные фото и записанное аудио",
+        "Необязательные координаты или ручные названия мест",
+        "Сроки и идентификаторы календарных событий",
+        "SSID проверки площадки без паролей",
+        "Локальная история уведомлений, звонков и продуктовых событий",
+        "Добровольный режим измерения продвигаемых публикаций"
+      ],
+      "principles": [
+        "Приложение полностью работает на локальных fixtures и не отправляет пользовательские данные наружу.",
+        "Каждый системный доступ запрашивается только после действия, которому он нужен.",
+        "Контакты сопоставляются на устройстве; сохраняются только выбранные пользовательские идентификаторы.",
+        "Приватные дела шифруются и не попадают в виджет, уведомления, поиск и фоновый снимок.",
+        "Tracking выключен по умолчанию, отделён от основной ленты и применяется только к promotedOnly.",
+        "Пароли Wi-Fi, одноразовые коды и биометрические данные не сохраняются в модели продукта.",
+        "Пользователь может удалить вложение, расшифровку, место, сохранённый credential и всю локальную базу."
+      ],
+      "retention": "Публичные fixture-данные живут до сброса демонстрации; пользовательские черновики — 30 дней после последнего изменения; сообщения, дела и вклады — до удаления пользователем; сырые координаты удаляются при снятии места; локальные аналитические события агрегируются через 30 дней и удаляются через 90 дней; приватный расшифрованный индекс очищается при уходе в фон."
+    },
+    "analytics": {
+      "events": [
+        "session_started",
+        "feed_opened",
+        "deed_draft_created",
+        "deed_published",
+        "deed_supported",
+        "help_offered",
+        "result_followed",
+        "comments_opened",
+        "comment_sent",
+        "deed_saved",
+        "deed_shared_as_continuation",
+        "update_added",
+        "contribution_added",
+        "deed_completed",
+        "helpers_thanked",
+        "baton_taken",
+        "search_completed",
+        "message_sent",
+        "helper_call_completed",
+        "voice_update_recorded_without_audio_content_capture_in_analytics_detail"
+      ],
+      "successMetrics": [
+        "Доля опубликованных дел, получивших конкретное предложение помощи в течение трёх локальных сессий.",
+        "Доля активных дел с хотя бы одним обновлением после публикации.",
+        "Доля завершённых дел с доказательством и благодарностью помощнику.",
+        "Число продолжений или эстафет на одно завершённое дело.",
+        "Доля подписчиков, вернувшихся к делу после обновления.",
+        "Медиана полезных действий на карточке: поддержка, помощь, комментарий, сохранение или продолжение."
+      ]
+    },
+    "risks": [
+      "Избыточный акцент на сроках может сделать продукт назидательным; статус показывается нейтрально, просрочка не наказывается и не ранжируется ниже.",
+      "Локальная симуляция может выглядеть искусственно; fixtures должны показывать разные стадии, авторов, интервалы и конкретные вклады.",
+      "Предложения помощи могут быть расплывчатыми; форма требует одного конкретного действия или ресурса.",
+      "Доказательство может раскрыть людей или точное место; перед публикацией показывается предпросмотр аудитории и возможность удалить метаданные.",
+      "Системные интеграции способны размыть ядро; они остаются контекстными действиями внутри дела, диалога или настроек.",
+      "Hotspot и чтение SSID зависят от entitlement и условий устройства; полностью исполнимый ручной путь обязателен.",
+      "Локальный VoIP демонстрирует CallKit, но не обещает сетевую связь между устройствами.",
+      "Продвижение может подорвать доверие к выдаче; измерение не меняет ранжирование и выключено по умолчанию."
+    ],
+    "assumptions": [
+      "Целевая платформа — актуальная версия iOS с SwiftUI и локальным persistent store.",
+      "Сборка включает основное приложение, Widget Extension и Credential Provider Extension.",
+      "Email-code аутентификация локальная: код генерируется детерминированно и показывается на тестовом экране без сети.",
+      "Все социальные изменения воспроизводятся локальным fixture-движком и сохраняются между запусками.",
+      "Иконки используют перечисленные SF Symbols, а визуальные токены VK-прототипа: accent #0077FF, background #FFFFFF, groupedBackground #F2F3F5, separator #E7E8EC, primary #000000, secondary #818C99, badge #FF3347.",
+      "Существуют entitlements для App Group group.app.svoi.shared, keychain access group, communication notifications, background modes, CallKit, Hotspot Configuration и Associated Domains.",
+      "Домен svoi.example в производственной сборке обслуживает корректный apple-app-site-association; тестовый router умеет воспроизвести тот же переход локально.",
+      "В ленте нет фильтров или сегментов: разнообразие создают авторы и состояния дел, а не каталог разделов.",
+      "Пять root tabs являются единственными корневыми точками; уведомления, настройки, доступы, сохранённые и приватные дела открываются push-навигацией.",
+      "Каждая мутация идемпотентна по action transaction id, поэтому повторное нажатие не создаёт дубликаты."
+    ]
+  },
+  "targetProduct": "vkontakte",
+  "strategy": "mimicry",
+  "states": [
+    {
+      "screenId": "login",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "feed",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "post_detail",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "comments",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "search",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "create",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "complete",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "messages",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "conversation",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "profile",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "saved",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "notifications",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "settings",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "accesses",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    },
+    {
+      "screenId": "private_deeds",
+      "variants": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ]
+    }
+  ],
+  "selectionReceipt": {
+    "qualityFloor": 8.5,
+    "selectedId": "svoi",
+    "ideas": [
+      {
+        "id": "svoi",
+        "name": "Свои",
+        "thesis": "Социальная лента взаимных обещаний: люди и сообщества публично объявляют небольшое дело на ближайшие дни, показывают ход работы и закрывают его доказательством, а друзья помогают советом, участием или берут эстафету.",
+        "audience": "Друзья, локальные сообщества и небольшие команды, которым проще доводить намерения до результата на виду у знакомых.",
+        "worldSummary": "Основная сущность мира — «дело»: авторская публикация с конкретным результатом, сроком и серией обновлений. В ленте рядом живут личные дела, инициативы сообществ и завершения; ценность создаёт не подсчёт продуктивности, а социальная ответственность и видимый вклад окружающих. Приложение локально симулирует устойчивый круг знакомых, историю публикаций и изменения состояний.",
+        "coreLoop": [
+          "Автор публикует дело с текстом, фото, голосовым пояснением, местом и необязательным сроком.",
+          "Друзья реагируют минимум двумя способами: поддерживают и предлагают конкретную помощь; также могут подписаться на результат.",
+          "Автор добавляет короткие обновления, участники прикладывают собственный вклад, а лента собирает их в одну развивающуюся историю.",
+          "После завершения автор публикует доказательство и благодарит помощников; участники забирают продолжение себе или начинают связанное дело, возвращая цикл в ленту."
+        ],
+        "referenceFit": "Главная ценность расположена в близкой к ВКонтакте авторской ленте: карточки постов от людей и сообществ, аватары, медиавложения, реакции, комментарии, репост-продолжение, поиск, профили, сообщения и уведомления. Отличительная механика выражена состоянием дела и цепочкой обновлений, не разрушая знакомую грамматику VK.",
+        "capabilityStrategy": "Камера и медиатека фиксируют дело и результат; микрофон, распознавание речи и фоновое аудио обслуживают голосовые обновления. Геопозиция с ручным выбором, Wi‑Fi и hotspot применяются только к делам на конкретной площадке или совместной сети. Контакты дополняют круг помощников с ручным поиском. Календарь добавляет выбранный срок. Push, communication notifications, silent remote notifications, fetch и BGTask обновляют подписки, переписку и локальный снимок ленты; сообщения поддерживают локальный CallKit-звонок. App Group и keychain связывают приложение с виджетом быстрого обновления; Credential Provider управляет демонстрационным локальным входом, Face ID защищает приватные дела. Universal Links открывают дело. Tracking появляется лишь в отдельной прозрачной настройке измерения продвигаемых публикаций и не нужен основному циклу.",
+        "nonGoals": [
+          "Трекер привычек и личный планировщик",
+          "Маркетплейс исполнителей или сбор денег",
+          "Бесконечный каталог городских инициатив"
+        ]
+      },
+      {
+        "id": "versii",
+        "name": "Версии",
+        "thesis": "Авторская социальная лента незавершённых творческих работ, где каждая публикация просит один точный выбор, а реакции аудитории превращаются в следующую публичную версию.",
+        "audience": "Люди, которые пишут, рисуют, снимают, записывают музыку, делают одежду или домашние проекты и хотят получать полезную обратную связь от своего круга.",
+        "worldSummary": "Мир состоит из «работ» и их версий. Автор показывает не идеальный финал, а развилку — два фрагмента, варианта или направления — и формулирует вопрос. Читатель оставляет выбор и аргумент, после чего видит, как его вклад повлиял на следующую версию. Локальные заранее подготовленные авторы и проекты создают правдоподобную живую ленту без сервера.",
+        "coreLoop": [
+          "Автор публикует версию работы с медиаматериалом и одним ограниченным вопросом к аудитории.",
+          "Читатели выбирают вариант и отвечают второй формой обратной связи — коротким аргументом или голосовым разбором.",
+          "Автор отмечает полезные доводы и выпускает следующую версию с видимой историей принятых и отклонённых решений.",
+          "Участники получают итог, сравнивают версии и публикуют собственную развилку либо приглашают автора в совместную работу."
+        ],
+        "referenceFit": "Продукт сохраняет визуальный ритм VK: центральная лента авторских постов, профили людей и сообществ, медиакарусели, реакции, ветки комментариев, репосты, поиск и личные сообщения. Вместо универсального поста карточка подчёркивает номер версии, вопрос и сравнение, оставаясь узнаваемой публикацией VK.",
+        "capabilityStrategy": "Камера и фото выбирают материал версии; микрофон записывает разбор, speech делает его доступным текстом, audio и Now Playing позволяют слушать длинные разборы. Геометка с ручной заменой нужна только работам, зависящим от места; контакты — для приглашения доверенных критиков. Календарь сохраняет выбранный автором срок следующей версии. Push и communication notifications следуют подписке на работу и диалогам; silent updates, fetch и BGTask готовят локальные сравнения версий. App Group даёт share-расширению и виджету доступ к черновику, keychain разделяет сессию, Face ID запирает закрытые работы, Credential Provider доступен из управления локальными аккаунтами. Universal Link ведёт к версии; локальный VoIP/CallKit используется для согласованного разбора. Wi‑Fi/hotspot обслуживают очную сессию совместного просмотра. Tracking запрашивается только при добровольном измерении охвата продвигаемой публичной работы.",
+        "nonGoals": [
+          "Профессиональный редактор фото, видео или музыки",
+          "Биржа заказов и портфолио для найма",
+          "Лента готовых произведений без развилок"
+        ]
+      },
+      {
+        "id": "sled",
+        "name": "След",
+        "thesis": "Лента живых свидетельств о местах: человек публикует личную историю, наблюдение или звук, привязанные к точке, а другие отвечают своим временем и постепенно создают многоголосую биографию места.",
+        "audience": "Жители города, студенты, путешественники внутри своего региона и локальные сообщества, которым важны личные истории знакомых мест.",
+        "worldSummary": "Основная сущность — «след»: авторская публикация о конкретном месте и моменте, не отзыв и не справочная карточка. Несколько следов образуют «линию места», где видны разные годы, люди и интерпретации. Лента персонализируется подписками на авторов, сообщества и места, а локальный набор данных позволяет открывать, продолжать и обсуждать истории офлайн.",
+        "coreLoop": [
+          "Автор оставляет след: текст, фото, короткий звук или видео, выбирая место автоматически либо вручную.",
+          "Подписчики реагируют минимум двумя способами: откликаются эмоцией и добавляют воспоминание или уточнение в обсуждение.",
+          "Другой человек приходит туда, открывает линию места и публикует ответный след — современное состояние, иной ракурс или продолжение истории.",
+          "Авторы получают уведомление о продолжении, объединяют связанные следы в маршрут и зовут знакомых пройти его, создавая новые публикации."
+        ],
+        "referenceFit": "Главный экран остаётся авторской VK-подобной лентой постов от людей и сообществ с привычными аватарами, вложениями, реакциями, комментариями, репостами, поиском, чатами и профилями. Карта вторична: место отображается как контекст публикации, а не заменяет ленту каталогом точек.",
+        "capabilityStrategy": "Камера, медиатека, микрофон и speech создают мультимедийный след и расшифровку; фоновое audio воспроизводит звуковые маршруты с Now Playing. Геопозиция всегда имеет ручной поиск места. Контакты помогают собрать приватный маршрут, календарь сохраняет назначенную прогулку. Push, communication notifications, remote updates, fetch и BGTask поддерживают подписки, чаты и заранее подготовленный офлайн-снимок линий мест; локальный VoIP/CallKit обслуживает реальный звонок участникам прогулки. App Group связывает приложение с виджетом ближайшего следа, keychain делит сессию, Face ID защищает семейные линии, Credential Provider управляет локальными входами. Wi‑Fi info подтверждает подключение к сети площадки только для её закрытого архива, hotspot завершает задачу подключения группы. Universal Links открывают конкретный след. Tracking доступен лишь как прозрачное согласие на измерение охвата спонсируемых маршрутов.",
+        "nonGoals": [
+          "Карты заведений, рейтинги и отзывы",
+          "Навигатор или туристический справочник",
+          "Автоматический дневник перемещений и постоянное фоновое слежение"
+        ]
+      }
+    ],
+    "evaluation": {
+      "selectedId": "svoi",
+      "assessments": [
+        {
+          "ideaId": "svoi",
+          "axes": [
+            {
+              "id": "product-need",
+              "score": 9.2,
+              "rationale": "Решает понятную социальную проблему: знакомым легче доводить небольшие намерения до результата, когда помощь и прогресс видимы близкому кругу."
+            },
+            {
+              "id": "world-coherence",
+              "score": 9.4,
+              "rationale": "«Дело», обновления, вклад помощников и доказательство завершения образуют единый предметный мир без конфликта между социальной и практической ценностью."
+            },
+            {
+              "id": "core-loop",
+              "score": 9.5,
+              "rationale": "Публикация дела → поддержка и конкретная помощь → обновления → доказательство → эстафета естественно производит новый контент и повторное участие."
+            },
+            {
+              "id": "target-fit",
+              "score": 9.4,
+              "rationale": "Люди, сообщества, посты, комментарии, сообщения и продолжения органично укладываются в грамматику VK, при этом состояние дела создаёт самостоятельный продукт."
+            },
+            {
+              "id": "capability-organicity",
+              "score": 8.8,
+              "rationale": "Камера, голос, геопозиция, календарь, уведомления и виджет усиливают фиксацию результата и координацию; периферийные системные возможности изолированы от ядра."
+            },
+            {
+              "id": "scope-discipline",
+              "score": 9.1,
+              "rationale": "Концепт удерживается вокруг публичного обязательства и совместного доведения до результата; non-goals хорошо защищают его от превращения в планировщик или маркетплейс."
+            }
+          ],
+          "fatalRisks": [
+            "Без тщательно подготовленной локальной социальной симуляции стартовая лента может выглядеть пустой и не доказать сетевую ценность.",
+            "Механика способна скатиться в назидательный трекер продуктивности, если интерфейс чрезмерно подчеркнёт сроки, статусы и незавершённость.",
+            "Нужно строго ограничить системные интеграции: CallKit, hotspot, Credential Provider и tracking не должны размывать основной сценарий."
+          ]
+        },
+        {
+          "ideaId": "versii",
+          "axes": [
+            {
+              "id": "product-need",
+              "score": 8.7,
+              "rationale": "Запрос на конкретную обратную связь реален, но аудитория уже и регулярность потребности ниже, чем у повседневных совместных дел."
+            },
+            {
+              "id": "world-coherence",
+              "score": 9.5,
+              "rationale": "Работа, версия, развилка, аргумент и журнал решений составляют особенно ясную и последовательную модель продукта."
+            },
+            {
+              "id": "core-loop",
+              "score": 9.2,
+              "rationale": "Точный выбор и последующая версия убедительно возвращают читателя, хотя выпуск нового материала требует от автора заметных усилий и замедляет цикл."
+            },
+            {
+              "id": "target-fit",
+              "score": 9,
+              "rationale": "Авторская медиалента и обсуждения хорошо мимикрируют под VK, но специализированная карточка сравнения немного сужает универсальность социальной среды."
+            },
+            {
+              "id": "capability-organicity",
+              "score": 8.6,
+              "rationale": "Медиа, голосовые разборы, speech, уведомления и share-extension естественны; география, hotspot, CallKit и tracking выглядят редкими дополнениями."
+            },
+            {
+              "id": "scope-discipline",
+              "score": 9.3,
+              "rationale": "Один вопрос на версию и явные non-goals удерживают продукт от превращения в редактор, портфолио или обычную творческую ленту."
+            }
+          ],
+          "fatalRisks": [
+            "Двухвариантная развилка может искусственно упрощать творческие решения и со временем ощущаться однообразной.",
+            "Создание следующей версии дорого по времени, поэтому локальная демонстрация должна правдоподобно показывать уже развивающиеся проекты.",
+            "Слабые или случайные аргументы аудитории быстро разрушат обещание полезной обратной связи."
+          ]
+        },
+        {
+          "ideaId": "sled",
+          "axes": [
+            {
+              "id": "product-need",
+              "score": 8.6,
+              "rationale": "Эмоциональная ценность сильна для локальных сообществ, но потребность эпизодична и зависит от плотности интересных историй вокруг пользователя."
+            },
+            {
+              "id": "world-coherence",
+              "score": 9.2,
+              "rationale": "Следы, линии места, ответные публикации и маршруты образуют цельный мир, где место остаётся контекстом авторской истории."
+            },
+            {
+              "id": "core-loop",
+              "score": 8.8,
+              "rationale": "Ответный след хорошо продолжает историю, однако требует физического посещения места, из-за чего повторение цикла медленнее и менее доступно."
+            },
+            {
+              "id": "target-fit",
+              "score": 8.9,
+              "rationale": "Лента сохраняет узнаваемую структуру VK, но географическая сущность постоянно тянет продукт в сторону карты и локального справочника."
+            },
+            {
+              "id": "capability-organicity",
+              "score": 9,
+              "rationale": "Камера, звук, геолокация, офлайн-снимки и фоновые аудиомаршруты непосредственно поддерживают идею; несколько инфраструктурных возможностей остаются натянутыми."
+            },
+            {
+              "id": "scope-discipline",
+              "score": 8.7,
+              "rationale": "Non-goals точно отделяют концепт от отзывов и навигации, но маршруты, прогулки, закрытые архивы и групповые подключения уже создают риск расползания."
+            }
+          ],
+          "fatalRisks": [
+            "Недостаточная плотность следов рядом с пользователем создаст эффект пустой карты и оборвёт социальный цикл.",
+            "Продукт легко превратить в туристический каталог или сервис маршрутов, ослабив авторскую ленту.",
+            "Геопривязанные семейные и личные истории требуют особенно ясных настроек приватности и безопасного ручного выбора места."
+          ]
+        }
+      ]
+    }
+  }
+}

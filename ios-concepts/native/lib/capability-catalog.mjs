@@ -22,6 +22,11 @@ const background = (mode, framework, runtimeAdapter) => ({
   activation: "app-lifecycle",
 });
 
+export const USER_CONSENT_CAPABILITY_KEYS = Object.freeze(new Set([
+  "camera", "mic", "speech", "photo", "photos", "photoadd", "photosadd", "location", "locationalways",
+  "push", "tracking", "contacts", "calendar", "faceid", "localnet", "localnetwork", "music",
+]));
+
 /**
  * Platform knowledge lives here, not in concept.json. A permission may expand to
  * several build artifacts. Values containing ${bundleId} are resolved by the compiler.

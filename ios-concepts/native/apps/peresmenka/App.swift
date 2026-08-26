@@ -55,9 +55,8 @@ struct PeresmenkaShell: View {
                     PeresmenkaRootSurface(surfaceID: item.screen)
                         .navigationDestination(for: String.self) { PeresmenkaDestination(surfaceID: $0) }
                 }
-                .tabItem { Image(systemName: item.systemImage) }
+                .tabItem { Image(systemName: item.systemImage).accessibilityLabel(item.label).accessibilityIdentifier(item.label) }
                 .tag(item.id)
-                .accessibilityLabel(item.label)
             }
         }
         .task {
@@ -282,8 +281,14 @@ struct ShiftPeople: View {
             Section("Недавние подмены") {
                 person("Марк Львов", "закрыл подмену 18 августа", false)
             }
-            NativeContractActionControl(surfaceID: "people", title: "Найти знакомых коллег", compact: true).listRowInsets(EdgeInsets())
-            NativeCapabilityControls(surfaceID: "people").listRowInsets(EdgeInsets())
+            Section {
+                NavigationLink(value: "mates") {
+                    Label("Знакомые в сети", systemImage: "person.2")
+                }
+                .nativeAction("open-mates")
+            } footer: {
+                Text("Контакты используются только после вашего выбора и помогают найти знакомых коллег.")
+            }
         }.listStyle(.insetGrouped).navigationTitle("Люди").nativeSurface("people")
     }
     private func person(_ name: String, _ detail: String, _ online: Bool) -> some View {

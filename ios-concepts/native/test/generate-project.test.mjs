@@ -43,7 +43,7 @@ test("project generation materialises the compiled native manifest", () => {
     assert.match(generatedSwift, new RegExp(`titleKey: "${screen.titleKey}"`));
     for (const role of screen.componentRoles) assert.match(generatedSwift, new RegExp(`"${role}"`));
   }
-  assert.equal(designContract.qualityFloor, 8);
+  assert.equal(designContract.qualityFloor, 8.5);
   assert.equal(designContract.surfaces.length, manifest.surfaces.length);
   assert.match(designBrief, /Полезный контент в первом экране/);
   assert.match(generatedOwnership, /static let product: Set<String>/);
@@ -61,4 +61,20 @@ test("project generation materialises the compiled native manifest", () => {
     assert.equal(plist(join(directory, "Info.plist")).NSExtension.NSExtensionPointIdentifier, extension.extensionPoint);
     assert.match(project, new RegExp(`Looks${extension.productSuffix}\\.appex in Embed Foundation Extensions`));
   }
+});
+
+test("project generation discovers modular UI tests recursively", () => {
+  execFileSync(process.execPath, ["native/gen/gen-project.mjs", "vk-neighbor-help"], { cwd: projectRoot });
+  const generatedRoot = join(projectRoot, "native/build/vk-neighbor-help");
+  const project = readFileSync(join(generatedRoot, "Vk-neighbor-help.xcodeproj/project.pbxproj"), "utf8");
+
+  assert.match(project, /Vk-neighbor-helpSmokeTests\.xctest/);
+  assert.equal(
+    existsSync(join(generatedRoot, "Vk-neighbor-helpSmokeTests/SosediUITests/SosediJourneys.swift")),
+    true,
+  );
+  assert.equal(
+    existsSync(join(generatedRoot, "Vk-neighbor-help.xcodeproj/xcshareddata/xcschemes/Vk-neighbor-helpSmoke.xcscheme")),
+    true,
+  );
 });

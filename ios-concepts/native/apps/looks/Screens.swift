@@ -1,7 +1,7 @@
 import SwiftUI
 import EventKit
 
-// MARK: - Рядом: свопы и встречи (гео)
+// MARK: - Рядом: обмен вещами и встречи (гео)
 
 struct NearbyScreen: View {
     var captureState: String? = nil
@@ -13,7 +13,7 @@ struct NearbyScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            VKFilterPills(items: [("Все", "line.3.horizontal.decrease"), ("Свопы", "arrow.left.arrow.right"),
+            VKFilterPills(items: [("Все", "line.3.horizontal.decrease"), ("Обмен", "arrow.left.arrow.right"),
                                 ("Барахолки", "bag"), ("Встречи", "person.2")], selection: $filter)
                 .scrollClipDisabled()
                 .padding(.vertical, 10)
@@ -26,7 +26,7 @@ struct NearbyScreen: View {
                             VStack(alignment: .leading, spacing: 12) {
                                 Image(systemName: "location.circle.fill")
                                     .font(.system(size: 34)).foregroundStyle(t.palette.accent)
-                                Text("Показать свопы поблизости")
+                                Text("Показать обмен вещами поблизости")
                                     .font(.role(.section)).foregroundStyle(t.palette.textPrimary)
                                 Text("Нужна геопозиция, чтобы отсортировать встречи по расстоянию. Без неё покажем всё по городу")
                                     .font(.vkBody).foregroundStyle(t.palette.textSecondary)
@@ -34,7 +34,7 @@ struct NearbyScreen: View {
                                 VKButton(title: "Разрешить геопозицию", icon: "location.fill") {
                                     Task {
                                         let ok = await LooksPermissionFlow.requestLocation(using: perms)
-                                        if !ok { nav.toast("Показываем свопы по городу", once: "location") }
+                                        if !ok { nav.toast("Показываем обмены по городу", once: "location") }
                                     }
                                 }
                                 .nativeAction("nearby.enable-location")
@@ -45,7 +45,7 @@ struct NearbyScreen: View {
                     if captureState == "empty" {
                         NativeStatePanel(kind: .empty,
                                          title: "Рядом пока нет событий",
-                                         detail: "Покажем свопы и встречи, когда они появятся в вашем городе.",
+                                         detail: "Покажем обмен вещами и встречи, когда они появятся в вашем городе.",
                                          placement: .page)
                             .padding(.horizontal, t.spacing.contentInset)
                             .padding(.top, 16)
@@ -71,7 +71,7 @@ struct NearbyScreen: View {
             .background(t.palette.background)
         }
         .background(t.palette.background)
-        .vkNavigation("Свопы рядом")
+        .vkNavigation("Обмен рядом")
     }
 
     private var filteredEvents: [NearbyEvent] {
@@ -173,7 +173,7 @@ struct EventScreen: View {
                         Avatar(name: "Аня Котова", size: 40)
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Аня Котова").font(.role(.action))
-                            Text("собрала 12 свопов за год").font(.vkMeta).foregroundStyle(t.palette.textSecondary)
+                            Text("организовала 12 обменов").font(.vkMeta).foregroundStyle(t.palette.textSecondary)
                         }
                         Spacer()
                         Button {
@@ -212,7 +212,7 @@ struct EventScreen: View {
                                       icon: isGoing ? "checkmark" : "person.badge.plus") {
                             withAnimation { going.toggle() }
                             store.setGoing(going, to: event)
-                            nav.toast(going ? "Записали вас на своп" : "Отменили участие")
+                            nav.toast(going ? "Вы участвуете в обмене" : "Участие отменено")
                         }
                         .nativeAction("event.join-event")
                         Button { nav.push(LooksRoute.swap) } label: {
@@ -225,6 +225,17 @@ struct EventScreen: View {
                             .background(t.palette.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: t.metrics.controlRadius))
                         }
                         .buttonStyle(.plain)
+                        if isGoing {
+                            Button { nav.push(LooksRoute.checkin) } label: {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "checkmark.circle")
+                                    Text("Отметиться на встрече")
+                                }
+                                .font(.system(size: 15, weight: .medium)).foregroundStyle(t.palette.accent)
+                                .frame(maxWidth: .infinity).frame(height: 40)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                     .padding(12)
                 }
@@ -233,7 +244,7 @@ struct EventScreen: View {
 
         }
         .background(t.palette.background)
-        .vkNavigation("Своп")
+        .vkNavigation("Обмен вещами")
         .onAppear {
             going = captureState == "joined" || store.isGoing(to: event)
         }
@@ -348,7 +359,7 @@ struct WardrobeScreen: View {
                                          "лежат")
                             Rectangle().fill(t.palette.separator).frame(width: 0.5, height: 26)
                             wardrobeStat("\(garments.filter { $0.state == .onSwap || $0.state == .wanted }.count)",
-                                         "на свопе")
+                                         "для обмена")
                         }
                         .padding(.vertical, 12)
                     }
@@ -550,9 +561,13 @@ struct OutfitScreen: View {
                     Color.clear.frame(height: 6)
                 }
                 VKGroup {
-                    VKButton(title: "Собрать свою версию", icon: "arrow.triangle.branch") {
-                        store.remix(outfit)
-                        nav.toast("Ремикс добавлен в вашу ленту")
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Хотите повторить сочетание?").font(.role(.cardTitle))
+                        Text("Откроем редактор с вещами этого образа как подсказкой — публикация появится только после вашего подтверждения.")
+                            .font(.vkMeta).foregroundStyle(t.palette.textSecondary)
+                        VKButton(title: "Собрать похожий образ", icon: "plus") {
+                            nav.present(cover: LooksRoute.create)
+                        }
                     }
                     .padding(12)
                 }
@@ -763,7 +778,7 @@ struct MatesScreen: View {
 
     /// Мои знакомые: у кого-то город, у кого-то нет — как в живом списке.
     private let mine: [(String, String?)] = [
-        ("Аня Котова", "собрала 12 свопов за год"),
+        ("Аня Котова", "провела 12 встреч по обмену вещами за год"),
         ("Марк Львов", nil),
         ("Даша Ким", "Иркутск"),
         ("Лена Гор", "меняется верхней одеждой"),

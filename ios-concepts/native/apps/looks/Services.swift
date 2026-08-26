@@ -12,7 +12,7 @@ struct ServicesScreen: View {
 
     // каждая плитка ведёт в живой экран; «для красоты» плиток нет
     private let tiles: [(String, String, [String], LooksRoute)] = [
-        ("Свопы", "arrow.left.arrow.right", ["FF8A65", "F4511E"], .nearby),
+        ("Обмен", "arrow.left.arrow.right", ["FF8A65", "F4511E"], .nearby),
         ("Гардероб", "hanger", ["5B7CFA", "3D5AFE"], .wardrobe),
         ("Знакомые", "person.2.fill", ["42B883", "1E9E63"], .mates),
         ("Сохранённое", "bookmark.fill", ["2ECC71", "10A05A"], .lock),
@@ -72,10 +72,10 @@ struct ServicesScreen: View {
         .padding(.top, 14).padding(.bottom, 18)
     }
 
-    // Секция свопов: ряд карточек ведёт в те же встречи, что и «Свопы рядом».
+    // Встречи по обмену: ряд карточек ведёт в тот же каталог событий рядом.
     private var swaps: some View {
         VStack(alignment: .leading, spacing: 0) {
-            VKSectionHeader(title: "Свопы недели", action: "Все") {
+            VKSectionHeader(title: "Обмен вещами", action: "Все") {
                 nav.push(LooksRoute.nearby)
             }
             ScrollView(.horizontal, showsIndicators: false) {

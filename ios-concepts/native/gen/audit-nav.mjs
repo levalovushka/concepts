@@ -25,12 +25,20 @@ if (!slug) { console.error("usage: audit-nav.mjs <slug>"); process.exit(1); }
 
 const ROOT = join(NATIVE, "..");
 const appDir = join(NATIVE, "apps", slug);
-const files = readdirSync(appDir).filter(f => f.endsWith(".swift"));
+function swiftFiles(directory, prefix = "") {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const relative = join(prefix, entry.name);
+    if (entry.isDirectory()) return swiftFiles(join(directory, entry.name), relative);
+    return entry.name.endsWith(".swift") ? [relative] : [];
+  });
+}
+const files = swiftFiles(appDir);
 const src = Object.fromEntries(files.map(f => [f, readFileSync(join(appDir, f), "utf8")]));
 const specPath = join(ROOT, "concepts", slug, "concept.json");
 const spec = existsSync(specPath) ? JSON.parse(readFileSync(specPath, "utf8")) : null;
 
-const app = src["App.swift"] || "";
+const appFile = files.find(file => /(^|\/)App\.swift$/.test(file)) || files.find(file => /App\.swift$/.test(file));
+const app = src[appFile] || "";
 if (app.includes("ManifestConceptRootView")) {
   const adapterPath = join(NATIVE, "DesignSystem", "ManifestConcept.swift");
   const adapter = existsSync(adapterPath) ? readFileSync(adapterPath, "utf8") : "";
@@ -68,6 +76,22 @@ if (app.includes("NativeSecondarySurface") && app.includes(".navigationDestinati
   console.log(`Навигация концепта «${slug}»: собственные core surfaces + contract router для вторичных задач`);
   if (problems.length) { for (const item of problems) console.log(`  ✗ ${item}`); process.exit(1); }
   console.log("Граф достижим, а вторичные переходы исполняются через канонический action contract.");
+  process.exit(0);
+}
+if (app.includes(".nativeSurface(") && spec?.ux?.navigation?.nodes?.length) {
+  const nodes = spec.ux.navigation.nodes;
+  const reachable = new Set(spec.ux.navigation.reachable || []);
+  const allSource = Object.values(src).join("\n");
+  const problems = [];
+  for (const node of nodes) if (!reachable.has(node.id)) problems.push(`${node.id}: поверхность не входит в доказанное reachable-множество`);
+  for (const surface of spec.native?.deliveryIdentity?.coreSurfaces || []) {
+    const routed = allSource.includes(`.nativeSurface("${surface}")`)
+      || (allSource.includes(".nativeSurface(") && allSource.includes(`"${surface}"`));
+    if (!routed) problems.push(`${surface}: core surface не имеет собственной композиции`);
+  }
+  console.log(`Навигация концепта «${slug}»: ${nodes.length} поверхностей через contract-driven router`);
+  if (problems.length) { for (const item of problems) console.log(`  ✗ ${item}`); process.exit(1); }
+  console.log("Граф достижим, core surfaces привязаны к нативным композициям.");
   process.exit(0);
 }
 const enumName = (app.match(/enum\s+(\w+Route)\s*:/) || [])[1];

@@ -8,21 +8,23 @@ struct HouseChatsScreen: View {
     @Environment(HouseStore.self) private var store
     @Environment(Nav.self) private var nav
     @Environment(\.visualLanguage) private var t
+    @State private var query = ""
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 0) {
-                VKTabHeader(
-                    title: "Чаты", avatar: store.currentResident.name,
-                    avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) { EmptyView() }.background(t.palette.surface)
+        VStack(spacing: 0) {
+            VKTabHeader(title: "Чаты") { EmptyView() }
+            VKSearchField(placeholder: "Поиск по чатам", text: $query)
+                .padding(.horizontal, t.spacing.contentInset)
+                .padding(.bottom, 10)
+            ScrollView {
+                LazyVStack(spacing: 0) {
                 if DvorShotMode.isScreen("chats", state: "loading") {
                     DvorPageState(kind: .loading, title: "Обновляем чаты", detail: "Проверяем новые сообщения дома.")
-                } else if store.conversations.isEmpty {
+                } else if filteredConversations.isEmpty {
                     DvorPageState(kind: .empty, title: "Разговоров пока нет", detail: "Общий чат дома появится после подтверждения адреса.")
                 }
                 if !DvorShotMode.isScreen("chats", state: "loading") {
-                ForEach(store.conversations) { conversation in
+                ForEach(filteredConversations) { conversation in
                     Button { nav.push(DvorRoute.chat(conversation)) } label: {
                         HStack(spacing: 12) {
                             Avatar(name: conversation.title, size: 52)
@@ -52,10 +54,18 @@ struct HouseChatsScreen: View {
                         .nativeAction("chats.open-chat")
                 }
                 }
+                }
             }
         }
-        .background(t.palette.groupedBackground)
+        .background(t.palette.surface)
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var filteredConversations: [HouseConversation] {
+        query.isEmpty ? store.conversations : store.conversations.filter {
+            $0.title.localizedCaseInsensitiveContains(query)
+                || $0.lastMessage.localizedCaseInsensitiveContains(query)
+        }
     }
 }
 
@@ -461,16 +471,14 @@ struct YardScreen: View {
     @Environment(\.visualLanguage) private var t
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 9) {
-                VKTabHeader(
-                    title: "Двор", avatar: store.currentResident.name,
-                    avatarAction: { nav.present(sheet: DvorRoute.profile) }
-                ) {
-                    Button { nav.present(sheet: DvorRoute.report) } label: { Image(systemName: "plus") }
-                        .accessibilityLabel("Сообщить о проблеме")
-                }.background(t.palette.surface)
+        VStack(spacing: 0) {
+            VKTabHeader(title: "Двор") {
+                Button { nav.present(sheet: DvorRoute.report) } label: { Image(systemName: "plus") }
+                    .accessibilityLabel("Сообщить о проблеме")
+            }
 
+            ScrollView {
+                LazyVStack(spacing: 9) {
                 DvorSectionTitle(title: "Сейчас во дворе")
                 DvorCard {
                     VStack(spacing: 0) {
@@ -509,7 +517,11 @@ struct YardScreen: View {
                 }
             }
             .padding(.bottom, 18)
-        }.background(t.palette.groupedBackground).toolbar(.hidden, for: .navigationBar)
+            }
+            .background(t.palette.groupedBackground)
+        }
+        .background(t.palette.surface)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     @ViewBuilder private func serviceRow(title: String, subtitle: String, icon: String, value: String? = nil, warning: Bool = false, chevron: Bool = true, nativeActionID: String? = nil, action: @escaping () -> Void) -> some View {
@@ -530,13 +542,14 @@ struct HouseMenuScreen: View {
     @Environment(Session.self) private var session
     @Environment(\.visualLanguage) private var t
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 9) {
-                VKTabHeader(title: "Меню") {
-                    Button { nav.push(DvorRoute.settings) } label: { Image(systemName: "gearshape") }
-                        .accessibilityLabel("Настройки")
-                }.background(t.palette.surface)
+        VStack(spacing: 0) {
+            VKTabHeader(title: "Меню") {
+                Button { nav.push(DvorRoute.settings) } label: { Image(systemName: "gearshape") }
+                    .accessibilityLabel("Настройки")
+            }
 
+            ScrollView {
+                LazyVStack(spacing: 9) {
                 Button { nav.present(sheet: DvorRoute.profile) } label: {
                     DvorCard {
                         VStack(spacing: 12) {
@@ -570,7 +583,11 @@ struct HouseMenuScreen: View {
                 }
             }
             .padding(.bottom, 18)
-        }.background(t.palette.groupedBackground).toolbar(.hidden, for: .navigationBar)
+            }
+            .background(t.palette.groupedBackground)
+        }
+        .background(t.palette.surface)
+        .toolbar(.hidden, for: .navigationBar)
     }
     private func menuRow(_ title: String, _ subtitle: String, icon: String, nativeActionID: String? = nil, action: @escaping () -> Void) -> some View {
         Button(action: action) { DvorRow(title: title, subtitle: subtitle, icon: icon) }.buttonStyle(.plain)

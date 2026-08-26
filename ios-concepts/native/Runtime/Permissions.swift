@@ -95,8 +95,80 @@ final class Permissions {
     func isGranted(_ key: PermissionKey) -> Bool { status(key) == .granted }
 
     func refreshStatus(_ key: PermissionKey) async {
-        let ok = await perform(key, value: nil)
-        status[key] = ok ? .granted : .denied
+        status[key] = await currentStatus(key)
+    }
+
+    private func currentStatus(_ key: PermissionKey) async -> Status {
+        switch key.rawValue {
+        case "camera":
+            return map(AVCaptureDevice.authorizationStatus(for: .video))
+        case "mic":
+            return switch AVAudioApplication.shared.recordPermission {
+            case .granted: .granted
+            case .denied: .denied
+            default: .unknown
+            }
+        case "speech":
+            return switch SFSpeechRecognizer.authorizationStatus() {
+            case .authorized: .granted
+            case .denied, .restricted: .denied
+            default: .unknown
+            }
+        case "photo", "photos":
+            return switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {
+            case .authorized, .limited: .granted
+            case .denied, .restricted: .denied
+            default: .unknown
+            }
+        case "location":
+            return switch CLLocationManager().authorizationStatus {
+            case .authorizedAlways, .authorizedWhenInUse: .granted
+            case .denied, .restricted: .denied
+            default: .unknown
+            }
+        case "push":
+            return switch await UNUserNotificationCenter.current().notificationSettings().authorizationStatus {
+            case .authorized, .provisional, .ephemeral: .granted
+            case .denied: .denied
+            default: .unknown
+            }
+        case "tracking":
+            return switch ATTrackingManager.trackingAuthorizationStatus {
+            case .authorized: .granted
+            case .denied, .restricted: .denied
+            default: .unknown
+            }
+        case "contacts":
+            return map(CNContactStore.authorizationStatus(for: .contacts))
+        case "calendar":
+            return switch EKEventStore.authorizationStatus(for: .event) {
+            case .fullAccess, .writeOnly, .authorized: .granted
+            case .denied, .restricted: .denied
+            default: .unknown
+            }
+        case "faceid":
+            let context = LAContext()
+            var error: NSError?
+            return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) ? .granted : .denied
+        default:
+            return status[key] ?? .unknown
+        }
+    }
+
+    private func map(_ value: AVAuthorizationStatus) -> Status {
+        switch value {
+        case .authorized: .granted
+        case .denied, .restricted: .denied
+        default: .unknown
+        }
+    }
+
+    private func map(_ value: CNAuthorizationStatus) -> Status {
+        switch value {
+        case .authorized, .limited: .granted
+        case .denied, .restricted: .denied
+        default: .unknown
+        }
     }
 
     func authenticateDeviceOwner(reason: String = "Подтвердить доступ") async -> Bool {

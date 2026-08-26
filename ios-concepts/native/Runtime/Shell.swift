@@ -25,6 +25,12 @@ final class Nav {
         p.append(route)
         paths[tab] = p
     }
+    func open<R: Hashable>(_ route: R, on targetTab: String) {
+        tab = targetTab
+        var path = paths[targetTab] ?? NavigationPath()
+        path.append(route)
+        paths[targetTab] = path
+    }
     func pop() {
         var p = paths[tab] ?? NavigationPath()
         guard !p.isEmpty else { return }

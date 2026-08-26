@@ -43,7 +43,7 @@ struct NotificationsScreen: View {
                 }
                 GroupGap()
                 notification("arrow.left.arrow.right", unread: false,
-                             title: "Своп уже в эту субботу",
+                             title: "Обмен вещами уже в эту субботу",
                              detail: "Новая Голландия · начало в 15:00") {
                     nav.push(LooksRoute.nearby)
                 }

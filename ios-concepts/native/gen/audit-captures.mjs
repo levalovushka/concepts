@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileNativeConcept } from "../lib/compile-concept.mjs";
@@ -10,7 +10,11 @@ const nativeRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const projectRoot = join(nativeRoot, "..");
 const slug = process.argv[2];
 if (!slug) { console.error("usage: audit-captures.mjs <slug>"); process.exit(1); }
-const concept = JSON.parse(readFileSync(join(projectRoot, "concepts", slug, "concept.json"), "utf8"));
+const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
+const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
+const specPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
+if (!existsSync(specPath)) { console.error(`missing concept or Product Blueprint for ${slug}`); process.exit(1); }
+const concept = JSON.parse(readFileSync(specPath, "utf8"));
 const capturePath = join(nativeRoot, "apps", slug, "capture.json");
 if (!existsSync(capturePath)) { console.error(`нет capture catalog: ${capturePath}`); process.exit(1); }
 const manifest = compileNativeConcept(concept).manifest;
@@ -26,11 +30,18 @@ if (!catalog.ok || catalog.missing.length) process.exit(1);
 // build-breaking regression.
 const productStatePath = join(nativeRoot, "apps", slug, "product-state-surfaces.json");
 if (existsSync(productStatePath)) {
+  function swiftSources(directory) {
+    return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) return swiftSources(path);
+      return entry.name.endsWith(".swift") ? [readFileSync(path, "utf8")] : [];
+    });
+  }
   const registry = JSON.parse(readFileSync(productStatePath, "utf8"));
   const ownership = compileCaptureSurfaceOwnership(catalog, registry);
   const captureStatePath = join(nativeRoot, "apps", slug, "CaptureStates.swift");
   const captureStateSource = existsSync(captureStatePath) ? readFileSync(captureStatePath, "utf8") : "";
-  const appSource = readFileSync(join(nativeRoot, "apps", slug, "App.swift"), "utf8");
+  const appSource = swiftSources(join(nativeRoot, "apps", slug)).join("\n");
   const secondaryPath = join(nativeRoot, "DesignSystem", "NativeContractSurface.swift");
   const secondarySource = appSource.includes("NativeSecondarySurface") && existsSync(secondaryPath)
     ? readFileSync(secondaryPath, "utf8") : "";
@@ -39,6 +50,9 @@ if (existsSync(productStatePath)) {
     : "";
   const genericProductState = manifestAdapterSource.includes("productState(for: surfaceID)")
     && manifestAdapterSource.includes("ManifestCaptureMode.productState");
+  const routedProductState = appSource.includes("--capture-state")
+    && /(?:DemoState|ProductState)\(rawValue:/.test(appSource)
+    && appSource.includes("CaptureIdentity.reportLayout");
   const violations = [...ownership.diagnostics];
   const coreSurfaces = new Set(concept.native?.deliveryIdentity?.coreSurfaces || []);
   for (const surface of ownership.product) {
@@ -49,7 +63,7 @@ if (existsSync(productStatePath)) {
     const ownedCoreState = appSource.includes(`productState(for: "${surface}")`);
     const ownedSecondaryState = !coreSurfaces.has(surface)
       && secondarySource.includes("NativeProductCaptureState.productState(for: surfaceID)");
-    if (!genericProductState && !ownedCoreState && !ownedSecondaryState) {
+    if (!genericProductState && !routedProductState && !ownedCoreState && !ownedSecondaryState) {
       violations.push(`${surface}: реальный экран не получает product state`);
     }
   }

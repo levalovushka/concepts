@@ -241,13 +241,13 @@ private struct PostCard: View {
     }
 }
 
-// MARK: - Строка «свопы рядом» (точка запроса гео)
+// MARK: - Обмен вещами рядом (точка запроса гео)
 
 private struct NearbyRow: View {
     @Environment(Nav.self) private var nav
     var body: some View {
         Button { nav.push(LooksRoute.nearby) } label: {
-            VKRow(title: "Свопы рядом с вами",
+            VKRow(title: "Обмен вещами рядом",
                   subtitle: "обмен вещами и встречи поблизости",
                   icon: "location")
         }

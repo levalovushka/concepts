@@ -5,6 +5,8 @@ import { compileSurfaceContracts } from "./surface-contract.mjs";
 import { compileActionContracts } from "./action-contract.mjs";
 import { resolveProductDevelopment } from "./product-maturity.mjs";
 import { compileUXSpecification } from "./ux-specification.mjs";
+import { effectiveQualityFloor } from "./quality-policy.mjs";
+import { compileProductBlueprint } from "./lean-native-factory.mjs";
 
 const PRESENTATION_ALIASES = new Map([
   ["tab (root)", "tab"],
@@ -65,6 +67,9 @@ function mergeKeyed(items) {
 }
 
 export function compileNativeConcept(concept, options = {}) {
+  if (concept?.schemaVersion === 1 && concept?.world?.entities && concept?.navigation?.rootTabs) {
+    return compileProductBlueprint(concept, options);
+  }
   const diagnostics = [];
   const slug = concept?.slug;
   if (!slug) diagnostics.push(diagnostic("concept.slug.required", "Concept slug is required", "slug"));
@@ -388,7 +393,7 @@ export function compileNativeConcept(concept, options = {}) {
       tokens: {
         ...designTokens,
       },
-      qualityFloor: native.design?.qualityFloor || 8,
+      qualityFloor: effectiveQualityFloor(native.design?.qualityFloor),
       surfaceContracts: surfaceContracts.contracts,
     },
     navigation: {

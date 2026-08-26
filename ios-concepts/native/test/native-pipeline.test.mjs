@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { createNativePipelinePlan, discoverNativeConcepts, runNativePipeline } from "../lib/native-pipeline.mjs";
 
 test("discovers only concepts that have a native implementation", () => {
-  assert.deepEqual(discoverNativeConcepts(), ["dvor", "looks", "nakat", "peresmenka", "tails", "today"]);
+  assert.deepEqual(discoverNativeConcepts(), ["dvor", "looks", "nakat", "peresmenka", "tails", "today", "vk-neighbor-help"]);
 });
 
 test("build cannot bypass product maturity, docs, compile, generation, or audits", () => {
@@ -23,10 +23,10 @@ test("unknown concept is rejected before commands execute", () => {
   assert.throws(() => createNativePipelinePlan("check", "ghost"), /нет пары/);
 });
 
-test("device matrix covers both concepts on current and small phones", () => {
+test("golden mimicry matrix covers Looks, Dvor and Tails on current and small phones", () => {
   const plan = createNativePipelinePlan("matrix");
-  assert.equal(plan.filter(step => step.label.startsWith("xcui smoke")).length, 4);
-  assert.equal(plan.filter(step => step.label.startsWith("capture ")).length, 4);
+  assert.equal(plan.filter(step => step.label.startsWith("xcui smoke")).length, 6);
+  assert.equal(plan.filter(step => step.label.startsWith("capture ")).length, 6);
   assert.equal(plan.some(step => step.args.includes("platform=iOS Simulator,name=iPhone 17 Pro")), true);
   assert.equal(plan.some(step => step.args.includes("platform=iOS Simulator,name=iPhone 16e")), true);
 });

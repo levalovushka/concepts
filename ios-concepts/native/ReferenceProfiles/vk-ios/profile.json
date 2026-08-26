@@ -22,6 +22,28 @@
     "typography": { "family": "SF Pro", "rootTitle": 24, "navigationTitle": 17, "body": 15, "metadata": 13 },
     "componentFamilies": ["root-header", "social-feed", "stories", "post", "people-list", "chat", "service-grid", "profile-cards"]
   },
+  "compositionCatalog": {
+    "root": "VKRootSurface with one VKTabHeader and content owning the white top safe area",
+    "feed": "ScrollView/LazyVStack of VKAuthoredPost separated only by GroupGap",
+    "post": "VKAuthoredPost keeps author, content and VKPostActions in one semantic and visual block",
+    "push": "VKNavigationChrome with one predictable back action and no automatic glass toolbar",
+    "modal": "VKModalChrome plus native Form or ScrollView; one primary completion action",
+    "list": "VKGroup with VKRow or VKPersonRow and RowSeparator; chevrons only for navigation",
+    "messages": "Conversation rows open their own chat; VKChatHeader and keyboard-safe composer",
+    "profile": "One profile entry point, VKGroup hierarchy and no duplicate avatar in the current root",
+    "permission": "Contextual product action, real system prompt, then VKInlineNotice fallback",
+    "primaryAction": "VKPrimaryActionArea guarantees 16pt bottom breathing room"
+  },
+  "prohibitedComposition": [
+    "decorative tabs or filters without distinct content and tested selection state",
+    "detached reaction/comment/view panel",
+    "colored icon placeholder or decorative gradient",
+    "duplicate profile affordances on one root surface",
+    "glass back button inside VK content chrome",
+    "arbitrary card stack on a white social feed",
+    "thin functional icons below semibold optical weight",
+    "button or chevron without a deterministic destination or mutation"
+  ],
   "native": {
     "swiftSources": ["ReferenceProfiles/vk-ios/Components.swift"],
     "iconography": {

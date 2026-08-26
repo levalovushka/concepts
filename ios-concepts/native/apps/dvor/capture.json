@@ -128,7 +128,8 @@
       "surface": "home",
       "state": "default",
       "launch": "home",
-      "artifact": "home-default"
+      "artifact": "home-default",
+      "expectedTopSurface": "light"
     },
     {
       "surface": "home",
@@ -266,7 +267,8 @@
       "surface": "chats",
       "state": "default",
       "launch": "chats",
-      "artifact": "chats-default"
+      "artifact": "chats-default",
+      "expectedTopSurface": "light"
     },
     {
       "surface": "chats",
@@ -320,7 +322,8 @@
       "surface": "yard",
       "state": "default",
       "launch": "yard",
-      "artifact": "yard-default"
+      "artifact": "yard-default",
+      "expectedTopSurface": "light"
     },
     {
       "surface": "guest",
@@ -398,7 +401,8 @@
       "surface": "menu",
       "state": "default",
       "launch": "menu",
-      "artifact": "menu-default"
+      "artifact": "menu-default",
+      "expectedTopSurface": "light"
     },
     {
       "surface": "passwords",

@@ -22,7 +22,7 @@ enum DeveloperKitExporter {
         let target = uniqueDestination(in: destination, name: "\(concept.slug)-documentation")
         do {
             try FileManager.default.copyItem(
-                at: URL(fileURLWithPath: concept.path).appendingPathComponent("docs", isDirectory: true),
+                at: concept.docsDirectory,
                 to: target
             )
             NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: target.path)

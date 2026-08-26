@@ -12,15 +12,23 @@ const slug = process.argv[2];
 if (!slug) { console.error("usage: audit-actions.mjs <slug>"); process.exit(1); }
 
 const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
+const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
+const specPath = existsSync(conceptPath) ? conceptPath : blueprintPath;
 const appDir = join(nativeRoot, "apps", slug);
-if (!existsSync(conceptPath) || !existsSync(appDir)) {
+if (!existsSync(specPath) || !existsSync(appDir)) {
   console.error(`missing concept or native app for ${slug}`);
   process.exit(1);
 }
-const concept = JSON.parse(readFileSync(conceptPath, "utf8"));
+const concept = JSON.parse(readFileSync(specPath, "utf8"));
 const compiled = compileNativeConcept(concept);
-let source = readdirSync(appDir).filter(file => file.endsWith(".swift"))
-  .map(file => readFileSync(join(appDir, file), "utf8")).join("\n");
+function swiftSources(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) return entry.name === "UITests" ? [] : swiftSources(path);
+    return entry.name.endsWith(".swift") ? [readFileSync(path, "utf8")] : [];
+  });
+}
+let source = swiftSources(appDir).join("\n");
 if (source.includes("ManifestConceptRootView")) {
   source += "\n" + readFileSync(join(nativeRoot, "DesignSystem", "ManifestConcept.swift"), "utf8");
 }

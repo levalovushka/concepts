@@ -1,7 +1,7 @@
 ## Information architecture and navigation
 
 **Navigation model.** Идентифицированные люди публикуют социальные единицы, находят их в ленте или профиле, отвечают через реакции и сообщения и возвращают вклад в граф.
-**Reference fit.** Публикация образа естественно занимает место поста, автор и гардероб — профиля, ремикс — социального ответа, а обсуждение — сообщения.
+**Reference fit.** Публикация образа естественно занимает место поста, автор и гардероб — профиля, сохранение сочетания — закладки, а обсуждение — сообщения.
 
 **Deep links:** None declared.
 
@@ -15,7 +15,7 @@
 | notifications | push | home | parent:home | navigate:open-notification | none | pop:home |
 | post | push | home | parent:home<br>action:home.open-feed-post<br>action:search.open-search-result<br>action:notifications.open-notification<br>action:wardrobe.open-saved-look | mutate:save-look | always | pop:home |
 | nearby | push | services | parent:services<br>permission:home.location | present:null<br>navigate:open-nearby-event<br>request:enable-location | capability.location.requested | pop:services |
-| clip | tab | home | tab:clip<br>parent:home | present:null<br>mutate:remix-clip | session.authenticated | none:none |
+| clip | tab | home | tab:clip<br>parent:home | present:null<br>mutate:save-clip | session.authenticated | none:none |
 | create | push | home | parent:home<br>permission:create.photos<br>permission:create.speech | present:null<br>present:null<br>present:null<br>navigate:open-camera<br>permission:camera<br>permission:photos<br>permission:speech | capability.photos.requested<br>capability.speech.requested | pop:home |
 | camera | cover | create | parent:create<br>action:create.open-camera<br>permission:create.camera | request:capture-photo | always<br>capability.camera.requested | dismiss:create; interactive-or-action:create |
 | media | system | create | parent:create |  | none | system-return:create |

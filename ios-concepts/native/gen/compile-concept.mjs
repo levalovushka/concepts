@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileNativeConcept } from "../lib/compile-concept.mjs";
@@ -13,7 +13,9 @@ if (!slug) {
   process.exit(1);
 }
 
-const concept = JSON.parse(readFileSync(join(projectRoot, "concepts", slug, "concept.json"), "utf8"));
+const conceptPath = join(projectRoot, "concepts", slug, "concept.json");
+const blueprintPath = join(nativeRoot, "ProductBlueprints", `${slug}-vk.json`);
+const concept = JSON.parse(readFileSync(existsSync(conceptPath) ? conceptPath : blueprintPath, "utf8"));
 const result = compileNativeConcept(concept);
 
 for (const item of result.diagnostics) {

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://camo.local/schemas/world-model.schema.json",
+  "title": "Camo Product World Model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "entities", "relationships", "actions", "coreActions", "invariants", "authentication", "runtime", "capabilityBindings", "deliveryBindings"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "type": "string", "minLength": 3 },
+    "entities": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "name", "ownership", "states"],
+        "properties": {
+          "id": { "type": "string", "minLength": 2 },
+          "name": { "type": "string", "minLength": 2 },
+          "ownership": { "enum": ["user", "shared", "system"] },
+          "states": { "$ref": "#/$defs/textList" }
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "from", "to", "cardinality", "meaning"],
+        "properties": {
+          "id": { "type": "string", "minLength": 2 }, "from": { "type": "string", "minLength": 2 },
+          "to": { "type": "string", "minLength": 2 },
+          "cardinality": { "enum": ["one-to-one", "one-to-many", "many-to-many"] },
+          "meaning": { "type": "string", "minLength": 8 }
+        }
+      }
+    },
+    "actions": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "actor", "target", "intent", "preconditions", "effects", "failures", "offlineBehavior"],
+        "properties": {
+          "id": { "type": "string", "minLength": 2 }, "actor": { "type": "string", "minLength": 2 },
+          "target": { "type": "string", "minLength": 2 }, "intent": { "type": "string", "minLength": 8 },
+          "preconditions": { "$ref": "#/$defs/textList" }, "effects": { "$ref": "#/$defs/textList" },
+          "failures": { "$ref": "#/$defs/textList" }, "offlineBehavior": { "type": "string", "minLength": 8 }
+        }
+      }
+    },
+    "coreActions": { "$ref": "#/$defs/idList" },
+    "experienceGrammar": {
+      "type": "object", "additionalProperties": false,
+      "required": ["grammarId", "primarySurfaceRole", "primaryContentMode", "identityMode", "identityEntityId", "primaryContentEntityId", "distributionActionId", "feedbackActionIds", "feedbackModes", "relationshipId", "retentionLoopActionIds"],
+      "properties": {
+        "grammarId": { "type": "string", "minLength": 3 },
+        "primarySurfaceRole": { "type": "string", "minLength": 3 },
+        "primaryContentMode": { "type": "string", "minLength": 3 },
+        "identityMode": { "type": "string", "minLength": 3 },
+        "identityEntityId": { "type": "string", "minLength": 2 },
+        "primaryContentEntityId": { "type": "string", "minLength": 2 },
+        "distributionActionId": { "type": "string", "minLength": 2 },
+        "feedbackActionIds": { "$ref": "#/$defs/idList" },
+        "feedbackModes": {
+          "type": "array", "minItems": 1,
+          "items": { "enum": ["reaction", "comment", "share", "message", "subscribe"] }
+        },
+        "relationshipId": { "type": "string", "minLength": 2 },
+        "retentionLoopActionIds": { "$ref": "#/$defs/idList" }
+      }
+    },
+    "invariants": { "$ref": "#/$defs/textList" },
+    "authentication": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "method", "sessionEntity", "persistence"],
+      "properties": {
+        "required": { "const": true }, "method": { "type": "string", "minLength": 3 },
+        "sessionEntity": { "type": "string", "minLength": 2 }, "persistence": { "type": "string", "minLength": 8 }
+      }
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["persistence", "demoAdapters"],
+      "properties": {
+        "persistence": {
+          "type": "array", "minItems": 1,
+          "items": { "type": "object", "additionalProperties": false, "required": ["entity", "store"], "properties": { "entity": { "type": "string", "minLength": 2 }, "store": { "type": "string", "minLength": 3 } } }
+        },
+        "demoAdapters": {
+          "type": "array", "minItems": 1,
+          "items": { "type": "object", "additionalProperties": false, "required": ["id", "simulates", "states"], "properties": { "id": { "type": "string", "minLength": 2 }, "simulates": { "type": "string", "minLength": 8 }, "states": { "$ref": "#/$defs/idList" } } }
+        }
+      }
+    },
+    "capabilityBindings": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["key", "action", "purpose", "requestMoment", "deniedOutcome", "observableResult"],
+        "properties": {
+          "key": { "type": "string", "minLength": 2 }, "action": { "type": "string", "minLength": 2 },
+          "purpose": { "type": "string", "minLength": 8 }, "requestMoment": { "type": "string", "minLength": 8 },
+          "deniedOutcome": { "type": "string", "minLength": 8 }, "observableResult": { "type": "string", "minLength": 8 }
+        }
+      }
+    },
+    "deliveryBindings": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "action", "observableResult"],
+        "properties": {
+          "id": { "type": "string", "minLength": 2 }, "action": { "type": "string", "minLength": 2 },
+          "observableResult": { "type": "string", "minLength": 8 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "textList": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 8 } },
+    "idList": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 2 } }
+  }
+}

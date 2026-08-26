@@ -14,6 +14,11 @@
       "xcui": true,
       "captures": ["home--default", "chats--default", "yard--default", "menu--default"],
       "checks": ["dynamic-type-AXXXL", "safe-area", "card-bounds", "navigation-chrome", "liquid-glass-tab-bar", "lucide-selected-unselected"]
+    },
+    "tails": {
+      "xcui": true,
+      "captures": ["home--default", "nearby--default", "create--default", "chats--default", "profile--default"],
+      "checks": ["dynamic-type-AXXXL", "safe-area", "content-bounds", "navigation-chrome", "liquid-glass-tab-bar", "lucide-selected-unselected"]
     }
   },
   "manualOnly": [

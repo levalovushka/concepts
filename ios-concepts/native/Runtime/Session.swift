@@ -1,5 +1,6 @@
 import AuthenticationServices
 import SwiftUI
+import Security
 
 @MainActor
 @Observable
@@ -30,7 +31,8 @@ final class Session {
 
     static func restored(storageNamespace: String = "native.session", validatesAppleCredential: Bool = false) -> Session {
         let defaults = UserDefaults.standard
-        let authenticated = defaults.bool(forKey: "\(storageNamespace).authenticated")
+        let authenticated = SessionCredentialStore.contains(namespace: storageNamespace)
+            || defaults.bool(forKey: "\(storageNamespace).authenticated")
         let status = defaults.string(forKey: "\(storageNamespace).residence")
             .flatMap(ResidenceStatus.init(rawValue:)) ?? .unverified
         return Session(
@@ -91,5 +93,42 @@ final class Session {
         defaults.set(isAuthenticated, forKey: "\(storageNamespace).authenticated")
         defaults.set(residenceStatus.rawValue, forKey: "\(storageNamespace).residence")
         defaults.set(appleUserIdentifier, forKey: "\(storageNamespace).appleUser")
+        if isAuthenticated { SessionCredentialStore.save(namespace: storageNamespace) }
+        else { SessionCredentialStore.remove(namespace: storageNamespace) }
+    }
+}
+
+private enum SessionCredentialStore {
+    private static let service = "com.camo.native.session"
+
+    static func contains(namespace: String) -> Bool {
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching([
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: namespace,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+        ] as CFDictionary, &item)
+        return status == errSecSuccess
+    }
+
+    static func save(namespace: String) {
+        remove(namespace: namespace)
+        SecItemAdd([
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: namespace,
+            kSecValueData as String: Data("authenticated".utf8),
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+        ] as CFDictionary, nil)
+    }
+
+    static func remove(namespace: String) {
+        SecItemDelete([
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: namespace,
+        ] as CFDictionary)
     }
 }

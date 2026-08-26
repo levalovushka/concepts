@@ -161,6 +161,7 @@ struct DvorRootView: View {
         .environment(\.visualLanguage, visualLanguage)
         .tint(visualLanguage.palette.accent)
         .preferredColorScheme(.light)
+        .background(visualLanguage.palette.surface.ignoresSafeArea())
         .padding(.top, DvorShotMode.requiresDirectLaunchTopInset ? captureTopInset : 0)
         .ignoresSafeArea(edges: DvorShotMode.requiresDirectLaunchTopInset ? .top : [])
         .background {

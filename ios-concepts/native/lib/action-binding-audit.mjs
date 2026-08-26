@@ -13,7 +13,8 @@ export function auditActionBindings(manifest, source) {
     ...[...source.matchAll(/cancelActionID:\s*"([^"]+)"/g)].map(match => match[1]),
     ...[...source.matchAll(/emailActionID:\s*"([^"]+)"/g)].map(match => match[1]),
     ...[...source.matchAll(/codeActionID:\s*"([^"]+)"/g)].map(match => match[1]),
-    ...(source.includes("NativeEmailAuth") ? ["codefail.complete-codefail"] : []),
+    ...[...source.matchAll(/codeFailureActionID:\s*"([^"]+)"/g)].map(match => match[1]),
+    ...(source.includes("NativeEmailAuth") && !source.includes("codeFailureActionID:") ? ["codefail.complete-codefail"] : []),
   ];
 
   if (strict) {
@@ -36,6 +37,19 @@ export function auditActionBindings(manifest, source) {
     for (const match of source.matchAll(pattern)) {
       problems.push(`feedback-only control at source offset ${match.index}: toast cannot be the product outcome`);
     }
+  }
+
+  const emptyProductCallbacks = [
+    /on(?:Like|Comment|Share|Save):\s*\{\s*\}/g,
+    /VK(?:Pill|SectionHeader)\([^\n]*\)\s*\{\s*\}/g,
+  ];
+  for (const pattern of emptyProductCallbacks) for (const match of source.matchAll(pattern)) {
+    problems.push(`dead product control at source offset ${match.index}: an interactive affordance cannot have an empty outcome`);
+  }
+  for (const match of source.matchAll(/Button(?:\([^\n]*\))?\s*\{\s*\}/g)) {
+    if (!match[0].includes("role: .cancel")) problems.push(
+      `dead button at source offset ${match.index}: an interactive affordance cannot have an empty action`,
+    );
   }
 
   return problems;

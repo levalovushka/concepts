@@ -2,7 +2,6 @@
 
 Самостоятельный проект SwiftUI-концептов. Он не запускает HTML, не копирует DOM/CSS в приложение и не зависит от launcher/kernel старой платформы.
 
-## Для разработчиков: смотрим готовые концепты
 
 Не нужно клонировать репозиторий и разбираться в пайплайне, чтобы посмотреть Looks, Dvor и остальные концепты в деле — для этого есть лаунчер **Camo** (macOS-приложение). На машине нужен установленный Xcode и хотя бы один симулятор — Camo сам вызывает `xcodebuild`/`simctl`, руками собирать ничего не надо.
 
@@ -27,6 +26,11 @@
 
 ```sh
 npm test
+npm run factory:run -- native/fixtures/product-factory/request.example.json --adapter path/to/factory-pipeline-adapter.mjs --out path/to/artifacts
+npm run factory:develop -- native/fixtures/product-factory/request.example.json --adapter path/to/factory-adapter.mjs --out path/to/product-development.json
+npm run factory:experience -- path/to/factory-artifact.json --adapter path/to/experience-adapter.mjs --out path/to/experience-contract.json
+npm run factory:visual -- path/to/factory-artifact.json path/to/experience-contract.json --adapter path/to/visual-adapter.mjs --out path/to/visual-development.json
+npm run factory:release -- path/to/factory-artifact.json path/to/experience-contract.json path/to/visual-development.json --adapter path/to/release-adapter.mjs --out path/to/release-receipt.json
 npm run product:develop -- path/to/brief.json --adapter path/to/real-adapter.mjs --out path/to/development.json
 npm run product:verify -- path/to/development.json
 npm run product:gate -- dvor
@@ -44,6 +48,20 @@ npm run readiness
 npm run readiness:gate
 npm run launcher
 ```
+
+Канонический новый вход — короткий Factory Request: тема, целевой продукт и
+стратегия. Аудиторию, ситуации и World Models выводит generator, а отдельный
+evaluator независимо оценивает пять proposals. Permission profile компилируется
+из capability-to-action bindings выбранного продукта. Контракт и пример —
+[docs/PRODUCT-FACTORY-CONTRACT.md](docs/PRODUCT-FACTORY-CONTRACT.md).
+
+Основной поток запускается одной командой `factory:run` и сохраняет пять
+физически разделённых артефактов: запрос, product development, Experience
+Contract, visual development и release. Поэтапные команды остаются открытыми
+для диагностики конкретного seam.
+
+Старый `product:develop` остаётся compatibility interface для уже созданных
+Product Brief и воспроизводимых fixtures.
 
 Для нового продукта входом служит Product Brief: adapter реальной модели выдаёт несколько кандидатов, fail-closed stress test формирует Selection Receipt и только победитель становится каноническим Product Contract. Полный контракт — [docs/PRODUCT-MATURITY.md](docs/PRODUCT-MATURITY.md).
 
@@ -82,17 +100,20 @@ VoiceOver manual pass. Этот локальный отчёт игнорируе
 - `native/DesignSystem/` — общие нативные примитивы.
 - `native/Runtime/` — системные адаптеры iOS.
 - `native/ReferenceProfiles/` — доказанные грамматики мимикрии.
+- `native/VisualCalibrations/` — golden grammar и нативный baseline без переноса продуктовых шаблонов.
 - `native/apps/` — продуктовые SwiftUI-модули.
 - `native/lib/native-pipeline.mjs` — единый интерфейс пайплайна.
 - `native/lib/project-paths.mjs` — project-root seam для всех рабочих и output paths.
 - `native/gates/isolation.mjs` — executable isolation gate со standalone-copy прогоном.
 - `native/legacy-adapter/` — единственный optional adapter к старым HTML-свидетельствам.
 - `native/lib/product-maturity.mjs` — глубокий модуль brief → candidates → receipt → contract.
+- `native/lib/factory-pipeline.mjs` — единый короткий interface нового потока.
 - `native/lib/ux-specification.mjs` — глубокий UX compiler перед SwiftUI.
 - `native/schemas/` — детерминированные схемы продуктового и UX seams.
-- `docs/` — актуальные правила переноса, качества и профилей.
+- `docs/` — актуальные правила переноса, качества и профилей; индекс —
+  [docs/README.md](docs/README.md).
 - `launcher/` — самостоятельный macOS launcher для этой native-библиотеки.
 
 Старый `platform/` остаётся снаружи как архив и может быть только явным входом
-legacy adapter. Он не является зависимостью этого проекта; `ios-concepts/`
-можно копировать и проверять отдельно.
+legacy adapter. Он не является зависимостью этого проекта; repository
+клонируется, собирается и проверяется самостоятельно.

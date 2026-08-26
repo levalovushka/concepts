@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "stage": "native-build",
+  "diagnostics": [
+    {
+      "code": "cold.stage.crashed",
+      "message": "Generated source Model.swift contains a line longer than 180 characters",
+      "path": "native-build",
+      "severity": "error"
+    }
+  ],
+  "measurements": [],
+  "readyForDeveloperHandoff": false
+}

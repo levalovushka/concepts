@@ -64,10 +64,17 @@ struct RootView: View {
                     MainShell()
                 }
             } else {
-                AuthScreen(
-                    captureSurface: ShotMode.screen,
-                    captureState: authProductState
-                ) { withAnimation(.easeOut(duration: 0.25)) { session.signIn() } }
+                LooksCaptureSurface(surface: ShotMode.screen ?? "phone", state: ShotMode.state) {
+                    NativeEmailAuth(
+                        productName: "Образы",
+                        persistencePromise: "образы, гардероб и настройки профиля",
+                        initialSurface: ShotMode.screen,
+                        captureState: authProductState,
+                        emailActionID: "phone.continue-email",
+                        codeActionID: "code.confirm-code",
+                        codeFailureActionID: "codefail.retry-code"
+                    ) { withAnimation(.easeOut(duration: 0.25)) { session.signIn() } }
+                }
             }
         }
         .environment(store)

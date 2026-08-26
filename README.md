@@ -22,6 +22,26 @@
 
 ---
 
+## Два независимых пайплайна
+
+- **HTML-концепты** — существующий `platform/` и правила ниже. Этот поток
+  сохраняется без изменений.
+- **Нативные SwiftUI-концепты** — самостоятельный модуль
+  [`ios-concepts/`](ios-concepts/README.md). Его точка входа — короткий
+  [Product Factory Request](ios-concepts/docs/PRODUCT-FACTORY-CONTRACT.md), а
+  полная карта документации находится в
+  [`ios-concepts/docs/README.md`](ios-concepts/docs/README.md).
+
+Новый нативный поток запускается через `npm run factory:run` внутри
+`ios-concepts/` и сохраняет отдельные Product, Experience, Visual и Release
+артефакты. Команды старого `platform/` и формат HTML-концептов при этом не
+изменяются.
+
+Нативный модуль не читает HTML/CSS/DOM в normal pipeline. Старый концепт может
+быть передан ему только как явно указанный legacy evidence input.
+
+---
+
 ## С чего начать
 
 Читать по порядку:

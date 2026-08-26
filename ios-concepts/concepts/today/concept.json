@@ -2643,7 +2643,7 @@
       "strategy": "differentiation",
       "density": "product",
       "colorScheme": "light",
-      "qualityFloor": 8,
+      "qualityFloor": 8.5,
       "tokens": {
         "accent": "#2688EB",
         "background": "#FFFFFF",

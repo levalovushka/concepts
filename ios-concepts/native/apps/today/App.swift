@@ -55,9 +55,8 @@ struct TodayShell: View {
                     TodayRootSurface(surfaceID: item.screen)
                         .navigationDestination(for: String.self) { TodayDestination(surfaceID: $0) }
                 }
-                .tabItem { Image(systemName: item.systemImage) }
+                .tabItem { Image(systemName: item.systemImage).accessibilityLabel(item.label).accessibilityIdentifier(item.label) }
                 .tag(item.id)
-                .accessibilityLabel(item.label)
             }
         }
         .task {
@@ -298,14 +297,19 @@ struct TodayPlans: View {
         List {
             TodayStatePanel(state: state).listRowInsets(EdgeInsets()).listRowSeparator(.hidden)
             Section("Сегодня") {
-                Label("Кино · 20:10 · подтверждено 3 из 3", systemImage: "ticket.fill")
-                Label("Прогулка · 21:30 · ждём Дашу", systemImage: "figure.walk")
+                NavigationLink(value: "chat") {
+                    Label("Кино · 20:10 · подтверждено 3 из 3", systemImage: "ticket.fill")
+                }
+                .nativeAction("open-chat")
+                NavigationLink(value: "chat") {
+                    Label("Прогулка · 21:30 · ждём Дашу", systemImage: "figure.walk")
+                }
             }
             Section("Недавно") {
-                Label("Ужин в субботу · завершён", systemImage: "checkmark.circle")
+                NavigationLink(value: "chat") {
+                    Label("Ужин в субботу · завершён", systemImage: "checkmark.circle")
+                }
             }
-            NativeContractActionControl(surfaceID: "chats", title: "Открыть разговор", compact: true).listRowInsets(EdgeInsets())
-            NativeCapabilityControls(surfaceID: "chats").listRowInsets(EdgeInsets())
         }.listStyle(.insetGrouped).navigationTitle("Планы").nativeSurface("chats")
     }
 }

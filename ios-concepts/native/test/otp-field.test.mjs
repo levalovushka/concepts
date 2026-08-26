@@ -21,6 +21,6 @@ test("every concept uses one production OTP component", () => {
   assert.match(auth, /NativeOTPField\(code: \$code/);
   assert.equal(appSources.some(source => /struct (OTPField|DvorOTPField)/.test(source)), false,
     "apps must not fork the shared OTP field");
-  assert.equal(appSources.filter(source => source.includes("NativeOTPField(code: $code")).length >= 1, true,
-    "specialized auth flows must consume the shared OTP field");
+  assert.equal(appSources.every(source => !source.includes("NativeOTPField(code: $code")), true,
+    "apps must consume OTP only through the shared NativeEmailAuth boundary");
 });
