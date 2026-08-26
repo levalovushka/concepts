@@ -32,3 +32,19 @@ README не может случайно начать раздавать непо
 
 TestFlight-сборка — отдельный песоченный продукт. Её процесс описан в
 [TESTFLIGHT.md](TESTFLIGHT.md).
+
+## Автоматическая сборка через CI
+
+`.github/workflows/release-camo.yml` в корне репозитория гоняет тот же
+`npm run launcher:package` на push тега `camo-v*` (или вручную,
+workflow_dispatch). Секреты подписи/нотаризации читаются из GitHub Actions
+Secrets, список и точные команды экспорта — в комментарии в начале файла
+workflow. Готовый `Camo-macOS.zip` кладётся только в workflow-артефакт
+(доступен тем, у кого есть доступ к запускам Actions в репозитории) —
+публикация во внешний канал (внутренний хостинг, приватный релиз и т.п.)
+осознанно не автоматизирована и остаётся ручным шагом владельца дистрибуции.
+
+Адрес appcast для автообновлений (`CamoAppcastURL` в Info.plist, читает
+`Updater.swift`) задаётся переменной репозитория `CAMO_APPCAST_URL`
+(Settings → Secrets and variables → Actions → Variables), а не хардкодится —
+см. `CAMO_APPCAST_URL` в `launcher/gen/gen-launcher.mjs`.

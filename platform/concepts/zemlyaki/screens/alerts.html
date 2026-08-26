@@ -1,0 +1,43 @@
+<div class="screen r-page" id="scr-alerts">
+  <div class="sheet">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-body flush">
+      <div class="r-top"><div class="r-top-title">Оповещения</div><div class="r-top-acts"><div class="r-icon tap" data-back aria-label="Закрыть"><svg class="ico-svg"><use href="#i-x"/></svg></div></div></div>
+      <div class="r-card">
+        <div class="r-row">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-mail"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Сообщения и звонки</div><div class="r-row-s">приходят с именем и фотографией отправителя</div></div>
+        </div>
+        <div class="r-row">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-message-circle"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Ответы в обсуждениях</div><div class="r-row-s">только там, где вы отвечали или вас упомянули</div></div>
+        </div>
+        <div class="r-row">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Дни рождения и встречи</div><div class="r-row-s">накануне и утром в день события</div></div>
+        </div>
+      </div>
+      <div class="r-card">
+        <div class="r-row tap" data-activate="commnotif|incoming" aria-label="Показывать аватар в баннере">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-id-card"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Лицо в баннере</div><div class="r-row-s">коммуникационные уведомления учитывают режим фокусирования</div></div>
+          <div class="r-end"><div class="switch is-on"></div></div>
+        </div>
+        <div class="r-row tap" data-activate="remotenotif|alerts" aria-label="Обновлять счётчики в фоне">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-loader-circle"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Счётчики в фоне</div><div class="r-row-s">тихие пуши обновляют разделы до открытия</div></div>
+          <div class="r-end"><div class="switch is-on"></div></div>
+        </div>
+      </div>
+      <div class="state" data-show-denied="push" hidden>
+        <div class="state-ico"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+        <div class="t-headline">Оповещения выключены</div>
+        <div class="t-body">Новое видно при открытии приложения: счётчики разделов считаются так же.</div>
+        <div class="state-actions"><div class="btn-filled tap" data-go="city" aria-label="Открыть ленту">Открыть ленту</div></div>
+      </div>
+    </div>
+    <div class="sheet-footer">
+      <button class="btn-filled tap" data-primary data-ask="push|alerts|alerts" aria-label="Включить оповещения">Включить оповещения</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="screen r-page r-dark" id="scr-shoot">
+  <div class="cam">
+    <div class="cam-preview ph on-dark"></div>
+    <div class="cam-top">
+      <div class="icon-btn tap" data-back aria-label="Закрыть камеру"><svg class="ico-svg"><use href="#i-x"/></svg></div>
+      <div class="cam-mid">Фото</div>
+      <div class="cam-trailing">
+        <div class="icon-btn tap" data-toast="Вспышка · авто" aria-label="Вспышка"><svg class="ico-svg"><use href="#i-zap"/></svg></div>
+      </div>
+    </div>
+    <div class="cam-bottom">
+      <div class="ios-segmented">
+        <button class="seg is-on tap" aria-label="Режим фото">Фото</button>
+        <button class="seg tap" data-toast="Видео пишется со звуком — нужен микрофон" aria-label="Режим видео">Видео</button>
+      </div>
+      <div class="cam-controls">
+        <div class="cam-slot">
+          <div class="cam-thumb ph on-dark tap" data-go="picker" aria-label="Открыть медиатеку"></div>
+        </div>
+        <button class="cam-shutter tap" data-primary data-go="chronicleadd" aria-label="Снять"><span class="r-sr-only">Снять</span></button>
+        <div class="cam-slot">
+          <div class="icon-btn tap" data-toast="Камера · фронтальная" aria-label="Переключить камеру"><svg class="ico-svg"><use href="#i-rotate-cw"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div class="state" data-show-denied="camera" hidden>
+      <div class="state-ico"><svg class="ico-svg"><use href="#i-camera"/></svg></div>
+      <div class="t-headline">Камера недоступна</div>
+      <div class="t-body">Разрешение можно выдать в настройках телефона. Пока публикация собирается из медиатеки.</div>
+      <div class="state-actions"><div class="btn-filled tap" data-go="picker" aria-label="Выбрать из медиатеки">Выбрать из медиатеки</div></div>
+    </div>
+  </div>
+</div>

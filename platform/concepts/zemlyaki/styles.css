@@ -1,0 +1,1309 @@
+.z-ident-head{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center}.z-ident-head>b{white-space:nowrap;font:700 15px/19px var(--face)}.z-ident-head>span{white-space:nowrap;color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-ident-head>button{width:auto;min-height:34px;padding:0 13px}
+
+/* Эфир и киноархив индексируются местом, а не одинаковыми обложками. */
+.z-archive-index{display:flex;align-items:center;gap:10px;margin-top:10px;padding:12px;border-radius:14px;background:#2f2a25;color:#fff}.z-archive-index>div{flex:1}.z-archive-index span,.z-archive-index b,.z-archive-index small{display:block}.z-archive-index span{color:#ffb36e;font:600 11px/14px var(--face)}.z-archive-index b{font:700 16px/20px var(--face)}.z-archive-index small{color:rgba(255,255,255,.58);font:400 11px/14px var(--face)}.z-archive-index button{min-height:38px;padding:0 12px;font-size:13px}.z-era{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;margin:11px 2px 6px}.z-era span,.z-era b{font:600 11px/14px var(--face)}.z-era span{color:var(--ios-secondary)}.z-era b{color:var(--accent-fill)}.z-era i{height:1px;background:rgba(60,60,67,.16)}.z-film-card{display:grid;grid-template-columns:74px 1fr;gap:10px;margin-bottom:7px;padding:9px;border-radius:13px;background:#fff}.z-film-card>.ph{width:74px;height:56px;border-radius:9px}.z-film-card span,.z-film-card b,.z-film-card small,.z-film-card em{display:block}.z-film-card span{color:var(--accent-fill);font:600 11px/14px var(--face)}.z-film-card b{font:600 13px/16px var(--face)}.z-film-card small{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-film-card em{margin-top:3px;color:#4bb34b;font:500 11px/14px var(--face);font-style:normal}.z-film-card .dl-bar{margin-top:5px}.z-archive-foot{display:flex;align-items:center;gap:9px;margin:10px 0;padding:11px 12px;border-radius:14px;background:#fff}.z-archive-foot>.ico-svg:first-child{width:20px;height:20px;color:var(--accent-fill)}.z-archive-foot>div{flex:1}.z-archive-foot b,.z-archive-foot span{display:block}.z-archive-foot b{font:600 13px/16px var(--face)}.z-archive-foot span{color:var(--ios-secondary);font:400 11px/14px var(--face)}
+
+/* «Земляки» — соцсеть малой родины. Мимикрия под Одноклассники.
+   Токены взяты по наблюдениям kernel/archetypes/ok-observations.md:
+   тёплая подложка, белые карточки, оранжевые действия, зелёные счётчики. */
+
+.r-page {
+  background-color: #f2efec;
+  color: #14110f;
+}
+.r-scroll {
+  padding-bottom: 12px;
+}
+.r-scroll > .r-top {
+  margin-bottom: 8px;
+}
+.r-safe {
+  padding-top: var(--safe-top);
+}
+
+/* —— верхняя панель раздела —— */
+.r-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 8px 16px;
+  background-color: #fff;
+}
+.r-top-title {
+  flex: 1;
+  min-width: 0;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-top-acts {
+  display: flex;
+  gap: 2px;
+}
+.r-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #14110f;
+  position: relative;
+}
+.r-icon .ico-svg {
+  width: 23px;
+  height: 23px;
+}
+.r-badge {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 11px/18px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— карточка раздела —— */
+.r-card {
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.r-card.pad {
+  padding: 14px 16px;
+}
+.r-wrap {
+  padding-top: 0;
+}
+
+.r-pill {
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 20px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 15px/1 var(--face);
+}
+.r-pill.quiet {
+  background-color: rgba(60, 60, 67, 0.1);
+  color: #14110f;
+}
+
+/* —— публикация —— */
+.r-post-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+.r-post-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.r-post-who {
+  flex: 1;
+  min-width: 0;
+}
+.r-post-name {
+  font: 600 15px/19px var(--face);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.r-kin {
+  font: 400 13px/17px var(--face);
+  color: var(--accent-fill);
+}
+.r-post-meta {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-post-text {
+  padding: 0 14px 10px;
+  font: 400 15px/21px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-media {
+  height: 214px;
+}
+.r-media.tall { height: 148px; }
+
+/* —— секции и строки —— */
+.r-sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px 8px;
+}
+.r-sec-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 700 17px/22px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-sec-head span {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-row:last-child {
+  border-bottom: 0;
+}
+.r-row-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex: none;
+  position: relative;
+}
+/* Обрезка живёт на самом плейсхолдере: на контейнере она срезала
+   зелёную точку присутствия, приклеенную к краю аватара. */
+.r-row-face > .ph {
+  border-radius: inherit;
+  overflow: hidden;
+}
+.r-online {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #4bb34b;
+  box-shadow: 0 0 0 2px #fff;
+}
+.r-row-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-row-t {
+  font: 500 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-row-s {
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+  text-wrap: pretty;
+}
+.r-end {
+  flex: none;
+  text-align: right;
+  color: var(--ios-secondary);
+  font: 400 13px/18px var(--face);
+}
+.r-count {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 12px/20px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— переписка —— */
+.r-chat-scroll {
+  padding: 10px var(--margin) 8px;
+  display: flex;
+  flex-direction: column;
+}
+/* Переписка прижата к низу: живой разговор начинается снизу, а не сверху. */
+.r-chat-scroll > :first-child {
+  margin-top: auto;
+}
+.r-daydiv {
+  align-self: center;
+  margin: 6px auto 10px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background-color: rgba(60, 60, 67, 0.1);
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  width: fit-content;
+}
+.r-bub {
+  max-width: 76%;
+  margin-bottom: 8px;
+  padding: 9px 12px 7px;
+  border-radius: 16px;
+  background-color: #fff;
+  font: 400 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.r-bub.mine {
+  margin-left: auto;
+  background-color: rgba(238, 114, 3, 0.14);
+}
+.r-bub-time {
+  display: block;
+  margin-top: 2px;
+  text-align: right;
+  font: 400 11px/14px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.r-voicemsg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+.r-voicemsg .ico-svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  color: var(--accent-fill);
+}
+.r-wave {
+  flex: 1;
+  height: 22px;
+  border-radius: 3px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent-fill) 0 2px,
+    transparent 2px 5px
+  );
+  opacity: 0.55;
+}
+.r-kinbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: #fff;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-kinbar-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-kinbar-t {
+  font: 500 14px/19px var(--face);
+}
+.r-kinbar-s {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.r-inputbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px var(--margin);
+  background-color: #fff;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+}
+.r-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 20px;
+  background-color: rgba(118, 118, 128, 0.12);
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— плеер и аудиоархив —— */
+.r-player-art {
+  width: 96px;
+  height: 72px;
+  border-radius: 10px;
+  margin: 0 12px 12px 0;
+  float: left;
+}
+.r-track {
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(60, 60, 67, 0.18);
+  margin-bottom: 6px;
+  position: relative;
+}
+.r-track-in {
+  position: absolute;
+  inset: 0 62% 0 0;
+  border-radius: 2px;
+  background-color: var(--accent-fill);
+}
+.r-times {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 18px;
+}
+.r-marks {
+  display: flex;
+  flex-direction: column;
+}
+/* Метка живёт на общей сетке концепта: поле 16, колонка тайм-кода 56,
+   текст с 72 — как значок и текст в обычной строке. */
+.r-mark {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 8px 16px;
+  font: 400 15px/20px var(--face);
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-mark:last-child {
+  border-bottom: 0;
+}
+.r-mark-at {
+  font: 500 14px/19px var(--face);
+  color: var(--accent-fill);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  width: 56px;
+}
+
+.r-way {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 8px 16px 8px 0;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.r-way:last-child {
+  border-bottom: 0;
+}
+.r-way-dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 17px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.25);
+}
+.r-way-dot.is-moving {
+  background-color: var(--accent-fill);
+}
+.r-way-dot.is-here {
+  background-color: #4bb34b;
+}
+
+/* —— устройства в сети —— */
+.r-net {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-net .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+/* —— места города —— */
+
+/* —— мелкие утилиты концепта —— */
+.r-note {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.r-note .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  margin-top: 1px;
+}
+.r-cta {
+  padding: 10px 16px 8px;
+}
+.r-dock .tab .ico-svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* Схема дороги — данные, нарисованные кодом; это допустимое исключение из `.ph`. */
+.r-map {
+  height: 136px;
+  flex: none;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.route-map {
+  position: relative;
+  overflow: hidden;
+  background: #eee9df url(assets/media/gdov-map.svg) center/cover no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(60,60,67,.08);
+}
+.route-line {
+  position: absolute;
+  left: 54px;
+  right: 48px;
+  top: 70px;
+  height: 3px;
+  background: var(--accent-fill);
+  transform: rotate(-8deg);
+  transform-origin: center;
+}
+.route-point {
+  position: absolute;
+  padding: 4px 7px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 7px rgba(0,0,0,.14);
+  font: 600 11px/14px var(--face);
+}
+.route-point::before { content:""; display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; background:var(--accent-fill); }
+.route-point.is-start { left: 22px; top: 78px; }
+.route-point.is-train { left: 142px; top: 42px; }
+.route-point.is-finish { right: 18px; top: 22px; }
+
+/* Тёмные экраны концепта: ядро задаёт только цвет текста, подложку ставит концепт. */
+.r-page .lock-bg {
+  background-color: #17120e;
+}
+.r-page .lock-bg .miniplayer-title,
+
+.r-page .lock-bg .miniplayer-sub {
+  color: rgba(255, 255, 255, 0.78);
+}
+.r-page .cam {
+  background-color: #0d0b09;
+}
+
+/* Счётчик на вкладке сидит на иконке, а не под ней. */
+.r-dock .tab {
+  position: relative;
+}
+.r-dock .tab .r-count {
+  position: absolute;
+  top: 1px;
+  left: calc(50% + 4px);
+}
+
+/* Запись — не человек: миниатюра квадратная, а не круглая. */
+.r-row-face.is-art {
+  border-radius: 8px;
+}
+
+/* Строка со значком вместо лица: значок центрируется и получает подложку.
+   Без этого svg из спрайта рендерится обрезком в 44-пиксельном круге. */
+.r-row-face:has(> .ico-svg) {
+  display: grid;
+  place-items: center;
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.r-row-face > .ico-svg {
+  width: 22px;
+  height: 22px;
+}
+.r-mark .ico-svg,
+.r-way .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Таб-бар в ОК светлый, счётчики зелёные, активная вкладка оранжевая.
+   Ядро отдаёт тёмное стекло — концепт переопределяет подложку и цвета. */
+.r-dock {
+  background-color: #fff;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  color: rgba(60, 60, 67, 0.45);
+}
+.r-dock > .tab.is-on {
+  color: var(--accent-fill);
+}
+/* Ядро заливает иконку активной вкладки под залитый SF Symbol, но иконки
+   спрайта контурные: залитый конверт превращается в оранжевый квадрат.
+   В ОК активная вкладка — тот же контур, только акцентным цветом. */
+.r-dock .tab.is-on .ico svg {
+  fill: none;
+  stroke-width: 2;
+}
+.r-dock .tab .r-count {
+  position: absolute;
+  top: -1px;
+  left: 52%;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Подпись только для скринридера — у круглых кнопок без текста. */
+.r-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Круглая кнопка голосового в строке ввода — как в ОК. */
+.r-mic {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  display: grid;
+  place-items: center;
+}
+.r-mic .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Плейсхолдер внутри контейнера-носителя обязан заполнять его целиком:
+   без размеров он схлопывается до иконки и прижимается к левому верхнему углу. */
+.r-post-face > .ph,
+.r-row-face > .ph,
+.r-player-art > .ph,
+.miniplayer-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+
+/* Выбранные снимки в композере — полоса миниатюр, а не два поля во весь экран. */
+.r-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+.r-thumb {
+  width: 92px;
+  height: 92px;
+  flex: none;
+  border-radius: 10px;
+}
+
+/* Кнопка-действие в шапке раздела: компактная пилюля, а не иконка без подписи. */
+.r-top-acts .r-pill {
+  min-height: 36px;
+  padding: 0 14px;
+  font: 600 14px/1 var(--face);
+}
+/* Кнопка в подвале секции всегда во всю ширину: ядровая .btn-filled
+   инлайновая, и без этого главное действие съезжает к левому краю. */
+.r-cta .btn-filled {
+  width: 100%;
+}
+/* Тихая кнопка концепта: белая карточка с акцентным текстом.
+   Ядровая заливка на тёплой подложке читается как выключенная. */
+.r-cta .btn-quiet {
+  width: 100%;
+  min-height: 50px;
+  border-radius: var(--r-btn);
+  background-color: #fff;
+  color: var(--accent-fill);
+  font: 600 15px/1 var(--face);
+}
+
+/* Статус-бар и навбар на белой шапке: тёплая подложка над «Лентой»
+   читается как незакрашенная полоса. */
+.device:has(.screen.is-on.r-page:not(.r-dark)) > .status {
+  background-color: #fff;
+}
+.r-page .navbar {
+  background-color: #fff;
+}
+/* Строка ввода не наезжает на индикатор «Домой». */
+.r-inputbar {
+  padding-bottom: calc(var(--safe-bottom) - 8px);
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+
+/* Полоса прогресса в строке списка: доля задаётся классом,
+   inline-style в UI v3 запрещён. */
+.r-row-copy .dl-bar {
+  margin-top: 8px;
+  max-width: 150px;
+}
+.r-p62 {
+  width: 62%;
+}
+
+/* Модальный лист: подложка за ним притемняется, иначе экран читается
+   как обычный, у которого контент почему-то начинается с середины. */
+.r-page:has(> .sheet) {
+  background-color: #ddd6cf;
+}
+
+/* —— тёмные экраны: звонок, локскрин, показ на телевизоре —— */
+.r-page .lock-bg {
+  align-items: center;
+  text-align: center;
+}
+.r-call-face {
+  width: 108px;
+  height: 108px;
+  margin: 26px 0 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.r-call-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-call-name {
+  font: 700 28px/34px var(--face);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.r-call-sub {
+  margin-top: 4px;
+  font: 400 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+}
+.r-call-timer {
+  margin-top: 10px;
+  font: 500 17px/22px var(--face);
+  color: rgba(255, 255, 255, 0.86);
+  font-variant-numeric: tabular-nums;
+}
+.r-call-ctl,
+.r-np-ctl,
+.r-cast-ctl {
+  gap: 22px;
+  margin-bottom: 20px;
+}
+.r-call-end {
+  width: 100%;
+  padding-bottom: 8px;
+}
+.r-hangup,
+.r-stopcast {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: 600 17px/1 var(--face);
+}
+.r-hangup {
+  background-color: #e5342b;
+  color: #fff;
+}
+.r-stopcast {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.r-lock-date {
+  margin-top: 18px;
+  font: 400 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.72);
+}
+.r-lock-time {
+  font: 300 76px/84px var(--face);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.r-nowplaying {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+}
+/* Баннер входящего звонка на локскрине: матовая карточка с двумя кнопками. */
+.r-incoming {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.14);
+  text-align: left;
+}
+.r-incoming-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.r-incoming-face {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-incoming-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-incoming-copy {
+  flex: 1;
+  min-width: 0;
+}
+.r-incoming-name {
+  font: 600 16px/21px var(--face);
+  color: #fff;
+}
+.r-incoming-sub {
+  font: 400 14px/19px var(--face);
+  color: rgba(255, 255, 255, 0.68);
+}
+.r-incoming-when {
+  flex: none;
+  font: 400 13px/18px var(--face);
+  color: rgba(255, 255, 255, 0.55);
+}
+.r-incoming-acts {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.r-decline,
+.r-accept {
+  flex: 1;
+  min-height: 46px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 23px;
+  font: 600 16px/1 var(--face);
+}
+.r-decline {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.r-accept {
+  background-color: #34c759;
+  color: #fff;
+}
+.r-nowplaying {
+  padding: 12px 14px 4px;
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.r-nowplaying .miniplayer {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+.r-nowplaying .dl-bar {
+  margin: 16px 0 6px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.r-cast-art {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex: none;
+}
+.r-cast-art > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-cast-t {
+  margin-top: 18px;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.r-cast-s {
+  margin-top: 4px;
+  font: 400 14px/19px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+}
+.r-cast-track {
+  width: 100%;
+  margin-top: 18px;
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Модификаторы тёмных экранов: подложка и вертикальный ритм. */
+.r-dark {
+  background-color: #17120e;
+}
+/* Сцена тёмного экрана без больших часов: ядровой .lock-bg прячет время
+   в статус-баре, потому что на локскрине часы свои. Звонку и показу
+   на телевизоре часы нужны. */
+.r-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 10px);
+}
+.r-lock {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.r-call .grow,
+.r-cast .grow {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Управление поверх видоискателя белое: акцентный цвет ядра на камере
+   читается как активное состояние, которого нет. */
+.cam .icon-btn {
+  color: #fff;
+}
+/* Переключатель режима съёмки поверх тёмного видоискателя. */
+.cam .ios-segmented {
+  background-color: rgba(0, 0, 0, 0.42);
+}
+.cam .ios-segmented .seg {
+  color: rgba(255, 255, 255, 0.72);
+}
+.cam .ios-segmented .seg.is-on {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #14110f;
+}
+
+/* Действие в хвосте строки читается как нажимаемое, а не как данные. */
+.r-end.is-act {
+  color: var(--accent-fill);
+  font: 500 14px/19px var(--face);
+}
+
+/* Управление записью: перемотка по краям, главное действие в центре. */
+.r-play-ctl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.r-play-ctl .r-ctl {
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.r-listen {
+  flex: 1;
+  min-height: 50px;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--r-btn);
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 17px/1 var(--face);
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+.r-player-t {
+  font: 700 20px/25px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+}
+.r-player-s {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 18px;
+}
+
+/* Индикатор записи в листе голосового. */
+.r-rec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.r-rec-t {
+  flex: 1;
+  min-width: 0;
+  font: 500 15px/20px var(--face);
+}
+.r-rec-time {
+  font: 500 15px/20px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.r-wave-big {
+  height: 44px;
+  margin-bottom: 10px;
+  opacity: 0.75;
+}
+
+/* Поле публикации — область ввода, а не строка списка. */
+.r-editor {
+  min-height: 108px;
+}
+
+/* Ячейки кода отбиваются от подводки так же, как поле почты на входе. */
+.r-page .otp {
+  margin-top: 24px;
+}
+
+/* Экраны входа белые: тёплая подложка держит белые карточки в разделах,
+   а на входе карточек нет — она читается как незакрашенный фон. */
+.r-page:has(> .auth) {
+  background-color: #fff;
+}
+
+/* Управление воспроизведением внутри экрана. Ядровой .ctl — класс страницы
+   документа, а не устройства: у него своя типографика и рамка. */
+.r-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.r-ctl {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.r-ctl .ico-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+[data-screen="library"] .home-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 8px;
+  padding: 12px 0;
+}
+[data-screen="library"] .home-grid > .ph {
+  position: relative;
+  height: 62px;
+  border-radius: 8px;
+}
+.home-grid > .ph.is-picked::before {
+  content: "✓";
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-fill);
+  color: #fff;
+  font: 700 14px/1 var(--face);
+  z-index: 2;
+}
+.r-pick-label {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.9);
+  color: var(--ios-secondary);
+  font: 600 11px/13px var(--face);
+  z-index: 2;
+}
+
+.place-map {
+  position: relative;
+  height: 116px;
+  margin: 2px 0 14px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: url(assets/media/gdov-map.svg) center/cover no-repeat;
+  box-shadow: inset 0 0 0 1px rgba(60,60,67,.08);
+}
+.place-pin {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px 5px 6px;
+  border-radius: 12px;
+  background: #fff;
+  color: #2b2825;
+  font: 600 11px/14px var(--face);
+  box-shadow: 0 2px 8px rgba(33,28,22,.18);
+}
+.place-pin .ico-svg { width: 17px; height: 17px; color: var(--accent-fill); }
+.place-pin.is-main { left: 48%; top: 36%; }
+.place-pin.is-secondary { left: 18%; top: 59%; }
+.place-near {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  padding: 5px 9px;
+  border-radius: 11px;
+  background: rgba(255,255,255,.92);
+  color: var(--ios-secondary);
+  font: 500 11px/14px var(--face);
+  white-space: nowrap;
+}
+[data-screen="geotag"] .sheet-footer {
+  position: relative;
+  z-index: 4;
+  padding-top: 8px;
+  background: #fff;
+  padding-bottom: calc(var(--safe-bottom) + 4px);
+}
+[data-screen="geotag"] .sheet-footer .btn-filled {
+  background-color: var(--accent-fill) !important;
+  color: var(--on-accent) !important;
+}
+.z-topic-reply {
+  flex: none;
+  padding: 8px 16px calc(var(--safe-bottom) + 8px);
+  background: #fff;
+}
+[data-screen="topic"] .r-media { height: 96px; }
+/* Фотографии и обложки — только ядровые `.ph`. Размер несёт смысл:
+   лицо 44×44, медиа строки 74×56, публикация — компактный контекстный кадр. */
+.r-row-face.is-art {
+  width: 74px;
+  height: 56px;
+  border-radius: 10px;
+}
+.r-row:has(.r-row-face.is-art) { min-height: 72px; }
+.r-post-face,
+.r-row-face:not(.is-art) { width: 44px; height: 44px; border-radius: 50%; }
+.r-call-face,
+.r-incoming-face { width: 44px; height: 44px; border-radius: 50%; }
+.r-cast-art {
+  width: 160px;
+  height: 120px;
+  aspect-ratio: auto;
+  margin: 28px auto 0;
+  border-radius: 10px;
+}
+.r-thumbs .ph { width: 74px; height: 56px; border-radius: 10px; }
+.r-thumb { width: 74px; height: 56px; }
+
+/* Place graph — самостоятельная композиция «Земляков», не карточный шаблон Rodnya. */
+.z-pass-title { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }.z-pass-title b { font:700 16px/20px var(--face); }.z-pass-title span { color:var(--ios-secondary); font:400 11px/14px var(--face); }.z-graph-card { margin:10px; padding:12px; border-radius:16px; background:#2f2a25; color:#fff; }.z-graph-meta { display:flex;justify-content:space-between;align-items:baseline; }.z-graph-meta b { font:700 16px/20px var(--face); }.z-graph-meta span { color:rgba(255,255,255,.55);font:400  11px/13px var(--face); }
+.z-place-graph { position:relative;height:176px;margin-top:8px; }.z-graph-lines { position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.5; }
+.z-node { position:absolute;display:flex;flex-direction:column;align-items:center;text-align:center; }.z-node.is-me { left:139px;top:57px;width:58px; }.z-node.is-me > span { width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:var(--accent-fill);font:700 12px/1 var(--face); }.z-node.is-me b { margin-top:4px;font:600  11px/13px var(--face); }
+.z-node.is-place { width:82px;padding:7px 5px;border-radius:10px;background:rgba(255,255,255,.1); }.z-node.is-place .ico-svg { width:16px;height:16px;color:#ffb36e; }.z-node.is-place b,.z-node.is-place span { display:block; }.z-node.is-place b { margin-top:3px;font:600  11px/13px var(--face); }.z-node.is-place span { color:rgba(255,255,255,.54);font:400  11px/12px var(--face); }.z-node.p1 { left:4px;top:5px; }.z-node.p2 { right:4px;top:5px; }.z-node.p3 { left:26px;bottom:1px; }.z-node.p4 { right:17px;bottom:1px; }
+.z-selected-place,.z-place-history { margin:0 10px 9px;padding:12px;border-radius:14px;background:#fff; }.z-selected-top { display:flex;justify-content:space-between;align-items:center; }.z-selected-top span,.z-selected-top b { display:block; }.z-selected-top span { color:var(--accent-fill);font:600  11px/13px var(--face);text-transform:uppercase; }.z-selected-top b { font:700 17px/21px var(--face); }.z-place-years { padding:5px 8px;border-radius:8px;background:rgba(238,114,3,.1);color:var(--accent-fill);font:700 11px/14px var(--face); }
+.z-place-facts { display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:10px 0; }.z-place-facts div { padding:8px;border-radius:9px;background:#f2efec; }.z-place-facts b,.z-place-facts span { display:block; }.z-place-facts b { font:800 16px/19px var(--face); }.z-place-facts span { color:var(--ios-secondary);font:400  11px/12px var(--face); }
+.z-place-links > div { min-height:48px;display:flex;align-items:center;gap:9px;border-top:.5px solid rgba(60,60,67,.12); }.z-place-links > div > .ico-svg:first-child { width:19px;height:19px;color:var(--accent-fill); }.z-place-links > div > span:not(.r-count) { flex:1;min-width:0; }.z-place-links b,.z-place-links small { display:block; }.z-place-links b { font:600 13px/16px var(--face); }.z-place-links small { color:var(--ios-secondary);font:400  11px/13px var(--face); }
+.z-place-event { position:relative;display:grid;grid-template-columns:35px 9px 1fr;gap:8px;min-height:45px; }.z-place-event::before { content:"";position:absolute;left:47px;top:13px;bottom:-6px;width:1px;background:rgba(60,60,67,.16); }.z-place-event:last-child::before { display:none; }.z-place-event > span { color:var(--accent-fill);font:700  11px/13px var(--face); }.z-place-event i { width:9px;height:9px;margin-top:3px;border-radius:50%;background:#c7c7cc;z-index:1; }.z-place-event.is-now i { background:#4bb34b; }.z-place-event b,.z-place-event small { display:block; }.z-place-event b { font:600 12px/15px var(--face); }.z-place-event small { margin-top:2px;color:var(--ios-secondary);font:400  11px/13px var(--face); }
+/* Встреча строится вокруг схемы места и прибытия, а не общего event hero. */
+.z-meet-map{position:relative;height:156px;margin:10px 0 0;border-radius:16px 16px 0 0;background:url(assets/media/gdov-map.svg) center/cover no-repeat;overflow:hidden}.z-meet-map::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(60,60,67,.08);border-radius:inherit;pointer-events:none}.z-meet-pin{position:absolute;z-index:1;display:flex;align-items:center;gap:4px;padding:6px 8px;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(33,28,22,.2);font:600 11px/14px var(--face)}.z-meet-pin .ico-svg{width:15px;height:15px;color:var(--accent-fill)}.z-meet-pin.is-square{left:42%;top:37%}.z-meet-pin.is-parking{left:8%;bottom:18%}.z-meet-pin.is-station{right:7%;top:16%}
+.z-meet-title{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:0 0 16px 16px;background:#2f2a25;color:#fff}.z-meet-title>div:first-child{flex:1;min-width:0}.z-meet-title span,.z-meet-title b,.z-meet-title small{display:block}.z-meet-title span{color:#ffb36e;font:600 11px/14px var(--face)}.z-meet-title b{margin-top:3px;font:700 16px/20px var(--face)}.z-meet-title small{margin-top:3px;color:rgba(255,255,255,.62);font:400 11px/15px var(--face)}.z-meet-count{width:52px;flex:none;text-align:center}.z-meet-count b{font:800 23px/25px var(--face)}.z-meet-count span{color:rgba(255,255,255,.58);font:400 11px/14px var(--face)}
+.z-arrival-board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:9px 0}.z-arrival-board>div{padding:9px;border-radius:11px;background:#fff}.z-arrival-board i{display:block;width:7px;height:7px;border-radius:50%;background:#c7c7cc}.z-arrival-board i.is-here{background:#4bb34b}.z-arrival-board i.is-way{background:var(--accent-fill)}.z-arrival-board b,.z-arrival-board span{display:block}.z-arrival-board b{margin-top:5px;font:800 17px/19px var(--face)}.z-arrival-board span{color:var(--ios-secondary);font:400 11px/14px var(--face)}
+.z-meet-route{display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:8px;padding:11px 12px;border-radius:14px;background:#fff}.z-route-line{display:flex;flex-direction:column;align-items:center;height:48px}.z-route-line i{width:7px;height:7px;border-radius:50%;background:#c7c7cc}.z-route-line i:nth-child(2){flex:1;width:1px;border-radius:0}.z-route-line i.is-active{background:var(--accent-fill)}.z-route-copy span,.z-route-copy b,.z-route-copy small{display:block}.z-route-copy span{color:var(--accent-fill);font:600 11px/14px var(--face)}.z-route-copy b{font:600 13px/17px var(--face)}.z-route-copy small{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-route-time{color:var(--ios-secondary);font:500 11px/14px var(--face)}.z-meet-actions{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin:9px 0}.z-logistics{padding:0 12px;margin-bottom:10px;border-radius:14px;background:#fff}.z-log-head{display:flex;justify-content:space-between;padding:11px 0 7px}.z-log-head b{font:700 15px/19px var(--face)}.z-log-head span{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-log-row{display:flex;align-items:center;gap:9px;min-height:54px;border-top:.5px solid rgba(60,60,67,.12)}.z-log-row>.ico-svg:first-child{width:19px;height:19px;color:var(--accent-fill)}.z-log-row>div{flex:1}.z-log-row b,.z-log-row span{display:block}.z-log-row b{font:600 13px/16px var(--face)}.z-log-row span{color:var(--ios-secondary);font:400 11px/14px var(--face)}
+
+/* Городской объект: паспорт адреса и временная ось. */
+.z-obj-locator{display:flex;align-items:center;margin-top:10px;padding:10px 12px;border-radius:14px 14px 0 0;background:#2f2a25;color:#fff}.z-obj-locator>div:first-child{flex:1}.z-obj-locator span,.z-obj-locator b{display:block}.z-obj-locator span{color:#ffb36e;font:600 11px/14px var(--face)}.z-obj-locator b{font:700 16px/20px var(--face)}.z-obj-code{text-align:right;color:rgba(255,255,255,.5);font:500 11px/14px var(--face)}.z-obj-code b{color:#fff;font:700 12px/15px var(--face)}.z-obj-sheet{padding:12px;border-radius:0 0 14px 14px;background:#fff}.z-obj-media{height:148px;border-radius:10px}.z-obj-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}.z-obj-facts>div{padding:7px;border-radius:8px;background:#f2efec}.z-obj-facts span,.z-obj-facts b{display:block}.z-obj-facts span{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-obj-facts b{font:600 12px/15px var(--face)}.z-obj-sheet h2{margin:10px 0 3px;font:700 18px/22px var(--face)}.z-obj-sheet>p{margin:0;color:var(--ios-secondary);font:400 13px/18px var(--face)}.z-obj-author{display:flex;align-items:center;gap:9px;margin-top:10px;padding-top:9px;border-top:.5px solid rgba(60,60,67,.12)}.z-obj-author .ph{width:44px;height:44px;border-radius:50%}.z-obj-author>div:nth-child(2){flex:1}.z-obj-author b,.z-obj-author span{display:block}.z-obj-author b{font:600 13px/16px var(--face)}.z-obj-author span{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-obj-actions{display:flex;justify-content:space-between;gap:8px;margin-top:9px;padding-top:9px;border-top:.5px solid rgba(60,60,67,.12);color:var(--ios-secondary);font:500 11px/14px var(--face)}.z-obj-actions span{display:flex;align-items:center;gap:3px}.z-obj-actions .ico-svg{width:14px;height:14px}.z-identify,.z-obj-history{margin-top:9px;padding:12px;border-radius:14px;background:#fff}.z-ident-head{display:flex;align-items:center}.z-ident-head>div{flex:1}.z-ident-head b,.z-ident-head span{display:block}.z-ident-head b{font:700 15px/19px var(--face)}.z-ident-head span{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-ident-head button{min-height:34px;padding:0 14px}.z-ident-row{display:flex;align-items:center;gap:9px;min-height:51px;border-top:.5px solid rgba(60,60,67,.12)}.z-tag{width:54px;padding:5px;border-radius:8px;background:rgba(238,114,3,.1);color:var(--accent-fill);font:600 11px/14px var(--face);text-align:center}.z-ident-row b,.z-ident-row small{display:block}.z-ident-row b{font:600 13px/16px var(--face)}.z-ident-row small{color:var(--ios-secondary);font:400 11px/14px var(--face)}.z-obj-history>b{display:block;margin-bottom:9px;font:700 15px/19px var(--face)}.z-obj-history>div{display:grid;grid-template-columns:39px 9px 1fr;gap:7px;min-height:31px;position:relative}.z-obj-history>div::after{content:"";position:absolute;left:50px;top:11px;bottom:-4px;width:1px;background:rgba(60,60,67,.16)}.z-obj-history>div:last-child::after{display:none}.z-obj-history span{color:var(--accent-fill);font:700 11px/14px var(--face)}.z-obj-history i{width:9px;height:9px;margin-top:3px;border-radius:50%;background:#c7c7cc;z-index:1}.z-obj-history i.is-now{background:#4bb34b}.z-obj-history p{margin:0;font:500 12px/15px var(--face)}
+
+/* —— грамматика ленты: композер, публикация, промо, профиль —— */
+.r-composer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.r-composer-face {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-composer-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-composer-hint {
+  flex: 1;
+  min-width: 0;
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+.r-composer-act {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.08);
+  display: grid;
+  place-items: center;
+  color: #14110f;
+}
+.r-composer-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.r-year {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background-color: rgba(238, 114, 3, 0.12);
+  color: var(--accent-fill);
+  font: 600 12px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-media-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  height: 168px;
+}
+.r-media-pair > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 8px;
+}
+.r-act {
+  min-height: 44px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  color: var(--ios-secondary);
+  font: 400 14px/1 var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.r-act.is-on {
+  color: var(--accent-fill);
+}
+.r-act.last {
+  margin-left: auto;
+}
+.r-promo {
+  position: relative;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: #fff;
+  margin-bottom: 8px;
+}
+.r-promo-lab {
+  font: 500 11px/14px var(--face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ios-secondary);
+  margin-bottom: 6px;
+}
+.r-promo-t {
+  font: 600 16px/21px var(--face);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  max-width: 24ch;
+}
+.r-promo-d {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 12px;
+  max-width: 30ch;
+}
+.r-promo-more {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--ios-secondary);
+}
+.r-prof {
+  padding: 18px 14px 14px;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.r-prof-face {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.r-prof-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+.r-prof-n {
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.r-prof-r {
+  margin-top: 3px;
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.r-prof-nums {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 14px;
+}
+.r-prof-num b {
+  display: block;
+  font: 700 18px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.r-prof-num span {
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+}
+.r-prof-acts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.r-prof-acts .r-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  max-width: 168px;
+}
