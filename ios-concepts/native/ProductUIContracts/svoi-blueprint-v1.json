@@ -1,0 +1,1525 @@
+{
+  "schemaVersion": 1,
+  "productId": "svoi-blueprint-v1",
+  "targetProduct": "vkontakte",
+  "strategy": "mimicry",
+  "rootTabs": [
+    {
+      "screenId": "feed",
+      "title": "Лента",
+      "icon": "house"
+    },
+    {
+      "screenId": "search",
+      "title": "Поиск",
+      "icon": "magnifyingglass"
+    },
+    {
+      "screenId": "create",
+      "title": "Создать",
+      "icon": "plus.circle.fill"
+    },
+    {
+      "screenId": "messages",
+      "title": "Сообщения",
+      "icon": "message"
+    },
+    {
+      "screenId": "profile",
+      "title": "Профиль",
+      "icon": "person.crop.circle"
+    }
+  ],
+  "surfaces": [
+    {
+      "screenId": "login",
+      "title": "Вход",
+      "recipe": "emailAuthentication",
+      "presentation": "root",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "request_email_code",
+          "label": "Создан локальный код входа для введённой почты.",
+          "outcome": {
+            "type": "mutate",
+            "target": "login"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "verify_email_code",
+          "label": "Сессия становится активной, открывается лента.",
+          "outcome": {
+            "type": "mutate",
+            "target": "login"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "login",
+        "job": "Выполнить задачу экрана «Вход» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "root",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Вход",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "feed",
+      "title": "Лента",
+      "recipe": "authoredFeed",
+      "presentation": "tab",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_feed",
+          "label": "Показан сохранённый снимок авторской ленты.",
+          "outcome": {
+            "type": "system",
+            "target": "feed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_deed",
+          "label": "Открыта история выбранного дела с обновлениями и вкладами.",
+          "outcome": {
+            "type": "system",
+            "target": "private_deeds"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "support_deed",
+          "label": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "offer_help",
+          "label": "Создан вклад kind=offer с конкретным предложением помощи.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "follow_result",
+          "label": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "share_deed",
+          "label": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "save_deed",
+          "label": "Дело добавлено в сохранённые текущего пользователя.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_notifications",
+          "label": "Показан список уведомлений; открытые записи отмечены прочитанными.",
+          "outcome": {
+            "type": "system",
+            "target": "feed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_deed_link",
+          "label": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
+          "outcome": {
+            "type": "system",
+            "target": "feed"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "associateddomains",
+              "requestMoment": "При переходе по https://svoi.example/deeds/{id}; разрешение пользователя не требуется.",
+              "observableResult": "Приложение открывает существующее дело либо понятный экран отсутствующей записи.",
+              "deniedFallback": "В браузере показывается статическая страница с предложением открыть приложение.",
+              "stateField": "lastOpenedFromLinkAt"
+            }
+          ]
+        },
+        {
+          "id": "open_comments",
+          "label": "Открыта ветка комментариев выбранного дела.",
+          "outcome": {
+            "type": "navigate",
+            "target": "post_detail#comments"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "feed",
+        "job": "Выполнить задачу экрана «Лента» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "social-feed",
+        "composition": [
+          "root-header",
+          "authored-posts",
+          "attached-feedback"
+        ],
+        "primaryRegion": "authored-posts",
+        "aboveFold": {
+          "mustExpose": "Лента",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "social-feed",
+          "post"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "post_detail",
+      "title": "Дело",
+      "recipe": "authoredPostDetail",
+      "presentation": "push",
+      "parent": "feed",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "support_deed",
+          "label": "Текущий пользователь добавлен в supporters; счётчик поддержки увеличен один раз.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "offer_help",
+          "label": "Создан вклад kind=offer с конкретным предложением помощи.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "follow_result",
+          "label": "Текущий пользователь добавлен в followers; будущие изменения создают уведомления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "share_deed",
+          "label": "Создана локальная публикация-продолжение со ссылкой на исходное дело.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "save_deed",
+          "label": "Дело добавлено в сохранённые текущего пользователя.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "add_update",
+          "label": "К делу добавлено текстовое обновление; updatedAt изменён.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "add_contribution",
+          "label": "К делу добавлен выполненный вклад участника kind=delivered.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "complete_deed",
+          "label": "После выбора доказательства дело получает status=completed и completedAt.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "thank_helpers",
+          "label": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "take_baton",
+          "label": "Создан новый черновик с parentDeedId исходного дела.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "play_voice_update",
+          "label": "Аудиообновление воспроизводится в фоне; Now Playing показывает автора, дело и прогресс.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "audio",
+              "requestMoment": "После нажатия воспроизведения у аудиообновления.",
+              "observableResult": "Запись продолжает играть в фоне и управляется с экрана блокировки.",
+              "deniedFallback": "При невозможности фонового режима запись играет только внутри приложения.",
+              "stateField": "nowPlayingUpdateId"
+            }
+          ]
+        },
+        {
+          "id": "transcribe_voice_update",
+          "label": "Распознанный русский текст сохранён как transcript аудиообновления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "speech",
+              "requestMoment": "После нажатия «Расшифровать» у записанного пользователем аудио.",
+              "observableResult": "Под аудио появляется редактируемая расшифровка.",
+              "deniedFallback": "Автор вводит подпись вручную; аудио остаётся доступным.",
+              "stateField": "transcript"
+            }
+          ]
+        },
+        {
+          "id": "verify_site_network",
+          "label": "SSID сохранён как подтверждение присутствия на площадке дела без хранения сетевого пароля.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "wifiinfo",
+              "requestMoment": "После нажатия «Подтвердить площадку по сети» у дела с ожидаемым SSID.",
+              "observableResult": "К вкладу добавляется проверка совпадения SSID и время.",
+              "deniedFallback": "Помощник подтверждает площадку фото или ручной отметкой.",
+              "stateField": "verified"
+            }
+          ]
+        },
+        {
+          "id": "add_deadline_to_calendar",
+          "label": "Событие с названием дела и deep link создано в выбранном календаре; eventIdentifier сохранён.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "calendar",
+              "requestMoment": "После нажатия «Добавить срок в календарь» у дела с deadline.",
+              "observableResult": "У дела появляется отметка добавленного календарного события.",
+              "deniedFallback": "Срок остаётся видимым в деле и локальном дайджесте.",
+              "stateField": "eventIdentifier"
+            }
+          ]
+        },
+        {
+          "id": "join_deed_network",
+          "label": "Участник получает connected=true и может затем подтвердить площадку.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "hotspot",
+              "requestMoment": "После нажатия «Подключиться к сети площадки» у дела, где сообщество опубликовало конфигурацию.",
+              "observableResult": "Участник получает connected=true и может затем подтвердить площадку.",
+              "deniedFallback": "Показываются имя сети и инструкция для ручного подключения в настройках iOS.",
+              "stateField": "connected"
+            }
+          ]
+        },
+        {
+          "id": "respond_to_post",
+          "label": "Комментарий добавлен к делу и виден в ветке.",
+          "outcome": {
+            "type": "mutate",
+            "target": "post_detail"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "post_detail",
+        "job": "Выполнить задачу экрана «Дело» в общем продуктовом цикле",
+        "primaryAction": "support_deed",
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Дело",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "comments",
+      "title": "Комментарии",
+      "recipe": "commentThread",
+      "presentation": "sheet",
+      "parent": "post_detail",
+      "entityIds": [],
+      "actions": [],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "comments",
+        "job": "Выполнить задачу экрана «Комментарии» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "sheet",
+        "composition": [
+          "root-header",
+          "form"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Комментарии",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "form"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "search",
+      "title": "Поиск",
+      "recipe": "socialDiscovery",
+      "presentation": "tab",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "search_world",
+          "label": "Сохранён запрос и показаны совпадения среди дел, людей и сообществ.",
+          "outcome": {
+            "type": "mutate",
+            "target": "search"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "open_search_result",
+          "label": "Открыта сущность выбранного результата.",
+          "outcome": {
+            "type": "system",
+            "target": "search"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "search",
+        "job": "Выполнить задачу экрана «Поиск» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Поиск",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "create",
+      "title": "Новое дело",
+      "recipe": "publicationEditor",
+      "presentation": "tab",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "create_deed",
+          "label": "Создан черновик дела.",
+          "outcome": {
+            "type": "mutate",
+            "target": "create"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        },
+        {
+          "id": "edit_deed_text",
+          "label": "Сохранены результат и описание дела.",
+          "outcome": {
+            "type": "mutate",
+            "target": "create"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        },
+        {
+          "id": "capture_deed_photo",
+          "label": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "camera",
+              "requestMoment": "После нажатия «Снять фото» в черновике либо на экране завершения.",
+              "observableResult": "Новый снимок появляется во вложениях выбранного дела.",
+              "deniedFallback": "Остаются выбор из медиатеки и текстовое доказательство.",
+              "stateField": "localImagePath"
+            }
+          ]
+        },
+        {
+          "id": "choose_deed_photo",
+          "label": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "photos",
+              "requestMoment": "После нажатия «Выбрать фото».",
+              "observableResult": "Изображение появляется в черновике и сохраняется локально.",
+              "deniedFallback": "Можно снять фото или продолжить без изображения.",
+              "stateField": "localImagePath"
+            }
+          ]
+        },
+        {
+          "id": "record_voice_update",
+          "label": "Локальный аудиофайл прикреплён к обновлению с длительностью.",
+          "outcome": {
+            "type": "mutate",
+            "target": "create"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "mic",
+              "requestMoment": "При первом нажатии «Записать голосом» в форме обновления.",
+              "observableResult": "В обновлении появляется аудиовложение с длительностью.",
+              "deniedFallback": "Пользователь вводит обновление текстом.",
+              "stateField": "audioPath"
+            }
+          ]
+        },
+        {
+          "id": "choose_deed_place",
+          "label": "К делу прикреплено выбранное место с координатами либо ручным названием.",
+          "outcome": {
+            "type": "mutate",
+            "target": "create"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "location",
+              "requestMoment": "После выбора «Текущее место» на экране «Добавить место».",
+              "observableResult": "У дела появляется место с названием и координатами.",
+              "deniedFallback": "Доступен ручной ввод названия без координат.",
+              "stateField": "coordinateOrManualName"
+            }
+          ]
+        },
+        {
+          "id": "publish_deed",
+          "label": "Дело опубликовано в ленте со статусом active.",
+          "outcome": {
+            "type": "mutate",
+            "target": "create"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "create",
+        "job": "Выполнить задачу экрана «Новое дело» в общем продуктовом цикле",
+        "primaryAction": "create_deed",
+        "pattern": "tab",
+        "composition": [
+          "root-header",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Новое дело",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "complete",
+      "title": "Завершить дело",
+      "recipe": "resultCompletion",
+      "presentation": "sheet",
+      "parent": "post_detail",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "capture_deed_photo",
+          "label": "Снятое изображение сохранено локально и прикреплено к черновику или доказательству.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "camera",
+              "requestMoment": "После нажатия «Снять фото» в черновике либо на экране завершения.",
+              "observableResult": "Новый снимок появляется во вложениях выбранного дела.",
+              "deniedFallback": "Остаются выбор из медиатеки и текстовое доказательство.",
+              "stateField": "localImagePath"
+            }
+          ]
+        },
+        {
+          "id": "choose_deed_photo",
+          "label": "Выбранное изображение импортировано в локальное хранилище и прикреплено к делу.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": [
+            {
+              "key": "photos",
+              "requestMoment": "После нажатия «Выбрать фото».",
+              "observableResult": "Изображение появляется в черновике и сохраняется локально.",
+              "deniedFallback": "Можно снять фото или продолжить без изображения.",
+              "stateField": "localImagePath"
+            }
+          ]
+        },
+        {
+          "id": "complete_deed",
+          "label": "После выбора доказательства дело получает status=completed и completedAt.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        },
+        {
+          "id": "thank_helpers",
+          "label": "Выбранные помощники записаны в thankedUserIds и получают локальные уведомления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "complete"
+          },
+          "placement": "form-flow",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "complete",
+        "job": "Выполнить задачу экрана «Завершить дело» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "sheet",
+        "composition": [
+          "root-header",
+          "form"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Завершить дело",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "root-header",
+          "form"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "messages",
+      "title": "Сообщения",
+      "recipe": "conversationList",
+      "presentation": "tab",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_messages",
+          "label": "Показаны локальные диалоги.",
+          "outcome": {
+            "type": "system",
+            "target": "messages"
+          },
+          "placement": "composer",
+          "capabilities": []
+        },
+        {
+          "id": "open_conversation",
+          "label": "Открыт выбранный диалог.",
+          "outcome": {
+            "type": "navigate",
+            "target": "conversation"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "messages",
+        "job": "Выполнить задачу экрана «Сообщения» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "messages",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Сообщения",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "messages",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "conversation",
+      "title": "Диалог",
+      "recipe": "conversation",
+      "presentation": "push",
+      "parent": "messages",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "send_message",
+          "label": "Сообщение добавлено в диалог со статусом delivered.",
+          "outcome": {
+            "type": "mutate",
+            "target": "conversation"
+          },
+          "placement": "composer",
+          "capabilities": []
+        },
+        {
+          "id": "start_helper_call",
+          "label": "Создан локальный CallKit-вызов помощнику; завершение сохраняет длительность в диалоге.",
+          "outcome": {
+            "type": "mutate",
+            "target": "conversation"
+          },
+          "placement": "composer",
+          "capabilities": [
+            {
+              "key": "voip",
+              "requestMoment": "После нажатия «Позвонить» в диалоге и подтверждения локального демонстрационного звонка.",
+              "observableResult": "Системный экран показывает звонок, а после завершения в диалоге появляется запись с длительностью.",
+              "deniedFallback": "Координация продолжается текстовыми и голосовыми сообщениями.",
+              "stateField": "durationSeconds"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "conversation",
+        "job": "Выполнить задачу экрана «Диалог» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "messages",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Диалог",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "messages",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "profile",
+      "title": "Профиль",
+      "recipe": "ownedProfile",
+      "presentation": "tab",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_profile",
+          "label": "Показан профиль с делами, вкладами и сохранёнными публикациями.",
+          "outcome": {
+            "type": "navigate",
+            "target": "profile"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        },
+        {
+          "id": "open_saved",
+          "label": "Показаны сохранённые дела пользователя.",
+          "outcome": {
+            "type": "navigate",
+            "target": "saved"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        },
+        {
+          "id": "open_settings",
+          "label": "Открыты настройки продукта и приватности.",
+          "outcome": {
+            "type": "navigate",
+            "target": "settings"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "profile",
+        "job": "Выполнить задачу экрана «Профиль» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "tab",
+        "composition": [
+          "profile-cards",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Профиль",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "profile-cards",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "saved",
+      "title": "Сохранённые",
+      "recipe": "savedCollection",
+      "presentation": "push",
+      "parent": "profile",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_deed",
+          "label": "Открыта история выбранного дела с обновлениями и вкладами.",
+          "outcome": {
+            "type": "system",
+            "target": "private_deeds"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "saved",
+        "job": "Выполнить задачу экрана «Сохранённые» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Сохранённые",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "notifications",
+      "title": "Уведомления",
+      "recipe": "notificationCenter",
+      "presentation": "push",
+      "parent": "feed",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_notification",
+          "label": "Открыта связанная сущность и уведомление отмечено прочитанным.",
+          "outcome": {
+            "type": "system",
+            "target": "notifications"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        },
+        {
+          "id": "enable_result_alerts",
+          "label": "Включены уведомления для явно отслеживаемых дел.",
+          "outcome": {
+            "type": "mutate",
+            "target": "notifications"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "push",
+              "requestMoment": "После первого включения «Следить за результатом», на поясняющем экране.",
+              "observableResult": "Изменение отслеживаемого fixture-дела создаёт локальное уведомление и запись центра уведомлений.",
+              "deniedFallback": "Изменения остаются в разделе «Уведомления» внутри приложения.",
+              "stateField": "resultAlertsEnabled"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "notifications",
+        "job": "Выполнить задачу экрана «Уведомления» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Уведомления",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "settings",
+      "title": "Настройки",
+      "recipe": "settings",
+      "presentation": "push",
+      "parent": "profile",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "open_accesses",
+          "label": "Показаны состояния системных доступов и связанные функции.",
+          "outcome": {
+            "type": "navigate",
+            "target": "accesses"
+          },
+          "placement": "attached-to-object",
+          "capabilities": []
+        },
+        {
+          "id": "enable_message_alerts",
+          "label": "Включены уведомления категории сообщений с данными отправителя и диалога.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "commnotif",
+              "requestMoment": "При включении «Уведомления о сообщениях» в настройках после существования хотя бы одного диалога.",
+              "observableResult": "Fixture-сообщение отображается как коммуникационное уведомление и открывает диалог.",
+              "deniedFallback": "Непрочитанное сообщение показывается значком внутри вкладки.",
+              "stateField": "communicationAlertsEnabled"
+            }
+          ]
+        },
+        {
+          "id": "enable_promotion_measurement",
+          "label": "После системного выбора сохранён режим измерения promotedOnly; основной продукт от него не зависит.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "tracking",
+              "requestMoment": "После включения «Измерять продвигаемые публикации» и пояснения, что функция не влияет на ленту.",
+              "observableResult": "Сохраняется режим allowed или contextualOnly; обычные события остаются локальными.",
+              "deniedFallback": "Используются только агрегированные локальные показы без межприложного идентификатора.",
+              "stateField": "mode"
+            }
+          ]
+        },
+        {
+          "id": "manage_demo_credential",
+          "label": "Демонстрационная учётная запись сохранена или удалена из Credential Provider.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "autofill",
+              "requestMoment": "После нажатия «Сохранить способ входа» в настройках.",
+              "observableResult": "В настройках отображается сохранённая почта и доступно её удаление.",
+              "deniedFallback": "Почта и код вводятся вручную.",
+              "stateField": "providerRecordId"
+            }
+          ]
+        },
+        {
+          "id": "unlock_private_deeds",
+          "label": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
+          "outcome": {
+            "type": "mutate",
+            "target": "private_deeds"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "faceid",
+              "requestMoment": "При открытии раздела «Приватные дела».",
+              "observableResult": "До ухода в фон отображается список приватных дел.",
+              "deniedFallback": "Доступен код устройства; при неуспехе содержимое остаётся скрытым.",
+              "stateField": "unlockedUntilBackground"
+            }
+          ]
+        },
+        {
+          "id": "import_helpers",
+          "label": "Выбранные совпадения контактов добавлены в круг своих без загрузки адресной книги наружу.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "contacts",
+              "requestMoment": "После нажатия «Найти своих в контактах» на экране настроек круга.",
+              "observableResult": "Выбранные совпадения добавляются в круг своих.",
+              "deniedFallback": "Доступен ручной поиск по имени или почте.",
+              "stateField": "memberIds"
+            }
+          ]
+        },
+        {
+          "id": "publish_quick_update_widget",
+          "label": "Обновление записано в App Group и отражено в виджете и истории дела.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "appgroups",
+              "requestMoment": "После сохранения текста в виджете «Быстрое обновление».",
+              "observableResult": "Один update появляется и в виджете, и в истории дела.",
+              "deniedFallback": "То же обновление добавляется из экрана дела.",
+              "stateField": "lastUpdateId"
+            }
+          ]
+        },
+        {
+          "id": "share_session_with_widget",
+          "label": "Идентификатор активной сессии сохранён в общей связке ключей и доступен приложению и виджету.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "keychain",
+              "requestMoment": "Автоматически после успешной проверки кода; отдельного системного запроса нет.",
+              "observableResult": "Виджет показывает активное дело пользователя, не раскрывая код входа.",
+              "deniedFallback": "Виджет предлагает открыть приложение без показа приватных данных.",
+              "stateField": "sharedSessionId"
+            }
+          ]
+        },
+        {
+          "id": "apply_silent_snapshot",
+          "label": "Версия локального снимка ленты обновлена без показа уведомления.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "remotenotif",
+              "requestMoment": "После активной сессии и подписки хотя бы на одно дело; системного запроса нет.",
+              "observableResult": "При следующем открытии у дела уже показано новое обновление.",
+              "deniedFallback": "Снимок обновляется при ручном открытии ленты.",
+              "stateField": "version"
+            }
+          ]
+        },
+        {
+          "id": "refresh_feed_on_fetch",
+          "label": "Background fetch сохраняет новые fixture-обновления для следующего открытия.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "fetch",
+              "requestMoment": "После включения подписки на результат; выполняется системой без запроса.",
+              "observableResult": "Сохранён новый fetchedAt и обновлённая карточка.",
+              "deniedFallback": "Очередь применяется при foreground-запуске.",
+              "stateField": "fetchedAt"
+            }
+          ]
+        },
+        {
+          "id": "schedule_digest_task",
+          "label": "Задача com.svoi.digest.refresh зарегистрирована и сохраняет число изменившихся отслеживаемых дел.",
+          "outcome": {
+            "type": "mutate",
+            "target": "settings"
+          },
+          "placement": "settings-row",
+          "capabilities": [
+            {
+              "key": "bgtask",
+              "requestMoment": "После включения «Дайджест изменений» в настройках.",
+              "observableResult": "В профиле показывается время подготовки и число изменений.",
+              "deniedFallback": "Дайджест рассчитывается при открытии профиля.",
+              "stateField": "lastPreparedAt"
+            }
+          ]
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "settings",
+        "job": "Выполнить задачу экрана «Настройки» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Настройки",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "accesses",
+      "title": "Доступы",
+      "recipe": "capabilityCenter",
+      "presentation": "push",
+      "parent": "settings",
+      "entityIds": [],
+      "actions": [],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "accesses",
+        "job": "Выполнить задачу экрана «Доступы» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Доступы",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    },
+    {
+      "screenId": "private_deeds",
+      "title": "Приватные дела",
+      "recipe": "protectedCollection",
+      "presentation": "push",
+      "parent": "profile",
+      "entityIds": [],
+      "actions": [
+        {
+          "id": "unlock_private_deeds",
+          "label": "Зашифрованный список приватных дел разблокирован до ухода приложения в фон.",
+          "outcome": {
+            "type": "mutate",
+            "target": "private_deeds"
+          },
+          "placement": "attached-to-content",
+          "capabilities": [
+            {
+              "key": "faceid",
+              "requestMoment": "При открытии раздела «Приватные дела».",
+              "observableResult": "До ухода в фон отображается список приватных дел.",
+              "deniedFallback": "Доступен код устройства; при неуспехе содержимое остаётся скрытым.",
+              "stateField": "unlockedUntilBackground"
+            }
+          ]
+        },
+        {
+          "id": "open_deed",
+          "label": "Открыта история выбранного дела с обновлениями и вкладами.",
+          "outcome": {
+            "type": "system",
+            "target": "private_deeds"
+          },
+          "placement": "attached-to-content",
+          "capabilities": []
+        }
+      ],
+      "states": [
+        "loading",
+        "populated/default",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "surfaceContract": {
+        "surface": "private_deeds",
+        "job": "Выполнить задачу экрана «Приватные дела» в общем продуктовом цикле",
+        "primaryAction": null,
+        "pattern": "push",
+        "composition": [
+          "post",
+          "people-list"
+        ],
+        "primaryRegion": "product-content",
+        "aboveFold": {
+          "mustExpose": "Приватные дела",
+          "maxPreludeLayers": 1
+        },
+        "allowedFamilies": [
+          "post",
+          "people-list"
+        ],
+        "forbiddenFamilies": [
+          "decorative-gradient",
+          "colored-icon-placeholder",
+          "unowned-selector",
+          "detached-action-panel"
+        ],
+        "source": "vk-ios-reference-ui-kit"
+      }
+    }
+  ],
+  "invariants": [
+    "one-visible-control-per-action",
+    "object-attached-social-feedback",
+    "permission-from-owning-product-gesture",
+    "granted-and-denied-observable-outcomes",
+    "single-profile-entry",
+    "native-tabview-owns-liquid-glass",
+    "lucide-product-chrome-for-vk",
+    "shared-native-authentication"
+  ],
+  "contractId": "ui-830ccd4e6e8e9525"
+}

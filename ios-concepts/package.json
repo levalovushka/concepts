@@ -5,6 +5,7 @@
   "scripts": {
     "native:lean": "node native/lean-cli.mjs",
     "native:cold": "node native/lean-cold-cli.mjs",
+    "native:contracts": "node native/lean-contracts-cli.mjs",
     "factory:run": "node native/factory-run-cli.mjs",
     "factory:benchmark": "CAMO_FACTORY_BENCHMARK=1 node native/factory-run-cli.mjs",
     "factory:develop": "node native/factory-cli.mjs develop",

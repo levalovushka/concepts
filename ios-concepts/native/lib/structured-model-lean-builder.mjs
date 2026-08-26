@@ -8,6 +8,7 @@ import { writeLeanDeveloperDocumentation } from "./lean-developer-documentation.
 import { compileLeanNativeShell } from "./lean-native-shell-compiler.mjs";
 import { auditActionBindings } from "./action-binding-audit.mjs";
 import { auditLeanProduct } from "./lean-product-audit.mjs";
+import { compileLeanProductUIContract, verifyLeanProductUIContract } from "./lean-product-ui-contract.mjs";
 import { shotArtifactDirectory } from "./shot-artifacts.mjs";
 import { NATIVE_RENDERER_INSTRUCTIONS } from "./structured-model-native-renderer.mjs";
 
@@ -285,6 +286,12 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
     async build({ blueprint, target, reference, calibration }) {
       const compiled = compileProductBlueprint(blueprint, { bundleId: `com.camo.${blueprint.id.replace(/[-_]/g, "")}` });
       if (!compiled.ok) throw new Error(compiled.diagnostics.map(item => `${item.code}: ${item.message}`).join("\n"));
+      const productUIContract = compileLeanProductUIContract(blueprint, compiled.manifest);
+      const productUIVerification = verifyLeanProductUIContract(productUIContract, blueprint);
+      if (!productUIVerification.passed) throw new Error(productUIVerification.problems.join("\n"));
+      const productUIPath = join(root, "native", "ProductUIContracts", `${blueprint.id}.json`);
+      mkdirSync(dirname(productUIPath), { recursive: true });
+      writeFileSync(productUIPath, `${JSON.stringify(productUIContract, null, 2)}\n`);
       const documentationReceipt = writeLeanDeveloperDocumentation({
         projectRoot: root, blueprint, manifest: compiled.manifest,
       });
@@ -292,6 +299,7 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
         operation: "camo.lean-native-swiftui-builder.v1",
         input: {
           blueprint: implementationBlueprint(blueprint),
+          productUIContract,
           nativeManifest: compiled.manifest,
           target: { id: target.id },
           reference,
@@ -300,6 +308,7 @@ export function createStructuredModelLeanBuilder({ model, projectRoot, executor 
             "NON-NEGOTIABLE PRE-FLIGHT: before returning source, verify NativeEmailAuth, NativeVisualLanguage.resolve, CaptureIdentity.report and reportLayout are present; VK TabView uses compiled Lucide image assets; every capability action calls Permissions.request and performs its declared platformEffect; every declared control has its own outcome and XCUI assertion. Missing any item makes the source invalid.",
             "Return screenImplementations as an exhaustive ownership map: one entry per non-login screen, exact actionIds from that screen, and the source file where actual Button/NavigationLink controls bind them. Inventories, comments and unused string constants are forbidden.",
             "Return capabilityImplementations as an exhaustive map. Each entry names real granted and denied accessibility outcome identifiers present both in its product source file and XCUI test, plus the exact test method name.",
+            "Implement the exact recipe on every Product UI Contract surface. Recipe ownership, actions, capability gesture, placement and states are compiler-owned and may not be moved or renamed.",
             ...NATIVE_RENDERER_INSTRUCTIONS,
             "Generate only app Swift files and one compact XCUI smoke suite; the compiler owns blueprint, capture.json, Xcode, assets and docs.",
             "Bind every declared action exactly once with .nativeAction(\"surface.action_id\") on the actual control.",
