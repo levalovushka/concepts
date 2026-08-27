@@ -32,10 +32,15 @@ const CONTENT_STATES = [...FORM_STATES, 'offline', 'denied'];
 const firstGoOutsideAuth = (html = '') => [...html.matchAll(/data-go="([a-z]+)"/g)]
   .map((match) => match[1]).find((id) => !LEGACY_AUTH.has(id) && id !== 'phone');
 
+const registrationIcon = (spec) => existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon-ui.png'))
+  ? '<img class="auth-app-icon" src="assets/app-icon-ui.png" alt="">'
+  : null;
+
 const emailRegistrationScreen = (spec, target) => {
+  const appIcon = registrationIcon(spec);
   return `<div class="screen ios-surface email-registration" id="scr-phone" data-pattern="auth">
   <div class="auth">
-    <div class="auth-mark" aria-hidden="true"><svg class="ico-svg"><use href="#i-mail"/></svg></div>
+    <div class="auth-mark" aria-hidden="true">${appIcon || '<svg class="ico-svg"><use href="#i-mail"/></svg>'}</div>
     <h1 class="auth-title">Создать аккаунт</h1>
     <p class="auth-lede">Введите почту. Аккаунт создастся сразу, без OTP и подтверждения адреса.</p>
     <label class="auth-field is-mail">
@@ -57,9 +62,29 @@ const emailRegistrationScreen = (spec, target) => {
 </div>`;
 };
 
+function installRegistrationIcon(source, spec) {
+  const appIcon = registrationIcon(spec);
+  if (!appIcon) return source;
+  const logoClasses = [
+    'auth-mark', 'db-logo', 'lx-logo', 'lk-logo', 'rd-mark', 'sc-logo',
+    'sm-login-brand', 'st-auth-logo', 'tl-auth-mark', 'td-auth-mark',
+  ];
+  let out = source;
+  for (const className of logoClasses) {
+    const logo = new RegExp(`<([a-z]+)([^>]*class="[^"]*\\b${className}\\b[^"]*"[^>]*)>[\\s\\S]*?<\\/\\1>`);
+    if (!logo.test(out)) continue;
+    out = out.replace(logo, `<$1$2>${appIcon}</$1>`);
+    break;
+  }
+  if (spec.slug === 'today') {
+    out = out.replace(/<div[^>]*class="[^"]*\btd-logo\b[^"]*"[^>]*>[\s\S]*?<\/div>/, '');
+  }
+  return out;
+}
+
 /* Меняем только семантику auth-формы, а её классы, композицию и брендовый
    copy оставляем концепту. */
-function adaptRegistrationScreen(source, target) {
+function adaptRegistrationScreen(source, target, spec) {
   let out = source.replace(/id="scr-phone"/, 'id="scr-phone" data-pattern="auth"');
   out = out.replace(/<(button|div)(?=[^>]*(?:class="[^"]*(?:google|auth-apple)[^"]*"|data-activate="applesignin\|[^"]+"))[^>]*>[\s\S]*?<\/\1>/gi, '');
   out = out.replace(/<([a-z]+)([^>]*data-go="code"[^>]*)>[\s\S]*?<\/\1>/, (match, tag, attrs) => {
@@ -104,7 +129,7 @@ function adaptRegistrationScreen(source, target) {
       return `<input${next} type="email" value="alex@inbox.ru" autocomplete="email" aria-label="Электронная почта">`;
     });
   }
-  return out;
+  return installRegistrationIcon(out, spec);
 }
 
 export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
@@ -231,7 +256,7 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
   }
 
   const markup = { ...sourceMarkup, phone: sourceMarkup.phone
-    ? adaptRegistrationScreen(sourceMarkup.phone, target)
+    ? adaptRegistrationScreen(sourceMarkup.phone, target, spec)
     : emailRegistrationScreen(spec, target) };
   delete markup.code; delete markup.codefail;
 
