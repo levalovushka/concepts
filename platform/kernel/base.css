@@ -110,7 +110,6 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
    от контентной auto-колонки схлопывает телефон до его min-content. */
 .hero-device { display:flex; flex-direction:column; gap:var(--s-base); align-items:center; width:var(--device-w); max-width:100%; }
 .hero-text { min-width:0; max-width:56ch; }
-.hero-app-icon { width:72px; height:72px; display:block; margin:0 0 var(--s-lg); border-radius:20px; box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.08); }
 /* Только заголовок текстовой колонки: `.overview-hero h1` доставал h1 ВНУТРИ
    телефона (устройство лежит в этой же сетке) и переопределял его размером в vw —
    заголовок экрана менялся от ширины окна. Ловится только измерением, не глазами. */
@@ -120,7 +119,6 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 @media (max-width:1180px) {
   .overview-hero { grid-template-columns:1fr; gap:var(--s-xl); justify-items:center; text-align:center; }
   .hero-text { max-width:52ch; }
-  .hero-app-icon { margin-right:auto; margin-left:auto; }
   .overview-hero .ledger { justify-self:stretch; width:100%; max-width:520px; text-align:left; }
 }
 
@@ -615,7 +613,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .auth-email-input { grid-column:1 / -1; width:100%; min-width:0; padding:0; border:0; outline:0; appearance:none; background:transparent; color:inherit; font:inherit; line-height:inherit; letter-spacing:inherit; }
 .auth-password-field { margin-top:10px; }
 .email-registration { background:#fff; }
-.email-registration .email-registration-primary { color:#000; }
+.email-registration .email-registration-primary { color:#fff; }
 .auth-google { width:100%; min-height:56px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; }
 .auth-google-mark {
   width:20px; height:20px; border-radius:50%; flex:none;

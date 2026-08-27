@@ -32,8 +32,8 @@ const CONTENT_STATES = [...FORM_STATES, 'offline', 'denied'];
 const firstGoOutsideAuth = (html = '') => [...html.matchAll(/data-go="([a-z]+)"/g)]
   .map((match) => match[1]).find((id) => !LEGACY_AUTH.has(id) && id !== 'phone');
 
-const registrationIcon = (spec) => existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon-ui.png'))
-  ? '<img class="auth-app-icon" src="assets/app-icon-ui.png" alt="">'
+const registrationIcon = (spec) => existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon.png'))
+  ? '<img class="auth-app-icon" src="assets/app-icon.png" alt="">'
   : null;
 
 const emailRegistrationScreen = (spec, target) => {
@@ -600,7 +600,6 @@ export function build(slug, { outDir } = {}) {
     SLUG: spec.slug,
     APP_ICON_HEAD: hasAppIcon ? '<link rel="icon" type="image/png" href="assets/app-icon.png">' : '',
     APP_ICON_TOPBAR: hasAppIcon ? `<img class="topbar-app-icon" src="assets/app-icon.png" alt="">` : '',
-    APP_ICON_HERO: hasAppIcon ? `<img class="hero-app-icon" src="assets/app-icon.png" alt="Логотип приложения «${esc(spec.name)}»">` : '',
     HERO_TITLE: esc(spec.heroTitle || spec.name),
     TAGLINE_SENTENCE: esc(spec.heroDeck || spec.tagline),
     EYEBROW: esc(spec.eyebrow || spec.name),

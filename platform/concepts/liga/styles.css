@@ -3523,8 +3523,9 @@
 }
 
 /* Final VK Video contrast and selection contract. */
-.lx-screen .lx-primary2,.lx-screen .lx-opbtn.primary,.lx-screen .lx-create-action.primary i{background:#0077ff!important;color:#fff!important}
+.lx-screen .lx-primary2,.lx-screen .lx-opbtn.primary,.lx-screen .lx-create-action.primary i{background:#d91f32!important;color:#fff!important}
 .lx-screen .lx-primary2 svg,.lx-screen .lx-opbtn.primary svg,.lx-screen .lx-create-action.primary i svg{color:#fff!important;stroke:currentColor!important}
+.lx-screen .auth-links .auth-link{color:#fff!important}
 .lx-consent-options article:first-child{background:#f5f5f7!important;color:#161618!important;box-shadow:none!important;border:0!important}
 .lx-consent-options article:first-child p{color:#626269!important}
 .lx-consent-options article:first-child>.lx-icon{color:#161618!important}

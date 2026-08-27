@@ -58,8 +58,8 @@
     ]
   },
   "brand": {
-    "accent": "#2b6b8f",
-    "accentDark": "#6ac6ee",
+    "accent": "#006BFF",
+    "accentDark": "#5AA2FF",
     "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
   },
   "start": "phone",

@@ -157,8 +157,8 @@
     ]
   },
   "brand": {
-    "accent": "#5b5bd6",
-    "accentDark": "#8f8cff",
+    "accent": "#D91F32",
+    "accentDark": "#FF5365",
     "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600"
   },
   "tabs": [

@@ -64,8 +64,8 @@
     ]
   },
   "brand": {
-    "accent": "#1e56a0",
-    "accentDark": "#79aef5",
+    "accent": "#006BFF",
+    "accentDark": "#5AA2FF",
     "fonts": "Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500"
   },
   "start": "phone",

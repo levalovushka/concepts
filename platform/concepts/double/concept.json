@@ -61,8 +61,8 @@
     "referencePatterns": []
   },
   "brand": {
-    "accent": "#3478dc",
-    "accentDark": "#6ea8f5",
+    "accent": "#D91F32",
+    "accentDark": "#FF5365",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },
   "start": "phone",

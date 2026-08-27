@@ -65,7 +65,7 @@ try {
   for (const url of conceptUrls) {
     await page.goto(url);
     const slug = new URL(url).pathname.split('/').filter(Boolean).at(-2);
-    const hasUiIcon = existsSync(join(conceptDir(slug), 'assets', 'app-icon-ui.png'));
+    const hasUiIcon = existsSync(join(conceptDir(slug), 'assets', 'app-icon.png'));
     const phoneScreens = page.locator('[data-screen="phone"]');
     assert.equal(await phoneScreens.locator('.auth-app-icon').count(), hasUiIcon ? await phoneScreens.count() : 0, `${slug}: неверный интерфейсный логотип регистрации`);
     if (slug === 'today') assert.equal(await phoneScreens.locator('.td-logo').count(), 0, 'today: старый wordmark дублирует логотип');
