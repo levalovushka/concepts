@@ -89,19 +89,15 @@
 
     var PREVIEW_COPY = {
       empty: {
-        form: ['Форма пока пуста', 'Заполните обязательные поля, чтобы продолжить.', 'Заполнить', '#i-file-text'],
         content: ['Здесь пока пусто', 'Первый объект появится после главного действия экрана.', 'Начать', '#i-file-text']
       },
       error: {
-        form: ['Не удалось сохранить', 'Проверьте введённые данные. Всё заполненное осталось в форме.', 'Проверить', '#i-circle-alert'],
         content: ['Не удалось загрузить', 'Что-то пошло не так. Повторите запрос — текущий экран и стек навигации сохранятся.', 'Повторить', '#i-circle-alert']
       },
       offline: {
-        form: ['Нет подключения', 'Данные формы сохранены. Попробуем отправить их, когда сеть вернётся.', 'Повторить', '#i-wifi'],
         content: ['Вы не в сети', 'Показываем то, что уже есть на устройстве. Новые данные загрузятся после подключения.', 'Обновить', '#i-wifi']
       },
       permission: {
-        form: ['Нужен доступ', 'Без разрешения нельзя добавить эти данные. Остальные поля и ручной ввод доступны.', 'Открыть настройки', '#i-lock'],
         content: ['Разрешите доступ', 'Этому экрану нужно системное разрешение. Если отказать, останется доступен ручной сценарий.', 'Открыть настройки', '#i-lock']
       }
     };
@@ -164,11 +160,7 @@
       var field = fields[0];
       var host = field && (field.closest('label, .auth-field, .tl-auth-field, .td-field, .d-field, .lk-field, .db-phone, .sc-input')
         || (field.parentElement && field.parentElement.closest('[class*="field"]')) || field);
-      var messages = {
-        error: ['Введите корректный адрес электронной почты.', 'error'],
-        offline: ['Нет подключения. Проверьте сеть и попробуйте снова.', 'offline'],
-        permission: ['Нет доступа. Разрешите его в Настройках или продолжите вручную.', 'permission']
-      };
+      var messages = { error: ['Введите корректный адрес электронной почты.', 'error'] };
       if (field && stateName === 'empty') {
         if ('value' in field) field.value = '';
         else field.textContent = '';
@@ -201,12 +193,26 @@
         primary.setAttribute('aria-disabled', 'true');
       }
     }
+    function isFormScreen(screen) {
+      return !!screen && (screen.dataset.pattern === 'auth' || !!screen.querySelector('form, textarea, select, [contenteditable], input:not([type="search"])'));
+    }
+    function syncStateControls(isForm) {
+      var controls = root.parentNode.querySelector(':scope > .controls');
+      if (!controls) return;
+      var label = controls.querySelector('.state-controls > span');
+      if (label) label.textContent = isForm ? 'Форма' : 'Контент';
+      controls.querySelectorAll('[data-state="offline"], [data-state="permission"]').forEach(function (button) {
+        button.hidden = isForm;
+      });
+    }
     function setPreviewState(nextState) {
-      previewState = nextState || 'default';
       if (!preview) return;
       restoreFormPreview();
       var current = screens.querySelector('.screen.is-on');
-      var isForm = !!current && (current.dataset.pattern === 'auth' || !!current.querySelector('input, textarea, select, form, [contenteditable]'));
+      var isForm = isFormScreen(current);
+      previewState = nextState || 'default';
+      if (isForm && (previewState === 'offline' || previewState === 'permission')) previewState = 'default';
+      syncStateControls(isForm);
       if (isForm && previewState !== 'default') applyFormPreview(current, previewState);
       preview.classList.toggle('is-on', !isForm && previewState !== 'default');
       preview.classList.toggle('is-form', isForm);
@@ -298,6 +304,7 @@
       if (statusbar) statusbar.classList.toggle('dark-ink', !!LIGHT[id]);
       syncPermUI();
       if (previewState !== 'default') setPreviewState(previewState);
+      else syncStateControls(isFormScreen(next));
     }
     /**
      * Показать экран. opts.back — возврат по IA (не записывает презентера).

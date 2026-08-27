@@ -15,7 +15,7 @@ import { prepareEmailRegistration } from './build.mjs';
 
 async function run(slug) {
   const sourceSpec = readSpec(slug);
-  const spec = prepareEmailRegistration(sourceSpec, readMarkup(slug, sourceSpec)).spec;
+  const { spec, markup } = prepareEmailRegistration(sourceSpec, readMarkup(slug, sourceSpec));
   const file = join(DIST, slug, 'index.html');
   if (!existsSync(file)) throw new Error(`${slug}: сначала соберите — node scripts/build.mjs ${slug}`);
 
@@ -57,6 +57,12 @@ async function run(slug) {
   }, H);
   ok('регистрация предлагает только почту', !externalAuth && !spec.permissions.some((p) => p.key === 'applesignin'));
   ok('регистрация использует настоящий email input', !!(await page.$(`${H} [data-screen="phone"] input[type="email"]`)));
+  ok('у формы нет состояний offline и permission', await page.evaluate((h) => {
+    const controls = document.querySelector(h)?.parentNode.querySelector(':scope > .controls');
+    return controls?.querySelector('[data-state="offline"]')?.hidden
+      && controls.querySelector('[data-state="permission"]')?.hidden
+      && !controls.querySelector('[data-state="loading"]')?.hidden;
+  }, H));
 
   await page.click(`${H} ~ .controls [data-state="empty"]`);
   ok('empty формы = пустой input без оверлея', await page.evaluate((h) => {
@@ -74,6 +80,24 @@ async function run(slug) {
     return phone?.querySelector('[aria-disabled="true"].prototype-button-loading') && !document.querySelector(h + ' .prototype-state.is-on');
   }, H));
   await page.click(`${H} ~ .controls [data-state="default"]`);
+
+  const contentScreen = spec.screens.find((screen) => screen.id !== 'phone'
+    && !/<(?:form|textarea|select)\b|contenteditable|<input\b(?![^>]*type="search")/i.test(markup[screen.id] || ''))?.id;
+  if (contentScreen) {
+    await goto(contentScreen);
+    ok(`${contentScreen}: контенту доступны offline и permission`, await page.evaluate((h) => {
+      const controls = document.querySelector(h)?.parentNode.querySelector(':scope > .controls');
+      return !controls?.querySelector('[data-state="offline"]')?.hidden
+        && !controls?.querySelector('[data-state="permission"]')?.hidden;
+    }, H));
+    await page.click(`${H} ~ .controls [data-state="loading"]`);
+    ok(`${contentScreen}: loading контента показан на самом экране`, await page.evaluate((h) => {
+      const state = document.querySelector(h + ' .prototype-state');
+      return state?.classList.contains('is-on') && state.dataset.state === 'loading';
+    }, H));
+    await page.click(`${H} ~ .controls [data-state="default"]`);
+    await reset();
+  }
 
   const missing = await page.evaluate(
     ({ ids, h }) => ids.filter((id) => !document.querySelector(h + ` [data-screen="${id}"]`)),

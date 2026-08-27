@@ -530,8 +530,6 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .prototype-form-preview .prototype-field-error-host { box-shadow:inset 0 0 0 1.5px #d70015!important; }
 .prototype-form-message { margin:7px 2px 0; font:400 12px/17px var(--face); color:var(--ios-secondary); text-align:left; }
 .prototype-form-message.is-error { color:#d70015; }
-.prototype-form-message.is-offline { color:#6e6e73; }
-.prototype-form-message.is-permission { color:#a45f00; }
 .prototype-button-loading { position:relative; opacity:.72; cursor:default!important; }
 .prototype-button-loading::before { content:""; display:inline-block; width:15px; height:15px; margin-right:8px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; vertical-align:-2px; animation:prototype-spin .7s linear infinite; }
 @keyframes prototype-spin { to { transform:rotate(360deg); } }
