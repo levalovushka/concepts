@@ -559,6 +559,7 @@ export function build(slug, { outDir } = {}) {
 
   const styles = existsSync(join(dir, 'styles.css')) ? read(join(dir, 'styles.css')) : '';
   const rawSections = existsSync(join(dir, 'sections.html')) ? read(join(dir, 'sections.html')) : '';
+  const hasAppIcon = existsSync(join(dir, 'assets', 'app-icon.png'));
   const grab = (name) => {
     const m = rawSections.match(new RegExp(`<!-- @overview:${name} -->([\\s\\S]*?)<!-- @end -->`));
     return m ? m[1].trim() : '';
@@ -572,6 +573,9 @@ export function build(slug, { outDir } = {}) {
   const html = fill(read(join(KERNEL, 'page.html')), {
     NAME: esc(spec.name),
     SLUG: spec.slug,
+    APP_ICON_HEAD: hasAppIcon ? '<link rel="icon" type="image/png" href="assets/app-icon.png">' : '',
+    APP_ICON_TOPBAR: hasAppIcon ? `<img class="topbar-app-icon" src="assets/app-icon.png" alt="">` : '',
+    APP_ICON_HERO: hasAppIcon ? `<img class="hero-app-icon" src="assets/app-icon.png" alt="Логотип приложения «${esc(spec.name)}»">` : '',
     HERO_TITLE: esc(spec.heroTitle || spec.name),
     TAGLINE_SENTENCE: esc(spec.heroDeck || spec.tagline),
     EYEBROW: esc(spec.eyebrow || spec.name),

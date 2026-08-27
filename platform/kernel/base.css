@@ -52,7 +52,9 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .topbar-back { color:var(--page-ink-dim); text-decoration:none; font:400 13px/1.2 var(--face); transition:color 120ms; }
 .topbar-back:hover { color:var(--page-ink); }
 .topbar-divider { color:var(--page-line); }
-.topbar-brand { min-width:0; overflow:hidden; text-overflow:ellipsis; font:600 15px/1.2 var(--face); letter-spacing:-.02em; }
+.topbar-brand { min-width:0; display:flex; align-items:center; gap:8px; overflow:hidden; font:600 15px/1.2 var(--face); letter-spacing:-.02em; }
+.topbar-brand span { min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.topbar-app-icon { width:24px; height:24px; flex:none; display:block; border-radius:7px; }
 .topnav { display:flex; gap:var(--s-lg); justify-self:center; }
 .topnav button {
   border:0; background:none; padding:4px 0; cursor:pointer;
@@ -108,6 +110,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
    от контентной auto-колонки схлопывает телефон до его min-content. */
 .hero-device { display:flex; flex-direction:column; gap:var(--s-base); align-items:center; width:var(--device-w); max-width:100%; }
 .hero-text { min-width:0; max-width:56ch; }
+.hero-app-icon { width:72px; height:72px; display:block; margin:0 0 var(--s-lg); border-radius:20px; box-shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.08); }
 /* Только заголовок текстовой колонки: `.overview-hero h1` доставал h1 ВНУТРИ
    телефона (устройство лежит в этой же сетке) и переопределял его размером в vw —
    заголовок экрана менялся от ширины окна. Ловится только измерением, не глазами. */
@@ -117,6 +120,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 @media (max-width:1180px) {
   .overview-hero { grid-template-columns:1fr; gap:var(--s-xl); justify-items:center; text-align:center; }
   .hero-text { max-width:52ch; }
+  .hero-app-icon { margin-right:auto; margin-left:auto; }
   .overview-hero .ledger { justify-self:stretch; width:100%; max-width:520px; text-align:left; }
 }
 

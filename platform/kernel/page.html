@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family={{FONT_QUERY}}&display=swap" rel="stylesheet">
+{{APP_ICON_HEAD}}
 <meta name="color-scheme" content="light dark">
 <style>
 {{CSS}}
@@ -17,7 +18,7 @@
   <div class="topbar-context">
     <a class="topbar-back" href="../index.html" aria-label="Вернуться ко всем концептам">← <span>Все концепты</span></a>
     <span class="topbar-divider" aria-hidden="true">/</span>
-    <div class="topbar-brand">{{NAME}}</div>
+    <div class="topbar-brand">{{APP_ICON_TOPBAR}}<span>{{NAME}}</span></div>
   </div>
   <nav class="topnav" aria-label="Разделы">
     <button type="button" class="is-on" data-tab="overview">Overview</button>
@@ -38,6 +39,7 @@
     <div class="panel overview-hero">
       <div class="hero-device">{{HERO_DEVICE}}</div>
       <div class="hero-text">
+        {{APP_ICON_HERO}}
         <h1>{{HERO_TITLE}}</h1>
         <p class="deck">{{TAGLINE_SENTENCE}}</p>
         <div class="ledger" id="perms"></div>

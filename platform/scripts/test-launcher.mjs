@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
 import { chromium } from 'playwright';
-import { DIST, listConcepts, readSpec } from './lib.mjs';
+import { DIST, conceptDir, listConcepts, readSpec } from './lib.mjs';
 
 const launcherPath = join(DIST, 'index.html');
 assert.ok(existsSync(launcherPath), 'сначала соберите лаунчер: npm run build:all');
@@ -29,11 +29,13 @@ try {
   assert.equal(Object.values(modeCounts).reduce((sum, count) => sum + count, 0), concepts.length, 'каждый концепт должен принадлежать одной стратегии');
   const cards = page.locator('.card');
   assert.equal(await cards.count(), concepts.length, 'в лаунчере должен быть каждый концепт');
+  const conceptsWithIcons = concepts.filter((slug) => existsSync(join(conceptDir(slug), 'assets', 'app-icon.png')));
+  assert.equal(await page.locator('.card .app-icon').count(), conceptsWithIcons.length, 'лаунчер должен показывать все доступные логотипы');
   const conceptUrls = [];
 
   for (const card of await cards.all()) {
     const href = await card.getAttribute('href');
-    const image = await card.locator('img').getAttribute('src');
+    const image = await card.locator('.shot img').getAttribute('src');
     assert.ok(href, 'у карточки нет ссылки');
     assert.ok(image, 'у карточки нет скриншота');
     assert.ok(existsSync(fileURLToPath(new URL(href, page.url()))), `нет страницы ${href}`);
