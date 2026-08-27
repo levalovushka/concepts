@@ -9,7 +9,6 @@
   "tagline": "Не лента по интересам, а сеть по адресу: общее у соседей не вкусы, а лифт, стояк, парковка и счётчики",
   "insight": "соседи живут в двадцати метрах и не знакомы, потому что общего у них не интересы, а инфраструктура — и единственная валюта доверия здесь «ты правда живёшь здесь»",
   "deck": "Гиперлокальная соседская сеть: 20 доступов набора ВКонтакте, ни одного своего сервера — только SDK провайдеров.",
-
   "qualityContractVersion": 1,
   "product": {
     "audience": "Жильцы многоквартирного дома, которым нужно решать общие бытовые задачи",
@@ -17,19 +16,596 @@
     "problem": "Объявления, счётчики, заявки и доступы разнесены по чатам, бумаге и личным сообщениям",
     "promise": "Все дела дома в одном месте, а писать могут только подтверждённые жильцы",
     "differentiator": "Сеть строится по адресу и домашней Wi-Fi, а не по интересам и алгоритмической ленте",
-    "returnReasons": ["Новые дела и объявления своего дома","Ответы соседей в активных ветках","Регулярные показания, заявки и события"],
-    "verticalSlice": { "entry": "home", "action": "shoot", "result": "post" },
-    "coreLoop": ["Подтвердить свой дом", "Увидеть актуальное дело двора", "Ответить, передать показания или создать заявку"],
-    "nonGoals": ["Публичная соцсеть", "Лента по интересам", "Замена управляющей компании"]
+    "returnReasons": [
+      "Новые дела и объявления своего дома",
+      "Ответы соседей в активных ветках",
+      "Регулярные показания, заявки и события"
+    ],
+    "verticalSlice": {
+      "entry": "home",
+      "action": "shoot",
+      "result": "post"
+    },
+    "coreLoop": [
+      "Подтвердить свой дом",
+      "Увидеть актуальное дело двора",
+      "Ответить, передать показания или создать заявку"
+    ],
+    "nonGoals": [
+      "Публичная соцсеть",
+      "Лента по интересам",
+      "Замена управляющей компании"
+    ],
+    "world": {
+      "note": "Модель мира: из чего состоит продукт и что с этим можно делать. Действия связаны с доступами — доступ без действия не заявляется.",
+      "entities": [
+        {
+          "id": "house",
+          "name": "Дом",
+          "identity": "адрес плюс SSID домашней сети в профиле",
+          "fields": [
+            "address",
+            "ssid",
+            "radiusMeters",
+            "corpuses",
+            "flats"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "entrance"
+            },
+            {
+              "kind": "has-many",
+              "to": "thread"
+            },
+            {
+              "kind": "has-many",
+              "to": "event"
+            },
+            {
+              "kind": "has-one",
+              "to": "guestNetwork"
+            }
+          ]
+        },
+        {
+          "id": "entrance",
+          "name": "Подъезд",
+          "identity": "номер в пределах дома",
+          "fields": [
+            "number",
+            "residentCount"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "has-many",
+              "to": "flat"
+            },
+            {
+              "kind": "has-one",
+              "to": "chat"
+            }
+          ]
+        },
+        {
+          "id": "flat",
+          "name": "Квартира",
+          "identity": "номер в пределах дома",
+          "fields": [
+            "number",
+            "floor"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "entrance"
+            },
+            {
+              "kind": "has-many",
+              "to": "resident"
+            }
+          ]
+        },
+        {
+          "id": "resident",
+          "name": "Житель",
+          "identity": "аккаунт плюс подтверждённая квартира",
+          "fields": [
+            "name",
+            "flatNumber",
+            "role",
+            "homeConfirmed",
+            "confirmedBy"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "flat"
+            }
+          ],
+          "note": "role — жилец или старший по подъезду; вторая роль живёт флагом в документе дома, отдельной админки нет"
+        },
+        {
+          "id": "thread",
+          "name": "Тема",
+          "identity": "запись в ветке дома или подъезда",
+          "fields": [
+            "author",
+            "scope",
+            "text",
+            "tags",
+            "official",
+            "createdAt",
+            "replies",
+            "views"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "authored-by",
+              "to": "resident"
+            },
+            {
+              "kind": "has-many",
+              "to": "reply"
+            }
+          ]
+        },
+        {
+          "id": "reply",
+          "name": "Ответ",
+          "identity": "сообщение внутри темы",
+          "fields": [
+            "author",
+            "text",
+            "createdAt"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "thread"
+            },
+            {
+              "kind": "authored-by",
+              "to": "resident"
+            }
+          ]
+        },
+        {
+          "id": "report",
+          "name": "Заявка",
+          "identity": "номер заявки",
+          "fields": [
+            "number",
+            "place",
+            "description",
+            "photo",
+            "status",
+            "createdAt"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "authored-by",
+              "to": "resident"
+            },
+            {
+              "kind": "shown-on",
+              "to": "marker"
+            }
+          ]
+        },
+        {
+          "id": "chat",
+          "name": "Чат",
+          "identity": "область: подъезд, дом, тема или личный",
+          "fields": [
+            "title",
+            "scope",
+            "unread",
+            "lastMessageAt"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "has-many",
+              "to": "message"
+            }
+          ]
+        },
+        {
+          "id": "message",
+          "name": "Сообщение",
+          "identity": "запись в чате",
+          "fields": [
+            "author",
+            "text",
+            "voiceDuration",
+            "transcript",
+            "createdAt"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "chat"
+            },
+            {
+              "kind": "authored-by",
+              "to": "resident"
+            }
+          ],
+          "note": "transcript появляется только при выданном распознавании речи"
+        },
+        {
+          "id": "meter",
+          "name": "Счётчик",
+          "identity": "тип ресурса в пределах квартиры",
+          "fields": [
+            "kind",
+            "unit",
+            "reading",
+            "dueDate",
+            "submittedAt"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "flat"
+            }
+          ]
+        },
+        {
+          "id": "event",
+          "name": "Событие дома",
+          "identity": "дата плюс название",
+          "fields": [
+            "title",
+            "date",
+            "place",
+            "scope"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            }
+          ]
+        },
+        {
+          "id": "credential",
+          "name": "Запись пароля",
+          "identity": "домен сервиса",
+          "fields": [
+            "service",
+            "host",
+            "login",
+            "secret",
+            "publishedBy"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "authored-by",
+              "to": "resident"
+            }
+          ],
+          "note": "публикует только старший по дому; секрет живёт в общей связке ключей"
+        },
+        {
+          "id": "guestNetwork",
+          "name": "Гостевая сеть",
+          "identity": "SSID двора",
+          "fields": [
+            "ssid",
+            "password",
+            "qrLocation"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            }
+          ]
+        },
+        {
+          "id": "chroniclePhoto",
+          "name": "Кадр хроники",
+          "identity": "снимок медиатеки в границах двора",
+          "fields": [
+            "takenAt",
+            "insideYard",
+            "source"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            }
+          ],
+          "note": "источник — медиатека устройства или камера приложения; на сервер не уходит"
+        },
+        {
+          "id": "marker",
+          "name": "Метка на схеме",
+          "identity": "точка в границах двора",
+          "fields": [
+            "kind",
+            "position"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "house"
+            },
+            {
+              "kind": "may-reference",
+              "to": "report"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "confirm-home",
+          "name": "Подтвердить дом",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "resident.homeConfirmed = true",
+          "screen": "join",
+          "result": "Ветка дома открывается на запись без заявки на модерацию",
+          "capabilities": [
+            "location",
+            "wifiinfo"
+          ]
+        },
+        {
+          "id": "claim-home-manually",
+          "name": "Отправить заявку на адрес",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "resident.confirmedBy = 'старший по подъезду'",
+          "screen": "manual",
+          "result": "До подтверждения ветка доступна на чтение",
+          "capabilities": []
+        },
+        {
+          "id": "read-feed",
+          "name": "Читать ленту дома",
+          "actor": "resident",
+          "entity": "thread",
+          "effect": "—",
+          "screen": "home",
+          "result": "Видно актуальные дела дома и подъезда",
+          "capabilities": []
+        },
+        {
+          "id": "follow-thread",
+          "name": "Следить за темой",
+          "actor": "resident",
+          "entity": "thread",
+          "effect": "thread.followedBy += resident",
+          "screen": "post",
+          "result": "Придёт уведомление, когда управляющая компания ответит",
+          "capabilities": [
+            "push"
+          ]
+        },
+        {
+          "id": "create-report",
+          "name": "Создать заявку",
+          "actor": "resident",
+          "entity": "report",
+          "effect": "report создаётся со статусом «открыта»",
+          "screen": "problem",
+          "result": "Заявка с номером видна соседям подъезда",
+          "capabilities": [
+            "camera"
+          ]
+        },
+        {
+          "id": "collect-chronicle",
+          "name": "Собрать хронику двора",
+          "actor": "resident",
+          "entity": "chroniclePhoto",
+          "effect": "chroniclePhoto набирается из медиатеки по границам двора",
+          "screen": "home",
+          "result": "Житель видит свои же кадры, снятые во дворе, не вспоминая какие",
+          "capabilities": [
+            "photos"
+          ]
+        },
+        {
+          "id": "send-voice",
+          "name": "Записать голосовое",
+          "actor": "resident",
+          "entity": "message",
+          "effect": "message.voiceDuration и message.transcript",
+          "screen": "chat",
+          "result": "Соседи читают расшифровку, не включая звук",
+          "capabilities": [
+            "mic",
+            "speech"
+          ]
+        },
+        {
+          "id": "show-as-message",
+          "name": "Показывать как сообщение",
+          "actor": "resident",
+          "entity": "message",
+          "effect": "уведомление получает аватар автора и попадает в сводку",
+          "screen": "chat",
+          "result": "Сообщение соседа видно на экране блокировки как сообщение, а не как системный баннер",
+          "capabilities": [
+            "commnotif"
+          ]
+        },
+        {
+          "id": "submit-readings",
+          "name": "Передать показания",
+          "actor": "resident",
+          "entity": "meter",
+          "effect": "meter.reading и meter.submittedAt",
+          "screen": "meters",
+          "result": "Показания переданы до срока",
+          "capabilities": []
+        },
+        {
+          "id": "refresh-in-background",
+          "name": "Обновлять в фоне",
+          "actor": "system",
+          "entity": "meter",
+          "effect": "снапшот виджета переписывается тихим пушем и фоновой задачей",
+          "screen": "background",
+          "result": "Срок показаний и отключения свежие до открытия приложения",
+          "capabilities": [
+            "remotenotif",
+            "fetch",
+            "bgtask"
+          ]
+        },
+        {
+          "id": "show-widget",
+          "name": "Виджет на экран «Домой»",
+          "actor": "resident",
+          "entity": "meter",
+          "effect": "виджет читает данные приложения через общий контейнер",
+          "screen": "widget",
+          "result": "Две строки про дом видны без открытия приложения",
+          "capabilities": [
+            "appgroups"
+          ]
+        },
+        {
+          "id": "join-guest-network",
+          "name": "Подключиться к гостевой сети",
+          "actor": "resident",
+          "entity": "guestNetwork",
+          "effect": "устройство подключается к SSID двора",
+          "screen": "guest",
+          "result": "Гость подключается по QR с лавочки без ввода пароля",
+          "capabilities": [
+            "camera",
+            "hotspot"
+          ]
+        },
+        {
+          "id": "add-event",
+          "name": "Добавить событие в календарь",
+          "actor": "resident",
+          "entity": "event",
+          "effect": "событие появляется в системном календаре",
+          "screen": "events",
+          "result": "Субботник не теряется среди дел",
+          "capabilities": [
+            "calendar"
+          ]
+        },
+        {
+          "id": "find-neighbors",
+          "name": "Найти соседей",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "сопоставление контактов с жильцами дома",
+          "screen": "neighbors",
+          "result": "Видно, кто из знакомых уже живёт в доме; книга не покидает устройство",
+          "capabilities": [
+            "contacts"
+          ]
+        },
+        {
+          "id": "call-flat",
+          "name": "Позвонить в квартиру",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "вызов через CallKit без обмена номерами",
+          "screen": "profile",
+          "result": "Сосед отвечает, личный номер не раскрывается",
+          "capabilities": [
+            "voip"
+          ]
+        },
+        {
+          "id": "use-credential",
+          "name": "Подставить пароль дома",
+          "actor": "resident",
+          "entity": "credential",
+          "effect": "запись подставляется автозаполнением в Safari",
+          "screen": "passwords",
+          "result": "Вход в кабинет управляющей компании без копирования руками",
+          "capabilities": [
+            "autofill",
+            "keychain"
+          ]
+        },
+        {
+          "id": "lock-app",
+          "name": "Закрыть приложение замком",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "resident.appLocked = true",
+          "screen": "settings",
+          "result": "Адрес, номера квартир и коды дверей под биометрией",
+          "capabilities": [
+            "faceid"
+          ]
+        },
+        {
+          "id": "personalize-ads",
+          "name": "Настроить рекомендации",
+          "actor": "resident",
+          "entity": "resident",
+          "effect": "реклама привязывается к району",
+          "screen": "ads",
+          "result": "Сантехник по соседству вместо случайного баннера",
+          "capabilities": [
+            "tracking"
+          ]
+        }
+      ]
+    }
   },
-
   "positioning": {
     "mode": "mimicry",
     "categoryFit": "Социальный граф, публикации, чаты и профиль сохраняют ожидания категории Social Networking",
-    "familiarPatterns": ["Лента публикаций и реакций", "Чаты и профиль участника", "Таб-бар социальной сети"],
-    "distinctions": ["Граф строится по адресу дома", "Публикация доступна подтверждённым жильцам", "Бытовые сценарии важнее контентной ленты"],
-    "evidenceScreens": ["home","chats","yard","post"],
-    "referencePatterns": ["social-feed","messaging","profile","create-post"]
+    "familiarPatterns": [
+      "Лента публикаций и реакций",
+      "Чаты и профиль участника",
+      "Таб-бар социальной сети"
+    ],
+    "distinctions": [
+      "Граф строится по адресу дома",
+      "Публикация доступна подтверждённым жильцам",
+      "Бытовые сценарии важнее контентной ленты"
+    ],
+    "evidenceScreens": [
+      "home",
+      "chats",
+      "yard",
+      "post"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile",
+      "create-post"
+    ]
   },
   "brand": {
     "accent": "#0077FF",
@@ -447,7 +1023,14 @@
       "title": "Вход по почте или Google",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения"
+      "meta": "Первый экран приложения",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ]
+      }
     },
     {
       "id": "code",
@@ -455,7 +1038,14 @@
       "type": "push",
       "light": true,
       "parent": "phone",
-      "meta": "OTP · автоподстановка"
+      "meta": "OTP · автоподстановка",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ]
+      }
     },
     {
       "id": "codefail",
@@ -463,7 +1053,13 @@
       "type": "push",
       "light": true,
       "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Состояние ошибки OTP",
+      "ui": {
+        "states": [
+          "default",
+          "error"
+        ]
+      }
     },
     {
       "id": "join",
@@ -471,7 +1067,15 @@
       "type": "push",
       "light": true,
       "parent": "code",
-      "meta": "Location · пропуск в дом"
+      "meta": "Location · пропуск в дом",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "verify",
@@ -479,7 +1083,13 @@
       "type": "modal",
       "light": true,
       "parent": "join",
-      "meta": "Wi-Fi Info · SSID"
+      "meta": "Wi-Fi Info · SSID",
+      "ui": {
+        "states": [
+          "default",
+          "error"
+        ]
+      }
     },
     {
       "id": "manual",
@@ -487,14 +1097,30 @@
       "type": "push",
       "light": true,
       "parent": "join",
-      "meta": "Выбор дома из справочника"
+      "meta": "Выбор дома из справочника",
+      "ui": {
+        "states": [
+          "default",
+          "error"
+        ]
+      }
     },
     {
       "id": "home",
       "title": "Дом",
       "type": "tab (root)",
       "light": true,
-      "meta": "Лента дома · Photo Library"
+      "meta": "Лента дома · Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "permission"
+        ]
+      }
     },
     {
       "id": "post",
@@ -502,7 +1128,15 @@
       "type": "push",
       "light": true,
       "parent": "home",
-      "meta": "aps-environment"
+      "meta": "aps-environment",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "problem",
@@ -510,7 +1144,14 @@
       "type": "sheet",
       "light": true,
       "parent": "home",
-      "meta": "Camera"
+      "meta": "Camera",
+      "ui": {
+        "states": [
+          "default",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "shoot",
@@ -518,7 +1159,13 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "problem",
-      "meta": "AVFoundation"
+      "meta": "AVFoundation",
+      "ui": {
+        "states": [
+          "default",
+          "permission"
+        ]
+      }
     },
     {
       "id": "chronicle",
@@ -526,14 +1173,30 @@
       "type": "push",
       "light": true,
       "parent": "home",
-      "meta": "Photo Library · обход библиотеки"
+      "meta": "Photo Library · обход библиотеки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "permission"
+        ]
+      }
     },
     {
       "id": "chats",
       "title": "Чаты",
       "type": "tab (root)",
       "light": true,
-      "meta": "Список чатов дома"
+      "meta": "Список чатов дома",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "offline"
+        ]
+      }
     },
     {
       "id": "chat",
@@ -541,7 +1204,16 @@
       "type": "push",
       "light": true,
       "parent": "chats",
-      "meta": "Microphone · Speech · Communication"
+      "meta": "Microphone · Speech · Communication",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "permission"
+        ]
+      }
     },
     {
       "id": "voice",
@@ -549,7 +1221,14 @@
       "type": "sheet",
       "light": true,
       "parent": "chat",
-      "meta": "Microphone · Speech"
+      "meta": "Microphone · Speech",
+      "ui": {
+        "states": [
+          "default",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "lockscreen",
@@ -557,14 +1236,26 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "chat",
-      "meta": "Communication notification"
+      "meta": "Communication notification",
+      "ui": {
+        "states": [
+          "default"
+        ]
+      }
     },
     {
       "id": "yard",
       "title": "Двор",
       "type": "tab (root)",
       "light": true,
-      "meta": "Схема двора · Location"
+      "meta": "Схема двора · Location",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "offline"
+        ]
+      }
     },
     {
       "id": "guest",
@@ -572,7 +1263,14 @@
       "type": "push",
       "light": true,
       "parent": "yard",
-      "meta": "Hotspot · Camera"
+      "meta": "Hotspot · Camera",
+      "ui": {
+        "states": [
+          "default",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "scan",
@@ -580,7 +1278,13 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "guest",
-      "meta": "DataScanner"
+      "meta": "DataScanner",
+      "ui": {
+        "states": [
+          "default",
+          "permission"
+        ]
+      }
     },
     {
       "id": "meters",
@@ -588,7 +1292,14 @@
       "type": "push",
       "light": true,
       "parent": "yard",
-      "meta": "Remote notification"
+      "meta": "Remote notification",
+      "ui": {
+        "states": [
+          "default",
+          "error",
+          "offline"
+        ]
+      }
     },
     {
       "id": "background",
@@ -596,7 +1307,13 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "meters",
-      "meta": "Background fetch · BGTaskScheduler"
+      "meta": "Background fetch · BGTaskScheduler",
+      "ui": {
+        "states": [
+          "default",
+          "error"
+        ]
+      }
     },
     {
       "id": "events",
@@ -604,14 +1321,28 @@
       "type": "push",
       "light": true,
       "parent": "yard",
-      "meta": "Calendars Full Access"
+      "meta": "Calendars Full Access",
+      "ui": {
+        "states": [
+          "default",
+          "empty",
+          "permission"
+        ]
+      }
     },
     {
       "id": "menu",
       "title": "Меню",
       "type": "tab (root)",
       "light": true,
-      "meta": "Плитки разделов · Contacts"
+      "meta": "Плитки разделов · Contacts",
+      "ui": {
+        "states": [
+          "default",
+          "offline",
+          "permission"
+        ]
+      }
     },
     {
       "id": "passwords",
@@ -619,7 +1350,13 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "AutoFill Credential Provider"
+      "meta": "AutoFill Credential Provider",
+      "ui": {
+        "states": [
+          "default",
+          "empty"
+        ]
+      }
     },
     {
       "id": "fill",
@@ -627,7 +1364,12 @@
       "type": "системная поверхность",
       "light": true,
       "parent": "passwords",
-      "meta": "ASCredentialProvider"
+      "meta": "ASCredentialProvider",
+      "ui": {
+        "states": [
+          "default"
+        ]
+      }
     },
     {
       "id": "neighbors",
@@ -635,7 +1377,14 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Contacts · локальная сверка"
+      "meta": "Contacts · локальная сверка",
+      "ui": {
+        "states": [
+          "default",
+          "empty",
+          "permission"
+        ]
+      }
     },
     {
       "id": "profile",
@@ -643,7 +1392,12 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Карточка жильца"
+      "meta": "Карточка жильца",
+      "ui": {
+        "states": [
+          "default"
+        ]
+      }
     },
     {
       "id": "call",
@@ -651,7 +1405,13 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "profile",
-      "meta": "CallKit · VoIP"
+      "meta": "CallKit · VoIP",
+      "ui": {
+        "states": [
+          "default",
+          "error"
+        ]
+      }
     },
     {
       "id": "settings",
@@ -659,7 +1419,13 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Push · Face ID · фон · виджет"
+      "meta": "Push · Face ID · фон · виджет",
+      "ui": {
+        "states": [
+          "default",
+          "permission"
+        ]
+      }
     },
     {
       "id": "ads",
@@ -667,7 +1433,13 @@
       "type": "modal",
       "light": true,
       "parent": "settings",
-      "meta": "ATT после объяснения"
+      "meta": "ATT после объяснения",
+      "ui": {
+        "states": [
+          "default",
+          "permission"
+        ]
+      }
     },
     {
       "id": "lock",
@@ -675,7 +1447,14 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "settings",
-      "meta": "LocalAuthentication"
+      "meta": "LocalAuthentication",
+      "ui": {
+        "states": [
+          "default",
+          "error",
+          "permission"
+        ]
+      }
     },
     {
       "id": "widget",
@@ -683,7 +1462,12 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "settings",
-      "meta": "App Groups · Keychain"
+      "meta": "App Groups · Keychain",
+      "ui": {
+        "states": [
+          "default"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -1050,6 +1834,582 @@
       "email": "marina@inbox.ru",
       "code": "2600",
       "note": "Вход по почте: тестовый адрес принимает код 2600; альтернативно доступен вход с Google. После входа выберите демо-дом «Полевая, 12» или добавьте адрес через справочник."
+    }
+  },
+  "acceptance": [
+    {
+      "id": "confirm-home-by-network",
+      "name": "Пропуск по домашней сети",
+      "action": "confirm-home",
+      "given": "Житель выбрал дом в справочнике, телефон в границах двора и в домашней сети",
+      "when": "Нажимает «Я дома — проверить» и разрешает геопозицию",
+      "then": "Открывается «Проверка сети», обе проверки зелёные, после подтверждения ветка дома доступна на запись",
+      "screens": [
+        "join",
+        "verify",
+        "home"
+      ],
+      "capabilities": [
+        "location",
+        "wifiinfo"
+      ]
+    },
+    {
+      "id": "denied-location-falls-back",
+      "name": "Отказ в геопозиции не выключает вход",
+      "action": "claim-home-manually",
+      "given": "Житель на экране выбора дома",
+      "when": "Нажимает «Я дома — проверить» и запрещает геопозицию",
+      "then": "Открывается «Адрес вручную», на экране видно, что геопозиция выключена, заявку смотрит старший по подъезду",
+      "screens": [
+        "join",
+        "manual"
+      ],
+      "capabilities": [
+        "location"
+      ]
+    },
+    {
+      "id": "report-with-photo",
+      "name": "Заявка с кадром с места",
+      "action": "create-report",
+      "given": "Житель видит сломанный доводчик",
+      "when": "Открывает «Сообщить о проблеме», нажимает «Фото с места» и разрешает камеру",
+      "then": "Открывается камера, снятый кадр приложен к заявке, заявка получает номер",
+      "screens": [
+        "home",
+        "problem",
+        "shoot"
+      ],
+      "capabilities": [
+        "camera"
+      ]
+    },
+    {
+      "id": "report-without-camera",
+      "name": "Заявка без камеры",
+      "action": "create-report",
+      "given": "Житель отказал в доступе к камере",
+      "when": "Открывает «Сообщить о проблеме»",
+      "then": "На экране написано, что остаётся фото из медиатеки и ввод руками, заявка отправляется без кадра",
+      "screens": [
+        "problem"
+      ],
+      "capabilities": [
+        "camera"
+      ]
+    },
+    {
+      "id": "voice-with-transcript",
+      "name": "Голосовое с расшифровкой",
+      "action": "send-voice",
+      "given": "Житель в чате подъезда, руки заняты",
+      "when": "Нажимает «Записать голосовое» и разрешает микрофон и распознавание речи",
+      "then": "Рядом с голосовым появляется расшифровка — соседи читают, не включая звук",
+      "screens": [
+        "chat",
+        "voice"
+      ],
+      "capabilities": [
+        "mic",
+        "speech"
+      ]
+    },
+    {
+      "id": "voice-without-speech",
+      "name": "Голосовое без распознавания",
+      "action": "send-voice",
+      "given": "Микрофон разрешён, распознавание речи запрещено",
+      "when": "Житель записывает голосовое",
+      "then": "Голосовое отправляется без расшифровки, на экране сказано почему",
+      "screens": [
+        "chat",
+        "voice"
+      ],
+      "capabilities": [
+        "mic",
+        "speech"
+      ]
+    },
+    {
+      "id": "chronicle-from-library",
+      "name": "Хроника из своей медиатеки",
+      "action": "collect-chronicle",
+      "given": "Житель не помнит, какие снимки сделаны во дворе",
+      "when": "Открывает «Хронику двора» и разрешает медиатеку",
+      "then": "Показаны кадры в границах двора; без доступа остаются только снятые в приложении",
+      "screens": [
+        "home",
+        "chronicle"
+      ],
+      "capabilities": [
+        "photos"
+      ]
+    },
+    {
+      "id": "guest-network-by-qr",
+      "name": "Гостевая сеть по QR",
+      "action": "join-guest-network",
+      "given": "Гость у лавочки с наклейкой",
+      "when": "Житель открывает «Гостевую сеть», сканирует QR",
+      "then": "Устройство подключается к Dvor-Guest без ввода пароля; без камеры остаются имя сети и пароль текстом",
+      "screens": [
+        "yard",
+        "guest",
+        "scan"
+      ],
+      "capabilities": [
+        "camera",
+        "hotspot"
+      ]
+    },
+    {
+      "id": "readings-and-widget",
+      "name": "Срок показаний на экране «Домой»",
+      "action": "show-widget",
+      "given": "Срок передачи показаний — 25 апреля",
+      "when": "Житель включает виджет в настройках",
+      "then": "Виджет показывает срок и отключение воды и обновляется фоновой задачей до открытия приложения",
+      "screens": [
+        "settings",
+        "widget",
+        "meters",
+        "background"
+      ],
+      "capabilities": [
+        "appgroups",
+        "remotenotif",
+        "fetch",
+        "bgtask"
+      ]
+    },
+    {
+      "id": "call-without-numbers",
+      "name": "Звонок в квартиру без обмена номерами",
+      "action": "call-flat",
+      "given": "Житель нашёл соседа",
+      "when": "Открывает профиль и нажимает «Позвонить в квартиру»",
+      "then": "Идёт вызов через CallKit, личный номер соседа не раскрывается",
+      "screens": [
+        "neighbors",
+        "profile",
+        "call"
+      ],
+      "capabilities": [
+        "voip",
+        "contacts"
+      ]
+    },
+    {
+      "id": "password-autofill",
+      "name": "Пароль дома в Safari",
+      "action": "use-credential",
+      "given": "Старший по дому опубликовал запись кабинета управляющей компании",
+      "when": "Житель открывает кабинет в Safari",
+      "then": "Логин и пароль подставляются автозаполнением из общей связки, копировать руками не нужно",
+      "screens": [
+        "passwords",
+        "fill"
+      ],
+      "capabilities": [
+        "autofill",
+        "keychain"
+      ]
+    },
+    {
+      "id": "repeat-launch-no-prompt",
+      "name": "Повторный запуск не спрашивает заново",
+      "action": "confirm-home",
+      "given": "Доступ уже выдан в этой сессии",
+      "when": "Житель возвращается на тот же экран",
+      "then": "Системный промпт не поднимается, фича работает сразу",
+      "screens": [
+        "join",
+        "home"
+      ],
+      "capabilities": [
+        "location"
+      ]
+    },
+    {
+      "id": "follow-thread-notified",
+      "name": "Ответ управляющей компании догоняет уведомлением",
+      "action": "follow-thread",
+      "given": "Житель прочитал объявление об отключении воды",
+      "when": "Нажимает «Следить за темой» и разрешает уведомления",
+      "then": "Приходит уведомление, когда УК отвечает; без разрешения тема помечается точкой в ленте",
+      "screens": [
+        "home",
+        "post"
+      ],
+      "capabilities": [
+        "push"
+      ]
+    },
+    {
+      "id": "neighbor-message-on-lockscreen",
+      "name": "Сообщение соседа выглядит сообщением",
+      "action": "show-as-message",
+      "given": "Уведомления разрешены",
+      "when": "Сосед пишет в чат подъезда",
+      "then": "На экране блокировки уведомление показывается с аватаром автора и попадает в сводку; без entitlement — обычный баннер",
+      "screens": [
+        "chat",
+        "lockscreen"
+      ],
+      "capabilities": [
+        "commnotif"
+      ]
+    },
+    {
+      "id": "event-to-calendar",
+      "name": "Субботник в системном календаре",
+      "action": "add-event",
+      "given": "В доме назначен субботник на 12 апреля",
+      "when": "Житель открывает «События дома» и разрешает календарь",
+      "then": "Событие добавлено в системный календарь; без доступа остаётся только в приложении",
+      "screens": [
+        "yard",
+        "events"
+      ],
+      "capabilities": [
+        "calendar"
+      ]
+    },
+    {
+      "id": "lock-app-with-faceid",
+      "name": "Замок на приложении",
+      "action": "lock-app",
+      "given": "В приложении адрес, номера квартир и коды дверей",
+      "when": "Житель включает «Замок Face ID» и проходит биометрию",
+      "then": "Следующее открытие требует Face ID; при отказе приложение открывается без замка",
+      "screens": [
+        "settings",
+        "lock"
+      ],
+      "capabilities": [
+        "faceid"
+      ]
+    },
+    {
+      "id": "local-ads",
+      "name": "Реклама про район, а не случайная",
+      "action": "personalize-ads",
+      "given": "Житель открывает раздел рекламы",
+      "when": "Нажимает «Настроить рекомендации» и разрешает отслеживание",
+      "then": "Реклама становится местной; при отказе реклама остаётся, но общей",
+      "screens": [
+        "menu",
+        "ads"
+      ],
+      "capabilities": [
+        "tracking"
+      ]
+    }
+  ],
+  "fixtures": {
+    "note": "Демо-данные концепта. Один источник для HTML-прототипа и нативного приложения — иначе контент разъезжается между ними.",
+    "house": {
+      "address": "Полевая, 12",
+      "ssid": "Polevaya-12",
+      "radiusMeters": 150,
+      "corpuses": 3,
+      "flats": 214
+    },
+    "me": {
+      "name": "Анна Разумова",
+      "flatNumber": 74,
+      "entrance": 3,
+      "role": "житель"
+    },
+    "stories": [
+      {
+        "title": "Вы",
+        "kind": "add"
+      },
+      {
+        "title": "2 подъезд",
+        "kind": "unseen"
+      },
+      {
+        "title": "Субботник",
+        "kind": "unseen"
+      },
+      {
+        "title": "Лифт",
+        "kind": "seen"
+      },
+      {
+        "title": "Парковка",
+        "kind": "seen"
+      }
+    ],
+    "feedFilters": [
+      {
+        "title": "Всё в доме",
+        "count": null
+      },
+      {
+        "title": "Объявления",
+        "count": 3
+      },
+      {
+        "title": "Проблемы",
+        "count": null
+      },
+      {
+        "title": "Обмен",
+        "count": null
+      }
+    ],
+    "threads": [
+      {
+        "author": "Управляющая компания",
+        "meta": "вчера в 19:04 · официально",
+        "official": true,
+        "text": "Горячую воду отключат с 14 по 17 апреля — опрессовка стояка. Заявки на перерасчёт — в теме.",
+        "warnTag": "Вода",
+        "tags": [
+          "Весь дом"
+        ],
+        "likes": 34,
+        "replies": 12,
+        "views": 219,
+        "photo": false
+      },
+      {
+        "author": "Марина, кв. 48",
+        "meta": "сегодня в 08:12 · 3 подъезд",
+        "official": false,
+        "text": "Доводчик на второй двери сорвало, бьёт по коляскам. Сняла, как стоит — если кто вызывает мастера, приложите к заявке.",
+        "warnTag": null,
+        "tags": [
+          "3 подъезд",
+          "Заявка 4417"
+        ],
+        "likes": 18,
+        "replies": 7,
+        "views": 96,
+        "photo": true
+      },
+      {
+        "author": "Пётр, старший по подъезду",
+        "meta": "вчера в 21:30 · 3 подъезд",
+        "official": false,
+        "text": "Мастер по домофону придёт в четверг после двух. Код калитки на время работ — 4417.",
+        "warnTag": null,
+        "tags": [
+          "3 подъезд"
+        ],
+        "likes": 26,
+        "replies": 4,
+        "views": 141,
+        "photo": false
+      }
+    ],
+    "threadReplies": [
+      {
+        "author": "Пётр, старший по подъезду",
+        "text": "Перерасчёт делают по заявлению, форма у консьержа."
+      },
+      {
+        "author": "Ирина, кв. 51",
+        "text": "У нас в третьем подъезде воду отключат на день раньше."
+      }
+    ],
+    "chatFilters": [
+      {
+        "title": "Все",
+        "count": null
+      },
+      {
+        "title": "Подъезды",
+        "count": 2
+      },
+      {
+        "title": "Дом",
+        "count": null
+      },
+      {
+        "title": "Личные",
+        "count": null
+      }
+    ],
+    "chats": [
+      {
+        "title": "3 подъезд · Полевая, 12",
+        "preview": "Пётр: мастер в четверг после двух",
+        "time": "8м",
+        "unread": 3
+      },
+      {
+        "title": "Весь дом",
+        "preview": "УК: воды нет 14–17 апреля",
+        "time": "1ч",
+        "unread": 0
+      },
+      {
+        "title": "Парковка",
+        "preview": "Марина: место 14 заняли снова",
+        "time": "3ч",
+        "unread": 0
+      },
+      {
+        "title": "Старший по подъезду",
+        "preview": "Код калитки 4417",
+        "time": "вчера",
+        "unread": 0
+      },
+      {
+        "title": "Обмен и отдам",
+        "preview": "Ирина: отдам стеллаж, кв. 51",
+        "time": "вчера",
+        "unread": 0
+      }
+    ],
+    "messages": [
+      {
+        "author": "Пётр, старший",
+        "text": "Мастер по домофону придёт в четверг после двух. Код калитки на время работ — 4417.",
+        "outgoing": false
+      },
+      {
+        "author": "Марина, кв. 48",
+        "text": "Спасибо! Доводчик на второй двери тоже посмотрят?",
+        "outgoing": true
+      },
+      {
+        "author": "Пётр, старший",
+        "text": "Заявку 4417 уже приняли, мастер посмотрит обе двери.",
+        "outgoing": false
+      }
+    ],
+    "voiceTranscript": "Во втором подъезде опять не закрывается дверь, я вызвала мастера на четверг.",
+    "meters": [
+      {
+        "kind": "Холодная вода",
+        "unit": "м³",
+        "reading": "04812",
+        "symbol": "drop.fill"
+      },
+      {
+        "kind": "Электричество",
+        "unit": "кВт·ч",
+        "reading": "18240",
+        "symbol": "bolt.fill"
+      }
+    ],
+    "metersDue": "Показания принимают до 25 апреля",
+    "yardServices": [
+      {
+        "title": "Гостевая сеть",
+        "subtitle": "Dvor-Guest, QR на лавочке",
+        "symbol": "wifi",
+        "screen": "guest",
+        "value": null
+      },
+      {
+        "title": "Счётчики",
+        "subtitle": "вода и электричество",
+        "symbol": "gauge.with.dots.needle.33percent",
+        "screen": "meters",
+        "value": "до 25 апреля"
+      },
+      {
+        "title": "События дома",
+        "subtitle": "субботник 12 апреля",
+        "symbol": "calendar",
+        "screen": "events",
+        "value": null
+      },
+      {
+        "title": "Мусорные баки",
+        "subtitle": "вывоз по чётным",
+        "symbol": "trash",
+        "screen": null,
+        "value": null
+      }
+    ],
+    "events": [
+      {
+        "title": "Субботник",
+        "when": "12 апреля, 11:00 · двор",
+        "symbol": "leaf.fill",
+        "tone": "green"
+      },
+      {
+        "title": "Собрание жильцов",
+        "when": "18 апреля, 19:00 · 1 подъезд",
+        "symbol": "person.3.fill",
+        "tone": "accent"
+      },
+      {
+        "title": "Отключение воды",
+        "when": "14–17 апреля · весь дом",
+        "symbol": "drop.fill",
+        "tone": "orange"
+      }
+    ],
+    "credentials": [
+      {
+        "service": "Кабинет УК",
+        "host": "uk-polevaya.ru",
+        "login": "polevaya12-74"
+      },
+      {
+        "service": "Видеонаблюдение",
+        "host": "cam.polevaya12.ru",
+        "login": "polevaya12-74"
+      },
+      {
+        "service": "Гостевая сеть",
+        "host": "Dvor-Guest",
+        "login": "guest"
+      }
+    ],
+    "guestNetwork": {
+      "ssid": "Dvor-Guest",
+      "password": "4417-guest",
+      "qrLocation": "на лавочке у второго подъезда"
+    },
+    "neighbors": [
+      {
+        "name": "Ирина Малова",
+        "flat": "кв. 51"
+      },
+      {
+        "name": "Пётр Кузьмин",
+        "flat": "кв. 12"
+      },
+      {
+        "name": "Ольга Ким",
+        "flat": "кв. 88"
+      }
+    ],
+    "stats": [
+      {
+        "value": "18",
+        "label": "соседей рядом"
+      },
+      {
+        "value": "4",
+        "label": "открытых заявки"
+      }
+    ],
+    "chronicle": {
+      "count": 42,
+      "period": "за апрель"
+    },
+    "backgroundLog": [
+      "BGTaskScheduler.register",
+      "app.camo.dvor.refresh",
+      "→ снапшот виджета переписан",
+      "→ срок показаний: 25 апреля",
+      "→ следующая попытка: 06:00"
+    ],
+    "widget": {
+      "primary": "Показания до 25 апреля",
+      "warn": "Горячая вода 14–17 апреля"
     }
   }
 }

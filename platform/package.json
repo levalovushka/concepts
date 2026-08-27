@@ -9,6 +9,7 @@
     "build:all": "node scripts/build-all.mjs",
     "test:launcher": "node scripts/test-launcher.mjs",
     "docs": "node scripts/gen-docs.mjs",
+    "spec": "node scripts/ux-spec.mjs",
     "shots": "node scripts/capture.mjs",
     "test": "node scripts/test-flows.mjs",
     "lint": "node scripts/lint-concept.mjs",

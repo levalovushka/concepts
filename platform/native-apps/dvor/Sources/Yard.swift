@@ -101,13 +101,13 @@ struct YardView: View {
 
             YardPlan()
             DCard(padding: 10) {
-                Text("Полевая, 12 · 150 м · метка — заявка")
+                Text("\(Concept.house.address) · \(Concept.house.radiusMeters) м · метка — заявка")
                     .font(.system(size: 13)).foregroundStyle(D.sub)
             }
 
             DSectionTitle(text: "Сервисы двора")
             DCard {
-                DRow(title: "Гостевая сеть", subtitle: "Dvor-Guest, QR на лавочке") {
+                DRow(title: "Гостевая сеть", subtitle: "\(Concept.guest.ssid), QR \(Concept.guest.qrLocation)") {
                     DBullet(symbol: "wifi")
                 } action: { nav.push(.guest) }
                 DHair(inset: 56)

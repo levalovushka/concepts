@@ -61,7 +61,8 @@ scripts/
   lint-concept.mjs         сверка слоёв (фаза 10); `--kernel` — мёртвый код ядра
   gen-docs.mjs             блоки @generated в доках
   gen-icons.mjs            спрайт из lucide-static → kernel/icons.svg
-  build-app.mjs            Info.plist, entitlements и Xcode-проект из набора доступов
+  ux-spec.mjs              UX-спецификация одним JSON: модель мира, граф, доступы, состояния
+  build-app.mjs            Info.plist, entitlements, фикстуры и Xcode-проект
   run-app.mjs              сборка, установка в симулятор и запуск
   native-platform.mjs      платформенный слой: plist, entitlements, pbxproj
 concepts/
@@ -96,7 +97,7 @@ concepts/
   nakat/                   «Накат», курс автошколы: набор vkontakte, 20 доступов,
                            30 экранов — разбор билета за рулём, звонок инструктору
                            без обмена номерами, перенос слота, отметка по сети класса
-dist/                      сборка: галерея + /<slug>/
+dist/                      сборка: галерея, /<slug>/ и /<slug>/ux-spec.json
 native/capability-map.json ключ доступа -> Info.plist, entitlements, фоновый режим
 native-runtime/            общий рантайм доступов для нативных приложений
 native-apps/<slug>/        нативные приложения концептов (пишутся руками)

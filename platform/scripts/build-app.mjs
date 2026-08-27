@@ -6,7 +6,7 @@
  * только то, что выводится из concept.json без потери смысла: Info.plist с
  * настоящими текстами промптов, entitlements, фоновые режимы и Xcode-проект.
  */
-import { readdirSync, mkdirSync, rmSync, cpSync, existsSync } from 'node:fs';
+import { readdirSync, mkdirSync, rmSync, cpSync, existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ROOT, readSpec, validate } from './lib.mjs';
@@ -15,6 +15,38 @@ import { platformFiles, writeInfoPlist, writeEntitlements, writeProject } from '
 const APPS = join(ROOT, 'native-apps');
 const RUNTIME = join(ROOT, 'native-runtime');
 const OUT = join(ROOT, 'native-dist');
+
+/**
+ * Демо-данные концепта попадают в приложение как есть. Один источник для
+ * HTML-прототипа и нативной сборки: контент, скопированный в Swift руками,
+ * разъезжается с концептом на первой же правке.
+ */
+function writeFixtures(dir, spec) {
+  const fixtures = spec.fixtures || {};
+  const json = JSON.stringify(fixtures, null, 1);
+  writeFileSync(join(dir, 'Fixtures.swift'),
+`// Сгенерировано из fixtures в concepts/${spec.slug}/concept.json. Не править руками.
+import Foundation
+
+enum Fixtures {
+    /// Секция демо-данных по имени. Падение здесь означает, что спека и
+    /// модель в коде разошлись, — это должно быть видно сразу.
+    static func load<T: Decodable>(_ key: String, as type: T.Type = T.self) -> T {
+        let root = (try! JSONSerialization.jsonObject(with: Data(raw.utf8))) as! [String: Any]
+        guard let section = root[key] else {
+            fatalError("fixtures: нет секции \\(key) в concept.json")
+        }
+        let data = try! JSONSerialization.data(withJSONObject: section, options: [.fragmentsAllowed])
+        return try! JSONDecoder().decode(T.self, from: data)
+    }
+
+    static let raw = #"""
+${json}
+"""#
+}
+`);
+  return Object.keys(fixtures).length;
+}
 
 export function buildApp(slug) {
   const sourceDir = join(APPS, slug, 'Sources');
@@ -38,6 +70,7 @@ export function buildApp(slug) {
   for (const file of readdirSync(RUNTIME)) cpSync(join(RUNTIME, file), join(sources, file));
   for (const file of readdirSync(sourceDir)) cpSync(join(sourceDir, file), join(sources, file));
 
+  const fixtureSections = writeFixtures(sources, spec);
   const platform = platformFiles(compiled);
   writeInfoPlist(sources, compiled, platform);
   const hasEntitlements = writeEntitlements(sources, platform);
@@ -48,6 +81,7 @@ export function buildApp(slug) {
     slug,
     project: join(outDir, `${slug}.xcodeproj`),
     swiftFiles: files.length,
+    fixtureSections,
     runtimeFiles: readdirSync(RUNTIME).length,
     permissions: compiled.permissions.length,
     usageKeys: Object.keys(platform.usage).length,
