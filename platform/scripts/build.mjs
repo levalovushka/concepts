@@ -70,16 +70,17 @@ function adaptRegistrationScreen(source, target) {
     .replace(/\breadonly\b/g, '')
     .replace(/aria-label="Номер телефона"/g, 'aria-label="Электронная почта"')
     .replace(/<input([^>]*aria-label="Электронная почта"[^>]*)>/g, (match, attrs) => {
-      const next = /class="/.test(attrs)
+      let next = /class="/.test(attrs)
         ? attrs.replace(/class="([^"]*)"/, 'class="$1 auth-email-input"')
         : `${attrs} class="auth-email-input"`;
+      if (!/\stype="/.test(next)) next = ` type="email"${next}`;
       return `<input${next}>`;
     })
     .replace(/Номер телефона/g, 'Электронная почта')
     .replace(/\+7\s?900\s?123-45-67/g, 'alex@inbox.ru')
     .replace(/900\s?123-45-67/g, 'alex@inbox.ru')
     .replace(/701\s?456-21-08/g, 'alex@inbox.ru')
-    .replace(/marina(?:\.k)?@inbox\.ru|vlada@inbox\.ru/g, 'alex@inbox.ru')
+    .replace(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi, 'alex@inbox.ru')
     .replace(/Пришлём код в (?:SMS|письме)\.[^<]*/g, 'Почта создаст аккаунт сразу, без OTP и подтверждения.')
     .replace(/Код придёт письмом\.[^<]*/g, 'Аккаунт создастся сразу; письмо ждать не нужно.')
     .replace(/Войдите по номеру/g, 'Создайте аккаунт по почте')
@@ -90,6 +91,14 @@ function adaptRegistrationScreen(source, target) {
     .replace(/<h1([^>]*)>Вход<\/h1>/g, '<h1$1>Регистрация</h1>')
     .replace(/Войдите в /g, 'Регистрация в ')
     .replace(/Вход в «/g, 'Регистрация в «');
+  if (!/<input\b[^>]*type="email"/.test(out)) {
+    out = out.replace(/<(span|b|strong)([^>]*)>alex@inbox\.ru<\/\1>/, (match, tag, attrs) => {
+      const next = /class="/.test(attrs)
+        ? attrs.replace(/class="([^"]*)"/, 'class="$1 auth-email-input"')
+        : `${attrs} class="auth-email-input"`;
+      return `<input${next} type="email" value="alex@inbox.ru" autocomplete="email" aria-label="Электронная почта">`;
+    });
+  }
   return out;
 }
 
@@ -149,10 +158,35 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
   for (const row of spec.positioning?.referenceEvidence || []) row.screen = replacement(row.screen);
 
   spec.prototypes = (spec.prototypes || []).map((prototype) => {
-    const remaining = (prototype.screens || []).filter((id) => id !== 'phone' && !LEGACY_AUTH.has(id));
-    const authTarget = LEGACY_AUTH.has(prototype.start) || prototype.start === 'phone' ? (remaining[0] || target) : prototype.start;
-    if (!remaining.includes(authTarget)) remaining.unshift(authTarget);
-    return { ...prototype, start: 'phone', authTarget, screens: ['phone', ...remaining], stops: (prototype.stops || []).filter((id) => !LEGACY_AUTH.has(id) && id !== 'phone') };
+    const sourceScreens = prototype.screens || [];
+    const startsWithAuth = prototype.start === 'phone' || LEGACY_AUTH.has(prototype.start);
+    const carriesAuth = sourceScreens.some((id) => id === 'phone' || LEGACY_AUTH.has(id));
+    const remaining = sourceScreens.filter((id) => !LEGACY_AUTH.has(id));
+    const firstProductScreen = sourceScreens.find((id) => id !== 'phone' && !LEGACY_AUTH.has(id)) || target;
+    const authTarget = firstProductScreen;
+
+    /* Полный продукт по-прежнему показывает cold start, отдельный auth-срез —
+       регистрацию. Остальные сценарии сохраняют исходные старт и состав: экран
+       регистрации не должен подменять «Публикацию», «Разговор» или «Архив». */
+    if (prototype.hero && !remaining.includes('phone')) remaining.unshift('phone');
+    const start = prototype.hero || startsWithAuth ? 'phone' : prototype.start;
+    if ((prototype.hero || startsWithAuth) && !remaining.includes('phone')) remaining.unshift('phone');
+
+    const normalized = {
+      ...prototype,
+      start,
+      screens: remaining,
+      stops: (prototype.stops || []).filter((id) => !LEGACY_AUTH.has(id) && id !== 'phone'),
+    };
+    if (remaining.includes('phone') || carriesAuth || prototype.hero) normalized.authTarget = authTarget;
+    if (prototype.hero) {
+      normalized.note = `${spec.screens.length} экранов и ${spec.permissions.length} доступов`;
+    }
+    if (!prototype.hero && prototype.id === 'signin') {
+      normalized.label = 'Регистрация по почте';
+      normalized.note = 'Создание аккаунта по почте и сразу переход в продукт';
+    }
+    return normalized;
   });
   const prototypeShapes = new Set();
   spec.prototypes = spec.prototypes.filter((prototype) => {

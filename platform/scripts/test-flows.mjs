@@ -46,11 +46,34 @@ async function run(slug) {
   ok(`старт = ${spec.start}`, (await cur()) === spec.start);
   ok('журнал пуст на старте', (await page.$$('#perms .perm:not([data-state="idle"])')).length === 0);
   ok('на старте нет промпта', !(await alertOn()));
+  for (const sourcePrototype of sourceSpec.prototypes || []) {
+    if (sourcePrototype.hero || sourcePrototype.start === 'phone' || ['code', 'codefail'].includes(sourcePrototype.start)) continue;
+    const effectivePrototype = spec.prototypes.find((prototype) => prototype.id === sourcePrototype.id);
+    ok(`${sourcePrototype.id}: сценарий сохраняет старт «${sourcePrototype.start}»`, effectivePrototype?.start === sourcePrototype.start);
+  }
   const externalAuth = await page.evaluate((h) => {
     const auth = document.querySelector(h + ' [data-screen="phone"]');
     return !!auth?.querySelector('[class*="google"], .auth-apple, [data-activate^="applesignin|"]');
   }, H);
   ok('регистрация предлагает только почту', !externalAuth && !spec.permissions.some((p) => p.key === 'applesignin'));
+  ok('регистрация использует настоящий email input', !!(await page.$(`${H} [data-screen="phone"] input[type="email"]`)));
+
+  await page.click(`${H} ~ .controls [data-state="empty"]`);
+  ok('empty формы = пустой input без оверлея', await page.evaluate((h) => {
+    const phone = document.querySelector(h + ' [data-screen="phone"]');
+    return phone?.querySelector('input[type="email"]')?.value === '' && !document.querySelector(h + ' .prototype-state.is-on');
+  }, H));
+  await page.click(`${H} ~ .controls [data-state="error"]`);
+  ok('error формы = невалидный input и inline-текст без оверлея', await page.evaluate((h) => {
+    const phone = document.querySelector(h + ' [data-screen="phone"]');
+    return phone?.querySelector('input[aria-invalid="true"]') && phone.querySelector('[data-prototype-form-message]') && !document.querySelector(h + ' .prototype-state.is-on');
+  }, H));
+  await page.click(`${H} ~ .controls [data-state="loading"]`);
+  ok('loading формы остаётся внутри формы', await page.evaluate((h) => {
+    const phone = document.querySelector(h + ' [data-screen="phone"]');
+    return phone?.querySelector('[aria-disabled="true"].prototype-button-loading') && !document.querySelector(h + ' .prototype-state.is-on');
+  }, H));
+  await page.click(`${H} ~ .controls [data-state="default"]`);
 
   const missing = await page.evaluate(
     ({ ids, h }) => ids.filter((id) => !document.querySelector(h + ` [data-screen="${id}"]`)),

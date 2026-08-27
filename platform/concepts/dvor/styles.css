@@ -598,6 +598,8 @@
 .d-note.warn { color: #A8690A; }
 .d-note.mute { color: var(--d-sub); }
 .d-note.center { justify-content: center; text-align: center; }
+.d-note.center:has(> .auth-links) { flex-wrap:wrap; }
+.d-note.center > .auth-links { flex:0 0 100%; margin-top:8px; }
 
 .d-kv { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px var(--d-ins); }
 .d-kv-k { font-size: 14px; color: var(--d-sub); }

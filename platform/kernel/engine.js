@@ -85,6 +85,7 @@
     var snackShown = {};
     var snackTimer = null;
     var previewState = 'default';
+    var formPreview = null;
 
     var PREVIEW_COPY = {
       empty: {
@@ -112,17 +113,107 @@
       var on = screens.querySelector('.screen.is-on');
       return on ? on.dataset.screen : '';
     }
+    function restoreFormPreview() {
+      if (!formPreview) return;
+      formPreview.fields.forEach(function (item) {
+        var field = item.field;
+        if ('value' in field) field.value = item.value;
+        else field.textContent = item.value;
+        if ('disabled' in field) field.disabled = item.disabled;
+        if (item.invalid === null) field.removeAttribute('aria-invalid');
+        else field.setAttribute('aria-invalid', item.invalid);
+        field.classList.remove('prototype-field-error');
+      });
+      if (formPreview.primary) {
+        var button = formPreview.primary.button;
+        button.innerHTML = formPreview.primary.html;
+        if ('disabled' in button) button.disabled = formPreview.primary.disabled;
+        if (formPreview.primary.ariaDisabled === null) button.removeAttribute('aria-disabled');
+        else button.setAttribute('aria-disabled', formPreview.primary.ariaDisabled);
+        button.classList.remove('prototype-button-loading');
+      }
+      formPreview.screen.classList.remove('prototype-form-preview');
+      formPreview.screen.querySelectorAll('.prototype-field-error-host').forEach(function (host) {
+        host.classList.remove('prototype-field-error-host');
+      });
+      formPreview.screen.querySelectorAll('[data-prototype-form-message]').forEach(function (message) { message.remove(); });
+      formPreview = null;
+    }
+    function applyFormPreview(screen, stateName) {
+      var fields = Array.prototype.slice.call(screen.querySelectorAll('input:not([type="hidden"]), textarea, select, [contenteditable]'));
+      var primary = screen.querySelector('[data-primary], [data-go]');
+      formPreview = {
+        screen: screen,
+        fields: fields.map(function (field) {
+          return {
+            field: field,
+            value: 'value' in field ? field.value : field.textContent,
+            disabled: 'disabled' in field ? field.disabled : false,
+            invalid: field.getAttribute('aria-invalid')
+          };
+        }),
+        primary: primary ? {
+          button: primary,
+          html: primary.innerHTML,
+          disabled: 'disabled' in primary ? primary.disabled : false,
+          ariaDisabled: primary.getAttribute('aria-disabled')
+        } : null
+      };
+      screen.classList.add('prototype-form-preview');
+
+      var field = fields[0];
+      var host = field && (field.closest('label, .auth-field, .tl-auth-field, .td-field, .d-field, .lk-field, .db-phone, .sc-input')
+        || (field.parentElement && field.parentElement.closest('[class*="field"]')) || field);
+      var messages = {
+        error: ['Введите корректный адрес электронной почты.', 'error'],
+        offline: ['Нет подключения. Проверьте сеть и попробуйте снова.', 'offline'],
+        permission: ['Нет доступа. Разрешите его в Настройках или продолжите вручную.', 'permission']
+      };
+      if (field && stateName === 'empty') {
+        if ('value' in field) field.value = '';
+        else field.textContent = '';
+      }
+      if (field && stateName === 'error') {
+        if ('value' in field) field.value = 'alex@';
+        else field.textContent = 'alex@';
+        field.setAttribute('aria-invalid', 'true');
+        field.classList.add('prototype-field-error');
+        if (host) host.classList.add('prototype-field-error-host');
+      }
+      if (field && messages[stateName] && host) {
+        var message = document.createElement('div');
+        message.className = 'prototype-form-message is-' + messages[stateName][1];
+        message.dataset.prototypeFormMessage = '';
+        message.textContent = messages[stateName][0];
+        host.insertAdjacentElement('afterend', message);
+      }
+      if (stateName === 'loading') {
+        fields.forEach(function (item) { if ('disabled' in item) item.disabled = true; });
+        if (primary) {
+          if ('disabled' in primary) primary.disabled = true;
+          primary.setAttribute('aria-disabled', 'true');
+          primary.classList.add('prototype-button-loading');
+          primary.textContent = 'Загрузка…';
+        }
+      }
+      if (stateName === 'empty' && primary) {
+        if ('disabled' in primary) primary.disabled = true;
+        primary.setAttribute('aria-disabled', 'true');
+      }
+    }
     function setPreviewState(nextState) {
       previewState = nextState || 'default';
       if (!preview) return;
+      restoreFormPreview();
       var current = screens.querySelector('.screen.is-on');
       var isForm = !!current && (current.dataset.pattern === 'auth' || !!current.querySelector('input, textarea, select, form, [contenteditable]'));
-      preview.classList.toggle('is-on', previewState !== 'default');
+      if (isForm && previewState !== 'default') applyFormPreview(current, previewState);
+      preview.classList.toggle('is-on', !isForm && previewState !== 'default');
       preview.classList.toggle('is-form', isForm);
       preview.dataset.state = previewState;
-      preview.setAttribute('aria-hidden', String(previewState === 'default'));
-      if (previewState !== 'default' && previewState !== 'loading') {
-        var copy = PREVIEW_COPY[previewState][isForm ? 'form' : 'content'];
+      preview.setAttribute('aria-hidden', String(isForm || previewState === 'default'));
+      if (!isForm && previewState !== 'default' && previewState !== 'loading') {
+        var copy = PREVIEW_COPY[previewState].content;
         preview.querySelector('h2').textContent = copy[0];
         preview.querySelector('p').textContent = copy[1];
         preview.querySelector('[data-state-retry]').textContent = copy[2];
@@ -375,6 +466,7 @@
     screens.addEventListener('click', function (e) {
       var t = e.target.closest(SEL);
       if (!t) return;
+      if (t.getAttribute('aria-disabled') === 'true') return;
       if (t.hasAttribute('data-back')) { back(); return; }
       if (t.hasAttribute('data-ask')) {
         var a = t.dataset.ask.split('|');

@@ -508,7 +508,6 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .prototype-state.is-on { display:flex; }
 .prototype-state.is-form:not([data-state="loading"]):not([data-state="empty"]) { align-items:flex-start; padding-top:148px; background:linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.72)); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); }
 .prototype-state-card { width:100%; max-width:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-.prototype-state.is-form .prototype-state-card { padding:18px; border-radius:16px; background:rgba(255,255,255,.96); box-shadow:0 12px 38px rgba(0,0,0,.16); }
 .prototype-state-icon { width:58px; height:58px; display:grid; place-items:center; border-radius:18px; background:color-mix(in srgb,var(--accent-fill) 12%,#fff); color:var(--accent-fill); }
 .prototype-state-icon .ico-svg { width:28px; height:28px; }
 .prototype-state h2 { margin-top:16px!important; font:700 24px/29px var(--face)!important; letter-spacing:-.03em; }
@@ -528,6 +527,14 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .prototype-state-loading span:nth-child(4) { height:112px; margin-top:12px; }
 .prototype-state-loading span:nth-child(5) { width:66%; }
 @keyframes prototype-shimmer { to { background-position:-220% 0; } }
+.prototype-form-preview .prototype-field-error-host { box-shadow:inset 0 0 0 1.5px #d70015!important; }
+.prototype-form-message { margin:7px 2px 0; font:400 12px/17px var(--face); color:var(--ios-secondary); text-align:left; }
+.prototype-form-message.is-error { color:#d70015; }
+.prototype-form-message.is-offline { color:#6e6e73; }
+.prototype-form-message.is-permission { color:#a45f00; }
+.prototype-button-loading { position:relative; opacity:.72; cursor:default!important; }
+.prototype-button-loading::before { content:""; display:inline-block; width:15px; height:15px; margin-right:8px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; vertical-align:-2px; animation:prototype-spin .7s linear infinite; }
+@keyframes prototype-spin { to { transform:rotate(360deg); } }
 .ledger { border:1px solid var(--page-line); border-radius:var(--r-card); background:var(--page-card); overflow:hidden; }
 .overview-hero .ledger { border-radius:var(--r-card); }
 .perm { display:grid; grid-template-columns:1fr auto; gap:2px 12px; align-items:center; padding:9px 14px; border-bottom:1px solid var(--page-line-soft); transition:background 120ms; }
@@ -594,7 +601,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .auth-mail-label { font:400 12px/16px var(--face); color:var(--ios-secondary); }
 .auth-mail-value { font:400 17px/22px var(--face); color:#000; letter-spacing:-.1px; }
 .auth-mail-input { width:100%; min-width:0; padding:0; border:0; outline:0; background:transparent; color:#000; font:400 17px/22px var(--face); letter-spacing:-.1px; }
-.auth-email-input { grid-column:1 / -1; min-width:0; }
+.auth-email-input { grid-column:1 / -1; width:100%; min-width:0; padding:0; border:0; outline:0; appearance:none; background:transparent; color:inherit; font:inherit; line-height:inherit; letter-spacing:inherit; }
 .auth-password-field { margin-top:10px; }
 .email-registration { background:#fff; }
 .email-registration .email-registration-primary { color:#000; }
