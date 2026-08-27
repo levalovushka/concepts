@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "note": "Ключ доступа из concept.json -> реальные Info.plist ключи, entitlements и адаптер в нативном ядре. Источник правды по составу набора остаётся concept.json; здесь только платформенные факты.",
+  "capabilities": {
+    "camera": {
+      "kind": "prompt", "adapter": "camera",
+      "usageKeys": ["NSCameraUsageDescription"],
+      "frameworks": ["AVFoundation"]
+    },
+    "mic": {
+      "kind": "prompt", "adapter": "microphone",
+      "usageKeys": ["NSMicrophoneUsageDescription"],
+      "frameworks": ["AVFoundation"]
+    },
+    "speech": {
+      "kind": "prompt", "adapter": "speech",
+      "usageKeys": ["NSSpeechRecognitionUsageDescription"],
+      "frameworks": ["Speech"]
+    },
+    "photo": {
+      "kind": "prompt", "adapter": "photosRead",
+      "usageKeys": ["NSPhotoLibraryUsageDescription"],
+      "frameworks": ["Photos"]
+    },
+    "photos": {
+      "kind": "prompt", "adapter": "photosRead",
+      "usageKeys": ["NSPhotoLibraryUsageDescription"],
+      "frameworks": ["Photos"]
+    },
+    "photoadd": {
+      "kind": "prompt", "adapter": "photosAdd",
+      "usageKeys": ["NSPhotoLibraryAddUsageDescription"],
+      "frameworks": ["Photos"]
+    },
+    "photosadd": {
+      "kind": "prompt", "adapter": "photosAdd",
+      "usageKeys": ["NSPhotoLibraryAddUsageDescription"],
+      "frameworks": ["Photos"]
+    },
+    "location": {
+      "kind": "prompt", "adapter": "locationWhenInUse",
+      "usageKeys": ["NSLocationWhenInUseUsageDescription"],
+      "frameworks": ["CoreLocation"]
+    },
+    "locationalways": {
+      "kind": "prompt", "adapter": "locationAlways",
+      "usageKeys": ["NSLocationAlwaysAndWhenInUseUsageDescription", "NSLocationWhenInUseUsageDescription"],
+      "frameworks": ["CoreLocation"]
+    },
+    "push": {
+      "kind": "prompt", "adapter": "notifications",
+      "usageKeys": [],
+      "entitlements": { "aps-environment": "development" },
+      "frameworks": ["UserNotifications"]
+    },
+    "commnotif": {
+      "kind": "entitlement", "adapter": "communicationNotifications",
+      "entitlements": { "com.apple.developer.usernotifications.communication": true },
+      "frameworks": ["Intents"]
+    },
+    "tracking": {
+      "kind": "prompt", "adapter": "tracking",
+      "usageKeys": ["NSUserTrackingUsageDescription"],
+      "frameworks": ["AppTrackingTransparency"]
+    },
+    "contacts": {
+      "kind": "prompt", "adapter": "contacts",
+      "usageKeys": ["NSContactsUsageDescription"],
+      "frameworks": ["Contacts"]
+    },
+    "calendar": {
+      "kind": "prompt", "adapter": "calendar",
+      "usageKeys": ["NSCalendarsFullAccessUsageDescription"],
+      "frameworks": ["EventKit"]
+    },
+    "faceid": {
+      "kind": "prompt", "adapter": "biometrics",
+      "usageKeys": ["NSFaceIDUsageDescription"],
+      "frameworks": ["LocalAuthentication"]
+    },
+    "localnet": {
+      "kind": "prompt", "adapter": "localNetwork",
+      "usageKeys": ["NSLocalNetworkUsageDescription"],
+      "bonjourServices": ["_camo._tcp"],
+      "frameworks": ["Network"]
+    },
+    "localnetwork": {
+      "kind": "prompt", "adapter": "localNetwork",
+      "usageKeys": ["NSLocalNetworkUsageDescription"],
+      "bonjourServices": ["_googlecast._tcp"],
+      "frameworks": ["Network"]
+    },
+    "music": {
+      "kind": "prompt", "adapter": "mediaLibrary",
+      "usageKeys": ["NSAppleMusicUsageDescription"],
+      "frameworks": ["MediaPlayer"]
+    },
+    "hotspot": {
+      "kind": "prompt", "adapter": "hotspot",
+      "entitlements": { "com.apple.developer.networking.HotspotConfiguration": true },
+      "frameworks": ["NetworkExtension"]
+    },
+    "audio": {
+      "kind": "background", "adapter": "backgroundAudio",
+      "backgroundModes": ["audio"],
+      "frameworks": ["AVFoundation"]
+    },
+    "voip": {
+      "kind": "background", "adapter": "voip",
+      "backgroundModes": ["voip"],
+      "frameworks": ["CallKit"]
+    },
+    "remotenotif": {
+      "kind": "background", "adapter": "remoteNotifications",
+      "backgroundModes": ["remote-notification"],
+      "frameworks": ["UserNotifications"]
+    },
+    "fetch": {
+      "kind": "background", "adapter": "backgroundFetch",
+      "backgroundModes": ["fetch"],
+      "frameworks": ["BackgroundTasks"]
+    },
+    "processing": {
+      "kind": "background", "adapter": "backgroundProcessing",
+      "backgroundModes": ["processing"],
+      "frameworks": ["BackgroundTasks"]
+    },
+    "bgtask": {
+      "kind": "background", "adapter": "backgroundTask",
+      "taskIdentifiers": ["refresh"],
+      "frameworks": ["BackgroundTasks"]
+    },
+    "appgroups": {
+      "kind": "entitlement", "adapter": "appGroup",
+      "entitlements": { "com.apple.security.application-groups": ["group.__BUNDLE__"] },
+      "frameworks": []
+    },
+    "keychain": {
+      "kind": "entitlement", "adapter": "keychainGroup",
+      "entitlements": { "keychain-access-groups": ["$(AppIdentifierPrefix)__BUNDLE__"] },
+      "frameworks": ["Security"]
+    },
+    "wifiinfo": {
+      "kind": "entitlement", "adapter": "wifiInfo",
+      "entitlements": { "com.apple.developer.networking.wifi-info": true },
+      "frameworks": ["SystemConfiguration", "NetworkExtension"]
+    },
+    "applesignin": {
+      "kind": "entitlement", "adapter": "appleSignIn",
+      "entitlements": { "com.apple.developer.applesignin": ["Default"] },
+      "frameworks": ["AuthenticationServices"]
+    },
+    "associateddomains": {
+      "kind": "entitlement", "adapter": "associatedDomains",
+      "entitlements": { "com.apple.developer.associated-domains": ["applinks:__DOMAIN__"] },
+      "frameworks": []
+    },
+    "domains": {
+      "kind": "entitlement", "adapter": "associatedDomains",
+      "entitlements": { "com.apple.developer.associated-domains": ["applinks:__DOMAIN__"] },
+      "frameworks": []
+    },
+    "autofill": {
+      "kind": "entitlement", "adapter": "autofill",
+      "entitlements": { "com.apple.developer.authentication-services.autofill-credential-provider": true },
+      "frameworks": ["AuthenticationServices"]
+    },
+    "shareext": {
+      "kind": "entitlement", "adapter": "shareExtension",
+      "extensionPoint": "com.apple.share-services",
+      "frameworks": []
+    }
+  }
+}

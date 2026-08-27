@@ -61,8 +61,9 @@ scripts/
   lint-concept.mjs         сверка слоёв (фаза 10); `--kernel` — мёртвый код ядра
   gen-docs.mjs             блоки @generated в доках
   gen-icons.mjs            спрайт из lucide-static → kernel/icons.svg
-  fetch-photos.mjs         фото из Openverse (наследие: сейчас вместо фото .ph)
-  _diff.mjs                разовая сверка старого прототипа с dist (пути захардкожены)
+  build-app.mjs            Info.plist, entitlements и Xcode-проект из набора доступов
+  run-app.mjs              сборка, установка в симулятор и запуск
+  native-platform.mjs      платформенный слой: plist, entitlements, pbxproj
 concepts/
   _template/               заготовка: вход по номеру, 2 прототипа, appStore, доки 01–06
   dvor/                    «Двор», соседская сеть одного дома: набор vkontakte,
@@ -96,7 +97,13 @@ concepts/
                            30 экранов — разбор билета за рулём, звонок инструктору
                            без обмена номерами, перенос слота, отметка по сети класса
 dist/                      сборка: галерея + /<slug>/
+native/capability-map.json ключ доступа -> Info.plist, entitlements, фоновый режим
+native-runtime/            общий рантайм доступов для нативных приложений
+native-apps/<slug>/        нативные приложения концептов (пишутся руками)
+native-dist/               сборка Xcode-проектов (генерируется)
 ```
+
+Нативная половина пайплайна — в [native-apps/README.md](native-apps/README.md).
 
 ## Контракт экрана
 

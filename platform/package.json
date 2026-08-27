@@ -18,7 +18,8 @@
     "review": "node scripts/review-concept.mjs",
     "test:quality": "node scripts/test-quality.mjs",
     "check": "node scripts/check.mjs",
-    "prototype:liga": "python3 -m http.server 4174 --bind 127.0.0.1 --directory concepts/_prototype-liga"
+    "app": "node scripts/build-app.mjs",
+    "app:run": "node scripts/run-app.mjs"
   },
   "license": "ISC",
   "devDependencies": {
