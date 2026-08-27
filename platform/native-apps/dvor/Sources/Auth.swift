@@ -122,7 +122,7 @@ struct JoinView: View {
                 .font(.system(size: 15)).foregroundStyle(D.sub).fixedSize(horizontal: false, vertical: true)
 
             DCard {
-                DRow(title: "Полевая, 12", subtitle: "3 корпуса, 214 квартир") {
+                DRow(title: Concept.house.address, subtitle: "\(Concept.house.corpuses) корпуса, \(Concept.house.flats) квартир") {
                     DBullet(symbol: "building.2")
                 } trailing: {
                     Text("выбрать").font(.system(size: 14, weight: .medium)).foregroundStyle(D.accent)
@@ -171,8 +171,8 @@ struct VerifyView: View {
                     HStack(spacing: 10) {
                         DBullet(symbol: "wifi", tint: D.green)
                         VStack(alignment: .leading, spacing: 1) {
-                            Text("Сеть Polevaya-12").font(.system(size: 16, weight: .medium))
-                            Text("В профиле дома — Polevaya-12").font(.system(size: 14)).foregroundStyle(D.sub)
+                            Text("Сеть \(Concept.house.ssid)").font(.system(size: 16, weight: .medium))
+                            Text("В профиле дома — \(Concept.house.ssid)").font(.system(size: 14)).foregroundStyle(D.sub)
                         }
                         Spacer()
                         Text("совпало").font(.system(size: 13, weight: .semibold)).foregroundStyle(D.green)
@@ -182,7 +182,7 @@ struct VerifyView: View {
                         DBullet(symbol: "location.fill", tint: D.green)
                         VStack(alignment: .leading, spacing: 1) {
                             Text("До дома 38 м").font(.system(size: 16, weight: .medium))
-                            Text("Граница двора — 150 м").font(.system(size: 14)).foregroundStyle(D.sub)
+                            Text("Граница двора — \(Concept.house.radiusMeters) м").font(.system(size: 14)).foregroundStyle(D.sub)
                         }
                         Spacer()
                         Text("в границах").font(.system(size: 13, weight: .semibold)).foregroundStyle(D.green)

@@ -1,11 +1,19 @@
 import SwiftUI
 
-struct ChatRoom: Identifiable {
-    let id = UUID()
+/// Чат. Поля совпадают с секцией chats в fixtures концепта.
+struct ChatRoom: Identifiable, Decodable {
+    var id: String { title }
     let title: String
     let preview: String
     let time: String
-    var unread: Int = 0
+    let unread: Int
+}
+
+struct ChatMessage: Identifiable, Decodable {
+    var id: String { author + text }
+    let author: String
+    let text: String
+    let outgoing: Bool
 }
 
 struct ChatsView: View {
@@ -13,15 +21,9 @@ struct ChatsView: View {
     @State private var query = ""
     @State private var filter = "Все"
 
-    private let filters = [("Все", nil as Int?), ("Подъезды", 2), ("Дом", nil), ("Личные", nil)]
+    private let filters: [Filter] = Fixtures.load("chatFilters")
 
-    private let rooms = [
-        ChatRoom(title: "3 подъезд · Полевая, 12", preview: "Пётр: мастер в четверг после двух", time: "8м", unread: 3),
-        ChatRoom(title: "Весь дом", preview: "УК: воды нет 14–17 апреля", time: "1ч"),
-        ChatRoom(title: "Парковка", preview: "Марина: место 14 заняли снова", time: "3ч"),
-        ChatRoom(title: "Старший по подъезду", preview: "Код калитки 4417", time: "вчера"),
-        ChatRoom(title: "Обмен и отдам", preview: "Ирина: отдам стеллаж, кв. 51", time: "вчера"),
-    ]
+    private let rooms: [ChatRoom] = Fixtures.load("chats")
 
     var body: some View {
         Page(spacing: 10) {
@@ -41,8 +43,8 @@ struct ChatsView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 7) {
-                    ForEach(filters, id: \.0) { title, count in
-                        DChip(title: title, count: count, active: filter == title) { filter = title }
+                    ForEach(filters) { item in
+                        DChip(title: item.title, count: item.count, active: filter == item.title) { filter = item.title }
                     }
                 }
                 .padding(.vertical, 2)
@@ -75,6 +77,8 @@ struct ChatsView: View {
 
 /// Чат подъезда. Голосовое живёт здесь — за ним микрофон и распознавание речи.
 struct ChatView: View {
+    static let messages: [ChatMessage] = Fixtures.load("messages")
+
     @Environment(Nav.self) private var nav
     @Environment(AccessStore.self) private var access
     @State private var draft = ""
@@ -87,9 +91,9 @@ struct ChatView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 4)
 
-                    bubble("Пётр, старший", "Мастер по домофону придёт в четверг после двух. Код калитки на время работ — 4417.", out: false)
-                    bubble("Марина, кв. 48", "Спасибо! Доводчик на второй двери тоже посмотрят?", out: true)
-                    bubble("Пётр, старший", "Заявку 4417 уже приняли, мастер посмотрит обе двери.", out: false)
+                    ForEach(ChatView.messages) { message in
+                        bubble(message.author, message.text, out: message.outgoing)
+                    }
 
                     DeniedNotice(key: .mic)
                     DeniedNotice(key: .speech)
@@ -100,7 +104,7 @@ struct ChatView: View {
 
             composer
         }
-        .navigationTitle("3 подъезд · Полевая, 12")
+        .navigationTitle("\(Concept.me.entrance) подъезд · \(Concept.house.address)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -178,7 +182,7 @@ struct VoiceView: View {
                 DCard(padding: D.inset) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Расшифровка").font(.system(size: 13)).foregroundStyle(D.mute)
-                        Text("Во втором подъезде опять не закрывается дверь, я вызвала мастера на четверг.")
+                        Text(Fixtures.load("voiceTranscript", as: String.self))
                             .font(.system(size: 15)).foregroundStyle(D.ink)
                             .fixedSize(horizontal: false, vertical: true)
                     }

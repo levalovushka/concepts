@@ -39,8 +39,8 @@ struct MenuView: View {
             }
 
             DCard {
-                DRow(title: "Анна Разумова",
-                     subtitle: "кв. 74 · 3 подъезд · \(nav.homeConfirmed ? "дом подтверждён" : "заявка на проверке")") {
+                DRow(title: Concept.me.name,
+                     subtitle: "кв. \(Concept.me.flatNumber) · \(Concept.me.entrance) подъезд · \(nav.homeConfirmed ? "дом подтверждён" : "заявка на проверке")") {
                     DAvatar(size: 52)
                 } action: { nav.push(.profile) }
 

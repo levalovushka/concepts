@@ -252,7 +252,7 @@ struct GuestView: View {
         StackPage(title: "Гостевая сеть", spacing: 10) {
             DCard(padding: D.inset) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Dvor-Guest").font(.data(20, .semibold)).foregroundStyle(D.ink)
+                    Text(Concept.guest.ssid).font(.data(20, .semibold)).foregroundStyle(D.ink)
                     Text("QR на лавочке у второго подъезда. Гость подключается без ввода пароля.")
                         .font(.system(size: 14)).foregroundStyle(D.sub).fixedSize(horizontal: false, vertical: true)
                 }
@@ -272,7 +272,7 @@ struct GuestView: View {
                     DBullet(symbol: "wifi")
                 } action: {
                     access.activate(.hotspot, on: "guest")
-                    nav.show("Подключено к Dvor-Guest")
+                    nav.show("Подключено к \(Concept.guest.ssid)")
                 }
             }
 
@@ -282,7 +282,7 @@ struct GuestView: View {
             DCard(padding: D.inset) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Имя сети и пароль").font(.system(size: 13)).foregroundStyle(D.mute)
-                    Text("Dvor-Guest · 4417-guest").font(.data(15)).foregroundStyle(D.ink)
+                    Text("\(Concept.guest.ssid) · \(Concept.guest.password)").font(.data(15)).foregroundStyle(D.ink)
                 }
             }
         }
@@ -311,10 +311,10 @@ struct ScanView: View {
                     .font(.system(size: 15)).foregroundStyle(.white.opacity(0.8))
                     .padding(.top, 20)
                 Spacer()
-                DButton(title: "Подключиться к Dvor-Guest") {
+                DButton(title: "Подключиться к \(Concept.guest.ssid)") {
                     access.activate(.hotspot, on: "scan")
                     nav.cover = nil
-                    nav.show("Подключено к Dvor-Guest")
+                    nav.show("Подключено к \(Concept.guest.ssid)")
                 }
                 .padding(D.inset)
             }
@@ -460,7 +460,7 @@ struct PasswordsView: View {
                 DHair(inset: 56)
                 entry("Видеонаблюдение", "cam.polevaya12.ru")
                 DHair(inset: 56)
-                entry("Гостевая сеть", "Dvor-Guest")
+                entry("Гостевая сеть", Concept.guest.ssid)
             }
 
             DSectionTitle(text: "Автозаполнение")
@@ -635,7 +635,7 @@ struct SettingsView: View {
         StackPage(title: "Настройки", spacing: 10) {
             DSectionTitle(text: "Мой дом")
             DCard {
-                DRow(title: "Полевая, 12, кв. 74", subtitle: "3 подъезд") { DBullet(symbol: "house.fill") } trailing: {
+                DRow(title: "\(Concept.house.address), кв. \(Concept.me.flatNumber)", subtitle: "\(Concept.me.entrance) подъезд") { DBullet(symbol: "house.fill") } trailing: {
                         Text(nav.homeConfirmed ? "подтверждён" : "на проверке")
                             .font(.system(size: 13, weight: .semibold))
                             .foregroundStyle(nav.homeConfirmed ? D.green : D.orangeInk)
