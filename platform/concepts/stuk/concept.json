@@ -23,7 +23,7 @@
       "Найти артикул детали рядом перед выездом в магазин"
     ],
     "verticalSlice": {
-      "entry": "sound",
+      "entry": "phone",
       "action": "record",
       "result": "compare"
     },
@@ -274,41 +274,67 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Вход"
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP"
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
       "id": "ads",
       "title": "Бесплатная версия",
       "type": "onboarding",
       "light": true,
-      "parent": "code",
-      "meta": "ATT после объяснения"
+      "parent": "phone",
+      "meta": "ATT после объяснения",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "home",
       "title": "Главная",
       "type": "tab (root)",
       "light": true,
-      "meta": "Разборы по вашему автомобилю"
+      "meta": "Разборы по вашему автомобилю",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "watch",
@@ -316,7 +342,17 @@
       "type": "push",
       "light": false,
       "parent": "home",
-      "meta": "Плеер · шаги · детали"
+      "meta": "Плеер · шаги · детали",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "background",
@@ -324,7 +360,17 @@
       "type": "system",
       "light": false,
       "parent": "watch",
-      "meta": "Now Playing"
+      "meta": "Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "cast",
@@ -332,7 +378,17 @@
       "type": "sheet",
       "light": false,
       "parent": "watch",
-      "meta": "Local Network"
+      "meta": "Local Network",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "parts",
@@ -340,21 +396,51 @@
       "type": "push",
       "light": true,
       "parent": "watch",
-      "meta": "MKLocalSearch"
+      "meta": "MKLocalSearch",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "clips",
       "title": "Приёмы",
       "type": "tab (root)",
       "light": false,
-      "meta": "Вертикальные видео"
+      "meta": "Вертикальные видео",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "create",
       "title": "Снять",
       "type": "tab (root)",
       "light": true,
-      "meta": "Съёмка или импорт"
+      "meta": "Съёмка или импорт",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "camera",
@@ -362,7 +448,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "create",
-      "meta": "Camera + microphone"
+      "meta": "Camera + microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "upload",
@@ -370,7 +466,17 @@
       "type": "system picker",
       "light": true,
       "parent": "create",
-      "meta": "Photo Library"
+      "meta": "Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "publish",
@@ -378,14 +484,34 @@
       "type": "push",
       "light": true,
       "parent": "camera",
-      "meta": "Черновик локально"
+      "meta": "Черновик локально",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "sound",
       "title": "Звук",
       "type": "tab (root)",
       "light": true,
-      "meta": "Записи и каталог симптомов"
+      "meta": "Записи и каталог симптомов",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "record",
@@ -393,7 +519,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "sound",
-      "meta": "Microphone"
+      "meta": "Microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "compare",
@@ -401,7 +537,17 @@
       "type": "push",
       "light": true,
       "parent": "sound",
-      "meta": "A/B на слух"
+      "meta": "A/B на слух",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "symptom",
@@ -409,7 +555,17 @@
       "type": "push",
       "light": true,
       "parent": "sound",
-      "meta": "Эталон и разборы"
+      "meta": "Эталон и разборы",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "subscriptions",
@@ -417,14 +573,34 @@
       "type": "push",
       "light": true,
       "parent": "profile",
-      "meta": "Авторы и уведомления"
+      "meta": "Авторы и уведомления",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "profile",
       "title": "Профиль",
       "type": "tab (root)",
       "light": true,
-      "meta": "Автомобиль и история"
+      "meta": "Автомобиль и история",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "saved",
@@ -432,7 +608,17 @@
       "type": "push",
       "light": true,
       "parent": "profile",
-      "meta": "Офлайн-библиотека"
+      "meta": "Офлайн-библиотека",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -440,12 +626,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Пять вкладок и все девять доступов набора",
+      "note": "19 экранов и 9 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "ads",
         "home",
         "watch",
@@ -464,7 +648,9 @@
         "subscriptions",
         "profile",
         "saved"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "ads"
     },
     {
       "id": "sound",
@@ -629,12 +815,12 @@
     "whatsNew": "Первая версия: запись звука, сравнение с эталоном, каталог симптомов, разборы офлайн и голос в фоне.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход через SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Аудиозаписи",
@@ -670,9 +856,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Тестовый номер принимает код 0000, SMS не отправляется. Микрофон нужен на вкладке «Звук» → «Записать звук»: подойдёт любой шум, сравнение с эталоном откроется в любом случае."
+      "email": "review@stuk.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "ads"
   }
 }

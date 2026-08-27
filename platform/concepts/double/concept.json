@@ -23,7 +23,7 @@
       "Новые референсы в выбранных дисциплинах"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "camera",
       "result": "analysis"
     },
@@ -276,72 +276,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход",
-      "type": "старт",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Синхронизация прогресса",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
-        "purpose": "Сохранить серию практики",
-        "primaryAction": "Получить код",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
-          "Номер корректен",
-          "Ошибка формата",
-          "Медленный ответ"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить номер",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "Код пришёл",
-          "Код неверен",
-          "Повторная отправка"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Показать ошибку кода",
-        "primaryAction": "Ввести код ещё раз",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "Код неверен",
-          "Повторная отправка",
-          "Ввод нового кода"
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -350,7 +308,7 @@
       "title": "Бесплатные наборы",
       "type": "onboarding",
       "light": true,
-      "parent": "code",
+      "parent": "phone",
       "meta": "ATT",
       "ui": {
         "pattern": "task",
@@ -358,7 +316,11 @@
         "primaryAction": "Продолжить бесплатно",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -380,7 +342,10 @@
         "primaryAction": "Side step",
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -403,7 +368,11 @@
         "primaryAction": "Side step",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -427,7 +396,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -450,6 +422,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -473,7 +449,11 @@
         "primaryAction": "Повторить фрагмент",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -497,6 +477,10 @@
         "primaryAction": "Записать повтор",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -520,6 +504,11 @@
         "primaryAction": "Готово",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "low",
@@ -542,7 +531,12 @@
         "purpose": "Выбрать готовую попытку",
         "primaryAction": "Далее",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -564,7 +558,12 @@
         "purpose": "Выбрать экран для референса",
         "primaryAction": "Продолжить на iPhone",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -586,7 +585,12 @@
         "purpose": "Управлять ритмом с экрана блокировки",
         "primaryAction": "Side step · ритмический счёт",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -609,7 +613,11 @@
         "primaryAction": "Начать практику",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -632,7 +640,10 @@
         "primaryAction": "Зал на Абая",
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -655,7 +666,11 @@
         "primaryAction": "Напоминать о серии",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -676,7 +691,12 @@
         "purpose": "Управлять локальными видео",
         "primaryAction": "Исходные попытки",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -692,12 +712,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Полный цикл и все десять доступов",
+      "note": "16 экранов и 10 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "ads",
         "home",
         "nearby",
@@ -713,7 +731,9 @@
         "deeplink",
         "progress",
         "profile"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "ads"
     },
     {
       "id": "practice",
@@ -906,9 +926,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Тестовый номер принимает 0000."
+      "email": "review@double.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "ads"
   }
 }

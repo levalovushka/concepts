@@ -12,8 +12,13 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { conceptDir, readSpec, readMarkup, RISK_LABEL, listConcepts } from './lib.mjs';
 import { screenGraph, iaTreeMd, transitionTableMd, screenActionsMd } from './screen-map.mjs';
+import { prepareEmailRegistration } from './build.mjs';
 
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/<code>|<\/code>/g, '`');
+const effectiveConcept = (slug) => {
+  const sourceSpec = readSpec(slug);
+  return prepareEmailRegistration(sourceSpec, readMarkup(slug, sourceSpec));
+};
 
 const BLOCKS = {
   /* Дерево IA и таблица переходов — из разметки экранов: рукописная карта
@@ -28,7 +33,7 @@ const BLOCKS = {
   /* Таблица концептов в корневом README: держалась руками, отставала от кода
      на десяток концептов и врала числами. Выводим из спек. */
   'concepts': () => {
-    const rows = listConcepts().map((s) => readSpec(s));
+    const rows = listConcepts().map((slug) => effectiveConcept(slug).spec);
     return [
       '| Концепт | Слаг | Целевой набор | Доступов | Экранов | Прототипов | УТП |',
       '|---|---|---|---|---|---|---|',
@@ -96,8 +101,9 @@ const BLOCKS = {
 };
 
 function sync(slug) {
-  const spec = readSpec(slug);
-  const markup = readMarkup(slug, spec);
+  const sourceSpec = readSpec(slug);
+  const sourceMarkup = readMarkup(slug, sourceSpec);
+  const { spec, markup } = prepareEmailRegistration(sourceSpec, sourceMarkup);
   const graph = screenGraph(spec, markup);
   const dir = join(conceptDir(slug), 'docs');
   if (!existsSync(dir)) return [];

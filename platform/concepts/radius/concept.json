@@ -16,18 +16,53 @@
     "problem": "Обычная видеолента знает интересы, но теряет контекст места и его текущей жизни",
     "promise": "Подписаться на место и видеть его длинные истории и свежие клипы в одном потоке",
     "differentiator": "География — первичная модель контента, а не дополнительный фильтр общей видеоленты",
-    "returnReasons": ["Свежие видео из подписанных мест","Новые события рядом с текущим маршрутом","Обновления любимых авторов"],
-    "verticalSlice": { "entry": "home", "action": "nearby", "result": "watch" },
-    "coreLoop": ["Открыть места вокруг", "Посмотреть историю или свежий клип", "Подписаться на место или опубликовать момент"],
-    "nonGoals": ["Картографический сервис", "Новостной агрегатор", "Общая социальная сеть"]
+    "returnReasons": [
+      "Свежие видео из подписанных мест",
+      "Новые события рядом с текущим маршрутом",
+      "Обновления любимых авторов"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "nearby",
+      "result": "watch"
+    },
+    "coreLoop": [
+      "Открыть места вокруг",
+      "Посмотреть историю или свежий клип",
+      "Подписаться на место или опубликовать момент"
+    ],
+    "nonGoals": [
+      "Картографический сервис",
+      "Новостной агрегатор",
+      "Общая социальная сеть"
+    ]
   },
   "positioning": {
     "mode": "mimicry",
     "categoryFit": "Лента, клипы, каналы и создание видео напрямую соответствуют категории Photo & Video",
-    "familiarPatterns": ["Главная видеолента", "Вертикальные клипы", "Каналы, подписки и библиотека"],
-    "distinctions": ["Место первично для рекомендаций", "Подписка возможна на локацию", "Создание видео начинается с географического контекста"],
-    "evidenceScreens": ["home","nearby","clips","channel","create"],
-    "referencePatterns": ["video-feed","vertical-clips","channels","capture-publish"]
+    "familiarPatterns": [
+      "Главная видеолента",
+      "Вертикальные клипы",
+      "Каналы, подписки и библиотека"
+    ],
+    "distinctions": [
+      "Место первично для рекомендаций",
+      "Подписка возможна на локацию",
+      "Создание видео начинается с географического контекста"
+    ],
+    "evidenceScreens": [
+      "home",
+      "nearby",
+      "clips",
+      "channel",
+      "create"
+    ],
+    "referencePatterns": [
+      "video-feed",
+      "vertical-clips",
+      "channels",
+      "capture-publish"
+    ]
   },
   "brand": {
     "accent": "#0077FF",
@@ -36,17 +71,35 @@
   },
   "start": "phone",
   "tabs": [
-    { "id": "home", "label": "Главная" },
-    { "id": "clips", "label": "Клипы" },
-    { "id": "create", "label": "Создать" },
-    { "id": "subscriptions", "label": "Подписки" },
-    { "id": "profile", "label": "Профиль" }
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "clips",
+      "label": "Клипы"
+    },
+    {
+      "id": "create",
+      "label": "Создать"
+    },
+    {
+      "id": "subscriptions",
+      "label": "Подписки"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
   "permissions": [
     {
       "key": "photoadd",
       "plist": "NSPhotoLibraryAddUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» добавлять видео в «Фото»?", "text": "Так вы сможете смотреть сохранённые видео вне приложения." },
+      "alert": {
+        "title": "Разрешить «Радиусу» добавлять видео в «Фото»?",
+        "text": "Так вы сможете смотреть сохранённые видео вне приложения."
+      },
       "feature": "Сохранение клипа в «Фото»",
       "gesture": "«Сохранить» под видео",
       "screen": "watch",
@@ -61,7 +114,10 @@
     {
       "key": "localnet",
       "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
-      "alert": { "title": "Разрешить «Радиусу» находить устройства в локальной сети?", "text": "Так вы сможете смотреть видео на телевизоре." },
+      "alert": {
+        "title": "Разрешить «Радиусу» находить устройства в локальной сети?",
+        "text": "Так вы сможете смотреть видео на телевизоре."
+      },
       "feature": "Просмотр длинного видео на телевизоре",
       "gesture": "Кнопка телевизора в плеере",
       "screen": "watch",
@@ -76,7 +132,10 @@
     {
       "key": "mic",
       "plist": "NSMicrophoneUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» доступ к микрофону?", "text": "Чтобы записывать голос и окружающие звуки вместе с видео." },
+      "alert": {
+        "title": "Разрешить «Радиусу» доступ к микрофону?",
+        "text": "Чтобы записывать голос и окружающие звуки вместе с видео."
+      },
       "feature": "Запись звука клипа",
       "gesture": "«Снять видео» на вкладке «Создать»",
       "screen": "create",
@@ -91,7 +150,10 @@
     {
       "key": "location",
       "plist": "NSLocationWhenInUseUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» использовать геопозицию?", "text": "Чтобы показывать видео поблизости и предлагать место при публикации." },
+      "alert": {
+        "title": "Разрешить «Радиусу» использовать геопозицию?",
+        "text": "Чтобы показывать видео поблизости и предлагать место при публикации."
+      },
       "feature": "Лента в радиусе двадцати минут пешком",
       "gesture": "«Рядом · 20 минут» на главной",
       "screen": "home",
@@ -107,7 +169,12 @@
     {
       "key": "tracking",
       "plist": "NSUserTrackingUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» отслеживать ваши действия в приложениях и на сайтах других компаний?", "text": "Данные будут использоваться для показа релевантной рекламы.", "deny": "Запретить отслеживание", "grant": "Разрешить" },
+      "alert": {
+        "title": "Разрешить «Радиусу» отслеживать ваши действия в приложениях и на сайтах других компаний?",
+        "text": "Данные будут использоваться для показа релевантной рекламы.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
       "feature": "Бесплатная версия с рекламой по интересам",
       "gesture": "«Продолжить бесплатно» после входа",
       "screen": "ads",
@@ -124,7 +191,10 @@
     {
       "key": "camera",
       "plist": "NSCameraUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» доступ к камере?", "text": "Чтобы снимать клипы и обычные видео." },
+      "alert": {
+        "title": "Разрешить «Радиусу» доступ к камере?",
+        "text": "Чтобы снимать клипы и обычные видео."
+      },
       "feature": "Съёмка видео внутри приложения",
       "gesture": "«Снять видео» на вкладке «Создать»",
       "screen": "create",
@@ -139,7 +209,10 @@
     {
       "key": "photo",
       "plist": "NSPhotoLibraryUsageDescription",
-      "alert": { "title": "Разрешить «Радиусу» доступ к медиатеке?", "text": "Чтобы выбрать видео для публикации." },
+      "alert": {
+        "title": "Разрешить «Радиусу» доступ к медиатеке?",
+        "text": "Чтобы выбрать видео для публикации."
+      },
       "feature": "Загрузка видео из «Фото»",
       "gesture": "«Выбрать из медиатеки»",
       "screen": "create",
@@ -154,7 +227,10 @@
     {
       "key": "audio",
       "plist": "UIBackgroundModes: audio",
-      "alert": { "title": "Слушать видео в фоне?", "text": "Звук продолжит играть, даже если заблокировать экран." },
+      "alert": {
+        "title": "Слушать видео в фоне?",
+        "text": "Звук продолжит играть, даже если заблокировать экран."
+      },
       "activate": true,
       "feature": "Видео как подкаст при погасшем экране",
       "gesture": "«Слушать в фоне» в плеере",
@@ -170,7 +246,10 @@
     {
       "key": "push",
       "plist": "aps-environment (Push Notifications capability)",
-      "alert": { "title": "Разрешить «Радиусу» отправлять уведомления?", "text": "Сообщим только о новых видео от избранных авторов и мест." },
+      "alert": {
+        "title": "Разрешить «Радиусу» отправлять уведомления?",
+        "text": "Сообщим только о новых видео от избранных авторов и мест."
+      },
       "feature": "Уведомления по отдельным подпискам",
       "gesture": "Свитч «Новые видео» в «Подписках»",
       "screen": "subscriptions",
@@ -187,7 +266,10 @@
     {
       "key": "domains",
       "plist": "com.apple.developer.associated-domains",
-      "alert": { "title": "Открывать ссылки в «Радиусе»?", "text": "Видео будут открываться сразу в приложении." },
+      "alert": {
+        "title": "Открывать ссылки в «Радиусе»?",
+        "text": "Видео будут открываться сразу в приложении."
+      },
       "activate": true,
       "feature": "Universal Link на конкретное видео и место",
       "gesture": "«Поделиться ссылкой» под видео",
@@ -202,59 +284,499 @@
     }
   ],
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": false, "meta": "Вход" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": false, "parent": "phone", "meta": "OTP" },
-    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
-    { "id": "ads", "title": "Бесплатная версия", "type": "onboarding", "light": false, "parent": "code", "meta": "ATT после объяснения" },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": false, "meta": "Длинные видео и места" },
-    { "id": "nearby", "title": "Рядом", "type": "push", "light": false, "parent": "home", "meta": "20 минут пешком" },
-    { "id": "watch", "title": "Видео", "type": "push", "light": false, "parent": "home", "meta": "Player · actions · comments" },
-    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "watch", "meta": "Now Playing" },
-    { "id": "cast", "title": "Смотреть на телевизоре", "type": "sheet", "light": false, "parent": "watch", "meta": "Local Network" },
-    { "id": "deeplink", "title": "Видео по ссылке", "type": "system handoff", "light": false, "parent": "watch", "meta": "Universal Link" },
-    { "id": "clips", "title": "Клипы", "type": "tab (root)", "light": false, "meta": "Вертикальные видео" },
-    { "id": "create", "title": "Создать", "type": "tab (root)", "light": false, "meta": "Запись или импорт" },
-    { "id": "camera", "title": "Камера", "type": "fullscreen", "light": false, "parent": "create", "meta": "Camera + microphone" },
-    { "id": "upload", "title": "Выбор видео", "type": "system picker", "light": false, "parent": "create", "meta": "Photo Library" },
-    { "id": "publish", "title": "Публикация", "type": "push", "light": false, "parent": "camera", "meta": "Название и место" },
-    { "id": "publishfail", "title": "Слишком длинное название", "type": "push", "light": false, "parent": "publish", "meta": "Состояние ошибки поля" },
-    { "id": "subscriptions", "title": "Подписки", "type": "tab (root)", "light": false, "meta": "Авторы и места" },
-    { "id": "channel", "title": "Канал", "type": "push", "light": false, "parent": "subscriptions", "meta": "Страница автора" },
-    { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": false, "meta": "История и библиотека" },
-    { "id": "saved", "title": "Сохранённые", "type": "push", "light": false, "parent": "profile", "meta": "Локальная коллекция" }
+    {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Бесплатная версия",
+      "type": "onboarding",
+      "light": false,
+      "parent": "phone",
+      "meta": "ATT после объяснения",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Главная",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Длинные видео и места",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Рядом",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "20 минут пешком",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "watch",
+      "title": "Видео",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Player · actions · comments",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "parent": "watch",
+      "meta": "Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "Смотреть на телевизоре",
+      "type": "sheet",
+      "light": false,
+      "parent": "watch",
+      "meta": "Local Network",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "deeplink",
+      "title": "Видео по ссылке",
+      "type": "system handoff",
+      "light": false,
+      "parent": "watch",
+      "meta": "Universal Link",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "clips",
+      "title": "Клипы",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Вертикальные видео",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Создать",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Запись или импорт",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "create",
+      "meta": "Camera + microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "upload",
+      "title": "Выбор видео",
+      "type": "system picker",
+      "light": false,
+      "parent": "create",
+      "meta": "Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "publish",
+      "title": "Публикация",
+      "type": "push",
+      "light": false,
+      "parent": "camera",
+      "meta": "Название и место",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
+    },
+    {
+      "id": "publishfail",
+      "title": "Слишком длинное название",
+      "type": "push",
+      "light": false,
+      "parent": "publish",
+      "meta": "Состояние ошибки поля",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
+    },
+    {
+      "id": "subscriptions",
+      "title": "Подписки",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Авторы и места",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "channel",
+      "title": "Канал",
+      "type": "push",
+      "light": false,
+      "parent": "subscriptions",
+      "meta": "Страница автора",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "История и библиотека",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "saved",
+      "title": "Сохранённые",
+      "type": "push",
+      "light": false,
+      "parent": "profile",
+      "meta": "Локальная коллекция",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    }
   ],
   "prototypes": [
-    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Пять вкладок и все десять доступов", "start": "phone", "screens": ["phone", "code", "codefail", "ads", "home", "nearby", "watch", "background", "cast", "deeplink", "clips", "create", "camera", "upload", "publish", "publishfail", "subscriptions", "channel", "profile", "saved"] },
-    { "id": "watch", "label": "Смотреть видео", "note": "Плеер, ТВ, фон, сохранение и ссылка", "start": "home", "screens": ["home", "nearby", "watch", "cast", "background", "deeplink", "channel"] },
-    { "id": "clips", "label": "Клипы", "note": "Полноэкранная вертикальная лента", "start": "clips", "screens": ["clips", "channel", "watch"], "stops": ["watch"] },
-    { "id": "create", "label": "Создать", "note": "Камера, микрофон, медиатека и публикация", "start": "create", "screens": ["create", "camera", "upload", "publish", "publishfail"], "stops": ["publish"] },
-    { "id": "places", "label": "Видео рядом", "note": "Геолента в двадцати минутах пешком", "start": "home", "screens": ["home", "nearby", "watch"], "stops": ["watch"] },
-    { "id": "subscriptions", "label": "Подписки", "note": "Авторы, места и точечные уведомления", "start": "subscriptions", "screens": ["subscriptions", "channel", "watch"], "stops": ["watch"] }
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "18 экранов и 10 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "ads",
+        "home",
+        "nearby",
+        "watch",
+        "background",
+        "cast",
+        "deeplink",
+        "clips",
+        "create",
+        "camera",
+        "upload",
+        "publish",
+        "publishfail",
+        "subscriptions",
+        "channel",
+        "profile",
+        "saved"
+      ],
+      "stops": [],
+      "authTarget": "ads"
+    },
+    {
+      "id": "watch",
+      "label": "Смотреть видео",
+      "note": "Плеер, ТВ, фон, сохранение и ссылка",
+      "start": "home",
+      "screens": [
+        "home",
+        "nearby",
+        "watch",
+        "cast",
+        "background",
+        "deeplink",
+        "channel"
+      ],
+      "stops": []
+    },
+    {
+      "id": "clips",
+      "label": "Клипы",
+      "note": "Полноэкранная вертикальная лента",
+      "start": "clips",
+      "screens": [
+        "clips",
+        "channel",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
+    },
+    {
+      "id": "create",
+      "label": "Создать",
+      "note": "Камера, микрофон, медиатека и публикация",
+      "start": "create",
+      "screens": [
+        "create",
+        "camera",
+        "upload",
+        "publish",
+        "publishfail"
+      ],
+      "stops": [
+        "publish"
+      ]
+    },
+    {
+      "id": "places",
+      "label": "Видео рядом",
+      "note": "Геолента в двадцати минутах пешком",
+      "start": "home",
+      "screens": [
+        "home",
+        "nearby",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
+    },
+    {
+      "id": "subscriptions",
+      "label": "Подписки",
+      "note": "Авторы, места и точечные уведомления",
+      "start": "subscriptions",
+      "screens": [
+        "subscriptions",
+        "channel",
+        "watch"
+      ],
+      "stops": [
+        "watch"
+      ]
+    }
   ],
   "backendless": [
-    { "needs": "Каталог и рекомендации", "solution": "Статический редакционный пакет для прототипа; история просмотра и веса тем хранятся локально" },
-    { "needs": "Загрузка видео", "solution": "В прототипе создаётся локальный черновик; production-версия передаёт файл в SDK видеопровайдера" },
-    { "needs": "Подписки", "solution": "Выбранные авторы и места хранятся в Core Data; уведомления — темы FCM из панели провайдера" },
-    { "needs": "Публичные ссылки", "solution": "Статические страницы radius.video и apple-app-site-association; собственного API нет" }
+    {
+      "needs": "Каталог и рекомендации",
+      "solution": "Статический редакционный пакет для прототипа; история просмотра и веса тем хранятся локально"
+    },
+    {
+      "needs": "Загрузка видео",
+      "solution": "В прототипе создаётся локальный черновик; production-версия передаёт файл в SDK видеопровайдера"
+    },
+    {
+      "needs": "Подписки",
+      "solution": "Выбранные авторы и места хранятся в Core Data; уведомления — темы FCM из панели провайдера"
+    },
+    {
+      "needs": "Публичные ссылки",
+      "solution": "Статические страницы radius.video и apple-app-site-association; собственного API нет"
+    }
   ],
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
   "appStore": {
     "name": "Радиус",
     "subtitle": "Видео о местах рядом",
     "promo": "Узнайте район через длинные истории и посмотрите в клипах, что происходит рядом прямо сейчас.",
     "keywords": "город,прогулки,район,авторы,истории,путешествия,места,клипы",
-    "category": { "primary": "Photo & Video", "secondary": "Lifestyle" },
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Lifestyle"
+    },
     "ageRating": "12+",
     "price": "Бесплатно, с рекламой",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS",
-    "urls": { "support": "https://radius.video/support", "marketing": "https://radius.video", "privacy": "https://radius.video/privacy" },
+    "urls": {
+      "support": "https://radius.video/support",
+      "marketing": "https://radius.video",
+      "privacy": "https://radius.video/privacy"
+    },
     "description": [
       "Радиус — видеосервис, в котором лента организована не только по интересам, но и по местам вокруг вас.",
       "ДЛИННЫЕ ИСТОРИИ\nДокументальные прогулки, локальные герои и места, до которых можно дойти сегодня.",
@@ -264,11 +786,48 @@
     ],
     "whatsNew": "Первая версия: длинные видео, клипы, создание публикаций, подписки на авторов и места.",
     "privacy": [
-      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход через SDK провайдера" },
-      { "type": "Геопозиция", "apple": "Location → Coarse Location", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Лента мест в пешей доступности" },
-      { "type": "Пользовательский контент", "apple": "User Content → Photos or Videos", "purpose": "Функциональность", "linked": true, "tracking": false, "why": "Публикация выбранного или снятого видео" },
-      { "type": "Идентификатор устройства", "apple": "Identifiers → Device ID", "purpose": "Реклама", "linked": false, "tracking": true, "why": "Передаётся рекламному SDK только после ATT" }
+      {
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Лента мест в пешей доступности"
+      },
+      {
+        "type": "Пользовательский контент",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность",
+        "linked": true,
+        "tracking": false,
+        "why": "Публикация выбранного или снятого видео"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Передаётся рекламному SDK только после ATT"
+      }
     ],
-    "reviewAccount": { "phone": "+7 900 000-00-00", "code": "0000", "note": "Тестовый номер принимает код 0000; SMS не отправляется." }
+    "reviewAccount": {
+      "email": "review@radius.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
+    }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "ads"
   }
 }

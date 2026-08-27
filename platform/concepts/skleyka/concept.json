@@ -11,7 +11,7 @@
   "deck": "Проект хранится на одном iPhone. Пользователь запрашивает материалы системной карточкой, принимает файлы вне приложения, импортирует их и собирает фильм on-device.",
   "qualityContractVersion": 2,
   "uiContractVersion": 3,
-  "start": "projects",
+  "start": "phone",
   "product": {
     "audience": "Организатор поездки, праздника или концерта, которому друзья уже прислали видео через AirDrop, сообщения, Photos или Files",
     "situation": "После события на одном iPhone лежат десятки полученных роликов с сохранёнными датами, длительностью и частью исходных metadata",
@@ -24,7 +24,7 @@
       "Повторно экспортировать локальный фильм в другом качестве или отправить готовый файл через Share Sheet"
     ],
     "verticalSlice": {
-      "entry": "project",
+      "entry": "phone",
       "action": "processing",
       "result": "draft"
     },
@@ -309,6 +309,44 @@
   ],
   "screens": [
     {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Корректный адрес электронной почты"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный адрес на локализованном домене"
+          },
+          {
+            "kind": "failure",
+            "example": "Адрес уже занят, введён неверно или сеть недоступна"
+          }
+        ]
+      }
+    },
+    {
       "id": "projects",
       "title": "Локальные проекты",
       "type": "tab (root)",
@@ -325,7 +363,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -361,6 +403,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -397,7 +443,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -434,8 +484,11 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "loading"
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -472,6 +525,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -510,8 +567,9 @@
         "states": [
           "default",
           "loading",
-          "error",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -549,7 +607,11 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -586,7 +648,12 @@
           "secondary": "Копирование приватной ссылки и отмена"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -623,6 +690,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -660,6 +731,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -698,7 +773,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -736,7 +814,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -773,7 +854,11 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -812,7 +897,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -849,6 +937,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -885,7 +977,12 @@
           "secondary": "Таймкод, название текущей сцены и AirPlay"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -922,7 +1019,11 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -959,6 +1060,12 @@
           "secondary": "Системный share sheet и повторный экспорт"
         },
         "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "low",
@@ -984,9 +1091,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Полный локальный цикл и семь обоснованных доступов",
-      "start": "projects",
+      "note": "19 экранов и 7 доступов",
+      "start": "phone",
       "screens": [
+        "phone",
         "projects",
         "settings",
         "archive",
@@ -1005,7 +1113,9 @@
         "background",
         "export",
         "saved"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "projects"
     },
     {
       "id": "slice",
@@ -1207,9 +1317,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "Не требуется",
-      "code": "Не требуется",
-      "note": "Аккаунта и входа нет. Приложение сразу открывает локальные проекты; сеть для core loop не нужна."
+      "email": "review@skleyka.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "projects"
   }
 }

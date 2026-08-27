@@ -1,10 +1,10 @@
 import SwiftUI
 import Observation
 
-/// Экраны «Двора». Ровно те, что в concept.json, — 31 поверхность.
+/// Экраны «Двора». В рабочем auth-флоу 29 поверхностей: OTP удалён.
 enum Route: Hashable {
     // вход
-    case code, join, verify, manual
+    case join, verify, manual
     // дом
     case post, problem, shoot, chronicle
     // чаты

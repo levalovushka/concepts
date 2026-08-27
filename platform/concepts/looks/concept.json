@@ -23,7 +23,7 @@
       "Реакции и комментарии к своим публикациям"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "create",
       "result": "camera"
     },
@@ -490,72 +490,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте",
-      "type": "старт",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Номер телефона",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
-        "purpose": "Войти",
-        "primaryAction": "Продолжить",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
-          "номер",
-          "ошибка",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить вход",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "код",
-          "повтор",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Показать ошибку OTP и вернуть к вводу",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "неверный код",
-          "повтор",
-          "нет сети"
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -564,7 +522,7 @@
       "title": "Лента",
       "type": "tab (root)",
       "light": true,
-      "parent": "code",
+      "parent": "phone",
       "meta": "Публикации и истории",
       "ui": {
         "pattern": "collection",
@@ -572,7 +530,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -594,7 +556,12 @@
         "purpose": "Обсудить образ",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -617,7 +584,11 @@
         "primaryAction": "Смотреть подборку",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -639,7 +610,12 @@
         "purpose": "Посмотреть серию",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -662,7 +638,11 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -686,6 +666,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -708,7 +692,12 @@
         "purpose": "Выбрать фото",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -730,7 +719,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -752,7 +745,12 @@
         "purpose": "Договориться",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -775,6 +773,10 @@
         "primaryAction": "Отправить",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -796,7 +798,12 @@
         "purpose": "Управлять профилем",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -818,7 +825,12 @@
         "purpose": "Держать доступы и системные функции под рукой",
         "primaryAction": "Обновлять ленту в фоне",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -840,7 +852,12 @@
         "purpose": "Поставить виджет сохранённого образа на экран «Домой»",
         "primaryAction": "Открыть «Образы»",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -862,7 +879,12 @@
         "purpose": "Войти на сайт марки сохранённым в «Образах» входом",
         "primaryAction": "Войти",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -885,7 +907,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -908,7 +933,12 @@
         "purpose": "Объяснить обмен до системного запроса ATT",
         "primaryAction": "Продолжить",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -931,6 +961,10 @@
         "primaryAction": "Замок Face ID",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -954,7 +988,11 @@
         "primaryAction": "Опубликовать клип",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -979,7 +1017,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1003,7 +1044,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1025,7 +1069,12 @@
         "purpose": "Договориться о встрече, не раскрывая номер",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1047,7 +1096,12 @@
         "purpose": "Собрать всё о свопе и положить дату в календарь",
         "primaryAction": "Добавить в Календарь",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1070,7 +1124,10 @@
         "primaryAction": "Отметиться на свопе",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -1094,7 +1151,11 @@
         "primaryAction": "Подключиться",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1117,6 +1178,11 @@
         "primaryAction": "Сохранить в черновик",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -1133,12 +1199,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Социальная лента, сообщества, сообщения, профиль и публикация",
+      "note": "26 экранов и 21 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "home",
         "post",
         "nearby",
@@ -1164,7 +1228,9 @@
         "checkin",
         "netqr",
         "shareext"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "discover",
@@ -1336,9 +1402,14 @@
       }
     ],
     "reviewAccount": {
-      "email": "review@looks.social",
-      "code": "0000",
-      "note": "Демо-вход, письмо с кодом не отправляется"
+      "email": "review@looks.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "home"
   }
 }

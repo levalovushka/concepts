@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Вход: почта или Google, затем выбор дома и проверка «я здесь живу».
+/// Регистрация по почте без OTP, затем выбор дома и проверка «я здесь живу».
 /// Право писать выдаёт проверка, а не человек — принцип 1 вижена.
 struct AuthFlow: View {
     @Environment(Nav.self) private var nav
@@ -26,10 +26,10 @@ struct PhoneView: View {
                     .frame(width: 56, height: 56)
                     .overlay { Image(systemName: "house.fill").font(.system(size: 26)).foregroundStyle(D.accent) }
                     .padding(.bottom, 6)
-                Text("Вход в «Двор»")
+                Text("Регистрация в «Двор»")
                     .font(.system(size: 28, weight: .bold))
                     .foregroundStyle(D.ink)
-                Text("Войдите по почте — так профиль и выбранный дом останутся с вами на новом устройстве.")
+                Text("Создайте аккаунт по почте — так профиль и выбранный дом останутся с вами на новом устройстве.")
                     .font(.system(size: 15))
                     .foregroundStyle(D.sub)
                     .fixedSize(horizontal: false, vertical: true)
@@ -51,7 +51,7 @@ struct PhoneView: View {
                     .padding(10)
                     .background(D.quietIn, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
 
-                    Label("Почта нужна только для входа и восстановления доступа.", systemImage: "info.circle")
+                    Label("Аккаунт создастся сразу; письмо ждать не нужно.", systemImage: "info.circle")
                         .font(.system(size: 13)).foregroundStyle(D.mute)
                 }
             }
@@ -59,8 +59,7 @@ struct PhoneView: View {
             Spacer(minLength: 20)
 
             VStack(spacing: 8) {
-                DButton(title: "Продолжить с почтой") { nav.pushAuth(.code) }
-                DButton(title: "Продолжить с Google", quiet: true) { nav.pushAuth(.join) }
+                DButton(title: "Создать аккаунт") { nav.pushAuth(.join) }
                 Text("Продолжая, вы принимаете правила дома и политику конфиденциальности.")
                     .font(.system(size: 12))
                     .foregroundStyle(D.mute)
@@ -70,43 +69,6 @@ struct PhoneView: View {
         }
         .navigationBarHidden(true)
         .accessibilityIdentifier("screen.phone")
-    }
-}
-
-struct CodeView: View {
-    @Environment(Nav.self) private var nav
-    @State private var code = ""
-
-    var body: some View {
-        StackPage(title: "Код из письма", spacing: 14) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Проверьте почту").font(.system(size: 22, weight: .bold)).foregroundStyle(D.ink)
-                Text("Код отправлен на marina@inbox.ru").font(.system(size: 15)).foregroundStyle(D.sub)
-            }
-            DCard(padding: D.inset) {
-                HStack(spacing: 8) {
-                    ForEach(0..<6, id: \.self) { index in
-                        Text(index < code.count ? String(Array(code)[index]) : "")
-                            .font(.data(22, .semibold))
-                            .frame(maxWidth: .infinity, minHeight: 52)
-                            .background(D.quietIn, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    }
-                }
-                .overlay {
-                    TextField("", text: $code)
-                        .keyboardType(.numberPad)
-                        .textContentType(.oneTimeCode)
-                        .opacity(0.02)
-                        .onChange(of: code) { _, value in
-                            code = String(value.filter(\.isNumber).prefix(6))
-                            if code.count == 6 { nav.pushAuth(.join) }
-                        }
-                }
-            }
-            Text("Отправить письмо повторно через 0:24").font(.system(size: 13)).foregroundStyle(D.mute)
-            DButton(title: "Продолжить") { nav.pushAuth(.join) }
-        }
-        .accessibilityIdentifier("screen.code")
     }
 }
 

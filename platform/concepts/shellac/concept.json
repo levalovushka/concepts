@@ -23,7 +23,7 @@
       "Пополнить и проверить личную полку"
     ],
     "verticalSlice": {
-      "entry": "archive",
+      "entry": "phone",
       "action": "scan",
       "result": "player"
     },
@@ -188,72 +188,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
-      "light": false,
-      "meta": "Первый экран приложения",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Сохранить полку и розыск при смене телефона",
-        "primaryAction": "Получить код",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "валидный номер",
-          "неполный номер",
-          "нет сети при отправке"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": false,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить номер одноразовым кодом",
-        "primaryAction": "Войти",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "код из SMS",
-          "автоподстановка iOS",
-          "неверный или просроченный код"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
       "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
-        "purpose": "Показать ошибку кода и дать ввести заново",
-        "primaryAction": "Войти",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
-          "неверный код",
-          "просроченный код",
-          "повторная отправка"
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -263,14 +221,18 @@
       "type": "tab (root, старт)",
       "light": false,
       "meta": "Каталог оцифрованного",
-      "parent": "code",
+      "parent": "phone",
       "ui": {
         "pattern": "collection",
         "purpose": "Продолжить слушать или открыть запись из архива",
         "primaryAction": "Найти пластинку",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -292,7 +254,12 @@
         "purpose": "Проверить релиз и выбрать сторону",
         "primaryAction": "Поставить сторону A",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -316,7 +283,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -338,7 +308,12 @@
         "purpose": "Управлять воспроизведением с заблокированного экрана",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -361,6 +336,10 @@
         "primaryAction": "Из галереи",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -384,7 +363,11 @@
         "primaryAction": "Поставить сторону A",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -406,6 +389,9 @@
         "purpose": "Восстановиться после неудачного распознавания",
         "primaryAction": "Искать в архиве",
         "states": [
+          "default",
+          "loading",
+          "empty",
           "error"
         ],
         "density": "low",
@@ -428,7 +414,12 @@
         "purpose": "Сохранить ненайденную матрицу для будущей проверки",
         "primaryAction": "Положить в «Розыск»",
         "states": [
-          "error"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -450,7 +441,12 @@
         "purpose": "Выбрать снимок этикетки или конверта",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -472,7 +468,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -494,7 +494,10 @@
         "purpose": "Сверить физический экземпляр с оцифровкой и заметками",
         "primaryAction": "Слушать оцифровку",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error"
         ],
         "density": "high",
         "contentCases": [
@@ -517,7 +520,11 @@
         "primaryAction": "Пройти путь ссылки целиком",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -538,7 +545,12 @@
         "purpose": "Управлять музыкальным профилем, фоном, ссылками и уведомлениями",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -560,7 +572,12 @@
         "purpose": "Открыть архивную запись по прямой ссылке",
         "primaryAction": "Поставить сторону A",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -582,7 +599,12 @@
         "purpose": "Передать матрицу из веб-ссылки в приложение",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -598,12 +620,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все семнадцать экранов и все пять доступов",
+      "note": "16 экранов и 5 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "archive",
         "record",
         "player",
@@ -619,22 +639,23 @@
         "settings",
         "deeplink",
         "web"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "archive"
     },
     {
       "id": "signin",
-      "label": "Вход по номеру",
-      "note": "Номер, SMS-код и переход в архив",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "archive"
       ],
       "stops": [
         "archive"
-      ]
+      ],
+      "authTarget": "archive"
     },
     {
       "id": "find",
@@ -665,7 +686,8 @@
         "record",
         "player",
         "background"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "miss",
@@ -718,7 +740,8 @@
         "record",
         "player",
         "background"
-      ]
+      ],
+      "stops": []
     }
   ],
   "backendless": [
@@ -812,12 +835,12 @@
     "whatsNew": "Первая версия: архив на 2 418 сторон, распознавание этикетки, полка и розыск.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление полки через SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Идентификатор устройства",
@@ -837,9 +860,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Тестовый номер принимает код 0000; SMS не отправляется."
+      "email": "review@shellac.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "archive"
   }
 }

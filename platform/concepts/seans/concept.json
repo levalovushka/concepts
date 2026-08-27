@@ -4,13 +4,11 @@
   "eyebrow": "Сеанс · Показы кино и записи показов · iOS",
   "targetSet": "vk-video",
   "domain": "seans.video",
-
   "heroTitle": "Сеанс — кино на стене, звук в наушниках",
   "heroDeck": "Показы на крышах, в мастерских и читальных залах: телефон принимает тайм-код по локальной сети и играет звук синхронно с картинкой на стене.",
   "tagline": "Картинка общая, звук личный",
   "insight": "после одиннадцати вечера звук включить нельзя, а картинку на стене видно всем — значит звук уходит в наушники каждого, а не в колонку",
   "deck": "Видеосервис вокруг офлайновых показов старого и немого кино. Гость подключает телефон к точке показа по локальной сети и слышит выбранную дорожку синхронно с проектором; куратор говорит в микрофон, и его голос идёт в те же наушники. Между показами остаются записи, дорожки и клипы — их слушают и смотрят дома. Бэкенда нет: каталог статический, зал держится на Bonjour, пуши идут через SDK провайдера.",
-
   "qualityContractVersion": 1,
   "product": {
     "audience": "Организаторы и гости небольших офлайновых показов старого и немого кино: крыши, скверы, мастерские",
@@ -25,7 +23,7 @@
       "Выбрать дорожку с тапёром перед входом в следующий зал"
     ],
     "verticalSlice": {
-      "entry": "session",
+      "entry": "phone",
       "action": "join",
       "result": "hall"
     },
@@ -78,15 +76,25 @@
     "accentDark": "#7FB2FF",
     "fonts": "Golos+Text:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
-
   "start": "phone",
   "tabs": [
-    { "id": "home", "label": "Главная" },
-    { "id": "clips", "label": "Клипы" },
-    { "id": "shows", "label": "Показы" },
-    { "id": "profile", "label": "Профиль" }
+    {
+      "id": "home",
+      "label": "Главная"
+    },
+    {
+      "id": "clips",
+      "label": "Клипы"
+    },
+    {
+      "id": "shows",
+      "label": "Показы"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
-
   "permissions": [
     {
       "key": "localnet",
@@ -258,108 +266,606 @@
       "grounding": "SDK работает контекстно при отказе, IDFA не запрашивается"
     }
   ],
-
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Вход" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP" },
-    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
-    { "id": "ads", "title": "Бесплатно с рекламой", "type": "onboarding", "light": false, "parent": "code", "meta": "ATT" },
-    { "id": "home", "title": "Главная", "type": "tab (root)", "light": false, "meta": "Показ сегодня, записи, дорожки" },
-    { "id": "nearby", "title": "Площадки рядом", "type": "push", "light": false, "parent": "home", "meta": "Core Location" },
-    { "id": "search", "title": "Поиск", "type": "push", "light": false, "parent": "home", "meta": "Фильмы, площадки, дорожки" },
-    { "id": "film", "title": "Запись показа", "type": "push", "light": false, "parent": "home", "meta": "Плеер, дорожки, ТВ" },
-    { "id": "cast", "title": "Смотреть на телевизоре", "type": "sheet", "light": false, "parent": "film", "meta": "Local Network" },
-    { "id": "session", "title": "Показ сегодня", "type": "push", "light": false, "parent": "home", "meta": "Как попасть в зал" },
-    { "id": "scan", "title": "Код точки показа", "type": "fullscreen", "light": false, "parent": "session", "meta": "Camera · DataScanner" },
-    { "id": "join", "title": "Подключение к залу", "type": "push", "light": false, "parent": "session", "meta": "Local Network · выбор дорожки" },
-    { "id": "hall", "title": "Вы в зале", "type": "push", "light": false, "parent": "join", "meta": "Синхронизация и дорожка" },
-    { "id": "background", "title": "Экран погас", "type": "system", "light": false, "parent": "hall", "meta": "Now Playing" },
-    { "id": "curator", "title": "Пульт показа", "type": "push", "light": false, "parent": "session", "meta": "Очередь и наушники зала" },
-    { "id": "talk", "title": "Микрофон куратора", "type": "push", "light": false, "parent": "curator", "meta": "Microphone" },
-    { "id": "pick", "title": "Выбор видео", "type": "system picker", "light": false, "parent": "session", "meta": "Photo Library" },
-    { "id": "clips", "title": "Клипы", "type": "tab (root)", "light": false, "meta": "Вертикальные клипы с показов" },
-    { "id": "record", "title": "Клип с показа", "type": "fullscreen", "light": false, "parent": "clips", "meta": "Camera + сохранение в «Фото»" },
-    { "id": "shows", "title": "Показы", "type": "tab (root)", "light": false, "meta": "Расписание и площадки" },
-    { "id": "venue", "title": "Площадка", "type": "push", "light": false, "parent": "shows", "meta": "Расписание и записи" },
-    { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": false, "meta": "Роль, доступы, номер" },
-    { "id": "saved", "title": "Мои записи", "type": "push", "light": false, "parent": "profile", "meta": "Клипы, дорожки, загрузки" }
-  ],
-
-  "prototypes": [
     {
-      "id": "all", "hero": true, "label": "Весь продукт",
-      "note": "Четыре вкладки и все девять заявленных доступов",
-      "start": "phone",
-      "screens": ["phone","code","codefail","ads","home","nearby","search","film","cast","session","scan","join","hall","background","curator","talk","pick","clips","record","shows","venue","profile","saved"]
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
-      "id": "guest", "label": "Прийти на показ",
-      "note": "Код точки показа, локальная сеть, дорожка и погасший экран",
-      "start": "session",
-      "screens": ["session","scan","join","hall","background","pick","venue","curator"],
-      "stops": ["pick","venue","curator"]
+      "id": "ads",
+      "title": "Бесплатно с рекламой",
+      "type": "onboarding",
+      "light": false,
+      "parent": "phone",
+      "meta": "ATT",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
-      "id": "host", "label": "Провести показ",
-      "note": "Пульт, живой голос в наушники зала и своё видео в программе",
-      "start": "curator",
-      "screens": ["curator","talk","pick","session"],
-      "stops": ["session"]
+      "id": "home",
+      "title": "Главная",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Показ сегодня, записи, дорожки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
-      "id": "near", "label": "Найти показ рядом",
-      "note": "Геопозиция, площадки и расписание на неделю",
-      "start": "home",
-      "screens": ["home","nearby","venue","search","session","saved","film","shows","clips"],
-      "stops": ["search","session","saved","film","shows","clips"]
+      "id": "nearby",
+      "title": "Площадки рядом",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Core Location",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
-      "id": "watch", "label": "Смотреть запись дома",
-      "note": "Дорожки записи и телевизор в локальной сети",
-      "start": "film",
-      "screens": ["film","cast","saved","clips","venue"],
-      "stops": ["clips","venue"]
+      "id": "search",
+      "title": "Поиск",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Фильмы, площадки, дорожки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
-      "id": "clip", "label": "Снять клип с показа",
-      "note": "Камера в зале и экспорт клипа в «Фото»",
-      "start": "clips",
-      "screens": ["clips","record","venue","film"],
-      "stops": ["venue","film"]
+      "id": "film",
+      "title": "Запись показа",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Плеер, дорожки, ТВ",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
-      "id": "subs", "label": "Подписки, пуши и доступы",
-      "note": "Расписание площадок, напоминания и состояние доступов",
-      "start": "shows",
-      "screens": ["shows","profile","search","nearby","session","venue","saved","curator"],
-      "stops": ["search","nearby","session","venue","saved","curator"]
+      "id": "cast",
+      "title": "Смотреть на телевизоре",
+      "type": "sheet",
+      "light": false,
+      "parent": "film",
+      "meta": "Local Network",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "session",
+      "title": "Показ сегодня",
+      "type": "push",
+      "light": false,
+      "parent": "home",
+      "meta": "Как попасть в зал",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "scan",
+      "title": "Код точки показа",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "session",
+      "meta": "Camera · DataScanner",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "join",
+      "title": "Подключение к залу",
+      "type": "push",
+      "light": false,
+      "parent": "session",
+      "meta": "Local Network · выбор дорожки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "hall",
+      "title": "Вы в зале",
+      "type": "push",
+      "light": false,
+      "parent": "join",
+      "meta": "Синхронизация и дорожка",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system",
+      "light": false,
+      "parent": "hall",
+      "meta": "Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "curator",
+      "title": "Пульт показа",
+      "type": "push",
+      "light": false,
+      "parent": "session",
+      "meta": "Очередь и наушники зала",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "talk",
+      "title": "Микрофон куратора",
+      "type": "push",
+      "light": false,
+      "parent": "curator",
+      "meta": "Microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "pick",
+      "title": "Выбор видео",
+      "type": "system picker",
+      "light": false,
+      "parent": "session",
+      "meta": "Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "clips",
+      "title": "Клипы",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Вертикальные клипы с показов",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "record",
+      "title": "Клип с показа",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "clips",
+      "meta": "Camera + сохранение в «Фото»",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "shows",
+      "title": "Показы",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Расписание и площадки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "venue",
+      "title": "Площадка",
+      "type": "push",
+      "light": false,
+      "parent": "shows",
+      "meta": "Расписание и записи",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "meta": "Роль, доступы, номер",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "saved",
+      "title": "Мои записи",
+      "type": "push",
+      "light": false,
+      "parent": "profile",
+      "meta": "Клипы, дорожки, загрузки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
-
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "21 экранов и 9 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "ads",
+        "home",
+        "nearby",
+        "search",
+        "film",
+        "cast",
+        "session",
+        "scan",
+        "join",
+        "hall",
+        "background",
+        "curator",
+        "talk",
+        "pick",
+        "clips",
+        "record",
+        "shows",
+        "venue",
+        "profile",
+        "saved"
+      ],
+      "stops": [],
+      "authTarget": "ads"
+    },
+    {
+      "id": "guest",
+      "label": "Прийти на показ",
+      "note": "Код точки показа, локальная сеть, дорожка и погасший экран",
+      "start": "session",
+      "screens": [
+        "session",
+        "scan",
+        "join",
+        "hall",
+        "background",
+        "pick",
+        "venue",
+        "curator"
+      ],
+      "stops": [
+        "pick",
+        "venue",
+        "curator"
+      ]
+    },
+    {
+      "id": "host",
+      "label": "Провести показ",
+      "note": "Пульт, живой голос в наушники зала и своё видео в программе",
+      "start": "curator",
+      "screens": [
+        "curator",
+        "talk",
+        "pick",
+        "session"
+      ],
+      "stops": [
+        "session"
+      ]
+    },
+    {
+      "id": "near",
+      "label": "Найти показ рядом",
+      "note": "Геопозиция, площадки и расписание на неделю",
+      "start": "home",
+      "screens": [
+        "home",
+        "nearby",
+        "venue",
+        "search",
+        "session",
+        "saved",
+        "film",
+        "shows",
+        "clips"
+      ],
+      "stops": [
+        "search",
+        "session",
+        "saved",
+        "film",
+        "shows",
+        "clips"
+      ]
+    },
+    {
+      "id": "watch",
+      "label": "Смотреть запись дома",
+      "note": "Дорожки записи и телевизор в локальной сети",
+      "start": "film",
+      "screens": [
+        "film",
+        "cast",
+        "saved",
+        "clips",
+        "venue"
+      ],
+      "stops": [
+        "clips",
+        "venue"
+      ]
+    },
+    {
+      "id": "clip",
+      "label": "Снять клип с показа",
+      "note": "Камера в зале и экспорт клипа в «Фото»",
+      "start": "clips",
+      "screens": [
+        "clips",
+        "record",
+        "venue",
+        "film"
+      ],
+      "stops": [
+        "venue",
+        "film"
+      ]
+    },
+    {
+      "id": "subs",
+      "label": "Подписки, пуши и доступы",
+      "note": "Расписание площадок, напоминания и состояние доступов",
+      "start": "shows",
+      "screens": [
+        "shows",
+        "profile",
+        "search",
+        "nearby",
+        "session",
+        "venue",
+        "saved",
+        "curator"
+      ],
+      "stops": [
+        "search",
+        "nearby",
+        "session",
+        "venue",
+        "saved",
+        "curator"
+      ]
+    }
+  ],
   "backendless": [
-    { "needs": "Каталог фильмов и дорожек", "solution": "Статический пак catalog.json + файлы на CDN, только чтение; фильмы — общественное достояние" },
-    { "needs": "Расписание показов и площадки", "solution": "Тот же пак в демо; production — Firestore на SDK провайдера, своего обработчика нет" },
-    { "needs": "Синхронизация зала и живой голос", "solution": "Bonjour + Network.framework внутри Wi-Fi площадки: точка показа объявляет тайм-код, устройства слушают. Сервера в схеме нет по построению" },
-    { "needs": "Заметки к дорожке и отметки о прослушанном", "solution": "CoreData на устройстве" },
-    { "needs": "Уведомления о начале и переносе", "solution": "APNs topics через SDK провайдера, отправка из дашборда" },
-    { "needs": "Публикация клипа", "solution": "Системный share sheet и запись в «Фото» через PHPhotoLibrary" }
+    {
+      "needs": "Каталог фильмов и дорожек",
+      "solution": "Статический пак catalog.json + файлы на CDN, только чтение; фильмы — общественное достояние"
+    },
+    {
+      "needs": "Расписание показов и площадки",
+      "solution": "Тот же пак в демо; production — Firestore на SDK провайдера, своего обработчика нет"
+    },
+    {
+      "needs": "Синхронизация зала и живой голос",
+      "solution": "Bonjour + Network.framework внутри Wi-Fi площадки: точка показа объявляет тайм-код, устройства слушают. Сервера в схеме нет по построению"
+    },
+    {
+      "needs": "Заметки к дорожке и отметки о прослушанном",
+      "solution": "CoreData на устройстве"
+    },
+    {
+      "needs": "Уведомления о начале и переносе",
+      "solution": "APNs topics через SDK провайдера, отправка из дашборда"
+    },
+    {
+      "needs": "Публикация клипа",
+      "solution": "Системный share sheet и запись в «Фото» через PHPhotoLibrary"
+    }
   ],
-
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
-
   "appStore": {
     "name": "Сеанс",
     "subtitle": "Показы кино со своим звуком",
     "promo": "Приходите на показ, подключите наушники к точке показа — и слушайте свою дорожку синхронно с картинкой на стене. Записи и дорожки остаются в приложении.",
     "keywords": "немое,короткометражки,киноклуб,проектор,наушники,фильмы,ретро,синхронно",
-    "category": { "primary": "Entertainment", "secondary": "Photo & Video" },
+    "category": {
+      "primary": "Entertainment",
+      "secondary": "Photo & Video"
+    },
     "ageRating": "12+",
     "price": "Бесплатно, с рекламой",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS и обмен внутри локальной сети",
@@ -377,16 +883,56 @@
     ],
     "whatsNew": "Первая версия: подключение к залу по локальной сети, дорожки, живой голос куратора, записи показов и клипы.",
     "privacy": [
-      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход через SDK провайдера аутентификации" },
-      { "type": "Геопозиция", "apple": "Location → Coarse Location", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Площадки и время начала рядом" },
-      { "type": "Пользовательский контент", "apple": "User Content → Photos or Videos", "purpose": "Функциональность", "linked": true, "tracking": false, "why": "Клипы с показа и видео, предложенные в программу" },
-      { "type": "Аудио", "apple": "User Content → Audio Data", "purpose": "Функциональность", "linked": false, "tracking": false, "why": "Голос куратора уходит в наушники зала и не сохраняется" },
-      { "type": "Идентификатор устройства", "apple": "Identifiers → Device ID", "purpose": "Реклама", "linked": false, "tracking": true, "why": "IDFA передаётся рекламному SDK только после согласия по ATT" }
+      {
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Площадки и время начала рядом"
+      },
+      {
+        "type": "Пользовательский контент",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность",
+        "linked": true,
+        "tracking": false,
+        "why": "Клипы с показа и видео, предложенные в программу"
+      },
+      {
+        "type": "Аудио",
+        "apple": "User Content → Audio Data",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Голос куратора уходит в наушники зала и не сохраняется"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "IDFA передаётся рекламному SDK только после согласия по ATT"
+      }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Тестовый номер принимает код 0000, SMS не отправляется. Точка показа в демо объявляется приложением на этом же устройстве, поэтому подключение к залу проверяется без второго телефона."
+      "email": "review@seans.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "ads"
   }
 }

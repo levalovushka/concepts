@@ -23,7 +23,7 @@
       "Выбрать место общей компанией"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "nearby",
       "result": "plan"
     },
@@ -510,72 +510,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте",
-      "type": "старт",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Номер телефона",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
-        "purpose": "Войти",
-        "primaryAction": "Продолжить с почтой",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
-          "номер",
-          "ошибка",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить вход",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "код",
-          "повтор",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Показать ошибку OTP и вернуть к вводу",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "неверный код",
-          "повтор",
-          "нет сети"
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -584,7 +542,7 @@
       "title": "Сегодня",
       "type": "tab (root)",
       "light": true,
-      "parent": "code",
+      "parent": "phone",
       "meta": "Желание и время",
       "ui": {
         "pattern": "collection",
@@ -592,7 +550,11 @@
         "primaryAction": "Показать совпадения",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -614,7 +576,12 @@
         "purpose": "Проверить совпадение с другом",
         "primaryAction": "Собрать план",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -637,7 +604,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -659,7 +630,12 @@
         "purpose": "Встретиться",
         "primaryAction": "Подтвердить план",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -681,7 +657,11 @@
         "primaryAction": "Отправить приглашение",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -705,6 +685,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -727,7 +711,12 @@
         "purpose": "Выбрать фото",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -750,7 +739,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -772,7 +765,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -794,7 +791,12 @@
         "purpose": "Договориться",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -817,6 +819,10 @@
         "primaryAction": "Отправить",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -838,7 +844,12 @@
         "purpose": "Управлять профилем",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -860,7 +871,12 @@
         "purpose": "Держать доступы и системные функции под рукой",
         "primaryAction": "Обновлять планы в фоне",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -882,7 +898,12 @@
         "purpose": "Поставить виджет ближайшего плана на экран «Домой»",
         "primaryAction": "Открыть «Сегодня»",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -904,7 +925,12 @@
         "purpose": "Войти на сайт сохранённым в «Сегодня» входом",
         "primaryAction": "Войти",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -926,7 +952,12 @@
         "purpose": "Проверить, что фоновое обновление работает",
         "primaryAction": "Проверить задачу",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -949,7 +980,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -972,7 +1006,12 @@
         "purpose": "Объяснить обмен до системного запроса ATT",
         "primaryAction": "Продолжить",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -995,6 +1034,10 @@
         "primaryAction": "Замок Face ID",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -1018,7 +1061,11 @@
         "primaryAction": "Собрать план",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -1043,7 +1090,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1067,7 +1117,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1089,7 +1142,12 @@
         "purpose": "Договориться на ходу, не раскрывая номер",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1112,7 +1170,11 @@
         "primaryAction": "Подключиться",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1135,6 +1197,11 @@
         "primaryAction": "Добавить в план",
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -1151,12 +1218,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "От желания до временной группы и встречи",
+      "note": "26 экранов и 22 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "home",
         "match",
         "nearby",
@@ -1182,7 +1247,9 @@
         "call",
         "netqr",
         "shareext"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "plan",
@@ -1372,9 +1439,14 @@
       }
     ],
     "reviewAccount": {
-      "email": "review@today.place",
-      "code": "0000",
-      "note": "Демо-вход, письмо не отправляется"
+      "email": "review@today.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "home"
   }
 }

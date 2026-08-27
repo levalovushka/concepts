@@ -22,7 +22,7 @@
       "Сверить ряды и прогресс проекта"
     ],
     "verticalSlice": {
-      "entry": "lessons",
+      "entry": "phone",
       "action": "lesson",
       "result": "counter"
     },
@@ -257,33 +257,49 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения"
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка"
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
       "id": "lessons",
       "title": "Уроки",
       "type": "tab (root, старт)",
       "light": true,
-      "meta": "Каталог курсов"
+      "meta": "Каталог курсов",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "lesson",
@@ -291,7 +307,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "lessons",
-      "meta": "Видео · схема · счётчик"
+      "meta": "Видео · схема · счётчик",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "counter",
@@ -299,7 +325,17 @@
       "type": "sheet",
       "light": false,
       "parent": "lesson",
-      "meta": "Speech · Microphone"
+      "meta": "Speech · Microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "cast",
@@ -307,7 +343,17 @@
       "type": "sheet",
       "light": false,
       "parent": "lesson",
-      "meta": "Local Network · Bonjour"
+      "meta": "Local Network · Bonjour",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "pip",
@@ -315,7 +361,17 @@
       "type": "system",
       "light": false,
       "parent": "lesson",
-      "meta": "Background audio"
+      "meta": "Background audio",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "background",
@@ -323,14 +379,34 @@
       "type": "system",
       "light": false,
       "parent": "lesson",
-      "meta": "Now Playing"
+      "meta": "Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "projects",
       "title": "Проекты",
       "type": "tab (root)",
       "light": true,
-      "meta": "Дневник по курсам"
+      "meta": "Дневник по курсам",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "project",
@@ -338,7 +414,15 @@
       "type": "push",
       "light": true,
       "parent": "projects",
-      "meta": "Заметки · материалы"
+      "meta": "Заметки · материалы",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "record",
@@ -346,7 +430,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "project",
-      "meta": "Camera · Microphone"
+      "meta": "Camera · Microphone",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scan",
@@ -354,7 +448,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "project",
-      "meta": "Camera · on-device"
+      "meta": "Camera · on-device",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scanfail",
@@ -362,7 +466,15 @@
       "type": "modal (ошибка)",
       "light": true,
       "parent": "scan",
-      "meta": "Скан не удался · fallback"
+      "meta": "Скан не удался · fallback",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "gallery",
@@ -370,7 +482,17 @@
       "type": "system picker",
       "light": true,
       "parent": "project",
-      "meta": "Photo Library"
+      "meta": "Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "yarn",
@@ -378,7 +500,15 @@
       "type": "modal",
       "light": true,
       "parent": "project",
-      "meta": "Location When In Use"
+      "meta": "Location When In Use",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "ads",
@@ -386,14 +516,34 @@
       "type": "modal",
       "light": true,
       "parent": "settings",
-      "meta": "ATT / IDFA"
+      "meta": "ATT / IDFA",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "settings",
       "title": "Профиль",
       "type": "tab (root)",
       "light": true,
-      "meta": "Push · Cast · Links"
+      "meta": "Push · Cast · Links",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -401,12 +551,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все экраны и все десять доступов",
+      "note": "16 экранов и 9 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "lessons",
         "lesson",
         "counter",
@@ -422,17 +570,17 @@
         "yarn",
         "ads",
         "settings"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "lessons"
     },
     {
       "id": "signin",
-      "label": "Вход по номеру",
-      "note": "Первые два экрана: номер и код из SMS",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "lessons",
         "lesson",
         "counter",
@@ -446,7 +594,8 @@
         "cast",
         "pip",
         "background"
-      ]
+      ],
+      "authTarget": "lessons"
     },
     {
       "id": "evening",
@@ -460,7 +609,8 @@
         "counter",
         "pip",
         "background"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "materials",
@@ -475,7 +625,8 @@
         "gallery",
         "yarn",
         "record"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "profile",
@@ -502,8 +653,8 @@
       "solution": "Контент-пак: <code>lessons.json</code> + mp4 статикой на CDN. Только чтение"
     },
     {
-      "needs": "Вход по номеру телефона и SMS-код",
-      "solution": "SDK провайдера аутентификации (VK ID / Firebase Phone Auth). Свой сервер не поднимаем; на устройстве — только токен в Keychain"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Профили, подписки, лайки",
@@ -593,12 +744,12 @@
     "whatsNew": "Первая версия: уроки на телевизоре, голос в фоне, голосовой счётчик рядов, схема под видео и дневник проекта.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа к курсу. Обрабатывается SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Идентификатор устройства",
@@ -634,9 +785,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется."
+      "email": "review@petlya.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "lessons"
   }
 }

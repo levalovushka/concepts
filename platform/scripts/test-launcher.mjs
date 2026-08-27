@@ -29,6 +29,7 @@ try {
   assert.equal(Object.values(modeCounts).reduce((sum, count) => sum + count, 0), concepts.length, 'каждый концепт должен принадлежать одной стратегии');
   const cards = page.locator('.card');
   assert.equal(await cards.count(), concepts.length, 'в лаунчере должен быть каждый концепт');
+  const conceptUrls = [];
 
   for (const card of await cards.all()) {
     const href = await card.getAttribute('href');
@@ -37,13 +38,35 @@ try {
     assert.ok(image, 'у карточки нет скриншота');
     assert.ok(existsSync(fileURLToPath(new URL(href, page.url()))), `нет страницы ${href}`);
     assert.ok(existsSync(fileURLToPath(new URL(image, page.url()))), `нет скриншота ${image}`);
+    conceptUrls.push(new URL(href, page.url()).href);
   }
 
   await cards.first().click();
   const back = page.locator('.topbar-back');
   assert.equal(await back.getAttribute('href'), '../index.html', 'у концепта должна быть ссылка назад в лаунчер');
+
+  await page.click('[data-tab="docs"]');
+  const rawMarkdownLinks = await page.locator('.docs-links a[href$=".md"]').evaluateAll((links) =>
+    links.map((link) => link.getAttribute('href'))
+  );
+  assert.deepEqual(rawMarkdownLinks, [], `документы не должны уводить на сырой Markdown: ${rawMarkdownLinks.join(', ')}`);
+  assert.ok(await page.locator('[data-doc-view]').count(), 'документы должны читаться внутри страницы концепта');
+  const architectureButton = page.locator('[data-doc="02-architecture"]');
+  await architectureButton.click();
+  assert.equal(await architectureButton.getAttribute('aria-pressed'), 'true', 'выбранный документ не отмечен активным');
+  assert.ok(await page.locator('[data-doc-view="02-architecture"].is-on h1').count(), 'Markdown-заголовок не отрендерился');
+  assert.ok(await page.locator('[data-doc-view="02-architecture"].is-on table').count(), 'Markdown-таблица не отрендерилась');
+
   await back.click();
   assert.equal(await page.locator('.card').count(), concepts.length, 'кнопка назад не вернула в лаунчер');
+
+  for (const url of conceptUrls) {
+    await page.goto(url);
+    await page.click('[data-tab="docs"]');
+    assert.equal(await page.locator('.docs-links a[href$=".md"]').count(), 0, `${url}: ссылка на сырой Markdown`);
+    assert.ok(await page.locator('[data-doc-view]').count(), `${url}: нет встроенного чтения документов`);
+  }
+  await page.goto(pathToFileURL(launcherPath).href);
 
   for (const button of await page.locator('[data-mode-filter]:not([data-mode-filter="all"])').all()) {
     const mode = await button.getAttribute('data-mode-filter');

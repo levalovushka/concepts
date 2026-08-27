@@ -22,7 +22,7 @@
       "Регулярные показания, заявки и события"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "shoot",
       "result": "post"
     },
@@ -879,7 +879,7 @@
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с расширениями"
+      "grounding": "токен провайдера сессии аккаунта в Keychain, группа общая с расширениями"
     },
     {
       "key": "autofill",
@@ -1020,44 +1020,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте или Google",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка",
-      "ui": {
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "states": [
-          "default",
-          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -1066,14 +1052,16 @@
       "title": "Найдите свой дом",
       "type": "push",
       "light": true,
-      "parent": "code",
+      "parent": "phone",
       "meta": "Location · пропуск в дом",
       "ui": {
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1087,7 +1075,11 @@
       "ui": {
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1101,7 +1093,11 @@
       "ui": {
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1118,7 +1114,7 @@
           "empty",
           "error",
           "offline",
-          "permission"
+          "denied"
         ]
       }
     },
@@ -1133,8 +1129,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1148,8 +1146,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1163,7 +1164,11 @@
       "ui": {
         "states": [
           "default",
-          "permission"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1179,7 +1184,9 @@
           "default",
           "loading",
           "empty",
-          "permission"
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1194,7 +1201,9 @@
           "default",
           "loading",
           "empty",
-          "offline"
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1209,9 +1218,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
           "offline",
-          "permission"
+          "denied"
         ]
       }
     },
@@ -1225,8 +1235,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1239,7 +1252,12 @@
       "meta": "Communication notification",
       "ui": {
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1253,7 +1271,10 @@
         "states": [
           "default",
           "loading",
-          "offline"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1267,8 +1288,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1282,7 +1306,11 @@
       "ui": {
         "states": [
           "default",
-          "permission"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1296,8 +1324,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1311,7 +1342,11 @@
       "ui": {
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1325,8 +1360,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
           "empty",
-          "permission"
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1339,8 +1377,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
           "offline",
-          "permission"
+          "denied"
         ]
       }
     },
@@ -1354,7 +1395,11 @@
       "ui": {
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1367,7 +1412,12 @@
       "meta": "ASCredentialProvider",
       "ui": {
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1381,8 +1431,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
           "empty",
-          "permission"
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1395,7 +1448,12 @@
       "meta": "Карточка жильца",
       "ui": {
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1409,7 +1467,11 @@
       "ui": {
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1423,7 +1485,11 @@
       "ui": {
         "states": [
           "default",
-          "permission"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1437,7 +1503,11 @@
       "ui": {
         "states": [
           "default",
-          "permission"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1451,8 +1521,11 @@
       "ui": {
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "permission"
+          "offline",
+          "denied"
         ]
       }
     },
@@ -1465,7 +1538,12 @@
       "meta": "App Groups · Keychain",
       "ui": {
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ]
       }
     }
@@ -1475,12 +1553,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все 30 экранов и все 20 доступов набора",
+      "note": "29 экранов и 20 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "join",
         "verify",
         "manual",
@@ -1509,17 +1585,17 @@
         "ads",
         "lock",
         "widget"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "join"
     },
     {
       "id": "signin",
-      "label": "Вход и пропуск в дом",
-      "note": "Номер, код и выбор дома из справочника",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "join",
         "verify",
         "manual",
@@ -1527,7 +1603,8 @@
       ],
       "stops": [
         "home"
-      ]
+      ],
+      "authTarget": "join"
     },
     {
       "id": "repair",
@@ -1540,7 +1617,8 @@
         "shoot",
         "chronicle",
         "post"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "talk",
@@ -1554,7 +1632,8 @@
         "lockscreen",
         "profile",
         "call"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "guestnet",
@@ -1654,8 +1733,8 @@
   ],
   "backendless": [
     {
-      "needs": "Вход по почте или Google и сессия",
-      "solution": "OAuth-провайдер: <code>VK ID</code> или Google Sign-In, токен в Keychain общей группы"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Ветки домов, профили жильцов, соцграф",
@@ -1758,12 +1837,12 @@
     "whatsNew": "Первая версия: пропуск в дом по домашней сети, чат подъезда с расшифровкой голосовых, хроника двора из медиатеки, счётчики с виджетом, гостевая сеть по QR и пароли дома в автозаполнении Safari.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации, токен лежит в Keychain"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Точное местоположение",
@@ -1831,9 +1910,9 @@
       }
     ],
     "reviewAccount": {
-      "email": "marina@inbox.ru",
-      "code": "2600",
-      "note": "Вход по почте: тестовый адрес принимает код 2600; альтернативно доступен вход с Google. После входа выберите демо-дом «Полевая, 12» или добавьте адрес через справочник."
+      "email": "review@dvor.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
   },
   "acceptance": [
@@ -2411,5 +2490,10 @@
       "primary": "Показания до 25 апреля",
       "warn": "Горячая вода 14–17 апреля"
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "join"
   }
 }

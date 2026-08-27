@@ -16,18 +16,46 @@
     "problem": "Видео отвлекает от работы, а аналог краски и рецепт замеса приходится искать вручную",
     "promise": "Мастеркласс звучит в фоне, а каждая краска сразу получает аналоги и рецепт замеса",
     "differentiator": "Объединяет hands-free обучение и перевод цвета между брендами внутри конкретного проекта",
-    "returnReasons": ["Продолжить незаконченный проект","Сверить следующий шаг мастер-класса","Повторно использовать сохранённую палитру"],
-    "verticalSlice": { "entry": "lessons", "action": "scan", "result": "paint" },
-    "coreLoop": ["Выбрать проект и мастеркласс", "Слушать шаг в фоне и красить", "Сканировать краску и сохранить палитру"],
-    "nonGoals": ["Магазин красок", "Общая социальная лента", "Полноценный видеоредактор"]
+    "returnReasons": [
+      "Продолжить незаконченный проект",
+      "Сверить следующий шаг мастер-класса",
+      "Повторно использовать сохранённую палитру"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "scan",
+      "result": "paint"
+    },
+    "coreLoop": [
+      "Выбрать проект и мастеркласс",
+      "Слушать шаг в фоне и красить",
+      "Сканировать краску и сохранить палитру"
+    ],
+    "nonGoals": [
+      "Магазин красок",
+      "Общая социальная лента",
+      "Полноценный видеоредактор"
+    ]
   },
-
   "positioning": {
     "mode": "differentiation",
     "categoryFit": "Продукт учит конкретному ремеслу и относится к Education, хотя использует медиавозможности музыкального набора",
-    "familiarPatterns": ["Каталог мастер-классов", "Фоновое воспроизведение", "Личная библиотека проектов"],
-    "distinctions": ["Цвет распознаётся камерой", "Палитра переводится между брендами", "Аудиоурок сопровождает физическую работу"],
-    "evidenceScreens": ["lesson","scan","paint","project"]
+    "familiarPatterns": [
+      "Каталог мастер-классов",
+      "Фоновое воспроизведение",
+      "Личная библиотека проектов"
+    ],
+    "distinctions": [
+      "Цвет распознаётся камерой",
+      "Палитра переводится между брендами",
+      "Аудиоурок сопровождает физическую работу"
+    ],
+    "evidenceScreens": [
+      "lesson",
+      "scan",
+      "paint",
+      "project"
+    ]
   },
   "brand": {
     "accent": "#2b6b8f",
@@ -36,9 +64,18 @@
   },
   "start": "phone",
   "tabs": [
-    { "id": "lessons", "label": "Курсы" },
-    { "id": "projects", "label": "Проекты" },
-    { "id": "settings", "label": "Профиль" }
+    {
+      "id": "lessons",
+      "label": "Курсы"
+    },
+    {
+      "id": "projects",
+      "label": "Проекты"
+    },
+    {
+      "id": "settings",
+      "label": "Профиль"
+    }
   ],
   "permissions": [
     {
@@ -124,33 +161,49 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения"
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка"
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
       "id": "lessons",
       "title": "Курсы",
       "type": "tab (root)",
       "light": true,
-      "meta": "Каталог аудио-мастерклассов"
+      "meta": "Каталог аудио-мастерклассов",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "lesson",
@@ -158,7 +211,17 @@
       "type": "fullscreen (плеер)",
       "light": false,
       "parent": "lessons",
-      "meta": "Background audio · Now Playing"
+      "meta": "Background audio · Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "steps",
@@ -166,7 +229,17 @@
       "type": "sheet",
       "light": false,
       "parent": "lesson",
-      "meta": "Разбивка курса по шагам"
+      "meta": "Разбивка курса по шагам",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "background",
@@ -174,14 +247,34 @@
       "type": "system",
       "light": false,
       "parent": "lesson",
-      "meta": "Now Playing · remote-команды"
+      "meta": "Now Playing · remote-команды",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "projects",
       "title": "Проекты",
       "type": "tab (root)",
       "light": true,
-      "meta": "Миниатюры и их палитры"
+      "meta": "Миниатюры и их палитры",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "project",
@@ -189,7 +282,15 @@
       "type": "push",
       "light": true,
       "parent": "projects",
-      "meta": "Палитра · скан · пипетка"
+      "meta": "Палитра · скан · пипетка",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "scan",
@@ -197,7 +298,17 @@
       "type": "fullscreen (камера)",
       "light": false,
       "parent": "project",
-      "meta": "Camera · штрихкод on-device"
+      "meta": "Camera · штрихкод on-device",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scanfail",
@@ -205,7 +316,15 @@
       "type": "modal (ошибка)",
       "light": true,
       "parent": "scan",
-      "meta": "Штрихкод не прочитан · fallback"
+      "meta": "Штрихкод не прочитан · fallback",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "paint",
@@ -213,7 +332,17 @@
       "type": "push",
       "light": true,
       "parent": "project",
-      "meta": "Аналоги брендов · рецепт замеса"
+      "meta": "Аналоги брендов · рецепт замеса",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "gallery",
@@ -221,7 +350,17 @@
       "type": "system picker",
       "light": true,
       "parent": "project",
-      "meta": "Photo Library · PHPicker"
+      "meta": "Photo Library · PHPicker",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "dropper",
@@ -229,7 +368,17 @@
       "type": "fullscreen",
       "light": false,
       "parent": "project",
-      "meta": "Оттенки с референса → свотчи"
+      "meta": "Оттенки с референса → свотчи",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "dropfail",
@@ -237,14 +386,32 @@
       "type": "modal (ошибка)",
       "light": true,
       "parent": "dropper",
-      "meta": "Оттенок вне охвата · fallback"
+      "meta": "Оттенок вне охвата · fallback",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "settings",
       "title": "Профиль",
       "type": "tab (root)",
       "light": true,
-      "meta": "Push · фоновое аудио"
+      "meta": "Push · фоновое аудио",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -252,12 +419,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все 15 экранов и все 4 доступа набора",
+      "note": "14 экранов и 4 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "lessons",
         "lesson",
         "steps",
@@ -271,38 +436,73 @@
         "dropper",
         "dropfail",
         "settings"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "lessons"
     },
     {
       "id": "masterclass",
       "label": "Мастеркласс в наушниках",
       "note": "Шаги курса, звук при погасшем экране, Now Playing на локскрине",
       "start": "lessons",
-      "screens": ["lessons", "lesson", "steps", "background"]
+      "screens": [
+        "lessons",
+        "lesson",
+        "steps",
+        "background"
+      ],
+      "stops": []
     },
     {
       "id": "swatch",
       "label": "Баночка: скан и аналоги",
       "note": "Штрихкод, карточка краски с аналогами и рецептом, ручной ввод кода",
       "start": "projects",
-      "screens": ["projects", "project", "scan", "scanfail", "paint", "gallery"],
-      "stops": ["gallery"]
+      "screens": [
+        "projects",
+        "project",
+        "scan",
+        "scanfail",
+        "paint",
+        "gallery"
+      ],
+      "stops": [
+        "gallery"
+      ]
     },
     {
       "id": "reference",
       "label": "Пипетка по референсу",
       "note": "Фото из галереи, снятые оттенки, ручной ввод, если оттенка нет в красках",
       "start": "projects",
-      "screens": ["projects", "project", "gallery", "dropper", "dropfail", "scan", "scanfail", "paint"],
-      "stops": ["scan", "scanfail", "paint"]
+      "screens": [
+        "projects",
+        "project",
+        "gallery",
+        "dropper",
+        "dropfail",
+        "scan",
+        "scanfail",
+        "paint"
+      ],
+      "stops": [
+        "scan",
+        "scanfail",
+        "paint"
+      ]
     },
     {
       "id": "profile",
       "label": "Профиль: пуш и фоновое аудио",
       "note": "Бродкаст студии и entitlement фонового аудио — из одного раздела",
       "start": "settings",
-      "screens": ["settings", "background"],
-      "stops": ["background"]
+      "screens": [
+        "settings",
+        "background"
+      ],
+      "stops": [
+        "background"
+      ]
     }
   ],
   "backendless": [
@@ -311,8 +511,8 @@
       "solution": "Контент-пак: <code>lessons.json</code> + m4a статикой на CDN. Только чтение"
     },
     {
-      "needs": "Вход по номеру телефона и SMS-код",
-      "solution": "SDK провайдера аутентификации (VK ID / Firebase Phone Auth). Своего сервера нет; на устройстве — токен в Keychain"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Профили, лента, подписки, комментарии",
@@ -344,12 +544,30 @@
     }
   ],
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    }
   ],
   "appStore": {
     "name": "Праймер: краски и палитры",
@@ -379,12 +597,12 @@
     "whatsNew": "Первая версия: аудио-мастерклассы с фоновым воспроизведением, карточка краски по штрихкоду с аналогами и рецептом замеса, пипетка по фото-референсу и палитры проектов.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа к палитрам и прогрессу курсов. Обрабатывается SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Идентификатор устройства",
@@ -412,9 +630,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется. Дальше приложение работает без сети."
+      "email": "review@primer.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "lessons"
   }
 }

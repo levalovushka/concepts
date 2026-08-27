@@ -7,7 +7,6 @@ struct Screen: View {
 
     var body: some View {
         switch route {
-        case .code: CodeView()
         case .join: JoinView()
         case .verify: VerifyView()
         case .manual: ManualView()

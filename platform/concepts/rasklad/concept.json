@@ -4,13 +4,11 @@
   "eyebrow": "Расклад · Вечерняя практика · iOS",
   "targetSet": "vk-music",
   "domain": "rasklad.app",
-
   "heroTitle": "Расклад — приложение к колоде карт для вечерней рефлексии",
   "heroDeck": "Вытянули карту из колоды, навели камеру — и слушаете размышление под неё с закрытыми глазами: экран гаснет, голос продолжает вести.",
   "tagline": "Аудио-размышление под вытянутую карту, которое слушают с закрытыми глазами",
   "insight": "размышление слушают с закрытыми глазами — экран гаснет сразу, и звук обязан продолжаться",
   "deck": "Приложение к физической колоде метафорических карт: карта — повод подумать, размышление задаёт вопросы, дневник хранит ответы. Не гадание и не предсказание: рейтинг 4+, категория Health & Fitness. Клиентское приложение — своего бэкенда нет, все 4 доступа запрашиваются в момент действия.",
-
   "qualityContractVersion": 1,
   "product": {
     "audience": "Люди, которые используют метафорические карты для вечерней рефлексии",
@@ -18,31 +16,67 @@
     "problem": "Обычное приложение заставляет выбирать карту и читать текст с экрана",
     "promise": "Камера узнаёт бумажную карту, а голос ведёт размышление при погашенном экране",
     "differentiator": "Аудиопрактика к физической колоде, а не гадание и не каталог цифровых карт",
-    "returnReasons": ["Новая вечерняя практика","Продолжение записи в личном дневнике","Возврат к сохранённым картам и выводам"],
-    "verticalSlice": { "entry": "home", "action": "scan", "result": "player" },
-    "coreLoop": ["Вытянуть карту", "Узнать её камерой и запустить аудио", "Записать итог в дневник"],
-    "nonGoals": ["Предсказания будущего", "Маркетплейс колод", "Публичная лента дневников"]
+    "returnReasons": [
+      "Новая вечерняя практика",
+      "Продолжение записи в личном дневнике",
+      "Возврат к сохранённым картам и выводам"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "scan",
+      "result": "player"
+    },
+    "coreLoop": [
+      "Вытянуть карту",
+      "Узнать её камерой и запустить аудио",
+      "Записать итог в дневник"
+    ],
+    "nonGoals": [
+      "Предсказания будущего",
+      "Маркетплейс колод",
+      "Публичная лента дневников"
+    ]
   },
   "positioning": {
     "mode": "differentiation",
     "categoryFit": "Сценарий регулярной рефлексии относится к Health & Fitness, а не к музыкальному стримингу",
-    "familiarPatterns": ["Библиотека аудиопрактик", "Фоновое воспроизведение", "Личный дневник"],
-    "distinctions": ["Старт от физической карты", "Камера распознаёт артефакт", "Экран гаснет на время размышления"],
-    "evidenceScreens": ["home","scan","player","diary"]
+    "familiarPatterns": [
+      "Библиотека аудиопрактик",
+      "Фоновое воспроизведение",
+      "Личный дневник"
+    ],
+    "distinctions": [
+      "Старт от физической карты",
+      "Камера распознаёт артефакт",
+      "Экран гаснет на время размышления"
+    ],
+    "evidenceScreens": [
+      "home",
+      "scan",
+      "player",
+      "diary"
+    ]
   },
   "brand": {
     "accent": "#3a5a8c",
     "accentDark": "#93b4e6",
     "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500"
   },
-
   "start": "phone",
   "tabs": [
-    { "id": "home", "label": "Сегодня" },
-    { "id": "diary", "label": "Дневник" },
-    { "id": "profile", "label": "Профиль" }
+    {
+      "id": "home",
+      "label": "Сегодня"
+    },
+    {
+      "id": "diary",
+      "label": "Дневник"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль"
+    }
   ],
-
   "permissions": [
     {
       "key": "audio",
@@ -124,75 +158,342 @@
       "reviewNote": "Пуш — только бродкаст о контенте: вышел новый пак карт или новая серия размышлений. Персональных уведомлений нет; вечернее напоминание было бы локальным и этого ключа не требует, поэтому в v1 его нет."
     }
   ],
-
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
-    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
-    { "id": "home", "title": "Сегодня", "type": "tab (root, старт после входа)", "light": true, "meta": "Вечерняя практика" },
-    { "id": "scan", "title": "Скан карты", "type": "fullscreen", "light": false, "parent": "home", "meta": "Camera · on-device" },
-    { "id": "scanfail", "title": "Номер вручную", "type": "modal (ошибка)", "light": true, "parent": "scan", "meta": "Метка не прочиталась · fallback" },
-    { "id": "cards", "title": "Карты колоды", "type": "modal picker", "light": true, "parent": "home", "meta": "Ручной выбор · fallback камеры" },
-    { "id": "card", "title": "Карта", "type": "push", "light": true, "parent": "home", "meta": "Аверс · вопросы · размышления" },
-    { "id": "player", "title": "Размышление", "type": "fullscreen", "light": false, "parent": "card", "meta": "Background audio" },
-    { "id": "background", "title": "Локскрин · Now Playing", "type": "system", "light": false, "parent": "player", "meta": "Now Playing · remote" },
-    { "id": "deck", "title": "Колода", "type": "push", "light": true, "parent": "home", "meta": "Прогресс по колоде · Push" },
-    { "id": "diary", "title": "Дневник", "type": "tab (root)", "light": true, "meta": "Записи практики · серия" },
-    { "id": "entry", "title": "Запись практики", "type": "push", "light": true, "parent": "diary", "meta": "Photo Library" },
-    { "id": "gallery", "title": "Фото", "type": "system picker", "light": true, "parent": "entry", "meta": "PHPicker" },
-    { "id": "profile", "title": "Профиль", "type": "tab (root)", "light": true, "meta": "Push · фоновый звук" }
+    {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
+    },
+    {
+      "id": "home",
+      "title": "Сегодня",
+      "type": "tab (root, старт после входа)",
+      "light": true,
+      "meta": "Вечерняя практика",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "scan",
+      "title": "Скан карты",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "home",
+      "meta": "Camera · on-device",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "scanfail",
+      "title": "Номер вручную",
+      "type": "modal (ошибка)",
+      "light": true,
+      "parent": "scan",
+      "meta": "Метка не прочиталась · fallback",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
+    },
+    {
+      "id": "cards",
+      "title": "Карты колоды",
+      "type": "modal picker",
+      "light": true,
+      "parent": "home",
+      "meta": "Ручной выбор · fallback камеры",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "card",
+      "title": "Карта",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Аверс · вопросы · размышления",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Размышление",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "card",
+      "meta": "Background audio",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Локскрин · Now Playing",
+      "type": "system",
+      "light": false,
+      "parent": "player",
+      "meta": "Now Playing · remote",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "deck",
+      "title": "Колода",
+      "type": "push",
+      "light": true,
+      "parent": "home",
+      "meta": "Прогресс по колоде · Push",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "diary",
+      "title": "Дневник",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Записи практики · серия",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "entry",
+      "title": "Запись практики",
+      "type": "push",
+      "light": true,
+      "parent": "diary",
+      "meta": "Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "gallery",
+      "title": "Фото",
+      "type": "system picker",
+      "light": true,
+      "parent": "entry",
+      "meta": "PHPicker",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Push · фоновый звук",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    }
   ],
-
   "prototypes": [
     {
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все экраны и все четыре доступа набора",
+      "note": "13 экранов и 4 доступов",
       "start": "phone",
-      "screens": ["phone", "code", "codefail", "home", "scan", "scanfail", "cards", "card", "player", "background", "deck", "diary", "entry", "gallery", "profile"]
+      "screens": [
+        "phone",
+        "home",
+        "scan",
+        "scanfail",
+        "cards",
+        "card",
+        "player",
+        "background",
+        "deck",
+        "diary",
+        "entry",
+        "gallery",
+        "profile"
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "signin",
-      "label": "Вход по номеру",
-      "note": "Первые два экрана: номер и код из SMS. Ни одного промпта",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
-      "screens": ["phone", "code", "codefail", "home"],
-      "stops": ["home"]
+      "screens": [
+        "phone",
+        "home"
+      ],
+      "stops": [
+        "home"
+      ],
+      "authTarget": "home"
     },
     {
       "id": "evening",
       "label": "Вечер: карта, размышление, погасший экран",
       "note": "Скан карты, размышление, экран гаснет — голос продолжает вести",
       "start": "home",
-      "screens": ["home", "scan", "scanfail", "cards", "card", "player", "background", "deck", "entry"],
-      "stops": ["deck", "entry"]
+      "screens": [
+        "home",
+        "scan",
+        "scanfail",
+        "cards",
+        "card",
+        "player",
+        "background",
+        "deck",
+        "entry"
+      ],
+      "stops": [
+        "deck",
+        "entry"
+      ]
     },
     {
       "id": "practice",
       "label": "Дневник практики",
       "note": "Запись вечера и фото своего расклада на столе",
       "start": "diary",
-      "screens": ["diary", "entry", "gallery"]
+      "screens": [
+        "diary",
+        "entry",
+        "gallery"
+      ],
+      "stops": []
     },
     {
       "id": "notify",
       "label": "Профиль: пуш и фоновый звук",
       "note": "Два доступа из одного раздела — свитч пуша и entitlement фонового аудио",
       "start": "profile",
-      "screens": ["profile", "background"],
-      "stops": ["background"]
+      "screens": [
+        "profile",
+        "background"
+      ],
+      "stops": [
+        "background"
+      ]
     }
   ],
-
   "backendless": [
     {
       "needs": "Каталог карт и аудио-размышлений",
       "solution": "Контент-пак: <code>cards.json</code> + m4a статикой на CDN. Только чтение, колода фиксированная"
     },
     {
-      "needs": "Вход по номеру телефона и SMS-код",
-      "solution": "SDK провайдера аутентификации (VK ID / Firebase Phone Auth). Своего сервера нет; на устройстве — токен в Keychain"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Профили, лента, чужие записи практики",
@@ -223,22 +524,41 @@
       "solution": "Системный share sheet — файл уходит из приложения, а не на наш сервер"
     }
   ],
-
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" },
-    { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" },
-    { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
-    { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
-
   "appStore": {
     "name": "Расклад: вечерняя практика",
     "subtitle": "Размышление под вашу карту",
     "promo": "Вытяните карту из колоды, наведите камеру — и слушайте размышление под неё с закрытыми глазами. Экран гаснет, голос продолжает вести.",
     "keywords": "рефлексия,дневник,метафорические,колода,аудио,медитация,вечер,осознанность,вопросы,ритуал",
-    "category": { "primary": "Health & Fitness", "secondary": "Lifestyle" },
+    "category": {
+      "primary": "Health & Fitness",
+      "secondary": "Lifestyle"
+    },
     "ageRating": "4+",
     "price": "Бесплатно, без встроенных покупок — колода продаётся отдельно, вне приложения",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контент-пака",
@@ -258,12 +578,12 @@
     "whatsNew": "Первая версия: скан карты по номеру, размышления на 5–15 минут, звук при погашенном экране, дневник практики и прогресс по колоде.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа к дневнику. Обрабатывается SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Идентификатор устройства",
@@ -291,9 +611,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Вход по номеру. Тестовый номер принимает любой код; SMS не отправляется. Карту сканировать не обязательно — на экране «Сегодня» есть «Выбрать карту из списка»."
+      "email": "review@rasklad.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "home"
   }
 }

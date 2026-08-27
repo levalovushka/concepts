@@ -23,7 +23,7 @@
       "Найти машину на точке посадки, когда инструктор уже подъехал"
     ],
     "verticalSlice": {
-      "entry": "theory",
+      "entry": "phone",
       "action": "ticket",
       "result": "player"
     },
@@ -464,39 +464,55 @@
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с виджетом и расширением автозаполнения"
+      "grounding": "токен провайдера сессии аккаунта в Keychain, группа общая с виджетом и расширением автозаполнения"
     }
   ],
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения"
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка"
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
       "id": "lessons",
       "title": "Занятия",
       "type": "tab (root)",
       "light": true,
-      "meta": "Следующее занятие · часы · свободные слоты"
+      "meta": "Следующее занятие · часы · свободные слоты",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "lesson",
@@ -504,14 +520,34 @@
       "type": "push",
       "light": true,
       "parent": "lessons",
-      "meta": "Инструктор, машина, точка посадки"
+      "meta": "Инструктор, машина, точка посадки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "call",
       "title": "Звонок инструктору",
       "type": "fullscreen",
       "parent": "lesson",
-      "meta": "CallKit · номера скрыты"
+      "meta": "CallKit · номера скрыты",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "pickup",
@@ -519,14 +555,34 @@
       "type": "push",
       "light": true,
       "parent": "lesson",
-      "meta": "Карта · расстояние · маршруты рядом"
+      "meta": "Карта · расстояние · маршруты рядом",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scan",
       "title": "QR на стекле",
       "type": "fullscreen",
       "parent": "lesson",
-      "meta": "Сканер QR учебной машины"
+      "meta": "Сканер QR учебной машины",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "drive",
@@ -534,7 +590,17 @@
       "type": "push",
       "light": true,
       "parent": "lesson",
-      "meta": "Часы, отметки, разбор голосом"
+      "meta": "Часы, отметки, разбор голосом",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "note",
@@ -542,7 +608,15 @@
       "type": "push",
       "light": true,
       "parent": "drive",
-      "meta": "Запись · расшифровка · привязка к месту"
+      "meta": "Запись · расшифровка · привязка к месту",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "reschedule",
@@ -550,7 +624,17 @@
       "type": "sheet",
       "light": true,
       "parent": "lesson",
-      "meta": "Свободные слоты · правка события"
+      "meta": "Свободные слоты · правка события",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "chat",
@@ -558,14 +642,32 @@
       "type": "push",
       "light": true,
       "parent": "lesson",
-      "meta": "Переписка по занятию"
+      "meta": "Переписка по занятию",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "lockscreen",
       "title": "Экран блокировки",
       "type": "system",
       "parent": "chat",
-      "meta": "Сообщение с аватаром · режим «За рулём»"
+      "meta": "Сообщение с аватаром · режим «За рулём»",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "notif",
@@ -573,14 +675,34 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Что приходит и когда"
+      "meta": "Что приходит и когда",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "theory",
       "title": "Теория",
       "type": "tab (root)",
       "light": true,
-      "meta": "Билеты · разборы · состояние загрузок"
+      "meta": "Билеты · разборы · состояние загрузок",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "ticket",
@@ -588,21 +710,51 @@
       "type": "push",
       "light": true,
       "parent": "theory",
-      "meta": "Вопросы, ошибки, разбор"
+      "meta": "Вопросы, ошибки, разбор",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "player",
       "title": "Разбор билета",
       "type": "fullscreen",
       "parent": "ticket",
-      "meta": "Аудио · ±15 секунд · Now Playing"
+      "meta": "Аудио · ±15 секунд · Now Playing",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "background",
       "title": "Экран погас",
       "type": "system",
       "parent": "player",
-      "meta": "Now Playing на локскрине"
+      "meta": "Now Playing на локскрине",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "checklist",
@@ -610,7 +762,17 @@
       "type": "push",
       "light": true,
       "parent": "theory",
-      "meta": "Проговаривание · сверка с чек-листом"
+      "meta": "Проговаривание · сверка с чек-листом",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "classroom",
@@ -618,7 +780,17 @@
       "type": "push",
       "light": true,
       "parent": "theory",
-      "meta": "Ведомость часов · отметка присутствия"
+      "meta": "Ведомость часов · отметка присутствия",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "attend",
@@ -626,7 +798,17 @@
       "type": "push",
       "light": true,
       "parent": "classroom",
-      "meta": "SSID против профиля группы"
+      "meta": "SSID против профиля группы",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "guestnet",
@@ -634,21 +816,51 @@
       "type": "push",
       "light": true,
       "parent": "classroom",
-      "meta": "QR со стены · подключение"
+      "meta": "QR со стены · подключение",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scanwifi",
       "title": "QR со стены",
       "type": "fullscreen",
       "parent": "guestnet",
-      "meta": "Сканер QR сети класса"
+      "meta": "Сканер QR сети класса",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "menu",
       "title": "Ещё",
       "type": "tab (root)",
       "light": true,
-      "meta": "Документы, доступы, виджет, фон"
+      "meta": "Документы, доступы, виджет, фон",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "docs",
@@ -656,7 +868,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Медсправка, договор, съёмка и медиатека"
+      "meta": "Медсправка, договор, съёмка и медиатека",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "lock",
@@ -664,7 +886,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Face ID · код-пароль"
+      "meta": "Face ID · код-пароль",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "passwords",
@@ -672,7 +904,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Записи автошколы · автозаполнение"
+      "meta": "Записи автошколы · автозаполнение",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "fill",
@@ -680,14 +922,34 @@
       "type": "system",
       "light": true,
       "parent": "passwords",
-      "meta": "Подстановка логина на сайт тренажёра"
+      "meta": "Подстановка логина на сайт тренажёра",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "widget",
       "title": "Виджет на «Домой»",
       "type": "system",
       "parent": "menu",
-      "meta": "Следующее занятие · часы"
+      "meta": "Следующее занятие · часы",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "bg",
@@ -695,7 +957,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Fetch, тихий пуш, идентификаторы задач"
+      "meta": "Fetch, тихий пуш, идентификаторы задач",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "ads",
@@ -703,7 +975,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Экран-объяснение до ATT"
+      "meta": "Экран-объяснение до ATT",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -711,12 +993,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все 30 экранов и все 20 доступов набора",
+      "note": "29 экранов и 20 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "lessons",
         "lesson",
         "call",
@@ -745,22 +1025,23 @@
         "widget",
         "bg",
         "ads"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "lessons"
     },
     {
       "id": "signin",
-      "label": "Вход по номеру",
-      "note": "Номер и код из SMS: доступов на этих экранах нет",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "lessons"
       ],
       "stops": [
         "lessons"
-      ]
+      ],
+      "authTarget": "lessons"
     },
     {
       "id": "drive",
@@ -870,8 +1151,8 @@
   ],
   "backendless": [
     {
-      "needs": "Вход по номеру телефона и сессия",
-      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Расписание, слоты, перенос занятия",
@@ -972,12 +1253,12 @@
     "whatsNew": "Первая версия: часы и ведомость, аудио-разборы билетов, звонок инструктору без номеров, перенос слота с правкой события в календаре, отметка на теории по сети класса.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Геопозиция (приблизительная)",
@@ -1022,8 +1303,13 @@
     ],
     "reviewAccount": {
       "email": "review@nakat.app",
-      "code": "0000",
-      "note": "Вход по почте. Тестовый адрес принимает любой код, письмо не отправляется. В демо-группе есть занятие на завтра 7:20 и инструктор, которому можно позвонить."
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "lessons"
   }
 }

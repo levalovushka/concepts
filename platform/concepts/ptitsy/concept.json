@@ -16,17 +16,47 @@
     "problem": "Онлайн-поиск медленный, а вид, голос и сезонные признаки разнесены по разным источникам",
     "promise": "Определить вид, сверить признаки и сравнить голос можно без связи",
     "differentiator": "Offline-first полевой инструмент для конкретной прогулки, а не энциклопедия всех видов",
-    "returnReasons": ["Определить новую встреченную птицу","Сверить голос в другой сезон","Вернуться к сохранённым наблюдениям"],
-    "verticalSlice": { "entry": "season", "action": "identify", "result": "result" },
-    "coreLoop": ["Увидеть или услышать птицу", "Определить вид на устройстве", "Сверить голос и признаки"],
-    "nonGoals": ["Соцсеть наблюдений", "Научный каталог", "Облачное хранение маршрутов"]
+    "returnReasons": [
+      "Определить новую встреченную птицу",
+      "Сверить голос в другой сезон",
+      "Вернуться к сохранённым наблюдениям"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "identify",
+      "result": "result"
+    },
+    "coreLoop": [
+      "Увидеть или услышать птицу",
+      "Определить вид на устройстве",
+      "Сверить голос и признаки"
+    ],
+    "nonGoals": [
+      "Соцсеть наблюдений",
+      "Научный каталог",
+      "Облачное хранение маршрутов"
+    ]
   },
   "positioning": {
     "mode": "differentiation",
     "categoryFit": "Offline-справочник определения видов соответствует категории Reference",
-    "familiarPatterns": ["Каталог и карточка вида", "Поиск и сохранённое", "Аудиоплеер голосов"],
-    "distinctions": ["Определение работает без сети", "Голос является поисковым сигналом", "Интерфейс оптимизирован для полевой прогулки"],
-    "evidenceScreens": ["season","identify","result","bird","player"]
+    "familiarPatterns": [
+      "Каталог и карточка вида",
+      "Поиск и сохранённое",
+      "Аудиоплеер голосов"
+    ],
+    "distinctions": [
+      "Определение работает без сети",
+      "Голос является поисковым сигналом",
+      "Интерфейс оптимизирован для полевой прогулки"
+    ],
+    "evidenceScreens": [
+      "season",
+      "identify",
+      "result",
+      "bird",
+      "player"
+    ]
   },
   "brand": {
     "accent": "#285e47",
@@ -35,35 +65,69 @@
   },
   "start": "phone",
   "tabs": [
-    { "id": "season", "label": "Сезон" },
-    { "id": "library", "label": "Справочник" }
+    {
+      "id": "season",
+      "label": "Сезон"
+    },
+    {
+      "id": "library",
+      "label": "Справочник"
+    }
   ],
   "permissions": [
     {
       "key": "camera",
       "plist": "NSCameraUsageDescription",
-      "alert": { "title": "«Птицы» запрашивает доступ к камере", "text": "Чтобы определить птицу в кадре во время прогулки." },
-      "feature": "Определение птицы в кадре", "gesture": "«Навести камеру»", "screen": "identify", "target": "camera",
-      "fallback": "Можно выбрать снимок или найти вид в автономном справочнике", "snack": "Камера недоступна — выберите снимок или откройте справочник",
-      "risk": "low", "anchor": true, "conditional": false,
+      "alert": {
+        "title": "«Птицы» запрашивает доступ к камере",
+        "text": "Чтобы определить птицу в кадре во время прогулки."
+      },
+      "feature": "Определение птицы в кадре",
+      "gesture": "«Навести камеру»",
+      "screen": "identify",
+      "target": "camera",
+      "fallback": "Можно выбрать снимок или найти вид в автономном справочнике",
+      "snack": "Камера недоступна — выберите снимок или откройте справочник",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
       "grounding": "AVFoundation + Core ML/Vision; кадр анализируется на устройстве и не отправляется",
       "reviewNote": "Системный запрос появляется только после выбора камеры в режиме определения."
     },
     {
       "key": "photo",
       "plist": "NSPhotoLibraryUsageDescription",
-      "alert": { "title": "«Птицы» запрашивает доступ к «Фото»", "text": "Чтобы определить птицу по уже сделанному снимку." },
-      "feature": "Определение по готовому снимку", "gesture": "«Выбрать снимок»", "screen": "identify", "target": "photos",
-      "fallback": "Можно использовать камеру или открыть автономный справочник", "snack": "Фото недоступны — используйте камеру или справочник",
-      "risk": "low", "anchor": false, "conditional": false,
+      "alert": {
+        "title": "«Птицы» запрашивает доступ к «Фото»",
+        "text": "Чтобы определить птицу по уже сделанному снимку."
+      },
+      "feature": "Определение по готовому снимку",
+      "gesture": "«Выбрать снимок»",
+      "screen": "identify",
+      "target": "photos",
+      "fallback": "Можно использовать камеру или открыть автономный справочник",
+      "snack": "Фото недоступны — используйте камеру или справочник",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
       "grounding": "PHPicker передаёт только выбранный файл; Core ML классифицирует его локально"
     },
     {
       "key": "audio",
-      "plist": "UIBackgroundModes: audio", "activate": true,
-      "alert": { "title": "Фоновое аудио", "text": "Голоса птиц и маршрут продолжают звучать при заблокированном экране." },
-      "feature": "Голоса и маршрут с погасшим экраном", "gesture": "«Слушать голос»", "screen": "bird", "target": "player",
-      "fallback": "Карточка вида и короткое прослушивание на открытом экране остаются доступны", "risk": "high", "anchor": true, "conditional": true,
+      "plist": "UIBackgroundModes: audio",
+      "activate": true,
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Голоса птиц и маршрут продолжают звучать при заблокированном экране."
+      },
+      "feature": "Голоса и маршрут с погасшим экраном",
+      "gesture": "«Слушать голос»",
+      "screen": "bird",
+      "target": "player",
+      "fallback": "Карточка вида и короткое прослушивание на открытом экране остаются доступны",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
       "requires": "AVAudioSession .playback, MPNowPlayingInfoCenter и remote-команды",
       "grounding": "Аудиозаписи входят в локальный сезонный пакет приложения",
       "reviewNote": "Фоновое воспроизведение — основная полевая функция: пользователь убирает телефон и сравнивает голос с природным звуком."
@@ -71,58 +135,410 @@
     {
       "key": "push",
       "plist": "aps-environment",
-      "alert": { "title": "«Птицы» запрашивает разрешение на уведомления", "text": "Чтобы сообщать о новом сезонном выпуске справочника." },
-      "feature": "Новый сезонный выпуск", "gesture": "Свитч «Новый сезонный выпуск»", "screen": "releases", "target": "releases",
-      "fallback": "Наличие выпуска всегда можно проверить вручную на этом экране", "snack": "Уведомления выключены — проверка вручную остаётся доступна", "snackOnce": true,
-      "risk": "low", "anchor": false, "conditional": true,
+      "alert": {
+        "title": "«Птицы» запрашивает разрешение на уведомления",
+        "text": "Чтобы сообщать о новом сезонном выпуске справочника."
+      },
+      "feature": "Новый сезонный выпуск",
+      "gesture": "Свитч «Новый сезонный выпуск»",
+      "screen": "releases",
+      "target": "releases",
+      "fallback": "Наличие выпуска всегда можно проверить вручную на этом экране",
+      "snack": "Уведомления выключены — проверка вручную остаётся доступна",
+      "snackOnce": true,
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
       "requires": "APNs-кампания готового провайдера публикаций; собственного API приложения нет",
       "grounding": "Готовый push-провайдер отправляет одно редакционное событие на сезон"
     }
   ],
   "screens": [
-    { "id": "phone", "title": "Вход по номеру", "type": "старт, без таб-бара", "light": true, "meta": "Первый экран приложения" },
-    { "id": "code", "title": "Код из SMS", "type": "push", "light": true, "parent": "phone", "meta": "OTP · автоподстановка" },
-    { "id": "codefail", "title": "Неверный код", "type": "push", "light": true, "parent": "code", "meta": "Состояние ошибки OTP" },
-    { "id": "season", "title": "Сейчас рядом", "type": "сезонная колода", "light": true, "parent": "code", "meta": "Старт без системных запросов доступов" },
-    { "id": "identify", "title": "Определить птицу", "type": "bottom sheet", "light": true, "parent": "season", "meta": "Выбор Camera / Photo / справочник" },
-    { "id": "camera", "title": "Навести камеру", "type": "fullscreen camera", "light": false, "parent": "identify", "meta": "Vision · on-device" },
-    { "id": "photos", "title": "Выбрать снимок", "type": "system picker", "light": true, "parent": "identify", "meta": "PHPicker" },
-    { "id": "result", "title": "Похоже, зяблик", "type": "recognition result", "light": true, "parent": "identify", "meta": "Локальное совпадение" },
-    { "id": "bird", "title": "Зяблик", "type": "вид · editorial detail", "light": true, "parent": "season", "meta": "Голос · признаки · сезон" },
-    { "id": "player", "title": "Голос зяблика", "type": "fullscreen audio", "light": false, "parent": "bird", "meta": "Background audio" },
-    { "id": "background", "title": "Экран погас", "type": "system Now Playing", "light": false, "parent": "player", "meta": "Фоновое воспроизведение" },
-    { "id": "library", "title": "Справочник", "type": "алфавитная библиотека", "light": true, "meta": "Отдельное пространство без tab bar" },
-    { "id": "releases", "title": "Сезонные выпуски", "type": "settings detail", "light": true, "parent": "season", "meta": "Push · ручная проверка" }
+    {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
+    },
+    {
+      "id": "season",
+      "title": "Сейчас рядом",
+      "type": "сезонная колода",
+      "light": true,
+      "parent": "phone",
+      "meta": "Старт без системных запросов доступов",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "identify",
+      "title": "Определить птицу",
+      "type": "bottom sheet",
+      "light": true,
+      "parent": "season",
+      "meta": "Выбор Camera / Photo / справочник",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Навести камеру",
+      "type": "fullscreen camera",
+      "light": false,
+      "parent": "identify",
+      "meta": "Vision · on-device",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "photos",
+      "title": "Выбрать снимок",
+      "type": "system picker",
+      "light": true,
+      "parent": "identify",
+      "meta": "PHPicker",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "result",
+      "title": "Похоже, зяблик",
+      "type": "recognition result",
+      "light": true,
+      "parent": "identify",
+      "meta": "Локальное совпадение",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "bird",
+      "title": "Зяблик",
+      "type": "вид · editorial detail",
+      "light": true,
+      "parent": "season",
+      "meta": "Голос · признаки · сезон",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Голос зяблика",
+      "type": "fullscreen audio",
+      "light": false,
+      "parent": "bird",
+      "meta": "Background audio",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Экран погас",
+      "type": "system Now Playing",
+      "light": false,
+      "parent": "player",
+      "meta": "Фоновое воспроизведение",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Справочник",
+      "type": "алфавитная библиотека",
+      "light": true,
+      "meta": "Отдельное пространство без tab bar",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "releases",
+      "title": "Сезонные выпуски",
+      "type": "settings detail",
+      "light": true,
+      "parent": "season",
+      "meta": "Push · ручная проверка",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    }
   ],
   "prototypes": [
-    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Двенадцать экранов и четыре системные возможности", "start": "phone", "screens": ["phone","code","codefail","season","identify","camera","photos","result","bird","player","background","library","releases"] },
-    { "id": "signin", "label": "Вход по номеру", "note": "Номер, SMS-код и переход к сезонной подборке", "start": "phone", "screens": ["phone","code","codefail","season"], "stops": ["season"] },
-    { "id": "recognize", "label": "Определить в поле", "note": "Колода, выбор способа, камера или снимок и локальный результат", "start": "season", "screens": ["season","identify","camera","photos","result","bird","library","releases"], "stops": ["bird","library","releases"] },
-    { "id": "listen", "label": "Сравнить голос", "note": "Карточка вида, полноэкранное аудио и Now Playing", "start": "bird", "screens": ["bird","player","background"], "stops": ["background"] },
-    { "id": "browse", "label": "Найти без распознавания", "note": "Автономный справочник ведёт прямо к виду", "start": "library", "screens": ["library","bird","season"], "stops": ["bird","season"] },
-    { "id": "release", "label": "Получить сезонный выпуск", "note": "Ручная проверка остаётся fallback после отказа от push", "start": "season", "screens": ["season","releases","identify","library","bird"], "stops": ["releases","identify","library","bird"] }
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "11 экранов и 4 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "season",
+        "identify",
+        "camera",
+        "photos",
+        "result",
+        "bird",
+        "player",
+        "background",
+        "library",
+        "releases"
+      ],
+      "stops": [],
+      "authTarget": "season"
+    },
+    {
+      "id": "signin",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "season"
+      ],
+      "stops": [
+        "season"
+      ],
+      "authTarget": "season"
+    },
+    {
+      "id": "recognize",
+      "label": "Определить в поле",
+      "note": "Колода, выбор способа, камера или снимок и локальный результат",
+      "start": "season",
+      "screens": [
+        "season",
+        "identify",
+        "camera",
+        "photos",
+        "result",
+        "bird",
+        "library",
+        "releases"
+      ],
+      "stops": [
+        "bird",
+        "library",
+        "releases"
+      ]
+    },
+    {
+      "id": "listen",
+      "label": "Сравнить голос",
+      "note": "Карточка вида, полноэкранное аудио и Now Playing",
+      "start": "bird",
+      "screens": [
+        "bird",
+        "player",
+        "background"
+      ],
+      "stops": [
+        "background"
+      ]
+    },
+    {
+      "id": "browse",
+      "label": "Найти без распознавания",
+      "note": "Автономный справочник ведёт прямо к виду",
+      "start": "library",
+      "screens": [
+        "library",
+        "bird",
+        "season"
+      ],
+      "stops": [
+        "bird",
+        "season"
+      ]
+    },
+    {
+      "id": "release",
+      "label": "Получить сезонный выпуск",
+      "note": "Ручная проверка остаётся fallback после отказа от push",
+      "start": "season",
+      "screens": [
+        "season",
+        "releases",
+        "identify",
+        "library",
+        "bird"
+      ],
+      "stops": [
+        "releases",
+        "identify",
+        "library",
+        "bird"
+      ]
+    }
   ],
   "backendless": [
-    { "needs": "Каталог видов", "solution": "Версионированный сезонный пакет JSON входит в приложение" },
-    { "needs": "Справочник и голоса", "solution": "Метаданные и сжатые записи поставляются в локальном bundle" },
-    { "needs": "Распознавание", "solution": "Core ML/Vision выполняет классификацию на устройстве" },
-    { "needs": "История наблюдений", "solution": "SwiftData хранит отметки локально, без профиля и синхронизации" },
-    { "needs": "Сезонное уведомление", "solution": "Одна редакционная APNs-кампания готового провайдера; своего API нет" },
-    { "needs": "Вход по номеру", "solution": "SDK провайдера аутентификации; токен хранится в Keychain" }
+    {
+      "needs": "Каталог видов",
+      "solution": "Версионированный сезонный пакет JSON входит в приложение"
+    },
+    {
+      "needs": "Справочник и голоса",
+      "solution": "Метаданные и сжатые записи поставляются в локальном bundle"
+    },
+    {
+      "needs": "Распознавание",
+      "solution": "Core ML/Vision выполняет классификацию на устройстве"
+    },
+    {
+      "needs": "История наблюдений",
+      "solution": "SwiftData хранит отметки локально, без профиля и синхронизации"
+    },
+    {
+      "needs": "Сезонное уведомление",
+      "solution": "Одна редакционная APNs-кампания готового провайдера; своего API нет"
+    },
+    {
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
+    }
   ],
   "docs": [
-    { "file": "01-product-vision.md", "label": "Вижен" }, { "file": "02-architecture.md", "label": "Архитектура" },
-    { "file": "03-design-system.md", "label": "Дизайн-токены" }, { "file": "04-references.md", "label": "Референсы" },
-    { "file": "05-visual-audit.md", "label": "Визуальный аудит" }, { "file": "06-app-store.md", "label": "Карточка App Store" }
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
   ],
   "appStore": {
     "name": "Птицы — полевой аудиогид",
     "subtitle": "Узнать вид и сравнить голос",
     "promo": "Определяйте птиц без связи, сравнивайте голоса и слушайте полевой маршрут с погасшим экраном.",
     "keywords": "зяблик,синица,дрозд,наблюдение,природа,парк,орнитология,определитель",
-    "category": { "primary": "Reference", "secondary": "Education" }, "ageRating": "4+", "price": "Бесплатно, без встроенных покупок",
+    "category": {
+      "primary": "Reference",
+      "secondary": "Education"
+    },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только системный транспорт APNs и статические HTTPS-страницы",
-    "urls": { "support": "https://ptitsy.guide/support", "marketing": "https://ptitsy.guide", "privacy": "https://ptitsy.guide/privacy" },
+    "urls": {
+      "support": "https://ptitsy.guide/support",
+      "marketing": "https://ptitsy.guide",
+      "privacy": "https://ptitsy.guide/privacy"
+    },
     "description": [
       "«Птицы» — автономный справочник для прогулки. Определите вид камерой или по снимку, проверьте признаки и сравните голос.",
       "Узнать без связи\nМодель распознавания и сезонный справочник находятся на устройстве.",
@@ -131,9 +547,32 @@
     ],
     "whatsNew": "Первая версия: автономный определитель, сезонная подборка видов и голоса в фоне.",
     "privacy": [
-      { "type": "Номер телефона", "apple": "Contact Info → Phone Number", "purpose": "Работа приложения", "linked": true, "tracking": false, "why": "Вход и восстановление доступа через SDK провайдера аутентификации" },
-      { "type": "Фото", "apple": "User Content → Photos or Videos", "purpose": "Функциональность приложения", "linked": false, "tracking": false, "why": "Только выбранный снимок; анализ локальный, файл не загружается" }
+      {
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
+      },
+      {
+        "type": "Фото",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Функциональность приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Только выбранный снимок; анализ локальный, файл не загружается"
+      }
     ],
-    "reviewAccount": { "phone": "+7 900 000-00-00", "code": "0000", "note": "Тестовый номер принимает код 0000; SMS не отправляется." }
+    "reviewAccount": {
+      "email": "review@ptitsy.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
+    }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "season"
   }
 }

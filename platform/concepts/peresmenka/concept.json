@@ -339,7 +339,7 @@
       "risk": "low",
       "anchor": false,
       "conditional": false,
-      "grounding": "токен провайдера входа по номеру в Keychain, группа общая с расширениями"
+      "grounding": "токен провайдера сессии аккаунта в Keychain, группа общая с расширениями"
     },
     {
       "key": "autofill",
@@ -443,34 +443,50 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран приложения"
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "parent": "phone",
-      "meta": "OTP · автоподстановка"
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP"
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
     },
     {
       "id": "join",
       "title": "Где вы работаете",
       "type": "push",
       "light": true,
-      "parent": "code",
-      "meta": "Location · точки рядом"
+      "parent": "phone",
+      "meta": "Location · точки рядом",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "manual",
@@ -478,14 +494,34 @@
       "type": "push",
       "light": true,
       "parent": "join",
-      "meta": "Fallback отказа в геопозиции"
+      "meta": "Fallback отказа в геопозиции",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "shifts",
       "title": "Смены",
       "type": "tab (root)",
       "light": true,
-      "meta": "График недели · Photo Library"
+      "meta": "График недели · Photo Library",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "import",
@@ -493,7 +529,17 @@
       "type": "push",
       "light": true,
       "parent": "shifts",
-      "meta": "Photo Library · Vision OCR"
+      "meta": "Photo Library · Vision OCR",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "shift",
@@ -501,7 +547,17 @@
       "type": "push",
       "light": true,
       "parent": "shifts",
-      "meta": "Push · Calendar · Remote notification"
+      "meta": "Push · Calendar · Remote notification",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "checkin",
@@ -509,7 +565,17 @@
       "type": "sheet",
       "light": true,
       "parent": "shift",
-      "meta": "Wi-Fi Info · табель"
+      "meta": "Wi-Fi Info · табель",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "netqr",
@@ -517,7 +583,17 @@
       "type": "push",
       "light": true,
       "parent": "checkin",
-      "meta": "Hotspot · Camera"
+      "meta": "Hotspot · Camera",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "scan",
@@ -525,7 +601,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "netqr",
-      "meta": "DataScanner"
+      "meta": "DataScanner",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "handover",
@@ -533,7 +619,17 @@
       "type": "push",
       "light": true,
       "parent": "shift",
-      "meta": "Camera · акт передачи"
+      "meta": "Camera · акт передачи",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "shoot",
@@ -541,7 +637,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "handover",
-      "meta": "AVFoundation"
+      "meta": "AVFoundation",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "brief",
@@ -549,7 +655,17 @@
       "type": "push",
       "light": true,
       "parent": "shift",
-      "meta": "Audio · Microphone · Speech"
+      "meta": "Audio · Microphone · Speech",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "record",
@@ -557,7 +673,17 @@
       "type": "sheet",
       "light": true,
       "parent": "brief",
-      "meta": "Microphone · Speech"
+      "meta": "Microphone · Speech",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "player",
@@ -565,14 +691,34 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "brief",
-      "meta": "Now Playing · фоновое аудио"
+      "meta": "Now Playing · фоновое аудио",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "swaps",
       "title": "Подмены",
       "type": "tab (root)",
       "light": true,
-      "meta": "Открытые смены · Location"
+      "meta": "Открытые смены · Location",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "swap",
@@ -580,14 +726,34 @@
       "type": "push",
       "light": true,
       "parent": "swaps",
-      "meta": "Отклик на подмену"
+      "meta": "Отклик на подмену",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "people",
       "title": "Люди",
       "type": "tab (root)",
       "light": true,
-      "meta": "С кем работали · Contacts"
+      "meta": "С кем работали · Contacts",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "mates",
@@ -595,7 +761,17 @@
       "type": "push",
       "light": true,
       "parent": "people",
-      "meta": "Contacts · локальная сверка"
+      "meta": "Contacts · локальная сверка",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "person",
@@ -603,7 +779,17 @@
       "type": "push",
       "light": true,
       "parent": "people",
-      "meta": "Смены вместе · VoIP"
+      "meta": "Смены вместе · VoIP",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "call",
@@ -611,7 +797,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "person",
-      "meta": "CallKit · VoIP"
+      "meta": "CallKit · VoIP",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "chat",
@@ -619,7 +815,15 @@
       "type": "push",
       "light": true,
       "parent": "person",
-      "meta": "Communication notification"
+      "meta": "Communication notification",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ]
+      }
     },
     {
       "id": "lockscreen",
@@ -627,14 +831,34 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "chat",
-      "meta": "Уведомление с аватаром"
+      "meta": "Уведомление с аватаром",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "menu",
       "title": "Меню",
       "type": "tab (root)",
       "light": true,
-      "meta": "Разделы · Face ID"
+      "meta": "Разделы · Face ID",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "lock",
@@ -642,7 +866,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "menu",
-      "meta": "LocalAuthentication"
+      "meta": "LocalAuthentication",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "money",
@@ -650,7 +884,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Часы и ставка за период"
+      "meta": "Часы и ставка за период",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "passwords",
@@ -658,7 +902,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "AutoFill Credential Provider"
+      "meta": "AutoFill Credential Provider",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "fill",
@@ -666,7 +920,17 @@
       "type": "системная поверхность",
       "light": true,
       "parent": "passwords",
-      "meta": "ASCredentialProvider"
+      "meta": "ASCredentialProvider",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "settings",
@@ -674,7 +938,17 @@
       "type": "push",
       "light": true,
       "parent": "menu",
-      "meta": "Фон · виджет · реклама"
+      "meta": "Фон · виджет · реклама",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "background",
@@ -682,7 +956,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "settings",
-      "meta": "Background fetch · BGTaskScheduler"
+      "meta": "Background fetch · BGTaskScheduler",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "widget",
@@ -690,7 +974,17 @@
       "type": "системная поверхность",
       "light": false,
       "parent": "settings",
-      "meta": "App Groups · Keychain"
+      "meta": "App Groups · Keychain",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     },
     {
       "id": "ads",
@@ -698,7 +992,17 @@
       "type": "modal",
       "light": true,
       "parent": "settings",
-      "meta": "ATT после объяснения"
+      "meta": "ATT после объяснения",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
     }
   ],
   "prototypes": [
@@ -706,12 +1010,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Все 32 экрана и все 21 доступ набора",
+      "note": "31 экранов и 21 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "join",
         "manual",
         "shifts",
@@ -742,24 +1044,25 @@
         "background",
         "widget",
         "ads"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "join"
     },
     {
       "id": "signin",
-      "label": "Вход и первая точка",
-      "note": "Номер, код из SMS и выбор заведения — по геопозиции или по коду от управляющего",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "join",
         "manual",
         "shifts"
       ],
       "stops": [
         "shifts"
-      ]
+      ],
+      "authTarget": "join"
     },
     {
       "id": "shiftday",
@@ -892,8 +1195,8 @@
   ],
   "backendless": [
     {
-      "needs": "Вход по номеру телефона и сессия",
-      "solution": "SDK провайдера: <code>VK ID</code> либо Firebase Phone Auth, токен в Keychain общей группы"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Профили, точки, график смен, отклики на подмены",
@@ -996,12 +1299,12 @@
     "whatsNew": "Первая версия: подмены рядом, отметка по сети заведения, голосовой брифинг с расшифровкой и фоновым прослушиванием, разбор графика из скриншота, акт передачи смены, звонок без обмена номерами.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации, токен лежит в Keychain. Другим людям в приложении номер не показывается"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Точное местоположение",
@@ -1078,8 +1381,8 @@
     ],
     "reviewAccount": {
       "email": "review@peresmenka.app",
-      "code": "0000",
-      "note": "Вход по почте: тестовый адрес принимает любой код, письмо не отправляется. Аккаунт привязан к демо-точке «Кофейня на Гоголя, 7», в графике есть смена сегодня и выставленная подмена на четверг. Отметка по сети доступна повторно из карточки смены."
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
   },
   "qualityContractVersion": 1,
@@ -1096,7 +1399,7 @@
       "Свести часы и сумму за период по двум точкам"
     ],
     "verticalSlice": {
-      "entry": "shifts",
+      "entry": "phone",
       "action": "checkin",
       "result": "money"
     },
@@ -1136,5 +1439,10 @@
       "brief",
       "money"
     ]
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "join"
   }
 }

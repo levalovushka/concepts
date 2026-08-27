@@ -22,7 +22,7 @@
       "Сверить новые пометки и страницы нот"
     ],
     "verticalSlice": {
-      "entry": "program",
+      "entry": "phone",
       "action": "piece",
       "result": "player"
     },
@@ -273,114 +273,41 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по номеру",
-      "type": "старт",
-      "meta": "Вход в хор",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
         "navigation": "push",
-        "purpose": "Войти в библиотеку своего хора",
-        "primaryAction": "Получить код",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
         "hierarchy": {
-          "primary": "Ценность партий и ввод номера телефона",
-          "secondary": "Программа хора и условия конфиденциальности"
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
         },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
           {
             "kind": "typical",
-            "example": "Корректный номер участника хора"
+            "example": "Корректный адрес электронной почты"
           },
           {
             "kind": "stress",
-            "example": "Длинная подпись о привязке к программе"
+            "example": "Длинный адрес на локализованном домене"
           },
           {
             "kind": "failure",
-            "example": "Неверный формат или медленная отправка SMS"
+            "example": "Адрес уже занят, введён неверно или сеть недоступна"
           }
         ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "parent": "phone",
-      "meta": "OTP",
-      "ui": {
-        "pattern": "auth",
-        "navigation": "push",
-        "purpose": "Подтвердить номер и открыть программу хора",
-        "primaryAction": "Войти",
-        "hierarchy": {
-          "primary": "Код подтверждения и кнопка входа",
-          "secondary": "Повторная отправка и смена номера"
-        },
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          {
-            "kind": "typical",
-            "example": "Код автоматически подставлен из SMS"
-          },
-          {
-            "kind": "stress",
-            "example": "Повторная отправка с длинным таймером"
-          },
-          {
-            "kind": "failure",
-            "example": "Просроченный или неверный четырёхзначный код"
-          }
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "pattern": "auth",
-        "navigation": "push",
-        "purpose": "Показать ошибку кода и дать ввести заново",
-        "primaryAction": "Войти",
-        "hierarchy": {
-          "primary": "Ячейки кода с ошибкой и подпись причины",
-          "secondary": "Повторная отправка и возврат к вводу"
-        },
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          {
-            "kind": "typical",
-            "example": "Неверный четырёхзначный код после ввода"
-          },
-          {
-            "kind": "stress",
-            "example": "Код истёк, пока пользователь набирал цифры"
-          },
-          {
-            "kind": "failure",
-            "example": "Повторная ошибка подряд после второй попытки"
-          }
-        ]
-      }
+      },
+      "light": true
     },
     {
       "id": "program",
@@ -398,9 +325,11 @@
         },
         "states": [
           "default",
-          "empty",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -437,7 +366,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -474,7 +406,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -509,7 +444,12 @@
           "secondary": "Пауза, повтор и следующий номер"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -545,8 +485,11 @@
         },
         "states": [
           "default",
-          "denied",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -582,6 +525,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -617,8 +564,11 @@
         },
         "states": [
           "default",
+          "loading",
           "empty",
-          "error"
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -654,9 +604,12 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "success",
-          "denied"
+          "offline",
+          "denied",
+          "success"
         ],
         "density": "medium",
         "contentCases": [
@@ -691,8 +644,11 @@
         },
         "states": [
           "default",
+          "loading",
           "empty",
-          "error"
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -729,7 +685,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -764,7 +723,12 @@
           "secondary": "Дата, номер концерта и переход к обновлению"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -800,6 +764,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -825,12 +793,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Четырнадцать экранов и все четыре заявленных доступа набора",
+      "note": "13 экранов и 4 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "program",
         "piece",
         "player",
@@ -843,22 +809,23 @@
         "releases",
         "notif",
         "settings"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "program"
     },
     {
       "id": "signin",
-      "label": "Вход по номеру",
-      "note": "Номер и код из SMS: доступов на этих экранах нет",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "program"
       ],
       "stops": [
         "program"
-      ]
+      ],
+      "authTarget": "program"
     },
     {
       "id": "learn",
@@ -940,8 +907,8 @@
       "solution": "Вырезано: UGC нет, значит нет ни модерации, ни чужих данных"
     },
     {
-      "needs": "Вход по номеру",
-      "solution": "SDK провайдера аутентификации, токен в Keychain"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Уведомление о дополнении к программе",
@@ -1005,12 +972,12 @@
     "whatsNew": "Первая версия: партии по голосам, репетиционные буквы, фоновое прослушивание, съёмка страниц и разбор снимков с репетиций.",
     "privacy": [
       {
-        "type": "Номер телефона",
-        "apple": "Contact Info → Phone Number",
+        "type": "Электронная почта",
+        "apple": "Contact Info → Email Address",
         "purpose": "Работа приложения",
         "linked": true,
         "tracking": false,
-        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
       },
       {
         "type": "Фотографии",
@@ -1030,9 +997,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 123-45-67",
-      "code": "4815",
-      "note": "Вход по номеру. Тестовый номер принимает код 4815, SMS не отправляется. Голос по умолчанию — альт, программа загружена: №5 открывает партию и погасший экран за два тапа."
+      "email": "review@strochka.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "program"
   }
 }

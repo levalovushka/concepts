@@ -16,6 +16,7 @@ import { join, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { ROOT, DIST, conceptDir, readSpec, readMarkup, validate, listConcepts } from './lib.mjs';
 import { screenGraph, screenActions } from './screen-map.mjs';
+import { prepareEmailRegistration } from './build.mjs';
 
 const CAPABILITIES = JSON.parse(
   readFileSync(join(ROOT, 'native', 'capability-map.json'), 'utf8')
@@ -23,8 +24,8 @@ const CAPABILITIES = JSON.parse(
 
 /**
  * Словарь состояний. Требовать все шесть на каждом экране бессмысленно —
- * поверхности камеры не бывает пустой. Обязательны только два:
- * default везде и permission там, где экран поднимает системный запрос.
+ * У формы empty/error показаны прямо на полях. Контентная поверхность должна
+ * быть определена и без данных, и при сбое/офлайне/отказе в доступе.
  */
 const CANONICAL_STATES = ['default', 'loading', 'empty', 'error', 'offline', 'permission'];
 
@@ -93,10 +94,17 @@ function capabilityOf(permission) {
 function verifyWorld(world, spec) {
   if (!world) return [];
   const problems = [];
-  const entities = new Set((world.entities || []).map((e) => e.id));
+  const entityIds = (world.entities || []).map((e) => e.id);
+  const actionIds = (world.actions || []).map((a) => a.id);
+  const entities = new Set(entityIds);
   const declared = new Set((spec.permissions || []).map((p) => p.key));
   const screens = new Set(spec.screens.map((s) => s.id));
   const bound = new Set();
+
+  if (entityIds.some((id) => !id)) problems.push('world: сущность без id');
+  if (entities.size !== entityIds.length) problems.push('world: дублирующиеся id сущностей');
+  if (actionIds.some((id) => !id)) problems.push('world: действие без id');
+  if (new Set(actionIds).size !== actionIds.length) problems.push('world: дублирующиеся id действий');
 
   for (const entity of world.entities || []) {
     for (const relation of entity.relations || []) {
@@ -106,6 +114,9 @@ function verifyWorld(world, spec) {
     }
   }
   for (const action of world.actions || []) {
+    if (!action.effect || !action.result) {
+      problems.push(`world: действие ${action.id || 'без id'} должно описывать effect и наблюдаемый result`);
+    }
     if (action.entity && !entities.has(action.entity)) {
       problems.push(`world: действие ${action.id} привязано к несуществующей сущности ${action.entity}`);
     }
@@ -154,22 +165,24 @@ function derivedStrings(spec) {
 }
 
 export function buildUxSpec(slug) {
-  const spec = readSpec(slug);
-  validate(spec, slug);
-  const markup = readMarkup(slug, spec);
+  const sourceSpec = readSpec(slug);
+  validate(sourceSpec, slug);
+  const sourceMarkup = readMarkup(slug, sourceSpec);
+  const { spec, markup } = prepareEmailRegistration(sourceSpec, sourceMarkup);
   const graph = screenGraph(spec, markup);
+  if (graph.problems?.length) {
+    throw new Error(`UX-спека ${slug}: битый граф\n  · ${graph.problems.join('\n  · ')}`);
+  }
   const actions = screenActions(spec, markup);
   const actionsByScreen = new Map(actions.map((item) => [item.screen.id, item.rows]));
-
-  // Экран, с которого спрашивают доступ, обязан продумать состояние отказа.
-  const asksOn = new Set((spec.permissions || [])
-    .filter((p) => CAPABILITIES[p.key]?.kind === 'prompt')
-    .map((p) => p.screen));
 
   const screens = spec.screens.map((screen) => {
     const declared = (screen.ui?.states || []).map(canonicalState);
     const covered = new Set(declared);
-    const required = ['default', ...(asksOn.has(screen.id) ? ['permission'] : [])];
+    const required = screen.ui?.pattern === 'auth'
+      || /<(?:form|textarea|select)\b|contenteditable|<input\b(?![^>]*type="search")/i.test(markup[screen.id] || '')
+      ? ['default', 'loading', 'empty', 'error']
+      : [...CANONICAL_STATES];
     return {
       id: screen.id,
       title: screen.title,
@@ -208,11 +221,12 @@ export function buildUxSpec(slug) {
   }));
 
   const world = spec.product?.world || null;
-  const gaps = [...verifyWorld(world, spec)];
-  if (!world) gaps.push('world: модель мира не описана — нет сущностей, их отношений и действий');
-  if (!spec.localization) {
-    gaps.push('localization: строки из разметки экранов не вынесены — выведены только те, которыми владеет спека');
+  const worldProblems = verifyWorld(world, spec);
+  if (world && worldProblems.length) {
+    throw new Error(`UX-спека ${slug}: модель мира невалидна\n  · ${worldProblems.join('\n  · ')}`);
   }
+  const gaps = [...worldProblems];
+  if (!world) gaps.push('world: модель мира не описана — нет сущностей, их отношений и действий');
   if (!spec.acceptance) {
     gaps.push('acceptance: сценарии приёмки не описаны');
   } else {
@@ -220,14 +234,21 @@ export function buildUxSpec(slug) {
     const screenIds = new Set(spec.screens.map((s) => s.id));
     const declaredKeys = new Set((spec.permissions || []).map((p) => p.key));
     const covered = new Set();
+    const brokenAcceptance = [];
     for (const scenario of spec.acceptance) {
       if (scenario.action && actions.size && !actions.has(scenario.action)) {
-        gaps.push(`acceptance: сценарий ${scenario.id} ссылается на несуществующее действие ${scenario.action}`);
+        brokenAcceptance.push(`сценарий ${scenario.id} ссылается на несуществующее действие ${scenario.action}`);
       }
       for (const id of scenario.screens || []) {
-        if (!screenIds.has(id)) gaps.push(`acceptance: сценарий ${scenario.id} ссылается на несуществующий экран ${id}`);
+        if (!screenIds.has(id)) brokenAcceptance.push(`сценарий ${scenario.id} ссылается на несуществующий экран ${id}`);
       }
       for (const key of scenario.capabilities || []) covered.add(key);
+      for (const key of scenario.capabilities || []) {
+        if (!declaredKeys.has(key)) brokenAcceptance.push(`сценарий ${scenario.id} ссылается на несуществующий доступ ${key}`);
+      }
+    }
+    if (brokenAcceptance.length) {
+      throw new Error(`UX-спека ${slug}: сценарии приёмки невалидны\n  · ${brokenAcceptance.join('\n  · ')}`);
     }
     const uncovered = [...declaredKeys].filter((key) => !covered.has(key));
     if (uncovered.length) {
@@ -266,7 +287,7 @@ export function buildUxSpec(slug) {
       tabs: spec.tabs || [],
       screens,
       transitions,
-      unreachable: (graph.problems || []).filter((p) => /недостижим/i.test(p)),
+      problems: graph.problems || [],
     },
 
     capabilities: (spec.permissions || []).map(capabilityOf),

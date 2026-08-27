@@ -14,6 +14,7 @@ import { pathToFileURL } from 'node:url';
 import { KERNEL, DIST, conceptDir, readSpec, readMarkup, validateUiMarkup, engineData, fill, esc, RISK_LABEL, POSITIONING_MODES, listConcepts } from './lib.mjs';
 import { screenGraph, iaTree, transitionTable, screenActionsHtml } from './screen-map.mjs';
 import { archetypeFor } from './concept-quality.mjs';
+import { renderMarkdown } from './markdown.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
 
@@ -23,6 +24,10 @@ const read = (f) => readFileSync(f, 'utf8');
  * задаёт первый экран после создания аккаунта.
  */
 const LEGACY_AUTH = new Set(['code', 'codefail']);
+const FORM_STATES = ['default', 'loading', 'empty', 'error'];
+/* UI-контракт исходных concept.json исторически называет это denied;
+   ux-spec канонизирует имя в permission для внешних потребителей. */
+const CONTENT_STATES = [...FORM_STATES, 'offline', 'denied'];
 
 const firstGoOutsideAuth = (html = '') => [...html.matchAll(/data-go="([a-z]+)"/g)]
   .map((match) => match[1]).find((id) => !LEGACY_AUTH.has(id) && id !== 'phone');
@@ -121,12 +126,12 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
       pattern: 'auth', navigation: 'push', purpose: 'Создать аккаунт по почте без отдельного подтверждения',
       primaryAction: 'Создать аккаунт',
       hierarchy: { primary: 'Почта и создание аккаунта', secondary: 'Правовая строка, помощь и поддержка' },
-      states: ['default', 'loading', 'error', 'offline'], density: 'low',
-      contentCases: [
+      states: [...FORM_STATES], density: 'low',
+      contentCases: spec.uiContractVersion >= 3 ? [
         { kind: 'typical', example: 'Корректный адрес электронной почты' },
         { kind: 'stress', example: 'Длинный адрес на локализованном домене' },
         { kind: 'failure', example: 'Адрес уже занят, введён неверно или сеть недоступна' },
-      ],
+      ] : ['Корректный адрес электронной почты', 'Длинный адрес на локализованном домене', 'Адрес уже занят, введён неверно или сеть недоступна'],
     },
   };
   spec.screens = spec.screens.filter((screen) => screen.id !== 'phone' && !LEGACY_AUTH.has(screen.id));
@@ -156,6 +161,13 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     }
   }
   for (const row of spec.positioning?.referenceEvidence || []) row.screen = replacement(row.screen);
+
+  for (const action of spec.product?.world?.actions || []) {
+    if (action.screen) action.screen = replacement(action.screen);
+  }
+  for (const scenario of spec.acceptance || []) {
+    scenario.screens = [...new Set((scenario.screens || []).map(replacement))];
+  }
 
   spec.prototypes = (spec.prototypes || []).map((prototype) => {
     const sourceScreens = prototype.screens || [];
@@ -206,11 +218,35 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     email: `review@${spec.slug}.app`, password: 'review2026',
     note: 'Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются.',
   };
+  for (const row of spec.backendless || []) {
+    if (/вход|регистрац/i.test(row.needs || '')) {
+      row.needs = 'Регистрация по почте и сессия';
+      row.solution = 'SDK провайдера аутентификации по почте, токен в Keychain общей группы';
+    }
+  }
+  for (const permission of spec.permissions || []) {
+    if (permission.key === 'keychain' && permission.grounding) {
+      permission.grounding = permission.grounding.replace(/входа по номеру/gi, 'сессии аккаунта');
+    }
+  }
 
   const markup = { ...sourceMarkup, phone: sourceMarkup.phone
     ? adaptRegistrationScreen(sourceMarkup.phone, target)
     : emailRegistrationScreen(spec, target) };
   delete markup.code; delete markup.codefail;
+
+  /* Один и тот же контракт используют витрина и ux-spec: формы получают
+     inline-состояния полей, контентные экраны — ещё offline и permission. */
+  for (const screen of spec.screens) {
+    const html = markup[screen.id] || '';
+    const isForm = screen.ui?.pattern === 'auth'
+      || /<(?:form|textarea|select)\b|contenteditable|<input\b(?![^>]*type="search")/i.test(html);
+    const extraStates = (screen.ui?.states || []).filter((state) => state === 'success');
+    screen.ui = {
+      ...(screen.ui || {}),
+      states: isForm ? [...FORM_STATES] : [...new Set([...CONTENT_STATES, ...extraStates])],
+    };
+  }
   return { spec, markup };
 }
 
@@ -293,9 +329,19 @@ const productContract = (spec) => {
 </div>`;
 };
 
+const docId = (file) => file.replace(/\.md$/i, '').replace(/[^a-z0-9-]/gi, '-');
+
 const docsLinks = (spec) =>
-  (spec.docs || []).map((d) => `<a href="docs/${d.file}">${esc(d.label)}</a>`).join('\n      ') +
+  (spec.docs || []).map((d, index) => `<button type="button" data-doc="${docId(d.file)}" aria-pressed="${index === 0}">${esc(d.label)}</button>`).join('\n      ') +
   `\n      <a class="zip" href="docs/${spec.slug}-docs.zip" download>Скачать все (ZIP)</a>`;
+
+const docsContent = (spec, dir) => (spec.docs || []).map((doc, index) => {
+  const file = join(dir, 'docs', doc.file);
+  if (!existsSync(file)) throw new Error(`${spec.slug}: нет документа ${doc.file}`);
+  return `<article class="doc-reader${index === 0 ? ' is-on' : ''}" data-doc-view="${docId(doc.file)}" aria-hidden="${index === 0 ? 'false' : 'true'}">
+    ${renderMarkdown(read(file))}
+  </article>`;
+}).join('\n');
 
 const titleOf = (spec, id) => spec.screens.find((s) => s.id === id)?.title || id;
 
@@ -540,6 +586,7 @@ export function build(slug, { outDir } = {}) {
     PRODUCT_CONTRACT: productContract(spec),
     ARCH_BODY: grab('arch'),
     DOCS_LINKS: docsLinks(spec),
+    DOCS_CONTENT: docsContent(spec, dir),
     LEDGER_INTRO: `${spec.permissions.length} ключей. Каждый запрашивается в момент действия и стоит за фичей, которую видно в интерфейсе. Домен ссылок — только <code style="font-family:var(--mono);font-size:12px">${esc(spec.domain)}</code>.`,
     SECTIONS: sections,
     PERM_MATRIX: permMatrix(spec),

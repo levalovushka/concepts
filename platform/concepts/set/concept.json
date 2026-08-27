@@ -16,7 +16,7 @@
   "tagline": "Живые сеты — от первого бита до последнего",
   "insight": "музыку диджея хочется слушать не как набор треков, а как одну непрерывную ночь",
   "domain": "set.live",
-  "start": "home",
+  "start": "phone",
   "tabs": [
     {
       "id": "home",
@@ -75,7 +75,7 @@
       "Продолжить в фоне"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "detail",
       "result": "player"
     },
@@ -185,6 +185,36 @@
   ],
   "screens": [
     {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "parent": "profile",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
+    },
+    {
       "id": "home",
       "title": "Главная",
       "type": "tab (root, start)",
@@ -196,7 +226,11 @@
         "primaryAction": "Neon Garden",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -219,7 +253,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -241,7 +279,12 @@
         "purpose": "Понять контекст и начать",
         "primaryAction": "Слушать сет",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -265,7 +308,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -287,7 +333,12 @@
         "purpose": "Управлять звуком с локскрина",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -310,7 +361,11 @@
         "primaryAction": "Afterglow",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -333,7 +388,11 @@
         "primaryAction": "Сканировать камерой",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -356,6 +415,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -378,7 +441,12 @@
         "purpose": "Выбрать один снимок",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -400,7 +468,12 @@
         "purpose": "Показать результат действия",
         "primaryAction": "Сохранить",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -422,85 +495,18 @@
         "purpose": "Управлять доступами",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
           "основной сценарий",
           "длинный контент",
           "нет сети или доступ запрещён"
-        ]
-      }
-    },
-    {
-      "id": "phone",
-      "title": "Вход по номеру",
-      "type": "modal",
-      "light": false,
-      "meta": "Необязательная синхронизация",
-      "parent": "profile",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Сохранить коллекцию между устройствами",
-        "primaryAction": "Получить код",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "номер заполнен",
-          "ошибка номера",
-          "вход пропущен"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": false,
-      "meta": "OTP и автоподстановка",
-      "parent": "phone",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить номер телефона",
-        "primaryAction": "Войти",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "код подставлен",
-          "неверный код",
-          "повторная отправка"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Показать ошибку кода и дать ввести заново",
-        "primaryAction": "Войти",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "неверный код",
-          "просроченный код",
-          "повторная отправка"
         ]
       }
     },
@@ -516,7 +522,12 @@
         "purpose": "Открыть прямую ссылку",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -538,7 +549,12 @@
         "purpose": "Восстановиться после отказа",
         "primaryAction": "Открыть Настройки",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -561,7 +577,11 @@
         "primaryAction": "Waterline",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -577,8 +597,8 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "16 экранов и 5 доступов",
-      "start": "home",
+      "note": "15 экранов и 5 доступов",
+      "start": "phone",
       "screens": [
         "home",
         "discover",
@@ -592,12 +612,12 @@
         "result",
         "profile",
         "phone",
-        "code",
-        "codefail",
         "deeplink",
         "denied",
         "search"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "core",
@@ -643,9 +663,7 @@
       "start": "phone",
       "screens": [
         "phone",
-        "code",
         "profile",
-        "codefail",
         "denied",
         "capture"
       ],
@@ -653,7 +671,8 @@
         "profile",
         "denied",
         "capture"
-      ]
+      ],
+      "authTarget": "profile"
     }
   ],
   "backendless": [
@@ -702,9 +721,9 @@
     ],
     "whatsNew": "Первая версия.",
     "reviewAccount": {
-      "phone": "Не требуется",
-      "code": "Не требуется",
-      "note": "Приложение открывается сразу на главной; аккаунт не нужен."
+      "email": "review@set.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     },
     "privacy": [
       {
@@ -742,5 +761,10 @@
       "file": "06-app-store.md",
       "label": "App Store"
     }
-  ]
+  ],
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "profile"
+  }
 }

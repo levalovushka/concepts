@@ -16,7 +16,7 @@
   "tagline": "Музыка ведёт дыхание",
   "insight": "в короткой паузе человеку проще следовать музыкальному рисунку, чем голосовой инструкции или абстрактному таймеру",
   "domain": "breath.space",
-  "start": "home",
+  "start": "phone",
   "tabs": [
     {
       "id": "home",
@@ -74,7 +74,7 @@
       "Продолжить с экрана блокировки"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "detail",
       "result": "player"
     },
@@ -184,6 +184,35 @@
   ],
   "screens": [
     {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
+        ]
+      }
+    },
+    {
       "id": "home",
       "title": "Сейчас",
       "type": "tab (root, start)",
@@ -195,7 +224,11 @@
         "primaryAction": "Тихий берег",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -218,7 +251,11 @@
         "primaryAction": null,
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -240,7 +277,12 @@
         "purpose": "Понять контекст и начать",
         "primaryAction": "Начать сессию",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -264,7 +306,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -286,7 +331,12 @@
         "purpose": "Управлять звуком с локскрина",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -309,7 +359,11 @@
         "primaryAction": "Тихий берег",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -332,7 +386,11 @@
         "primaryAction": "Считать свет камерой",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -355,6 +413,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -377,7 +439,12 @@
         "purpose": "Выбрать один снимок",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -399,7 +466,12 @@
         "purpose": "Спокойно завершить сессию без оценок и серий",
         "primaryAction": "Сохранить в «Моё»",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -421,7 +493,12 @@
         "purpose": "Управлять доступами",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -443,7 +520,12 @@
         "purpose": "Открыть прямую ссылку",
         "primaryAction": null,
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -465,7 +547,12 @@
         "purpose": "Восстановиться после отказа",
         "primaryAction": "Открыть Настройки",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -488,7 +575,11 @@
         "primaryAction": "Тихий берег",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -504,9 +595,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "14 экранов и 5 доступов",
-      "start": "home",
+      "note": "15 экранов и 5 доступов",
+      "start": "phone",
       "screens": [
+        "phone",
         "home",
         "discover",
         "detail",
@@ -521,7 +613,9 @@
         "deeplink",
         "denied",
         "search"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "core",
@@ -628,9 +722,9 @@
     ],
     "whatsNew": "Первая версия.",
     "reviewAccount": {
-      "phone": "Не требуется",
-      "code": "Не требуется",
-      "note": "Приложение открывается сразу на главной; аккаунт не нужен."
+      "email": "review@breath.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     },
     "privacy": [
       {
@@ -672,5 +766,10 @@
       "file": "07-primary-source-research.md",
       "label": "Исследование первичных источников"
     }
-  ]
+  ],
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "home"
+  }
 }

@@ -570,25 +570,6 @@
       "activate": true
     },
     {
-      "key": "applesignin",
-      "plist": "com.apple.developer.applesignin",
-      "feature": "Вход с Apple рядом со входом по почте",
-      "gesture": "«Войти с Apple»",
-      "screen": "phone",
-      "target": "code",
-      "fallback": "Остаётся вход по почте с кодом в письме",
-      "snack": "Вход с Apple недоступен",
-      "risk": "low",
-      "anchor": false,
-      "conditional": false,
-      "grounding": "AuthenticationServices и ASAuthorizationAppleIDProvider, обмен токена в SDK провайдера",
-      "alert": {
-        "title": "Вход с Apple",
-        "text": "Entitlement без системного запроса: кнопка «Войти с Apple» стоит на экране входа рядом со входом по почте."
-      },
-      "activate": true
-    },
-    {
       "key": "associateddomains",
       "plist": "com.apple.developer.associated-domains",
       "feature": "Приглашение в род и ссылка на публикацию открываются прямо в приложении",
@@ -613,111 +594,38 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход по почте",
+      "title": "Регистрация по почте",
       "type": "старт, без таб-бара",
       "light": true,
-      "meta": "Первый экран · вход по почте и с Apple",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
         "navigation": "push",
-        "purpose": "Объяснить, зачем роду вход, и получить адрес почты",
-        "primaryAction": "Продолжить с почтой",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
         "hierarchy": {
-          "primary": "Причина войти и поле почты",
-          "secondary": "Вход с Apple, правовая строка и три ссылки"
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
         },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
           {
             "kind": "typical",
-            "example": "Адрес подставлен из прошлой сессии"
+            "example": "Корректный адрес электронной почты"
           },
           {
             "kind": "stress",
-            "example": "Длинный адрес на кириллическом домене"
+            "example": "Длинный адрес на локализованном домене"
           },
           {
             "kind": "failure",
-            "example": "Адрес без собаки или недоступная почта"
-          }
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из письма",
-      "type": "push",
-      "light": true,
-      "meta": "OTP · четыре цифры",
-      "parent": "phone",
-      "ui": {
-        "pattern": "auth",
-        "navigation": "push",
-        "purpose": "Подтвердить адрес четырёхзначным кодом",
-        "primaryAction": "Войти",
-        "hierarchy": {
-          "primary": "Четыре ячейки кода",
-          "secondary": "Повторная отправка и смена адреса"
-        },
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          {
-            "kind": "typical",
-            "example": "Код подставлен автоматически"
-          },
-          {
-            "kind": "stress",
-            "example": "Повтор через 00:42 и длинный адрес в подписи"
-          },
-          {
-            "kind": "failure",
-            "example": "Код неверный или просрочен"
-          }
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
-      "light": true,
-      "meta": "Ошибка ввода",
-      "parent": "code",
-      "ui": {
-        "pattern": "state",
-        "navigation": "push",
-        "purpose": "Показать ошибку кода и путь дальше",
-        "primaryAction": "Ввести заново",
-        "hierarchy": {
-          "primary": "Сообщение об ошибке",
-          "secondary": "Повторная отправка кода"
-        },
-        "states": [
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          {
-            "kind": "typical",
-            "example": "Одна ошибка ввода кода из письма"
-          },
-          {
-            "kind": "stress",
-            "example": "Третья попытка подряд с блокировкой на минуту"
-          },
-          {
-            "kind": "failure",
-            "example": "Письмо не пришло вовсе"
+            "example": "Адрес уже занят, введён неверно или сеть недоступна"
           }
         ]
       }
@@ -739,7 +647,10 @@
         },
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -777,6 +688,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -814,7 +729,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -850,9 +769,12 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
-          "success",
-          "denied"
+          "offline",
+          "denied",
+          "success"
         ],
         "density": "medium",
         "contentCases": [
@@ -889,6 +811,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -926,6 +852,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -963,7 +893,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -1000,7 +933,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1036,7 +973,12 @@
           "secondary": "Кто отвечал, когда и что процитировал"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1072,7 +1014,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1109,6 +1055,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -1146,6 +1096,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -1182,7 +1136,12 @@
           "secondary": "Микрофон, динамик и завершение"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1218,7 +1177,12 @@
           "secondary": "Принять и отклонить"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1254,7 +1218,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1292,7 +1260,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1328,7 +1299,12 @@
           "secondary": "Пауза и перемотка ±15 секунд"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1364,7 +1340,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1401,7 +1381,10 @@
         },
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -1439,7 +1422,11 @@
         },
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1475,7 +1462,12 @@
           "secondary": "Кто ещё не в приложении и где ветвь обрывается"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1512,6 +1504,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -1549,6 +1545,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -1586,7 +1586,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -1625,7 +1628,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -1662,7 +1668,10 @@
         },
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -1699,7 +1708,12 @@
           "secondary": "Фоновые задачи, разбор архива и выход из аккаунта"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -1736,7 +1750,11 @@
         },
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -1761,12 +1779,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Тридцать экранов и все 21 доступ набора",
+      "note": "29 экранов и 20 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "feed",
         "post",
         "films",
@@ -1795,22 +1811,23 @@
         "notif",
         "settings",
         "invite"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "feed"
     },
     {
       "id": "signin",
-      "label": "Вход в род",
-      "note": "Почта, код письмом и вход с Apple",
+      "label": "Регистрация по почте",
+      "note": "Создание аккаунта по почте и сразу переход в продукт",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "feed"
       ],
       "stops": [
         "feed"
-      ]
+      ],
+      "authTarget": "feed"
     },
     {
       "id": "publish",
@@ -1839,7 +1856,8 @@
         "voice",
         "call",
         "lockscreen"
-      ]
+      ],
+      "stops": []
     },
     {
       "id": "archive",
@@ -1919,8 +1937,8 @@
   ],
   "backendless": [
     {
-      "needs": "Аккаунты, вход по почте и вход с Apple",
-      "solution": "SDK провайдера аутентификации: код в письме и ASAuthorization, серверного обработчика нет"
+      "needs": "Регистрация по почте и сессия",
+      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
     },
     {
       "needs": "Лента рода, обсуждения и сообщения между людьми",
@@ -2075,9 +2093,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "review@rodnya.app",
-      "code": "0000",
-      "note": "Вход по почте: тестовый адрес принимает любой код, письмо не отправляется. Кнопка «Войти с Apple» ведёт в тот же тестовый род. В роду 23 участника и заполненный архив."
+      "email": "review@rodnya.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "feed"
   }
 }

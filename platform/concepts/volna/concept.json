@@ -22,7 +22,7 @@
       "Источник: FileManager + bundled demo pack; сохранённые треки и волны всегда работают в авиарежиме."
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "station",
       "result": "player"
     },
@@ -204,7 +204,7 @@
     "accentDark": "#0077FF",
     "fonts": "Inter:wght@400;500;600;700"
   },
-  "start": "home",
+  "start": "phone",
   "uiContractVersion": 3,
   "tabs": [
     {
@@ -303,6 +303,44 @@
   ],
   "screens": [
     {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Корректный адрес электронной почты"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный адрес на локализованном домене"
+          },
+          {
+            "kind": "failure",
+            "example": "Адрес уже занят, введён неверно или сеть недоступна"
+          }
+        ]
+      }
+    },
+    {
       "id": "home",
       "title": "Главное",
       "type": "tab root",
@@ -319,10 +357,11 @@
         },
         "states": [
           "default",
-          "empty",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -358,10 +397,11 @@
         },
         "states": [
           "default",
-          "empty",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -397,10 +437,11 @@
         },
         "states": [
           "default",
-          "empty",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -438,8 +479,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -477,8 +520,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -516,8 +561,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -555,8 +602,10 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -593,10 +642,11 @@
         },
         "states": [
           "default",
-          "empty",
           "loading",
+          "empty",
           "error",
-          "offline"
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -632,7 +682,12 @@
           "secondary": "Время, источник ассета и возврат в плеер"
         },
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -670,9 +725,11 @@
         "states": [
           "default",
           "loading",
+          "empty",
           "error",
-          "success",
-          "denied"
+          "offline",
+          "denied",
+          "success"
         ],
         "density": "medium",
         "contentCases": [
@@ -697,9 +754,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "10 экранов, локальный music service и background audio",
-      "start": "home",
+      "note": "11 экранов и 4 доступов",
+      "start": "phone",
       "screens": [
+        "phone",
         "home",
         "search",
         "library",
@@ -710,7 +768,9 @@
         "queue",
         "background",
         "import"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "home"
     },
     {
       "id": "listen",
@@ -832,9 +892,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "Не требуется",
-      "code": "Нет входа",
-      "note": "Приложение открывается сразу на главной. Bundled demo pack доступен без сети и аккаунта."
+      "email": "review@volna.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "home"
   }
 }

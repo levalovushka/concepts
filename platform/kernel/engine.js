@@ -584,6 +584,41 @@
     if (document.getElementById('tab-' + h)) openTab(h);
   }
 
+  /* Документы читаются в той же вкладке: прямые ссылки на .md браузер
+     показывал как сырой текст и вырывал пользователя из лаунчера. */
+  var docsNav = document.querySelector('.docs-links');
+  function openDoc(id, anchor) {
+    var next = document.querySelector('[data-doc-view="' + id + '"]');
+    if (!next) return;
+    document.querySelectorAll('[data-doc-view]').forEach(function (article) {
+      var active = article === next;
+      article.classList.toggle('is-on', active);
+      article.setAttribute('aria-hidden', String(!active));
+    });
+    docsNav.querySelectorAll('[data-doc]').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(button.dataset.doc === id));
+    });
+    if (anchor) {
+      var target = next.querySelector('#' + CSS.escape(anchor));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+  if (docsNav) {
+    docsNav.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-doc]');
+      if (!button) return;
+      openDoc(button.dataset.doc);
+    });
+    document.querySelector('.docs-reader').addEventListener('click', function (event) {
+      var link = event.target.closest('a[href^="#doc-"]');
+      if (!link) return;
+      event.preventDefault();
+      var value = link.getAttribute('href').slice(5);
+      var match = value.match(/^(\d{2}-[a-z0-9-]+?)(?:-(.+))?$/i);
+      if (match) openDoc(match[1], match[2]);
+    });
+  }
+
   /* —— галерея экранов —— */
   var gallery = document.getElementById('shot-grid');
   if (gallery) {

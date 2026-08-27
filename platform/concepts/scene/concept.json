@@ -23,7 +23,7 @@
       "Ближайшие выступления и площадки рядом"
     ],
     "verticalSlice": {
-      "entry": "home",
+      "entry": "phone",
       "action": "watch",
       "result": "moment"
     },
@@ -282,72 +282,30 @@
   "screens": [
     {
       "id": "phone",
-      "title": "Вход",
-      "type": "старт",
-      "light": false,
-      "meta": "Номер телефона",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Войти и синхронизировать подписки",
-        "primaryAction": "Продолжить",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "Корректный номер",
-          "Ошибка формата",
-          "Медленный ответ"
-        ]
-      }
-    },
-    {
-      "id": "code",
-      "title": "Код из SMS",
-      "type": "push",
-      "light": false,
-      "parent": "phone",
-      "meta": "OTP",
-      "ui": {
-        "pattern": "auth",
-        "purpose": "Подтвердить номер",
-        "primaryAction": "Войти",
-        "states": [
-          "default",
-          "loading",
-          "error"
-        ],
-        "density": "low",
-        "contentCases": [
-          "Код пришёл",
-          "Неверный код",
-          "Повторная отправка"
-        ]
-      }
-    },
-    {
-      "id": "codefail",
-      "title": "Неверный код",
-      "type": "push",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
       "light": true,
-      "parent": "code",
-      "meta": "Состояние ошибки OTP",
+      "meta": "Почта · без OTP и подтверждения",
       "ui": {
         "pattern": "auth",
-        "purpose": "Показать ошибку кода",
-        "primaryAction": "Войти",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
         "states": [
           "default",
           "loading",
+          "empty",
           "error"
         ],
         "density": "low",
         "contentCases": [
-          "Код неверен",
-          "Повторная отправка",
-          "Ввод нового кода"
+          "Корректный адрес электронной почты",
+          "Длинный адрес на локализованном домене",
+          "Адрес уже занят, введён неверно или сеть недоступна"
         ]
       }
     },
@@ -356,7 +314,7 @@
       "title": "Бесплатный просмотр",
       "type": "onboarding",
       "light": false,
-      "parent": "code",
+      "parent": "phone",
       "meta": "ATT",
       "ui": {
         "pattern": "task",
@@ -364,7 +322,11 @@
         "primaryAction": "Смотреть бесплатно",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -386,7 +348,10 @@
         "primaryAction": "Маяк: свет остаётся",
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "high",
@@ -410,7 +375,10 @@
         "primaryAction": "Ада Мороз",
         "states": [
           "default",
+          "loading",
           "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "medium",
@@ -435,7 +403,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -457,7 +428,12 @@
         "purpose": "Сохранить точный музыкальный момент",
         "primaryAction": "Сохранить в Фото",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -479,7 +455,12 @@
         "purpose": "Продолжить слушать концерт",
         "primaryAction": "Маяк: свет остаётся",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -501,7 +482,12 @@
         "purpose": "Выбрать экран для просмотра",
         "primaryAction": "Продолжить на iPhone",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -524,7 +510,11 @@
         "primaryAction": "Открыть в «Сцене»",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -547,7 +537,10 @@
         "states": [
           "default",
           "loading",
-          "error"
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -570,7 +563,11 @@
         "primaryAction": "Снять клип",
         "states": [
           "default",
-          "error"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "low",
         "contentCases": [
@@ -593,6 +590,10 @@
         "primaryAction": null,
         "states": [
           "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
           "denied"
         ],
         "density": "low",
@@ -615,7 +616,12 @@
         "purpose": "Выбрать готовую запись",
         "primaryAction": "Далее",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -638,7 +644,11 @@
         "primaryAction": "Опубликовать клип",
         "states": [
           "default",
+          "loading",
+          "empty",
           "error",
+          "offline",
+          "denied",
           "success"
         ],
         "density": "medium",
@@ -661,7 +671,11 @@
         "primaryAction": "Напоминания о премьерах",
         "states": [
           "default",
-          "empty"
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -683,7 +697,12 @@
         "purpose": "Открыть выступления артиста",
         "primaryAction": "Подписаться",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "high",
         "contentCases": [
@@ -704,7 +723,12 @@
         "purpose": "Управлять просмотренным и сохранённым",
         "primaryAction": "Сохранённые моменты",
         "states": [
-          "default"
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
         ],
         "density": "medium",
         "contentCases": [
@@ -720,12 +744,10 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "Четыре раздела и все десять доступов",
+      "note": "17 экранов и 10 доступов",
       "start": "phone",
       "screens": [
         "phone",
-        "code",
-        "codefail",
         "ads",
         "home",
         "nearby",
@@ -742,7 +764,9 @@
         "subscriptions",
         "artist",
         "profile"
-      ]
+      ],
+      "stops": [],
+      "authTarget": "ads"
     },
     {
       "id": "concert",
@@ -936,9 +960,14 @@
       }
     ],
     "reviewAccount": {
-      "phone": "+7 900 000-00-00",
-      "code": "0000",
-      "note": "Тестовый номер принимает 0000."
+      "email": "review@scene.app",
+      "password": "review2026",
+      "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
     }
+  },
+  "auth": {
+    "mode": "email",
+    "confirmation": false,
+    "entryTarget": "ads"
   }
 }
