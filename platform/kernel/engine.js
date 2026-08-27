@@ -73,6 +73,7 @@
     var ask = root.querySelector('.sysask');
     var snackbar = root.querySelector('.snackbar');
     var statusbar = root.querySelector('.status');
+    var preview = root.querySelector('.prototype-state');
     /* Журнал: полный на Overview, компактный счётчик на карточке сценария. */
     var ledgerHost = root.dataset.ledger ? document.getElementById(root.dataset.ledger) : null;
     var counter = root.parentNode.querySelector('.proto-count');
@@ -83,6 +84,26 @@
     var seq = 0;
     var snackShown = {};
     var snackTimer = null;
+    var previewState = 'default';
+
+    var PREVIEW_COPY = {
+      empty: {
+        form: ['Форма пока пуста', 'Заполните обязательные поля, чтобы продолжить.', 'Заполнить', '#i-file-text'],
+        content: ['Здесь пока пусто', 'Первый объект появится после главного действия экрана.', 'Начать', '#i-file-text']
+      },
+      error: {
+        form: ['Не удалось сохранить', 'Проверьте введённые данные. Всё заполненное осталось в форме.', 'Проверить', '#i-circle-alert'],
+        content: ['Не удалось загрузить', 'Что-то пошло не так. Повторите запрос — текущий экран и стек навигации сохранятся.', 'Повторить', '#i-circle-alert']
+      },
+      offline: {
+        form: ['Нет подключения', 'Данные формы сохранены. Попробуем отправить их, когда сеть вернётся.', 'Повторить', '#i-wifi'],
+        content: ['Вы не в сети', 'Показываем то, что уже есть на устройстве. Новые данные загрузятся после подключения.', 'Обновить', '#i-wifi']
+      },
+      permission: {
+        form: ['Нужен доступ', 'Без разрешения нельзя добавить эти данные. Остальные поля и ручной ввод доступны.', 'Открыть настройки', '#i-lock'],
+        content: ['Разрешите доступ', 'Этому экрану нужно системное разрешение. Если отказать, останется доступен ручной сценарий.', 'Открыть настройки', '#i-lock']
+      }
+    };
 
     function parentOf(id) { return presentedFrom[id] || PARENT[id] || null; }
     function has(id) { return !!screens.querySelector('#' + root.id + '-' + id); }
@@ -90,6 +111,29 @@
     function curId() {
       var on = screens.querySelector('.screen.is-on');
       return on ? on.dataset.screen : '';
+    }
+    function setPreviewState(nextState) {
+      previewState = nextState || 'default';
+      if (!preview) return;
+      var current = screens.querySelector('.screen.is-on');
+      var isForm = !!current && (current.dataset.pattern === 'auth' || !!current.querySelector('input, textarea, select, form, [contenteditable]'));
+      preview.classList.toggle('is-on', previewState !== 'default');
+      preview.classList.toggle('is-form', isForm);
+      preview.dataset.state = previewState;
+      preview.setAttribute('aria-hidden', String(previewState === 'default'));
+      if (previewState !== 'default' && previewState !== 'loading') {
+        var copy = PREVIEW_COPY[previewState][isForm ? 'form' : 'content'];
+        preview.querySelector('h2').textContent = copy[0];
+        preview.querySelector('p').textContent = copy[1];
+        preview.querySelector('[data-state-retry]').textContent = copy[2];
+        preview.querySelector('.prototype-state-icon use').setAttribute('href', copy[3]);
+      }
+      var controls = root.parentNode.querySelector(':scope > .controls');
+      if (controls) controls.querySelectorAll('[data-state]').forEach(function (button) {
+        var on = button.dataset.state === previewState;
+        button.classList.toggle('is-on', on);
+        button.setAttribute('aria-pressed', String(on));
+      });
     }
     /* id — предок ofId по цепочке презентаций / PARENT. */
     function isAncestor(id, ofId) {
@@ -162,6 +206,7 @@
       next.classList.add('is-on');
       if (statusbar) statusbar.classList.toggle('dark-ink', !!LIGHT[id]);
       syncPermUI();
+      if (previewState !== 'default') setPreviewState(previewState);
     }
     /**
      * Показать экран. opts.back — возврат по IA (не записывает презентера).
@@ -377,6 +422,7 @@
       ask.classList.remove('is-on');
       clearTimeout(snackTimer);
       snackbar.classList.remove('is-on');
+      setPreviewState('default');
       renderPerms();
       show(start, { back: true });
     }
@@ -389,12 +435,19 @@
     if (controls) controls.addEventListener('click', function (e) {
       var btn = e.target.closest('button');
       if (!btn) return;
+      if (btn.dataset.state) { setPreviewState(btn.dataset.state); return; }
       if (btn.dataset.act === 'reset') reset();
       if (btn.dataset.act === 'hints') {
         var on = btn.getAttribute('aria-pressed') === 'true';
         btn.setAttribute('aria-pressed', String(!on));
         root.classList.toggle('hints', !on);
       }
+    });
+    if (preview) preview.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-state-retry]')) return;
+      var wasPermission = previewState === 'permission';
+      setPreviewState('default');
+      toast(wasPermission ? 'Открыты Настройки iOS' : 'Повторяем', true);
     });
 
     /* Стартовое состояние задаёт движок, а не класс, зашитый в разметку экрана. */

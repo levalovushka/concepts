@@ -395,10 +395,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 /* flex:none — иначе при height:auto у .sheet тело схлопывается в 0 */
 .sheet-body { flex:none; overflow:auto; padding:0 16px 16px; position:relative; z-index:2; max-height:min(560px, 70vh); }
 .sheet-body.tight-top { padding-top:0; }
-/* Шторка на сетке экрана. Без модификатора тело шторки добавляет своё поле 16,
-   и всё внутри съезжает: заголовок встаёт на 32 вместо 16, текст строки — на 86
-   вместо 70. С .flush карточки и шапка идут от края, как на обычном экране, а
-   поле 16 остаётся только у служебных блоков ядра. */
+/* Шторка на сетке экрана: служебные блоки держат свои 16px, а контент
+   восстановленных OK-концептов не получает двойной боковой padding. */
 .sheet-body.flush { padding-inline:0; }
 .sheet-body.flush > .searchfield,
 .sheet-body.flush > .home-grid,
@@ -501,6 +499,35 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .ctl { font:500 13px/1 var(--face); letter-spacing:-.01em; padding:9px 14px; border-radius:var(--r-control); border:1px solid var(--page-line); background:var(--page-card); color:var(--page-ink-dim); cursor:pointer; transition:border-color 120ms, color 120ms; }
 .ctl:hover { border-color:var(--page-ink); color:var(--page-ink); }
 .ctl[aria-pressed="true"] { background:var(--page-ink); border-color:var(--page-ink); color:var(--page-bg); }
+.state-controls { flex-basis:100%; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px; margin-top:2px; }
+.state-controls > span { margin-right:2px; font:500 11px/1 var(--mono); color:var(--page-ink-mute); text-transform:uppercase; letter-spacing:.04em; }
+.state-controls .ctl { padding:7px 10px; font-size:12px; }
+
+/* Общие loading / empty / error / offline / permission для всех прототипов. */
+.prototype-state { position:absolute; inset:var(--safe-top) 0 0; z-index:25; display:none; align-items:center; justify-content:center; padding:24px; background:var(--background); color:var(--label); }
+.prototype-state.is-on { display:flex; }
+.prototype-state.is-form:not([data-state="loading"]):not([data-state="empty"]) { align-items:flex-start; padding-top:148px; background:linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.72)); backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); }
+.prototype-state-card { width:100%; max-width:300px; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.prototype-state.is-form .prototype-state-card { padding:18px; border-radius:16px; background:rgba(255,255,255,.96); box-shadow:0 12px 38px rgba(0,0,0,.16); }
+.prototype-state-icon { width:58px; height:58px; display:grid; place-items:center; border-radius:18px; background:color-mix(in srgb,var(--accent-fill) 12%,#fff); color:var(--accent-fill); }
+.prototype-state-icon .ico-svg { width:28px; height:28px; }
+.prototype-state h2 { margin-top:16px!important; font:700 24px/29px var(--face)!important; letter-spacing:-.03em; }
+.prototype-state p { max-width:29ch; margin-top:7px!important; font:400 15px/21px var(--face)!important; color:var(--ios-secondary); text-wrap:balance; }
+.prototype-state .btn-filled { min-width:164px; min-height:48px; margin-top:22px; border:0; }
+.prototype-state[data-state="empty"] .prototype-state-icon { color:var(--ios-secondary); background:rgba(118,118,128,.12); }
+.prototype-state[data-state="error"] .prototype-state-icon { color:#d70015; background:rgba(255,59,48,.12); }
+.prototype-state[data-state="offline"] .prototype-state-icon { color:#8e8e93; background:rgba(118,118,128,.12); }
+.prototype-state[data-state="permission"] .prototype-state-icon { color:#ff9500; background:rgba(255,149,0,.14); }
+.prototype-state[data-state="loading"] .prototype-state-card { display:none; }
+.prototype-state-loading { display:none; width:100%; max-width:310px; }
+.prototype-state[data-state="loading"] .prototype-state-loading { display:grid; gap:12px; }
+.prototype-state-loading span { display:block; height:16px; border-radius:8px; background:linear-gradient(90deg,rgba(118,118,128,.10),rgba(118,118,128,.22),rgba(118,118,128,.10)); background-size:220% 100%; animation:prototype-shimmer 1.25s ease-in-out infinite; }
+.prototype-state-loading span:first-child { width:54%; height:32px; margin-bottom:8px; }
+.prototype-state-loading span:nth-child(2) { width:92%; }
+.prototype-state-loading span:nth-child(3) { width:72%; }
+.prototype-state-loading span:nth-child(4) { height:112px; margin-top:12px; }
+.prototype-state-loading span:nth-child(5) { width:66%; }
+@keyframes prototype-shimmer { to { background-position:-220% 0; } }
 .ledger { border:1px solid var(--page-line); border-radius:var(--r-card); background:var(--page-card); overflow:hidden; }
 .overview-hero .ledger { border-radius:var(--r-card); }
 .perm { display:grid; grid-template-columns:1fr auto; gap:2px 12px; align-items:center; padding:9px 14px; border-bottom:1px solid var(--page-line-soft); transition:background 120ms; }
@@ -514,7 +541,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .perm[data-state="granted"] { background:color-mix(in srgb, var(--accent) 6%, transparent); }
 .perm[data-state="granted"] .perm-state { color:var(--accent); }
 .perm[data-state="denied"] .perm-state { color:var(--refused); }
-/* —— вход по номеру телефона: всегда первые экраны концепта ——
+/* —— регистрация по почте: всегда первый экран концепта ——
    Один макет на все концепты (Figma → Stub / 37:989). Концепт подставляет
    только название и accent: расхождения во входе читаются как разные продукты,
    склеенные вместе, — а это первое, что видит и ревьюер, и пользователь. */
@@ -562,12 +589,15 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 }
 .auth-links .auth-link:active { opacity:.55; }
 
-/* Вход по почте: часть концептов дорожит тем, что профиль переживает смену
-   телефона, — им нужен адрес, код в письме и кнопка провайдера. Разметка та же,
-   что у входа по номеру: меняется поле и добавляется вторая кнопка. */
+/* Почта и пароль создают аккаунт сразу: OTP и подтверждение почты нет. */
 .auth-field.is-mail { min-height:64px; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; padding:10px 14px; }
 .auth-mail-label { font:400 12px/16px var(--face); color:var(--ios-secondary); }
 .auth-mail-value { font:400 17px/22px var(--face); color:#000; letter-spacing:-.1px; }
+.auth-mail-input { width:100%; min-width:0; padding:0; border:0; outline:0; background:transparent; color:#000; font:400 17px/22px var(--face); letter-spacing:-.1px; }
+.auth-email-input { grid-column:1 / -1; min-width:0; }
+.auth-password-field { margin-top:10px; }
+.email-registration { background:#fff; }
+.email-registration .email-registration-primary { color:#000; }
 .auth-google { width:100%; min-height:56px; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:10px; }
 .auth-google-mark {
   width:20px; height:20px; border-radius:50%; flex:none;

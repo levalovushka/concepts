@@ -10,10 +10,12 @@
 import { chromium } from 'playwright';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { DIST, readSpec, listConcepts } from './lib.mjs';
+import { DIST, readSpec, readMarkup, listConcepts } from './lib.mjs';
+import { prepareEmailRegistration } from './build.mjs';
 
 async function run(slug) {
-  const spec = readSpec(slug);
+  const sourceSpec = readSpec(slug);
+  const spec = prepareEmailRegistration(sourceSpec, readMarkup(slug, sourceSpec)).spec;
   const file = join(DIST, slug, 'index.html');
   if (!existsSync(file)) throw new Error(`${slug}: сначала соберите — node scripts/build.mjs ${slug}`);
 
@@ -44,6 +46,11 @@ async function run(slug) {
   ok(`старт = ${spec.start}`, (await cur()) === spec.start);
   ok('журнал пуст на старте', (await page.$$('#perms .perm:not([data-state="idle"])')).length === 0);
   ok('на старте нет промпта', !(await alertOn()));
+  const externalAuth = await page.evaluate((h) => {
+    const auth = document.querySelector(h + ' [data-screen="phone"]');
+    return !!auth?.querySelector('[class*="google"], .auth-apple, [data-activate^="applesignin|"]');
+  }, H);
+  ok('регистрация предлагает только почту', !externalAuth && !spec.permissions.some((p) => p.key === 'applesignin'));
 
   const missing = await page.evaluate(
     ({ ids, h }) => ids.filter((id) => !document.querySelector(h + ` [data-screen="${id}"]`)),

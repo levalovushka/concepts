@@ -17,6 +17,169 @@ import { archetypeFor } from './concept-quality.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
 
+/*
+ * Единый auth-контракт HTML-прототипов. Старые phone → code →
+ * codefail больше не попадают в сборку. `auth.entryTarget` в concept.json
+ * задаёт первый экран после создания аккаунта.
+ */
+const LEGACY_AUTH = new Set(['code', 'codefail']);
+
+const firstGoOutsideAuth = (html = '') => [...html.matchAll(/data-go="([a-z]+)"/g)]
+  .map((match) => match[1]).find((id) => !LEGACY_AUTH.has(id) && id !== 'phone');
+
+const emailRegistrationScreen = (spec, target) => {
+  return `<div class="screen ios-surface email-registration" id="scr-phone" data-pattern="auth">
+  <div class="auth">
+    <div class="auth-mark" aria-hidden="true"><svg class="ico-svg"><use href="#i-mail"/></svg></div>
+    <h1 class="auth-title">Создать аккаунт</h1>
+    <p class="auth-lede">Введите почту. Аккаунт создастся сразу, без OTP и подтверждения адреса.</p>
+    <label class="auth-field is-mail">
+      <span class="auth-mail-label">Электронная почта</span>
+      <input class="auth-mail-input" type="email" value="alex@inbox.ru" autocomplete="email" aria-label="Электронная почта">
+    </label>
+    <p class="auth-hint">На этот адрес не нужно ждать письмо.</p>
+    <div class="auth-actions">
+      <button class="btn-filled tap email-registration-primary" data-primary data-go="${target}">Создать аккаунт</button>
+      <p class="auth-legal">Создавая аккаунт, вы принимаете пользовательское соглашение и политику конфиденциальности.</p>
+      <div class="auth-links">
+        <button class="auth-link" data-toast="Помощь · ${spec.slug}.app/help">Помощь</button>
+        <button class="auth-link" data-toast="Поддержка · support@${spec.slug}.app">Поддержка</button>
+        <button class="auth-link" data-toast="Соглашение · ${spec.slug}.app/terms">Пользовательское соглашение</button>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>`;
+};
+
+/* Меняем только семантику auth-формы, а её классы, композицию и брендовый
+   copy оставляем концепту. */
+function adaptRegistrationScreen(source, target) {
+  let out = source.replace(/id="scr-phone"/, 'id="scr-phone" data-pattern="auth"');
+  out = out.replace(/<(button|div)(?=[^>]*(?:class="[^"]*(?:google|auth-apple)[^"]*"|data-activate="applesignin\|[^"]+"))[^>]*>[\s\S]*?<\/\1>/gi, '');
+  out = out.replace(/<([a-z]+)([^>]*data-go="code"[^>]*)>[\s\S]*?<\/\1>/, (match, tag, attrs) => {
+    const clean = attrs.replace(/\sdata-go="code"/, '').replace(/\sdata-primary(?:="[^"]*")?/, '');
+    return `<${tag}${clean} data-primary data-go="${target}">Создать аккаунт</${tag}>`;
+  });
+  out = out
+    .replace(/<([a-z]+)([^>]*)>\s*\+7\s*<\/\1\s*>/g, '')
+    .replace(/type="tel"/g, 'type="email"')
+    .replace(/inputmode="tel"/g, 'inputmode="email"')
+    .replace(/type="text" value="\+?7?\s?900[^\"]*"/g, 'type="email" value="alex@inbox.ru"')
+    .replace(/value="900[^\"]*"/g, 'value="alex@inbox.ru"')
+    .replace(/\breadonly\b/g, '')
+    .replace(/aria-label="Номер телефона"/g, 'aria-label="Электронная почта"')
+    .replace(/<input([^>]*aria-label="Электронная почта"[^>]*)>/g, (match, attrs) => {
+      const next = /class="/.test(attrs)
+        ? attrs.replace(/class="([^"]*)"/, 'class="$1 auth-email-input"')
+        : `${attrs} class="auth-email-input"`;
+      return `<input${next}>`;
+    })
+    .replace(/Номер телефона/g, 'Электронная почта')
+    .replace(/\+7\s?900\s?123-45-67/g, 'alex@inbox.ru')
+    .replace(/900\s?123-45-67/g, 'alex@inbox.ru')
+    .replace(/701\s?456-21-08/g, 'alex@inbox.ru')
+    .replace(/marina(?:\.k)?@inbox\.ru|vlada@inbox\.ru/g, 'alex@inbox.ru')
+    .replace(/Пришлём код в (?:SMS|письме)\.[^<]*/g, 'Почта создаст аккаунт сразу, без OTP и подтверждения.')
+    .replace(/Код придёт письмом\.[^<]*/g, 'Аккаунт создастся сразу; письмо ждать не нужно.')
+    .replace(/Войдите по номеру/g, 'Создайте аккаунт по почте')
+    .replace(/Войдите по почте/g, 'Создайте аккаунт по почте')
+    .replace(/Войдите, чтобы/g, 'Создайте аккаунт, чтобы')
+    .replace(/Номер сохранит/g, 'Почта сохранит')
+    .replace(/Пришлём SMS\.[^<]*/g, 'Без OTP и подтверждения почты.')
+    .replace(/<h1([^>]*)>Вход<\/h1>/g, '<h1$1>Регистрация</h1>')
+    .replace(/Войдите в /g, 'Регистрация в ')
+    .replace(/Вход в «/g, 'Регистрация в «');
+  return out;
+}
+
+export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
+  const spec = structuredClone(sourceSpec);
+  const target = spec.auth?.entryTarget || firstGoOutsideAuth(sourceMarkup.code)
+    || (sourceSpec.start === 'phone' ? null : sourceSpec.start);
+  if (!target || !sourceSpec.screens.some((screen) => screen.id === target)) {
+    throw new Error(`${spec.slug}: auth.entryTarget не задан и не выводится из legacy auth`);
+  }
+  spec.auth = { mode: 'email', confirmation: false, entryTarget: target };
+  spec.permissions = spec.permissions.filter((permission) => permission.key !== 'applesignin');
+
+  const sourcePhone = spec.screens.find((screen) => screen.id === 'phone');
+  const phone = {
+    ...(sourcePhone || {}),
+    id: 'phone', title: 'Регистрация по почте', type: 'старт, без таб-бара', light: true,
+    meta: 'Почта · без OTP и подтверждения',
+    ui: {
+      pattern: 'auth', navigation: 'push', purpose: 'Создать аккаунт по почте без отдельного подтверждения',
+      primaryAction: 'Создать аккаунт',
+      hierarchy: { primary: 'Почта и создание аккаунта', secondary: 'Правовая строка, помощь и поддержка' },
+      states: ['default', 'loading', 'error', 'offline'], density: 'low',
+      contentCases: [
+        { kind: 'typical', example: 'Корректный адрес электронной почты' },
+        { kind: 'stress', example: 'Длинный адрес на локализованном домене' },
+        { kind: 'failure', example: 'Адрес уже занят, введён неверно или сеть недоступна' },
+      ],
+    },
+  };
+  spec.screens = spec.screens.filter((screen) => screen.id !== 'phone' && !LEGACY_AUTH.has(screen.id));
+  spec.screens.unshift(phone);
+  spec.screens.forEach((screen) => { if (LEGACY_AUTH.has(screen.parent)) screen.parent = 'phone'; });
+  spec.start = 'phone';
+
+  spec.permissions.forEach((permission) => {
+    if (LEGACY_AUTH.has(permission.screen)) permission.screen = 'phone';
+    if (LEGACY_AUTH.has(permission.target)) permission.target = target;
+  });
+
+  const replacement = (id) => LEGACY_AUTH.has(id) ? target : id;
+  if (spec.product?.verticalSlice) {
+    const slice = spec.product.verticalSlice;
+    slice.entry = 'phone'; slice.action = replacement(slice.action); slice.result = replacement(slice.result);
+    if (slice.action === slice.entry) slice.action = target;
+    if (slice.result === slice.action || slice.result === slice.entry) {
+      slice.result = spec.screens.find((screen) => ![slice.entry, slice.action].includes(screen.id))?.id || slice.result;
+    }
+  }
+  if (spec.positioning?.evidenceScreens) {
+    spec.positioning.evidenceScreens = [...new Set(spec.positioning.evidenceScreens.map(replacement))];
+    for (const screen of spec.screens) {
+      if (spec.positioning.evidenceScreens.length >= 3) break;
+      if (!spec.positioning.evidenceScreens.includes(screen.id)) spec.positioning.evidenceScreens.push(screen.id);
+    }
+  }
+  for (const row of spec.positioning?.referenceEvidence || []) row.screen = replacement(row.screen);
+
+  spec.prototypes = (spec.prototypes || []).map((prototype) => {
+    const remaining = (prototype.screens || []).filter((id) => id !== 'phone' && !LEGACY_AUTH.has(id));
+    const authTarget = LEGACY_AUTH.has(prototype.start) || prototype.start === 'phone' ? (remaining[0] || target) : prototype.start;
+    if (!remaining.includes(authTarget)) remaining.unshift(authTarget);
+    return { ...prototype, start: 'phone', authTarget, screens: ['phone', ...remaining], stops: (prototype.stops || []).filter((id) => !LEGACY_AUTH.has(id) && id !== 'phone') };
+  });
+  const prototypeShapes = new Set();
+  spec.prototypes = spec.prototypes.filter((prototype) => {
+    const shape = [...prototype.screens].sort().join('|');
+    if (prototypeShapes.has(shape)) return false;
+    prototypeShapes.add(shape);
+    return true;
+  });
+
+  if (spec.appStore?.privacy) spec.appStore.privacy.forEach((row) => {
+    if (/phone|SMS|номер телефона/i.test(`${row.type} ${row.apple} ${row.why}`)) {
+      row.type = 'Электронная почта'; row.apple = 'Contact Info → Email Address';
+      row.why = 'Регистрация и восстановление доступа через SDK провайдера аутентификации';
+    }
+  });
+  if (spec.appStore?.reviewAccount) spec.appStore.reviewAccount = {
+    email: `review@${spec.slug}.app`, password: 'review2026',
+    note: 'Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются.',
+  };
+
+  const markup = { ...sourceMarkup, phone: sourceMarkup.phone
+    ? adaptRegistrationScreen(sourceMarkup.phone, target)
+    : emailRegistrationScreen(spec, target) };
+  delete markup.code; delete markup.codefail;
+  return { spec, markup };
+}
+
 /* ——— генерируемые из спеки блоки страницы ——— */
 
 const permMatrix = (spec) => `<div class="table-wrap">
@@ -141,7 +304,11 @@ const brandCss = (b) => `
  * но никуда не ведут. Любая другая утечка за границы сценария — ошибка сборки.
  */
 function screenFor(proto, id, markup, own, isStop) {
-  let out = markup.replace(/id="scr-([a-z]+)"/, `id="pr-${proto}-$1" data-screen="$1"`);
+  let out = markup.replace(/id="scr-([a-z]+)"/, `id="pr-${proto.id}-$1" data-screen="$1"`);
+  if (id === 'phone' && proto.authTarget) {
+    out = out.replace(/data-go="[a-z]+"/g, `data-go="${proto.authTarget}"`)
+      .replace(/data-activate="applesignin\|[a-z]+"/g, `data-activate="applesignin|${proto.authTarget}"`);
+  }
   if (isStop) return asStop(out);
   if (!own) return out;
   return out.replace(/<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, (bar) =>
@@ -208,6 +375,16 @@ const deviceShell = (proto, screensHtml, ledgerId) => `<div class="device" id="p
           <div class="screens">
 ${screensHtml}
           </div>
+          <div class="prototype-state" aria-live="polite" aria-hidden="true">
+            <div class="prototype-state-loading" aria-label="Загрузка">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="prototype-state-card">
+              <span class="prototype-state-icon" aria-hidden="true"><svg class="ico-svg"><use href="#i-circle-alert"/></svg></span>
+              <h2></h2><p></p>
+              <button type="button" class="btn-filled" data-state-retry>Повторить</button>
+            </div>
+          </div>
           <div class="sysask">
             <div class="sysask-card" role="alertdialog" aria-modal="true">
               <div class="sysask-body">
@@ -232,15 +409,25 @@ ${screensHtml}
 const controls = `<div class="controls">
           <button class="ctl" type="button" data-act="hints" aria-pressed="false">Показать, что нажимается</button>
           <button class="ctl" type="button" data-act="reset">Начать заново</button>
+          <div class="state-controls" role="group" aria-label="Состояние экрана">
+            <span>Состояние</span>
+            <button class="ctl is-on" type="button" data-state="default" aria-pressed="true">Обычное</button>
+            <button class="ctl" type="button" data-state="loading" aria-pressed="false">Загрузка</button>
+            <button class="ctl" type="button" data-state="empty" aria-pressed="false">Пусто</button>
+            <button class="ctl" type="button" data-state="error" aria-pressed="false">Ошибка</button>
+            <button class="ctl" type="button" data-state="offline" aria-pressed="false">Офлайн</button>
+            <button class="ctl" type="button" data-state="permission" aria-pressed="false">Доступ</button>
+          </div>
         </div>`;
 
 /* ——— сборка ——— */
 
 export function build(slug, { outDir } = {}) {
-  const spec = readSpec(slug);
+  const sourceSpec = readSpec(slug);
   const dir = conceptDir(slug);
 
-  const markup = readMarkup(slug, spec);
+  const sourceMarkup = readMarkup(slug, sourceSpec);
+  const { spec, markup } = prepareEmailRegistration(sourceSpec, sourceMarkup);
   validateUiMarkup(spec, markup);
 
   /* Карта экранов — из тех же байтов, что прототип. Экран, в который не ведёт
@@ -267,13 +454,17 @@ export function build(slug, { outDir } = {}) {
     for (const id of p.screens) {
       if (!markup[id]) throw new Error(`${slug}/${p.id}: экрана ${id} нет в спеке`);
       if (stops.has(id)) continue;
-      const body = p.hero ? markup[id] : stripTabbar(markup[id]);
+      const bound = id === 'phone'
+        ? markup[id].replace(/data-go="[a-z]+"/g, `data-go="${p.authTarget}"`)
+          .replace(/data-activate="applesignin\|[a-z]+"/g, `data-activate="applesignin|${p.authTarget}"`)
+        : markup[id];
+      const body = p.hero ? bound : stripTabbar(bound);
       for (const t of targetsIn(body)) if (!own.has(t)) dangling.add(`${id}→${t}`);
     }
     if (dangling.size) throw new Error(`${slug}/${p.id}: переходы за пределы сценария — ${[...dangling].join(', ')}`);
   }
 
-  const heroDevice = deviceShell(hero, hero.screens.map((id) => screenFor(hero.id, id, markup[id])).join('\n\n'), 'perms')
+  const heroDevice = deviceShell(hero, hero.screens.map((id) => screenFor(hero, id, markup[id])).join('\n\n'), 'perms')
     + '\n        ' + controls;
 
   const protoCards = protos.filter((p) => p !== hero).map((p) => `<div class="proto-card">
@@ -281,7 +472,7 @@ export function build(slug, { outDir } = {}) {
           <div class="proto-label">${esc(p.label)}</div>
           <div class="proto-note">${esc(p.note || '')}</div>
         </div>
-        ${deviceShell(p, p.screens.map((id) => screenFor(p.id, id, markup[id], new Set(p.screens), (p.stops || []).includes(id))).join('\n\n'))}
+        ${deviceShell(p, p.screens.map((id) => screenFor(p, id, markup[id], new Set(p.screens), (p.stops || []).includes(id))).join('\n\n'))}
         <div class="proto-count is-zero">Доступы пока не запрашивались</div>
         ${controls}
       </div>`).join('\n      ');

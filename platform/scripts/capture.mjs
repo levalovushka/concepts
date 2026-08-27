@@ -2,9 +2,11 @@
    node scripts/capture.mjs petlya                     — все экраны
    node scripts/capture.mjs petlya scan yarn           — только указанные */
 import { chromium } from 'playwright';
-import { mkdir, readFile } from 'fs/promises';
+import { mkdir } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readSpec, readMarkup } from './lib.mjs';
+import { prepareEmailRegistration } from './build.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -12,7 +14,8 @@ const root = join(__dirname, '..');
 const [slug, ...only] = process.argv.slice(2);
 if (!slug) { console.error('нужен slug: node scripts/capture.mjs petlya'); process.exit(1); }
 
-const concept = JSON.parse(await readFile(join(root, 'concepts', slug, 'concept.json'), 'utf8'));
+const source = readSpec(slug);
+const concept = prepareEmailRegistration(source, readMarkup(slug, source)).spec;
 const light = Object.fromEntries(concept.screens.map((s) => [s.id, !!s.light]));
 /* Снимаем с геройского прототипа — в нём есть все экраны концепта. */
 const hero = (concept.prototypes || []).find((p) => p.hero) || (concept.prototypes || [])[0];

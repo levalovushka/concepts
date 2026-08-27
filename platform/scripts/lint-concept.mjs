@@ -9,8 +9,9 @@
  */
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { DIST, KERNEL, conceptDir, readSpec, listConcepts } from './lib.mjs';
+import { DIST, KERNEL, conceptDir, readSpec, readMarkup, listConcepts } from './lib.mjs';
 import { screenActions } from './screen-map.mjs';
+import { prepareEmailRegistration } from './build.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
 
@@ -50,7 +51,11 @@ function lintKernel() {
 }
 
 function lint(slug) {
-  const spec = readSpec(slug);
+  const sourceSpec = readSpec(slug);
+  const sourceMarkup = readMarkup(slug, sourceSpec);
+  const prepared = prepareEmailRegistration(sourceSpec, sourceMarkup);
+  const spec = prepared.spec;
+  const effectiveMarkup = prepared.markup;
   const dir = conceptDir(slug);
   const built = join(DIST, slug, 'index.html');
   const problems = [];
@@ -61,7 +66,8 @@ function lint(slug) {
 
   /* —— спека против разметки —— */
   /* Экран рендерится в каждый прототип, где он есть: id уникален на странице. */
-  const inHtml = new Set([...html.matchAll(/data-screen="([a-z-]+)"/g)].map((m) => m[1]));
+  const rendered = html.slice(html.indexOf('</style>'));
+  const inHtml = new Set([...rendered.matchAll(/data-screen="([a-z-]+)"/g)].map((m) => m[1]));
   for (const s of spec.screens) if (!inHtml.has(s.id)) P(`экран ${s.id} есть в спеке, но не в разметке`);
   for (const id of inHtml) if (!spec.screens.some((s) => s.id === id)) P(`экран ${id} есть в разметке, но не в спеке`);
   for (const p of spec.prototypes || []) {
@@ -86,7 +92,7 @@ function lint(slug) {
   const ownCss = existsSync(join(dir, 'styles.css')) ? read(join(dir, 'styles.css')) : '';
   /* Всё после стилей: разметка + движок. Классы вроде .dark-ink живут только
      в JS (classList.toggle), поэтому искать надо и там. */
-  const usage = html.slice(html.indexOf('</style>'));
+  const usage = html.slice(html.indexOf('</style>')) + '\n' + Object.values(sourceMarkup).join('\n');
   for (const c of classesIn(ownCss)) {
     if (!new RegExp('[\'"\\s.]' + c + '[\'"\\s.,{:\\]]').test(usage)) P(`мёртвый класс в styles.css: .${c}`);
   }
@@ -101,7 +107,7 @@ function lint(slug) {
   /* —— anti-slop contract новых концептов —— */
   if (spec.uiContractVersion >= 3 && spec.readiness?.status === 'reviewed') {
     for (const screen of spec.screens) {
-      const source = read(join(dir, 'screens', `${screen.id}.html`));
+      const source = effectiveMarkup[screen.id] || '';
       if (/\sstyle="/.test(source)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
       /* Фотографии и иллюстрации в концептах намеренно не производятся:
          обязательная поверхность для них — ядровой .ph. Визуальное правило
@@ -118,7 +124,7 @@ function lint(slug) {
   /* Навигационные шевроны — часть общего iOS chrome. Текстовые глифы и
      обычный ico-svg дают другую толщину и посадку. */
   for (const screen of spec.screens) {
-    const source = read(join(dir, 'screens', `${screen.id}.html`));
+    const source = effectiveMarkup[screen.id] || '';
     if (/[‹›❮❯〈〉＜＞]/.test(source)) P(`${screen.id}: текстовый шеврон запрещён — используйте SVG из ядра`);
     if (/<svg class="ico-svg"><use href="#i-chevron-left"\/><\/svg>/.test(source)) {
       P(`${screen.id}: back-chevron должен иметь класс .ios-back`);
@@ -138,12 +144,7 @@ function lint(slug) {
      разработке приходится лезть в разметку ровно за тем, что справка и должна
      была ответить. Поэтому подпись обязательна. */
   {
-    const markup = {};
-    for (const s of spec.screens) {
-      const f = join(dir, 'screens', `${s.id}.html`);
-      if (existsSync(f)) markup[s.id] = read(f);
-    }
-    for (const { screen, rows } of screenActions(spec, markup)) {
+    for (const { screen, rows } of screenActions(spec, effectiveMarkup)) {
       for (const r of rows) {
         const l = String(r.label || '').trim();
         if (!l || l.length < 3 || /^[\d\s·+\u2014-]+$/.test(l) || l === 'элемент экрана') {
@@ -181,9 +182,7 @@ function lint(slug) {
     const CHEVRE = /i-chevron-right|ios-disclosure|caret/;
     const ROWRE = /class="[^"]*\b(row|setting|nav-row|community-row|list-row|d-row|pm-row|tl-setting|td-nav-row|sk-project-row|lk-row)\b/;
     for (const screen of spec.screens) {
-      const file = join(dir, 'screens', `${screen.id}.html`);
-      if (!existsSync(file)) continue;
-      const html = read(file);
+      const html = effectiveMarkup[screen.id] || '';
       const found = []; const stack = [];
       let mm; TAGRE.lastIndex = 0;
       while ((mm = TAGRE.exec(html))) {
