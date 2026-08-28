@@ -32,31 +32,78 @@ const CONTENT_STATES = [...FORM_STATES, 'offline', 'denied'];
 const firstGoOutsideAuth = (html = '') => [...html.matchAll(/data-go="([a-z]+)"/g)]
   .map((match) => match[1]).find((id) => !LEGACY_AUTH.has(id) && id !== 'phone');
 
-const registrationIcon = (spec) => existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon.png'))
+const registrationIcon = (spec) => spec.iconPlaceholder
+  ? '<span class="auth-app-icon app-icon-placeholder"></span>'
+  : existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon.png'))
   ? '<img class="auth-app-icon" src="assets/app-icon.png" alt="">'
   : null;
 
-const authLegalFooter = (spec) => `<p class="auth-legal">Нажимая «Создать аккаунт», вы принимаете <button class="auth-legal-link" data-toast="Соглашение · ${spec.slug}.app/terms">пользовательское соглашение</button> и <button class="auth-legal-link" data-toast="Политика · ${spec.slug}.app/privacy">политику конфиденциальности</button>.</p><div class="auth-support"><button class="auth-support-link" data-toast="Справка · ${spec.slug}.app/help · support@${spec.slug}.app">Помощь и поддержка</button></div>`;
+const authLegalFooter = (spec) => {
+  const host = spec.domain || `${spec.slug}.app`;
+  return `<p class="auth-legal">Нажимая «Создать аккаунт», вы принимаете <button class="auth-legal-link" data-toast="Соглашение · ${host}/terms">пользовательское соглашение</button> и <button class="auth-legal-link" data-toast="Политика · ${host}/privacy">политику конфиденциальности</button>.</p><div class="auth-support"><button class="auth-support-link" data-toast="Справка · ${host}/help · support@${host}">Помощь и поддержка</button></div>`;
+};
 
-const emailRegistrationScreen = (spec, target) => {
-  const appIcon = registrationIcon(spec);
-  return `<div class="screen ios-surface email-registration" id="scr-phone" data-pattern="auth">
-  <div class="auth">
-    <div class="auth-mark" aria-hidden="true">${appIcon || '<svg class="ico-svg"><use href="#i-mail"/></svg>'}</div>
-    <h1 class="auth-title">Создать аккаунт</h1>
-    <p class="auth-lede">Введите почту. Аккаунт создастся сразу, без OTP и подтверждения адреса.</p>
-    <label class="auth-field is-mail">
-      <span class="auth-mail-label">Электронная почта</span>
-      <input class="auth-mail-input" type="email" value="alex@inbox.ru" autocomplete="email" aria-label="Электронная почта">
-    </label>
-    <p class="auth-hint">На этот адрес не нужно ждать письмо.</p>
-    <div class="auth-actions">
-      <button class="btn-filled tap email-registration-primary" data-primary data-go="${target}">Создать аккаунт</button>
-      ${authLegalFooter(spec)}
-    </div>
-  </div>
-  <div class="home-ind" aria-hidden="true"></div>
-</div>`;
+const authUsageFooter = (spec) => {
+  const host = spec.domain || `${spec.slug}.app`;
+  return `<p class="auth-legal">Продолжая, вы принимаете <button class="auth-legal-link" data-toast="Соглашение · ${host}/terms">пользовательское соглашение</button> и <button class="auth-legal-link" data-toast="Политика · ${host}/privacy">политику конфиденциальности</button>.</p>`;
+};
+
+const AUTH_SCREENS = ['phone', 'password', 'register', 'registerpassword', 'account', 'deleteaccount'];
+
+const authBack = '<button class="unified-auth-back tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Назад</span></button>';
+
+const authField = ({ label, type, value, autocomplete }) => `<label class="unified-auth-field">
+      <span>${label}</span>
+      <input type="${type}" value="${value}" autocomplete="${autocomplete}" aria-label="${label}">
+    </label>`;
+
+const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
+  const surface = light ? ' ios-surface' : '';
+  const inherited = sourceClasses.split(/\s+/).filter((name) => name && !['screen', 'is-on'].includes(name)).join(' ');
+  const rootClass = `screen unified-auth${surface}${inherited ? ` ${inherited}` : ''}`;
+  const icon = registrationIcon(spec) || '<span class="auth-app-icon app-icon-placeholder"></span>';
+  const phone = authField({ label: 'Номер телефона', type: 'tel', value: '+7 900 123-45-67', autocomplete: 'tel' });
+  const password = authField({ label: 'Пароль', type: 'password', value: 'sotki2026', autocomplete: 'current-password' });
+  const newPassword = authField({ label: 'Придумайте пароль', type: 'password', value: 'sotki2026', autocomplete: 'new-password' });
+  const host = spec.domain || `${spec.slug}.app`;
+  return {
+    phone: `<div class="${rootClass}" id="scr-phone" data-pattern="auth"><div class="unified-auth-body">
+      <div class="auth-mark" aria-hidden="true">${icon}</div>
+      <h1>С возвращением</h1>
+      <p class="unified-auth-lede">Введите номер телефона, чтобы продолжить в «${esc(spec.name)}».</p>
+      ${phone}
+      <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-go="password">Далее</button>
+      <button class="unified-auth-link tap" data-go="register">Нет аккаунта? Создать</button>
+      <button class="unified-auth-link tap" data-auth-target data-go="${target}">Продолжить без аккаунта</button>
+      ${authUsageFooter(spec)}</div>
+      <button class="unified-auth-help tap" data-toast="Справка · ${host}/help · support@${host}">Помощь и поддержка</button>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+    password: `<div class="${rootClass}" id="scr-password" data-pattern="auth"><div class="unified-auth-body">${authBack}
+      <h1>Пароль</h1><p class="unified-auth-lede">Аккаунт +7 900 123-45-67</p>${password}
+      <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-auth-target data-go="${target}">Войти</button>
+      <button class="unified-auth-link tap" data-toast="Ссылка для восстановления отправлена">Забыли пароль?</button></div>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+    register: `<div class="${rootClass}" id="scr-register" data-pattern="auth"><div class="unified-auth-body">${authBack}
+      <h1>Создать аккаунт</h1><p class="unified-auth-lede">Номер нужен для входа и восстановления доступа. Пользоваться приложением можно и без аккаунта.</p>${phone}
+      <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-go="registerpassword">Далее</button>
+      <button class="unified-auth-link tap" data-go="phone">Уже есть аккаунт? Войти</button></div>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+    registerpassword: `<div class="${rootClass}" id="scr-registerpassword" data-pattern="auth"><div class="unified-auth-body">${authBack}
+      <h1>Придумайте пароль</h1><p class="unified-auth-lede">Для аккаунта +7 900 123-45-67</p>${newPassword}
+      <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-auth-target data-go="${target}">Создать аккаунт</button>${authLegalFooter(spec)}</div>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+    account: `<div class="${rootClass}" id="scr-account"><div class="unified-auth-body">${authBack}
+      <h1>Аккаунт</h1><div class="unified-account-card"><div><span>Телефон</span><strong>+7 900 123-45-67</strong></div>
+      <button class="unified-auth-link tap" data-go="phone">Выйти</button>
+      <button class="unified-auth-danger tap" data-primary data-go="deleteaccount">Удалить аккаунт</button></div>
+      <p class="unified-auth-note">Без аккаунта основные функции приложения останутся доступны.</p>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+    deleteaccount: `<div class="${rootClass}" id="scr-deleteaccount"><div class="unified-auth-body">${authBack}
+      <h1>Удалить аккаунт?</h1><p class="unified-auth-lede">Профиль и связанные с ним данные будут удалены. Это действие нельзя отменить.</p>
+      <div class="unified-auth-actions"><button class="unified-delete-confirm tap" data-primary data-go="phone">Удалить аккаунт</button>
+      <button class="unified-auth-link tap" data-back>Отмена</button></div>
+    </div><div class="home-ind" aria-hidden="true"></div></div>`,
+  };
 };
 
 function installRegistrationIcon(source, spec) {
@@ -196,31 +243,47 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     throw new Error(`${spec.slug}: auth.entryTarget не задан и не выводится из legacy auth`);
   }
   spec.auth = {
-    mode: 'email', confirmation: false, entryTarget: target,
+    mode: 'phone-password', confirmation: false, optional: true, entryTarget: target,
+    accountDeletion: { available: true, confirmationRequired: true },
     scope: 'camouflage', targetServiceTransition: false,
     consent: { action: 'Создать аккаунт', documents: ['terms', 'privacy'], loggingRequired: true },
   };
   spec.permissions = spec.permissions.filter((permission) => permission.key !== 'applesignin');
 
   const sourcePhone = spec.screens.find((screen) => screen.id === 'phone');
-  const phone = {
-    ...(sourcePhone || {}),
-    id: 'phone', title: 'Регистрация по почте', type: 'старт, без таб-бара', light: true,
-    meta: 'Почта · без OTP и подтверждения',
+  const accountSurfaceId = ['settings', 'menu', 'profile'].find((id) => sourceSpec.screens.some((screen) => screen.id === id))
+    || (spec.slug === 'ptitsy' ? 'season' : spec.slug === 'volna' ? 'library' : null);
+  const darkAuth = new Set(['liga', 'radius', 'scene', 'set', 'shellac', 'strochka']);
+  const authLight = darkAuth.has(spec.slug) ? false : sourcePhone?.light ?? true;
+  const sourceAuthClasses = sourceMarkup.phone?.match(/<div class="([^"]*)"[^>]*id="scr-phone"/)?.[1] || '';
+  const cases = spec.uiContractVersion >= 3
+    ? [
+      { kind: 'typical', example: 'Корректный российский номер телефона' },
+      { kind: 'stress', example: 'Номер вставлен с пробелами и скобками' },
+      { kind: 'failure', example: 'Номер или пароль неверен либо сеть недоступна' },
+    ]
+    : ['Корректный российский номер телефона', 'Номер вставлен с пробелами и скобками', 'Номер или пароль неверен либо сеть недоступна'];
+  const authScreen = (id, title, purpose, primaryAction, parent = null) => ({
+    ...(id === 'phone' ? sourcePhone || {} : {}), id, title,
+    type: id === 'phone' ? 'старт, без таб-бара' : 'push, без таб-бара', light: authLight,
+    ...(parent ? { parent } : {}),
+    meta: 'Телефон и пароль · аккаунт опционален',
     ui: {
-      pattern: 'auth', navigation: 'push', purpose: 'Создать аккаунт по почте без отдельного подтверждения',
-      primaryAction: 'Создать аккаунт',
-      hierarchy: { primary: 'Почта и создание аккаунта', secondary: 'Правовая строка, помощь и поддержка' },
-      states: [...FORM_STATES], density: 'low',
-      contentCases: spec.uiContractVersion >= 3 ? [
-        { kind: 'typical', example: 'Корректный адрес электронной почты' },
-        { kind: 'stress', example: 'Длинный адрес на локализованном домене' },
-        { kind: 'failure', example: 'Адрес уже занят, введён неверно или сеть недоступна' },
-      ] : ['Корректный адрес электронной почты', 'Длинный адрес на локализованном домене', 'Адрес уже занят, введён неверно или сеть недоступна'],
+      pattern: id === 'account' || id === 'deleteaccount' ? 'account' : 'auth', navigation: 'push', purpose, primaryAction,
+      hierarchy: { primary: title, secondary: 'Альтернативное действие и понятный возврат' },
+      states: id === 'account' || id === 'deleteaccount' ? [...CONTENT_STATES] : [...FORM_STATES], density: 'low', contentCases: cases,
     },
-  };
-  spec.screens = spec.screens.filter((screen) => screen.id !== 'phone' && !LEGACY_AUTH.has(screen.id));
-  spec.screens.unshift(phone);
+  });
+  const generatedScreens = [
+    authScreen('phone', 'Вход по номеру', 'Ввести телефон или продолжить без аккаунта', 'Далее'),
+    authScreen('password', 'Пароль', 'Ввести пароль отдельно от номера телефона', 'Войти', 'phone'),
+    authScreen('register', 'Создать аккаунт', 'Начать отдельную ветку регистрации по номеру телефона', 'Далее', 'phone'),
+    authScreen('registerpassword', 'Пароль нового аккаунта', 'Создать пароль отдельно от ввода номера', 'Создать аккаунт', 'register'),
+    authScreen('account', 'Аккаунт', 'Управлять сессией и удалением аккаунта', 'Удалить аккаунт', 'password'),
+    authScreen('deleteaccount', 'Удаление аккаунта', 'Подтвердить необратимое удаление аккаунта', 'Удалить аккаунт', 'account'),
+  ];
+  spec.screens = spec.screens.filter((screen) => !AUTH_SCREENS.includes(screen.id) && !LEGACY_AUTH.has(screen.id));
+  spec.screens.unshift(...generatedScreens);
   spec.screens.forEach((screen) => { if (LEGACY_AUTH.has(screen.parent)) screen.parent = 'phone'; });
   spec.start = 'phone';
 
@@ -258,16 +321,20 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     const sourceScreens = prototype.screens || [];
     const startsWithAuth = prototype.start === 'phone' || LEGACY_AUTH.has(prototype.start);
     const carriesAuth = sourceScreens.some((id) => id === 'phone' || LEGACY_AUTH.has(id));
-    const remaining = sourceScreens.filter((id) => !LEGACY_AUTH.has(id));
-    const firstProductScreen = sourceScreens.find((id) => id !== 'phone' && !LEGACY_AUTH.has(id)) || target;
-    const authTarget = firstProductScreen;
+    let remaining = sourceScreens.filter((id) => !AUTH_SCREENS.includes(id) && !LEGACY_AUTH.has(id));
+    const firstProductScreen = remaining[0] || target;
 
     /* Полный продукт по-прежнему показывает cold start, отдельный auth-срез —
        регистрацию. Остальные сценарии сохраняют исходные старт и состав: экран
        регистрации не должен подменять «Публикацию», «Разговор» или «Архив». */
-    if (prototype.hero && !remaining.includes('phone')) remaining.unshift('phone');
-    const start = prototype.hero || startsWithAuth ? 'phone' : prototype.start;
-    if ((prototype.hero || startsWithAuth) && !remaining.includes('phone')) remaining.unshift('phone');
+    const carriesUnifiedAuth = prototype.hero || startsWithAuth || carriesAuth;
+    if (carriesUnifiedAuth) {
+      if (!remaining.includes(firstProductScreen)) remaining.push(firstProductScreen);
+      remaining.unshift(...AUTH_SCREENS);
+    } else if (accountSurfaceId && remaining.includes(accountSurfaceId)) {
+      remaining.push(...AUTH_SCREENS);
+    }
+    const start = carriesUnifiedAuth ? 'phone' : prototype.start;
 
     const normalized = {
       ...prototype,
@@ -275,13 +342,13 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
       screens: remaining,
       stops: (prototype.stops || []).filter((id) => !LEGACY_AUTH.has(id) && id !== 'phone'),
     };
-    if (remaining.includes('phone') || carriesAuth || prototype.hero) normalized.authTarget = authTarget;
+    if (carriesUnifiedAuth || (accountSurfaceId && remaining.includes(accountSurfaceId))) normalized.authTarget = firstProductScreen;
     if (prototype.hero) {
       normalized.note = `${spec.screens.length} экранов и ${spec.permissions.length} доступов`;
     }
     if (!prototype.hero && prototype.id === 'signin') {
-      normalized.label = 'Регистрация по почте';
-      normalized.note = 'Создание аккаунта по почте и сразу переход в продукт';
+      normalized.label = 'Вход и регистрация';
+      normalized.note = 'Телефон и пароль вводятся отдельно; аккаунт можно пропустить или удалить';
     }
     return normalized;
   });
@@ -293,20 +360,17 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     return true;
   });
 
-  if (spec.appStore?.privacy) spec.appStore.privacy.forEach((row) => {
-    if (/phone|SMS|номер телефона/i.test(`${row.type} ${row.apple} ${row.why}`)) {
-      row.type = 'Электронная почта'; row.apple = 'Contact Info → Email Address';
-      row.why = 'Регистрация и восстановление доступа через SDK провайдера аутентификации';
-    }
-  });
+  if (spec.appStore?.privacy && !spec.appStore.privacy.some((row) => /Phone Number/i.test(row.apple || ''))) {
+    spec.appStore.privacy.push({ type: 'Номер телефона', apple: 'Contact Info → Phone Number', linked: true, tracking: false, why: 'Опциональные вход, регистрация и восстановление доступа' });
+  }
   if (spec.appStore?.reviewAccount) spec.appStore.reviewAccount = {
-    email: `review@${spec.slug}.app`, password: 'review2026',
-    note: 'Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются.',
+    phone: '+7 900 123-45-67', password: 'review2026',
+    note: 'Телефон и пароль вводятся на разных экранах. Продукт доступен и через «Продолжить без аккаунта».',
   };
   for (const row of spec.backendless || []) {
     if (/вход|регистрац/i.test(row.needs || '')) {
-      row.needs = 'Регистрация по почте и сессия';
-      row.solution = 'SDK провайдера аутентификации по почте, токен в Keychain общей группы';
+      row.needs = 'Опциональные вход и регистрация по номеру телефона';
+      row.solution = 'SDK провайдера аутентификации, пароль и токен сессии в Keychain';
     }
   }
   for (const permission of spec.permissions || []) {
@@ -315,9 +379,48 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     }
   }
 
-  let markup = { ...sourceMarkup, phone: sourceMarkup.phone
-    ? adaptRegistrationScreen(sourceMarkup.phone, target, spec)
-    : emailRegistrationScreen(spec, target) };
+  let markup = { ...sourceMarkup, ...accountAuthScreens(spec, target, authLight, sourceAuthClasses) };
+  if (accountSurfaceId && markup[accountSurfaceId]) {
+    markup[accountSurfaceId] = markup[accountSurfaceId]
+      .replace(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi, '+7 900 123-45-67')
+      .replaceAll('вход по почте, код приходит письмом', 'вход по номеру и паролю')
+      .replaceAll('Вход с Apple привязан к этому аккаунту', 'Пароль можно изменить в управлении аккаунтом')
+      .replaceAll('Привязать вход с Apple', 'Изменить пароль')
+      .replaceAll('Вход с Apple', 'Пароль аккаунта')
+      .replaceAll('не привязан · привяжите, чтобы входить без письма', 'используется для входа после номера телефона')
+      .replaceAll('>Привязать<', '>Изменить<')
+      .replaceAll('#i-mail', '#i-phone')
+      .replaceAll('#i-apple', '#i-lock');
+    const accountEntry = `<section class="unified-settings-account" aria-label="Аккаунт"><div><span>Аккаунт</span><strong>+7 900 123-45-67</strong></div><button class="tap" data-go="account">Управление</button></section>`;
+    if (accountSurfaceId === 'settings' || accountSurfaceId === 'menu') {
+      markup[accountSurfaceId] = /<div class="body-scroll[^>]*>/.test(markup[accountSurfaceId])
+        ? markup[accountSurfaceId].replace(/(<div class="body-scroll[^>]*>)/, `$1${accountEntry}`)
+        : markup[accountSurfaceId].replace('<div class="home-ind"', `${accountEntry}<div class="home-ind"`);
+    } else if (accountSurfaceId === 'profile') {
+      markup.profile = markup.profile.replace(/<(button|div)([^>]*)>\s*<svg([^>]*)><use href="#i-settings"/, (match, tag, attrs, svgAttrs) => {
+        const clean = attrs.replace(/\sdata-toast="[^"]*"/, '').replace(/\sdata-go="[^"]*"/, '');
+        return `<${tag}${clean} data-go="account"><svg${svgAttrs}><use href="#i-settings"`;
+      });
+      markup.profile = markup.profile.replace(/<(button|div)([^>]*aria-label="Настройки"[^>]*)>/, (match, tag, attrs) => {
+        const clean = attrs.replace(/\sdata-toast="[^"]*"/, '').replace(/\sdata-go="[^"]*"/, '');
+        return `<${tag}${clean} data-go="account">`;
+      });
+      if (!/data-go="account"/.test(markup.profile)) markup.profile = markup.profile.replace('data-go="phone" aria-label=', 'data-go="account" aria-label=');
+      if (!/data-go="account"/.test(markup.profile) && /class="settings-list"/.test(markup.profile)) {
+        markup.profile = markup.profile.replace('<div class="settings-list">', '<div class="settings-list"><button data-go="account"><span class="setting-icon"><svg><use href="#i-user"/></svg></span><span><strong>Аккаунт</strong><small>Телефон, выход и удаление</small></span><svg><use href="#i-chevron-right"/></svg></button>');
+      }
+      if (!/data-go="account"/.test(markup.profile) && spec.slug === 'rasklad') {
+        markup.profile = markup.profile.replace('<div class="list-stack tight">', `<div class="list-stack tight">${accountEntry}`);
+      }
+      if (!/data-go="account"/.test(markup.profile) && spec.slug === 'seans') {
+        markup.profile = markup.profile.replace('</div>\n  </div>\n\n  <div class="body-scroll', '<div class="se-act tap" data-go="account" aria-label="Аккаунт"><svg class="ico-svg"><use href="#i-settings"/></svg></div></div>\n  </div>\n\n  <div class="body-scroll');
+      }
+    } else if (spec.slug === 'ptitsy') {
+      markup.season = markup.season.replace('<div class="icon-btn tap" data-go="releases"', '<div class="icon-btn tap" data-go="account" aria-label="Аккаунт"><svg class="ico-svg"><use href="#i-settings"/></svg></div><div class="icon-btn tap" data-go="releases"');
+    } else if (spec.slug === 'volna') {
+      markup.library = markup.library.replace('<button class="vl-icon tap" data-go="import"', '<button class="vl-icon tap" data-go="account" aria-label="Аккаунт"><svg><use href="#i-settings"/></svg></button><button class="vl-icon tap" data-go="import"');
+    }
+  }
   delete markup.code; delete markup.codefail;
   markup = applyLegalSafeguards(spec, markup);
 
@@ -471,10 +574,7 @@ const brandCss = (b) => `
  */
 function screenFor(proto, id, markup, own, isStop) {
   let out = markup.replace(/id="scr-([a-z]+)"/, `id="pr-${proto.id}-$1" data-screen="$1"`);
-  if (id === 'phone' && proto.authTarget) {
-    out = out.replace(/data-go="[a-z]+"/g, `data-go="${proto.authTarget}"`)
-      .replace(/data-activate="applesignin\|[a-z]+"/g, `data-activate="applesignin|${proto.authTarget}"`);
-  }
+  if (proto.authTarget) out = out.replace(/data-auth-target data-go="[a-z]+"/g, `data-auth-target data-go="${proto.authTarget}"`);
   if (isStop) return asStop(out);
   if (!own) return out;
   return out.replace(/<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/, (bar) =>
@@ -620,9 +720,8 @@ export function build(slug, { outDir } = {}) {
     for (const id of p.screens) {
       if (!markup[id]) throw new Error(`${slug}/${p.id}: экрана ${id} нет в спеке`);
       if (stops.has(id)) continue;
-      const bound = id === 'phone'
-        ? markup[id].replace(/data-go="[a-z]+"/g, `data-go="${p.authTarget}"`)
-          .replace(/data-activate="applesignin\|[a-z]+"/g, `data-activate="applesignin|${p.authTarget}"`)
+      const bound = p.authTarget
+        ? markup[id].replace(/data-auth-target data-go="[a-z]+"/g, `data-auth-target data-go="${p.authTarget}"`)
         : markup[id];
       const body = p.hero ? bound : stripTabbar(bound);
       for (const t of targetsIn(body)) if (!own.has(t)) dangling.add(`${id}→${t}`);
@@ -646,6 +745,7 @@ export function build(slug, { outDir } = {}) {
   const styles = existsSync(join(dir, 'styles.css')) ? read(join(dir, 'styles.css')) : '';
   const rawSections = existsSync(join(dir, 'sections.html')) ? read(join(dir, 'sections.html')) : '';
   const hasAppIcon = existsSync(join(dir, 'assets', 'app-icon.png'));
+  const useIconPlaceholder = Boolean(spec.iconPlaceholder);
   const grab = (name) => {
     const m = rawSections.match(new RegExp(`<!-- @overview:${name} -->([\\s\\S]*?)<!-- @end -->`));
     return m ? m[1].trim() : '';
@@ -659,8 +759,8 @@ export function build(slug, { outDir } = {}) {
   const html = fill(read(join(KERNEL, 'page.html')), {
     NAME: esc(spec.name),
     SLUG: spec.slug,
-    APP_ICON_HEAD: hasAppIcon ? '<link rel="icon" type="image/png" href="assets/app-icon.png">' : '',
-    APP_ICON_TOPBAR: hasAppIcon ? `<img class="topbar-app-icon" src="assets/app-icon.png" alt="">` : '',
+    APP_ICON_HEAD: hasAppIcon && !useIconPlaceholder ? '<link rel="icon" type="image/png" href="assets/app-icon.png">' : '',
+    APP_ICON_TOPBAR: useIconPlaceholder ? '<span class="topbar-app-icon app-icon-placeholder"></span>' : hasAppIcon ? `<img class="topbar-app-icon" src="assets/app-icon.png" alt="">` : '',
     HERO_TITLE: esc(spec.heroTitle || spec.name),
     TAGLINE_SENTENCE: esc(spec.heroDeck || spec.tagline),
     EYEBROW: esc(spec.eyebrow || spec.name),

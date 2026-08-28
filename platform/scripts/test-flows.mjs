@@ -55,8 +55,13 @@ async function run(slug) {
     const auth = document.querySelector(h + ' [data-screen="phone"]');
     return !!auth?.querySelector('[class*="google"], .auth-apple, [data-activate^="applesignin|"]');
   }, H);
-  ok('регистрация предлагает только почту', !externalAuth && !spec.permissions.some((p) => p.key === 'applesignin'));
-  ok('регистрация использует настоящий email input', !!(await page.$(`${H} [data-screen="phone"] input[type="email"]`)));
+  ok('вход не предлагает внешних провайдеров', !externalAuth && !spec.permissions.some((p) => p.key === 'applesignin'));
+  ok('номер и пароль находятся на разных экранах', !!(await page.$(`${H} [data-screen="phone"] input[type="tel"]`))
+    && !(await page.$(`${H} [data-screen="phone"] input[type="password"]`))
+    && !!(await page.$(`${H} [data-screen="password"] input[type="password"]`)));
+  ok('вход и регистрация опциональны', !!(await page.$(`${H} [data-screen="phone"] [data-auth-target]`)));
+  ok('удаление аккаунта требует подтверждения', !!(await page.$(`${H} [data-screen="account"] [data-go="deleteaccount"]`))
+    && !!(await page.$(`${H} [data-screen="deleteaccount"] .unified-delete-confirm`)));
   ok('у формы нет состояний offline и permission', await page.evaluate((h) => {
     const controls = document.querySelector(h)?.parentNode.querySelector(':scope > .controls');
     return controls?.querySelector('[data-state="offline"]')?.hidden
@@ -67,7 +72,7 @@ async function run(slug) {
   await page.click(`${H} ~ .controls [data-state="empty"]`);
   ok('empty формы = пустой input без оверлея', await page.evaluate((h) => {
     const phone = document.querySelector(h + ' [data-screen="phone"]');
-    return phone?.querySelector('input[type="email"]')?.value === '' && !document.querySelector(h + ' .prototype-state.is-on');
+    return phone?.querySelector('input[type="tel"]')?.value === '' && !document.querySelector(h + ' .prototype-state.is-on');
   }, H));
   await page.click(`${H} ~ .controls [data-state="error"]`);
   ok('error формы = невалидный input и inline-текст без оверлея', await page.evaluate((h) => {
@@ -81,7 +86,7 @@ async function run(slug) {
   }, H));
   await page.click(`${H} ~ .controls [data-state="default"]`);
 
-  const contentScreen = spec.screens.find((screen) => screen.id !== 'phone'
+  const contentScreen = spec.screens.find((screen) => !['phone', 'password', 'register', 'registerpassword', 'account', 'deleteaccount'].includes(screen.id)
     && !/<(?:form|textarea|select)\b|contenteditable|<input\b(?![^>]*type="search")/i.test(markup[screen.id] || ''))?.id;
   if (contentScreen) {
     await goto(contentScreen);

@@ -61,7 +61,7 @@ const gallery = (items) => {
       <div class="shot"><img src="./${item.slug}/assets/screenshots/${item.start}.png" alt="Экран «${esc(item.name)}»" loading="lazy"></div>
       <div class="meta">
         <div class="card-kicker"><span class="category">${esc(item.category)}</span><span class="mode-badge ${item.mode}">${esc(item.modeLabel)}</span></div>
-        <div class="name-row"><div class="name-row-main">${item.hasAppIcon ? `<img class="app-icon" src="./${item.slug}/assets/app-icon.png" alt="" loading="lazy">` : ''}<div class="name">${esc(item.name)}</div></div><span class="arrow" aria-hidden="true">→</span></div>
+        <div class="name-row"><div class="name-row-main">${item.iconPlaceholder ? '<span class="app-icon app-icon-placeholder"></span>' : item.hasAppIcon ? `<img class="app-icon" src="./${item.slug}/assets/app-icon.png" alt="" loading="lazy">` : ''}<div class="name">${esc(item.name)}</div></div><span class="arrow" aria-hidden="true">→</span></div>
         <div class="tag">${esc(item.tagline)}</div>
         <div class="chips"><span class="chip">${item.perms} ${pluralRu(item.perms, 'доступ', 'доступа', 'доступов')}</span><span class="chip">${item.screens} ${pluralRu(item.screens, 'экран', 'экрана', 'экранов')}</span><span class="chip secondary">${esc(item.targetSetLabel)}</span></div>
       </div>
@@ -141,6 +141,7 @@ const gallery = (items) => {
   .name-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:7px; }
   .name-row-main { min-width:0; display:flex; align-items:center; gap:11px; }
   .app-icon { width:44px; height:44px; flex:none; display:block; border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.06),0 5px 16px rgba(0,0,0,.08); }
+  .app-icon-placeholder { background:#d7d9de; box-shadow:none; }
   .name { font:600 20px/1.2 var(--face); letter-spacing:-.03em; }
   .arrow { color:var(--page-ink-mute); font:400 20px/1 var(--face); transition:color 120ms,transform 120ms; }
   .card:hover .arrow { color:var(--page-ink); transform:translateX(2px); }
@@ -247,6 +248,7 @@ for (const slug of slugs) {
     modeLabel: POSITIONING_MODES[spec.positioning.mode].label,
     category: categoryLabel(spec.appStore?.category?.primary),
     hasAppIcon: existsSync(join(conceptDir(slug), 'assets', 'app-icon.png')),
+    iconPlaceholder: Boolean(spec.iconPlaceholder),
   });
   const archive = n ? ` · архив: доки ${n.docs}, скриншоты ${n.shots}` : '';
   console.log(`  ${slug}: ${(bytes / 1024).toFixed(0)} КБ · ${spec.screens.length} экранов · ${spec.permissions.length} доступов${archive}`);
