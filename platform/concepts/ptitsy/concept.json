@@ -531,7 +531,7 @@
       "primary": "Reference",
       "secondary": "Education"
     },
-    "ageRating": "4+",
+    "ageRating": "13+",
     "price": "Бесплатно, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только системный транспорт APNs и статические HTTPS-страницы",
     "urls": {

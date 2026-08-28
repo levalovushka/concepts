@@ -14,7 +14,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { ROOT, DIST, conceptDir, readSpec, readMarkup, validate, listConcepts } from './lib.mjs';
+import { ROOT, DIST, TARGET_PRODUCTS, conceptDir, readSpec, readMarkup, validate, listConcepts } from './lib.mjs';
 import { screenGraph, screenActions } from './screen-map.mjs';
 import { prepareEmailRegistration } from './build.mjs';
 
@@ -273,6 +273,17 @@ export function buildUxSpec(slug) {
     tagline: spec.tagline || null,
     targetSet: spec.targetSet,
     domain: spec.domain || null,
+
+    compliance: {
+      reviewStatus: spec.slug === 'dvor' ? 'in-development-exempt' : 'audited',
+      ageRating: spec.appStore?.ageRating || null,
+      targetAgeRating: TARGET_PRODUCTS[spec.targetSet]?.ageRating || null,
+      auth: spec.auth,
+      privacyDocuments: [
+        { id: 'terms', label: 'Пользовательское соглашение', url: `${spec.domain || `${spec.slug}.app`}/terms` },
+        { id: 'privacy', label: 'Политика конфиденциальности', url: spec.appStore?.urls?.privacy || `${spec.domain || `${spec.slug}.app`}/privacy` },
+      ],
+    },
 
     product: {
       ...(spec.product || {}),

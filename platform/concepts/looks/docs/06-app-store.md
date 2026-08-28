@@ -17,7 +17,7 @@
 | Keywords | гардероб,сочетания,примерка,авторы,своп | 39 / 100 |
 | Primary Category | Social Networking | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно | — |
 | Support URL | https://looks.social/support | — |
 | Marketing URL | https://looks.social | — |

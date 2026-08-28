@@ -15,9 +15,9 @@
 | Subtitle | Размышление под вашу карту | 26 / 30 |
 | Promotional Text | Вытяните карту из колоды, наведите камеру — и слушайте размышление под неё с закрытыми глазами. Экран гаснет, голос продолжает вести. | 133 / 170 |
 | Keywords | рефлексия,дневник,метафорические,колода,аудио,медитация,вечер,осознанность,вопросы,ритуал | 89 / 100 |
-| Primary Category | Health & Fitness | — |
-| Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Primary Category | Lifestyle | — |
+| Secondary Category | Music | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок — колода продаётся отдельно, вне приложения | — |
 | Support URL | https://rasklad.app/support | — |
 | Marketing URL | https://rasklad.app | — |

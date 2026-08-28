@@ -48,7 +48,7 @@
 | Keywords | микс,диджей,клуб,эфир,треклист,фон | 34 / 100 |
 | Primary Category | Music | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно | — |
 | Support URL | https://set.live/support | — |
 | Marketing URL | https://set.live | — |

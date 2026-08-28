@@ -208,6 +208,7 @@
 | `phone` | Помощь | элемент экрана | показывает подтверждение «Помощь · today.place/help» | остаётся на экране | — | — |
 | `phone` | Поддержка | элемент экрана | показывает подтверждение «Поддержка · alex@inbox.ru» | остаётся на экране | — | — |
 | `phone` | Пользовательское соглашение | элемент экрана | показывает подтверждение «Соглашение · today.place/terms» | остаётся на экране | — | — |
+| `phone` | Политика конфиденциальности | элемент экрана | показывает подтверждение «Политика · today.app/privacy» | остаётся на экране | — | — |
 | `home` | Близкие друзья | элемент экрана | открывает экран | Друзья (groups) | — | — |
 | `home` | Кино | элемент экрана | спрашивает доступ location | Совпадения (nearby) | Сегодня (home) | `NSLocationWhenInUseUsageDescription` |
 | `home` | Прогулка | элемент экрана | спрашивает доступ location | Совпадения (nearby) | Сегодня (home) | `NSLocationWhenInUseUsageDescription` |
@@ -281,6 +282,7 @@
 | `settings` | Виджет | элемент экрана | включает entitlement appgroups, системного alert нет | Виджет на экране «Домой» (widget) | — | `com.apple.security.application-groups` |
 | `settings` | Вход на сайте | элемент экрана | включает entitlement autofill, системного alert нет | Автозаполнение на сайте (fill) | — | `com.apple.developer.authentication-services.autofill-credential-provider` |
 | `settings` | Поделиться в «Сегодня» | элемент экрана | включает entitlement shareext, системного alert нет | Поделиться в «Сегодня» (shareext) | — | `NSExtensionPointIdentifier: com.apple.share-services` |
+| `settings` | Безопасность и жалобы | элемент экрана | показывает подтверждение «Жалобы, скрытые планы и заблокированные аккаунты» | остаётся на экране | — | — |
 | `settings` | Кто видит мои планы | элемент экрана | открывает экран | Друзья (groups) | — | — |
 | `settings` | Замок Face ID | элемент экрана | спрашивает доступ faceid | Замок на планах (lock) | Замок на планах (lock) | `NSFaceIDUsageDescription` |
 | `settings` | Отслеживание | элемент экрана | открывает экран | Реклама вместо подписки (ads) | — | — |

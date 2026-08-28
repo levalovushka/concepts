@@ -100,7 +100,7 @@
 | Keywords | немое,короткометражки,киноклуб,проектор,наушники,фильмы,ретро,синхронно | 71 / 100 |
 | Primary Category | Entertainment | — |
 | Secondary Category | Photo & Video | — |
-| Age Rating | 12+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://seans.video/support | — |
 | Marketing URL | https://seans.video | — |

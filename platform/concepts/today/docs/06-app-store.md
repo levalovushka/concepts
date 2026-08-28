@@ -23,7 +23,7 @@ Privacy label описывает геопозицию, выбранных уча
 | Keywords | компания,вечер,встречи,рядом,спонтанно | 38 / 100 |
 | Primary Category | Social Networking | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно | — |
 | Support URL | https://today.place/support | — |
 | Marketing URL | https://today.place | — |

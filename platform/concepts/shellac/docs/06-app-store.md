@@ -17,7 +17,7 @@
 | Keywords | пластинки,граммофон,патефон,78,матрица,оцифровка,старинн,романс,коллекция,этикетка | 82 / 100 |
 | Primary Category | Music | — |
 | Secondary Category | Reference | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | https://shellac.app/support | — |
 | Marketing URL | https://shellac.app | — |

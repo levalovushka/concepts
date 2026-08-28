@@ -94,4 +94,11 @@ const missingState = materialize('differentiation', 'vk-music', 'Utilities', ['�
 missingState.screens[0].ui.states = ['default'];
 assert.throws(() => validate(missingState, 'smoke-differentiation'), /требует состояние/);
 
-console.log(`контракт качества: ${listConcepts().length} концептов · 12 негативных evals · readiness v2 · UI v3`);
+const staleAge = materialize('differentiation', 'vk-music', 'Utilities', ['Паттерн 1', 'Паттерн 2', 'Паттерн 3']);
+staleAge.appStore.ageRating = '12+';
+assert.throws(() => validate(staleAge, 'smoke-differentiation'), /актуальную шкалу/);
+const belowTargetAge = materialize('differentiation', 'vk-music', 'Utilities', ['Паттерн 1', 'Паттерн 2', 'Паттерн 3']);
+belowTargetAge.appStore.ageRating = '9+';
+assert.throws(() => validate(belowTargetAge, 'smoke-differentiation'), /ниже 13\+ у ВК Музыка/);
+
+console.log(`контракт качества: ${listConcepts().length} концептов · 14 негативных evals · legal age floor · readiness v2 · UI v3`);

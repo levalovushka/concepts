@@ -13,7 +13,7 @@
 | Keywords | миниатюры,варгейминг,модели,кисть,акрил,оттенок,свотч,хобби,сборные,покраска | 76 / 100 |
 | Primary Category | Education | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | https://primer.app/support | — |
 | Marketing URL | https://primer.app | — |

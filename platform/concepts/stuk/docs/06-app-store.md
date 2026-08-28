@@ -92,7 +92,7 @@ URL: `stuk.video` — маркетинг, `/support`, `/privacy`.
 | Keywords | ремонт,авто,машина,гараж,подвеска,двигатель,запчасти,диагностика,своими руками | 78 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Utilities | — |
-| Age Rating | 12+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://stuk.video/support | — |
 | Marketing URL | https://stuk.video | — |

@@ -27,7 +27,7 @@
 | Keywords | видео,трансляции,записи,спорт,футбол,баскетбол,голы,команды,турниры | 67 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Sports | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://liga.video/support | — |
 | Marketing URL | https://liga.video | — |

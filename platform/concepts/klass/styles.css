@@ -103,16 +103,6 @@
   margin-bottom: 12px;
   max-width: 30ch;
 }
-.r-promo-more {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  color: var(--ios-secondary);
-}
 .r-pill {
   border: 0;
   cursor: pointer;
@@ -1282,4 +1272,3 @@
 [data-screen="call"] .r-call-face { width: 44px; height: 44px; }
 
 /* Своё у «Нашего класса» — срок и счёт отметок у объявления, а не отдельная композиция экрана. */
-

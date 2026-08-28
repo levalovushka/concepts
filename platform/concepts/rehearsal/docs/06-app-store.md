@@ -20,7 +20,7 @@
 | Keywords | оратор,презентация,дикция,темп,пауза,голос,запись | 49 / 100 |
 | Primary Category | Productivity | — |
 | Secondary Category | Education | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | страница поддержки в App Store | — |
 | Marketing URL | не используется | — |

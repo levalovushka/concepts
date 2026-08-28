@@ -16,9 +16,9 @@
 | Subtitle | Музыка ведёт дыхание | 20 / 30 |
 | Promotional Text | Выберите состояние, включите музыкальную сессию и дышите в её ритме — без оценок и лишних инструкций. | 101 / 170 |
 | Keywords | эмбиент,сон,фокус,ритуал,расслабление,выдох,покой | 49 / 100 |
-| Primary Category | Health & Fitness | — |
-| Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Primary Category | Lifestyle | — |
+| Secondary Category | Music | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно | — |
 | Support URL | https://breath.space/support | — |
 | Marketing URL | https://breath.space | — |

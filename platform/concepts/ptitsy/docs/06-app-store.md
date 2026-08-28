@@ -21,7 +21,7 @@
 | Keywords | зяблик,синица,дрозд,наблюдение,природа,парк,орнитология,определитель | 68 / 100 |
 | Primary Category | Reference | — |
 | Secondary Category | Education | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | https://ptitsy.guide/support | — |
 | Marketing URL | https://ptitsy.guide | — |

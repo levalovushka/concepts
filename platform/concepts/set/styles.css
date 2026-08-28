@@ -576,6 +576,9 @@
 .cx-auth-foot { margin-top:auto; }
 .cx-auth-primary { width:100%; min-height:52px!important; border-radius:14px; background:#f2f3f5!important; color:#101114!important; font-size:15px!important; font-weight:680!important; }
 .cx-auth-foot small { display:block; margin:11px 12px 0; color:rgba(235,235,245,.4); font-size:11px; line-height:15px; text-align:center; }
+.cx-auth-foot .auth-legal { margin-top:7px; font-size:10px; line-height:13px; }
+.cx-auth-foot .auth-links { gap:0 12px; margin-top:4px; }
+.cx-auth-foot .auth-links .auth-link { min-height:28px; font-size:10px; line-height:13px; }
 .cx-code-body { padding-top:36px; }
 .cx-otp { margin-top:32px; display:grid; grid-template-columns:repeat(4,1fr); gap:9px; }
 .cx-otp span { height:58px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.07); font-size:23px; font-weight:620; }

@@ -32,7 +32,7 @@
 | Keywords | город,прогулки,район,авторы,истории,путешествия,места,клипы | 59 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 12+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://radius.video/support | — |
 | Marketing URL | https://radius.video | — |

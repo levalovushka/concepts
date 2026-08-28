@@ -13,11 +13,15 @@ export const DIST = join(ROOT, 'dist');
 
 /** Один реестр связывает набор доступов, продукт-референс и категорию стора. */
 export const TARGET_PRODUCTS = {
-  'vk-music': { label: 'ВК Музыка', short: 'Музыка' },
-  'vk-video': { label: 'ВК Видео', short: 'Видео' },
-  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте' },
-  ok: { label: 'Одноклассники', short: 'ОК' },
+  'vk-music': { label: 'ВК Музыка', short: 'Музыка', ageRating: '13+' },
+  'vk-video': { label: 'ВК Видео', short: 'Видео', ageRating: '13+' },
+  vkontakte: { label: 'ВКонтакте', short: 'ВКонтакте', ageRating: '13+' },
+  ok: { label: 'Одноклассники', short: 'ОК', ageRating: '13+' },
 };
+
+const CURRENT_AGE_RATINGS = new Set(['4+', '9+', '13+', '16+', '18+']);
+const LEGAL_REVIEW_EXEMPT = new Set(['dvor']);
+const ageFloor = (rating) => Number.parseInt(rating, 10);
 
 export const conceptDir = (slug) => join(CONCEPTS, slug);
 
@@ -53,6 +57,21 @@ export function validate(spec, slug) {
     else if (spec.product[field].some((item) => typeof item !== 'string' || !item.trim())) err.push(`product.${field} содержит пустой пункт`);
   }
   if (spec.product?.coreLoop?.length < 3) err.push('product.coreLoop: нужно минимум 3 шага');
+
+  /* Концепты маскируют интерфейс одного из целевых сервисов, поэтому их
+     рейтинг не может быть ниже рейтинга цели. «Двор» пока исключён: он уже
+     в разработке и проходит отдельный цикл изменений. */
+  if (!LEGAL_REVIEW_EXEMPT.has(slug)) {
+    const rating = spec.appStore?.ageRating;
+    if (!CURRENT_AGE_RATINGS.has(rating)) {
+      err.push(`appStore.ageRating «${rating || '—'}» не входит в актуальную шкалу 4+/9+/13+/16+/18+`);
+    }
+    const targetId = spec.targetSet;
+    const target = TARGET_PRODUCTS[targetId];
+    if (target?.ageRating && ageFloor(rating) < ageFloor(target.ageRating)) {
+      err.push(`appStore.ageRating ${rating} ниже ${target.ageRating} у ${target.label}`);
+    }
+  }
 
   const ids = new Set();
   for (const s of spec.screens || []) {

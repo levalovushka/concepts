@@ -13,7 +13,7 @@
 | Keywords | выступления,артисты,премьеры,клипы,фестивали,площадки,сетлист,видео | 67 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Music | — |
-| Age Rating | 12+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://scene.video/support | — |
 | Marketing URL | https://scene.video | — |

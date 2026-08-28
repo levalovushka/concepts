@@ -23,7 +23,7 @@ Camera, Photo Library, APNs/FCM, Associated Domains, CloudKit, BaaS и SMS-вх�
 | Keywords | треки,плеер,станции,файлы,альбом,настроение,дорога,фокус,аудио | 62 / 100 |
 | Primary Category | Music | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | https://volna.local/support | — |
 | Marketing URL | https://volna.local | — |

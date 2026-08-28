@@ -24,7 +24,7 @@ Review route:
 | Keywords | монтаж,событие,друзья,камера,черновик,видеопроект,поездка,праздник,экспорт | 74 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без рекламы и аккаунта | — |
 | Support URL | https://skleyka.video/support | — |
 | Marketing URL | https://skleyka.video | — |

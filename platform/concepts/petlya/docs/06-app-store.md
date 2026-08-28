@@ -17,7 +17,7 @@
 | Keywords | вязание,спицы,петли,пряжа,рукоделие,вязать,мастер-класс,шарф,носки,ряды | 71 / 100 |
 | Primary Category | Education | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок | — |
 | Support URL | https://petlya.app/support | — |
 | Marketing URL | https://petlya.app | — |

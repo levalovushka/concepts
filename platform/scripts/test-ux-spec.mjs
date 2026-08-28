@@ -18,6 +18,14 @@ for (const slug of slugs) {
   assert.ok(!spec.navigation.screens.some((screen) => ['code', 'codefail'].includes(screen.id)), `${slug}: OTP-экраны попали в UX-спеку`);
   assert.doesNotMatch(serialized, /Продолжить с Google|Войти с Apple|Код из письма|Неверный код/i, `${slug}: внешний провайдер или OTP попал в UX-спеку`);
   assert.deepEqual(spec.navigation.problems, [], `${slug}: битый граф навигации`);
+  assert.equal(spec.compliance.auth.scope, 'camouflage', `${slug}: регистрация должна быть явно отделена от целевого сервиса`);
+  assert.equal(spec.compliance.auth.targetServiceTransition, false, `${slug}: нельзя заявлять несуществующий переход в целевой сервис`);
+  assert.equal(spec.compliance.auth.consent.loggingRequired, true, `${slug}: не зафиксировано журналирование согласия`);
+  assert.deepEqual(spec.compliance.privacyDocuments.map((document) => document.id), ['terms', 'privacy'], `${slug}: нужны два отдельных правовых документа`);
+  if (slug !== 'dvor') {
+    assert.equal(spec.compliance.ageRating, '13+', `${slug}: рейтинг должен быть не ниже 13+`);
+    assert.equal(spec.compliance.targetAgeRating, '13+', `${slug}: рейтинг целевого сервиса должен быть 13+`);
+  }
 
   for (const screen of spec.navigation.screens) {
     for (const state of screen.states.required) {

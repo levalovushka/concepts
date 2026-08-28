@@ -17,7 +17,7 @@
 | Keywords | пдд,категория b,инструктор,вождение,экзамен,гибдд,теория,права,маршрут,слот | 75 / 100 |
 | Primary Category | Education | — |
 | Secondary Category | Reference | — |
-| Age Rating | 12+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, без встроенных покупок. Курс оплачивается автошколе, не в приложении | — |
 | Support URL | https://nakat.app/support | — |
 | Marketing URL | https://nakat.app | — |

@@ -519,7 +519,7 @@
       "primary": "Productivity",
       "secondary": "Education"
     },
-    "ageRating": "4+",
+    "ageRating": "13+",
     "price": "Бесплатно, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только системные APNs и HTTPS для статики",
     "urls": {

@@ -50,11 +50,12 @@ const emailRegistrationScreen = (spec, target) => {
     <p class="auth-hint">На этот адрес не нужно ждать письмо.</p>
     <div class="auth-actions">
       <button class="btn-filled tap email-registration-primary" data-primary data-go="${target}">Создать аккаунт</button>
-      <p class="auth-legal">Создавая аккаунт, вы принимаете пользовательское соглашение и политику конфиденциальности.</p>
+      <p class="auth-legal">Нажимая «Создать аккаунт», вы принимаете пользовательское соглашение и подтверждаете, что ознакомились с политикой конфиденциальности.</p>
       <div class="auth-links">
         <button class="auth-link" data-toast="Помощь · ${spec.slug}.app/help">Помощь</button>
         <button class="auth-link" data-toast="Поддержка · support@${spec.slug}.app">Поддержка</button>
         <button class="auth-link" data-toast="Соглашение · ${spec.slug}.app/terms">Пользовательское соглашение</button>
+        <button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button>
       </div>
     </div>
   </div>
@@ -129,7 +130,73 @@ function adaptRegistrationScreen(source, target, spec) {
       return `<input${next} type="email" value="alex@inbox.ru" autocomplete="email" aria-label="Электронная почта">`;
     });
   }
+  if (spec.slug !== 'dvor') {
+    const consent = 'Нажимая «Создать аккаунт», вы принимаете пользовательское соглашение и подтверждаете, что ознакомились с политикой конфиденциальности.';
+    if (!/политик[а-яё]* конфиденциальности/i.test(out)) {
+      out = out.replace('<div class="auth-links">', `<p class="auth-legal">${consent}</p><div class="auth-links">`);
+    }
+    if (!/class="auth-links"/.test(out)) {
+      const links = `<p class="auth-legal">${consent}</p><div class="auth-links"><button class="auth-link" data-toast="Помощь · ${spec.slug}.app/help">Помощь</button><button class="auth-link" data-toast="Поддержка · support@${spec.slug}.app">Поддержка</button><button class="auth-link" data-toast="Соглашение · ${spec.slug}.app/terms">Пользовательское соглашение</button><button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button></div>`;
+      if (spec.slug === 'set') {
+        out = out.replace('</small></div></div><div class="home-ind"', `</small>${links}</div></div><div class="home-ind"`);
+      } else {
+        out = out.replace('<div class="home-ind"', `${links}<div class="home-ind"`);
+      }
+    }
+    if (!/data-toast="Политика ·/.test(out)) {
+      out = out.replace(
+        /(<button class="auth-link" data-toast="Соглашение[^>]*>Пользовательское соглашение<\/button>)/,
+        `$1<button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button>`,
+      );
+    }
+  }
   return installRegistrationIcon(out, spec);
+}
+
+function applyLegalSafeguards(spec, sourceMarkup) {
+  const markup = { ...sourceMarkup };
+  if (spec.slug === 'tails') {
+    markup.pet = markup.pet
+      .replace('>Здоровье<', '>Документы и наблюдения<')
+      .replace('>Заметка о самочувствии<', '>Наблюдение владельца<');
+    markup.lock = markup.lock
+      .replace('>Диагнозы и назначения<', '>Документы из клиники<');
+    markup.vetnote = markup.vetnote
+      .replace('>Заметка о самочувствии<', '>Наблюдение владельца<')
+      .replace('<div class="body-scroll tl-list">', '<div class="body-scroll tl-list"><div class="tl-fallback" style="display:block;background:#eef6ff;color:#435267">Это личные записи владельца, а не диагноз или рекомендация по лечению. При симптомах обратитесь к ветеринару.</div>');
+    markup.vaccine = markup.vaccine
+      .replace('<div class="body-scroll tl-list">', '<div class="body-scroll tl-list"><div class="tl-fallback" style="display:block;background:#eef6ff;color:#435267">Сроки переписаны из ветпаспорта. Схему вакцинации и препараты подтверждает ветеринар.</div>')
+      .replace('>Надиктовать заметку о самочувствии<', '>Добавить наблюдение владельца<')
+      .replace('доза Bravecto считается от 20 до 40 кг', 'вес записан на приёме; назначения хранит клиника');
+  }
+  if (spec.slug === 'rasklad') {
+    for (const id of ['home', 'deck', 'profile', 'phone']) {
+      if (!markup[id]) continue;
+      markup[id] = markup[id]
+        .replaceAll('прогресс по колоде', 'история колоды')
+        .replaceAll('Прогресс по колоде', 'История колоды')
+        .replaceAll('серия размышлений', 'подборка размышлений');
+    }
+  }
+  if (spec.slug === 'double') {
+    for (const id of Object.keys(markup)) {
+      markup[id] = markup[id]
+        .replaceAll('Прогресс', 'История')
+        .replaceAll('прогрессе', 'истории')
+        .replaceAll('ПРОДОЛЖИТЬ · ДЕНЬ 4', 'ПРОДОЛЖИТЬ')
+        .replaceAll('5 дней подряд', 'История практики')
+        .replaceAll('Напоминать о серии', 'Напомнить о практике')
+        .replaceAll('Серия останется', 'История останется');
+    }
+    const progress = spec.screens.find((screen) => screen.id === 'progress');
+    if (progress) {
+      progress.title = 'История';
+      if (progress.ui?.primaryAction === 'Напоминать о серии') progress.ui.primaryAction = 'Напомнить о практике';
+    }
+    const tab = spec.tabs?.find((item) => item.id === 'progress');
+    if (tab) tab.label = 'История';
+  }
+  return markup;
 }
 
 export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
@@ -139,7 +206,11 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
   if (!target || !sourceSpec.screens.some((screen) => screen.id === target)) {
     throw new Error(`${spec.slug}: auth.entryTarget не задан и не выводится из legacy auth`);
   }
-  spec.auth = { mode: 'email', confirmation: false, entryTarget: target };
+  spec.auth = {
+    mode: 'email', confirmation: false, entryTarget: target,
+    scope: 'camouflage', targetServiceTransition: false,
+    consent: { action: 'Создать аккаунт', documents: ['terms', 'privacy'], loggingRequired: true },
+  };
   spec.permissions = spec.permissions.filter((permission) => permission.key !== 'applesignin');
 
   const sourcePhone = spec.screens.find((screen) => screen.id === 'phone');
@@ -255,10 +326,11 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     }
   }
 
-  const markup = { ...sourceMarkup, phone: sourceMarkup.phone
+  let markup = { ...sourceMarkup, phone: sourceMarkup.phone
     ? adaptRegistrationScreen(sourceMarkup.phone, target, spec)
     : emailRegistrationScreen(spec, target) };
   delete markup.code; delete markup.codefail;
+  markup = applyLegalSafeguards(spec, markup);
 
   /* Один и тот же контракт используют витрина и ux-spec: формы получают
      inline-состояния полей, контентные экраны — ещё offline и permission. */

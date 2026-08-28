@@ -13,7 +13,7 @@
 | Keywords | бариста,официант,повар,кассир,график,табель,подработка,сменный,общепит,ритейл,персонал | 86 / 100 |
 | Primary Category | Business | — |
 | Secondary Category | Social Networking | — |
-| Age Rating | 17+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, объявления работодателей, без встроенных покупок | — |
 | Support URL | https://peresmenka.app/support | — |
 | Marketing URL | https://peresmenka.app | — |

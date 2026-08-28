@@ -1278,7 +1278,7 @@
       "primary": "Business",
       "secondary": "Social Networking"
     },
-    "ageRating": "17+",
+    "ageRating": "13+",
     "price": "Бесплатно, объявления работодателей, без встроенных покупок",
     "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS через SDK провайдеров",
     "urls": {

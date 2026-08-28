@@ -13,7 +13,7 @@
 | Keywords | танцы,тренировка,видео,камера,сравнение,упражнения,техника,координация | 70 / 100 |
 | Primary Category | Photo & Video | — |
 | Secondary Category | Sports | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно, с рекламой | — |
 | Support URL | https://double.fit/support | — |
 | Marketing URL | https://double.fit | — |

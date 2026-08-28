@@ -17,7 +17,7 @@
 | Keywords | луп,сэмпл,бит,bpm,микс,зарисовка,ритм,слои | 42 / 100 |
 | Primary Category | Music | — |
 | Secondary Category | Lifestyle | — |
-| Age Rating | 4+ | — |
+| Age Rating | 13+ | — |
 | Price | Бесплатно | — |
 | Support URL | https://loop.audio/support | — |
 | Marketing URL | https://loop.audio | — |
