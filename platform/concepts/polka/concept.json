@@ -1,0 +1,187 @@
+{
+  "slug": "polka",
+  "name": "Полка",
+  "eyebrow": "Полка · iOS",
+  "targetSet": "vkontakte",
+  "domain": "polka.local",
+  "heroTitle": "Полка",
+  "heroDeck": "Вещи друзей, которые не нужно покупать.",
+  "tagline": "Попросите на выходные — верните в понедельник.",
+  "insight": "люди охотно дают вещи друзьям, но не знают, у кого есть нужное, и не хотят неловко договариваться о возврате",
+  "deck": "Закрытая полка между друзьями: вещь видна только знакомым, запрос содержит даты, а подтверждённая передача — место, код и срок возврата.",
+  "qualityContractVersion": 1,
+  "product": {
+    "audience": "Друзья и знакомые, которые иногда берут друг у друга технику, инструменты, спортивные и праздничные вещи.",
+    "situation": "На конкретные выходные нужна вещь, которая вероятно есть у кого-то из друзей, но покупать её ради одного раза неразумно.",
+    "problem": "Приходится писать многим людям, уточнять сроки и потом обоим неловко напоминать о возврате.",
+    "promise": "За минуту понять, у какого друга вещь свободна на нужные даты, получить подтверждение и заранее зафиксировать возврат.",
+    "differentiator": "Это не маркетплейс и не прокат: денег, публичных лотов и незнакомых людей нет; доверие идёт от существующей связи между друзьями.",
+    "returnReasons": [
+      "Владелец ответил на запрос и назначил место передачи.",
+      "Приближается срок возврата вещи друга.",
+      "Друг добавил на свою полку вещь, которую хотелось попробовать."
+    ],
+    "verticalSlice": { "entry": "shelf", "action": "item", "result": "request" },
+    "coreLoop": [
+      "Увидеть на полке вещь друга с окном доступности.",
+      "Запросить вещь на конкретные даты и добавить короткое сообщение.",
+      "Получить подтверждённую передачу с местом, кодом и сроком возврата."
+    ],
+    "nonGoals": [
+      "Публичный маркетплейс, аренда, залоги, деньги и рейтинги незнакомых людей.",
+      "Доставка, страхование, ремонт и разрешение споров о состоянии вещи."
+    ],
+    "world": {
+      "entities": [
+        { "id": "person", "name": "Друг" },
+        { "id": "item", "name": "Вещь" },
+        { "id": "availability", "name": "Окно доступности" },
+        { "id": "request", "name": "Запрос" },
+        { "id": "handoff", "name": "Передача" }
+      ],
+      "actions": [
+        { "id": "open_item", "name": "Открыть вещь", "entity": "item", "effect": "Выбранная вещь становится текущей", "result": "Видны владелец, окно доступности и условия возврата", "capabilities": [] },
+        { "id": "request_item", "name": "Попросить вещь", "entity": "request", "effect": "Создаётся исходящий запрос на выбранные даты", "result": "Владелец получил запрос с датами", "capabilities": ["contacts", "push", "commnotif", "remotenotif"] },
+        { "id": "message_owner", "name": "Связаться с владельцем", "entity": "request", "effect": "Друг получает голосовое с расшифровкой или звонок без обмена номером", "result": "Договорённость остаётся внутри передачи", "capabilities": ["mic", "speech", "audio", "voip"] },
+        { "id": "confirm_handoff", "name": "Подтвердить передачу", "entity": "handoff", "effect": "Запрос переходит в подтверждённую передачу", "result": "Оба друга видят защищённый код, место и срок возврата", "capabilities": ["calendar", "location", "wifiinfo", "hotspot", "faceid", "autofill"] },
+        { "id": "add_item", "name": "Добавить вещь", "entity": "item", "effect": "Создаётся вещь с окном доступности и черновиком для расширения", "result": "Вещь появилась на личной полке и видна друзьям", "capabilities": ["camera", "photos", "appgroups", "keychain"] },
+        { "id": "keep_shelf_fresh", "name": "Поддерживать полку актуальной", "entity": "availability", "effect": "Фоновые процессы обновляют доступность и сроки", "result": "При запуске видны свежие окна и возвраты", "capabilities": ["fetch", "bgtask"] },
+        { "id": "share_item", "name": "Поделиться вещью", "entity": "item", "effect": "Создаётся универсальная ссылка на конкретную вещь", "result": "Получатель открывает эту вещь внутри приложения", "capabilities": ["associateddomains"] },
+        { "id": "personalize_discovery", "name": "Настроить рекомендации", "entity": "item", "effect": "Пользователь явно разрешает персонализацию подборок", "result": "В поиске появляются более уместные категории", "capabilities": ["tracking"] }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Основная ценность возникает из существующей сети друзей, личных запросов и доверия, поэтому первичная категория — Social Networking.",
+    "familiarPatterns": [
+      "Лента от знакомых людей с аватаром, именем и контекстом связи.",
+      "Запросы выглядят как личные диалоги, но имеют явный продуктовый статус.",
+      "Профиль сочетает человека, его друзей и личную полку."
+    ],
+    "distinctions": [
+      "Единица ленты — вещь с окном доступности, а не текстовый пост.",
+      "Главное действие — запрос на даты, а не реакция или комментарий.",
+      "Подтверждённый социальный контакт завершается наблюдаемой передачей и возвратом."
+    ],
+    "evidenceScreens": ["shelf", "requests", "profile", "item", "handoff"],
+    "referencePatterns": ["social-feed", "messaging", "profile"],
+    "referenceEvidence": [
+      { "pattern": "social-feed", "screen": "shelf", "behavior": "Лента показывает вещи с именами друзей, статусом и понятным переходом в детали." },
+      { "pattern": "messaging", "screen": "requests", "behavior": "Входящие и исходящие запросы сохраняют личный тон, но добавляют даты и статус передачи." },
+      { "pattern": "profile", "screen": "profile", "behavior": "Профиль показывает аватар, связи и собственную полку без публичных рейтингов." }
+    ]
+  },
+  "brand": { "accent": "#2688EB", "accentDark": "#4986CC", "fonts": "SF Pro" },
+  "auth": { "entryTarget": "shelf" },
+  "start": "phone",
+  "tabs": [
+    { "id": "shelf", "label": "Полка", "role": "feed" },
+    { "id": "discover", "label": "Поиск", "role": "discovery" },
+    { "id": "requests", "label": "Запросы", "role": "messages" },
+    { "id": "profile", "label": "Профиль", "role": "profile" }
+  ],
+  "transitions": [
+    { "from": "phone", "to": "shelf", "kind": "go", "label": "Создать аккаунт" },
+    { "from": "shelf", "to": "discover", "kind": "tab", "label": "Поиск" },
+    { "from": "shelf", "to": "requests", "kind": "tab", "label": "Запросы" },
+    { "from": "shelf", "to": "profile", "kind": "tab", "label": "Профиль" },
+    { "from": "shelf", "to": "item", "kind": "push", "label": "Открыть вещь" },
+    { "from": "shelf", "to": "add", "kind": "sheet", "label": "Добавить вещь" },
+    { "from": "discover", "to": "item", "kind": "push", "label": "Открыть результат" },
+    { "from": "item", "to": "request", "kind": "sheet", "label": "Попросить на выходные" },
+    { "from": "request", "to": "requests", "kind": "result", "label": "Отправить запрос" },
+    { "from": "requests", "to": "handoff", "kind": "push", "label": "Открыть передачу" },
+    { "from": "profile", "to": "add", "kind": "sheet", "label": "Добавить вещь" },
+    { "from": "requests", "to": "shelf", "kind": "tab", "label": "Полка" },
+    { "from": "profile", "to": "requests", "kind": "tab", "label": "Запросы" }
+  ],
+  "permissions": [
+    { "key": "camera", "plist": "NSCameraUsageDescription", "alert": { "title": "Снять вещь?", "text": "Полке нужна камера, чтобы добавить один понятный кадр вещи." }, "feature": "Снимок новой вещи", "screen": "add", "target": "add", "fallback": "Можно выбрать готовую фотографию или оставить цветную обложку." },
+    { "key": "photos", "plist": "NSPhotoLibraryUsageDescription", "alert": { "title": "Выбрать фото вещи?", "text": "Полка откроет медиатеку только после вашего выбора." }, "feature": "Обложка вещи из медиатеки", "screen": "add", "target": "add", "fallback": "Камера и цветная обложка остаются доступны." },
+    { "key": "mic", "plist": "NSMicrophoneUsageDescription", "alert": { "title": "Записать владельцу?", "text": "Микрофон включится только пока вы записываете голосовое о передаче." }, "feature": "Голосовое владельцу вещи", "screen": "request", "target": "request", "fallback": "Сообщение можно написать текстом." },
+    { "key": "speech", "plist": "NSSpeechRecognitionUsageDescription", "alert": { "title": "Добавить расшифровку?", "text": "Полка распознает голосовое, чтобы владелец мог прочитать его без звука." }, "feature": "Расшифровка голосового", "screen": "request", "target": "request", "fallback": "Голосовое отправится без текста." },
+    { "key": "contacts", "plist": "NSContactsUsageDescription", "alert": { "title": "Показать Полку друзьям?", "text": "Контакты помогут найти знакомых, которые уже пользуются Полкой." }, "feature": "Закрытый круг знакомых", "screen": "request", "target": "request", "fallback": "Вещь можно запросить у уже добавленных друзей." },
+    { "key": "push", "plist": "aps-environment", "alert": { "title": "Узнать об ответе?", "text": "Полка пришлёт одно уведомление, когда друг ответит на запрос или пора вернуть вещь." }, "feature": "Ответ и срок возврата", "screen": "request", "target": "requests", "fallback": "Статус и срок видны во вкладке «Запросы»." },
+    { "key": "commnotif", "plist": "com.apple.developer.usernotifications.communication", "alert": { "title": "Ответы как сообщения", "text": "Ответ владельца придёт с его именем и аватаром и будет учитывать Focus." }, "feature": "Личные ответы в уведомлениях", "screen": "request", "target": "requests", "fallback": "Придёт обычное уведомление без аватара." },
+    { "key": "remotenotif", "plist": "UIBackgroundModes/remote-notification", "alert": { "title": "Тихо обновлять запросы", "text": "Статусы передач обновятся до следующего открытия Полки." }, "feature": "Актуальные статусы запросов", "screen": "requests", "target": "requests", "fallback": "Статусы обновятся при открытии приложения." },
+    { "key": "fetch", "plist": "UIBackgroundModes/fetch", "alert": { "title": "Свежая полка к запуску", "text": "Доступность вещей друзей подготовится перед следующим открытием." }, "feature": "Фоновое обновление доступности", "screen": "profile", "target": "shelf", "fallback": "Полка обновится после открытия." },
+    { "key": "bgtask", "plist": "BGTaskSchedulerPermittedIdentifiers", "alert": { "title": "Проверять сроки в фоне", "text": "Зарегистрированная задача обновит ближайшие возвраты." }, "feature": "Фоновая проверка возвратов", "screen": "profile", "target": "requests", "fallback": "Сроки проверятся при открытии вкладки." },
+    { "key": "appgroups", "plist": "com.apple.security.application-groups", "alert": { "title": "Быстрое добавление", "text": "Общий контейнер сохранит черновик вещи из системного меню «Поделиться»." }, "feature": "Черновик вещи из расширения", "screen": "add", "target": "add", "fallback": "Вещь добавляется внутри приложения." },
+    { "key": "keychain", "plist": "keychain-access-groups", "alert": { "title": "Один защищённый вход", "text": "Приложение и расширение используют одну сессию без повторного входа." }, "feature": "Общая сессия приложения и расширения", "screen": "add", "target": "add", "fallback": "Расширение предложит открыть приложение." },
+    { "key": "autofill", "plist": "com.apple.developer.authentication-services.autofill-credential-provider", "alert": { "title": "Сохранить вход в Полку", "text": "Системное автозаполнение сможет предложить аккаунт Полки на сайте передачи." }, "feature": "Автозаполнение аккаунта передачи", "screen": "handoff", "target": "handoff", "fallback": "Почту и код можно ввести вручную." },
+    { "key": "wifiinfo", "plist": "com.apple.developer.networking.wifi-info", "alert": { "title": "Проверить сеть места", "text": "Имя текущей Wi‑Fi сети подтвердит, что оба друга пришли в выбранную точку." }, "feature": "Проверка точки передачи по сети", "screen": "handoff", "target": "handoff", "fallback": "Друг подтверждает встречу кодом вручную." },
+    { "key": "calendar", "plist": "NSCalendarsFullAccessUsageDescription", "alert": { "title": "Напомнить о возврате?", "text": "Полка добавит в календарь только срок возврата этой вещи." }, "feature": "Календарный срок возврата", "screen": "handoff", "target": "handoff", "fallback": "Срок остаётся в карточке передачи." },
+    { "key": "location", "plist": "NSLocationWhenInUseUsageDescription", "alert": { "title": "Выбрать точку передачи?", "text": "Геопозиция нужна только для выбора удобного места; постоянное отслеживание не используется." }, "feature": "Точка передачи вещи", "screen": "handoff", "target": "handoff", "fallback": "Место можно написать вручную." },
+    { "key": "tracking", "plist": "NSUserTrackingUsageDescription", "alert": { "title": "Персонализировать подборки?", "text": "Разрешение поможет показывать подходящие категории партнёрских вещей и сохранить Полку бесплатной." }, "feature": "Прозрачная персонализация рекомендаций", "screen": "discover", "target": "discover", "fallback": "Подборки останутся общими для всех." },
+    { "key": "faceid", "plist": "NSFaceIDUsageDescription", "alert": { "title": "Защитить код передачи?", "text": "Face ID закроет код, точное место и срок возврата от посторонних." }, "feature": "Защищённый код передачи", "screen": "handoff", "target": "handoff", "fallback": "Код защищён системным код-паролем устройства." },
+    { "key": "audio", "plist": "UIBackgroundModes/audio", "alert": { "title": "Слушать голосовые в фоне", "text": "Сообщение владельца продолжит играть при блокировке экрана." }, "feature": "Фоновое прослушивание договорённостей", "screen": "request", "target": "request", "fallback": "Голосовое играет только на открытом экране." },
+    { "key": "voip", "plist": "UIBackgroundModes/voip", "alert": { "title": "Позвонить владельцу", "text": "Звонок по передаче откроется системным экраном без обмена личными номерами." }, "feature": "Звонок владельцу через CallKit", "screen": "request", "target": "request", "fallback": "Остаётся переписка внутри запроса." },
+    { "key": "associateddomains", "plist": "com.apple.developer.associated-domains", "alert": { "title": "Ссылка на конкретную вещь", "text": "Универсальная ссылка откроет эту вещь прямо в Полке." }, "feature": "Глубокая ссылка на вещь", "screen": "item", "target": "item", "fallback": "Ссылка откроет главную полку." },
+    { "key": "hotspot", "plist": "com.apple.developer.networking.HotspotConfiguration", "alert": { "title": "Подключиться к гостевой сети", "text": "Полка подключит телефон к Wi‑Fi места передачи без ручного ввода." }, "feature": "Гостевая сеть точки передачи", "screen": "handoff", "target": "handoff", "fallback": "Сеть выбирается вручную в Настройках." }
+  ],
+  "screens": [
+    { "id": "phone", "title": "Регистрация по почте", "type": "start", "ui": { "navigation": "root", "purpose": "Войти в закрытую сеть друзей", "primaryAction": "Создать аккаунт", "states": ["default", "loading", "error"] } },
+    { "id": "shelf", "title": "Полка", "type": "tab root", "ui": { "navigation": "root", "purpose": "Увидеть доступные вещи друзей", "primaryAction": null, "states": ["default", "empty", "loading", "error", "offline"] } },
+    { "id": "discover", "title": "Поиск", "type": "tab root", "ui": { "navigation": "root", "purpose": "Найти вещь или категорию в кругу друзей", "primaryAction": null, "states": ["default", "empty", "loading", "error", "offline"] } },
+    { "id": "requests", "title": "Запросы", "type": "tab root", "ui": { "navigation": "root", "purpose": "Ответить на запросы и не пропустить возврат", "primaryAction": null, "states": ["default", "empty", "loading", "error", "offline"] } },
+    { "id": "profile", "title": "Профиль", "type": "tab root", "ui": { "navigation": "root", "purpose": "Управлять своей полкой и кругом друзей", "primaryAction": null, "states": ["default", "empty", "loading", "error"] } },
+    { "id": "item", "title": "Вещь", "type": "push detail", "parent": "shelf", "ui": { "navigation": "push", "purpose": "Понять состояние, даты и условия передачи", "primaryAction": "Попросить на выходные", "states": ["default", "loading", "error", "offline"] } },
+    { "id": "request", "title": "Запрос", "type": "modal", "parent": "item", "ui": { "navigation": "modal", "purpose": "Выбрать даты и отправить личную просьбу владельцу", "primaryAction": "Отправить запрос", "states": ["default", "loading", "error", "success", "denied"] } },
+    { "id": "add", "title": "Новая вещь", "type": "modal", "parent": "shelf", "ui": { "navigation": "modal", "purpose": "Добавить вещь на личную полку", "primaryAction": "Добавить на полку", "states": ["default", "loading", "error", "success", "denied"] } },
+    { "id": "handoff", "title": "Передача", "type": "push task", "parent": "requests", "ui": { "navigation": "push", "purpose": "Передать вещь и зафиксировать возврат", "primaryAction": "Вещь передана", "states": ["default", "loading", "error", "success", "denied"] } }
+  ],
+  "prototypes": [
+    { "id": "all", "hero": true, "label": "Весь продукт", "note": "Полка, запрос и передача", "start": "phone", "screens": ["phone", "shelf", "discover", "item", "request", "requests", "handoff", "add", "profile"] },
+    { "id": "borrow", "label": "Взять у друга", "note": "Полка → вещь → запрос", "start": "shelf", "screens": ["shelf", "item", "request", "requests", "handoff"] }
+  ],
+  "acceptance": [
+    { "id": "borrow-weekend", "action": "request_item", "screens": ["shelf", "item", "request", "requests"], "capabilities": ["contacts", "push", "commnotif", "remotenotif"] },
+    { "id": "message-owner", "action": "message_owner", "screens": ["request"], "capabilities": ["mic", "speech", "audio", "voip"] },
+    { "id": "confirm-handoff", "action": "confirm_handoff", "screens": ["requests", "handoff"], "capabilities": ["calendar", "location", "wifiinfo", "hotspot", "faceid", "autofill"] },
+    { "id": "publish-item", "action": "add_item", "screens": ["shelf", "add", "profile"], "capabilities": ["camera", "photos", "appgroups", "keychain"] },
+    { "id": "fresh-shelf", "action": "keep_shelf_fresh", "screens": ["profile", "shelf", "requests"], "capabilities": ["fetch", "bgtask"] },
+    { "id": "share-item", "action": "share_item", "screens": ["item"], "capabilities": ["associateddomains"] },
+    { "id": "personalize", "action": "personalize_discovery", "screens": ["discover"], "capabilities": ["tracking"] }
+  ],
+  "fixtures": {
+    "me": { "name": "Марина Соколова", "initials": "МС", "city": "Алматы", "friends": 84 },
+    "people": [
+      { "id": "lena", "name": "Лена Морозова", "initials": "ЛМ", "relation": "вы друзья", "color": "7C5CE7" },
+      { "id": "misha", "name": "Миша Волков", "initials": "МВ", "relation": "общие друзья: 12", "color": "19B394" },
+      { "id": "olya", "name": "Оля Смирнова", "initials": "ОС", "relation": "виделись вчера", "color": "E68A2E" }
+    ],
+    "items": [
+      { "id": "tent", "title": "Палатка на троих", "owner": "Лена Морозова", "ownerInitials": "ЛМ", "category": "Выезд", "availability": "свободна 5–7 сентября", "detail": "Лёгкая, два тамбура, дождевик в комплекте. Вернуть сухой.", "icon": "tent.fill", "colors": ["395C88", "87A8C4"], "featured": true },
+      { "id": "projector", "title": "Мини-проектор", "owner": "Миша Волков", "ownerInitials": "МВ", "category": "Дом", "availability": "сегодня после 19:00", "detail": "Full HD, HDMI и AirPlay. Белая стена не нужна — есть экран.", "icon": "play.rectangle.fill", "colors": ["242936", "596378"], "featured": false },
+      { "id": "drill", "title": "Шуруповёрт", "owner": "Оля Смирнова", "ownerInitials": "ОС", "category": "Инструменты", "availability": "свободен до пятницы", "detail": "Два аккумулятора и набор бит. Для бетона не подойдёт.", "icon": "screwdriver.fill", "colors": ["D67A22", "F1B34A"], "featured": false },
+      { "id": "speaker", "title": "Колонка JBL", "owner": "Лена Морозова", "ownerInitials": "ЛМ", "category": "Вечеринка", "availability": "на эти выходные", "detail": "Громкая, не боится воды, зарядка USB-C.", "icon": "hifispeaker.fill", "colors": ["D54B61", "F3818D"], "featured": false },
+      { "id": "game", "title": "Крылья", "owner": "Миша Волков", "ownerInitials": "МВ", "category": "Игры", "availability": "свободна на неделю", "detail": "Полная коробка, все карты в протекторах.", "icon": "bird.fill", "colors": ["4868C9", "8198E7"], "featured": false },
+      { "id": "rack", "title": "Крепление для вело", "owner": "Оля Смирнова", "ownerInitials": "ОС", "category": "Выезд", "availability": "после 8 сентября", "detail": "На два велосипеда, крепится на фаркоп.", "icon": "bicycle", "colors": ["188F7A", "58C3AC"], "featured": false }
+    ],
+    "requests": [
+      { "id": "incoming", "person": "Антон Лебедев", "initials": "АЛ", "item": "Вафельница", "dates": "6–7 сентября", "status": "ждёт ответа", "incoming": true },
+      { "id": "confirmed", "person": "Лена Морозова", "initials": "ЛМ", "item": "Палатка на троих", "dates": "5–7 сентября", "status": "подтверждено", "incoming": false },
+      { "id": "return", "person": "Миша Волков", "initials": "МВ", "item": "Мини-проектор", "dates": "вернуть сегодня до 21:00", "status": "у вас", "incoming": false }
+    ]
+  },
+  "backendless": [
+    { "needs": "Демо-лента", "solution": "Fixtures из concept.json попадают в Swift без копирования контента." },
+    { "needs": "Статус запроса", "solution": "Локальное observable-состояние для прототипа; удалённый социальный граф не имитируется." }
+  ],
+  "appStore": {
+    "name": "Полка — вещи друзей",
+    "subtitle": "Взять и вернуть вовремя",
+    "promo": "Найдите у друзей вещь на выходные, выберите даты и заранее договоритесь о возврате.",
+    "keywords": "друзья,вещи,одолжить,палатка,инструменты,возврат",
+    "category": { "primary": "Social Networking", "secondary": "Lifestyle" },
+    "ageRating": "4+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": { "support": "https://polka.local/support", "marketing": "https://polka.local", "privacy": "https://polka.local/privacy" },
+    "description": ["Полка показывает, какие вещи друзья готовы одолжить на конкретные даты.", "БЕЗ МАРКЕТПЛЕЙСА\nТолько друзья, личные запросы и понятный срок возврата."],
+    "whatsNew": "Первая версия: полка, запросы на даты, код передачи и возврат.",
+    "privacy": [],
+    "reviewAccount": { "phone": "Не требуется", "code": "Нет входа", "note": "Нативный review build открывает fixture-ленту." }
+  }
+}

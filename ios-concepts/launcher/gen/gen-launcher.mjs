@@ -8,7 +8,7 @@ import { execFileSync } from "node:child_process";
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const LAUNCHER = join(__dir, "..");
-const ROOT = join(LAUNCHER, "..");
+const REPOSITORY = join(LAUNCHER, "..", "..");
 const OUT = join(LAUNCHER, "build");
 const APP = join(OUT, "App");
 const NAME = "Camo";
@@ -210,21 +210,21 @@ writeFileSync(join(schemeDirectory, `${NAME}.xcscheme`), scheme);
 
 if (testFlight) {
   const kit = join(OUT, "DeveloperKit");
-  const excluded = ["native/build", "native/artifacts", "launcher/build", "node_modules", ".git"];
+  const excluded = ["platform/native-dist", "platform/dist", "node_modules", ".git"];
   const copy = name => {
-    const source = join(ROOT, name);
+    const source = join(REPOSITORY, name);
     if (!existsSync(source)) return;
     cpSync(source, join(kit, name), {
       recursive: true,
-      filter: path => !excluded.some(item => relative(ROOT, path).startsWith(item)),
+      filter: path => !excluded.some(item => relative(REPOSITORY, path).startsWith(item)),
     });
   };
   mkdirSync(kit, { recursive: true });
-  for (const name of ["package.json", "README.md", "docs", "native"]) copy(name);
-  const slugs = readdirSync(join(kit, "native", "apps"), { withFileTypes: true })
+  for (const name of ["README.md", "platform"]) copy(name);
+  const slugs = readdirSync(join(kit, "platform", "native-apps"), { withFileTypes: true })
     .filter(entry => entry.isDirectory()).map(entry => entry.name).sort();
-  for (const slug of slugs) execFileSync(process.execPath, [join(kit, "native", "gen", "gen-project.mjs"), slug], {
-    cwd: kit, stdio: "ignore",
+  for (const slug of slugs) execFileSync(process.execPath, [join(kit, "platform", "scripts", "build-app.mjs"), slug], {
+    cwd: join(kit, "platform"), stdio: "ignore",
   });
   writeFileSync(join(kit, "DEVELOPER-KIT.json"), JSON.stringify({ version: marketingVersion, build: buildNumber, concepts: slugs }, null, 2) + "\n");
 }

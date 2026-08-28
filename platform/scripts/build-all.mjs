@@ -10,6 +10,7 @@ import { writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'node:
 import { join } from 'node:path';
 import { DIST, conceptDir, listConcepts, esc, TARGET_PRODUCTS, POSITIONING_MODES } from './lib.mjs';
 import { build } from './build.mjs';
+import { writeUxSpec } from './ux-spec.mjs';
 
 /**
  * Состав архива только считаем для лога — собирает его `packDocs` внутри
@@ -229,6 +230,7 @@ mkdirSync(DIST, { recursive: true });
 const items = [];
 for (const slug of slugs) {
   const { spec, bytes } = build(slug);
+  writeUxSpec(slug);
   const n = countKit(slug);
   items.push({
     slug,

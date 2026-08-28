@@ -16,18 +16,19 @@ open LocalDerivedData/Build/Products/Debug/Camo.app
 | Раздел | Что показывает |
 |---|---|
 | Обзор | режим (мимикрия / отстройка), целевой набор, счётчики |
-| Возможности | контекстные iOS capabilities из скомпилированного Product Blueprint |
-| Экраны | снимки из `native/artifacts/<slug>/shots` |
+| Возможности | контекстные iOS capabilities из `concept.json` |
+| Экраны | снимки из `platform/native-dist/<slug>/screens` |
 | Документы | отдельные тематические Markdown-файлы; читается только выбранный файл |
 | Файлы | исходники концепта, сгенерированный Xcode-проект и текстовый preview |
 | Журнал | вывод сборки в реальном времени |
 
-Кнопка **Запустить** делает полный цикл: `gen-project.mjs` → `xcodebuild` →
+Кнопка **Запустить** делает полный цикл: `build-app.mjs` → `xcodebuild` →
 `simctl install` → `simctl launch`, с выбором устройства.
 
 Библиотека читает только корень repository: путь можно задать через
-`IOS_CONCEPTS_ROOT` или выбрать в настройках. Источник для launcher —
-`native/ProductBlueprints`; HTML-концепты и legacy-платформа ему не нужны.
+`CAMO_REPOSITORY_ROOT` (прежнее имя `IOS_CONCEPTS_ROOT` тоже поддерживается) или выбрать
+корень репозитория в настройках. Источник каталога — `platform/concepts`,
+а нативных приложений — `platform/native-apps`.
 
 ## Распространение
 

@@ -55,8 +55,7 @@ enum DeveloperKitExporter {
     }
 
     static func xcodeProject(root: URL, slug: String) -> URL {
-        let appName = slug.prefix(1).uppercased() + slug.dropFirst()
-        return root.appendingPathComponent("native/build/\(slug)/\(appName).xcodeproj")
+        root.appendingPathComponent("platform/native-dist/\(slug)/\(slug).xcodeproj")
     }
 
     private static func chooseDirectory(prompt: String) -> URL? {

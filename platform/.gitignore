@@ -1,3 +1,6 @@
 dist/
 node_modules
 _sheet.html
+
+# сборка нативного рендерера
+native-dist/

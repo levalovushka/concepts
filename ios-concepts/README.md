@@ -1,50 +1,29 @@
-# Camo Native Pipeline
+# Camo Launcher
 
-Camo turns one product specification into a runnable native SwiftUI concept.
-There is one public command and no adapter setup:
-
-```sh
-npm run generate -- native/specs/estafeta.json
-```
-
-The result is an Xcode project with working navigation and product actions,
-contextual iOS capability requests, XCUI journeys, screenshots and developer
-documentation. The same run also prepares a visual-review packet; the agent
-inspects the captures, repairs concrete UI or product problems and runs the
-pipeline again.
-
-This is not an HTML-to-Swift converter. `native/HTMLPatterns` contains the useful
-product and composition rules learned from the HTML concepts, while all runtime,
-navigation, permissions and rendering stay native.
+В этом каталоге остался только macOS-лаунчер. Актуальный нативный pipeline
+находится в [`../platform`](../platform): продуктовые факты живут в
+`platform/concepts`, авторский SwiftUI — в `platform/native-apps`, а общий слой
+доступов — в `platform/native-runtime`.
 
 ## Requirements
 
-- macOS with Xcode and an installed `iPhone 17 Pro` simulator;
-- Node.js 20 or newer;
-- no npm dependencies.
+- macOS с Xcode и симулятором `iPhone 17 Pro`;
+- Node.js 20 или новее.
 
-## Repository map
-
-- `native/pipeline.mjs` — the only public generation interface;
-- `native/specs/` — product inputs;
-- `native/lib/` — internal compilers and quality gates;
-- `native/HTMLPatterns/` — curated knowledge from HTML concepts;
-- `native/ReferenceProfiles/` — native mimicry grammars;
-- `native/DesignSystem/` and `native/Runtime/` — shared Swift sources;
-- `native/apps/`, `native/ProductBlueprints/`, `native/ProductUIContracts/` and
-  `native/Documentation/` — generated, reviewable output;
-- `native/build/` and `native/artifacts/` — local build and screenshot evidence;
-- `launcher/` — macOS browser for generated concepts and documentation.
-
-## Checks
+## Сборка
 
 ```sh
-npm test
 npm run launcher
+cd launcher/build
+xcodebuild -project Camo.xcodeproj -scheme Camo -configuration Debug \
+  -derivedDataPath LocalDerivedData CODE_SIGNING_ALLOWED=NO build
+open LocalDerivedData/Build/Products/Debug/Camo.app
 ```
 
-The pipeline refuses to overwrite an app directory it does not own. A release is
-not considered visually accepted until every review axis scores at least 8.5/10
-without blockers.
+Лаунчер сам находит корень репозитория. При необходимости его можно задать через
+`CAMO_REPOSITORY_ROOT=/path/to/repository`.
 
-More detail: [docs/PIPELINE.md](docs/PIPELINE.md).
+Кнопка «Запустить» выполняет новый цикл `build-app.mjs → xcodebuild → simctl`,
+а не обращается к удалённому pipeline «Эстафеты».
+
+Подробнее: [`launcher/README.md`](launcher/README.md).

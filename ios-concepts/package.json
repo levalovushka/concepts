@@ -3,10 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate": "node native/pipeline.mjs",
-    "test": "node --test native/test/*.test.mjs",
-    "check": "npm test",
     "launcher": "node launcher/gen/gen-launcher.mjs",
+    "check": "npm run launcher",
     "launcher:testflight": "CAMO_DISTRIBUTION=testflight node launcher/gen/gen-launcher.mjs",
     "launcher:archive:testflight": "node launcher/gen/archive-testflight.mjs",
     "launcher:package": "node launcher/gen/package-release.mjs"

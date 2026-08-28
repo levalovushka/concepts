@@ -11,14 +11,15 @@ enum ProjectFileIndex {
     static func files(for concept: Concept, root: String) -> [ProjectFile] {
         let rootURL = URL(fileURLWithPath: root, isDirectory: true)
         let locations = [
-            rootURL.appendingPathComponent("native/specs/\(concept.slug).json"),
-            rootURL.appendingPathComponent("native/ProductBlueprints/\(concept.slug)-vk.json"),
-            rootURL.appendingPathComponent("native/ProductUIContracts/\(concept.slug).json"),
-            rootURL.appendingPathComponent("native/Documentation/\(concept.slug)"),
-            rootURL.appendingPathComponent("native/apps/\(concept.slug)"),
-            rootURL.appendingPathComponent("native/build/\(concept.slug)"),
+            rootURL.appendingPathComponent("platform/concepts/\(concept.slug)/concept.json"),
+            rootURL.appendingPathComponent("platform/concepts/\(concept.slug)/CONTEXT.md"),
+            rootURL.appendingPathComponent("platform/concepts/\(concept.slug)/docs"),
+            rootURL.appendingPathComponent("platform/native-apps/\(concept.slug)"),
+            rootURL.appendingPathComponent("platform/native-runtime"),
+            rootURL.appendingPathComponent("platform/native/capability-map.json"),
+            rootURL.appendingPathComponent("platform/native-dist/\(concept.slug)"),
         ]
-        let ignored = ["build/Debug-", "DerivedData", "SmokeDerivedData", ".xcresult", ".DS_Store"]
+        let ignored = ["/build/Build/", "DerivedData", "SmokeDerivedData", ".xcresult", ".DS_Store"]
         var result: [ProjectFile] = []
         for location in locations where FileManager.default.fileExists(atPath: location.path) {
             var isDirectory: ObjCBool = false

@@ -1,7 +1,7 @@
 import SwiftUI
 
-// Лаунчер читает скомпилированные Product Blueprints, собирает нативные приложения
-// и показывает документацию. Старый каталог HTML-концептов ему не нужен.
+// Лаунчер читает единый concept.json из platform, собирает авторский
+// SwiftUI из native-apps и показывает документацию того же концепта.
 
 struct Concept: Identifiable, Hashable {
     let slug: String
@@ -14,7 +14,7 @@ struct Concept: Identifiable, Hashable {
     let permissions: [PermissionRow]
     let docs: [DocFile]
     let docsDirectory: URL
-    /// Есть ли нативные исходники (native/apps/<slug>).
+    /// Есть ли авторские SwiftUI-исходники (platform/native-apps/<slug>).
     let hasNative: Bool
     let path: String
     var id: String { slug }
@@ -54,7 +54,8 @@ final class Library {
     }
 
     init() {
-        let configured = ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"]
+        let configured = (ProcessInfo.processInfo.environment["CAMO_REPOSITORY_ROOT"]
+            ?? ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"])
             .flatMap(Self.validProjectRoot)
         let stored = UserDefaults.standard.string(forKey: "rootPath")
             .flatMap { Self.isEphemeralRoot($0) ? nil : Self.validProjectRoot($0) }
@@ -72,7 +73,7 @@ final class Library {
     private static func validProjectRoot(_ path: String) -> String? {
         let root = URL(fileURLWithPath: path, isDirectory: true)
         let fm = FileManager.default
-        let required = ["package.json", "native/ProductBlueprints", "native/apps"]
+        let required = ["platform/package.json", "platform/concepts", "platform/native-apps"]
         return required.allSatisfy { fm.fileExists(atPath: root.appendingPathComponent($0).path) }
             ? root.standardizedFileURL.path : nil
     }
@@ -84,7 +85,8 @@ final class Library {
            let bundled = LauncherDistribution.bundledDeveloperKit {
             seeds.insert(bundled, at: 0)
         }
-        if let configured = ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"] {
+        if let configured = ProcessInfo.processInfo.environment["CAMO_REPOSITORY_ROOT"]
+            ?? ProcessInfo.processInfo.environment["IOS_CONCEPTS_ROOT"] {
             seeds.insert(URL(fileURLWithPath: configured, isDirectory: true), at: 0)
         }
         for seed in seeds {
@@ -97,8 +99,7 @@ final class Library {
         return fm.currentDirectoryPath
     }
 
-    var productBlueprintsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/ProductBlueprints") }
-    var nativeDocumentationURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("native/Documentation") }
+    var conceptsURL: URL { URL(fileURLWithPath: rootPath).appendingPathComponent("platform/concepts") }
     var query: String = ""
 
     var filtered: [Concept] {
@@ -119,7 +120,7 @@ final class Library {
     var totalPermissions: Int { concepts.reduce(0) { $0 + $1.permissions.count } }
 
     private var nativeSlugs: Set<String> {
-        let appsURL = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps")
+        let appsURL = URL(fileURLWithPath: rootPath).appendingPathComponent("platform/native-apps")
         let dirs = (try? FileManager.default.contentsOfDirectory(at: appsURL,
                                                                  includingPropertiesForKeys: nil)) ?? []
         return Set(dirs.map(\.lastPathComponent))
@@ -129,56 +130,53 @@ final class Library {
         var found: [Concept] = []
         let nativeSlugs = self.nativeSlugs
         let fm = FileManager.default
-        let blueprints = (try? fm.contentsOfDirectory(at: productBlueprintsURL, includingPropertiesForKeys: nil)) ?? []
-        for url in blueprints.filter({ $0.lastPathComponent.hasSuffix("-vk.json") }).sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
+        let directories = (try? fm.contentsOfDirectory(at: conceptsURL, includingPropertiesForKeys: [.isDirectoryKey])) ?? []
+        for directory in directories
+            .filter({ !$0.lastPathComponent.hasPrefix("_") })
+            .sorted(by: { $0.lastPathComponent < $1.lastPathComponent }) {
+            let url = directory.appendingPathComponent("concept.json")
             guard let data = try? Data(contentsOf: url),
                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                  let slug = json["id"] as? String
+                  let slug = json["slug"] as? String
             else { continue }
-            found.append(parseBlueprint(json, slug: slug, native: nativeSlugs.contains(slug)))
+            found.append(parseConcept(json, slug: slug, native: nativeSlugs.contains(slug)))
         }
         concepts = found
     }
 
-    private func parseBlueprint(_ j: [String: Any], slug: String, native: Bool) -> Concept {
-        let appDir = URL(fileURLWithPath: rootPath).appendingPathComponent("native/apps/\(slug)")
-        let compiledDocs = nativeDocumentationURL.appendingPathComponent(slug)
-        let docsDir = compiledDocs
+    private func parseConcept(_ j: [String: Any], slug: String, native: Bool) -> Concept {
+        let conceptDir = conceptsURL.appendingPathComponent(slug)
+        let appDir = URL(fileURLWithPath: rootPath).appendingPathComponent("platform/native-apps/\(slug)")
+        let docsDir = conceptDir.appendingPathComponent("docs")
         let docs = ((try? FileManager.default.contentsOfDirectory(at: docsDir, includingPropertiesForKeys: nil)) ?? [])
             .filter { $0.pathExtension == "md" }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
             .map { DocFile(name: $0.deletingPathExtension().lastPathComponent, url: $0) }
-        let navigation = j["navigation"] as? [String: Any]
-        let screens = navigation?["screens"] as? [[String: Any]] ?? []
-        let actionScreen = screens.flatMap { screen in
-            let screenID = screen["id"] as? String ?? ""
-            return (screen["actionIds"] as? [String] ?? []).map { ($0, screenID) }
-        }.reduce(into: [String: String]()) { result, pair in
-            if result[pair.0] == nil { result[pair.0] = pair.1 }
-        }
-        let permissions = (j["capabilities"] as? [[String: Any]] ?? []).map { capability in
-            let key = capability["key"] as? String ?? ""
-            let action = capability["actionId"] as? String ?? ""
+        let screens = j["screens"] as? [[String: Any]] ?? []
+        let permissions = (j["permissions"] as? [[String: Any]] ?? []).map { capability in
             return PermissionRow(
-                key: key, plist: "compiled from iOS capability catalog",
-                feature: capability["purpose"] as? String ?? capability["observableResult"] as? String ?? "",
-                screen: actionScreen[action] ?? "", risk: "contextual"
+                key: capability["key"] as? String ?? "",
+                plist: capability["plist"] as? String ?? "",
+                feature: capability["feature"] as? String ?? "",
+                screen: capability["screen"] as? String ?? "",
+                risk: "contextual"
             )
         }
-        let audience = j["audience"] as? [String: Any]
+        let positioning = j["positioning"] as? [String: Any]
+        let brand = j["brand"] as? [String: Any]
         return Concept(
             slug: slug,
             name: j["name"] as? String ?? slug,
-            tagline: j["thesis"] as? String ?? audience?["need"] as? String ?? "",
-            targetSet: j["targetProduct"] as? String ?? "iOS",
-            mode: j["strategy"] as? String ?? "differentiation",
-            accent: Color(hex: "#0077FF"),
+            tagline: j["tagline"] as? String ?? j["deck"] as? String ?? "",
+            targetSet: j["targetSet"] as? String ?? "iOS",
+            mode: positioning?["mode"] as? String ?? "differentiation",
+            accent: Color(hex: brand?["accent"] as? String ?? "#0077FF"),
             screens: screens.count,
             permissions: permissions,
             docs: docs,
             docsDirectory: docsDir,
             hasNative: native,
-            path: appDir.path
+            path: (native ? appDir : conceptDir).path
         )
     }
 }

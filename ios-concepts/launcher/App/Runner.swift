@@ -35,7 +35,9 @@ final class Runner {
 
     private func pipeline(concept: Concept, root: String) async {
         let slug = concept.slug
-        let bundleId = "com.camo." + slug.replacingOccurrences(of: "-", with: "")
+        let bundleId = "app.camo.\(slug)"
+        let platform = "\(root)/platform"
+        let projectDirectory = "\(platform)/native-dist/\(slug)"
 
         await set(.generating)
         guard let node = Self.nodePath else {
@@ -44,23 +46,25 @@ final class Runner {
             }
             return await set(.failed)
         }
-        guard await sh(node, ["\(root)/native/gen/gen-project.mjs", slug], cwd: root) else {
+        guard await sh(node, ["\(platform)/scripts/build-app.mjs", slug], cwd: platform) else {
             return await set(.failed)
         }
 
         await set(.building)
-        let proj = "\(root)/native/build/\(slug)"
-        let appName = slug.prefix(1).uppercased() + slug.dropFirst()
         guard await sh("/usr/bin/xcodebuild",
-                       ["-project", "\(proj)/\(appName).xcodeproj", "-target", String(appName),
-                        "-sdk", "iphonesimulator", "-configuration", "Debug", "build"],
-                       cwd: proj) else { return await set(.failed) }
+                       ["-project", "\(slug).xcodeproj", "-scheme", slug,
+                        "-sdk", "iphonesimulator", "-destination", "generic/platform=iOS Simulator",
+                        "-derivedDataPath", "build", "CODE_SIGNING_ALLOWED=NO", "build"],
+                       cwd: projectDirectory) else { return await set(.failed) }
 
         await set(.installing)
         _ = await sh("/usr/bin/xcrun", ["simctl", "boot", device], cwd: root)
         _ = await sh("/usr/bin/xcrun", ["simctl", "bootstatus", device, "-b"], cwd: root)
         _ = await sh("/usr/bin/xcrun", ["simctl", "terminate", device, bundleId], cwd: root)
-        let appPath = "\(proj)/build/Debug-iphonesimulator/\(appName).app"
+        guard let appPath = Self.builtApp(in: "\(projectDirectory)/build/Build/Products/Debug-iphonesimulator") else {
+            await MainActor.run { self.log += "\nСобранное .app не найдено.\n" }
+            return await set(.failed)
+        }
         guard await sh("/usr/bin/xcrun", ["simctl", "install", device, appPath], cwd: root) else {
             return await set(.failed)
         }
@@ -68,8 +72,17 @@ final class Runner {
         await set(.running)
         _ = await sh("/usr/bin/open", ["-a", "Simulator"], cwd: root)
         _ = await sh("/usr/bin/xcrun", ["simctl", "launch", device, bundleId], cwd: root)
+        let shots = "\(projectDirectory)/screens"
+        try? FileManager.default.createDirectory(atPath: shots, withIntermediateDirectories: true)
+        _ = await sh("/usr/bin/xcrun", ["simctl", "io", device, "screenshot", "\(shots)/latest.png"], cwd: root)
         await set(.idle)
         await MainActor.run { self.busySlug = nil }
+    }
+
+    private static func builtApp(in products: String) -> String? {
+        let url = URL(fileURLWithPath: products, isDirectory: true)
+        return (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil))?
+            .first(where: { $0.pathExtension == "app" })?.path
     }
 
     @discardableResult

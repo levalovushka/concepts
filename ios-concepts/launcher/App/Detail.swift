@@ -132,8 +132,7 @@ struct ConceptDetail: View {
             exportKit()
             return
         }
-        let name = concept.slug.prefix(1).uppercased() + concept.slug.dropFirst()
-        let p = "\(library.rootPath)/native/build/\(concept.slug)/\(name).xcodeproj"
+        let p = "\(library.rootPath)/platform/native-dist/\(concept.slug)/\(concept.slug).xcodeproj"
         if FileManager.default.fileExists(atPath: p) {
             NSWorkspace.shared.open(URL(fileURLWithPath: p))
         }
@@ -442,7 +441,7 @@ private struct ScreensTab: View {
 
     private var shots: [URL] {
         let dir = URL(fileURLWithPath: root)
-            .appendingPathComponent("native/artifacts/\(concept.slug)/shots")
+            .appendingPathComponent("platform/native-dist/\(concept.slug)/screens")
         return ((try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil)) ?? [])
             .filter { $0.pathExtension == "png" }
             .sorted { $0.lastPathComponent < $1.lastPathComponent }
