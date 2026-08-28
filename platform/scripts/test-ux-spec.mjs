@@ -25,6 +25,11 @@ for (const slug of slugs) {
   if (slug !== 'dvor') {
     assert.equal(spec.compliance.ageRating, '13+', `${slug}: рейтинг должен быть не ниже 13+`);
     assert.equal(spec.compliance.targetAgeRating, '13+', `${slug}: рейтинг целевого сервиса должен быть 13+`);
+    const authActions = spec.navigation.screens.find((screen) => screen.id === 'phone')?.actions.map((action) => action.label) || [];
+    assert.ok(authActions.includes('пользовательское соглашение'), `${slug}: соглашение должно быть встроенной ссылкой в юридической строке`);
+    assert.ok(authActions.includes('политику конфиденциальности'), `${slug}: политика должна быть встроенной ссылкой в юридической строке`);
+    assert.ok(authActions.includes('Помощь и поддержка'), `${slug}: помощь и поддержка должны быть одной вторичной точкой`);
+    assert.ok(!authActions.includes('Помощь') && !authActions.includes('Поддержка'), `${slug}: отдельные ссылки помощи перегружают футер`);
   }
 
   for (const screen of spec.navigation.screens) {

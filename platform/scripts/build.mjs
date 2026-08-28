@@ -36,6 +36,8 @@ const registrationIcon = (spec) => existsSync(join(conceptDir(spec.slug), 'asset
   ? '<img class="auth-app-icon" src="assets/app-icon.png" alt="">'
   : null;
 
+const authLegalFooter = (spec) => `<p class="auth-legal">Нажимая «Создать аккаунт», вы принимаете <button class="auth-legal-link" data-toast="Соглашение · ${spec.slug}.app/terms">пользовательское соглашение</button> и <button class="auth-legal-link" data-toast="Политика · ${spec.slug}.app/privacy">политику конфиденциальности</button>.</p><div class="auth-support"><button class="auth-support-link" data-toast="Справка · ${spec.slug}.app/help · support@${spec.slug}.app">Помощь и поддержка</button></div>`;
+
 const emailRegistrationScreen = (spec, target) => {
   const appIcon = registrationIcon(spec);
   return `<div class="screen ios-surface email-registration" id="scr-phone" data-pattern="auth">
@@ -50,13 +52,7 @@ const emailRegistrationScreen = (spec, target) => {
     <p class="auth-hint">На этот адрес не нужно ждать письмо.</p>
     <div class="auth-actions">
       <button class="btn-filled tap email-registration-primary" data-primary data-go="${target}">Создать аккаунт</button>
-      <p class="auth-legal">Нажимая «Создать аккаунт», вы принимаете пользовательское соглашение и подтверждаете, что ознакомились с политикой конфиденциальности.</p>
-      <div class="auth-links">
-        <button class="auth-link" data-toast="Помощь · ${spec.slug}.app/help">Помощь</button>
-        <button class="auth-link" data-toast="Поддержка · support@${spec.slug}.app">Поддержка</button>
-        <button class="auth-link" data-toast="Соглашение · ${spec.slug}.app/terms">Пользовательское соглашение</button>
-        <button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button>
-      </div>
+      ${authLegalFooter(spec)}
     </div>
   </div>
   <div class="home-ind" aria-hidden="true"></div>
@@ -131,23 +127,16 @@ function adaptRegistrationScreen(source, target, spec) {
     });
   }
   if (spec.slug !== 'dvor') {
-    const consent = 'Нажимая «Создать аккаунт», вы принимаете пользовательское соглашение и подтверждаете, что ознакомились с политикой конфиденциальности.';
-    if (!/политик[а-яё]* конфиденциальности/i.test(out)) {
-      out = out.replace('<div class="auth-links">', `<p class="auth-legal">${consent}</p><div class="auth-links">`);
-    }
-    if (!/class="auth-links"/.test(out)) {
-      const links = `<p class="auth-legal">${consent}</p><div class="auth-links"><button class="auth-link" data-toast="Помощь · ${spec.slug}.app/help">Помощь</button><button class="auth-link" data-toast="Поддержка · support@${spec.slug}.app">Поддержка</button><button class="auth-link" data-toast="Соглашение · ${spec.slug}.app/terms">Пользовательское соглашение</button><button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button></div>`;
+    out = out.replace(/<([a-z]+)([^>]*class="[^"]*(?:auth-legal|db-legal|lk-auth-note|lx-legal2|sc-legal|tl-auth-legal|t-footnote)[^"]*"[^>]*)>[\s\S]*?<\/\1>/gi, '');
+    if (/class="auth-links"/.test(out)) {
+      out = out.replace(/<div class="auth-links">[\s\S]*?<\/div>/, authLegalFooter(spec));
+    } else {
+      const footer = authLegalFooter(spec);
       if (spec.slug === 'set') {
-        out = out.replace('</small></div></div><div class="home-ind"', `</small>${links}</div></div><div class="home-ind"`);
+        out = out.replace('</small></div></div><div class="home-ind"', `</small>${footer}</div></div><div class="home-ind"`);
       } else {
-        out = out.replace('<div class="home-ind"', `${links}<div class="home-ind"`);
+        out = out.replace('<div class="home-ind"', `${footer}<div class="home-ind"`);
       }
-    }
-    if (!/data-toast="Политика ·/.test(out)) {
-      out = out.replace(
-        /(<button class="auth-link" data-toast="Соглашение[^>]*>Пользовательское соглашение<\/button>)/,
-        `$1<button class="auth-link" data-toast="Политика · ${spec.slug}.app/privacy">Политика конфиденциальности</button>`,
-      );
     }
   }
   return installRegistrationIcon(out, spec);
