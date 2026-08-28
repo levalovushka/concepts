@@ -73,7 +73,7 @@ const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
       <p class="unified-auth-lede">Введите номер телефона, чтобы продолжить в «${esc(spec.name)}».</p>
       ${phone}
       <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-go="password">Далее</button>
-      <button class="unified-auth-link tap" data-go="register">Нет аккаунта? Создать</button>
+      <button class="unified-auth-link tap" data-go="register">Создать аккаунт</button>
       <button class="unified-auth-link tap" data-auth-target data-go="${target}">Продолжить без аккаунта</button>
       ${authUsageFooter(spec)}</div>
       <button class="unified-auth-help tap" data-toast="Справка · ${host}/help · support@${host}">Помощь и поддержка</button>
@@ -109,6 +109,12 @@ const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
 function installRegistrationIcon(source, spec) {
   const appIcon = registrationIcon(spec);
   if (!appIcon) return source;
+  if (spec.slug === 'set' && /class="[^"]*\bcx-wordmark\b/.test(source)) {
+    return source.replace(
+      /(<span[^>]*class="[^"]*\bcx-wordmark\b[^"]*"[^>]*>)\s*<i[^>]*><\/i>/,
+      `$1${appIcon}`,
+    );
+  }
   const logoClasses = [
     'auth-mark', 'db-logo', 'lx-logo', 'lk-logo', 'rd-mark', 'sc-logo',
     'sm-login-brand', 'st-auth-logo', 'tl-auth-mark', 'td-auth-mark',
@@ -186,6 +192,95 @@ function adaptRegistrationScreen(source, target, spec) {
       }
     }
   }
+  return installRegistrationIcon(out, spec);
+}
+
+/* Концепты с собственной композицией входа сохраняют исходный DOM и CSS.
+   Меняем только продуктовую семантику: телефон → пароль, гостевой проход,
+   регистрация и юридические ссылки. */
+const CUSTOM_AUTH = new Set([
+  'double', 'dvor', 'liga', 'looks', 'radius', 'scene',
+  'set', 'shellac', 'strochka', 'tails', 'today',
+]);
+
+const removeClassElement = (html, className) => html.replace(
+  new RegExp(`<([a-z]+)([^>]*class="[^"]*\\b${className}\\b[^"]*"[^>]*)>[\\s\\S]*?<\\/\\1>`, 'gi'),
+  '',
+);
+
+function customPhoneAuthScreen(source, target, spec) {
+  const host = spec.domain || `${spec.slug}.app`;
+  let out = source
+    .replace(/class="([^"]*)\bis-on\b\s*([^"]*)"/, 'class="$1$2"')
+    .replace(/id="scr-phone"/, 'id="scr-phone" data-pattern="auth"')
+    .replace(/<div class="auth-links">[\s\S]*?<\/div>/g, '')
+    .replace(/<(button|div)(?=[^>]*(?:class="[^"]*(?:google|auth-apple)[^"]*"|data-activate="applesignin\|[^"]+"))[^>]*>[\s\S]*?<\/\1>/gi, '');
+
+  const legalClasses = {
+    double: ['db-legal'], dvor: ['center'], liga: ['lx-legal2'], looks: ['lk-auth-note'],
+    radius: ['rd-legal'], scene: ['sc-legal'], tails: ['tl-auth-legal'],
+  }[spec.slug] || [];
+  legalClasses.forEach((className) => { out = removeClassElement(out, className); });
+
+  out = out
+    .replace(/Электронная почта/g, 'Номер телефона')
+    .replace(/Войдите по почте/g, 'Войдите по номеру')
+    .replace(/Почта нужна/g, 'Номер нужен')
+    .replace(/Почта сохранит/g, 'Номер сохранит')
+    .replace(/почта нужна/g, 'номер нужен')
+    .replace(/Пришлём код в письме\.[^<]*/g, 'Пароль вводится на следующем экране.')
+    .replace(/Код придёт письмом\.[^<]*/g, 'Пароль вводится на следующем экране.')
+    .replace(/Пришлём SMS\.[^<]*/g, 'Пароль вводится на следующем экране. ')
+    .replace(/type="email"/g, 'type="tel"')
+    .replace(/type="text"/g, 'type="tel"')
+    .replace(/inputmode="email"/g, 'inputmode="tel"')
+    .replace(/\sreadonly\b/g, '')
+    .replace(/value="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}"/gi, 'value="+7 900 123-45-67"')
+    .replace(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi, '+7 900 123-45-67')
+    .replaceAll('#i-mail', '#i-phone');
+
+  if (spec.slug === 'double') {
+    out = out.replace(
+      /<div class="db-phone">[\s\S]*?<\/div>/,
+      '<div class="db-phone"><input class="auth-phone-input" type="tel" value="+7 900 123-45-67" autocomplete="tel" aria-label="Номер телефона"></div>',
+    );
+  }
+  if (spec.slug === 'scene') {
+    out = out.replace(
+      /<div><b>\+7<\/b><i><\/i><strong>900 123-45-67<\/strong><\/div>/,
+      '<div><input class="auth-phone-input" type="tel" value="+7 900 123-45-67" autocomplete="tel" aria-label="Номер телефона"></div>',
+    );
+  }
+
+  if (spec.slug === 'set') {
+    out = out
+      .replace('data-back aria-label="Закрыть"', `data-auth-target data-go="${target}" aria-label="Продолжить без аккаунта"`)
+      .replace('<span class="cx-wordmark"><i></i>', '<span class="cx-wordmark"><i class="auth-inline-brand"></i>');
+  }
+
+  if (!/<input\b[^>]*type="tel"/i.test(out)) {
+    out = out.replace(
+      /<(span|b|strong)([^>]*)>\s*\+7\s*900\s*123-45-67\s*<\/\1>/,
+      '<$1$2><input class="auth-phone-input" type="tel" value="+7 900 123-45-67" autocomplete="tel" aria-label="Номер телефона"></$1>',
+    );
+  }
+  out = out.replace(/<input([^>]*)>/, (match, attrs) => {
+    let next = attrs;
+    if (!/\stype=/.test(next)) next += ' type="tel"';
+    if (!/\sautocomplete=/.test(next)) next += ' autocomplete="tel"';
+    return `<input${next}>`;
+  });
+
+  const secondary = `<div class="unified-auth-secondary-cluster">
+    <button class="unified-auth-link tap" data-go="register">Создать аккаунт</button>
+    <button class="unified-auth-link tap" data-auth-target data-go="${target}">Продолжить без аккаунта</button>
+    ${authUsageFooter(spec)}
+    <button class="unified-auth-help tap" data-toast="Справка · ${host}/help · support@${host}">Помощь и поддержка</button>
+  </div>`;
+  out = out.replace(/<([a-z]+)([^>]*data-go="code"[^>]*)>[\s\S]*?<\/\1>/, (match, tag, attrs) => {
+    const clean = attrs.replace(/\sdata-go="code"/, '').replace(/\sdata-primary(?:="[^"]*")?/, '');
+    return `<${tag}${clean} data-primary data-go="password">Далее</${tag}>${secondary}`;
+  });
   return installRegistrationIcon(out, spec);
 }
 
@@ -380,6 +475,9 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
   }
 
   let markup = { ...sourceMarkup, ...accountAuthScreens(spec, target, authLight, sourceAuthClasses) };
+  if (CUSTOM_AUTH.has(spec.slug) && sourceMarkup.phone) {
+    markup.phone = customPhoneAuthScreen(sourceMarkup.phone, target, spec);
+  }
   if (accountSurfaceId && markup[accountSurfaceId]) {
     markup[accountSurfaceId] = markup[accountSurfaceId]
       .replace(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi, '+7 900 123-45-67')

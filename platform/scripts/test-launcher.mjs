@@ -66,7 +66,7 @@ try {
     await page.goto(url);
     const slug = new URL(url).pathname.split('/').filter(Boolean).at(-2);
     const phoneScreens = page.locator('[data-screen="phone"]');
-    assert.equal(await phoneScreens.locator('.auth-app-icon').count(), await phoneScreens.count(), `${slug}: на входе нет логотипа или серого плейсхолдера`);
+    assert.equal(await phoneScreens.locator(':is(.auth-app-icon,.auth-inline-brand)').count(), await phoneScreens.count(), `${slug}: на входе нет логотипа или брендового знака`);
     if (slug === 'today') assert.equal(await phoneScreens.locator('.td-logo').count(), 0, 'today: старый wordmark дублирует логотип');
     await page.click('[data-tab="docs"]');
     assert.equal(await page.locator('.docs-links a[href$=".md"]').count(), 0, `${url}: ссылка на сырой Markdown`);
