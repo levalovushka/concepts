@@ -1,0 +1,2229 @@
+{
+  "slug": "obyekt",
+  "name": "Объект",
+  "eyebrow": "Объект · iOS",
+  "targetSet": "ok",
+  "domain": "obyekt.app",
+  "heroTitle": "Объект",
+  "heroDeck": "Закрытый операционный журнал ремонта: этапы, зоны, факты, дефекты и акт — без ленты и публичности.",
+  "tagline": "Каждая скрытая работа становится проверяемым фактом в акте",
+  "insight": "на малом объекте решения принимают на месте и отовсюду без стабильной сети; споры появляются позже, когда работа уже скрыта",
+  "deck": "Для заказчика, прораба и бригады на одном ремонте: телефон собирает операционную историю, синхронизирует её локально и собирает в акт.",
+  "qualityContractVersion": 2,
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "journal",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "product": {
+    "audience": "Заказчик и прораб на ремонте квартиры, дома или небольшого коммерческого помещения с бригадой 3–12 человек",
+    "situation": "Работа закрывается следующим слоем, поставка опаздывает, а решение принимают у люка без ноутбука и сети",
+    "problem": "Фото лежат в чатах без зоны и этапа, дефекты теряют ответственного, а акт собирают по памяти",
+    "promise": "Показать что, где, когда и кем сделано, и передать заказчику акт с доказательствами",
+    "differentiator": "Не чат и не CRM: ядром служит неизменяемый факт, привязанный к зоне, этапу и ответственному",
+    "returnReasons": [
+      "Закрыть дефект до следующего слоя работ",
+      "Принять поставку по местам и зафиксировать помятое",
+      "Сверить присутствие и передать данные без интернета",
+      "Дослушать сводку по дороге и собрать акт на зарядке"
+    ],
+    "verticalSlice": {
+      "entry": "journal",
+      "action": "capture",
+      "result": "captured"
+    },
+    "coreLoop": [
+      "Открыть текущий этап и зону",
+      "Зафиксировать работу серией кадров или дефектом",
+      "Передать факт ответственному и закрыть после проверки",
+      "Включить принятую историю в акт завершения"
+    ],
+    "nonGoals": [
+      "Лента, посты, профили, подписчики и лайки",
+      "Биржа бригад, магазин материалов или публичный каталог",
+      "Смета, бухгалтерия и тендеры"
+    ],
+    "world": {
+      "note": "Модель мира построена вокруг доказуемого факта, а не публикации.",
+      "entities": [
+        {
+          "id": "object",
+          "name": "Объект",
+          "identity": "адрес и договор",
+          "fields": [
+            "срок",
+            "участники",
+            "прогресс"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "zone"
+            },
+            {
+              "kind": "has-many",
+              "to": "phase"
+            }
+          ]
+        },
+        {
+          "id": "zone",
+          "name": "Зона",
+          "identity": "код на плане",
+          "fields": [
+            "площадь",
+            "этапы"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "fact"
+            }
+          ]
+        },
+        {
+          "id": "phase",
+          "name": "Этап",
+          "identity": "вид работ и очередь",
+          "fields": [
+            "план",
+            "готовность",
+            "следующий контроль"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "object"
+            },
+            {
+              "kind": "has-many",
+              "to": "fact"
+            }
+          ]
+        },
+        {
+          "id": "fact",
+          "name": "Факт",
+          "identity": "время, автор и неизменяемое содержимое",
+          "fields": [
+            "текст",
+            "медиа",
+            "статус"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "zone"
+            }
+          ]
+        },
+        {
+          "id": "defect",
+          "name": "Дефект",
+          "identity": "номер D",
+          "fields": [
+            "срок",
+            "ответственный",
+            "приёмка"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "fact"
+            }
+          ]
+        },
+        {
+          "id": "delivery",
+          "name": "Поставка",
+          "identity": "номер заказа",
+          "fields": [
+            "ETA",
+            "места",
+            "приёмка"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "object"
+            }
+          ]
+        },
+        {
+          "id": "act",
+          "name": "Акт",
+          "identity": "номер и версия",
+          "fields": [
+            "факты",
+            "дефекты",
+            "подписи"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "object"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "record-fact",
+          "name": "Зафиксировать работу",
+          "actor": "object",
+          "entity": "fact",
+          "effect": "Добавляет неизменяемый факт в зону и этап",
+          "screen": "newentry",
+          "result": "Факт попадает в журнал и будущий акт",
+          "capabilities": [
+            "camera",
+            "photos",
+            "mic",
+            "location"
+          ]
+        },
+        {
+          "id": "manage-crew",
+          "name": "Собрать бригаду",
+          "actor": "object",
+          "entity": "object",
+          "effect": "Добавляет участников и фиксирует присутствие на объекте",
+          "screen": "crew",
+          "result": "Ответственные доступны в журнале и вызовах",
+          "capabilities": [
+            "contacts",
+            "locationalways",
+            "keychain"
+          ]
+        },
+        {
+          "id": "coordinate-work",
+          "name": "Координировать работы",
+          "actor": "object",
+          "entity": "defect",
+          "effect": "Доставляет адресные изменения и вызовы бригаде",
+          "screen": "alerts",
+          "result": "Исполнитель получает только события своего объекта",
+          "capabilities": [
+            "tracking",
+            "push",
+            "commnotif",
+            "voip"
+          ]
+        },
+        {
+          "id": "follow-delivery",
+          "name": "Принять поставку",
+          "actor": "object",
+          "entity": "delivery",
+          "effect": "Обновляет ETA и готовит журнал к открытию",
+          "screen": "deliveries",
+          "result": "Поставка появляется в очереди приёмки",
+          "capabilities": [
+            "remotenotif",
+            "fetch"
+          ]
+        },
+        {
+          "id": "play-briefing",
+          "name": "Прослушать инструктаж",
+          "actor": "object",
+          "entity": "phase",
+          "effect": "Воспроизводит короткий инструктаж этапа",
+          "screen": "briefing",
+          "result": "Инструктаж продолжается при погашенном экране",
+          "capabilities": [
+            "audio"
+          ]
+        },
+        {
+          "id": "sync-local",
+          "name": "Передать пакет",
+          "actor": "object",
+          "entity": "fact",
+          "effect": "Передаёт очередь соседнему узлу",
+          "screen": "sync",
+          "result": "Прораб получает изменения без интернета",
+          "capabilities": [
+            "localnetwork",
+            "wifiinfo"
+          ]
+        },
+        {
+          "id": "close-act",
+          "name": "Собрать акт",
+          "actor": "object",
+          "entity": "act",
+          "effect": "Собирает PDF из принятых фактов",
+          "screen": "act",
+          "result": "Акт готов к совместной проверке",
+          "capabilities": [
+            "processing",
+            "bgtask",
+            "associateddomains",
+            "photosadd"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Business — основная ценность в управлении ходом работ, приёмкой и доказательным актом, а не в социальном графе",
+    "familiarPatterns": [
+      "Хронология событий сверху вниз",
+      "Статусы задач и ответственные",
+      "Чек-лист приёмки и файл акта",
+      "Карта и план зон"
+    ],
+    "distinctions": [
+      "Вместо ленты — неизменяемый операционный журнал по зонам и этапам",
+      "Вместо профилей — роли в объекте и отметки присутствия",
+      "Вместо лайков — принятие, дефект и подпись",
+      "Локальная peer-to-peer синхронизация на объекте без сети"
+    ],
+    "evidenceScreens": [
+      "journal",
+      "zones",
+      "defects",
+      "sync",
+      "act"
+    ],
+    "referenceEvidence": []
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "iOS журналы стройки и punch-list инструменты",
+        "observation": "В поле важны крупный статус, номер дефекта, зона и срок",
+        "decision": "Первичны журнал, план зон и реестр дефектов; социальных поверхностей нет"
+      },
+      {
+        "source": "Телефон на ремонте",
+        "observation": "Связь нестабильна, а доказательство нужно снять до закрытия слоя",
+        "decision": "Запись сначала сохраняется локально, затем передаётся peer-to-peer или через облако"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Это можно сделать в чате",
+        "resolution": "Чат не даёт зону, этап, ответственного, срок и принятый статус одному факту",
+        "evidenceScreens": [
+          "newentry",
+          "defect",
+          "act"
+        ]
+      },
+      {
+        "objection": "Фоновая геопозиция избыточна",
+        "resolution": "Она включается отдельно на смену, работает в радиусе объекта и имеет ручной fallback",
+        "evidenceScreens": [
+          "presence"
+        ]
+      },
+      {
+        "objection": "Фоновое аудио искусственно",
+        "resolution": "Сводка собирает короткие решения дня в один 4-минутный файл, который заказчик слушает по дороге",
+        "evidenceScreens": [
+          "briefing",
+          "nowplaying"
+        ]
+      },
+      {
+        "objection": "ATT не нужен журналу",
+        "resolution": "Он не нужен ядру: показывается только в опциональной настройке бесплатного тарифа, а отказ не меняет функции",
+        "evidenceScreens": [
+          "sponsors"
+        ]
+      },
+      {
+        "objection": "Без камеры, локальной сети и фоновой сборки останется обычный список задач",
+        "resolution": "Это и есть тест на подмену: продукт держат доказуемый факт до закрытия слоя, передача его без связи и итоговый акт",
+        "evidenceScreens": ["capture", "sync", "act"]
+      },
+      {
+        "objection": "Зачем ставить отдельное приложение, если фото можно сделать в системной камере",
+        "resolution": "Камера не знает зону, этап, автора, контрольную точку и статус приёмки; в «Объекте» эти поля создаются одним жестом",
+        "evidenceScreens": ["capture", "captured", "zone"]
+      },
+      {
+        "objection": "На третий день журнал может оказаться пустым архивом фотографий",
+        "resolution": "Каждый рабочий день даёт новую причину вернуться: скрытая работа, дефект, поставка или приёмка следующего этапа",
+        "evidenceScreens": ["journal", "defects", "deliveries"]
+      },
+      {
+        "objection": "Самое слабое звено — communication notifications и VoIP в журнале работ",
+        "resolution": "Вызов адресуется роли на конкретном объекте, поэтому системный входящий показывает имя, роль и объект, не раскрывая личный номер",
+        "evidenceScreens": ["crew", "call", "alerts"]
+      },
+      {
+        "objection": "Это же просто фотоотчёты с подписями — то же самое можно вести группой в Одноклассниках",
+        "resolution": "В группе ОК нет зон объекта, этапов, актов и статуса приёмки: экран «Журнал» группирует записи по зоне и этапу, а не по времени публикации, а переход «Зафиксировать → Передать → Подписать» на экране «Акт» даёт вместо ленты постов проверяемый документ с подписью прораба",
+        "evidenceScreens": ["journal", "zones", "act"]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Операционная плотность и иерархия",
+        "screensReviewed": "all",
+        "found": 8,
+        "fixed": 8,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Состояния, отказы и Dynamic Type",
+        "screensReviewed": "all",
+        "found": 6,
+        "fixed": 6,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#31695F",
+    "accentDark": "#5A9188",
+    "authIcon": "wrench",
+    "fonts": "Inter:wght@400;500;600;700;800"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "journal",
+      "label": "Журнал",
+      "role": "home"
+    },
+    {
+      "id": "zones",
+      "label": "Зоны",
+      "role": "zones"
+    },
+    {
+      "id": "deliveries",
+      "label": "Поставки",
+      "role": "deliveries"
+    },
+    {
+      "id": "more",
+      "label": "Ещё",
+      "role": "more"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Объект»: Серийная фотофиксация узла работ",
+        "text": "Серийная фотофиксация узла работ"
+      },
+      "feature": "Серийная фотофиксация узла работ",
+      "gesture": "Снять серию с голосом",
+      "screen": "capture",
+      "target": "captured",
+      "fallback": "Выбор готового снимка из медиатеки",
+      "snack": "Выбор готового снимка из медиатеки",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession; файлы в локальном пакете объекта",
+      "reviewNote": "Доступ срабатывает только после действия Снять серию с голосом на экране «capture». При отказе: Выбор готового снимка из медиатеки"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Объект»: Добавление ранее снятых кадров",
+        "text": "Добавление ранее снятых кадров"
+      },
+      "feature": "Добавление ранее снятых кадров",
+      "gesture": "Выбрать 2 фото",
+      "screen": "library",
+      "target": "captured",
+      "fallback": "Новый кадр снимается камерой",
+      "snack": "Новый кадр снимается камерой",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker; в контейнер копируются только выбранные кадры",
+      "reviewNote": "Доступ срабатывает только после действия Выбрать 2 фото на экране «library». При отказе: Новый кадр снимается камерой"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Объект»: Экспорт титула акта в медиатеку",
+        "text": "Экспорт титула акта в медиатеку"
+      },
+      "feature": "Экспорт титула акта в медиатеку",
+      "gesture": "Сохранить титул в Фото",
+      "screen": "act",
+      "target": "act",
+      "fallback": "PDF остаётся внутри приложения",
+      "snack": "PDF остаётся внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary.performChanges для одного итогового изображения",
+      "reviewNote": "Доступ срабатывает только после действия Сохранить титул в Фото на экране «act». При отказе: PDF остаётся внутри приложения"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Объект»: Голосовой комментарий к серии кадров",
+        "text": "Голосовой комментарий к серии кадров"
+      },
+      "feature": "Голосовой комментарий к серии кадров",
+      "gesture": "Снять серию с голосом",
+      "screen": "capture",
+      "target": "captured",
+      "fallback": "Комментарий набирается текстом",
+      "snack": "Комментарий набирается текстом",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioRecorder; аудио привязано к кадрам и не выходит из контура объекта",
+      "reviewNote": "Доступ срабатывает только после действия Снять серию с голосом на экране «capture». При отказе: Комментарий набирается текстом"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Объект»: Добавление мастера в закрытую бригаду",
+        "text": "Добавление мастера в закрытую бригаду"
+      },
+      "feature": "Добавление мастера в закрытую бригаду",
+      "gesture": "Добавить из контактов",
+      "screen": "crew",
+      "target": "crew",
+      "fallback": "Номер вводится вручную",
+      "snack": "Номер вводится вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactPickerViewController; в журнал попадает один выбранный контакт",
+      "reviewNote": "Доступ срабатывает только после действия Добавить из контактов на экране «crew». При отказе: Номер вводится вручную"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Объект»: Проверка, что факт снят на нужном объекте",
+        "text": "Проверка, что факт снят на нужном объекте"
+      },
+      "feature": "Проверка, что факт снят на нужном объекте",
+      "gesture": "Подтвердить место",
+      "screen": "zone",
+      "target": "zone",
+      "fallback": "Адрес и зона остаются видны без автопроверки",
+      "snack": "Адрес и зона остаются видны без автопроверки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CLLocationManager whenInUse; координаты сравниваются на устройстве",
+      "reviewNote": "Доступ срабатывает только после действия Подтвердить место на экране «zone». При отказе: Адрес и зона остаются видны без автопроверки"
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Объект»: Автоотметка присутствия бригады в рабочую смену",
+        "text": "Автоотметка присутствия бригады в рабочую смену"
+      },
+      "feature": "Автоотметка присутствия бригады в рабочую смену",
+      "gesture": "Отмечать вход и выход",
+      "screen": "presence",
+      "target": "presence",
+      "fallback": "Вход и выход отмечаются вручную",
+      "snack": "Вход и выход отмечаются вручную",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Явное включение только на смену, geofence 120 м и автоотключение через 12 часов",
+      "grounding": "Core Location region monitoring; точки не строят маршрут и удаляются через 24 часа",
+      "reviewNote": "Доступ срабатывает только после действия Отмечать вход и выход на экране «presence». При отказе: Вход и выход отмечаются вручную"
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription",
+      "alert": {
+        "title": "«Объект»: Передача пакета журнала между iPhone без интернета",
+        "text": "Передача пакета журнала между iPhone без интернета"
+      },
+      "feature": "Передача пакета журнала между iPhone без интернета",
+      "gesture": "Найти телефон рядом",
+      "screen": "sync",
+      "target": "sync",
+      "fallback": "Пакет ждёт возвращения интернета",
+      "snack": "Пакет ждёт возвращения интернета",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Network.framework + Bonjour _obyekt._tcp; peer-to-peer с шифрованием сессии",
+      "reviewNote": "Доступ срабатывает только после действия Найти телефон рядом на экране «sync». При отказе: Пакет ждёт возвращения интернета"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "«Объект»: Сверка текущей Wi‑Fi с сетью объекта",
+        "text": "Сверка текущей Wi‑Fi с сетью объекта"
+      },
+      "feature": "Сверка текущей Wi‑Fi с сетью объекта",
+      "gesture": "Проверить сеть",
+      "screen": "sync",
+      "target": "sync",
+      "fallback": "Сеть выбирается вручную",
+      "snack": "Сеть выбирается вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "CNCopyCurrentNetworkInfo и разрешённая геопозиция",
+      "activate": true,
+      "grounding": "SSID сравнивается локально и не пишется в журнал",
+      "reviewNote": "Доступ срабатывает только после действия Проверить сеть на экране «sync». При отказе: Сеть выбирается вручную"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "«Объект»: Персонализация партнёрских карточек на бесплатном тарифе",
+        "text": "Персонализация партнёрских карточек на бесплатном тарифе",
+        "deny": "Попросить не отслеживать",
+        "grant": "Разрешить"
+      },
+      "feature": "Персонализация партнёрских карточек на бесплатном тарифе",
+      "gesture": "Настроить рекламу",
+      "screen": "sponsors",
+      "target": "sponsors",
+      "fallback": "Остаётся контекстная реклама по текущему этапу",
+      "snack": "Остаётся контекстная реклама по текущему этапу",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Рекламный SDK действительно использует IDFA; отказ не блокирует продукт",
+      "grounding": "AppTrackingTransparency + рекламный SDK; показ только после препромпта",
+      "reviewNote": "Доступ срабатывает только после действия Настроить рекламу на экране «sponsors». При отказе: Остаётся контекстная реклама по текущему этапу"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Объект»: Push о дефектах, поставках и решениях",
+        "text": "Push о дефектах, поставках и решениях"
+      },
+      "feature": "Push о дефектах, поставках и решениях",
+      "gesture": "Разрешить оповещения",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Статусы остаются в центре событий приложения",
+      "snack": "Статусы остаются в центре событий приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "UNUserNotificationCenter + APNs; категории настраиваются до запроса",
+      "reviewNote": "Доступ срабатывает только после действия Разрешить оповещения на экране «alerts». При отказе: Статусы остаются в центре событий приложения"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "«Объект»: Имя и роль звонящего в системном уведомлении",
+        "text": "Имя и роль звонящего в системном уведомлении"
+      },
+      "feature": "Имя и роль звонящего в системном уведомлении",
+      "gesture": "Включить звонки бригады",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Вызов приходит как обычный push",
+      "snack": "Вызов приходит как обычный push",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Notification Service Extension передаёт INPerson и interaction только для реального звонка",
+      "activate": true,
+      "grounding": "UNNotificationServiceExtension + SiriKit intents для входящего вызова",
+      "reviewNote": "Доступ срабатывает только после действия Включить звонки бригады на экране «alerts». При отказе: Вызов приходит как обычный push"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "«Объект»: Входящий вызов бригады через CallKit",
+        "text": "Входящий вызов бригады через CallKit"
+      },
+      "feature": "Входящий вызов бригады через CallKit",
+      "gesture": "Позвонить по объекту",
+      "screen": "call",
+      "target": "call",
+      "fallback": "Остаётся обычное уведомление с кнопкой перезвонить",
+      "snack": "Остаётся обычное уведомление с кнопкой перезвонить",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "PushKit и CallKit обслуживают реальный двусторонний звонок; аудио не записывается",
+      "activate": true,
+      "grounding": "PushKit + CallKit + WebRTC SDK; адресация по роли в объекте",
+      "reviewNote": "Доступ срабатывает только после действия Позвонить по объекту на экране «call». При отказе: Остаётся обычное уведомление с кнопкой перезвонить"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "«Объект»: Фоновое прослушивание голосовой сводки с Now Playing",
+        "text": "Фоновое прослушивание голосовой сводки с Now Playing"
+      },
+      "feature": "Фоновое прослушивание голосовой сводки с Now Playing",
+      "gesture": "Слушать в фоне",
+      "screen": "briefing",
+      "target": "nowplaying",
+      "fallback": "Сводка играет только при открытом экране",
+      "snack": "Сводка играет только при открытом экране",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "AVAudioSession playback, MPNowPlayingInfoCenter и удалённые команды паузы/перемотки",
+      "activate": true,
+      "grounding": "AVPlayer для локального файла сводки; главы и Now Playing заполнены",
+      "reviewNote": "Доступ срабатывает только после действия Слушать в фоне на экране «briefing». При отказе: Сводка играет только при открытом экране"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "«Объект»: Тихое обновление ETA поставки в фоне",
+        "text": "Тихое обновление ETA поставки в фоне"
+      },
+      "feature": "Тихое обновление ETA поставки в фоне",
+      "gesture": "Включить тихие обновления",
+      "screen": "deliveries",
+      "target": "deliveries",
+      "fallback": "ETA обновится при открытии",
+      "snack": "ETA обновится при открытии",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "content-available push обновляет только ETA активных поставок",
+      "activate": true,
+      "grounding": "APNs content-available + Background App Refresh; данные поставщика приходят через SDK",
+      "reviewNote": "Доступ срабатывает только после действия Включить тихие обновления на экране «deliveries». При отказе: ETA обновится при открытии"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "«Объект»: Предзагрузка статусов до первого открытия",
+        "text": "Предзагрузка статусов до первого открытия"
+      },
+      "feature": "Предзагрузка статусов до первого открытия",
+      "gesture": "Свежий журнал к открытию",
+      "screen": "access",
+      "target": "journal",
+      "fallback": "Журнал обновится после открытия",
+      "snack": "Журнал обновится после открытия",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "BGAppRefreshTask читает только дельту журнала",
+      "activate": true,
+      "grounding": "BGAppRefreshTask + локальный SQLite snapshot",
+      "reviewNote": "Доступ срабатывает только после действия Свежий журнал к открытию на экране «access». При отказе: Журнал обновится после открытия"
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "alert": {
+        "title": "«Объект»: Сжатие 486 кадров, OCR и сборка PDF на зарядке",
+        "text": "Сжатие 486 кадров, OCR и сборка PDF на зарядке"
+      },
+      "feature": "Сжатие 486 кадров, OCR и сборка PDF на зарядке",
+      "gesture": "Дособрать акт в фоне",
+      "screen": "act",
+      "target": "act",
+      "fallback": "Сборка идёт в foreground и может быть прервана",
+      "snack": "Сборка идёт в foreground и может быть прервана",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": true,
+      "requires": "BGProcessingTask запускается на зарядке и продолжает видимую сборку акта",
+      "activate": true,
+      "grounding": "BGProcessingTask + Vision OCR + PDFKit; прогресс виден в акте",
+      "reviewNote": "Доступ срабатывает только после действия Дособрать акт в фоне на экране «act». При отказе: Сборка идёт в foreground и может быть прервана"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "«Объект»: Регистрация refresh и processing identifier",
+        "text": "Регистрация refresh и processing identifier"
+      },
+      "feature": "Регистрация refresh и processing identifier",
+      "gesture": "Регламент задач",
+      "screen": "access",
+      "target": "access",
+      "fallback": "Фоновые задачи не планируются",
+      "snack": "Фоновые задачи не планируются",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Оба identifier объявлены в Info.plist и регистрируются до конца launch",
+      "activate": true,
+      "grounding": "BGTaskScheduler: app.obyekt.refresh и app.obyekt.act-processing",
+      "reviewNote": "Доступ срабатывает только после действия Регламент задач на экране «access». При отказе: Фоновые задачи не планируются"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "«Объект»: Общий токен для приложения, виджета и Share Extension",
+        "text": "Общий токен для приложения, виджета и Share Extension"
+      },
+      "feature": "Общий токен для приложения, виджета и Share Extension",
+      "gesture": "Общая сессия",
+      "screen": "access",
+      "target": "access",
+      "fallback": "В расширении нужно войти отдельно",
+      "snack": "В расширении нужно войти отдельно",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Shared Keychain access group; в нём только короткоживущий токен, не медиа",
+      "reviewNote": "Доступ срабатывает только после действия Общая сессия на экране «access». При отказе: В расширении нужно войти отдельно"
+    },
+    {
+      "key": "associateddomains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "«Объект»: Universal Link на конкретный акт и приглашение",
+        "text": "Universal Link на конкретный акт и приглашение"
+      },
+      "feature": "Universal Link на конкретный акт и приглашение",
+      "gesture": "Включить ссылку на акт",
+      "screen": "handoff",
+      "target": "handoff",
+      "fallback": "Ссылка открывает читаемую веб-версию акта",
+      "snack": "Ссылка открывает читаемую веб-версию акта",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AASA на obyekt.app ограничивает paths /act/* и /invite/*; обработчик проверяет токен и роль",
+      "activate": true,
+      "grounding": "Associated Domains + статический AASA; после проверки открывается экран акта",
+      "reviewNote": "Доступ срабатывает только после действия Включить ссылку на акт на экране «handoff». При отказе: Ссылка открывает читаемую веб-версию акта"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "push",
+      "light": true,
+      "meta": "Начать без запроса доступов",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Начать без запроса доступов",
+        "primaryAction": "Продолжить",
+        "hierarchy": {
+          "primary": "Главная работа экрана: начать без запроса доступов",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "error",
+          "loading"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Демо-вход",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "Подтвердить вход в закрытый журнал",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Подтвердить вход в закрытый журнал",
+        "primaryAction": "Войти",
+        "hierarchy": {
+          "primary": "Главная работа экрана: подтвердить вход в закрытый журнал",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "error",
+          "loading"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "journal",
+      "title": "Операционный журнал",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать ход дня и блокеры",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать ход дня и блокеры",
+        "primaryAction": "Запись",
+        "hierarchy": {
+          "primary": "Главная работа экрана: показать ход дня и блокеры",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "phase",
+      "title": "Этап работ",
+      "type": "push",
+      "light": true,
+      "parent": "journal",
+      "meta": "Сверить прогресс с чек-листом",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Сверить прогресс с чек-листом",
+        "primaryAction": "Добавить факт",
+        "hierarchy": {
+          "primary": "Главная работа экрана: сверить прогресс с чек-листом",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "newentry",
+      "title": "Новая запись",
+      "type": "modal",
+      "light": true,
+      "parent": "journal",
+      "meta": "Зафиксировать факт по зоне и этапу",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Зафиксировать факт по зоне и этапу",
+        "primaryAction": "Записать в журнал",
+        "hierarchy": {
+          "primary": "Главная работа экрана: зафиксировать факт по зоне и этапу",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "capture",
+      "title": "Фотофиксация",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "newentry",
+      "meta": "Снять серию и привязать голос",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять серию и привязать голос",
+        "primaryAction": "Снять серию с голосом",
+        "hierarchy": {
+          "primary": "Главная работа экрана: снять серию и привязать голос",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "captured",
+      "title": "Готовая серия",
+      "type": "push",
+      "light": true,
+      "parent": "capture",
+      "meta": "Проверить кадры и голос",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "push",
+        "purpose": "Проверить кадры и голос",
+        "primaryAction": "Прикрепить 6 кадров",
+        "hierarchy": {
+          "primary": "Главная работа экрана: проверить кадры и голос",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Медиатека",
+      "type": "system",
+      "light": true,
+      "parent": "newentry",
+      "meta": "Выбрать готовые фото",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать готовые фото",
+        "primaryAction": "Выбрать 2 фото",
+        "hierarchy": {
+          "primary": "Главная работа экрана: выбрать готовые фото",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voicenote",
+      "title": "Голосовая заметка",
+      "type": "modal",
+      "light": true,
+      "parent": "newentry",
+      "meta": "Дать текстовую замену записи",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "modal",
+        "purpose": "Дать текстовую замену записи",
+        "primaryAction": "Набрать текстом",
+        "hierarchy": {
+          "primary": "Главная работа экрана: набрать комментарий к факту вручную",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "zones",
+      "title": "План зон",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать прогресс по помещениям",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать прогресс по помещениям",
+        "primaryAction": "Открыть санузел",
+        "hierarchy": {
+          "primary": "Главная работа экрана: показать прогресс по помещениям",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "zone",
+      "title": "Зона",
+      "type": "push",
+      "light": true,
+      "parent": "zones",
+      "meta": "Сверить работу и место",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Сверить работу и место",
+        "primaryAction": "Подтвердить место",
+        "hierarchy": {
+          "primary": "Главная работа экрана: сверить работу и место",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "defects",
+      "title": "Реестр дефектов",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Отличить открытое от принятого",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Отличить открытое от принятого",
+        "primaryAction": "Зафиксировать дефект",
+        "hierarchy": {
+          "primary": "Главная работа экрана: отличить открытое от принятого",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "defect",
+      "title": "Карточка дефекта",
+      "type": "push",
+      "light": true,
+      "parent": "defects",
+      "meta": "Передать переделку на проверку",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Передать переделку на проверку",
+        "primaryAction": "Передано на проверку",
+        "hierarchy": {
+          "primary": "Главная работа экрана: передать переделку на проверку",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "deliveries",
+      "title": "Поставки",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать ETA и комплектность",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать ETA и комплектность",
+        "primaryAction": "Включить",
+        "hierarchy": {
+          "primary": "Главная работа экрана: показать eta и комплектность",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "delivery",
+      "title": "Карточка поставки",
+      "type": "push",
+      "light": true,
+      "parent": "deliveries",
+      "meta": "Проверить маршрут и комплект",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Проверить маршрут и комплект",
+        "primaryAction": "Начать приёмку",
+        "hierarchy": {
+          "primary": "Главная работа экрана: проверить маршрут и комплект",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "acceptance",
+      "title": "Приёмка поставки",
+      "type": "push",
+      "light": true,
+      "parent": "delivery",
+      "meta": "Отметить каждое место",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Отметить каждое место",
+        "primaryAction": "Принять 9 из 13",
+        "hierarchy": {
+          "primary": "Главная работа экрана: отметить каждое место",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "more",
+      "title": "Операции объекта",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Дать доступ к реестрам и фону",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Дать доступ к реестрам и фону",
+        "primaryAction": "Открыть дефекты",
+        "hierarchy": {
+          "primary": "Главная работа экрана: дать доступ к реестрам и фону",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "crew",
+      "title": "Бригада",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Показать состав и роли",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать состав и роли",
+        "primaryAction": "Добавить из контактов",
+        "hierarchy": {
+          "primary": "Главная работа экрана: показать состав и роли",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "presence",
+      "title": "Присутствие",
+      "type": "push",
+      "light": true,
+      "parent": "crew",
+      "meta": "Видеть вход и выход бригады",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Видеть вход и выход бригады",
+        "primaryAction": "Отмечать вход и выход",
+        "hierarchy": {
+          "primary": "Главная работа экрана: видеть вход и выход бригады",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "call",
+      "title": "Звонок бригаде",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "crew",
+      "meta": "Позвонить без раскрытия номера",
+      "ui": {
+        "pattern": "task",
+        "navigation": "fullscreen",
+        "purpose": "Позвонить без раскрытия номера",
+        "primaryAction": "Позвонить по объекту",
+        "hierarchy": {
+          "primary": "Главная работа экрана: позвонить без раскрытия номера",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "briefing",
+      "title": "Голосовая сводка",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Прослушать решения дня",
+      "ui": {
+        "pattern": "player",
+        "navigation": "push",
+        "purpose": "Прослушать решения дня",
+        "primaryAction": "Слушать в фоне",
+        "hierarchy": {
+          "primary": "Главная работа экрана: прослушать решения дня",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nowplaying",
+      "title": "Фоновое аудио",
+      "type": "system",
+      "light": false,
+      "parent": "briefing",
+      "meta": "Управлять сводкой с локскрина",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Управлять сводкой с локскрина",
+        "primaryAction": "Вернуться в журнал",
+        "hierarchy": {
+          "primary": "Главная работа экрана: управлять сводкой с локскрина",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sync",
+      "title": "Локальная синхронизация",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Передать пакет без интернета",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Передать пакет без интернета",
+        "primaryAction": "Найти телефон рядом",
+        "hierarchy": {
+          "primary": "Главная работа экрана: передать пакет без интернета",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerts",
+      "title": "Оповещения",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Выбрать события объекта",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Выбрать события объекта",
+        "primaryAction": "Разрешить оповещения",
+        "hierarchy": {
+          "primary": "Главная работа экрана: выбрать события объекта",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sponsors",
+      "title": "Настройка рекламы",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Честно объяснить ATT и отказ",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Честно объяснить ATT и отказ",
+        "primaryAction": "Настроить рекламу",
+        "hierarchy": {
+          "primary": "Главная работа экрана: честно объяснить att и отказ",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "access",
+      "title": "Доступы и фон",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Показать триггеры фоновых функций",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Показать триггеры фоновых функций",
+        "primaryAction": "Открыть фоновую обработку",
+        "hierarchy": {
+          "primary": "Главная работа экрана: показать триггеры фоновых функций",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "act",
+      "title": "Акт завершения",
+      "type": "push",
+      "light": true,
+      "parent": "more",
+      "meta": "Собрать доказательный акт",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать доказательный акт",
+        "primaryAction": "Перейти к передаче",
+        "hierarchy": {
+          "primary": "Главная работа экрана: собрать доказательный акт",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff",
+      "title": "Передача объекта",
+      "type": "push",
+      "light": true,
+      "parent": "act",
+      "meta": "Открыть акт по защищённой ссылке",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Открыть акт по защищённой ссылке",
+        "primaryAction": "Включить ссылку на акт",
+        "hierarchy": {
+          "primary": "Главная работа экрана: открыть акт по защищённой ссылке",
+          "secondary": "Статус факта, короткая история и ручной запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рабочий объект: пять зон, три дефекта и одна поставка"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия, крупный текст и 486 медиафайлов"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет данных, сети или разрешения; есть ручной путь"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь объект",
+      "note": "Все экраны и 20 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "journal",
+        "phase",
+        "newentry",
+        "capture",
+        "captured",
+        "library",
+        "voicenote",
+        "zones",
+        "zone",
+        "defects",
+        "defect",
+        "deliveries",
+        "delivery",
+        "acceptance",
+        "more",
+        "crew",
+        "presence",
+        "call",
+        "briefing",
+        "nowplaying",
+        "sync",
+        "alerts",
+        "sponsors",
+        "access",
+        "act",
+        "handoff"
+      ]
+    },
+    {
+      "id": "fact",
+      "label": "Факт до закрытия слоя",
+      "note": "Этап → запись → серия с голосом",
+      "start": "journal",
+      "screens": [
+        "journal",
+        "phase",
+        "newentry",
+        "capture",
+        "captured",
+        "library",
+        "voicenote",
+        "zone",
+        "alerts",
+        "defect",
+        "delivery"
+      ],
+      "stops": [
+        "zone",
+        "alerts",
+        "defect",
+        "delivery"
+      ]
+    },
+    {
+      "id": "offline",
+      "label": "Объект без интернета",
+      "note": "Пакет журнала передаётся прорабу по локальной сети",
+      "start": "sync",
+      "screens": [
+        "sync"
+      ]
+    },
+    {
+      "id": "handover",
+      "label": "Передача",
+      "note": "Фоновая сборка акта и ссылка заказчику",
+      "start": "act",
+      "screens": [
+        "act",
+        "handoff"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Синхронизация журнала",
+      "solution": "CloudKit для аккаунта и Network.framework/Bonjour для peer-to-peer пакета; своего API нет"
+    },
+    {
+      "needs": "Фото и голос",
+      "solution": "Файлы в контейнере объекта; превью, OCR и сжатие на устройстве"
+    },
+    {
+      "needs": "Звонки и push",
+      "solution": "Готовый SDK WebRTC и APNs; в репозитории нет своего серверного кода"
+    },
+    {
+      "needs": "Сборка акта",
+      "solution": "PDFKit, Vision OCR и BGProcessingTask на iPhone"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Объект: журнал работ",
+    "subtitle": "Ремонт, дефекты, акт",
+    "promo": "Фиксируйте скрытые работы, принимайте поставки, закрывайте дефекты и собирайте доказательный акт даже без сети.",
+    "keywords": "стройка,прораб,бригада,фотофиксация,приёмка,поставки,контроль,зоны",
+    "category": {
+      "primary": "Business",
+      "secondary": "Productivity"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно с партнёрскими карточками; без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только стандартное TLS и системное шифрование",
+    "urls": {
+      "support": "https://obyekt.app/support",
+      "marketing": "https://obyekt.app",
+      "privacy": "https://obyekt.app/privacy"
+    },
+    "description": [
+      "Закрытый операционный журнал для небольшого ремонта или стройки.",
+      "ФАКТЫ ПО ЗОНАМ\nСерия фото и голос привязаны к этапу, зоне, времени и автору.",
+      "ДЕФЕКТЫ И ПОСТАВКИ\nНомер, срок, ответственный, ETA и приёмка в одном месте.",
+      "РАБОТА БЕЗ СЕТИ\nИзменения передаются прорабу по локальной сети и попадают в акт."
+    ],
+    "whatsNew": "Первая версия: журнал, зоны, дефекты, поставки, локальная синхронизация и акт.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Вход",
+        "linked": true,
+        "tracking": false,
+        "why": "Опциональный вход и восстановление"
+      },
+      {
+        "type": "Фото, аудио и дефекты",
+        "apple": "User Content → Photos or Videos, Audio Data, Other User Content",
+        "purpose": "App Functionality",
+        "linked": true,
+        "tracking": false,
+        "why": "Факты и акт объекта"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "App Functionality",
+        "linked": true,
+        "tracking": false,
+        "why": "Проверка объекта и отметка смены"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Third-Party Advertising",
+        "linked": false,
+        "tracking": true,
+        "why": "Партнёрские карточки бесплатного тарифа только после ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-41",
+      "password": "review2026",
+      "note": "На экране телефона ввести демо-номер, затем на отдельном экране — пароль. Можно продолжить без аккаунта."
+    }
+  },
+  "acceptance": [
+    {
+      "id": "record-proof",
+      "name": "Скрытая работа",
+      "action": "record-fact",
+      "given": "Плитка закроет гидроизоляцию",
+      "when": "Прораб снимает серию и надиктовывает комментарий",
+      "then": "В журнале видны время, зона, этап, 6 кадров и 18 секунд голоса",
+      "screens": [
+        "newentry",
+        "capture",
+        "captured"
+      ],
+      "capabilities": [
+        "camera",
+        "mic"
+      ]
+    },
+    {
+      "id": "offline-sync",
+      "name": "Пакет без сети",
+      "action": "sync-local",
+      "given": "Семь изменений ждут передачи и интернета нет",
+      "when": "Мастер ищет iPhone прораба в локальной сети",
+      "then": "Пакет передаётся и исчезает из очереди",
+      "screens": [
+        "sync"
+      ],
+      "capabilities": [
+        "localnetwork",
+        "wifiinfo"
+      ]
+    },
+    {
+      "id": "final-act",
+      "name": "Акт",
+      "action": "close-act",
+      "given": "В журнале 486 кадров и 17 закрытых дефектов",
+      "when": "Заказчик открывает сборку и передачу",
+      "then": "PDF собирается на зарядке и открывается по защищённой ссылке",
+      "screens": [
+        "act",
+        "handoff"
+      ],
+      "capabilities": [
+        "processing",
+        "bgtask",
+        "associateddomains"
+      ]
+    }
+  ],
+  "fixtures": {
+    "note": "Демо-объект показывает живую смесь статусов.",
+    "facts": [
+      {
+        "title": "Плитка принята",
+        "subtitle": "08:10 · 6 кадров"
+      },
+      {
+        "title": "Двери опаздывают",
+        "subtitle": "ETA 12:08 · +38 мин"
+      },
+      {
+        "title": "Электрика ждёт приёмку",
+        "subtitle": "16:40 · 32 точки"
+      }
+    ]
+  }
+}

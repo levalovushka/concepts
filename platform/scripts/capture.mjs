@@ -2,7 +2,7 @@
    node scripts/capture.mjs petlya                     — все экраны
    node scripts/capture.mjs petlya scan yarn           — только указанные */
 import { chromium } from 'playwright';
-import { mkdir } from 'fs/promises';
+import { mkdir, readFile } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { readSpec, readMarkup } from './lib.mjs';
@@ -11,7 +11,9 @@ import { prepareEmailRegistration } from './build.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-const [slug, ...only] = process.argv.slice(2);
+const [slug, ...args] = process.argv.slice(2);
+const sheet = args.includes('--sheet');
+const only = args.filter((arg) => arg !== '--sheet');
 if (!slug) { console.error('нужен slug: node scripts/capture.mjs petlya'); process.exit(1); }
 
 const source = readSpec(slug);
@@ -45,6 +47,22 @@ for (const id of ids) {
   await page.waitForTimeout(140);
   await device.screenshot({ path: join(outDir, `${id}.png`) });
   console.log('ok', id);
+}
+
+if (sheet) {
+  const cards = await Promise.all(ids.map(async (id) => {
+    const png = await readFile(join(outDir, `${id}.png`));
+    return `<figure><img src="data:image/png;base64,${png.toString('base64')}" alt=""><figcaption>${id}</figcaption></figure>`;
+  }));
+  const overview = await browser.newPage({ viewport: { width: 1600, height: 1200 }, deviceScaleFactor: 1 });
+  await overview.setContent(`<!doctype html><html><head><style>
+    *{box-sizing:border-box}body{margin:0;padding:32px;background:#e9e9e7;color:#171717;font-family:Inter,Arial,sans-serif}
+    h1{margin:0 0 24px;font-size:28px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-items:start}
+    figure{margin:0;min-width:0}img{display:block;width:100%;height:auto;border-radius:26px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+    figcaption{padding:8px 4px 0;font-size:13px;font-weight:600;color:#555}
+  </style></head><body><h1>${concept.name} · все экраны</h1><main class="grid">${cards.join('')}</main></body></html>`, { waitUntil: 'load' });
+  await overview.screenshot({ path: join(outDir, 'overview.png'), fullPage: true });
+  console.log('ok overview');
 }
 
 await browser.close();

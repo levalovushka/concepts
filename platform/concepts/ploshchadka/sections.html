@@ -1,0 +1,19 @@
+<!-- @overview:vision -->
+<p class="deck">Операционный контур одной смены: {{INSIGHT}}. После закрытия смены контур становится итогом, а не бесконечной лентой.</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+{{FEAT_GRID}}
+<!-- @end -->
+<!-- @overview:arch -->
+<p class="deck">Гостевой вход ничего не запрашивает. Разрешения выдаются из видимого рабочего действия и всегда имеют ручной или локальный fallback.</p>
+<div class="flow"><span class="chip">Код смены</span><span class="arr">→</span><span class="chip">Текущий блок</span><span class="arr">→</span><span class="chip">Кадр / зона</span><span class="arr">→</span><span class="chip">Итог</span></div>
+<div class="flow"><span class="chip">Пакет CAM-B</span><span class="arr">→</span><span class="chip">Устройство рядом</span><span class="arr">→</span><span class="chip">Checksum</span></div>
+<div class="arch">
+  <div class="arch-layer"><h3>UI</h3><p>22 экрана: вход, пять рабочих корней, контекстные задачи, отказ и завершение.</p></div>
+  <div class="arch-layer"><h3>Domain</h3><p>Shift · Block · Zone · Shot · Role · Package. Публичных постов и профилей нет.</p></div>
+  <div class="arch-layer"><h3>Services</h3><p>Permissions · LocalTransfer · Radio · Location · Background · Export.</p></div>
+  <div class="arch-layer"><h3>Data</h3><p>Версионный слепок смены, локальная очередь, checksum и Keychain-ключ устройства.</p></div>
+</div>
+<!-- @end -->
+<section class="section" id="perm-matrix"><h2>Матрица 20 доступов</h2><p class="deck">У каждого доступа есть функция, точный жест, состояние отказа и сохраняющий ценность fallback.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Backendless-прототип</h2><p class="deck">Сетевые сценарии представлены воспроизводимыми состояниями, локальными пакетами и конечными автоматами.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и IA</h2><p class="deck">Корни отвечают на пять рабочих вопросов: что сейчас, когда, где, что снять и как вызвать команду.</p>{{SCREEN_TABLE}}</section>

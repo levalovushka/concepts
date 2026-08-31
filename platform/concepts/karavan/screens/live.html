@@ -1,0 +1,19 @@
+<div class="screen ios-surface kv-screen" id="scr-live">
+  <div class="body-scroll">
+    <section class="kv-map" aria-label="Положение трёх машин на общем маршруте">
+      <div class="kv-map-grid"></div><div class="kv-map-top"><span class="kv-map-pill"><svg class="ico-svg"><use href="#i-route"/></svg>Кольсай</span><span class="kv-map-pill">08:14</span></div>
+      <span class="kv-map-label start">Шелек</span><span class="kv-map-label finish">Саты</span><div class="kv-route-line"></div><div class="kv-route-dash"></div>
+      <span class="kv-car-pin you"><svg class="ico-svg"><use href="#i-car"/></svg><small>Маяк</small></span><span class="kv-car-pin mid"><svg class="ico-svg"><use href="#i-car"/></svg><small>Кедр · +3</small></span><span class="kv-car-pin last"><svg class="ico-svg"><use href="#i-car"/></svg><small>Тёплый · +8</small></span>
+    </section>
+    <section class="kv-live-sheet">
+      <div class="kv-grabber" aria-hidden="true"></div><div class="kv-live-head"><div><h1>Все держатся</h1><p>Последний сигнал сейчас</p></div><span class="kv-spread">разброс<br>8 минут</span></div>
+      <button class="btn-filled block tap" data-primary data-ask="location|live|live">Показать мою машину</button><div class="kv-fallback perm-hidden" data-show-denied="location">Ваш статус останется ручным · 08:14</div>
+      <div class="kv-signal-grid"><button class="kv-signal tap" data-go="stop"><svg class="ico-svg"><use href="#i-coffee"/></svg>Остановка</button><button class="kv-signal tap" data-go="channel"><svg class="ico-svg"><use href="#i-mic"/></svg>Голос</button><button class="kv-signal tap" data-go="mark"><svg class="ico-svg"><use href="#i-pin"/></svg>Отметка</button></div>
+      <div class="kv-event-list" aria-label="Последние события"><div class="kv-event"><span class="kv-event-mark"></span><span class="kv-event-copy"><strong>Кедр снова в пути</strong><span>После короткой остановки</span></span><time>2 мин</time></div><div class="kv-event"><span class="kv-event-mark"></span><span class="kv-event-copy"><strong>Тёплый догоняет</strong><span>Готовый сигнал</span></span><time>12 мин</time></div></div>
+      <div class="ios-list kv-link-entry"><button class="row tap" data-go="link" aria-label="Открыть связь рядом без интернета"><span class="kv-plan-mark"><svg class="ico-svg"><use href="#i-wifi"/></svg></span><span class="kv-plan-copy"><strong>Связь рядом</strong><span>Bonjour без интернета</span></span><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button></div>
+    </section>
+  </div>
+  <div class="tabbar light kv-tabs" aria-label="Основная навигация">
+    <div class="tab tap" data-go="trips" aria-label="Раздел Поездки"><span class="ico"><svg class="ico-svg"><use href="#i-route"/></svg></span><span class="tab-label">Поездки</span></div><div class="tab is-on tap" aria-current="page" data-go="live" aria-label="Раздел В пути"><span class="ico"><svg class="ico-svg"><use href="#i-navigation"/></svg></span><span class="tab-label">В пути</span></div><div class="tab tap" data-go="album" aria-label="Раздел Итоги"><span class="ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><span class="tab-label">Итоги</span></div><div class="tab tap" data-go="settings" aria-label="Раздел Ещё"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span><span class="tab-label">Ещё</span></div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

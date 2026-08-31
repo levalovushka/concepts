@@ -1,0 +1,15 @@
+<div class="screen ios-surface kv-screen" id="scr-alerts">
+  <div class="navbar"><div class="nav-leading"><button class="btn-plain tap" data-back aria-label="Назад в Ещё"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ещё</span></button></div><div class="title">Уведомления</div><div class="nav-spacer"></div></div>
+  <div class="body-scroll kv-push"><h1>Знать о важном</h1><p class="t-subhead">Остановки, старт и сообщения — без чтения общего чата.</p>
+    <div class="kv-group"><div class="kv-group-head">События поездки</div>
+      <div class="ios-list"><div class="row has-lead tap" data-primary data-ask="push|alerts|alerts" aria-label="Уведомления поездки"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-bell"/></svg></span><div class="kv-settings-copy"><strong>Уведомления поездки</strong><span>Остановка и изменение старта</span></div><div class="switch" data-switch="push"></div></div></div>
+      <div class="kv-fallback perm-hidden" data-show-denied="push">События ждут в шкале при следующем открытии</div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Тихие статусы и экипаж</div>
+      <div class="ios-list">
+        <div class="row has-lead tap" data-activate="remotenotif|live"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-zap"/></svg></span><div class="kv-settings-copy"><strong>Тихо обновлять статусы</strong><span>Активность машин без звука</span></div><div class="switch" data-switch="remotenotif"></div></div>
+        <div class="row has-lead tap" data-activate="commnotif|alerts"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-user"/></svg></span><div class="kv-settings-copy"><strong>Показывать экипаж</strong><span>Позывной вместо «Новое сообщение»</span></div><div class="switch" data-switch="commnotif"></div></div>
+      </div>
+    </div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

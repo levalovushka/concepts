@@ -1,0 +1,1981 @@
+{
+  "slug": "ekspeditsiya",
+  "name": "Экспедиция",
+  "eyebrow": "Экспедиция · iOS",
+  "targetSet": "ok",
+  "domain": "ekspeditsiya.app",
+  "heroTitle": "Маршрут помнит всё",
+  "heroDeck": "Автономный полевой журнал группового выхода: точки, наблюдения, снаряжение и отчёт собираются без сети.",
+  "tagline": "Не лента о походе, а общая память маршрута — от offline-пакета до полевого PDF.",
+  "insight": "В поле ценно не то, кто собрал лайки, а что группа не потеряла точку, наблюдение или часть снаряжения при пропавшем интернете.",
+  "deck": "Инструмент для учебных, научных и краеведческих выходов. Маршрут, данные и медиа живут на устройстве; облако не нужно для работы в поле.",
+  "qualityContractVersion": 2,
+  "uiContractVersion": 3,
+  "product": {
+    "audience": "Руководители и участники учебных, научных и краеведческих полевых выходов 13+.",
+    "situation": "Группа уходит на несколько часов или дней туда, где связь нестабильна.",
+    "problem": "Трек, фото, аудио и чек-лист разнесены по приложениям и теряют общий контекст.",
+    "promise": "К возвращению у группы есть единый журнал с картой, авторами и готовым PDF.",
+    "differentiator": "Единица продукта — выход и маршрут, а не профиль или публикация; IA подчинена подготовке, фиксации и отчёту.",
+    "returnReasons": [
+      "Проверить пакет и снаряжение",
+      "Зафиксировать точку, фото или голос",
+      "Собрать и выгрузить отчёт"
+    ],
+    "verticalSlice": {
+      "entry": "welcome",
+      "action": "route",
+      "result": "checkpoint"
+    },
+    "coreLoop": [
+      "Подготовить маршрут и пакет",
+      "Отмечать точки без сети",
+      "Свести материал в отчёт"
+    ],
+    "nonGoals": [
+      "Приложение не координирует спасательные операции, не вызывает службы и не дублирует номер 112",
+      "Продукт не публикует социальную ленту, не считает лайки и подписчиков, не создаёт публичные профили"
+    ],
+    "world": {
+      "entities": [
+        {
+          "id": "expedition",
+          "name": "Выход",
+          "identity": "дата, маршрут и состав",
+          "fields": [
+            "название",
+            "статус",
+            "offline-пакет"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "checkpoint"
+            }
+          ]
+        },
+        {
+          "id": "checkpoint",
+          "name": "Точка",
+          "identity": "координата и время",
+          "fields": [
+            "тип",
+            "заметка",
+            "медиа"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "expedition"
+            }
+          ]
+        },
+        {
+          "id": "gear",
+          "name": "Снаряжение",
+          "identity": "метка и ответственный",
+          "fields": [
+            "состояние",
+            "вес"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "expedition"
+            }
+          ]
+        },
+        {
+          "id": "report",
+          "name": "Отчёт",
+          "identity": "версия и дата сборки",
+          "fields": [
+            "трек",
+            "наблюдения",
+            "приложения"
+          ],
+          "relations": [
+            {
+              "kind": "derived-from",
+              "to": "expedition"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "guest",
+          "name": "Продолжить без аккаунта",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "создаёт локальный выход без регистрации и запросов доступов",
+          "screen": "welcome",
+          "result": "маршрут открыт в гостевом режиме",
+          "capabilities": []
+        },
+        {
+          "id": "mark",
+          "name": "Отметить точку",
+          "actor": "expedition",
+          "entity": "checkpoint",
+          "effect": "сохраняет координату и время",
+          "screen": "map",
+          "result": "точка в журнале",
+          "capabilities": [
+            "location"
+          ]
+        },
+        {
+          "id": "observe",
+          "name": "Добавить наблюдение",
+          "actor": "expedition",
+          "entity": "checkpoint",
+          "effect": "прикрепляет фото или голос",
+          "screen": "checkpoint",
+          "result": "запись с автором",
+          "capabilities": [
+            "camera",
+            "photos",
+            "mic"
+          ]
+        },
+        {
+          "id": "compile",
+          "name": "Собрать отчёт",
+          "actor": "expedition",
+          "entity": "report",
+          "effect": "сводит трек и записи",
+          "screen": "report",
+          "result": "готовый PDF",
+          "capabilities": [
+            "processing",
+            "photosadd",
+            "bgtask"
+          ]
+        },
+        {
+          "id": "prepare-group",
+          "name": "Собрать группу",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "добавляет участников и сохраняет защищённый доступ к выходу",
+          "screen": "crew",
+          "result": "готовый состав группы",
+          "capabilities": [
+            "contacts",
+            "keychain"
+          ]
+        },
+        {
+          "id": "record-route",
+          "name": "Записать маршрут",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "продолжает запись трека в фоне",
+          "screen": "background",
+          "result": "непрерывный трек выхода",
+          "capabilities": [
+            "locationalways"
+          ]
+        },
+        {
+          "id": "exchange-nearby",
+          "name": "Обменяться пакетом рядом",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "находит группу в той же локальной сети и сверяет сеть",
+          "screen": "nearby",
+          "result": "полевой пакет передан без интернета",
+          "capabilities": [
+            "localnetwork",
+            "wifiinfo"
+          ]
+        },
+        {
+          "id": "configure-support",
+          "name": "Настроить поддержку",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "управляет персонализацией партнёрских предложений",
+          "screen": "support",
+          "result": "выбран режим персонализации",
+          "capabilities": [
+            "tracking"
+          ]
+        },
+        {
+          "id": "configure-updates",
+          "name": "Настроить обновления",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "включает события группы и фоновое обновление полевого пакета",
+          "screen": "notifications",
+          "result": "актуальный план доступен к началу выхода",
+          "capabilities": [
+            "push",
+            "remotenotif",
+            "fetch"
+          ]
+        },
+        {
+          "id": "start-radio",
+          "name": "Начать полевой сеанс",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "открывает именной голосовой сеанс группы",
+          "screen": "radio",
+          "result": "группа получает входящий полевой вызов",
+          "capabilities": [
+            "commnotif",
+            "voip"
+          ]
+        },
+        {
+          "id": "play-recording",
+          "name": "Слушать запись",
+          "actor": "expedition",
+          "entity": "checkpoint",
+          "effect": "продолжает воспроизведение полевой записи в фоне",
+          "screen": "playback",
+          "result": "запись остаётся слышна с погашенным экраном",
+          "capabilities": [
+            "audio"
+          ]
+        },
+        {
+          "id": "open-invitation",
+          "name": "Открыть приглашение",
+          "actor": "expedition",
+          "entity": "expedition",
+          "effect": "открывает конкретный выход по проверенной ссылке",
+          "screen": "link",
+          "result": "приглашение открыто в нужном выходе",
+          "capabilities": [
+            "associateddomains"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Navigation: ядро — offline-карта, маршрут и фоновый трек; журнал объясняет пройденный путь.",
+    "familiarPatterns": [
+      "Карта с маршрутом и точками",
+      "Хронологический журнал",
+      "Чек-лист снаряжения"
+    ],
+    "distinctions": [
+      "Маршрут, а не лента, — корень IA",
+      "Авторство привязано к наблюдению, а не профилю",
+      "Результат — полевой отчёт, а не охват"
+    ],
+    "evidenceScreens": [
+      "route",
+      "checkpoint",
+      "report"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "route",
+        "behavior": "Вместо бесконечной ленты — конечная хронология одного выхода."
+      },
+      {
+        "pattern": "messaging",
+        "screen": "radio",
+        "behavior": "Связь — короткий сеанс группы, не личный чат."
+      },
+      {
+        "pattern": "profile",
+        "screen": "gear",
+        "behavior": "Вместо профиля — ответственность за предметы."
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines: Privacy",
+        "observation": "Системный запрос должен следовать сразу за понятным действием пользователя.",
+        "decision": "На welcome нет запросов; каждый prompt привязан к подписанной кнопке функции."
+      },
+      {
+        "source": "Apple Core Location documentation",
+        "observation": "Always Location оправдан только продолжительной задачей с ясным индикатором.",
+        "decision": "Always используется лишь для начатого фонового трека с явной остановкой."
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Двадцать доступов могут выглядеть как искусственная демонстрация системных API.",
+        "resolution": "Каждый доступ встроен в подготовку, полевую фиксацию, связь или итоговый отчёт и имеет отказ.",
+        "evidenceScreens": [
+          "checkpoint",
+          "background",
+          "report"
+        ]
+      },
+      {
+        "objection": "Полевая связь может создать ложное ощущение спасательного сервиса.",
+        "resolution": "Экран прямо называет связь внутригрупповой и отделяет её от экстренного вызова.",
+        "evidenceScreens": [
+          "radio"
+        ]
+      },
+      {
+        "objection": "Наследие социальной сети может вернуть ленту и профили через заднюю дверь.",
+        "resolution": "Корни IA — маршрут, журнал, снаряжение и инструменты; автор существует только внутри наблюдения.",
+        "evidenceScreens": [
+          "route",
+          "journal",
+          "gear"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "screensReviewed": "all",
+        "found": 9,
+        "fixed": 9,
+        "blockersOpen": 0,
+        "majorOpen": 0,
+        "notes": "Владелец справедливо отметил провал визуальной вычитки: таб-бар на route/journal/gear/settings рендерил неактивные подписи почти невидимыми (нужен .light, вместо тёмного варианта); карточка аккаунта в settings уезжала под таб-бар и home indicator из-за <main> вместо <div> у обёртки body-scroll (ломало regex-инжектор ядра); crew заявлял «7 участников», но показывал 3; десять экранов (journal, gear, checkpoint, pack, nearby, radio, link, notifications, support, background, export) заканчивались на трети-половине высоты; два подписи <11pt; семь кнопок/иконок с рамкой-агентом (.ex-round, .ex-actions3); welcome был помечен ui.navigation=root без таб-бара; PHPicker показывал только 9 фото на весь экран; два неиспользуемых файла экрана (home.html, code.html)."
+      },
+      {
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0,
+        "notes": "Полный повторный проход глазами + audit-visual/audit-grid/test-flows: новых блокеров и заметных дефектов нет. Остались вне области правки: рамка на .unified-auth-link/.unified-auth-danger (ядро, кнопки account/deleteaccount общие для всех концептов) и подсветка .ex-contours в audit-visual (ложное срабатывание — элемент обрезан overflow:hidden родителя и визуально не выходит за карту, инструмент не учитывает hidden-обрезку)."
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#356F62",
+    "accentDark": "#5A9185",
+    "authIcon": "route",
+    "fonts": "Inter:wght@400;500;600;700;800"
+  },
+  "start": "welcome",
+  "tabs": [
+    {
+      "id": "route",
+      "label": "Маршрут",
+      "role": "home"
+    },
+    {
+      "id": "journal",
+      "label": "Журнал",
+      "role": "library"
+    },
+    {
+      "id": "gear",
+      "label": "Снаряжение",
+      "role": "collection"
+    },
+    {
+      "id": "settings",
+      "label": "Ещё",
+      "role": "menu"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Разрешить камеру?",
+        "text": "Чтобы снять полевое наблюдение и привязать его к точке."
+      },
+      "feature": "Съёмка наблюдения",
+      "gesture": "«Снять кадр»",
+      "screen": "checkpoint",
+      "target": "capture",
+      "fallback": "Текстовая заметка или готовое фото",
+      "snack": "Недоступно: съёмка наблюдения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVFoundation"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Выбрать фото?",
+        "text": "Только выбранные кадры попадут в точку маршрута."
+      },
+      "feature": "Выбор полевых фото",
+      "gesture": "«Выбрать из Фото»",
+      "screen": "checkpoint",
+      "target": "library",
+      "fallback": "Снять кадр или оставить текст",
+      "snack": "Недоступно: выбор полевых фото",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PhotosUI"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "Сохранить листы в Фото?",
+        "text": "Добавим только готовые листы отчёта, не читая медиатеку."
+      },
+      "feature": "Экспорт листов отчёта",
+      "gesture": "«Сохранить листы»",
+      "screen": "export",
+      "target": "report",
+      "fallback": "PDF остаётся в Файлах и Share Sheet",
+      "snack": "Недоступно: экспорт листов отчёта",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary performChanges"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить микрофон?",
+        "text": "Чтобы записать наблюдение, когда руки заняты."
+      },
+      "feature": "Голосовое наблюдение",
+      "gesture": "«Записать голос»",
+      "screen": "checkpoint",
+      "target": "voice",
+      "fallback": "Крупное поле для текста",
+      "snack": "Недоступно: голосовое наблюдение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "Найти участников?",
+        "text": "Сверка идёт на устройстве; адресная книга никуда не отправляется."
+      },
+      "feature": "Состав группы",
+      "gesture": "«Добавить из контактов»",
+      "screen": "crew",
+      "target": "crew",
+      "fallback": "Имя и телефон вводятся вручную",
+      "snack": "Недоступно: состав группы",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Contacts framework"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Показать вас на маршруте?",
+        "text": "Геопозиция нужна на открытой карте и при отметке точки."
+      },
+      "feature": "Позиция на offline-карте",
+      "gesture": "«Показать мою точку»",
+      "screen": "map",
+      "target": "map",
+      "fallback": "Карта, маршрут и ручная точка остаются",
+      "snack": "Недоступно: позиция на offline-карте",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CoreLocation + MapKit"
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "Писать путь с погашенным экраном?",
+        "text": "Фоновая геопозиция включается только на время начатого выхода."
+      },
+      "feature": "Фоновый трек выхода",
+      "gesture": "«Включить фоновый трек»",
+      "screen": "background",
+      "target": "route",
+      "fallback": "Трек пишется при открытом приложении",
+      "snack": "Недоступно: фоновый трек выхода",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Always запрашивается после When In Use; есть явная остановка и системный индикатор",
+      "grounding": "CoreLocation significant changes"
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription",
+      "alert": {
+        "title": "Найти группу рядом?",
+        "text": "В одной Wi-Fi сети точки передаются напрямую между устройствами."
+      },
+      "feature": "Обмен точками по локальной сети",
+      "gesture": "«Найти группу рядом»",
+      "screen": "nearby",
+      "target": "nearby",
+      "fallback": "Импорт пакета файлом или QR",
+      "snack": "Недоступно: обмен точками по локальной сети",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Network.framework Bonjour"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Проверить сеть группы",
+        "text": "Имя сети не даст отправить данные в чужую Wi-Fi."
+      },
+      "feature": "Проверка SSID перед обменом",
+      "gesture": "«Проверить сеть»",
+      "screen": "nearby",
+      "target": "nearby",
+      "fallback": "Имя группы и QR сверяются вручную",
+      "snack": "Недоступно: проверка ssid перед обменом",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Access WiFi Information плюс выданная геопозиция",
+      "grounding": "CNCopyCurrentNetworkInfo",
+      "activate": true
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Включить рекомендации рядом?",
+        "text": "Приложение сможет учитывать переходы из сервисов партнёров."
+      },
+      "feature": "Измеряемые партнёрские скидки",
+      "gesture": "«Включить рекомендации»",
+      "screen": "support",
+      "target": "support",
+      "fallback": "Те же скидки без IDFA и межсайтового измерения",
+      "snack": "Недоступно: измеряемые партнёрские скидки",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Рекламный SDK и IDFA реально используются; экран объяснения идёт перед ATT",
+      "grounding": "AppTrackingTransparency + partner SDK"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить уведомления выхода?",
+        "text": "Только перенос сбора, новая точка и готовый отчёт."
+      },
+      "feature": "События группового выхода",
+      "gesture": "«Включить уведомления»",
+      "screen": "notifications",
+      "target": "notifications",
+      "fallback": "Изменения видны при открытии",
+      "snack": "Недоступно: события группового выхода",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "APNs и реальная рассылка событий выхода",
+      "grounding": "UserNotifications"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Показывать полевой сеанс как связь",
+        "text": "На локскрине будут видны имя группы и говорящий."
+      },
+      "feature": "Именные полевые сеансы",
+      "gesture": "«Показывать как связь»",
+      "screen": "radio",
+      "target": "radio",
+      "fallback": "Обычное уведомление без имени и аватара",
+      "snack": "Недоступно: именные полевые сеансы",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "INStartCallIntent и Notification Service Extension",
+      "grounding": "Intents",
+      "activate": true
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Активировать полевую связь",
+        "text": "VoIP работает только во время явного сеанса группы."
+      },
+      "feature": "Входящий полевой вызов",
+      "gesture": "«Начать сеанс»",
+      "screen": "radio",
+      "target": "radio",
+      "fallback": "Короткие записи по локальной сети или текст",
+      "snack": "Недоступно: входящий полевой вызов",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "Каждый PushKit push завершается CallKit-вызовом",
+      "grounding": "PushKit + CallKit",
+      "activate": true
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Слушать записи в фоне",
+        "text": "Записи продолжат играть при погашенном экране."
+      },
+      "feature": "Фоновое прослушивание записей",
+      "gesture": "«Слушать в фоне»",
+      "screen": "playback",
+      "target": "playback",
+      "fallback": "Аудио играет на открытом экране",
+      "snack": "Недоступно: фоновое прослушивание записей",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AVAudioSession playback, Now Playing и remote commands",
+      "grounding": "AVFoundation + MediaPlayer",
+      "activate": true
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихо обновлять план",
+        "text": "Изменения маршрута попадут в пакет без шумного пуша."
+      },
+      "feature": "Тихая пересборка плана",
+      "gesture": "«Тихие обновления»",
+      "screen": "notifications",
+      "target": "route",
+      "fallback": "План сверяется при открытии",
+      "snack": "Недоступно: тихая пересборка плана",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "content-available push реально обновляет снапшот",
+      "grounding": "Remote notification callback",
+      "activate": true
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Освежать offline-пакет",
+        "text": "Изредка проверим небольшие изменения плана."
+      },
+      "feature": "Фоновое освежение пакета",
+      "gesture": "«Освежать в фоне»",
+      "screen": "pack",
+      "target": "pack",
+      "fallback": "Кнопка «Проверить обновления»",
+      "snack": "Недоступно: фоновое освежение пакета",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "BGAppRefreshTask читает manifest и применяет delta",
+      "grounding": "BackgroundTasks",
+      "activate": true
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "alert": {
+        "title": "Собрать отчёт в фоне",
+        "text": "Большой PDF соберётся при зарядке, даже если приложение закрыто."
+      },
+      "feature": "Фоновая сборка PDF",
+      "gesture": "«Собрать позже»",
+      "screen": "report",
+      "target": "report",
+      "fallback": "Собрать сейчас на открытом экране",
+      "snack": "Недоступно: фоновая сборка pdf",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "requires": "BGProcessingTask с requiresExternalPower и expiration handler",
+      "grounding": "BackgroundTasks",
+      "activate": true
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Запланировать фоновую работу",
+        "text": "Очередь обновления и сборки видна в журнале фона."
+      },
+      "feature": "Очередь фоновых задач",
+      "gesture": "«Запланировать»",
+      "screen": "background",
+      "target": "route",
+      "fallback": "Ручной запуск из пакета и отчёта",
+      "snack": "Недоступно: очередь фоновых задач",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Info.plist identifiers совпадают с register",
+      "grounding": "BGTaskScheduler",
+      "activate": true
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Защищённая сессия",
+        "text": "Вход и ключ шифрования пакета хранятся в Keychain."
+      },
+      "feature": "Защищённая сессия и ключ пакета",
+      "gesture": "«Сохранить вход»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Гостевой режим без синхронизации",
+      "snack": "Недоступно: защищённая сессия и ключ пакета",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Security framework",
+      "activate": true
+    },
+    {
+      "key": "associateddomains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Открыть приглашение",
+        "text": "Проверенная ссылка откроет конкретный выход."
+      },
+      "feature": "Диплинк приглашения",
+      "gesture": "«Открыть приглашение»",
+      "screen": "link",
+      "target": "route",
+      "fallback": "Код выхода вводится вручную или сканируется",
+      "snack": "Недоступно: диплинк приглашения",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "apple-app-site-association на домене и entitlement applinks",
+      "grounding": "Universal Links",
+      "activate": true
+    }
+  ],
+  "screens": [
+    {
+      "id": "welcome",
+      "title": "Начало",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "ui": {
+        "pattern": "auth",
+        "navigation": "fullscreen",
+        "purpose": "Начать локальный журнал или войти",
+        "primaryAction": "Продолжить без аккаунта",
+        "hierarchy": {
+          "primary": "Ценность автономного журнала",
+          "secondary": "Опциональный вход и правовые ссылки"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Новый локальный выход"
+          },
+          {
+            "kind": "stress",
+            "example": "Крупный Dynamic Type"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, но гостевой путь работает"
+          }
+        ]
+      }
+    },
+    {
+      "id": "phone",
+      "title": "Телефон",
+      "type": "push",
+      "parent": "welcome",
+      "light": true,
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Ввести телефон для входа или регистрации",
+        "primaryAction": "Дальше",
+        "hierarchy": {
+          "primary": "Поле телефона в реальном полевом сценарии",
+          "secondary": "Зачем нужен аккаунт"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "+7 701 123-45-67 в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Международный номер"
+          },
+          {
+            "kind": "failure",
+            "example": "Неверный формат в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "password",
+      "title": "Пароль",
+      "type": "push",
+      "parent": "phone",
+      "light": true,
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Войти или зарегистрироваться по паролю",
+        "primaryAction": "Сохранить вход",
+        "hierarchy": {
+          "primary": "Поле пароля в реальном полевом сценарии",
+          "secondary": "Восстановление и гостевой путь"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Валидный пароль в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная парольная фраза"
+          },
+          {
+            "kind": "failure",
+            "example": "Неверный пароль или offline"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Маршрут",
+      "type": "tab (root)",
+      "light": true,
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Видеть состояние выхода и ближайшую точку",
+        "primaryAction": "Открыть карту",
+        "hierarchy": {
+          "primary": "Полевой статус и схематичная карта",
+          "secondary": "Хронология и offline-пакет"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три точки и активный трек"
+          },
+          {
+            "kind": "stress",
+            "example": "48 точек за три дня"
+          },
+          {
+            "kind": "failure",
+            "example": "Пакет повреждён в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "journal",
+      "title": "Журнал",
+      "type": "tab (root)",
+      "light": true,
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Просматривать наблюдения по времени",
+        "primaryAction": "Новая точка",
+        "hierarchy": {
+          "primary": "Конечная хронология выхода",
+          "secondary": "Фильтры и авторы в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Фото, голос и текст"
+          },
+          {
+            "kind": "stress",
+            "example": "Сто записей в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Конфликт импорта в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gear",
+      "title": "Снаряжение",
+      "type": "tab (root)",
+      "light": true,
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Сверить оборудование и ответственных",
+        "primaryAction": "Добавить предмет",
+        "hierarchy": {
+          "primary": "Готовность группы в реальном полевом сценарии",
+          "secondary": "Категории и вес в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "12 из 14 готово в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Комплект на 20 человек"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет ответственного"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Ещё",
+      "type": "tab (root)",
+      "light": true,
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Управлять пакетом, связью, отчётом и аккаунтом",
+        "primaryAction": "Итоговый отчёт",
+        "hierarchy": {
+          "primary": "Инструменты выхода",
+          "secondary": "Аккаунт, помощь и право"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Гостевой режим в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Все фоновые функции включены"
+          },
+          {
+            "kind": "failure",
+            "example": "Справка offline в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map",
+      "title": "Карта выхода",
+      "type": "push",
+      "parent": "route",
+      "light": false,
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Видеть путь и отметить точку",
+        "primaryAction": "Показать мою точку",
+        "hierarchy": {
+          "primary": "Карта и трек в реальном полевом сценарии",
+          "secondary": "Путевая статистика"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Трек 6,4 км в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Трёхдневный трек в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "GPS недоступен в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "checkpoint",
+      "title": "Новая точка",
+      "type": "modal",
+      "parent": "journal",
+      "light": true,
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Зафиксировать наблюдение",
+        "primaryAction": "Сохранить точку",
+        "hierarchy": {
+          "primary": "Тип и текст наблюдения",
+          "secondary": "Фото и голос в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "error",
+          "success",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Геологическое обнажение"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная заметка с 12 файлами"
+          },
+          {
+            "kind": "failure",
+            "example": "Медиа не сохранилось"
+          }
+        ]
+      }
+    },
+    {
+      "id": "capture",
+      "title": "Камера",
+      "type": "fullscreen",
+      "parent": "checkpoint",
+      "light": false,
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять наблюдение",
+        "primaryAction": "Снять",
+        "hierarchy": {
+          "primary": "Видоискатель в реальном полевом сценарии",
+          "secondary": "Подпись точки в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обнажение в кадре в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Слабый свет в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера запрещена в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Выбор фото",
+      "type": "system sheet",
+      "parent": "checkpoint",
+      "light": true,
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать готовый кадр",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Системный PHPicker",
+          "secondary": "Лимит выбора в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Шесть фото в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Ограниченная медиатека"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет фото в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовая запись",
+      "type": "fullscreen",
+      "parent": "checkpoint",
+      "light": false,
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Записать наблюдение голосом",
+        "primaryAction": "Готово",
+        "hierarchy": {
+          "primary": "Таймер и волна в реальном полевом сценарии",
+          "secondary": "Точка привязки в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "34 секунды в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "20 минут в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Микрофон запрещён в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pack",
+      "title": "Offline-пакет",
+      "type": "push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Скачать и проверить маршрут",
+        "primaryAction": "Скачать 184 МБ",
+        "hierarchy": {
+          "primary": "Состав пакета в реальном полевом сценарии",
+          "secondary": "Фоновое обновление"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "success",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "184 МБ в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "2,8 ГБ со спутником"
+          },
+          {
+            "kind": "failure",
+            "example": "Мало места в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "crew",
+      "title": "Группа",
+      "type": "push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Собрать состав выхода",
+        "primaryAction": "Добавить из контактов",
+        "hierarchy": {
+          "primary": "Участники и роли в реальном полевом сценарии",
+          "secondary": "Ручной ввод в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "7 участников в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "24 участника в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Контакты запрещены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Группа рядом",
+      "type": "push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Обменяться точками в одной сети",
+        "primaryAction": "Найти группу рядом",
+        "hierarchy": {
+          "primary": "Локальное обнаружение",
+          "secondary": "SSID и QR-файл в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "success",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "5 устройств в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Две группы в одной сети"
+          },
+          {
+            "kind": "failure",
+            "example": "Локальная сеть запрещена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "radio",
+      "title": "Полевая связь",
+      "type": "push",
+      "parent": "settings",
+      "light": false,
+      "ui": {
+        "pattern": "player",
+        "navigation": "push",
+        "purpose": "Провести короткий голосовой сеанс",
+        "primaryAction": "Начать сеанс",
+        "hierarchy": {
+          "primary": "Канал и говорящий в реальном полевом сценарии",
+          "secondary": "Режим уведомлений в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "7 участников в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Слабая сеть в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "VoIP недоступен в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "playback",
+      "title": "Записи маршрута",
+      "type": "player",
+      "parent": "journal",
+      "light": false,
+      "ui": {
+        "pattern": "player",
+        "navigation": "push",
+        "purpose": "Прослушать голосовые наблюдения",
+        "primaryAction": "Слушать в фоне",
+        "hierarchy": {
+          "primary": "Аудио и точка в реальном полевом сценарии",
+          "secondary": "Очередь записей в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "3:42 в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "42 записи в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Файл не найден в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "report",
+      "title": "Итоговый отчёт",
+      "type": "push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Собрать полевой PDF",
+        "primaryAction": "Собрать позже",
+        "hierarchy": {
+          "primary": "Состав отчёта в реальном полевом сценарии",
+          "secondary": "Статус сборки в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "success",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "18 страниц в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "240 фото в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Мало места в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "export",
+      "title": "Экспорт отчёта",
+      "type": "system sheet",
+      "parent": "report",
+      "light": true,
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Сохранить или передать отчёт",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Share Sheet и сохранение листов",
+          "secondary": "Размер файла в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "PDF 24 МБ в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "PDF 320 МБ в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Фото запрещены в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фоновая работа",
+      "type": "settings push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять треком и очередью задач",
+        "primaryAction": "Включить фоновый трек",
+        "hierarchy": {
+          "primary": "Фоновый трек в реальном полевом сценарии",
+          "secondary": "Очередь задач в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Трек активен в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Три задачи в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Always location запрещён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "link",
+      "title": "Приглашение",
+      "type": "push",
+      "parent": "welcome",
+      "light": true,
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Открыть выход из универсальной ссылки",
+        "primaryAction": "Открыть приглашение",
+        "hierarchy": {
+          "primary": "Название выхода в реальном полевом сценарии",
+          "secondary": "Код для ручного ввода"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Код CHU-0826 в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Старая ссылка в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Домен не подтверждён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notifications",
+      "title": "Уведомления",
+      "type": "settings push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Выбрать события выхода",
+        "primaryAction": "Включить уведомления",
+        "hierarchy": {
+          "primary": "Явные уведомления в реальном полевом сценарии",
+          "secondary": "Тихие обновления в реальном полевом сценарии"
+        },
+        "states": [
+          "default",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три типа событий в реальном полевом сценарии"
+          },
+          {
+            "kind": "stress",
+            "example": "Все выключены в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "APNs недоступен в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "support",
+      "title": "Поддержка проекта",
+      "type": "push",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять партнёрскими скидками и ATT",
+        "primaryAction": "Включить рекомендации",
+        "hierarchy": {
+          "primary": "Объяснение ценности",
+          "secondary": "Неперсональная альтернатива"
+        },
+        "states": [
+          "default",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Скидка на прокат GPS"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько партнёров"
+          },
+          {
+            "kind": "failure",
+            "example": "ATT запрещён в реальном полевом сценарии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "delete",
+      "title": "Удаление аккаунта",
+      "type": "modal",
+      "parent": "settings",
+      "light": true,
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Удалить аккаунт или остаться локально",
+        "primaryAction": "Удалить аккаунт",
+        "hierarchy": {
+          "primary": "Последствия удаления",
+          "secondary": "Экспорт локальных данных"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "success"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Аккаунт и локальный журнал"
+          },
+          {
+            "kind": "stress",
+            "example": "12 выходов в реальном полевом сценарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети для удаления"
+          }
+        ]
+      }
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Маршрут, точки, снаряжение",
+      "solution": "CoreData и файлы в контейнере приложения"
+    },
+    {
+      "needs": "Карта и offline-пакет",
+      "solution": "MapKit и подписанный manifest; трек пишется локально"
+    },
+    {
+      "needs": "Обмен в поле",
+      "solution": "Network.framework и Bonjour; файл/QR при отказе"
+    },
+    {
+      "needs": "Отчёт",
+      "solution": "PDFKit и BGProcessingTask на устройстве"
+    },
+    {
+      "needs": "Опциональный вход",
+      "solution": "SDK провайдера; сессия и ключ пакета в Keychain"
+    }
+  ],
+  "fixtures": {
+    "note": "Демо-данные",
+    "routes": [
+      {
+        "title": "Чу-Илийские горы",
+        "subtitle": "26 августа · 7 участников"
+      }
+    ]
+  },
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "24 экрана и 20 доступов",
+      "start": "welcome",
+      "screens": [
+        "welcome",
+        "phone",
+        "password",
+        "route",
+        "journal",
+        "gear",
+        "settings",
+        "map",
+        "checkpoint",
+        "capture",
+        "library",
+        "voice",
+        "pack",
+        "crew",
+        "nearby",
+        "radio",
+        "playback",
+        "report",
+        "export",
+        "background",
+        "link",
+        "notifications",
+        "support",
+        "delete"
+      ],
+      "stops": [],
+      "authTarget": "route"
+    },
+    {
+      "id": "field",
+      "label": "В поле",
+      "note": "Карта, точка, фото и голос",
+      "start": "route",
+      "screens": [
+        "route",
+        "map",
+        "journal",
+        "checkpoint",
+        "capture",
+        "library",
+        "voice",
+        "playback",
+        "settings"
+      ],
+      "stops": [
+        "settings"
+      ]
+    },
+    {
+      "id": "prepare",
+      "label": "Подготовка",
+      "note": "Пакет, группа и обмен",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "pack",
+        "crew",
+        "nearby",
+        "link",
+        "notifications",
+        "support",
+        "delete",
+        "route",
+        "radio",
+        "report",
+        "background",
+        "export",
+        "welcome"
+      ],
+      "stops": [
+        "route",
+        "radio",
+        "report",
+        "background",
+        "export",
+        "welcome"
+      ]
+    },
+    {
+      "id": "finish",
+      "label": "Итоги",
+      "note": "Фоновая сборка и экспорт",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "background",
+        "report",
+        "export",
+        "radio",
+        "route",
+        "pack",
+        "crew",
+        "nearby",
+        "notifications",
+        "support",
+        "delete"
+      ],
+      "stops": [
+        "route",
+        "pack",
+        "crew",
+        "nearby",
+        "notifications",
+        "support",
+        "delete"
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "guest-field",
+      "name": "Старт без аккаунта",
+      "action": "guest",
+      "given": "Первый запуск",
+      "when": "Нажимает «Продолжить без аккаунта»",
+      "then": "Маршрут открывается без permission-алертов",
+      "screens": [
+        "welcome",
+        "route"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "mark-point",
+      "name": "Полевая точка",
+      "action": "mark",
+      "given": "Маршрут открыт",
+      "when": "Запрашивает позицию и добавляет наблюдение",
+      "then": "В журнале видны координата, время и медиа",
+      "screens": [
+        "map",
+        "checkpoint",
+        "capture",
+        "voice"
+      ],
+      "capabilities": [
+        "location",
+        "camera",
+        "mic"
+      ]
+    },
+    {
+      "id": "offline-report",
+      "name": "Отчёт без сети",
+      "action": "compile",
+      "given": "Выход завершён",
+      "when": "Нажимает «Собрать позже»",
+      "then": "Задача видна в очереди, PDF доступен для экспорта",
+      "screens": [
+        "report",
+        "export"
+      ],
+      "capabilities": [
+        "processing",
+        "photosadd"
+      ]
+    }
+  ],
+  "appStore": {
+    "name": "Экспедиция — полевой журнал",
+    "subtitle": "Маршрут, точки, офлайн",
+    "promo": "Один выход — одна карта, хронология наблюдений, снаряжение и готовый PDF. Без ленты, лайков и обязательного аккаунта.",
+    "keywords": "поход,трек,gps,карта,наблюдение,снаряжение,отчет,группа,точка,выход",
+    "category": {
+      "primary": "Navigation",
+      "secondary": "Education"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — HTTPS и системные API",
+    "urls": {
+      "support": "https://ekspeditsiya.app/help",
+      "marketing": "https://ekspeditsiya.app",
+      "privacy": "https://ekspeditsiya.app/privacy"
+    },
+    "description": [
+      "«Экспедиция» — автономный полевой журнал для учебных, научных и краеведческих выходов. Не спасательная служба.",
+      "Подготовьте offline-пакет, сверьте снаряжение, отмечайте точки с фото и голосом, а после вернитесь к готовому PDF.",
+      "Аккаунт необязателен. Все полевые данные работают локально; каждый доступ спрашивается только из видимого действия."
+    ],
+    "whatsNew": "Первая версия: offline-маршрут, точки, фото и голос, снаряжение, полевая связь и PDF-отчёт.",
+    "privacy": [
+      {
+        "type": "Точная геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Трек и точки хранятся на устройстве"
+      },
+      {
+        "type": "Фото и аудио",
+        "apple": "User Content",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Полевые наблюдения в локальном пакете"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Локальный выбор участника"
+      },
+      {
+        "type": "Рекламный идентификатор",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Сторонняя реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Только для партнёрских скидок после ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 700 000-20-26",
+      "password": "review2026",
+      "note": "Аккаунт опционален; весь сценарий доступен гостю."
+    }
+  },
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ]
+}

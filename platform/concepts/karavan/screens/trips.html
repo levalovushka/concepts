@@ -1,0 +1,24 @@
+<div class="screen ios-surface kv-screen is-on" id="scr-trips">
+  <div class="navbar is-large">
+    <div class="nav-top"><div class="nav-leading"></div><button class="icon-btn tap" data-go="plan" aria-label="Создать поездку"><svg class="ico-svg"><use href="#i-plus"/></svg></button></div>
+    <div class="title large">Поездки</div>
+  </div>
+  <div class="body-scroll kv-scroll">
+    <div class="kv-intro"><span class="kv-eyebrow">понедельник · 08:14</span><p class="kv-lede">Три машины едут одним планом.</p></div>
+    <section class="kv-trip-card" aria-label="Активная поездка Алматы — Кольсай">
+      <div class="kv-trip-status"><span class="kv-live-dot"></span>в пути · 42 минуты</div>
+      <h2>Алматы → Кольсай</h2><div class="kv-trip-meta">3 экипажа · разброс 8 минут</div>
+      <div class="kv-mini-route" aria-hidden="true"><span class="kv-mini-car one"><svg class="ico-svg"><use href="#i-car"/></svg></span><span class="kv-mini-car two"><svg class="ico-svg"><use href="#i-car"/></svg></span><span class="kv-mini-car three"><svg class="ico-svg"><use href="#i-car"/></svg></span></div>
+      <button class="btn-filled block tap" data-primary data-go="live">Открыть поездку</button>
+      <div class="kv-trip-foot"><span>последний сигнал сейчас</span><span>до встречи 2:18</span></div>
+    </section>
+    <div class="kv-section-title"><strong>Готовится</strong><span>12 сентября</span></div>
+    <div class="ios-list"><button class="row tap" data-go="plan" aria-label="Открыть план поездки в Баянаул"><span class="kv-plan-mark"><svg class="ico-svg"><use href="#i-route"/></svg></span><span class="kv-plan-copy"><strong>Баянаул</strong><span>2 из 3 экипажей готовы</span><span class="kv-progress-line"><i></i></span></span><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button></div>
+    <div class="kv-section-title"><strong>Завершённые</strong><span>2 поездки</span></div>
+    <div class="ios-list"><button class="row tap" data-go="album" aria-label="Открыть итог поездки в Чарын"><span class="kv-plan-mark"><svg class="ico-svg"><use href="#i-images"/></svg></span><span class="kv-plan-copy"><strong>Чарын</strong><span>18 августа · 42 кадра</span></span><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button></div>
+    <div class="kv-fallback perm-hidden" data-show-denied="fetch">План обновится при открытии.</div>
+  </div>
+  <div class="tabbar light kv-tabs" aria-label="Основная навигация">
+    <div class="tab is-on tap" aria-current="page" data-go="trips" aria-label="Раздел Поездки"><span class="ico"><svg class="ico-svg"><use href="#i-route"/></svg></span><span class="tab-label">Поездки</span></div><div class="tab tap" data-go="live" aria-label="Раздел В пути"><span class="ico"><svg class="ico-svg"><use href="#i-navigation"/></svg></span><span class="tab-label">В пути</span></div><div class="tab tap" data-go="album" aria-label="Раздел Итоги"><span class="ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><span class="tab-label">Итоги</span></div><div class="tab tap" data-go="settings" aria-label="Раздел Ещё"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span><span class="tab-label">Ещё</span></div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

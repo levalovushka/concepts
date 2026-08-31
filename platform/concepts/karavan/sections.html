@@ -1,0 +1,18 @@
+<!-- @overview:vision -->
+<p class="deck">Несколько машин едут по одному плану, но каждая — со своим навигатором. «Караван» держит общий контекст: {{INSIGHT}}.</p>
+<div class="utp-box"><strong>Отстройка от ОК.</strong> {{TAGLINE}}. Никаких лент, профилей, подписчиков или лайков — только конечная поездка и её экипажи.</div>
+{{FEAT_GRID}}
+<!-- @end -->
+<!-- @overview:arch -->
+<p class="deck">Три слоя связи: облачный снапшот, локальная очередь и Bonjour-мост. Координаты живут только до финиша, альбом собирается на устройстве.</p>
+<div class="flow"><span class="chip">Поездки</span><span class="arr">→</span><span class="chip">В пути</span><span class="arr">→</span><span class="chip">Остановка / голос / отметка</span><span class="arr">→</span><span class="chip">Итог</span></div>
+<div class="arch">
+  <div class="arch-layer"><h3>UI</h3><p>Четыре корня: поездки, активный путь, итог и системные настройки.</p></div>
+  <div class="arch-layer"><h3>Domain</h3><p>Поездка · экипаж · событие пути · итоговый альбом. Профиль и публикация в модель не входят.</p></div>
+  <div class="arch-layer"><h3>Связь</h3><p>Realtime-комната при сети; Bonjour и подписанная очередь рядом; WebRTC для короткого голоса.</p></div>
+  <div class="arch-layer"><h3>Данные</h3><p>SQLite-снапшот, Keychain для ключа поездки, файлы альбома и Core Image на устройстве.</p></div>
+</div>
+<!-- @end -->
+<section class="section" id="perm-matrix"><h2>Матрица 20 доступов</h2><p class="deck">Каждая строка имеет экран, видимый жест и отказ. На cold start системных запросов нет.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Контур без собственного сервера</h2><p class="deck">Тяжёлые возможности заземлены системными API и SDK; локальная поездка остаётся полезной офлайн.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и состояния</h2><p class="deck">Формы покрывают loading/empty/error, продуктовые поверхности — ещё offline и permission.</p>{{SCREEN_TABLE}}</section>

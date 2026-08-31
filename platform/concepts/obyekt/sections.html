@@ -1,0 +1,12 @@
+<!-- @overview:vision -->
+<p class="deck">«Объект» превращает работу на площадке в цепочку проверяемых фактов: зона, этап, автор, время, медиа и статус.</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>{{FEAT_GRID}}
+<!-- @end -->
+<!-- @overview:arch -->
+<p class="deck">Офлайн-первая архитектура: факт сначала фиксируется на iPhone, затем уходит в peer-to-peer пакет или CloudKit. Акт собирается из той же модели.</p>
+<div class="flow"><span class="chip">Зона</span><span class="arr">→</span><span class="chip">Этап</span><span class="arr">→</span><span class="chip">Факт</span><span class="arr">→</span><span class="chip">Приёмка</span><span class="arr">→</span><span class="chip">Акт</span></div>
+<div class="arch"><div class="arch-layer"><h3>UI</h3><p>Журнал, план зон, дефекты, поставки, присутствие и акт.</p></div><div class="arch-layer"><h3>Domain</h3><p>Object · Zone · Phase · Fact · Defect · Delivery · Act.</p></div><div class="arch-layer"><h3>Local-first</h3><p>SQLite, FileManager, Keychain, Network.framework, PDFKit, Vision.</p></div><div class="arch-layer"><h3>External</h3><p>CloudKit, APNs и SDK связи; своего серверного кода нет.</p></div></div>
+<!-- @end -->
+<section class="section"><h2>Матрица доступов</h2>{{PERM_MATRIX}}</section>
+<section class="section"><h2>Почему нет своего бэкенда</h2>{{BACKENDLESS}}</section>
+<section class="section"><h2>Экраны и доступы</h2>{{SCREEN_TABLE}}</section>

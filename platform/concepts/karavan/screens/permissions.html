@@ -1,0 +1,38 @@
+<div class="screen ios-surface kv-screen" id="scr-permissions">
+  <div class="navbar"><div class="nav-leading"><button class="btn-plain tap" data-back aria-label="Назад в Ещё"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ещё</span></button></div><div class="title">Доступы</div><div class="nav-spacer"></div></div>
+  <div class="body-scroll kv-push"><h1>20 функций, ни одной вслепую</h1><p class="t-subhead">Каждый доступ привязан к экрану, где он нужен, и запасному пути при отказе.</p>
+    <button class="btn-tinted block tap" data-primary data-toast="7 активных · 13 условных — состояния проверены">Проверить доступы</button>
+    <div class="kv-group"><div class="kv-group-head">В поездке</div>
+      <div class="ios-list">
+        <button class="row has-lead tap" data-go="mark"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-camera"/></svg></span><div class="kv-settings-copy"><strong>Фото дорожной отметки</strong><span class="kv-key">camera</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="album"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-image"/></svg></span><div class="kv-settings-copy"><strong>Выбор кадров в альбом</strong><span class="kv-key">photos</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="album"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-download"/></svg></span><div class="kv-settings-copy"><strong>Экспорт коллажа</strong><span class="kv-key">photosadd</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="channel"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-mic"/></svg></span><div class="kv-settings-copy"><strong>Кнопка «Говорить»</strong><span class="kv-key">mic</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="crew"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-users"/></svg></span><div class="kv-settings-copy"><strong>Приглашение экипажей</strong><span class="kv-key">contacts</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="live"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-navigation"/></svg></span><div class="kv-settings-copy"><strong>Активная видимость машины</strong><span class="kv-key">location</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="background"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-moon"/></svg></span><div class="kv-settings-copy"><strong>Фоновая видимость машины</strong><span class="kv-key">locationalways</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="link"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-wifi"/></svg></span><div class="kv-settings-copy"><strong>Локальный мост экипажей</strong><span class="kv-key">localnetwork</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="privacy"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-megaphone"/></svg></span><div class="kv-settings-copy"><strong>Партнёрские карточки</strong><span class="kv-key">tracking</span></div><span class="kv-status ask">условно</span></button>
+      </div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Фон и вызовы</div>
+      <div class="ios-list">
+        <button class="row has-lead tap" data-go="channel"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-volume-2"/></svg></span><div class="kv-settings-copy"><strong>Фоновый голосовой канал</strong><span class="kv-key">audio</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="channel"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-phone-incoming"/></svg></span><div class="kv-settings-copy"><strong>Входящий вызов экипажа</strong><span class="kv-key">voip</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="background"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-route"/></svg></span><div class="kv-settings-copy"><strong>План к первому открытию</strong><span class="kv-key">fetch</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="alerts"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-zap"/></svg></span><div class="kv-settings-copy"><strong>Свежая активность экипажей</strong><span class="kv-key">remotenotif</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="album"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><div class="kv-settings-copy"><strong>Фоновая сборка альбома</strong><span class="kv-key">processing</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="background"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-list-checks"/></svg></span><div class="kv-settings-copy"><strong>Список фоновых задач</strong><span class="kv-key">bgtask</span></div><span class="kv-status ask">условно</span></button>
+      </div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Push и сеть</div>
+      <div class="ios-list">
+        <button class="row has-lead tap" data-go="alerts"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-bell"/></svg></span><div class="kv-settings-copy"><strong>События поездки вне приложения</strong><span class="kv-key">push</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="alerts"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-user"/></svg></span><div class="kv-settings-copy"><strong>Позывной экипажа в уведомлении</strong><span class="kv-key">commnotif</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="link"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-globe"/></svg></span><div class="kv-settings-copy"><strong>Проверка общего хотспота</strong><span class="kv-key">wifiinfo</span></div><span class="kv-status ask">условно</span></button>
+        <button class="row has-lead tap" data-go="settings"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-key"/></svg></span><div class="kv-settings-copy"><strong>Возврат без повторного кода</strong><span class="kv-key">keychain</span></div><span class="kv-status">активен</span></button>
+        <button class="row has-lead tap" data-go="crew"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-link"/></svg></span><div class="kv-settings-copy"><strong>Вход по ссылке без профиля</strong><span class="kv-key">associateddomains</span></div><span class="kv-status ask">условно</span></button>
+      </div>
+    </div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

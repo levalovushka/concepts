@@ -1,0 +1,22 @@
+<div class="screen ios-surface kv-screen" id="scr-settings">
+  <div class="navbar is-large"><div class="nav-top"></div><div class="title large">Ещё</div></div>
+  <div class="body-scroll kv-scroll">
+    <div class="kv-group"><div class="kv-group-head">Доступ и данные</div>
+      <div class="ios-list">
+        <button class="row has-lead tap" data-primary data-go="permissions" aria-label="Открыть доступы"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-shield"/></svg></span><div class="kv-settings-copy"><strong>Открыть доступы</strong><span>Состояние и fallback всех 20 функций</span></div><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button>
+        <button class="row has-lead tap" data-go="privacy"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-eye"/></svg></span><div class="kv-settings-copy"><strong>Приватность</strong><span>Кто видит вашу видимость</span></div><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button>
+        <button class="row has-lead tap" data-go="background"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-moon"/></svg></span><div class="kv-settings-copy"><strong>Фон поездки</strong><span>Видимость, звук и фоновые задачи</span></div><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button>
+        <button class="row has-lead tap" data-go="alerts"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-bell"/></svg></span><div class="kv-settings-copy"><strong>Уведомления</strong><span>События поездки и экипажи</span></div><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button>
+      </div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Сессия</div>
+      <div class="ios-list"><div class="row has-lead tap" data-activate="keychain|settings"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-key"/></svg></span><div class="kv-settings-copy"><strong>Хранить ключ поездки</strong><span>Возврат без повторного кода</span></div><div class="switch" data-switch="keychain"></div></div></div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Поддержка</div>
+      <div class="ios-list"><button class="row has-lead tap" data-toast="Справка · karavan.app/help"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-info"/></svg></span><div class="kv-settings-copy"><strong>Помощь</strong><span>Как собрать первую поездку</span></div><svg class="ios-disclosure"><use href="#i-chevron-right"/></svg></button></div>
+    </div>
+  </div>
+  <div class="tabbar light kv-tabs" aria-label="Основная навигация">
+    <div class="tab tap" data-go="trips" aria-label="Раздел Поездки"><span class="ico"><svg class="ico-svg"><use href="#i-route"/></svg></span><span class="tab-label">Поездки</span></div><div class="tab tap" data-go="live" aria-label="Раздел В пути"><span class="ico"><svg class="ico-svg"><use href="#i-navigation"/></svg></span><span class="tab-label">В пути</span></div><div class="tab tap" data-go="album" aria-label="Раздел Итоги"><span class="ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><span class="tab-label">Итоги</span></div><div class="tab is-on tap" aria-current="page" data-go="settings" aria-label="Раздел Ещё"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span><span class="tab-label">Ещё</span></div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

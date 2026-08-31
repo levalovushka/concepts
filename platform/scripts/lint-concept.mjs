@@ -102,7 +102,12 @@ function lint(slug) {
   const declared = allClassTokens(allCss);
   const used = new Set();
   for (const m of markup.matchAll(/class="([^"]+)"/g)) m[1].split(/\s+/).forEach((c) => c && used.add(c));
-  for (const c of used) if (!declared.has(c)) P(`класс без стиля: .${c}`);
+  for (const c of used) {
+    /* build.mjs adds this generated hook to every unified auth flow. Concepts may
+       override it, but the hook itself intentionally has no mandatory rule. */
+    if (c === `auth-${slug}`) continue;
+    if (!declared.has(c)) P(`класс без стиля: .${c}`);
+  }
 
   /* —— anti-slop contract новых концептов —— */
   if (spec.uiContractVersion >= 3 && spec.readiness?.status === 'reviewed') {

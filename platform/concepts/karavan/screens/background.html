@@ -1,0 +1,16 @@
+<div class="screen ios-surface kv-screen" id="scr-background">
+  <div class="navbar"><div class="nav-leading"><button class="btn-plain tap" data-back aria-label="Назад в Ещё"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ещё</span></button></div><div class="title">Фон поездки</div><div class="nav-spacer"></div></div>
+  <div class="body-scroll kv-push"><h1>Работает, пока экран погашен</h1><p class="t-subhead">Видимость и фоновые задачи заканчиваются на финише или через 12 часов.</p>
+    <div class="kv-group"><div class="kv-group-head">Видимость</div>
+      <div class="ios-list"><div class="row has-lead tap" data-primary data-ask="locationalways|background|background" aria-label="Видимость с погашенным экраном"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-navigation"/></svg></span><div class="kv-settings-copy"><strong>Видимость с погашенным экраном</strong><span>До 18:40 или до финиша поездки</span></div><div class="switch" data-switch="locationalways"></div></div></div>
+      <div class="kv-fallback perm-hidden" data-show-denied="locationalways">Положение обновляется при открытом приложении; видно время последнего сигнала</div>
+    </div>
+    <div class="kv-group"><div class="kv-group-head">Фоновые задачи</div>
+      <div class="ios-list">
+        <div class="row has-lead tap" data-activate="fetch|trips"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-route"/></svg></span><div class="kv-settings-copy"><strong>Обновлять план в фоне</strong><span>План готов к первому открытию</span></div><div class="switch" data-switch="fetch"></div></div>
+        <div class="row has-lead tap" data-activate="processing|album"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-images"/></svg></span><div class="kv-settings-copy"><strong>Собирать итог в фоне</strong><span>Кадры разбираются без экрана</span></div><div class="switch" data-switch="processing"></div></div>
+        <div class="row has-lead tap" data-activate="bgtask|background"><span class="kv-setting-ico"><svg class="ico-svg"><use href="#i-list-checks"/></svg></span><div class="kv-settings-copy"><strong>Разрешённые задачи</strong><span>Только план и сборка итога</span></div><div class="switch" data-switch="bgtask"></div></div>
+      </div>
+    </div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>

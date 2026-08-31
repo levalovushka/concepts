@@ -36,6 +36,8 @@ const registrationIcon = (spec) => spec.iconPlaceholder
   ? '<span class="auth-app-icon app-icon-placeholder"></span>'
   : existsSync(join(conceptDir(spec.slug), 'assets', 'app-icon.png'))
   ? '<img class="auth-app-icon" src="assets/app-icon.png" alt="">'
+  : spec.brand?.authIcon
+  ? `<svg class="auth-brand-glyph" aria-hidden="true"><use href="#i-${esc(spec.brand.authIcon)}"/></svg>`
   : null;
 
 const authLegalFooter = (spec) => {
@@ -60,7 +62,7 @@ const authField = ({ label, type, value, autocomplete }) => `<label class="unifi
 const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
   const surface = light ? ' ios-surface' : '';
   const inherited = sourceClasses.split(/\s+/).filter((name) => name && !['screen', 'is-on'].includes(name)).join(' ');
-  const rootClass = `screen unified-auth${surface}${inherited ? ` ${inherited}` : ''}`;
+  const rootClass = `screen unified-auth auth-${spec.slug}${surface}${inherited ? ` ${inherited}` : ''}`;
   const icon = registrationIcon(spec) || '<span class="auth-app-icon app-icon-placeholder"></span>';
   const phone = authField({ label: 'Номер телефона', type: 'tel', value: '+7 900 123-45-67', autocomplete: 'tel' });
   const password = authField({ label: 'Пароль', type: 'password', value: 'sotki2026', autocomplete: 'current-password' });
@@ -93,7 +95,7 @@ const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
       <div class="unified-auth-actions"><button class="btn-filled tap" data-primary data-auth-target data-go="${target}">Создать аккаунт</button>${authLegalFooter(spec)}</div>
     </div><div class="home-ind" aria-hidden="true"></div></div>`,
     account: `<div class="${rootClass}" id="scr-account"><div class="unified-auth-body">${authBack}
-      <h1>Аккаунт</h1><div class="unified-account-card"><div><span>Телефон</span><strong>+7 900 123-45-67</strong></div>
+      <h1 class="unified-account-title">Профиль и аккаунт</h1><div class="unified-account-card"><div><span>Телефон</span><strong>+7 900 123-45-67</strong></div>
       <button class="unified-auth-link tap" data-go="phone">Выйти</button>
       <button class="unified-auth-danger tap" data-primary data-go="deleteaccount">Удалить аккаунт</button></div>
       <p class="unified-auth-note">Без аккаунта основные функции приложения останутся доступны.</p>
@@ -489,7 +491,7 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
       .replaceAll('>Привязать<', '>Изменить<')
       .replaceAll('#i-mail', '#i-phone')
       .replaceAll('#i-apple', '#i-lock');
-    const accountEntry = `<section class="unified-settings-account" aria-label="Аккаунт"><div><span>Аккаунт</span><strong>+7 900 123-45-67</strong></div><button class="tap" data-go="account">Управление</button></section>`;
+    const accountEntry = `<section class="unified-settings-account" aria-label="Профиль и аккаунт"><div><span>Профиль и аккаунт</span><strong>+7 900 123-45-67</strong></div><button class="tap" data-go="account">Открыть</button></section>`;
     if (accountSurfaceId === 'settings' || accountSurfaceId === 'menu') {
       markup[accountSurfaceId] = /<div class="body-scroll[^>]*>/.test(markup[accountSurfaceId])
         ? markup[accountSurfaceId].replace(/(<div class="body-scroll[^>]*>)/, `$1${accountEntry}`)
@@ -505,7 +507,7 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
       });
       if (!/data-go="account"/.test(markup.profile)) markup.profile = markup.profile.replace('data-go="phone" aria-label=', 'data-go="account" aria-label=');
       if (!/data-go="account"/.test(markup.profile) && /class="settings-list"/.test(markup.profile)) {
-        markup.profile = markup.profile.replace('<div class="settings-list">', '<div class="settings-list"><button data-go="account"><span class="setting-icon"><svg><use href="#i-user"/></svg></span><span><strong>Аккаунт</strong><small>Телефон, выход и удаление</small></span><svg><use href="#i-chevron-right"/></svg></button>');
+        markup.profile = markup.profile.replace('<div class="settings-list">', '<div class="settings-list"><button data-go="account"><span class="setting-icon"><svg><use href="#i-user"/></svg></span><span><strong>Профиль и аккаунт</strong><small>Телефон, выход и удаление</small></span><svg><use href="#i-chevron-right"/></svg></button>');
       }
       if (!/data-go="account"/.test(markup.profile) && spec.slug === 'rasklad') {
         markup.profile = markup.profile.replace('<div class="list-stack tight">', `<div class="list-stack tight">${accountEntry}`);

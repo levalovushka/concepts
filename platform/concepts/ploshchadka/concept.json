@@ -1,0 +1,1841 @@
+{
+  "slug": "ploshchadka",
+  "name": "Площадка",
+  "eyebrow": "Площадка · Production · iOS",
+  "targetSet": "ok",
+  "domain": "ploshchadka.day",
+  "heroTitle": "Площадка",
+  "heroDeck": "Один съёмочный или событийный день — от call sheet до закрытой смены",
+  "tagline": "Вся смена в одном рабочем ритме",
+  "insight": "на площадке важен не контент после события, а общий ответ прямо сейчас: где быть, что снять и что уже передано",
+  "deck": "Локальный штаб небольшой съёмочной группы: роли, тайминг, зоны, кадры, рация и передача рядом. Работает без обязательного аккаунта и сохраняет критичный план офлайн.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Линейные продюсеры, режиссёры площадки, фотографы и координаторы команд из 4–30 человек",
+    "situation": "В день съёмки или события план меняется каждые несколько минут, а команда перемещается между зонами с нестабильной связью",
+    "problem": "Call sheet, сообщения, карта, кадры и файлы живут в разных приложениях, поэтому команда опаздывает и повторяет уже закрытую работу",
+    "promise": "За десять секунд увидеть следующий блок, добраться до зоны, подтвердить кадр и передать материал без интернета",
+    "differentiator": "Это временный операционный контур одной смены, а не соцсеть, медиакаталог, чат для постоянного общения или публикационная платформа",
+    "returnReasons": [
+      "Проверить следующий тайм-блок и изменение точки сбора",
+      "Закрыть назначенный кадр или зону с локальным подтверждением",
+      "Передать исходники рядом и получить итоговый отчёт смены"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "day",
+      "result": "wrap"
+    },
+    "coreLoop": [
+      "Координатор открывает смену и назначает роли, зоны и контрольные точки",
+      "Участник видит ближайший блок, добирается до зоны и отмечает результат",
+      "Команда передаёт материалы рядом, закрывает хвосты и завершает смену отчётом"
+    ],
+    "nonGoals": [
+      "Публичная лента, профили авторов, подписчики, лайки и охват публикаций",
+      "Монтаж, видеохостинг, билетная касса и постоянный корпоративный мессенджер"
+    ],
+    "world": {
+      "note": "Смена — временный контейнер, внутри которого роли исполняют блоки, закрывают кадры и передают пакеты.",
+      "entities": [
+        {
+          "id": "shift",
+          "name": "Смена",
+          "identity": "дата, площадка и код доступа",
+          "fields": [
+            "статус",
+            "окно работы",
+            "точка сбора"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "block"
+            }
+          ]
+        },
+        {
+          "id": "block",
+          "name": "Тайм-блок",
+          "identity": "время и зона",
+          "fields": [
+            "ответственный",
+            "готовность",
+            "зависимости"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "shot"
+            }
+          ]
+        },
+        {
+          "id": "shot",
+          "name": "Кадр",
+          "identity": "номер и контрольный результат",
+          "fields": [
+            "референс",
+            "статус",
+            "подтверждение"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "block"
+            }
+          ]
+        },
+        {
+          "id": "package",
+          "name": "Пакет",
+          "identity": "получатель и checksum",
+          "fields": [
+            "файлы",
+            "прогресс",
+            "проверка"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "shift"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "open_shift",
+          "name": "Открыть смену",
+          "actor": "role",
+          "entity": "shift",
+          "effect": "критичный план фиксируется на устройстве",
+          "screen": "day",
+          "result": "виден следующий блок и риски",
+          "capabilities": [
+            "fetch",
+            "keychain",
+            "contacts",
+            "push",
+            "remotenotif"
+          ]
+        },
+        {
+          "id": "close_shot",
+          "name": "Закрыть кадр",
+          "actor": "role",
+          "entity": "shot",
+          "effect": "кадр получает подтверждение и время",
+          "screen": "shot",
+          "result": "команда не повторяет готовую работу",
+          "capabilities": [
+            "camera",
+            "photos",
+            "mic",
+            "location",
+            "locationalways"
+          ]
+        },
+        {
+          "id": "transfer_package",
+          "name": "Передать пакет",
+          "actor": "role",
+          "entity": "package",
+          "effect": "файлы передаются напрямую",
+          "screen": "transfer",
+          "result": "материал у принимающей роли без облака",
+          "capabilities": [
+            "localnetwork",
+            "wifiinfo",
+            "bgtask"
+          ]
+        },
+        {
+          "id": "coordinate_shift",
+          "name": "Связаться с командой",
+          "actor": "role",
+          "entity": "shift",
+          "effect": "Доставляет адресный вызов участникам активной смены",
+          "screen": "radio",
+          "result": "Команда получает голосовую или текстовую команду",
+          "capabilities": [
+            "commnotif",
+            "voip",
+            "audio"
+          ]
+        },
+        {
+          "id": "close_shift",
+          "name": "Закрыть смену",
+          "actor": "role",
+          "entity": "shift",
+          "effect": "Собирает итоговый лист и ссылку на неизменяемый результат",
+          "screen": "wrap",
+          "result": "Итог доступен в Фото, PDF и по ссылке",
+          "capabilities": [
+            "photosadd",
+            "processing",
+            "associateddomains"
+          ]
+        },
+        {
+          "id": "measure_invite",
+          "name": "Измерить приглашение",
+          "actor": "role",
+          "entity": "shift",
+          "effect": "Сохраняет агрегированный источник приглашения по выбору пользователя",
+          "screen": "privacy",
+          "result": "Координатор видит канал без изменения входа в смену",
+          "capabilities": [
+            "tracking"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Основная ценность — выполнение временного рабочего плана и контроль задач на месте, поэтому продукт относится к Productivity, а не Social Networking",
+    "familiarPatterns": [
+      "call sheet как структурированный документ",
+      "таймлайн с текущим блоком",
+      "карта зон и маршрут",
+      "чек-лист выполнения",
+      "push-to-talk рация"
+    ],
+    "distinctions": [
+      "корень IA построен вокруг времени, зон и результата смены",
+      "взаимодействия исчезают после закрытия смены и не формируют публичную идентичность",
+      "передача материалов работает напрямую по локальной сети без публикации"
+    ],
+    "evidenceScreens": [
+      "day",
+      "timing",
+      "map",
+      "shots",
+      "radio",
+      "wrap"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "messaging",
+      "profile"
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines: Privacy",
+        "observation": "Системный запрос следует за действием, контекст которого объясняет пользу доступа",
+        "decision": "На старте нет запросов; каждый доступ привязан к подписанной рабочей кнопке"
+      },
+      {
+        "source": "Apple Background Tasks documentation",
+        "observation": "Фоновая работа запускается системой и не гарантирует точное время исполнения",
+        "decision": "Интерфейс показывает свежесть, очередь и ручное действие вместо ложной гарантии"
+      },
+      {
+        "source": "Apple Local Network Privacy FAQ",
+        "observation": "Локальная сеть нужна при обнаружении и соединении с устройствами рядом",
+        "decision": "Запрос появляется после поиска устройств, а QR остаётся рабочим fallback"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Набор может выглядеть как ещё один командный чат",
+        "resolution": "Главные объекты — блоки, зоны и кадры; сообщения сведены к рации активной смены",
+        "evidenceScreens": [
+          "day",
+          "timing",
+          "radio"
+        ]
+      },
+      {
+        "objection": "Двадцать доступов могут превратить первый запуск в допрос",
+        "resolution": "Старт с телефона не спрашивает доступы и позволяет продолжить без аккаунта; каждый системный запрос возникает после отдельного жеста",
+        "evidenceScreens": [
+          "phone",
+          "shot",
+          "transfer",
+          "privacy"
+        ]
+      },
+      {
+        "objection": "Без сети рабочий план может стать недостоверным",
+        "resolution": "Корневые экраны показывают свежесть слепка, а критичные действия пишутся в очередь",
+        "evidenceScreens": [
+          "day",
+          "background",
+          "transfer"
+        ]
+      },
+      {
+        "objection": "Продукт может стать тяжёлой продакшн-системой",
+        "resolution": "Контейнер ограничен одной сменой и завершается неизменяемым итогом",
+        "evidenceScreens": [
+          "day",
+          "wrap"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Полная вычитка после добавления сценарных прототипов: структурная находка (account/deleteaccount — мёртвый код, экран переименован в settings), .ph вместо самодельной подложки на shot, системный шрифт .p-status ниже 11px, пустые alerts/background, рамка у .p-camera-back, хит-таргет welcome, мёртвые CSS-классы, дубль в appStore.keywords, жаргонная копия на transfer",
+        "screensReviewed": "all",
+        "found": 10,
+        "fixed": 10,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Повторный чистый проход по всем 23 PNG после исправлений плюс audit-visual/audit-grid/lint-concept/test-flows",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#6F5BD3",
+    "accentDark": "#8B7AE3",
+    "authIcon": "video",
+    "fonts": "Inter:wght@400;500;600;700;800"
+  },
+  "start": "phone",
+  "auth": {
+    "entryTarget": "day"
+  },
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "day",
+      "label": "Смена",
+      "role": "home"
+    },
+    {
+      "id": "timing",
+      "label": "Тайминг",
+      "role": "schedule"
+    },
+    {
+      "id": "map",
+      "label": "Карта",
+      "role": "map"
+    },
+    {
+      "id": "shots",
+      "label": "Кадры",
+      "role": "tasks"
+    },
+    {
+      "id": "radio",
+      "label": "Рация",
+      "role": "communication"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает доступ к камере",
+        "text": "Снять хлопушку и прикрепить подтверждение к кадру 14B."
+      },
+      "feature": "Подтверждение кадра хлопушкой",
+      "gesture": "«Открыть камеру» в карточке кадра",
+      "screen": "shot",
+      "target": "camera",
+      "fallback": "Кадр закрывается текстовой пометкой и номером дубля",
+      "snack": "Камера недоступна — добавьте номер дубля",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation, файл внутри смены"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает доступ к Фото",
+        "text": "Выбрать референс или готовый кадр для этого пункта плана."
+      },
+      "feature": "Выбор референса из медиатеки",
+      "gesture": "«Выбрать из Фото» в карточке кадра",
+      "screen": "shot",
+      "target": "shot",
+      "fallback": "Доступны камера, заметка и встроенный референс call sheet",
+      "snack": "Фото недоступны — используйте встроенный референс",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker с выбором отдельных файлов"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Площадка» хочет добавить итог в Фото",
+        "text": "Сохранить один лист закрытия смены в вашу медиатеку."
+      },
+      "feature": "Экспорт листа закрытия",
+      "gesture": "«Сохранить лист в Фото»",
+      "screen": "wrap",
+      "target": "wrap",
+      "fallback": "PDF остаётся в файлах смены и доступен через Share Sheet",
+      "snack": "Не сохранено в Фото — PDF готов к экспорту",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPhotoLibrary только для созданного листа"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает доступ к микрофону",
+        "text": "Передать короткую реплику участникам активного канала."
+      },
+      "feature": "Push-to-talk рация",
+      "gesture": "«Зажать и говорить»",
+      "screen": "radio",
+      "target": "radio",
+      "fallback": "Быстрые текстовые команды остаются доступны",
+      "snack": "Микрофон выключен — отправьте быструю команду",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioSession record, буфер не сохраняется"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает доступ к контактам",
+        "text": "Найти участников смены по выбранным контактам без загрузки адресной книги."
+      },
+      "feature": "Добавление команды из контактов",
+      "gesture": "«Выбрать из Контактов»",
+      "screen": "crew",
+      "target": "crew",
+      "fallback": "Имя и телефон вводятся вручную, либо отправляется ссылка",
+      "snack": "Контакты недоступны — введите участника вручную",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactPicker возвращает выбранные записи"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает геопозицию при использовании",
+        "text": "Показать ваше положение относительно входа B и следующей зоны."
+      },
+      "feature": "Маршрут до рабочей зоны",
+      "gesture": "«Показать меня на карте»",
+      "screen": "map",
+      "target": "map",
+      "fallback": "Остаются схема, адрес и текстовые ориентиры",
+      "snack": "Геопозиция выключена — открыт маршрут по ориентирам",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Core Location while-in-use"
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить геопозицию всегда?",
+        "text": "Автоматически отметить прибытие и выход только во время активной смены."
+      },
+      "feature": "Автоматический check-in смены",
+      "gesture": "Свитч «Автоотметка входа и выхода»",
+      "screen": "map",
+      "target": "map",
+      "fallback": "Кнопка «Я на месте» работает вручную",
+      "snack": "Автоотметка выключена — используйте ручной check-in",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Background region monitoring до закрытия смены",
+      "grounding": "Один геозабор удаляется при закрытии"
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription",
+      "alert": {
+        "title": "«Площадка» запрашивает доступ к локальной сети",
+        "text": "Найти устройства команды рядом и передать исходники напрямую."
+      },
+      "feature": "Локальная передача пакетов",
+      "gesture": "«Найти устройства рядом»",
+      "screen": "transfer",
+      "target": "transfer",
+      "fallback": "Получатель подключается по QR-коду или забирает пакет через Files",
+      "snack": "Устройства не найдены — покажите QR получателю",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Bonjour и Network.framework peer-to-peer"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сведения о сети площадки",
+        "text": "Проверить, что оба устройства находятся в рабочей Wi-Fi сети Stage-B."
+      },
+      "feature": "Диагностика сети передачи",
+      "gesture": "«Проверить сеть»",
+      "screen": "transfer",
+      "target": "transfer",
+      "fallback": "Проверка peer работает без показа имени сети",
+      "snack": "Имя Wi-Fi скрыто — проверяем соединение напрямую",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Access WiFi Information entitlement",
+      "grounding": "NEHotspotNetwork fetchCurrent по жесту"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить измерение приглашений?",
+        "text": "Сопоставить установку с кодом приглашения, чтобы координатор видел канал."
+      },
+      "feature": "Измерение каналов приглашения",
+      "gesture": "Свитч «Измерять канал приглашения»",
+      "screen": "privacy",
+      "target": "privacy",
+      "fallback": "Приглашения работают без рекламного идентификатора",
+      "snack": "Измерение выключено — приглашение продолжает работать",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AppTrackingTransparency перед IDFA",
+      "grounding": "Агрегированный источник установки"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Площадка» запрашивает уведомления",
+        "text": "Напоминать об изменении вашего блока, зоны или вызова."
+      },
+      "feature": "Оперативные оповещения смены",
+      "gesture": "Свитч «Изменения моего плана»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Все изменения отмечены оранжевым в тайминге",
+      "snack": "Уведомления выключены — проверяйте тайминг",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "APNs только активной смены"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Коммуникационные уведомления",
+        "text": "Показывать имя роли и кнопку ответа для адресных вызовов."
+      },
+      "feature": "Адресный вызов роли",
+      "gesture": "Свитч «Вызовы от ролей»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Обычное уведомление без быстрого ответа",
+      "snack": "Вызовы придут как обычные уведомления",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Communication Notifications entitlement",
+      "grounding": "Только участники текущей смены"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Входящий вызов рации",
+        "text": "Разбудить приложение для адресного голосового вызова активной смены."
+      },
+      "feature": "Входящий вызов рации",
+      "gesture": "Свитч «Принимать адресные вызовы»",
+      "screen": "radio",
+      "target": "radio",
+      "fallback": "Пропущенный вызов остаётся текстовой карточкой",
+      "snack": "Голосовые вызовы выключены — придёт карточка",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit только для CallKit-вызовов",
+      "grounding": "PushKit и CallKit во время смены"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Рация в фоне",
+        "text": "Продолжать активный канал при заблокированном экране."
+      },
+      "feature": "Фоновый канал рации",
+      "gesture": "Свитч «Слушать канал в фоне»",
+      "screen": "radio",
+      "target": "radio",
+      "fallback": "Канал работает при открытом экране рации",
+      "snack": "Фоновый канал выключен",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "AVAudioSession voiceChat для активного канала",
+      "grounding": "Аудиосессия завершается при выходе"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихое обновление плана",
+        "text": "Загрузить изменённый call sheet до следующего открытия."
+      },
+      "feature": "Тихая синхронизация call sheet",
+      "gesture": "Свитч «Обновлять план заранее»",
+      "screen": "alerts",
+      "target": "background",
+      "fallback": "План обновляется при открытии и показывает свежесть",
+      "snack": "План обновится при следующем открытии",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "content-available APNs",
+      "grounding": "Версионный JSON-пакет смены"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновое обновление",
+        "text": "Периодически проверять новую версию тайминга активной смены."
+      },
+      "feature": "Проверка свежести тайминга",
+      "gesture": "Свитч «Проверять тайминг в фоне»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Кнопка «Обновить сейчас» доступна вручную",
+      "snack": "Автообновление выключено",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Background Fetch по системному расписанию",
+      "grounding": "ETag и локальный слепок"
+    },
+    {
+      "key": "processing",
+      "plist": "BGProcessingTask",
+      "alert": {
+        "title": "Фоновая обработка итогов",
+        "text": "На зарядке собрать контрольные листы и checksum больших пакетов."
+      },
+      "feature": "Сборка отчёта после смены",
+      "gesture": "«Собрать отчёт на зарядке»",
+      "screen": "wrap",
+      "target": "wrap",
+      "fallback": "Отчёт собирается вручную при открытом приложении",
+      "snack": "Фоновая сборка не запланирована",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "BGProcessingTaskRequest requiresExternalPower",
+      "grounding": "Локальные PDF и SHA-256"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Продолжить передачу в фоне",
+        "text": "Держать очередь пакета до безопасной паузы или завершения."
+      },
+      "feature": "Очередь локальной передачи",
+      "gesture": "Свитч «Продолжить при сворачивании»",
+      "screen": "transfer",
+      "target": "transfer",
+      "fallback": "Передача ставится на паузу и возобновляется вручную",
+      "snack": "Передача остановится при сворачивании",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "BGProcessingTask и background URLSession",
+      "grounding": "Очередь с checksum и возобновлением"
+    },
+    {
+      "key": "keychain",
+      "plist": "Keychain Services",
+      "alert": {
+        "title": "Защищённый ключ смены",
+        "text": "Сохранить ключ шифрования и необязательную сессию в Keychain."
+      },
+      "feature": "Защита локального плана",
+      "gesture": "Свитч «Хранить ключ в Keychain»",
+      "screen": "settings",
+      "target": "settings",
+      "activate": true,
+      "fallback": "Код смены вводится при каждом открытии",
+      "snack": "Ключ не сохранён — понадобится код смены",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AccessibleWhenUnlockedThisDeviceOnly"
+    },
+    {
+      "key": "associateddomains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Ссылки приглашения",
+        "text": "Открывать ссылки ploshchadka.day сразу в нужной смене."
+      },
+      "feature": "Вход по Universal Link",
+      "gesture": "«Проверить ссылку приглашения»",
+      "screen": "crew",
+      "target": "crew",
+      "fallback": "Код смены вводится вручную на старте",
+      "snack": "Ссылка не распознана — введите код",
+      "risk": "high",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AASA только applinks"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Телефон",
+      "type": "форма входа",
+      "light": true,
+      "meta": "Отдельный шаг",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Получить номер для опционального входа в аккаунт",
+        "primaryAction": "Продолжить",
+        "hierarchy": {
+          "primary": "Поле телефона и переход на отдельный экран пароля",
+          "secondary": "Гостевой режим, помощь и политика обработки номера"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Корректный номер координатора в международном формате"
+          },
+          {
+            "kind": "stress",
+            "example": "Номер другой страны с длинным международным префиксом"
+          },
+          {
+            "kind": "failure",
+            "example": "Неверный формат номера или сервис временно недоступен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "password",
+      "title": "Пароль",
+      "type": "форма входа",
+      "light": true,
+      "parent": "phone",
+      "meta": "Отдельный шаг",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Проверить пароль после отдельного ввода телефона",
+        "primaryAction": "Войти",
+        "hierarchy": {
+          "primary": "Поле пароля и подтверждение входа без запросов доступов",
+          "secondary": "Восстановление, помощь и возврат к номеру"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Координатор вводит корректный пароль аккаунта"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный пароль из менеджера помещается без обрезания"
+          },
+          {
+            "kind": "failure",
+            "example": "Неверный пароль, лимит попыток или отсутствует сеть"
+          }
+        ]
+      }
+    },
+    {
+      "id": "register",
+      "title": "Регистрация",
+      "type": "форма телефона",
+      "light": true,
+      "parent": "phone",
+      "meta": "Опционально",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт для синхронизации между устройствами",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Имя, телефон и явное необязательное создание аккаунта",
+          "secondary": "Продолжение гостем, условия и политика приватности"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Координатор указывает рабочее имя и телефон"
+          },
+          {
+            "kind": "stress",
+            "example": "Двойная фамилия и международный номер занимают две строки"
+          },
+          {
+            "kind": "failure",
+            "example": "Телефон занят или соединение прервано при отправке"
+          }
+        ]
+      }
+    },
+    {
+      "id": "registerpassword",
+      "title": "Пароль регистрации",
+      "type": "форма пароля",
+      "light": true,
+      "parent": "register",
+      "meta": "Отдельный шаг",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Задать пароль отдельно от номера при регистрации",
+        "primaryAction": "Завершить регистрацию",
+        "hierarchy": {
+          "primary": "Новый пароль, требования и завершение регистрации",
+          "secondary": "Возврат к телефону, гость и условия обработки данных"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Новый пароль отвечает требованиям безопасности"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная фраза-пароль вставляется без потери символов"
+          },
+          {
+            "kind": "failure",
+            "example": "Пароли не совпадают или сервер не подтвердил операцию"
+          }
+        ]
+      }
+    },
+    {
+      "id": "day",
+      "title": "Смена",
+      "type": "tab root",
+      "light": true,
+      "meta": "Текущий блок и риски",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать состояние смены и ближайшее действие",
+        "primaryAction": "Открыть call sheet",
+        "hierarchy": {
+          "primary": "Текущий блок, обратный отсчёт и кнопка call sheet",
+          "secondary": "Риски, команда, передача, оповещения и свежесть слепка"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Активная смена содержит следующий блок и два предупреждения"
+          },
+          {
+            "kind": "stress",
+            "example": "Одновременно задержаны три зоны и назначена длинная роль"
+          },
+          {
+            "kind": "failure",
+            "example": "Слепок устарел, сеть недоступна или смена завершена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "timing",
+      "title": "Тайминг",
+      "type": "tab root",
+      "light": true,
+      "meta": "Вертикальный план",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Сопоставить текущее время с готовностью блоков",
+        "primaryAction": "Отметить готовность блока",
+        "hierarchy": {
+          "primary": "Линия текущего времени и ближайший рабочий блок",
+          "secondary": "Зависимости, задержки и завершённые этапы смены"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Шесть блоков распределены от сбора до завершения"
+          },
+          {
+            "kind": "stress",
+            "example": "Три параллельных блока содержат длинные роли"
+          },
+          {
+            "kind": "failure",
+            "example": "Конфликт версий помечает блок и сохраняет отметки"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map",
+      "title": "Карта",
+      "type": "tab root",
+      "light": true,
+      "meta": "Зоны площадки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать схему и маршрут к следующей точке",
+        "primaryAction": "Показать меня на карте",
+        "hierarchy": {
+          "primary": "Схема, текущая зона и следующий пункт назначения",
+          "secondary": "Ориентиры, автоотметка и ручной fallback"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "На схеме видны вход B, сцена, грим и разгрузка"
+          },
+          {
+            "kind": "stress",
+            "example": "Много перекрытых проходов и длинные подписи зон"
+          },
+          {
+            "kind": "failure",
+            "example": "Геопозиция запрещена, но схема доступна офлайн"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shots",
+      "title": "Кадры",
+      "type": "tab root",
+      "light": true,
+      "meta": "Чек-лист 18/24",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать обязательные кадры и зоны без медиакаталога",
+        "primaryAction": "Открыть следующий кадр",
+        "hierarchy": {
+          "primary": "Прогресс чек-листа и следующий назначенный кадр",
+          "secondary": "Фильтры по роли, зонам и уже закрытым пунктам"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Восемнадцать из двадцати четырёх кадров подтверждены"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия планов и зависимости от реквизита"
+          },
+          {
+            "kind": "failure",
+            "example": "Медиа недоступны, но чек-лист работает офлайн"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shot",
+      "title": "Кадр 14B",
+      "type": "push detail",
+      "light": true,
+      "parent": "shots",
+      "meta": "Средний план",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Проверить критерии и выбрать способ подтверждения",
+        "primaryAction": "Открыть камеру",
+        "hierarchy": {
+          "primary": "Референс, критерии и съёмка подтверждения",
+          "secondary": "Выбор из Фото, номер дубля и текстовый fallback"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Кадр содержит три критерия и локальный референс"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная заметка и пять обязательных элементов кадра"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера и Фото запрещены, вводится номер дубля"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Хлопушка",
+      "type": "fullscreen capture",
+      "light": false,
+      "parent": "shot",
+      "meta": "Камера",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять локальное доказательство выполненного кадра",
+        "primaryAction": "Снять подтверждение",
+        "hierarchy": {
+          "primary": "Видоискатель, номер кадра и кнопка съёмки",
+          "secondary": "Отмена, сетка и ручной номер при отказе"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Хлопушка кадра четырнадцать B попадает в рамку"
+          },
+          {
+            "kind": "stress",
+            "example": "Слабый свет требует держать устройство устойчиво"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера запрещена и доступен ручной номер дубля"
+          }
+        ]
+      }
+    },
+    {
+      "id": "radio",
+      "title": "Рация",
+      "type": "tab root",
+      "light": false,
+      "meta": "Канал Сцена",
+      "ui": {
+        "pattern": "player",
+        "navigation": "root",
+        "purpose": "Передавать короткие рабочие реплики без чата",
+        "primaryAction": "Зажать и говорить",
+        "hierarchy": {
+          "primary": "Активный канал, push-to-talk и говорящая роль",
+          "secondary": "Быстрые команды, фон, вызовы и пропуски"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "В канале четыре роли и одна голосовая реплика"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя роли и несколько пропущенных вызовов"
+          },
+          {
+            "kind": "failure",
+            "example": "Микрофон запрещён, доступны текстовые команды"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transfer",
+      "title": "Передача рядом",
+      "type": "push utility",
+      "light": true,
+      "parent": "day",
+      "meta": "Local network",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Передать пакет устройству рядом без облака",
+        "primaryAction": "Найти устройства рядом",
+        "hierarchy": {
+          "primary": "Получатель, состав пакета и запуск обнаружения",
+          "secondary": "Wi-Fi, QR-fallback, фон и очередь"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Пакет из двенадцати файлов передаётся DIT рядом"
+          },
+          {
+            "kind": "stress",
+            "example": "Большой пакет показывает checksum и долгий остаток"
+          },
+          {
+            "kind": "failure",
+            "example": "Локальная сеть запрещена, получатель сканирует QR"
+          }
+        ]
+      }
+    },
+    {
+      "id": "crew",
+      "title": "Команда",
+      "type": "push collection",
+      "light": true,
+      "parent": "day",
+      "meta": "12 ролей",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать роли и добавить конкретного участника",
+        "primaryAction": "Выбрать из Контактов",
+        "hierarchy": {
+          "primary": "Роли, доступность и выбранный контакт",
+          "secondary": "Ручной ввод, ссылка и незакрытые назначения"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Двенадцать ролей распределены между участниками"
+          },
+          {
+            "kind": "stress",
+            "example": "Один человек исполняет три длинные роли"
+          },
+          {
+            "kind": "failure",
+            "example": "Контакты запрещены, но ручной ввод доступен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerts",
+      "title": "Оповещения",
+      "type": "push settings",
+      "light": true,
+      "parent": "day",
+      "meta": "Push и вызовы",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Настроить сигналы только активной смены",
+        "primaryAction": "Сохранить оповещения",
+        "hierarchy": {
+          "primary": "Изменения плана, вызовы и тихое обновление",
+          "secondary": "Системные статусы, fallback и время тишины"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Включены изменения плана и вызовы роли"
+          },
+          {
+            "kind": "stress",
+            "example": "Каналы имеют разные окна тишины и приоритеты"
+          },
+          {
+            "kind": "failure",
+            "example": "Push запрещён, изменения видны в тайминге"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фон и свежесть",
+      "type": "push settings",
+      "light": true,
+      "parent": "day",
+      "meta": "Fetch и processing",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Объяснить ограничения и состояние фоновых работ",
+        "primaryAction": "Обновить сейчас",
+        "hierarchy": {
+          "primary": "Свежесть call sheet и ручное обновление",
+          "secondary": "Системное расписание, очередь и офлайн-слепок"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "План обновлён две минуты назад и очередь пуста"
+          },
+          {
+            "kind": "stress",
+            "example": "Три задания ожидают зарядку, Wi-Fi и место"
+          },
+          {
+            "kind": "failure",
+            "example": "Fetch не запускался, доступно ручное обновление"
+          }
+        ]
+      }
+    },
+    {
+      "id": "privacy",
+      "title": "Приватность",
+      "type": "push settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT и хранение",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Дать осознанный выбор измерения приглашений",
+        "primaryAction": "Сохранить выбор",
+        "hierarchy": {
+          "primary": "Измерение канала с выключенным состоянием",
+          "secondary": "Состав данных, срок хранения и удаление"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Измерение выключено, продукт работает полностью"
+          },
+          {
+            "kind": "stress",
+            "example": "Подробное объяснение занимает несколько строк"
+          },
+          {
+            "kind": "failure",
+            "example": "ATT запрещён системой и показан fallback"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wrap",
+      "title": "Смена закрыта",
+      "type": "result",
+      "light": true,
+      "parent": "day",
+      "meta": "Итог 23:18",
+      "ui": {
+        "pattern": "state",
+        "navigation": "push",
+        "purpose": "Зафиксировать закрытие, хвосты и артефакты",
+        "primaryAction": "Сохранить лист в Фото",
+        "hierarchy": {
+          "primary": "Итог, закрытые кадры, пакеты и экспорт",
+          "secondary": "Хвосты, фоновая сборка и Share Sheet"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Закрыто двадцать три кадра и четыре пакета"
+          },
+          {
+            "kind": "stress",
+            "example": "В итог попадают хвосты и длинные комментарии"
+          },
+          {
+            "kind": "failure",
+            "example": "Фото запрещены, но PDF доступен для экспорта"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Устройство",
+      "type": "push settings",
+      "light": true,
+      "parent": "day",
+      "meta": "Гость разрешён",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять защитой локального ключа и служебными разделами",
+        "primaryAction": "Хранить ключ в Keychain",
+        "hierarchy": {
+          "primary": "Статус гостя и защита ключа смены",
+          "secondary": "Приватность, помощь, документы и аккаунт"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Гость хранит ключ только на этом устройстве"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько смен требуют ясного разделения ключей"
+          },
+          {
+            "kind": "failure",
+            "example": "Keychain недоступен и нужен код смены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "help",
+      "title": "Помощь",
+      "type": "push help",
+      "light": true,
+      "parent": "settings",
+      "meta": "Офлайн-справка",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Ответить на рабочие вопросы и дать поддержку",
+        "primaryAction": "Открыть инструкцию по смене",
+        "hierarchy": {
+          "primary": "Офлайн-инструкции старта, рации и передачи",
+          "secondary": "Поддержка, диагностика и юридические документы"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Пять инструкций доступны без интернета"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный вопрос раскрывается внутри карточки"
+          },
+          {
+            "kind": "failure",
+            "example": "Поддержка недоступна, справка остаётся"
+          }
+        ]
+      }
+    },
+    {
+      "id": "legal",
+      "title": "Документы",
+      "type": "push legal",
+      "light": true,
+      "parent": "settings",
+      "meta": "31.08.2026",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать юридические документы и оператора",
+        "primaryAction": "Открыть политику приватности",
+        "hierarchy": {
+          "primary": "Политика, условия и правила геоданных",
+          "secondary": "Версии, контакты оператора и экспорт"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три документа доступны локально с датой"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название оператора переносится"
+          },
+          {
+            "kind": "failure",
+            "example": "Сайт недоступен, показана локальная копия"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "21 экран и 20 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "password",
+        "register",
+        "registerpassword",
+        "day",
+        "timing",
+        "map",
+        "shots",
+        "shot",
+        "camera",
+        "radio",
+        "transfer",
+        "crew",
+        "alerts",
+        "background",
+        "privacy",
+        "wrap",
+        "settings",
+        "help",
+        "legal"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход и аккаунт",
+      "note": "Телефон и пароль в два шага или продолжение без аккаунта",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "password",
+        "register",
+        "registerpassword",
+        "help",
+        "legal",
+        "day"
+      ],
+      "stops": [
+        "day"
+      ]
+    },
+    {
+      "id": "setup",
+      "label": "Назначить роли и зоны",
+      "note": "Контакты команды, зоны на карте и вход по ссылке приглашения",
+      "start": "day",
+      "screens": [
+        "day",
+        "timing",
+        "crew",
+        "map",
+        "transfer",
+        "alerts",
+        "background",
+        "privacy",
+        "wrap",
+        "settings"
+      ],
+      "stops": [
+        "timing",
+        "transfer",
+        "alerts",
+        "background",
+        "privacy",
+        "wrap",
+        "settings"
+      ]
+    },
+    {
+      "id": "onshift",
+      "label": "На смене: блок, зона, кадр и рация",
+      "note": "Маршрут в зону, хлопушка на кадр и push-to-talk без рук",
+      "start": "timing",
+      "screens": [
+        "timing",
+        "map",
+        "shots",
+        "shot",
+        "camera",
+        "radio"
+      ]
+    },
+    {
+      "id": "handoff",
+      "label": "Передача и закрытие смены",
+      "note": "Файлы устройству рядом, фоновая сборка и лист закрытия",
+      "start": "day",
+      "screens": [
+        "day",
+        "timing",
+        "transfer",
+        "wrap",
+        "crew",
+        "alerts",
+        "background",
+        "privacy",
+        "settings"
+      ],
+      "stops": [
+        "timing",
+        "crew",
+        "alerts",
+        "background",
+        "privacy",
+        "settings"
+      ]
+    },
+    {
+      "id": "controls",
+      "label": "Смена, приватность и алерты",
+      "note": "Keychain, ATT-выбор, push и адресные уведомления",
+      "start": "phone",
+      "screens": [
+        "day",
+        "timing",
+        "settings",
+        "privacy",
+        "alerts",
+        "background",
+        "help",
+        "legal",
+        "crew",
+        "transfer",
+        "wrap",
+        "phone",
+        "password",
+        "register",
+        "registerpassword",
+        "account",
+        "deleteaccount"
+      ],
+      "stops": [
+        "timing",
+        "crew",
+        "transfer",
+        "wrap",
+        "password",
+        "registerpassword",
+        "deleteaccount"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Синхронизация плана между участниками",
+      "solution": "Подписанный демонстрационный JSON-пакет с версиями и локальными конфликтами"
+    },
+    {
+      "needs": "Голосовой канал и адресные вызовы",
+      "solution": "Конечный автомат CallKit и локальные аудиобуферы без реального сервера"
+    },
+    {
+      "needs": "Передача больших файлов",
+      "solution": "Network.framework, Bonjour и локальная очередь с checksum без облака"
+    },
+    {
+      "needs": "Вход и удаление аккаунта",
+      "solution": "Статические состояния SDK; гостевой сценарий полностью локальный"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Площадка: смена в ритме",
+    "subtitle": "Call sheet, кадры и рация",
+    "promo": "Откройте смену по коду, держите тайминг и зоны офлайн, подтверждайте кадры и передавайте исходники устройствам рядом.",
+    "keywords": "продакшн,call sheet,зоны,передача,команда,линейный продюсер,офлайн план",
+    "category": {
+      "primary": "Productivity",
+      "secondary": "Utilities"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — системный TLS и локальное шифрование",
+    "urls": {
+      "support": "https://ploshchadka.day/support",
+      "marketing": "https://ploshchadka.day",
+      "privacy": "https://ploshchadka.day/privacy"
+    },
+    "description": [
+      "Площадка собирает один рабочий день в понятный контур: call sheet, роли, тайминг, карта зон, кадры, рация и передача рядом.",
+      "БЕЗ ОБЯЗАТЕЛЬНОГО АККАУНТА\nОткройте смену по коду. Критичный план и отметки доступны офлайн.",
+      "НА МЕСТЕ\nСледуйте к зоне, закрывайте кадры и передавайте файлы напрямую устройству команды."
+    ],
+    "whatsNew": "Первая версия: call sheet, тайминг, зоны, кадры, рация, local transfer и закрытие смены.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Опциональный аккаунт",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход; гостевой режим не собирает номер"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Аналитика приглашений",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после ATT; продукт работает без него"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Функциональность",
+        "linked": false,
+        "tracking": false,
+        "why": "Маршрут и отметка прибытия смены"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 700 000-00-31",
+      "password": "Stage-2026",
+      "note": "Можно продолжить без аккаунта с кодом 314159. Разрешения до явного действия не запрашиваются."
+    }
+  },
+  "acceptance": [
+    {
+      "id": "guest_shift",
+      "name": "Продолжение без аккаунта и запросов",
+      "action": "open_shift",
+      "given": "Приложение установлено впервые",
+      "when": "Пользователь выбирает продолжение без аккаунта",
+      "then": "Открывается смена без системного запроса",
+      "screens": [
+        "phone",
+        "day"
+      ],
+      "capabilities": [
+        "keychain"
+      ]
+    },
+    {
+      "id": "shot_proof",
+      "name": "Подтверждение кадра",
+      "action": "close_shot",
+      "given": "Кадр 14B назначен и не закрыт",
+      "when": "Пользователь открывает камеру",
+      "then": "Открывается хлопушка, при отказе остаётся номер дубля",
+      "screens": [
+        "shots",
+        "shot",
+        "camera"
+      ],
+      "capabilities": [
+        "camera",
+        "photos"
+      ]
+    },
+    {
+      "id": "peer_transfer",
+      "name": "Передача рядом",
+      "action": "transfer_package",
+      "given": "Пакет готов и получатель рядом",
+      "when": "Пользователь ищет устройства рядом",
+      "then": "Показываются обнаружение и QR-fallback",
+      "screens": [
+        "transfer"
+      ],
+      "capabilities": [
+        "localnetwork",
+        "wifiinfo",
+        "bgtask"
+      ]
+    }
+  ],
+  "fixtures": {
+    "note": "Демо-данные смены «Ночной павильон» 31 августа 2026 года.",
+    "timeline": [
+      {
+        "time": "18:40",
+        "title": "Сбор команды",
+        "status": "done"
+      },
+      {
+        "time": "20:10",
+        "title": "Сцена 4 · столовая",
+        "status": "now"
+      },
+      {
+        "time": "21:05",
+        "title": "Перестановка света",
+        "status": "risk"
+      },
+      {
+        "time": "23:10",
+        "title": "Закрытие смены",
+        "status": "next"
+      }
+    ],
+    "shots": [
+      {
+        "id": "14B",
+        "title": "Средний план у окна",
+        "status": "next"
+      },
+      {
+        "id": "14C",
+        "title": "Деталь руки с ключом",
+        "status": "blocked"
+      },
+      {
+        "id": "15A",
+        "title": "Общий план коридора",
+        "status": "ready"
+      }
+    ]
+  }
+}

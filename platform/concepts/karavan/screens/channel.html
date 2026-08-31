@@ -1,0 +1,13 @@
+<div class="screen kv-screen kv-channel" id="scr-channel">
+  <div class="navbar"><div class="nav-leading"><button class="btn-plain tap" data-back aria-label="Назад в путь"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>В пути</span></button></div><div class="title">Голосовой канал</div><div class="nav-spacer"></div></div>
+  <div class="kv-channel-main">
+    <span class="kv-channel-state">Три экипажа на связи</span>
+    <h1 class="kv-channel-title">Скажите — все услышат</h1>
+    <p class="kv-channel-sub">Реплика звучит даже с погашенным экраном</p>
+    <div class="kv-talk-ring"><button class="kv-talk tap" data-primary data-ask="mic|channel|channel" aria-label="Удерживать и говорить"><svg class="ico-svg"><use href="#i-mic"/></svg><span>Удерживать и говорить</span></button></div>
+    <div class="kv-fallback perm-hidden" data-show-denied="mic">Остаются сигналы «догоняю», «остановка», «услышал»</div>
+    <div class="kv-channel-cars" aria-hidden="true"><span><svg class="ico-svg"><use href="#i-car"/></svg></span><span><svg class="ico-svg"><use href="#i-car"/></svg></span><span><svg class="ico-svg"><use href="#i-car"/></svg></span></div>
+    <div class="kv-channel-signals"><button class="tap" data-toast="Сигнал «Догоняю» отправлен">Догоняю</button><button class="tap" data-go="stop">Остановка</button><button class="tap" data-toast="Отметили «Услышал»">Услышал</button></div>
+    <div class="kv-channel-actions"><button class="tap" data-activate="voip|channel"><svg class="ico-svg"><use href="#i-phone-incoming"/></svg>Вызвать экипаж</button><button class="tap" data-activate="audio|background"><svg class="ico-svg"><use href="#i-moon"/></svg>Продолжать с погашенным экраном</button></div>
+  </div><div class="home-ind" aria-hidden="true"></div>
+</div>
