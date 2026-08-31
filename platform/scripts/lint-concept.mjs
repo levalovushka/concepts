@@ -113,7 +113,11 @@ function lint(slug) {
   if (spec.uiContractVersion >= 3 && spec.readiness?.status === 'reviewed') {
     for (const screen of spec.screens) {
       const source = effectiveMarkup[screen.id] || '';
-      if (/\sstyle="/.test(source)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
+      /* Данные графика могут передаваться одной CSS custom property:
+         это значение mark, а не скрытый layout recipe. Любые обычные
+         properties по-прежнему запрещены. */
+      const withoutChartValues = source.replace(/\sstyle="--[a-z0-9-]+:\s*-?[\d.]+(?:%|px)?"/gi, '');
+      if (/\sstyle="/.test(withoutChartValues)) P(`${screen.id}: inline-style запрещён в UI v3 — правило должно жить в styles.css`);
       /* Фотографии и иллюстрации в концептах намеренно не производятся:
          обязательная поверхность для них — ядровой .ph. Визуальное правило
          «placeholder не становится героем композиции» проверяется по captures,

@@ -18,7 +18,7 @@
     "audit": "node scripts/audit-visual.mjs",
     "audit:grid": "node scripts/audit-grid.mjs",
     "proof": "node scripts/pipeline-proof.mjs",
-    "review": "node scripts/review-concept.mjs",
+    "review": "node scripts/quality-review.mjs",
     "test:quality": "node scripts/test-quality.mjs",
     "check": "node scripts/check.mjs",
     "app": "node scripts/build-app.mjs",

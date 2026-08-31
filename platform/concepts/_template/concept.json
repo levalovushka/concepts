@@ -9,7 +9,7 @@
   "tagline": "Одна фраза УТП — узкая, явная, отличимая от больших игроков",
   "insight": "ядровое ограничение, из которого вытекают якорные доступы",
   "deck": "Абзац под заголовком: что это, для кого, и почему бэкенда нет.",
-  "qualityContractVersion": 2,
+  "qualityContractVersion": 3,
   "product": {
     "audience": "Кто конкретно пользуется продуктом — без «всех, кто»",
     "situation": "В какой наблюдаемой ситуации возникает потребность",
@@ -114,8 +114,7 @@
   "readiness": {
     "status": "draft",
     "referenceResearch": [],
-    "productCritique": [],
-    "visualPasses": []
+    "productCritique": []
   },
   "brand": {
     "accent": "__ACCENT__",

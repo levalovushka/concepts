@@ -51,13 +51,17 @@ export function assessConceptReadiness(spec, ids = new Set((spec.screens || []).
     if (!nonEmptyList(row.evidenceScreens, 1)) add(`readiness.productCritique[${index}].evidenceScreens пуст`);
     else row.evidenceScreens.forEach((id) => { if (!ids.has(id)) add(`readiness.productCritique[${index}]: экран «${id}» не существует`); });
   });
-  if (!itemList(readiness.visualPasses, 2)) add('readiness.visualPasses: нужны минимум 2 полных визуальных прохода');
-  else readiness.visualPasses.forEach((pass, index) => {
-    if (pass.screensReviewed !== 'all') add(`readiness.visualPasses[${index}]: screensReviewed должен быть all`);
-    for (const field of ['found', 'fixed', 'blockersOpen', 'majorOpen']) if (!Number.isInteger(pass[field]) || pass[field] < 0) add(`readiness.visualPasses[${index}].${field}: ожидается неотрицательное целое`);
-    if (pass.fixed < pass.found) add(`readiness.visualPasses[${index}]: исправлено меньше дефектов, чем найдено`);
-    if (pass.blockersOpen || pass.majorOpen) add(`readiness.visualPasses[${index}]: остались blocker/major дефекты`);
-  });
+  /* v3 заменяет самодекларацию visualPasses hash-bound review bundle.
+     Актуальность и lifecycle проверяет quality-review seam, а не spec. */
+  if ((spec.qualityContractVersion || 1) < 3) {
+    if (!itemList(readiness.visualPasses, 2)) add('readiness.visualPasses: нужны минимум 2 полных визуальных прохода');
+    else readiness.visualPasses.forEach((pass, index) => {
+      if (pass.screensReviewed !== 'all') add(`readiness.visualPasses[${index}]: screensReviewed должен быть all`);
+      for (const field of ['found', 'fixed', 'blockersOpen', 'majorOpen']) if (!Number.isInteger(pass[field]) || pass[field] < 0) add(`readiness.visualPasses[${index}].${field}: ожидается неотрицательное целое`);
+      if (pass.fixed < pass.found) add(`readiness.visualPasses[${index}]: исправлено меньше дефектов, чем найдено`);
+      if (pass.blockersOpen || pass.majorOpen) add(`readiness.visualPasses[${index}]: остались blocker/major дефекты`);
+    });
+  }
 
   const archetype = archetypeFor(spec.targetSet);
   if (spec.positioning?.mode === 'mimicry' && archetype) {
@@ -71,13 +75,13 @@ export function assessConceptReadiness(spec, ids = new Set((spec.screens || []).
     const navRoles = new Set((spec.tabs || []).map((tab) => tab.role));
     for (const role of archetype.requiredNavigationRoles || []) if (!navRoles.has(role)) add(`tabs: мимикрия ${spec.targetSet} не покрывает обязательную роль «${role}»`);
   }
-  return { issues, summary: { contract: 2, research: readiness.referenceResearch?.length || 0, critiques: readiness.productCritique?.length || 0, passes: readiness.visualPasses?.length || 0 } };
+  return { issues, summary: { contract: spec.qualityContractVersion, research: readiness.referenceResearch?.length || 0, critiques: readiness.productCritique?.length || 0, passes: spec.qualityContractVersion >= 3 ? 'evidence' : (readiness.visualPasses?.length || 0) } };
 }
 
 export function validateConceptQuality(spec, ids) {
   const err = [];
   const product = spec.product || {};
-  if (![1, 2].includes(spec.qualityContractVersion)) err.push('qualityContractVersion: ожидается 1 или 2');
+  if (![1, 2, 3].includes(spec.qualityContractVersion)) err.push('qualityContractVersion: ожидается 1, 2 или 3');
   if (!nonEmptyList(product.returnReasons, 3)) err.push('product.returnReasons: нужно минимум 3 конкретные причины вернуться');
 
   const slice = product.verticalSlice;

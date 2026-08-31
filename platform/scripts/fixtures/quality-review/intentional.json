@@ -1,0 +1,23 @@
+{
+  "elements": [
+    {
+      "selector": ".system-alert",
+      "text": "Нет доступа",
+      "role": "heading",
+      "surfaceDepth": 1,
+      "hasBorder": true,
+      "hasShadow": false,
+      "hasSurfaceFill": true,
+      "hasRadius": true,
+      "area": 4200,
+      "effect": false,
+      "interactive": false,
+      "stateful": true,
+      "depthRole": true
+    }
+  ],
+  "textGroups": [],
+  "alignmentDrifts": [],
+  "baselineDrifts": [],
+  "spacingOutliers": []
+}

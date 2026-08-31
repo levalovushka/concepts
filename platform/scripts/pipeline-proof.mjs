@@ -2,12 +2,22 @@
 /** Быстрые продуктовые ворота до дорогой сборки и браузерных тестов. */
 import { listConcepts, readSpec } from './lib.mjs';
 import { assessConceptReadiness, qualitySummary } from './concept-quality.mjs';
+import { verifyQualityReview } from './quality-review.mjs';
 
 const requested = process.argv.slice(2);
 const slugs = requested.length ? requested : listConcepts();
 
 for (const slug of slugs) {
   const spec = readSpec(slug);
+  if (spec.qualityContractVersion >= 3) {
+    const evidence = verifyQualityReview(slug);
+    if (!evidence.ok) {
+      console.error(`\n${slug}: quality evidence не принято`);
+      evidence.issues.forEach((issue) => console.error(`  · ${issue}`));
+      process.exitCode = 1;
+      continue;
+    }
+  }
   const readiness = assessConceptReadiness(spec);
   if (readiness.issues.length) {
     console.error(`\n${slug}: не готов к полной сборке`);

@@ -33,7 +33,12 @@ const textOf = (inner) => {
     .replace(/<[^>]*>/g, '\n')
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .split('\n').map((s) => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
-  const first = lines[0] || '';
+  /* Календарная или табличная row часто начинается с числа.
+     Такая «первая строка» плохо называет действие; берём первую
+     содержательную строку, не склеивая всю row. */
+  const first = (/^[\d\s·+—-]+$/.test(lines[0] || '')
+    ? lines.find((line, index) => index > 0 && /[A-Za-zА-яЁё]/.test(line) && line.length >= 4)
+    : lines[0]) || '';
   return first.length > 44 ? first.slice(0, 43).trimEnd() + '…' : first;
 };
 

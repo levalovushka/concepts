@@ -68,7 +68,7 @@ console.log(`создан ${dir}
   2. заполнить referenceResearch, productCritique и pattern → screen → behavior
   3. написать только три экрана среза по UI v3 и проверить их в полном размере
   4. только после принятия среза развернуть IA, медиа, стили и состояния
-  5. внести два visualPasses, поставить readiness.status=reviewed и запустить npm run proof -- ${slug}
-     node scripts/build.mjs ${slug}
-     node scripts/capture.mjs ${slug} --sheet
+  5. поставить readiness.status=reviewed, собрать bundle и заполнить hash-bound review.json
+     npm run review -- ${slug}
+     npm run proof -- ${slug}
      npm run check                           # единый приёмочный цикл всех концептов`);

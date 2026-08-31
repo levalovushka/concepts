@@ -1,0 +1,30 @@
+{
+  "elements": [
+    {
+      "selector": ".card .card",
+      "text": "ЭТОТ ЭКРАН.",
+      "role": "heading",
+      "surfaceDepth": 2,
+      "hasBorder": true,
+      "hasShadow": true,
+      "hasSurfaceFill": true,
+      "hasRadius": true,
+      "area": 12000,
+      "effect": true,
+      "interactive": false,
+      "stateful": false,
+      "depthRole": false
+    }
+  ],
+  "textGroups": [
+    {
+      "selector": ".list",
+      "texts": ["Опушки · звонкая трель", "Подлесок · нисходящая трель", "Кустарник · флейтовый напев"],
+      "signatureCount": 1,
+      "uniqueCount": 3
+    }
+  ],
+  "alignmentDrifts": [{"selector": ".odd", "x": 21}],
+  "baselineDrifts": [{"selector": ".row", "delta": 5}],
+  "spacingOutliers": [{"selector": ".card", "value": 19}]
+}

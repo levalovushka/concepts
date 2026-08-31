@@ -26,7 +26,7 @@
 
 ```
 PLAYBOOK.md, фазы 0–10     HTML-концепт: ниша, УТП, карта доступов, экраны, прототип
-        ↓  зелёный npm run review -- <slug>
+        ↓  review bundle + зелёный npm run proof -- <slug>
 npm run app -- <slug>      Xcode-проект: Info.plist, entitlements, схема
         ↓
 руками                     SwiftUI в platform/native-apps/<slug>/Sources
@@ -36,7 +36,7 @@ npm run app:run -- <slug>  запуск в симуляторе, сверка с
 
 Обе половины читают один `concept.json`. Сначала концепт доказывается в HTML —
 дёшево, правки видны сразу, вычитка идёт по PNG; продуктовые дыры ловятся здесь.
-Ворота между половинами — зелёный `npm run review`.
+Ворота между половинами — актуальный review bundle и зелёный `npm run proof -- <slug>`.
 
 Половина первая описана в `PLAYBOOK.md` и разделе «Запуск» ниже, вторая — в
 разделе «Приложения на SwiftUI».
@@ -100,7 +100,8 @@ npm run shots -- petlya                    # PNG каждого экрана (ф
 npm run test -- petlya                     # флоу-проверки из спеки (фаза 9)
 npm run lint -- petlya                     # сверка слоёв (фаза 10)
 npm run docs -- petlya                     # блоки @generated в доках и таблица в README
-npm run review -- petlya                   # приёмка одного концепта: ворота в нативную половину
+npm run review -- petlya                   # собрать evidence bundle для одного концепта
+npm run proof -- petlya                    # проверить hash-bound reviewer evidence
 npm run check                              # приёмка всего портфеля
 ```
 
@@ -116,17 +117,22 @@ npm run build -- <slug> && npm run shots -- <slug> && npm run build -- <slug> &&
 
 Результат концепта — один самодостаточный файл `platform/dist/<slug>/index.html`. Его можно открыть локально или отдать ссылкой.
 
-`npm run review -- <slug>` прогоняет подряд readiness, сборку, скриншоты,
-структурный линт, визуальный аудит и интерактивные сценарии, останавливаясь на
-первом падении. Зелёный `review` — условие, при котором концепт можно собирать
-в приложение.
+`npm run review -- <slug>` собирает hash-bound bundle: PNG каждого экрана, отдельные
+product и auth/system contact sheets, objective failures и heuristic signals с evidence. После ручного
+review `npm run proof -- <slug>` проверяет hashes, coverage всех product screens, решения по signals
+и отсутствие открытых blocker/major. Все PNG evidence, включая sheets и crops, входят в hash binding;
+signal с решением `defect` обязан быть связан с исправленным finding. Coverage — не список галочек: по каждому product PNG обязательны
+конкретные наблюдения по иерархии, типографике, цвету и композиции; отдельно обязательны пять
+поперечных линз и три коротких сравнения `auth → product`. Финальный run должен ссылаться на
+предыдущий `revise`, если reviewer действительно нашёл blocker/major; proof тогда проверит и изменение
+исходников. Чистый первый проход не обязан выдумывать дефект. Любое изменение spec/HTML/CSS/PNG делает evidence stale.
 
 ## Приложения на SwiftUI
 
 Вторая половина пайплайна. Концепт становится настоящим iOS-приложением: с
 реальным системным промптом, реальным Info.plist и реальной веткой отказа.
 
-**Начинается после того, как концепт зелёный по `npm run review -- <slug>`.**
+**Начинается после того, как концепт зелёный по `npm run proof -- <slug>`.**
 Раньше — незачем: продуктовая дыра в HTML чинится правкой одного фрагмента и
 пересъёмкой за секунды, та же дыра в Swift — это перекомпиляция, переустановка
 и переписанный экран.

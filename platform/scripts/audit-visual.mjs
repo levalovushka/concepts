@@ -207,6 +207,7 @@ const KIND = {
 const slugs = process.argv.slice(2).length ? process.argv.slice(2) : listConcepts();
 const browser = await chromium.launch();
 let total = 0;
+const HEURISTIC_ONLY = new Set(['button-border', 'formula-prose', 'empty-monolith']);
 
 for (const slug of slugs) {
   const spec = readSpec(slug);
@@ -239,7 +240,7 @@ for (const slug of slugs) {
 
   console.log(`\n=== ${slug} ===`);
   if (!found.length) { console.log('  чисто'); continue; }
-  total += found.length;
+  total += found.filter((item) => !HEURISTIC_ONLY.has(item.kind)).length;
   const byKind = new Map();
   for (const f of found) (byKind.get(f.kind) ?? byKind.set(f.kind, []).get(f.kind)).push(f);
   for (const [kind, list] of byKind) {
@@ -250,4 +251,4 @@ for (const slug of slugs) {
 }
 
 await browser.close();
-if (total) { console.log(`\nвсего замечаний: ${total}`); process.exitCode = 1; }
+if (total) { console.log(`\nобъективных дефектов: ${total}`); process.exitCode = 1; }
