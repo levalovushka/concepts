@@ -29,9 +29,9 @@ import { conceptDir, esc, KERNEL, readSpec } from './lib.mjs';
 const IPHONE_FRAME = readFileSync(join(KERNEL, 'iphone-frame.png'));
 export const IPHONE_COMPOSITION = Object.freeze({
   deviceTop: 1050,
-  copyTop: 260,
-  headlineSize: 124,
-  bodySize: 54,
+  copyOffset: 40,
+  headlineSize: 136,
+  bodySize: 60,
   statusOffset: 6,
 });
 
@@ -291,7 +291,7 @@ const css = (accent, tone, target) => {
     .device{position:absolute;z-index:3;filter:drop-shadow(0 ${px(46)} ${px(70)} rgba(5,8,14,${isLight ? '.22' : '.5'}))}
     .device-screen{position:absolute;z-index:1;display:block;object-fit:fill;background:#000}
     .device-frame{position:absolute;z-index:2;inset:0;display:block;width:100%;height:100%;pointer-events:none}
-    .portrait .copy{left:${px(76)};right:${px(76)};top:${px(IPHONE_COMPOSITION.copyTop)};text-align:center;display:flex;flex-direction:column;align-items:center}
+    .portrait .copy{left:${px(76)};right:${px(76)};top:0;height:${px(IPHONE_COMPOSITION.deviceTop)};text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:translateY(${px(IPHONE_COMPOSITION.copyOffset)})}
     .portrait .headline{max-width:${px(1168)};font-size:${px(IPHONE_COMPOSITION.headlineSize)};line-height:1.01}
     .portrait .body{max-width:${px(1120)};margin-top:${px(30)};font-size:${px(IPHONE_COMPOSITION.bodySize)};line-height:1.22}
     .portrait .device{left:${px(120)};top:${px(IPHONE_COMPOSITION.deviceTop)};width:${px(1080)};aspect-ratio:1002/2087}
