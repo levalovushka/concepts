@@ -840,10 +840,17 @@
   font: 600 15px/1 var(--face);
 }
 
-/* Статус-бар и навбар на белой шапке: тёплая подложка над «Лентой»
-   читается как незакрашенная полоса. */
-.device:has(.screen.is-on.r-page:not(.r-dark)) > .status {
+/* Сам status bar остаётся прозрачным. Белая поверхность светлой шапки
+   продолжается под safe area на уровне экрана, поэтому над «Лентой» не
+   возникает отдельная серая полоса. */
+.r-page:not(.r-dark)::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: var(--safe-top);
   background-color: #fff;
+  pointer-events: none;
 }
 .r-page .navbar {
   background-color: #fff;

@@ -24,7 +24,9 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { build } from './build.mjs';
-import { conceptDir, esc, readSpec } from './lib.mjs';
+import { conceptDir, esc, KERNEL, readSpec } from './lib.mjs';
+
+const IPHONE_FRAME = readFileSync(join(KERNEL, 'iphone-frame.png'));
 
 export const TEMPLATES = ['studio'];
 
@@ -55,6 +57,10 @@ const fallbackScreens = (spec) => {
   ].filter(Boolean);
   return [...new Set(candidates)].filter((id) => !['phone', 'password', 'register', 'registerpassword', 'account', 'deleteaccount'].includes(id)).slice(0, 5);
 };
+
+export const screenUsesDarkStatusInk = (spec, screenId) => Boolean(
+  (spec.screens || []).find((screen) => screen.id === screenId)?.light,
+);
 
 const copyWords = (value) => String(value || '')
   .toLocaleLowerCase('ru-RU')
@@ -275,18 +281,20 @@ const css = (accent, tone, target) => {
     .canvas:before{width:76%;aspect-ratio:1;right:-28%;top:-17%;border-radius:50%;background:${accent};filter:blur(${px(150)});opacity:${isLight ? '.075' : '.16'}}
     .canvas:after{left:-18%;bottom:-15%;width:64%;aspect-ratio:1;border-radius:50%;background:${accent};filter:blur(${px(190)});opacity:${isLight ? '.035' : '.075'}}
     .copy{position:absolute;z-index:4}.headline{margin:0;letter-spacing:-.035em;font-weight:590;text-wrap:balance}.body{margin:0;color:${muted};letter-spacing:-.012em;font-weight:430;text-wrap:balance}
-    .device{position:absolute;z-index:3;background:#090a0c;border:${px(2)} solid #24272d;box-shadow:0 ${px(46)} ${px(120)} rgba(5,8,14,${isLight ? '.2' : '.52'}),inset 0 0 0 ${px(2)} rgba(255,255,255,.035)}
-    .device img{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+    .device{position:absolute;z-index:3;filter:drop-shadow(0 ${px(46)} ${px(70)} rgba(5,8,14,${isLight ? '.22' : '.5'}))}
+    .device-screen{position:absolute;z-index:1;display:block;object-fit:fill;background:#000}
+    .device-frame{position:absolute;z-index:2;inset:0;display:block;width:100%;height:100%;pointer-events:none}
     .portrait .copy{left:${px(92)};right:${px(92)};top:${px(205)};text-align:center;display:flex;flex-direction:column;align-items:center}
     .portrait .headline{max-width:${px(1120)};font-size:${px(104)};line-height:1.01}
     .portrait .body{max-width:${px(1040)};margin-top:${px(28)};font-size:${px(43)};line-height:1.22}
-    .portrait .device{left:${px(120)};top:${px(630)};width:${px(1080)};aspect-ratio:375/812;padding:${px(18)};border-radius:${px(122)}}
-    .portrait .device img{border-radius:${px(101)}}
+    .portrait .device{left:${px(120)};top:${px(630)};width:${px(1080)};aspect-ratio:1002/2087}
+    .portrait .device-screen{left:4.39%;top:2.3%;width:91.22%;height:95.4%;border-radius:11.8%/5.6%}
     .landscape .copy{left:${px(210)};right:${px(210)};top:${px(122)};height:${px(250)};display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:${px(120)};align-items:end}
     .landscape .headline{max-width:${px(1480)};font-size:${px(100)};line-height:1.01}
     .landscape .body{width:100%;padding-bottom:${px(7)};font-size:${px(40)};line-height:1.24}
-    .landscape .device{left:${px(210)};top:${px(430)};width:${px(2332)};aspect-ratio:4/3;padding:${px(22)};border-radius:${px(82)}}
-    .landscape .device img{border-radius:${px(61)}}
+    .landscape .device{left:${px(210)};top:${px(430)};width:${px(2332)};aspect-ratio:4/3;padding:${px(22)};border:${px(2)} solid #24272d;border-radius:${px(82)};box-shadow:0 ${px(46)} ${px(120)} rgba(5,8,14,${isLight ? '.2' : '.52'}),inset 0 0 0 ${px(2)} rgba(255,255,255,.035);filter:none}
+    .landscape .device-screen{position:static;width:100%;height:100%;border-radius:${px(61)}}
+    .landscape .device-frame{display:none}
     .landscape .device:after{content:"";position:absolute;inset:${px(-22)};border-radius:${px(102)};border:${px(1)} solid rgba(255,255,255,${isLight ? '.28' : '.1'});pointer-events:none}
   `;
 };
@@ -309,12 +317,12 @@ function frameHtml({ spec, frame, screenshot, target, template, index }) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${css(accent, frame.tone, target)}</style></head>
     <body><main class="canvas ${meta.orientation} ${template}">
       <section class="copy"><h1 class="headline">${esc(beautifyStoreCopy(headline))}</h1><p class="body">${esc(beautifyStoreCopy(cleanStoreCopy(frame.body)))}</p></section>
-      <div class="device"><img src="data:image/png;base64,${screenshot.toString('base64')}" alt=""></div>
+      <div class="device"><img class="device-screen" src="data:image/png;base64,${screenshot.toString('base64')}" alt="">${meta.orientation === 'portrait' ? `<img class="device-frame" src="data:image/png;base64,${IPHONE_FRAME.toString('base64')}" alt="">` : ''}</div>
     </main></body></html>`;
 }
 
-async function selectScreen(page, selector, screenId, ipad) {
-  await page.evaluate(({ selector, screenId, ipad }) => {
+async function selectScreen(page, selector, screenId, ipad, darkInk) {
+  await page.evaluate(({ selector, screenId, ipad, darkInk }) => {
     const root = document.querySelector(selector);
     root.classList.toggle('is-ipad', ipad);
     root.style.boxShadow = 'none';
@@ -325,9 +333,10 @@ async function selectScreen(page, selector, screenId, ipad) {
       screen.classList.toggle('has-ipad-tabbar', ipad && Boolean(screen.querySelector('.tabbar')));
     });
     root.querySelector(`[data-screen="${screenId}"]`)?.classList.add('is-on');
+    root.querySelector('.status')?.classList.toggle('dark-ink', darkInk);
     root.querySelector('.sysask')?.classList.remove('is-on');
     root.querySelector('.snackbar')?.classList.remove('is-on');
-  }, { selector, screenId, ipad });
+  }, { selector, screenId, ipad, darkInk });
   await page.waitForTimeout(120);
 }
 
@@ -341,7 +350,8 @@ async function captureScreens(browser, spec, plan) {
   const shots = { phone: {}, ipad: {} };
   for (const source of [...new Set(plan.devices.map((device) => DEVICE_TARGETS[device].source))]) {
     for (const frame of plan.screens) {
-      await selectScreen(page, selector, frame.screen, source === 'ipad');
+      const darkInk = screenUsesDarkStatusInk(spec, frame.screen);
+      await selectScreen(page, selector, frame.screen, source === 'ipad', darkInk);
       shots[source][frame.screen] = await page.locator(selector).screenshot({ type: 'png' });
     }
   }
@@ -352,7 +362,8 @@ async function captureScreens(browser, spec, plan) {
 async function render(browser, html, { width, height, type = 'jpeg', quality = 92 }) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
   await page.setContent(html, { waitUntil: 'load' });
-  await page.locator('.device img').waitFor({ state: 'visible' });
+  await page.locator('.device-screen').waitFor({ state: 'visible' });
+  if (await page.locator('.device-frame').count()) await page.locator('.device-frame').waitFor({ state: 'visible' });
   const fitResult = await page.evaluate(() => {
     const lineWordCounts = (element) => {
       const node = element.firstChild;

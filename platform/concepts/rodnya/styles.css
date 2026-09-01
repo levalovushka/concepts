@@ -867,8 +867,9 @@
 
 /* Статус-бар и навбар на белой шапке: тёплая подложка над «Лентой»
    читается как незакрашенная полоса. */
-.device:has(.screen.is-on.r-page:not(.r-dark)) > .status {
-  background-color: #fff;
+.r-page:not(.r-dark)::before {
+  content: ""; position: absolute; z-index: 0; inset: 0 0 auto;
+  height: var(--safe-top); background-color: #fff; pointer-events: none;
 }
 .r-page .navbar {
   background-color: #fff;

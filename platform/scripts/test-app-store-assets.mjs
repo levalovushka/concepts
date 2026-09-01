@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { assetPlan, beautifyStoreCopy, DEVICE_TARGETS, TEMPLATES } from './app-store-assets.mjs';
+import { assetPlan, beautifyStoreCopy, DEVICE_TARGETS, screenUsesDarkStatusInk, TEMPLATES } from './app-store-assets.mjs';
 import { listConcepts, readSpec } from './lib.mjs';
 
 const spec = {
@@ -36,6 +36,8 @@ assert.equal(DEVICE_TARGETS['iphone-6.1'].height, 2532);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].width, 2752);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].height, 2064);
 assert.deepEqual(TEMPLATES, ['studio']);
+assert.equal(screenUsesDarkStatusInk({ screens: [{ id: 'feed', light: true }] }, 'feed'), true);
+assert.equal(screenUsesDarkStatusInk({ screens: [{ id: 'clips', light: false }] }, 'clips'), false);
 assert.equal(
   beautifyStoreCopy('Находите свежие истории в нескольких минутах ходьбы'),
   'Находите свежие истории в\u00a0нескольких минутах\u00a0ходьбы',
