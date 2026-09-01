@@ -314,7 +314,12 @@ const preventRussianHangingWords = (value) => String(value)
     /(^|[\s(«„])((?:а|без|в|во|да|для|до|за|и|из|или|к|ко|на|над|но|о|об|от|по|под|при|про|с|со|у|через))\s+/giu,
     '$1$2\u00a0',
   );
-const preventTextWidow = (value) => String(value).replace(/(\S+)\s+(\S+)$/u, '$1\u00a0$2');
+const preventTextWidow = (value) => {
+  const text = String(value);
+  return text.trim().split(/\s+/u).length > 2
+    ? text.replace(/(\S+)\s+(\S+)$/u, '$1\u00a0$2')
+    : text;
+};
 export const beautifyStoreCopy = (value) => preventTextWidow(preventRussianHangingWords(value));
 
 function frameHtml({ spec, frame, screenshot, target, template, index }) {
@@ -390,18 +395,30 @@ async function render(browser, html, { width, height, type = 'jpeg', quality = 9
       const element = document.querySelector(selector);
       let size = Number.parseFloat(getComputedStyle(element).fontSize);
       const lines = () => element.getBoundingClientRect().height / Number.parseFloat(getComputedStyle(element).lineHeight);
-      while (lines() > maxLines + .08 && size > minSize) {
+      const overflowsWidth = () => element.scrollWidth > element.clientWidth + 1;
+      while ((lines() > maxLines + .08 || overflowsWidth()) && size > minSize) {
         size -= 2;
         element.style.fontSize = `${size}px`;
       }
-      return { selector, lines: lines(), size, lineWordCounts: lineWordCounts(element) };
+      return {
+        selector,
+        lines: lines(),
+        size,
+        lineWordCounts: lineWordCounts(element),
+        scrollWidth: element.scrollWidth,
+        clientWidth: element.clientWidth,
+      };
     };
     const ratio = document.querySelector('.canvas').classList.contains('portrait') ? innerWidth / 1320 : innerWidth / 2752;
     return [fit('.headline', 2, 72 * ratio), fit('.body', 2, 34 * ratio)];
   });
   for (const result of fitResult) {
+    if (result.scrollWidth > result.clientWidth + 1) {
+      throw new Error(`${result.selector} выходит за границы по ширине: ${result.scrollWidth}px > ${result.clientWidth}px`);
+    }
     if (result.lines > 2.08) throw new Error(`${result.selector} не помещается в две строки даже при ${result.size}px`);
-    if (result.lineWordCounts.length > 1 && result.lineWordCounts.at(-1) === 1) {
+    const wordCount = result.lineWordCounts.reduce((total, count) => total + count, 0);
+    if (wordCount > 2 && result.lineWordCounts.length > 1 && result.lineWordCounts.at(-1) === 1) {
       throw new Error(`${result.selector} оставляет одно слово в последней строке`);
     }
   }
