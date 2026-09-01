@@ -2098,6 +2098,11 @@
 .sc-clips-top>.sc-hit .sc-icon{width:25px;height:25px;stroke-width:2}
 .sc-clips-switch{height:44px;display:flex;align-items:center;justify-content:center;gap:24px}
 .sc-clips-switch button{position:relative;min-height:44px;color:rgba(255,255,255,.58)!important;font-size:15px;font-weight:600}
+
+/* Unified account flow follows the VK Video accent instead of the legacy
+   transparent button reset used by the prototype screens. */
+.unified-auth.auth-scene .unified-auth-back{color:#0077ff!important}
+.unified-auth.auth-scene .unified-auth-actions>.btn-filled{background:#0077ff!important;color:#fff!important}
 .sc-clips-switch button.is-on{color:#fff!important}
 .sc-clips-switch button.is-on::after{content:"";position:absolute;left:8px;right:8px;bottom:1px;height:2px;border-radius:2px;background:#fff}
 .sc-clip-actions{position:absolute;z-index:4;right:9px;bottom:142px;display:flex;flex-direction:column;align-items:center;gap:7px}

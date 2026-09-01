@@ -8,7 +8,7 @@
   "heroDeck": "Отметьте, чего хочется сегодня, найдите совпадение среди друзей и соберите план за пару минут.",
   "tagline": "Кто свободен сегодня — видно сегодня",
   "insight": "планы срываются не из-за отсутствия желания, а из-за слишком долгой координации",
-  "deck": "Закрытый сервис спонтанных планов с друзьями: желание, окно времени, совпадение, место и временная группа. Без публичной ленты и подписчиков.",
+  "deck": "Закрытый сервис спонтанных планов с друзьями: желание, окно времени, совпадение, место и общий план. Без публичной ленты и подписчиков.",
   "qualityContractVersion": 1,
   "uiContractVersion": 2,
   "product": {
@@ -40,29 +40,29 @@
   },
   "positioning": {
     "mode": "differentiation",
-    "categoryFit": "Закрытый social graph и групповые сообщения сохраняют Social Networking, но продукт оптимизирован под офлайн-встречу",
+    "categoryFit": "Закрытый круг друзей и совместные планы сохраняют Social Networking, но продукт оптимизирован под офлайн-встречу",
     "familiarPatterns": [
       "Друзья и контакты",
-      "Групповой чат",
-      "Реакции на приглашение"
+      "Реакции на приглашение",
+      "Список совместных планов со временем, местом и составом"
     ],
     "distinctions": [
       "Нет публичной ленты",
       "Статус живёт только сегодня",
-      "Группа архивируется после встречи"
+      "План архивируется после встречи"
     ],
     "evidenceScreens": [
       "home",
       "nearby",
       "plan",
-      "chats",
+      "plans",
       "profile"
     ],
     "referencePatterns": [
-      "messaging",
       "profile",
       "communities"
-    ]
+    ],
+    "referenceEvidence": []
   },
   "brand": {
     "accent": "#2688EB",
@@ -84,7 +84,7 @@
       "label": "Создать"
     },
     {
-      "id": "chats",
+      "id": "plans",
       "label": "Планы"
     },
     {
@@ -133,15 +133,15 @@
       "key": "mic",
       "plist": "NSMicrophoneUsageDescription",
       "alert": {
-        "title": "«Сегодня» запрашивают доступ к микрофону",
-        "text": "Чтобы быстро ответить группе голосом."
+        "title": "«Сегодня» запрашивает доступ к микрофону",
+        "text": "Чтобы создать план голосом."
       },
-      "feature": "Голосовое в группе",
-      "gesture": "«Записать голосовое»",
-      "screen": "chat",
-      "target": "voice",
-      "fallback": "Остаются текст и фото",
-      "snack": "Микрофон недоступен — напишите сообщение",
+      "feature": "Создание плана голосом",
+      "gesture": "«Сказать план»",
+      "screen": "sayplan",
+      "target": "sayplan",
+      "fallback": "Время и место можно ввести вручную",
+      "snack": "Микрофон недоступен — введите план вручную",
       "risk": "low",
       "anchor": false,
       "conditional": false,
@@ -182,25 +182,6 @@
       "anchor": false,
       "conditional": true,
       "grounding": "APNs через FCM topics",
-      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
-    },
-    {
-      "key": "commnotif",
-      "plist": "com.apple.developer.usernotifications.communication",
-      "alert": {
-        "title": "Уведомления как сообщения",
-        "text": "Сообщение приходит с аватаром друга и учитывает Focus."
-      },
-      "activate": true,
-      "feature": "Чаты с аватарами в уведомлениях",
-      "gesture": "«Сообщения с аватаром»",
-      "screen": "chat",
-      "target": "chat",
-      "fallback": "Обычное уведомление без аватара",
-      "risk": "low",
-      "anchor": false,
-      "conditional": true,
-      "grounding": "INSendMessageIntent + Notification Service Extension",
       "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
     },
     {
@@ -467,44 +448,62 @@
       "grounding": "NEHotspotConfigurationManager, имя сети и пароль приходят из QR-кода на стойке заведения"
     },
     {
-      "key": "voip",
-      "plist": "UIBackgroundModes: voip",
-      "alert": {
-        "title": "Звонки в приложении",
-        "text": "Входящий звонок по плану поднимется обычным экраном вызова."
-      },
-      "activate": true,
-      "feature": "Созвон участников плана: в план зовут друзей друзей, номерами при этом не обмениваются",
-      "gesture": "«Позвонить»",
-      "screen": "chat",
-      "target": "call",
-      "fallback": "Остаётся переписка в плане",
-      "risk": "high",
-      "anchor": false,
-      "conditional": true,
-      "requires": "PushKit + CallKit: входящий звонок поднимается системным экраном вызова, иначе ключ не заявляется",
-      "grounding": "PushKit VoIP push поднимает CallKit, медиапоток идёт через SDK провайдера",
-      "reviewNote": "Звонок живёт внутри плана, а не в адресной книге: в план зовут друзей друзей, у которых нет ваших номеров. Каждый VoIP-push поднимает CallKit — фонового опроса на этом ключе нет. Ключ условный: без CallKit он снимается."
-    },
-    {
       "key": "audio",
       "plist": "UIBackgroundModes: audio",
       "alert": {
         "title": "Фоновое аудио",
-        "text": "Голосовые из плана продолжат играть, когда экран погаснет."
+        "text": "Аудиоподсказки маршрута продолжат играть, когда экран погаснет."
       },
       "activate": true,
-      "feature": "Голосовые из плана играют подряд по дороге к месту: на локскрине — Now Playing и ±15 секунд",
+      "feature": "Аудиоподсказки маршрута играют по дороге к месту: на локскрине — Now Playing и ±15 секунд",
       "gesture": "«Слушать подряд»",
       "screen": "onway",
       "target": "background",
-      "fallback": "Без entitlement очередь обрывается на первом сообщении — не ship",
+      "fallback": "Без entitlement маршрут остаётся доступен текстом и на карте",
       "risk": "high",
       "anchor": false,
       "conditional": true,
       "requires": "Реальный playback очереди, заполненный MPNowPlayingInfoCenter и remote-команды",
       "grounding": "AVAudioSession категории playback + MPNowPlayingInfoCenter + MPRemoteCommandCenter",
-      "reviewNote": "Сценарий: человек идёт к месту встречи, телефон в кармане, голосовые от участников плана играют очередью без разблокировки. Приложить видео с локскрином: имя говорящего, очередь и работающие ±15 секунд. Из всего набора это самый слабо обоснованный ключ — если к сборке очередь не готова, он снимается."
+      "reviewNote": "Сценарий: человек идёт к месту встречи, телефон в кармане, аудиоподсказки маршрута играют без разблокировки. Приложить видео с локскрином, очередью точек и работающими ±15 секунд. Если фоновое воспроизведение не готово к сборке, ключ снимается."
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Изменение плана от организатора",
+        "text": "Entitlement без системного запроса: новая точка встречи приходит с именем организатора."
+      },
+      "activate": true,
+      "feature": "Именное структурированное изменение активного плана",
+      "gesture": "«Обновления организатора»",
+      "screen": "plan",
+      "target": "plan",
+      "fallback": "Изменение остаётся в карточке плана и обычном уведомлении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "INSendMessageIntent только для времени и места активного плана",
+      "grounding": "Участники не могут вести свободную переписку"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Аудиогид места встречи",
+        "text": "Entitlement без системного запроса: площадка подключает участника к живому аудиогиду события."
+      },
+      "activate": true,
+      "feature": "Живой аудиогид площадки для активного плана",
+      "gesture": "«Слушать аудиогид»",
+      "screen": "plan",
+      "target": "plan",
+      "fallback": "Остаётся карта и записанные подсказки маршрута",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit + CallKit для эфира площадки",
+      "grounding": "Односторонний эфир, пользовательские звонки отсутствуют"
     }
   ],
   "screens": [
@@ -754,7 +753,7 @@
       }
     },
     {
-      "id": "chats",
+      "id": "plans",
       "title": "Планы",
       "type": "tab (root)",
       "light": true,
@@ -775,60 +774,6 @@
         "contentCases": [
           "активный план",
           "приглашение",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "chat",
-      "title": "Группа плана",
-      "type": "push",
-      "light": true,
-      "parent": "chats",
-      "meta": "Временная группа плана",
-      "ui": {
-        "pattern": "detail",
-        "purpose": "Договориться",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "medium",
-        "contentCases": [
-          "текст",
-          "голос",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "voice",
-      "title": "Голосовое",
-      "type": "modal",
-      "light": true,
-      "parent": "chat",
-      "meta": "Запись",
-      "ui": {
-        "pattern": "capture",
-        "purpose": "Записать голос",
-        "primaryAction": "Отправить",
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "запись",
-          "пустое состояние",
           "нет сети"
         ]
       }
@@ -1082,10 +1027,10 @@
       "type": "push",
       "light": true,
       "parent": "plan",
-      "meta": "Очередь голосовых",
+      "meta": "Аудиомаршрут к месту",
       "ui": {
         "pattern": "player",
-        "purpose": "Слушать голосовые участников подряд, не разблокируя телефон",
+        "purpose": "Слушать подсказки маршрута, не разблокируя телефон",
         "primaryAction": "Слушать подряд",
         "states": [
           "default",
@@ -1097,7 +1042,7 @@
         ],
         "density": "medium",
         "contentCases": [
-          "4 голосовых, 3:12",
+          "4 точки маршрута, 3:12",
           "загружается",
           "нет сети"
         ]
@@ -1112,7 +1057,7 @@
       "meta": "Now Playing · локскрин",
       "ui": {
         "pattern": "player",
-        "purpose": "Показать, что очередь голосовых играет при погашенном экране",
+        "purpose": "Показать, что аудиомаршрут играет при погашенном экране",
         "primaryAction": null,
         "states": [
           "default",
@@ -1127,33 +1072,6 @@
           "играет 1:04 из 3:12",
           "пауза с локскрина",
           "−15 секунд"
-        ]
-      }
-    },
-    {
-      "id": "call",
-      "title": "Созвон по плану",
-      "type": "fullscreen",
-      "light": false,
-      "parent": "chat",
-      "meta": "VoIP · номер не раскрыт",
-      "ui": {
-        "pattern": "state",
-        "purpose": "Договориться на ходу, не раскрывая номер",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "идёт вызов",
-          "связь слабая",
-          "звонок завершён"
         ]
       }
     },
@@ -1230,9 +1148,7 @@
         "camera",
         "media",
         "groups",
-        "chats",
-        "chat",
-        "voice",
+        "plans",
         "profile",
         "settings",
         "widget",
@@ -1244,7 +1160,6 @@
         "sayplan",
         "onway",
         "background",
-        "call",
         "netqr",
         "shareext"
       ],
@@ -1284,7 +1199,7 @@
         "groups",
         "nearby",
         "create",
-        "chats",
+        "plans",
         "mates",
         "shareext",
         "sayplan"
@@ -1294,7 +1209,7 @@
         "groups",
         "nearby",
         "create",
-        "chats",
+        "plans",
         "shareext",
         "sayplan"
       ]
@@ -1303,16 +1218,13 @@
       "id": "group",
       "label": "Временная группа",
       "note": "Сообщения и голос",
-      "start": "chats",
+      "start": "plans",
       "screens": [
-        "chats",
+        "plans",
         "create",
-        "chat",
         "plan",
         "nearby",
         "profile",
-        "voice",
-        "call",
         "groups"
       ],
       "stops": [
@@ -1326,14 +1238,14 @@
     {
       "id": "meet",
       "label": "Дойти до встречи",
-      "note": "План в календаре, сеть места, голосовые по дороге и созвон без обмена номерами",
+      "note": "Сценарий «список совместных планов со временем, местом и составом»",
       "start": "nearby",
       "screens": [
         "nearby",
         "groups",
         "match",
         "create",
-        "chats",
+        "plans",
         "profile",
         "onway",
         "netqr",
@@ -1343,7 +1255,7 @@
         "groups",
         "match",
         "create",
-        "chats",
+        "plans",
         "profile",
         "onway",
         "netqr"
@@ -1393,7 +1305,7 @@
   "appStore": {
     "name": "Сегодня",
     "subtitle": "Планы с друзьями сейчас",
-    "promo": "Отметьте желание, найдите совпавших друзей и договоритесь о месте без бесконечного чата.",
+    "promo": "Отметьте желание, найдите совпадение с друзьями и сохраните место, время и состав в карточке плана.",
     "keywords": "компания,вечер,встречи,рядом,спонтанно",
     "category": {
       "primary": "Social Networking",
@@ -1409,9 +1321,10 @@
     },
     "description": [
       "Закрытый сервис спонтанных планов с друзьями.",
-      "ОДНО ЖЕЛАНИЕ — ОДНА ВСТРЕЧА\nВыберите занятие и время, найдите совпадение, согласуйте место."
+      "ОДНО ЖЕЛАНИЕ — ОДНА ВСТРЕЧА\nВыберите занятие и время, найдите совпадение, согласуйте место.",
+      "ПЛАНЫ\nСовпадение свободного времени превращается в карточку плана с местом, временем, участниками и статусом готовности."
     ],
-    "whatsNew": "Первая версия: статусы сегодня, совпадения, места и временные группы.",
+    "whatsNew": "Первая версия: совпадения свободного времени, карточки планов, отметка на месте и виджет ближайшей встречи.",
     "privacy": [
       {
         "type": "Медиа и геопозиция",
@@ -1442,11 +1355,43 @@
       "email": "review@today.app",
       "password": "review2026",
       "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
+    },
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        {
+          "screen": "home",
+          "headline": "Покажите, чего хочется сегодня",
+          "body": "Выберите занятие и время для ближайшего плана"
+        },
+        {
+          "screen": "nearby",
+          "headline": "Найдите совпадение с друзьями",
+          "body": "Свободное время и интересы совпадают автоматически"
+        },
+        {
+          "screen": "plan",
+          "headline": "Соберите план за минуту",
+          "body": "Место, время и участники остаются в одной карточке"
+        },
+        {
+          "screen": "plans",
+          "headline": "Не теряйте договорённости",
+          "body": "Все ближайшие планы собраны по времени и статусу"
+        },
+        {
+          "screen": "profile",
+          "headline": "Оставьте только своих",
+          "body": "Круг близких определяет доступные совпадения"
+        }
+      ]
     }
   },
   "auth": {
     "mode": "email",
     "confirmation": false,
     "entryTarget": "home"
-  }
+  },
+  "acceptance": []
 }

@@ -18,7 +18,13 @@ const missingStage = runScriptStage('fixtures/tooling/missing.mjs');
 assert.equal(missingStage.ok, false, 'missing pipeline stage must fail');
 assert.equal(missingStage.status, 1);
 
-for (const slug of listConcepts()) readSpec(slug);
+for (const slug of listConcepts()) {
+  const spec = readSpec(slug);
+  if (spec.positioning?.mode === 'mimicry' && ['vk-video', 'vk-music'].includes(spec.targetSet)) {
+    assert.equal(spec.brand?.accent?.toLowerCase(), '#0077ff', `${slug}: акцент мимикрии должен быть VK-синим`);
+    assert.equal(spec.brand?.accentDark?.toLowerCase(), '#0077ff', `${slug}: тёмный акцент мимикрии должен быть VK-синим`);
+  }
+}
 
 const dvor = readSpec('dvor');
 const rejects = (mutate, pattern) => {

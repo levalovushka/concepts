@@ -37,6 +37,7 @@
       "body": "Приложение помнит прогресс и последний прослушанный фрагмент"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

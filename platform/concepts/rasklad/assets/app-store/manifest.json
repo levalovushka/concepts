@@ -37,6 +37,7 @@
       "body": "Колода и номер помогут найти карту, если камера не справилась"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

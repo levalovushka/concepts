@@ -1,55 +1,1240 @@
 {
-  "slug":"pereezd","name":"Переезд","eyebrow":"Переезд · штаб одного дня · iOS","targetSet":"ok","domain":"pereezd.app",
-  "heroTitle":"Переезд — всё доехало","heroDeck":"QR-опись, комнаты, машины в пути и порядок выгрузки в одном оперативном штабе.",
-  "tagline":"Не лента и не доставка: один переезд от первой коробки до последнего ключа","insight":"статус коробки, машины и комнаты устаревает каждые пять минут и должен меняться сканом, а не сообщением в чате","deck":"Конечный инструмент для хозяина переезда и 3–8 знакомых помощников. Опись локальная, передаётся по защищённой ссылке или в одной Wi‑Fi сети; свой бэкенд не нужен.",
-  "qualityContractVersion":2,
-  "product":{"audience":"Семья или арендатор 25–55 лет, который сам координирует 3–8 помощников и 1–3 машины","situation":"За два дня до переезда коробки уже в разных комнатах, а на новом адресе никто не знает порядок выгрузки","problem":"Списки и чат не показывают, где сейчас коробка, кто её везёт и куда её нести","promise":"Любой помощник сканирует QR и сразу видит комнату, машину и порядок переноса","differentiator":"Не поиск грузчиков и не трекинг доставки: все люди и машины уже известны, а продукт управляет физическим порядком одного события","returnReasons":["Добавить коробку и сохранить QR-этикетку","Проверить очередь погрузки и машины в пути","На новом адресе найти первую коробку для распаковки"],"verticalSlice":{"entry":"phone","action":"boxes","result":"box"},"coreLoop":["Создать QR-опись по комнатам","Сканом закрепить коробку за машиной","В пути видеть машины и сигналы","Повторным сканом назначить комнату","Сверить опись и закрыть штаб"],"nonGoals":["Лента, профили, подписчики и лайки","Каталог, цены, оплата и рейтинг грузчиков"]},
-  "positioning":{"mode":"differentiation","categoryFit":"Utilities: временный инструмент учёта и координации физических объектов","familiarPatterns":["QR-сканер с мгновенным результатом","Карта активного движения машин","Канбан этапов с одним следующим действием"],"distinctions":["Главная заканчивается текущим этапом, а не бесконечной лентой","Помощник — роль в переезде, а не публичный профиль","Единица ценности — перемещённая коробка, а не пост или реакция"],"evidenceScreens":["today","boxes","route"],"referencePatterns":["social-feed","messaging","profile"],"referenceEvidence":[{"pattern":"social-feed","screen":"today","behavior":"Вместо ленты — один этап и одна кнопка"},{"pattern":"messaging","screen":"comms","behavior":"Короткие команды адресуются ролям, а не личным чатам"},{"pattern":"profile","screen":"helpers","behavior":"Видны только роль, зона и текущая задача"}]},
-  "readiness":{"status":"reviewed","referenceResearch":[{"source":"Apple Human Interface Guidelines — Privacy","observation":"Доступ запрашивается из явного жеста в контексте функции","decision":"На cold start нет запросов; у каждого доступа есть именованная кнопка и fallback"},{"source":"Apple Core Location — authorization guidance","observation":"Фоновый доступ запрашивается после When In Use и только для активного сценария","decision":"Фоновое движение включает сам водитель и оно гаснет по приезде"},{"source":"Разбор трёх квартирных переездов","observation":"Коробки оказывались не в своей комнате, а нужное для первой ночи уезжало глубже всего","decision":"Комната и приоритет напечатаны крупно и повторяются после QR-скана"}],"productCritique":[{"objection":"Опись можно сделать в обычной таблице","resolution":"Таблица не меняет этап QR-сканом и не показывает машину в пути","evidenceScreens":["boxes","scan","route"]},{"objection":"Продукт может выглядеть как маркетплейс грузчиков","resolution":"Нет каталога, цены, заказа и рейтинга; есть только роли знакомых людей","evidenceScreens":["helpers","today"]},{"objection":"Двадцать доступов могут выглядеть как чек-лист","resolution":"Каждый ведёт к видимой функции, имеет статус и ручной путь при отказе","evidenceScreens":["access","background","handoff"]},{"objection":"После переезда штаб станет мусором","resolution":"Финальная сверка отключает фон и предлагает экспорт или удаление","evidenceScreens":["finish","settings"]}],"visualPasses":[{"name":"Иерархия штаба и тап-цели","screensReviewed":"all","found":12,"fixed":12,"blockersOpen":0,"majorOpen":0},{"name":"Повторная приёмка состояний и ритма","screensReviewed":"all","found":5,"fixed":5,"blockersOpen":0,"majorOpen":0}]},
-  "brand":{"accent":"#315F80","accentDark":"#5E88A4","authIcon":"house","fonts":"Inter:wght@400;500;600;700;800"},"start":"phone","auth":{"entryTarget":"today"},"uiContractVersion":3,
-  "tabs":[{"id":"today","label":"Штаб"},{"id":"boxes","label":"Коробки"},{"id":"route","label":"Машины"},{"id":"comms","label":"Связь"},{"id":"settings","label":"Ещё"}],
-  "permissions":[
-    {"key":"camera","plist":"NSCameraUsageDescription","alert":{"title":"Сканировать QR коробки?","text":"Камера считает код для погрузки или выгрузки."},"feature":"QR меняет этап коробки","gesture":"«Сканировать QR»","screen":"boxes","target":"scan","fallback":"Ввести номер этикетки вручную","snack":"Камера выключена","risk":"low","grounding":"VisionKit на устройстве"},
-    {"key":"photos","plist":"NSPhotoLibraryUsageDescription","alert":{"title":"Выбрать фото коробки?","text":"Добавим уже снятое фото содержимого."},"feature":"Фото-подсказка к описи","gesture":"«Выбрать из Фото»","screen":"box","target":"box","fallback":"Оставить текстовое описание","snack":"Фото недоступны","risk":"low","grounding":"PHPicker возвращает один ассет"},
-    {"key":"photosadd","plist":"NSPhotoLibraryAddUsageDescription","alert":{"title":"Сохранить QR-этикетку?","text":"Добавим PNG в Фото для печати."},"feature":"Экспорт QR-этикетки","gesture":"«Сохранить этикетку»","screen":"box","target":"box","fallback":"Распечатать через Share Sheet","snack":"Этикетка не сохранена","risk":"low","grounding":"PHPhotoLibrary добавляет PNG"},
-    {"key":"mic","plist":"NSMicrophoneUsageDescription","alert":{"title":"Записать команду?","text":"Надиктуйте короткую команду, когда руки заняты."},"feature":"Голосовая команда","gesture":"«Записать команду»","screen":"comms","target":"voice","fallback":"Набрать команду текстом","snack":"Микрофон выключен","risk":"low","grounding":"AVAudioRecorder пишет m4a"},
-    {"key":"contacts","plist":"NSContactsUsageDescription","alert":{"title":"Выбрать помощников?","text":"Откроем системный выбор, не копируя всю книгу."},"feature":"Приглашение знакомых","gesture":"«Добавить из контактов»","screen":"helpers","target":"helpers","fallback":"Ввести номер или показать QR","snack":"Контакты недоступны","risk":"low","grounding":"CNContactPicker возвращает выбранных"},
-    {"key":"location","plist":"NSLocationWhenInUseUsageDescription","alert":{"title":"Показать машину?","text":"Штаб увидит время прибытия и порядок выгрузки."},"feature":"Машина на карте","gesture":"«Показать мою машину»","screen":"route","target":"route","fallback":"Статусы «выехал» и «приехал» вручную","snack":"Геопозиция выключена","risk":"medium","grounding":"Core Location на время маршрута"},
-    {"key":"locationalways","plist":"NSLocationAlwaysAndWhenInUseUsageDescription","alert":{"title":"Делиться движением в фоне?","text":"Только до приезда; после этого доступ отключится."},"feature":"Машина на карте при погашенном экране","gesture":"«Ехать и делиться в фоне»","screen":"route","target":"route","fallback":"Позиция только при открытой карте","snack":"Фоновое движение выключено","risk":"high","conditional":true,"requires":"CLLocationManager с автоотключением по приезде","grounding":"significant-change updates на один день"},
-    {"key":"localnetwork","plist":"NSLocalNetworkUsageDescription (+ NSBonjourServices: _pereezd._tcp)","alert":{"title":"Найти штаб рядом?","text":"Сверим опись без интернета в одной Wi‑Fi сети."},"feature":"Прямая синхронизация описи","gesture":"«Найти штаб рядом»","screen":"handoff","target":"handoff","fallback":"Передать зашифрованный файл","snack":"Локальная сеть запрещена","risk":"medium","grounding":"Network.framework и Bonjour"},
-    {"key":"wifiinfo","plist":"com.apple.developer.networking.wifi-info","alert":{"title":"Проверить Wi‑Fi","text":"Entitlement без промпта: покажем, что телефоны в одной сети."},"feature":"Сверка SSID","gesture":"«Проверить Wi‑Fi»","screen":"handoff","target":"handoff","fallback":"Сверить имя сети вручную","risk":"medium","activate":true,"grounding":"CNCopyCurrentNetworkInfo"},
-    {"key":"tracking","plist":"NSUserTrackingUsageDescription","alert":{"title":"Настроить партнёрские советы?","text":"IDFA не даст повторять показанные акции; опись не передаётся."},"feature":"Подбор скидок на коробки и хранение","gesture":"«Настроить подбор»","screen":"privacy","target":"privacy","fallback":"Неперсональные карточки без IDFA","snack":"Подбор остался неперсональным","risk":"high","grounding":"ATT перед рекламным SDK"},
-    {"key":"push","plist":"aps-environment","alert":{"title":"Включить важные сигналы?","text":"Только блокеры, приезд машины и изменение комнаты."},"feature":"Сигналы о блокерах","gesture":"«Включить важные сигналы»","screen":"comms","target":"comms","fallback":"Сигналы видны внутри штаба","snack":"Уведомления выключены","risk":"low","grounding":"UNUserNotificationCenter"},
-    {"key":"commnotif","plist":"com.apple.developer.usernotifications.communication","alert":{"title":"Команды от помощников","text":"Entitlement без промпта: в сигнале видны имя и роль."},"feature":"Коммуникационный вид команды","gesture":"«Проверить вид команды»","screen":"comms","target":"comms","fallback":"Обычный push без имени","risk":"medium","activate":true,"grounding":"INSendMessageIntent"},
-    {"key":"voip","plist":"UIBackgroundModes: voip","alert":{"title":"Вызов внутри штаба","text":"Entitlement без промпта: CallKit покажет срочный вызов."},"feature":"Звонок водителю без раскрытия номера","gesture":"«Позвонить Илье»","screen":"helpers","target":"call","fallback":"Срочная текстовая команда","risk":"high","conditional":true,"activate":true,"requires":"PushKit, CallKit и реальный WebRTC-вызов","grounding":"WebRTC-провайдер"},
-    {"key":"audio","plist":"UIBackgroundModes: audio","alert":{"title":"Слушать команду в фоне","text":"Entitlement без промпта: запись продолжится при погашенном экране."},"feature":"Фоновое воспроизведение команды","gesture":"«Слушать при погашенном экране»","screen":"voice","target":"voice","fallback":"Играть только в открытом приложении","risk":"high","conditional":true,"activate":true,"requires":"AVAudioSession, Now Playing и remote-команды","grounding":"Локальный m4a"},
-    {"key":"remotenotif","plist":"UIBackgroundModes: remote-notification","alert":{"title":"Принимать изменения в фоне","text":"Entitlement без промпта: silent push обновит статус без баннера."},"feature":"Фоновая дельта описи","gesture":"«Принимать тихие обновления»","screen":"background","target":"background","fallback":"Обновлять при открытии","risk":"medium","activate":true,"grounding":"content-available push"},
-    {"key":"fetch","plist":"UIBackgroundModes: fetch","alert":{"title":"Обновлять план к утру","text":"Entitlement без промпта: очередь погрузки будет готова."},"feature":"Предзагрузка плана","gesture":"«Обновлять план к утру»","screen":"background","target":"background","fallback":"Обновить при открытии","risk":"medium","conditional":true,"activate":true,"requires":"BGAppRefreshTask читает манифест штаба","grounding":"Локальный снапшот"},
-    {"key":"processing","plist":"UIBackgroundModes: processing","alert":{"title":"Разобрать фото ночью","text":"Entitlement без промпта: Vision OCR найдёт номера при питании."},"feature":"Фоновое OCR фото","gesture":"«Разобрать фото ночью»","screen":"background","target":"background","fallback":"Разбирать по одному на экране","risk":"high","conditional":true,"activate":true,"requires":"BGProcessingTask с requiresExternalPower и Vision OCR","grounding":"Vision OCR на устройстве"},
-    {"key":"bgtask","plist":"BGTaskSchedulerPermittedIdentifiers","alert":{"title":"Проверить очередь задач","text":"Entitlement без промпта: покажем последний и следующий запуск."},"feature":"Видимая очередь BGTaskScheduler","gesture":"«Проверить очередь задач»","screen":"background","target":"background","fallback":"Запустить вручную","risk":"medium","conditional":true,"activate":true,"requires":"app.pereezd.refresh и app.pereezd.ocr зарегистрированы","grounding":"BGTaskScheduler"},
-    {"key":"keychain","plist":"keychain-access-groups","alert":{"title":"Защитить ключ описи","text":"Entitlement без промпта: ключ расшифровки живёт в Keychain."},"feature":"Защищённый ключ описи","gesture":"«Защитить ключ описи»","screen":"handoff","target":"handoff","fallback":"Локальная опись без защищённого экспорта","risk":"low","activate":true,"grounding":"SecItemAdd ThisDeviceOnly"},
-    {"key":"associateddomains","plist":"com.apple.developer.associated-domains","alert":{"title":"Открывать приглашения в штабе","text":"Entitlement без промпта: ссылка откроет роль в нужном переезде."},"feature":"Universal Link с одноразовой ролью","gesture":"«Проверить ссылку-приглашение»","screen":"handoff","target":"handoff","fallback":"Веб-страница с QR и кодом","risk":"medium","conditional":true,"activate":true,"requires":"AASA на pereezd.app и scene continue userActivity","grounding":"AASA для /join/*"}
+  "slug": "pereezd",
+  "name": "Переезд",
+  "eyebrow": "Переезд · штаб одного дня · iOS",
+  "targetSet": "ok",
+  "domain": "pereezd.app",
+  "heroTitle": "Переезд — всё доехало",
+  "heroDeck": "QR-опись, комнаты, машины в пути и порядок выгрузки в одном оперативном штабе.",
+  "tagline": "Не лента и не доставка: один переезд от первой коробки до последнего ключа",
+  "insight": "статус коробки, машины и комнаты устаревает каждые пять минут и должен меняться сканом, а не сообщением в чате",
+  "deck": "Конечный инструмент для хозяина переезда и 3–8 знакомых помощников. Опись локальная, передаётся по защищённой ссылке или в одной Wi‑Fi сети; свой бэкенд не нужен.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Семья или арендатор 25–55 лет, который сам координирует 3–8 помощников и 1–3 машины",
+    "situation": "За два дня до переезда коробки уже в разных комнатах, а на новом адресе никто не знает порядок выгрузки",
+    "problem": "Списки и чат не показывают, где сейчас коробка, кто её везёт и куда её нести",
+    "promise": "Любой помощник сканирует QR и сразу видит комнату, машину и порядок переноса",
+    "differentiator": "Не поиск грузчиков и не трекинг доставки: все люди и машины уже известны, а продукт управляет физическим порядком одного события",
+    "returnReasons": [
+      "Добавить коробку и сохранить QR-этикетку",
+      "Проверить очередь погрузки и машины в пути",
+      "На новом адресе найти первую коробку для распаковки"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "boxes",
+      "result": "box"
+    },
+    "coreLoop": [
+      "Создать QR-опись по комнатам",
+      "Сканом закрепить коробку за машиной",
+      "В пути видеть машины и сигналы",
+      "Повторным сканом назначить комнату",
+      "Сверить опись и закрыть штаб"
+    ],
+    "nonGoals": [
+      "Лента, профили, подписчики и лайки",
+      "Каталог, цены, оплата и рейтинг грузчиков"
+    ]
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Utilities: временный инструмент учёта и координации физических объектов",
+    "familiarPatterns": [
+      "QR-сканер с мгновенным результатом",
+      "Карта активного движения машин",
+      "Канбан этапов с одним следующим действием",
+      "Роли помощников и ответственные за этапы переезда"
+    ],
+    "distinctions": [
+      "Главная заканчивается текущим этапом, а не бесконечной лентой",
+      "Помощник — роль в переезде, а не публичный профиль",
+      "Единица ценности — перемещённая коробка, а не пост или реакция"
+    ],
+    "evidenceScreens": [
+      "today",
+      "boxes",
+      "route"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "profile"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "today",
+        "behavior": "Вместо ленты — один этап и одна кнопка"
+      },
+      {
+        "pattern": "profile",
+        "screen": "helpers",
+        "behavior": "Видны только роль, зона и текущая задача"
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines — Privacy",
+        "observation": "Доступ запрашивается из явного жеста в контексте функции",
+        "decision": "На cold start нет запросов; у каждого доступа есть именованная кнопка и fallback"
+      },
+      {
+        "source": "Apple Core Location — authorization guidance",
+        "observation": "Фоновый доступ запрашивается после When In Use и только для активного сценария",
+        "decision": "Фоновое движение включает сам водитель и оно гаснет по приезде"
+      },
+      {
+        "source": "Разбор трёх квартирных переездов",
+        "observation": "Коробки оказывались не в своей комнате, а нужное для первой ночи уезжало глубже всего",
+        "decision": "Комната и приоритет напечатаны крупно и повторяются после QR-скана"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Опись можно сделать в обычной таблице",
+        "resolution": "Таблица не меняет этап QR-сканом и не показывает машину в пути",
+        "evidenceScreens": [
+          "boxes",
+          "scan",
+          "route"
+        ]
+      },
+      {
+        "objection": "Продукт может выглядеть как маркетплейс грузчиков",
+        "resolution": "Нет каталога, цены, заказа и рейтинга; есть только роли знакомых людей",
+        "evidenceScreens": [
+          "helpers",
+          "today"
+        ]
+      },
+      {
+        "objection": "Двадцать доступов могут выглядеть как чек-лист",
+        "resolution": "Каждый ведёт к видимой функции, имеет статус и ручной путь при отказе",
+        "evidenceScreens": [
+          "access",
+          "background",
+          "handoff"
+        ]
+      },
+      {
+        "objection": "После переезда штаб станет мусором",
+        "resolution": "Финальная сверка отключает фон и предлагает экспорт или удаление",
+        "evidenceScreens": [
+          "finish",
+          "settings"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Иерархия штаба и тап-цели",
+        "screensReviewed": "all",
+        "found": 12,
+        "fixed": 12,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Повторная приёмка состояний и ритма",
+        "screensReviewed": "all",
+        "found": 5,
+        "fixed": 5,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#315F80",
+    "accentDark": "#5E88A4",
+    "authIcon": "house",
+    "fonts": "Inter:wght@400;500;600;700;800"
+  },
+  "start": "phone",
+  "auth": {
+    "entryTarget": "today"
+  },
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "today",
+      "label": "Штаб"
+    },
+    {
+      "id": "boxes",
+      "label": "Коробки"
+    },
+    {
+      "id": "route",
+      "label": "Машины"
+    },
+    {
+      "id": "helpers",
+      "label": "Помощники",
+      "role": "people"
+    },
+    {
+      "id": "settings",
+      "label": "Ещё"
+    }
   ],
-  "screens":[
-    {"id":"phone","title":"Вход по номеру","type":"старт","light":true,"meta":"Опциональный вход","ui":{"pattern":"auth","navigation":"push","purpose":"Войти или продолжить локально","primaryAction":"Далее","hierarchy":{"primary":"Номер и переход к паролю","secondary":"Гостевой путь, помощь и правовые ссылки"},"states":["default","loading","error"],"density":"low","contentCases":[{"kind":"typical","example":"Корректный номер ведёт к паролю"},{"kind":"stress","example":"Длинная юридическая строка не скрывает гостевой вход"},{"kind":"failure","example":"Ошибка формата показана в поле"}]}},
-    {"id":"today","title":"Штаб","type":"tab root","light":true,"meta":"loading · empty · error · offline","ui":{"pattern":"collection","navigation":"root","purpose":"Показать этап и следующий шаг","primaryAction":"Начать погрузку","hierarchy":{"primary":"Этап, прогресс и следующий шаг","secondary":"Блокеры и счётчики машин"},"states":["default","empty","loading","error","offline"],"density":"medium","contentCases":[{"kind":"typical","example":"42 коробки готовы к погрузке"},{"kind":"stress","example":"Два блокера и три машины в разных статусах"},{"kind":"failure","example":"Нет штаба, сети или данных"}]}},
-    {"id":"boxes","title":"Коробки","type":"tab root","light":true,"meta":"QR-опись","ui":{"pattern":"collection","navigation":"root","purpose":"Найти коробку и изменить этап сканом","primaryAction":"Сканировать QR","hierarchy":{"primary":"Комнаты дома и кнопка QR-скана","secondary":"Статусы и машины коробок"},"states":["default","empty","loading","error","offline","denied"],"density":"high","contentCases":[{"kind":"typical","example":"42 коробки по пяти комнатам"},{"kind":"stress","example":"Длинные описания хрупких вещей"},{"kind":"failure","example":"Камера запрещена или опись пуста"}]}},
-    {"id":"box","title":"Коробка B-024","type":"push","light":true,"parent":"boxes","meta":"Комната, машина, QR","ui":{"pattern":"detail","navigation":"push","purpose":"Показать путь одной коробки","primaryAction":"Отметить погрузку","hierarchy":{"primary":"Номер, комната и статус","secondary":"Фото, машина и этикетка"},"states":["default","error","offline"],"density":"medium","contentCases":[{"kind":"typical","example":"Посуда едет в машине Ильи"},{"kind":"stress","example":"Три фото и длинная заметка"},{"kind":"failure","example":"Фото не открылось, но опись доступна"}]}},
-    {"id":"scan","title":"Скан QR","type":"fullscreen","parent":"boxes","meta":"Камера и ручной fallback","ui":{"pattern":"capture","navigation":"fullscreen","purpose":"Считать QR одной рукой","primaryAction":"Ввести код вручную","hierarchy":{"primary":"Рамка QR и результат скана","secondary":"Фонарь и ручной код"},"states":["default","denied","error"],"density":"low","contentCases":[{"kind":"typical","example":"QR B-024 считан за секунду"},{"kind":"stress","example":"Мятая этикетка при плохом свете"},{"kind":"failure","example":"Камера запрещена или QR не найден"}]}},
-    {"id":"route","title":"Машины","type":"tab root","light":true,"meta":"Активное движение","ui":{"pattern":"collection","navigation":"root","purpose":"Показать машины в пути","primaryAction":"Показать мою машину","hierarchy":{"primary":"Маршрут и время прибытия","secondary":"Коробки и ручные статусы"},"states":["default","empty","loading","error","offline","denied"],"density":"medium","contentCases":[{"kind":"typical","example":"Две машины в пути и одна на месте"},{"kind":"stress","example":"Машина потеряла связь на маршруте"},{"kind":"failure","example":"Геопозиция запрещена или карта офлайн"}]}},
-    {"id":"comms","title":"Связь","type":"tab root","light":true,"meta":"Команды и сигналы","ui":{"pattern":"collection","navigation":"root","purpose":"Отправить короткую команду","primaryAction":"Записать команду","hierarchy":{"primary":"Кнопка команды и блокер","secondary":"История доставки сигналов"},"states":["default","empty","loading","error","offline","denied"],"density":"medium","contentCases":[{"kind":"typical","example":"Три команды доставлены адресатам"},{"kind":"stress","example":"Минутная команда для семи людей"},{"kind":"failure","example":"Нет сети, push или микрофона"}]}},
-    {"id":"voice","title":"Голосовая команда","type":"modal","light":true,"parent":"comms","meta":"Запись и фоновое аудио","ui":{"pattern":"player","navigation":"modal","purpose":"Записать и прослушать команду","primaryAction":"Отправить команду","hierarchy":{"primary":"Волна и контроль записи","secondary":"Адресаты и текстовый fallback"},"states":["default","loading","error"],"density":"low","contentCases":[{"kind":"typical","example":"12-секундная команда для двух людей"},{"kind":"stress","example":"Минутная запись с длинным адресатом"},{"kind":"failure","example":"Запись не сохранилась или не отправилась"}]}},
-    {"id":"helpers","title":"Помощники","type":"push","light":true,"parent":"settings","meta":"Роли, а не профили","ui":{"pattern":"collection","navigation":"push","purpose":"Распределить людей по зонам","primaryAction":"Добавить из контактов","hierarchy":{"primary":"Роли и текущие задачи","secondary":"Приглашение и срочный звонок"},"states":["default","empty","loading","error","offline","denied"],"density":"medium","contentCases":[{"kind":"typical","example":"Шесть людей по трём зонам"},{"kind":"stress","example":"Две роли и длинная зона одного человека"},{"kind":"failure","example":"Контакты запрещены или список пуст"}]}},
-    {"id":"call","title":"Вызов Илье","type":"system","parent":"helpers","meta":"CallKit","ui":{"pattern":"system","navigation":"system","purpose":"Показать срочный вызов","primaryAction":"Завершить вызов","hierarchy":{"primary":"Имя, роль и таймер","secondary":"Микрофон, динамик и завершение"},"states":["default","error"],"density":"low","contentCases":[{"kind":"typical","example":"Активный вызов водителю"},{"kind":"stress","example":"Нестабильный канал и длинная роль"},{"kind":"failure","example":"Вызов не соединился"}]}},
-    {"id":"settings","title":"Ещё","type":"tab root","light":true,"meta":"Помощники, фон, доступы","ui":{"pattern":"settings","navigation":"root","purpose":"Управлять штабом и завершением","primaryAction":"Завершить переезд","hierarchy":{"primary":"Состав, передача и фон","secondary":"Аккаунт, помощь и правовые ссылки"},"states":["default","error","offline"],"density":"medium","contentCases":[{"kind":"typical","example":"Активный штаб с шестью людьми"},{"kind":"stress","example":"20 доступов и две фоновые задачи"},{"kind":"failure","example":"Сеть офлайн или аккаунт недоступен"}]}},
-    {"id":"handoff","title":"Передача штаба","type":"push","light":true,"parent":"settings","meta":"Local network · Wi‑Fi · Keychain · Universal Links","ui":{"pattern":"settings","navigation":"push","purpose":"Передать защищённую опись","primaryAction":"Найти штаб рядом","hierarchy":{"primary":"Способы передачи и их статус","secondary":"Ключ и файловый fallback"},"states":["default","error","offline","denied"],"density":"medium","contentCases":[{"kind":"typical","example":"Два телефона найдены в одной сети"},{"kind":"stress","example":"Телефоны в разных сетях, ссылка просрочена"},{"kind":"failure","example":"Локальная сеть запрещена"}]}},
-    {"id":"background","title":"Фоновая работа","type":"push","light":true,"parent":"settings","meta":"fetch · processing · remote notification · BGTask","ui":{"pattern":"settings","navigation":"push","purpose":"Управлять фоновыми операциями","primaryAction":"Обновить план сейчас","hierarchy":{"primary":"Очередь задач и время запуска","secondary":"Тогглы и ручные fallback-операции"},"states":["default","error","offline"],"density":"high","contentCases":[{"kind":"typical","example":"Обновление и OCR запланированы"},{"kind":"stress","example":"240 фото стоят в очереди OCR"},{"kind":"failure","example":"Задача отменена системой"}]}},
-    {"id":"privacy","title":"Подбор советов","type":"push","light":true,"parent":"settings","meta":"ATT после явного жеста","ui":{"pattern":"settings","navigation":"push","purpose":"Объяснить ATT до промпта","primaryAction":"Настроить подбор","hierarchy":{"primary":"Карточка совета и роль IDFA","secondary":"Неперсональный fallback и политика"},"states":["default","error","denied"],"density":"medium","contentCases":[{"kind":"typical","example":"Одна карточка с честным пояснением"},{"kind":"stress","example":"Длинный текст не скрывает право отказа"},{"kind":"failure","example":"ATT запрещён, но штаб работает"}]}},
-    {"id":"access","title":"20 доступов","type":"push","light":true,"parent":"settings","meta":"Статус, триггер, fallback","ui":{"pattern":"settings","navigation":"push","purpose":"Показать статус и fallback каждого доступа","primaryAction":"Проверить отказы","hierarchy":{"primary":"20 строк со статусами","secondary":"Короткий fallback и переход к функции"},"states":["default","error","offline","denied"],"density":"high","contentCases":[{"kind":"typical","example":"Разные статусы для всех 20 строк"},{"kind":"stress","example":"Длинные fallback-описания не ломают список"},{"kind":"failure","example":"Три основных доступа запрещены"}]}},
-    {"id":"finish","title":"Завершение","type":"push","light":true,"parent":"settings","meta":"Сверка и отключение фона","ui":{"pattern":"task","navigation":"push","purpose":"Сверить опись и закрыть штаб","primaryAction":"Закрыть штаб","hierarchy":{"primary":"Сверка коробок и критических вещей","secondary":"Экспорт и отключение фона"},"states":["default","error","offline"],"density":"low","contentCases":[{"kind":"typical","example":"42 из 42 коробок доехали"},{"kind":"stress","example":"Одна коробка не совпала по QR"},{"kind":"failure","example":"Архив не экспортировался"}]}}
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Сканировать QR коробки?",
+        "text": "Камера считает код для погрузки или выгрузки."
+      },
+      "feature": "QR меняет этап коробки",
+      "gesture": "«Сканировать QR»",
+      "screen": "boxes",
+      "target": "scan",
+      "fallback": "Ввести номер этикетки вручную",
+      "snack": "Камера выключена",
+      "risk": "low",
+      "grounding": "VisionKit на устройстве"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Выбрать фото коробки?",
+        "text": "Добавим уже снятое фото содержимого."
+      },
+      "feature": "Фото-подсказка к описи",
+      "gesture": "«Выбрать из Фото»",
+      "screen": "box",
+      "target": "box",
+      "fallback": "Оставить текстовое описание",
+      "snack": "Фото недоступны",
+      "risk": "low",
+      "grounding": "PHPicker возвращает один ассет"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "Сохранить QR-этикетку?",
+        "text": "Добавим PNG в Фото для печати."
+      },
+      "feature": "Экспорт QR-этикетки",
+      "gesture": "«Сохранить этикетку»",
+      "screen": "box",
+      "target": "box",
+      "fallback": "Распечатать через Share Sheet",
+      "snack": "Этикетка не сохранена",
+      "risk": "low",
+      "grounding": "PHPhotoLibrary добавляет PNG"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "Выбрать помощников?",
+        "text": "Откроем системный выбор, не копируя всю книгу."
+      },
+      "feature": "Приглашение знакомых",
+      "gesture": "«Добавить из контактов»",
+      "screen": "helpers",
+      "target": "helpers",
+      "fallback": "Ввести номер или показать QR",
+      "snack": "Контакты недоступны",
+      "risk": "low",
+      "grounding": "CNContactPicker возвращает выбранных"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Показать машину?",
+        "text": "Штаб увидит время прибытия и порядок выгрузки."
+      },
+      "feature": "Машина на карте",
+      "gesture": "«Показать мою машину»",
+      "screen": "route",
+      "target": "route",
+      "fallback": "Статусы «выехал» и «приехал» вручную",
+      "snack": "Геопозиция выключена",
+      "risk": "medium",
+      "grounding": "Core Location на время маршрута"
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "Делиться движением в фоне?",
+        "text": "Только до приезда; после этого доступ отключится."
+      },
+      "feature": "Машина на карте при погашенном экране",
+      "gesture": "«Ехать и делиться в фоне»",
+      "screen": "route",
+      "target": "route",
+      "fallback": "Позиция только при открытой карте",
+      "snack": "Фоновое движение выключено",
+      "risk": "high",
+      "conditional": true,
+      "requires": "CLLocationManager с автоотключением по приезде",
+      "grounding": "significant-change updates на один день"
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices: _pereezd._tcp)",
+      "alert": {
+        "title": "Найти штаб рядом?",
+        "text": "Сверим опись без интернета в одной Wi‑Fi сети."
+      },
+      "feature": "Прямая синхронизация описи",
+      "gesture": "«Найти штаб рядом»",
+      "screen": "handoff",
+      "target": "handoff",
+      "fallback": "Передать зашифрованный файл",
+      "snack": "Локальная сеть запрещена",
+      "risk": "medium",
+      "grounding": "Network.framework и Bonjour"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Проверить Wi‑Fi",
+        "text": "Entitlement без промпта: покажем, что телефоны в одной сети."
+      },
+      "feature": "Сверка SSID",
+      "gesture": "«Проверить Wi‑Fi»",
+      "screen": "handoff",
+      "target": "handoff",
+      "fallback": "Сверить имя сети вручную",
+      "risk": "medium",
+      "activate": true,
+      "grounding": "CNCopyCurrentNetworkInfo"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Настроить партнёрские советы?",
+        "text": "IDFA не даст повторять показанные акции; опись не передаётся."
+      },
+      "feature": "Подбор скидок на коробки и хранение",
+      "gesture": "«Настроить подбор»",
+      "screen": "privacy",
+      "target": "privacy",
+      "fallback": "Неперсональные карточки без IDFA",
+      "snack": "Подбор остался неперсональным",
+      "risk": "high",
+      "grounding": "ATT перед рекламным SDK"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Слушать команду в фоне",
+        "text": "Entitlement без промпта: запись продолжится при погашенном экране."
+      },
+      "feature": "Фоновое воспроизведение команды",
+      "gesture": "«Слушать при погашенном экране»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Играть только в открытом приложении",
+      "risk": "high",
+      "conditional": true,
+      "activate": true,
+      "requires": "AVAudioSession, Now Playing и remote-команды",
+      "grounding": "Локальный m4a"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Принимать изменения в фоне",
+        "text": "Entitlement без промпта: silent push обновит статус без баннера."
+      },
+      "feature": "Фоновая дельта описи",
+      "gesture": "«Принимать тихие обновления»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Обновлять при открытии",
+      "risk": "medium",
+      "activate": true,
+      "grounding": "content-available push"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Обновлять план к утру",
+        "text": "Entitlement без промпта: очередь погрузки будет готова."
+      },
+      "feature": "Предзагрузка плана",
+      "gesture": "«Обновлять план к утру»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Обновить при открытии",
+      "risk": "medium",
+      "conditional": true,
+      "activate": true,
+      "requires": "BGAppRefreshTask читает манифест штаба",
+      "grounding": "Локальный снапшот"
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "alert": {
+        "title": "Разобрать фото ночью",
+        "text": "Entitlement без промпта: Vision OCR найдёт номера при питании."
+      },
+      "feature": "Фоновое OCR фото",
+      "gesture": "«Разобрать фото ночью»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Разбирать по одному на экране",
+      "risk": "high",
+      "conditional": true,
+      "activate": true,
+      "requires": "BGProcessingTask с requiresExternalPower и Vision OCR",
+      "grounding": "Vision OCR на устройстве"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Проверить очередь задач",
+        "text": "Entitlement без промпта: покажем последний и следующий запуск."
+      },
+      "feature": "Видимая очередь BGTaskScheduler",
+      "gesture": "«Проверить очередь задач»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Запустить вручную",
+      "risk": "medium",
+      "conditional": true,
+      "activate": true,
+      "requires": "app.pereezd.refresh и app.pereezd.ocr зарегистрированы",
+      "grounding": "BGTaskScheduler"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Защитить ключ описи",
+        "text": "Entitlement без промпта: ключ расшифровки живёт в Keychain."
+      },
+      "feature": "Защищённый ключ описи",
+      "gesture": "«Защитить ключ описи»",
+      "screen": "handoff",
+      "target": "handoff",
+      "fallback": "Локальная опись без защищённого экспорта",
+      "risk": "low",
+      "activate": true,
+      "grounding": "SecItemAdd ThisDeviceOnly"
+    },
+    {
+      "key": "associateddomains",
+      "plist": "com.apple.developer.associated-domains",
+      "alert": {
+        "title": "Открывать приглашения в штабе",
+        "text": "Entitlement без промпта: ссылка откроет роль в нужном переезде."
+      },
+      "feature": "Universal Link с одноразовой ролью",
+      "gesture": "«Проверить ссылку-приглашение»",
+      "screen": "handoff",
+      "target": "handoff",
+      "fallback": "Веб-страница с QR и кодом",
+      "risk": "medium",
+      "conditional": true,
+      "activate": true,
+      "requires": "AASA на pereezd.app и scene continue userActivity",
+      "grounding": "AASA для /join/*"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Переезд» запрашивает доступ к микрофону",
+        "text": "Чтобы отмечать коробки голосом, когда руки заняты."
+      },
+      "feature": "Голосовая команда для статуса коробки",
+      "gesture": "«Сказать команду»",
+      "screen": "helpers",
+      "target": "helpers",
+      "fallback": "Статус меняется кнопкой или QR-сканом",
+      "snack": "Микрофон недоступен — выберите действие",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, команда распознаётся локально"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить сигналы штаба?",
+        "text": "Сообщим только о блокере машины или комнаты."
+      },
+      "feature": "Сигналы о блокерах погрузки",
+      "gesture": "«Сигналы штаба»",
+      "screen": "helpers",
+      "target": "helpers",
+      "fallback": "Блокеры остаются сверху списка штаба",
+      "snack": "Сигналы будут видны в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "APNs через SDK провайдера"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Ответственного назначили на блокер",
+        "text": "Entitlement без системного запроса: назначение приходит с именем ответственного."
+      },
+      "activate": true,
+      "feature": "Именное назначение ответственного на блокер",
+      "gesture": "«Именные назначения»",
+      "screen": "helpers",
+      "target": "helpers",
+      "fallback": "Без entitlement назначение приходит обычным уведомлением",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "INSendMessageIntent только для назначения задачи",
+      "grounding": "Структурированное назначение, свободной переписки нет"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Диспетчерская линия переезда",
+        "text": "Entitlement без системного запроса: водитель подключается к общей линии штаба при блокере."
+      },
+      "activate": true,
+      "feature": "Общая диспетчерская линия активного переезда",
+      "gesture": "«Связаться со штабом»",
+      "screen": "helpers",
+      "target": "helpers",
+      "fallback": "Водитель меняет статус блокера одной кнопкой",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit + CallKit только на время активного переезда",
+      "grounding": "Одна линия штаба без адресных звонков и обмена номерами"
+    }
   ],
-  "prototypes":[{"id":"move-day","hero":true,"label":"День переезда","note":"Весь штаб: скан, маршрут, связь, помощники и сверка","start":"phone","screens":["phone","today","boxes","box","scan","route","comms","voice","helpers","call","settings","handoff","background","privacy","access","finish"]},{"id":"permissions","label":"20 доступов","note":"Все триггеры и fallback-пути","start":"settings","screens":["settings","access","handoff","background","privacy","helpers","call","route","comms","voice","boxes","box","scan","finish"]}],
-  "backendless":[{"needs":"Совместная опись рядом","solution":"Bonjour и Network.framework сверяют зашифрованную дельту"},{"needs":"Удалённое приглашение","solution":"Одноразовый зашифрованный пакет по Universal Link"},{"needs":"Архив переезда","solution":"Core Data, FileManager и зашифрованный экспорт"}],
-  "docs":[{"file":"01-product-vision.md","label":"Вижен"},{"file":"02-architecture.md","label":"Архитектура"},{"file":"03-design-system.md","label":"Дизайн-система"},{"file":"04-references.md","label":"Референсы"},{"file":"05-visual-audit.md","label":"Аудит"},{"file":"06-app-store.md","label":"App Store"},{"file":"07-quality-evidence.md","label":"Quality evidence"}],
-  "appStore":{"name":"Переезд — штаб коробок","subtitle":"QR-опись и машины в пути","promo":"QR-этикетки, комнаты, порядок погрузки, помощники, машины на карте и финальная сверка одного переезда.","keywords":"коробки,qr,погрузка,выгрузка,комнаты,маршрут,помощники,вещи","category":{"primary":"Utilities","secondary":"Lifestyle"},"ageRating":"13+","price":"Бесплатно; одна партнёрская карточка","encryption":"ITSAppUsesNonExemptEncryption = NO","urls":{"support":"https://pereezd.app/support","marketing":"https://pereezd.app","privacy":"https://pereezd.app/privacy"},"description":["Штаб одного квартирного переезда, а не маркетплейс грузчиков.","QR-опись связывает коробку, комнату, машину и очередь.","Водители делятся движением только до приезда."],"whatsNew":"Первая версия: QR-опись, машины, связь и сверка.","privacy":[{"type":"Геопозиция","apple":"Location → Precise Location","purpose":"Работа приложения","linked":true,"tracking":false,"why":"Машины в пути"},{"type":"Идентификатор устройства","apple":"Identifiers → Device ID","purpose":"Реклама","linked":true,"tracking":true,"why":"IDFA только после ATT"}],"reviewAccount":{"phone":"+7 900 555-01-24","password":"review2026","note":"Без OTP; есть гостевой вход."}}
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт",
+      "light": true,
+      "meta": "Опциональный вход",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Войти или продолжить локально",
+        "primaryAction": "Далее",
+        "hierarchy": {
+          "primary": "Номер и переход к паролю",
+          "secondary": "Гостевой путь, помощь и правовые ссылки"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Корректный номер ведёт к паролю"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная юридическая строка не скрывает гостевой вход"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка формата показана в поле"
+          }
+        ]
+      }
+    },
+    {
+      "id": "today",
+      "title": "Штаб",
+      "type": "tab root",
+      "light": true,
+      "meta": "loading · empty · error · offline",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать этап и следующий шаг",
+        "primaryAction": "Начать погрузку",
+        "hierarchy": {
+          "primary": "Этап, прогресс и следующий шаг",
+          "secondary": "Блокеры и счётчики машин"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "42 коробки готовы к погрузке"
+          },
+          {
+            "kind": "stress",
+            "example": "Два блокера и три машины в разных статусах"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет штаба, сети или данных"
+          }
+        ]
+      }
+    },
+    {
+      "id": "boxes",
+      "title": "Коробки",
+      "type": "tab root",
+      "light": true,
+      "meta": "QR-опись",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Найти коробку и изменить этап сканом",
+        "primaryAction": "Сканировать QR",
+        "hierarchy": {
+          "primary": "Комнаты дома и кнопка QR-скана",
+          "secondary": "Статусы и машины коробок"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "42 коробки по пяти комнатам"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные описания хрупких вещей"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера запрещена или опись пуста"
+          }
+        ]
+      }
+    },
+    {
+      "id": "box",
+      "title": "Коробка B-024",
+      "type": "push",
+      "light": true,
+      "parent": "boxes",
+      "meta": "Комната, машина, QR",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать путь одной коробки",
+        "primaryAction": "Отметить погрузку",
+        "hierarchy": {
+          "primary": "Номер, комната и статус",
+          "secondary": "Фото, машина и этикетка"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Посуда едет в машине Ильи"
+          },
+          {
+            "kind": "stress",
+            "example": "Три фото и длинная заметка"
+          },
+          {
+            "kind": "failure",
+            "example": "Фото не открылось, но опись доступна"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scan",
+      "title": "Скан QR",
+      "type": "fullscreen",
+      "parent": "boxes",
+      "meta": "Камера и ручной fallback",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Считать QR одной рукой",
+        "primaryAction": "Ввести код вручную",
+        "hierarchy": {
+          "primary": "Рамка QR и результат скана",
+          "secondary": "Фонарь и ручной код"
+        },
+        "states": [
+          "default",
+          "denied",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "QR B-024 считан за секунду"
+          },
+          {
+            "kind": "stress",
+            "example": "Мятая этикетка при плохом свете"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера запрещена или QR не найден"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Машины",
+      "type": "tab root",
+      "light": true,
+      "meta": "Активное движение",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать машины в пути",
+        "primaryAction": "Показать мою машину",
+        "hierarchy": {
+          "primary": "Маршрут и время прибытия",
+          "secondary": "Коробки и ручные статусы"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Две машины в пути и одна на месте"
+          },
+          {
+            "kind": "stress",
+            "example": "Машина потеряла связь на маршруте"
+          },
+          {
+            "kind": "failure",
+            "example": "Геопозиция запрещена или карта офлайн"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовая команда",
+      "type": "modal",
+      "light": true,
+      "parent": "helpers",
+      "meta": "Запись и фоновое аудио",
+      "ui": {
+        "pattern": "player",
+        "navigation": "modal",
+        "purpose": "Записать и прослушать команду",
+        "primaryAction": "Отправить команду",
+        "hierarchy": {
+          "primary": "Волна и контроль записи",
+          "secondary": "Адресаты и текстовый fallback"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "12-секундная команда для двух людей"
+          },
+          {
+            "kind": "stress",
+            "example": "Минутная запись с длинным адресатом"
+          },
+          {
+            "kind": "failure",
+            "example": "Запись не сохранилась или не отправилась"
+          }
+        ]
+      }
+    },
+    {
+      "id": "helpers",
+      "title": "Помощники",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Роли, а не профили",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Распределить людей по зонам",
+        "primaryAction": "Добавить из контактов",
+        "hierarchy": {
+          "primary": "Роли и текущие задачи",
+          "secondary": "Приглашение и срочный статус"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Шесть людей по трём зонам"
+          },
+          {
+            "kind": "stress",
+            "example": "Две роли и длинная зона одного человека"
+          },
+          {
+            "kind": "failure",
+            "example": "Контакты запрещены или список пуст"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Ещё",
+      "type": "tab root",
+      "light": true,
+      "meta": "Помощники, фон, доступы",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Управлять штабом и завершением",
+        "primaryAction": "Завершить переезд",
+        "hierarchy": {
+          "primary": "Состав, передача и фон",
+          "secondary": "Аккаунт, помощь и правовые ссылки"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Активный штаб с шестью людьми"
+          },
+          {
+            "kind": "stress",
+            "example": "20 доступов и две фоновые задачи"
+          },
+          {
+            "kind": "failure",
+            "example": "Сеть офлайн или аккаунт недоступен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff",
+      "title": "Передача штаба",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Local network · Wi‑Fi · Keychain · Universal Links",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Передать защищённую опись",
+        "primaryAction": "Найти штаб рядом",
+        "hierarchy": {
+          "primary": "Способы передачи и их статус",
+          "secondary": "Ключ и файловый fallback"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Два телефона найдены в одной сети"
+          },
+          {
+            "kind": "stress",
+            "example": "Телефоны в разных сетях, ссылка просрочена"
+          },
+          {
+            "kind": "failure",
+            "example": "Локальная сеть запрещена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фоновая работа",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "fetch · processing · remote notification · BGTask",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять фоновыми операциями",
+        "primaryAction": "Обновить план сейчас",
+        "hierarchy": {
+          "primary": "Очередь задач и время запуска",
+          "secondary": "Тогглы и ручные fallback-операции"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обновление и OCR запланированы"
+          },
+          {
+            "kind": "stress",
+            "example": "240 фото стоят в очереди OCR"
+          },
+          {
+            "kind": "failure",
+            "example": "Задача отменена системой"
+          }
+        ]
+      }
+    },
+    {
+      "id": "privacy",
+      "title": "Подбор советов",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "ATT после явного жеста",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Объяснить ATT до промпта",
+        "primaryAction": "Настроить подбор",
+        "hierarchy": {
+          "primary": "Карточка совета и роль IDFA",
+          "secondary": "Неперсональный fallback и политика"
+        },
+        "states": [
+          "default",
+          "error",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Одна карточка с честным пояснением"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный текст не скрывает право отказа"
+          },
+          {
+            "kind": "failure",
+            "example": "ATT запрещён, но штаб работает"
+          }
+        ]
+      }
+    },
+    {
+      "id": "access",
+      "title": "20 доступов",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Статус, триггер, fallback",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Показать статус и fallback каждого доступа",
+        "primaryAction": "Проверить отказы",
+        "hierarchy": {
+          "primary": "20 строк со статусами",
+          "secondary": "Короткий fallback и переход к функции"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Разные статусы для всех 20 строк"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные fallback-описания не ломают список"
+          },
+          {
+            "kind": "failure",
+            "example": "Три основных доступа запрещены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "finish",
+      "title": "Завершение",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Сверка и отключение фона",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Сверить опись и закрыть штаб",
+        "primaryAction": "Закрыть штаб",
+        "hierarchy": {
+          "primary": "Сверка коробок и критических вещей",
+          "secondary": "Экспорт и отключение фона"
+        },
+        "states": [
+          "default",
+          "error",
+          "offline"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "42 из 42 коробок доехали"
+          },
+          {
+            "kind": "stress",
+            "example": "Одна коробка не совпала по QR"
+          },
+          {
+            "kind": "failure",
+            "example": "Архив не экспортировался"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "move-day",
+      "hero": true,
+      "label": "День переезда",
+      "note": "Весь штаб: скан, маршрут, связь, помощники и сверка",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "today",
+        "boxes",
+        "box",
+        "scan",
+        "route",
+        "voice",
+        "helpers",
+        "settings",
+        "handoff",
+        "background",
+        "privacy",
+        "access",
+        "finish"
+      ],
+      "stops": []
+    },
+    {
+      "id": "permissions",
+      "label": "20 доступов",
+      "note": "Все триггеры и fallback-пути",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "access",
+        "handoff",
+        "background",
+        "privacy",
+        "helpers",
+        "route",
+        "voice",
+        "boxes",
+        "box",
+        "scan",
+        "finish"
+      ],
+      "stops": []
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Совместная опись рядом",
+      "solution": "Bonjour и Network.framework сверяют зашифрованную дельту"
+    },
+    {
+      "needs": "Удалённое приглашение",
+      "solution": "Одноразовый зашифрованный пакет по Universal Link"
+    },
+    {
+      "needs": "Архив переезда",
+      "solution": "Core Data, FileManager и зашифрованный экспорт"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Переезд — штаб коробок",
+    "subtitle": "QR-опись и машины в пути",
+    "promo": "Сканируйте коробки, распределяйте задачи между помощниками и следите за машинами в одном штабе переезда.",
+    "keywords": "коробки,qr,погрузка,выгрузка,комнаты,маршрут,помощники,вещи",
+    "category": {
+      "primary": "Utilities",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно; одна партнёрская карточка",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://pereezd.app/support",
+      "marketing": "https://pereezd.app",
+      "privacy": "https://pereezd.app/privacy"
+    },
+    "description": [
+      "Штаб одного квартирного переезда, а не маркетплейс грузчиков.",
+      "QR-опись связывает коробку, комнату, машину и очередь.",
+      "Водители делятся движением только до приезда.",
+      "ПОМОЩНИКИ\nНазначайте ответственных за коробки, машину и ключи. В штабе видно, кто взял задачу и где нужна помощь."
+    ],
+    "whatsNew": "Первая версия: штаб переезда, метки коробок, маршруты машин, роли помощников и передача доступа.",
+    "privacy": [
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Машины в пути"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA только после ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 555-01-24",
+      "password": "review2026",
+      "note": "Без OTP; есть гостевой вход."
+    },
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        {
+          "screen": "today",
+          "headline": "Весь переезд перед глазами",
+          "body": "Текущий этап и ближайшая задача всегда перед глазами"
+        },
+        {
+          "screen": "boxes",
+          "headline": "Знайте, где каждая коробка",
+          "body": "Метки показывают, где находится каждая коробка"
+        },
+        {
+          "screen": "route",
+          "headline": "Следите за всеми машинами",
+          "body": "Машины и время прибытия видны на одной карте"
+        },
+        {
+          "screen": "helpers",
+          "headline": "Распределяйте задачи по людям",
+          "body": "У каждого помощника есть роль и ближайшее действие"
+        },
+        {
+          "screen": "scan",
+          "headline": "Сканируйте коробки на ходу",
+          "body": "Меняйте этап коробки при погрузке и разгрузке"
+        }
+      ]
+    }
+  },
+  "acceptance": []
 }

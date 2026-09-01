@@ -26,8 +26,6 @@
 - `npm test -- today` — 61/61 сценарий зелёный.
 - `npm run shots -- today` — 16/16 PNG пересняты.
 
-Все 16 экранов просмотрены по отдельности в браузере на 376×812. Дополнительно вручную пройдены `phone → code → home`, пять root tabs, push/back для match и friends, grant для Location/Photos, deny fallback для Location/Camera/Microphone и entitlement Communication Notifications без системного prompt.
-
 ---
 
 > **Состав концепта изменился после этого прохода.** Проход выше описывает состав на момент проверки — числа в нём оставлены как есть, потому что перечисленные ниже экраны в тот проход не входили.

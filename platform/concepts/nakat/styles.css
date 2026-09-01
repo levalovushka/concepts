@@ -110,32 +110,6 @@
 .nk-cc-title { font: 500 13px/17px var(--face); letter-spacing: -.01em; margin-top: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .nk-cc-sub { font-size: 11px; line-height: 14px; color: var(--ios-secondary); margin-top: 1px; }
 
-/* ——— звонок ——— */
-.nk-call { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; padding: calc(var(--safe-top) + 24px) 24px var(--safe-bottom); color: #fff; }
-.nk-call-face { width: 108px; height: 108px; border-radius: 50%; flex: none; }
-.nk-call-who { font: 600 27px/32px var(--face); letter-spacing: -.03em; margin-top: 18px; }
-.nk-call-state { font: 400 15px/20px var(--face); color: rgba(235,235,245,.6); margin-top: 5px; }
-.nk-call-hint {
-  display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px;
-  background-color: rgba(255,255,255,.1); font: 400 13px/17px var(--face); color: rgba(235,235,245,.82);
-  text-align: left; margin-top: 16px;
-}
-.nk-call-hint .ico-svg { width: 16px; height: 16px; flex: none; }
-.nk-call-pad { display: flex; gap: 24px; justify-content: center; margin-top: 26px; }
-.nk-call-key { display: flex; flex-direction: column; align-items: center; gap: 6px; font: 400 12px/15px var(--face); color: rgba(235,235,245,.75); }
-.nk-call-key > span:first-child {
-  width: 62px; height: 62px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background-color: rgba(255,255,255,.12);
-}
-.nk-call-key .ico-svg { width: 24px; height: 24px; }
-.nk-call-key.off > span:first-child { background-color: rgba(255,255,255,.28); }
-.nk-call-end-row { margin-top: 28px; padding-bottom: 20px; }
-.nk-call-end {
-  width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background-color: var(--ios-red); color: #fff;
-}
-.nk-call-end .ico-svg { width: 28px; height: 28px; }
-
 /* ——— сканер ——— */
 .nk-scan-frame {
   position: absolute; left: 50%; top: 46%; transform: translate(-50%,-50%); z-index: 2;
@@ -237,11 +211,6 @@
 /* ——— локскрин: Now Playing и уведомления ——— */
 .nk-lock-date { font: 400 15px/20px var(--face); color: rgba(255,255,255,.75); }
 .nk-lock-time { font: 300 76px/80px var(--face); letter-spacing: -.03em; margin-top: 2px; }
-.nk-lock-focus {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 5px 11px; border-radius: 999px;
-  background-color: rgba(255,255,255,.16); font: 500 13px/16px var(--face); color: #fff; align-self: flex-start;
-}
-.nk-lock-focus .ico-svg { width: 15px; height: 15px; }
 .nk-notif {
   display: flex; gap: 11px; align-items: flex-start; padding: 12px 14px; border-radius: 16px;
   background-color: rgba(255,255,255,.16); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: #fff;
@@ -270,18 +239,6 @@
 .nk-np-btn.main .ico-svg { width: 34px; height: 34px; }
 .nk-np-route { display: flex; align-items: center; gap: 8px; margin-top: 14px; font: 400 13px/17px var(--face); color: rgba(255,255,255,.7); }
 .nk-np-route .ico-svg { width: 15px; height: 15px; }
-
-/* ——— переписка ——— */
-.nk-chat { padding: 12px var(--margin) 8px; display: flex; flex-direction: column; }
-.nk-day { align-self: center; font: 500 12px/16px var(--face); color: var(--ios-secondary); margin: 6px 0 10px; }
-.nk-msg { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 10px; max-width: 88%; }
-.nk-msg.out { align-self: flex-end; }
-.nk-bub {
-  padding: 9px 12px 7px; border-radius: 16px 16px 16px 5px; background-color: var(--grouped-background);
-  font: 400 15px/20px var(--face);
-}
-.nk-bub.out { border-radius: 16px 16px 5px 16px; background-color: color-mix(in srgb, var(--accent-fill) 14%, transparent); }
-.nk-bub-time { font-size: 11px; color: var(--ios-secondary); margin-top: 3px; text-align: right; }
 
 /* ——— профиль в разделе «Ещё» ——— */
 .nk-me { padding: 16px; border-radius: 16px; background-color: var(--grouped-background); margin-bottom: 20px; }

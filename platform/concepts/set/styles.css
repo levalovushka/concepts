@@ -642,4 +642,8 @@
 /* Discover filters fit as one clean row; no cropped fifth chip. */
 [data-screen="discover"] .cx-pills{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin:-2px 0 14px!important;padding:2px 0!important;overflow:visible!important}
 [data-screen="discover"] .cx-pills button{display:block!important;width:100%!important;min-width:0!important;padding:0 6px!important;font-size:12px!important}
+
+.unified-auth.auth-set h1{font-weight:700!important}
+.unified-auth.auth-set .unified-auth-back{color:#0077ff!important}
+.unified-auth.auth-set .unified-auth-actions>.btn-filled{background:#0077ff!important;color:#fff!important}
 [data-screen="discover"] .cx-pills button:last-child{display:none!important}

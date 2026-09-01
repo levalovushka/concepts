@@ -37,6 +37,7 @@
       "body": "Согласуйте маршрут, остановки и время выезда заранее"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

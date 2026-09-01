@@ -38,6 +38,7 @@
       "body": "Сохраняйте важные секунды в короткие видео"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

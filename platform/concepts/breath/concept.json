@@ -5,8 +5,8 @@
   "qualityContractVersion": 1,
   "uiContractVersion": 2,
   "brand": {
-    "accent": "#B22BC6",
-    "accentDark": "#E56BFF",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
   "deck": "Дыхательные сессии, в которых музыка задаёт ритм без лишних инструкций. Пять системных интеграций включаются только в контексте функции.",

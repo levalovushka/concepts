@@ -4,7 +4,7 @@
   "category": "Social Networking",
   "contentModel": ["person", "post", "conversation", "group", "interest"],
   "navigation": ["feed", "discussions", "messages", "music", "interests"],
-  "requiredNavigationRoles": ["feed", "messages", "profile"],
+  "requiredNavigationRoles": ["feed", "discussions", "profile"],
   "productInvariants": [
     "Лента состоит из публикаций знакомых людей и групп, а не из редакционных карточек",
     "Профиль показывает идентичность, связи и собственную активность",

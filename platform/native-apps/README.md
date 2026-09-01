@@ -6,9 +6,15 @@
 ```bash
 npm run app -- <slug>       # Xcode-проект: Info.plist, entitlements, pbxproj
 npm run app:run -- <slug>   # собрать, поставить в симулятор, запустить
+npm run shots:native -- <slug> # снять SwiftUI-экраны для App Store
 ```
 
 Нужен macOS с Xcode 26 и симулятором `iPhone 17 Pro` (другой — через `CAMO_DEVICE`).
+
+Если у концепта есть SwiftUI-версия, `native-apps/<slug>/app-store.json`
+связывает ID продуктовых экранов с launch-аргументами приложения. Генератор
+App Store сначала пересобирает приложение и снимает эти состояния в симуляторе;
+веб-прототип остаётся fallback только для концептов без нативной реализации.
 
 ## Порядок работы
 

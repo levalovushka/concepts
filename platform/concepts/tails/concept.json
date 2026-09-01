@@ -45,7 +45,8 @@
       "Лента с реакциями",
       "Профили и друзья",
       "Сообщества и сообщения",
-      "Короткие вертикальные истории"
+      "Короткие вертикальные истории",
+      "Календарь прививок, обработок и наблюдений владельца"
     ],
     "distinctions": [
       "Профиль принадлежит питомцу",
@@ -57,15 +58,15 @@
       "pet",
       "nearby",
       "places",
-      "chats"
+      "vaccine"
     ],
     "referencePatterns": [
       "social-feed",
-      "messaging",
       "profile",
       "create-post",
       "communities"
-    ]
+    ],
+    "referenceEvidence": []
   },
   "brand": {
     "accent": "#0077FF",
@@ -87,8 +88,9 @@
       "label": "Создать"
     },
     {
-      "id": "chats",
-      "label": "Сообщения"
+      "id": "vaccine",
+      "label": "Здоровье",
+      "role": "health"
     },
     {
       "id": "profile",
@@ -136,14 +138,14 @@
       "key": "mic",
       "plist": "NSMicrophoneUsageDescription",
       "alert": {
-        "title": "«Хвосты» запрашивают доступ к микрофону",
-        "text": "Чтобы записать голосовое владельцу питомца."
+        "title": "«Хвосты» запрашивает доступ к микрофону",
+        "text": "Чтобы надиктовать наблюдение в карточку питомца."
       },
-      "feature": "Голосовые в личном чате",
-      "gesture": "«Записать голосовое»",
-      "screen": "chat",
-      "target": "voice",
-      "fallback": "Остаются текст и фото",
+      "feature": "Голосовое наблюдение владельца в карточке питомца",
+      "gesture": "«Надиктовать наблюдение»",
+      "screen": "vetnote",
+      "target": "vetnote",
+      "fallback": "Наблюдение можно записать текстом",
       "snack": "Микрофон недоступен — напишите сообщение",
       "risk": "low",
       "anchor": false,
@@ -185,25 +187,6 @@
       "anchor": false,
       "conditional": true,
       "grounding": "APNs через FCM topics",
-      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
-    },
-    {
-      "key": "commnotif",
-      "plist": "com.apple.developer.usernotifications.communication",
-      "alert": {
-        "title": "Уведомления как сообщения",
-        "text": "Сообщение приходит с аватаром питомца и учитывает Focus."
-      },
-      "activate": true,
-      "feature": "Чаты с аватарами в уведомлениях",
-      "gesture": "«Сообщения с аватаром»",
-      "screen": "chat",
-      "target": "chat",
-      "fallback": "Обычное уведомление без аватара",
-      "risk": "low",
-      "anchor": false,
-      "conditional": true,
-      "grounding": "INSendMessageIntent + Notification Service Extension",
       "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
     },
     {
@@ -433,26 +416,6 @@
       "reviewNote": "Сценарий: владелец отрабатывает команды на улице, телефон в кармане, обе руки заняты поводком и лакомством. Приложить видео с локскрином: название занятия и работающие ±15 секунд."
     },
     {
-      "key": "voip",
-      "plist": "UIBackgroundModes: voip",
-      "alert": {
-        "title": "Звонки в приложении",
-        "text": "Входящий звонок догситтера поднимется обычным экраном вызова."
-      },
-      "activate": true,
-      "feature": "Созвон с догситтером и передержкой без обмена номерами",
-      "gesture": "«Позвонить»",
-      "screen": "chat",
-      "target": "call",
-      "fallback": "Остаётся переписка в чате",
-      "risk": "high",
-      "anchor": false,
-      "conditional": true,
-      "requires": "PushKit + CallKit: входящий звонок поднимается системным экраном вызова, иначе ключ не заявляется",
-      "grounding": "PushKit VoIP push поднимает CallKit, медиапоток идёт через SDK провайдера",
-      "reviewNote": "Звонок нужен, чтобы договориться о передержке и забрать животное, не раскрывая номер: стороны видят профиль и питомца, но не телефон. Каждый VoIP-push поднимает CallKit — фонового опроса на этом ключе нет."
-    },
-    {
       "key": "calendar",
       "plist": "NSCalendarsFullAccessUsageDescription + NSCalendarsUsageDescription",
       "alert": {
@@ -508,6 +471,44 @@
       "anchor": false,
       "conditional": false,
       "grounding": "NEHotspotConfigurationManager, имя сети и пароль приходят из QR-кода на стенде площадки"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Обновление от ветеринара",
+        "text": "Entitlement без системного запроса: перенос приёма приходит с именем врача."
+      },
+      "activate": true,
+      "feature": "Именное изменение записи ветеринаром",
+      "gesture": "«Обновления врача»",
+      "screen": "vaccine",
+      "target": "vaccine",
+      "fallback": "Новая дата остаётся в ветпаспорте и обычном уведомлении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "INSendMessageIntent только для структурированного изменения записи",
+      "grounding": "Свободной переписки с врачом нет"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Видеоприём клиники",
+        "text": "Entitlement без системного запроса: ветеринар проводит забронированный видеоосмотр."
+      },
+      "activate": true,
+      "feature": "Забронированный видеоосмотр питомца клиникой",
+      "gesture": "«Начать видеоосмотр»",
+      "screen": "vaccine",
+      "target": "vaccine",
+      "fallback": "Можно приложить видео наблюдения к записи на очный приём",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "CallKit + WebRTC только для подтверждённого приёма",
+      "grounding": "Нет каталога врачей и произвольных звонков"
     }
   ],
   "screens": [
@@ -577,7 +578,7 @@
       "ui": {
         "pattern": "detail",
         "purpose": "Познакомиться",
-        "primaryAction": "Написать",
+        "primaryAction": "Открыть здоровье",
         "states": [
           "default",
           "loading",
@@ -753,86 +754,6 @@
           "шесть собак сейчас",
           "площадка закрыта на покос",
           "щенковая площадка"
-        ]
-      }
-    },
-    {
-      "id": "chats",
-      "title": "Сообщения",
-      "type": "tab (root)",
-      "light": true,
-      "meta": "Диалоги",
-      "ui": {
-        "pattern": "collection",
-        "purpose": "Вернуться к диалогам",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "high",
-        "contentCases": [
-          "личный",
-          "группа",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "chat",
-      "title": "Чат",
-      "type": "push",
-      "light": true,
-      "parent": "chats",
-      "meta": "Личный диалог",
-      "ui": {
-        "pattern": "detail",
-        "purpose": "Договориться",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "medium",
-        "contentCases": [
-          "текст",
-          "голос",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "voice",
-      "title": "Голосовое",
-      "type": "modal",
-      "light": true,
-      "parent": "chat",
-      "meta": "Запись",
-      "ui": {
-        "pattern": "capture",
-        "purpose": "Записать голос",
-        "primaryAction": "Отправить",
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "запись",
-          "пустое состояние",
-          "нет сети"
         ]
       }
     },
@@ -1134,38 +1055,10 @@
       }
     },
     {
-      "id": "call",
-      "title": "Звонок догситтеру",
-      "type": "fullscreen",
-      "light": false,
-      "parent": "chat",
-      "meta": "VoIP · номер не раскрыт",
-      "ui": {
-        "pattern": "state",
-        "purpose": "Договориться о передержке, не раскрывая номер",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "идёт вызов",
-          "связь слабая",
-          "звонок завершён"
-        ]
-      }
-    },
-    {
       "id": "vaccine",
       "title": "Прививки и обработки",
-      "type": "push",
+      "type": "tab (root)",
       "light": true,
-      "parent": "pet",
       "meta": "Календарь · сроки и переносы",
       "ui": {
         "pattern": "detail",
@@ -1260,9 +1153,6 @@
         "camera",
         "media",
         "places",
-        "chats",
-        "chat",
-        "voice",
         "profile",
         "settings",
         "widget",
@@ -1274,7 +1164,6 @@
         "vetnote",
         "course",
         "background",
-        "call",
         "vaccine",
         "netqr",
         "shareext"
@@ -1309,7 +1198,6 @@
         "create",
         "home",
         "nearby",
-        "chats",
         "profile",
         "camera",
         "media",
@@ -1318,41 +1206,17 @@
       "stops": [
         "home",
         "nearby",
-        "chats",
         "profile",
         "shareext"
       ]
     },
     {
-      "id": "social",
-      "label": "Знакомство",
-      "note": "Питомец, сообщества и сообщение",
-      "start": "chats",
-      "screens": [
-        "chats",
-        "chat",
-        "nearby",
-        "create",
-        "profile",
-        "voice",
-        "call",
-        "mates"
-      ],
-      "stops": [
-        "nearby",
-        "create",
-        "profile",
-        "mates"
-      ]
-    },
-    {
       "id": "care",
       "label": "Забота о питомце",
-      "note": "Ветпаспорт под замком, сроки из паспорта в календаре, наблюдение голосом и созвон с догситтером",
+      "note": "Сценарий «календарь прививок, обработок и наблюдений владельца»",
       "start": "pet",
       "screens": [
         "pet",
-        "chat",
         "vaccine",
         "vetnote",
         "home",
@@ -1360,7 +1224,6 @@
         "lock"
       ],
       "stops": [
-        "chat",
         "home",
         "course",
         "lock"
@@ -1410,7 +1273,7 @@
   "appStore": {
     "name": "Хвосты",
     "subtitle": "Компания для каждой прогулки",
-    "promo": "Знакомьтесь через питомцев, находите прогулки рядом и оставайтесь на связи.",
+    "promo": "Находите прогулки рядом и храните прививки, обработки, документы и наблюдения в профиле питомца.",
     "keywords": "питомцы,собаки,кошки,район,общение",
     "category": {
       "primary": "Social Networking",
@@ -1426,9 +1289,10 @@
     },
     "description": [
       "Социальная сеть, где профиль принадлежит питомцу.",
-      "ЛЕНТА И ПРОГУЛКИ\nМоменты друзей, сообщества и компании рядом."
+      "ЛЕНТА И ПРОГУЛКИ\nМоменты друзей, сообщества и компании рядом.",
+      "ЗДОРОВЬЕ ПИТОМЦА\nПрививки, обработки, документы и наблюдения владельца собраны по датам. Напоминания появляются до важного срока."
     ],
-    "whatsNew": "Первая версия: лента, прогулки, сообщества и сообщения.",
+    "whatsNew": "Первая версия: профили питомцев, прогулки, площадки рядом, календарь здоровья и курс послушания.",
     "privacy": [
       {
         "type": "Медиа и геопозиция",
@@ -1459,12 +1323,31 @@
       "locale": "ru-RU",
       "template": "studio",
       "screens": [
-        { "screen": "home", "headline": "Свои рядом", "body": "Знакомьтесь с питомцами и хозяевами своего района" },
-        { "screen": "pet", "headline": "Найдите компанию по характеру", "body": "Профиль подскажет, подойдут ли питомцы друг другу" },
-        { "screen": "nearby", "headline": "Прогулки поблизости", "body": "Темп, расстояние и компания видны до встречи" },
-        { "screen": "places", "headline": "Места для прогулок", "body": "Покрытие, ограждение и загруженность в одной карточке" },
-        { "screen": "chats", "headline": "Договоритесь о встрече", "body": "Обсудите маршрут без обмена личными контактами" },
-        { "screen": "walk", "headline": "Сохраните маршрут прогулки", "body": "Расстояние и время останутся в истории питомца" }
+        {
+          "screen": "home",
+          "headline": "Свои рядом",
+          "body": "Знакомьтесь с питомцами и хозяевами своего района"
+        },
+        {
+          "screen": "pet",
+          "headline": "Профиль с характером",
+          "body": "Возраст, привычки и любимый темп видны сразу"
+        },
+        {
+          "screen": "nearby",
+          "headline": "Прогулки поблизости",
+          "body": "Темп, расстояние и компания видны до встречи"
+        },
+        {
+          "screen": "vaccine",
+          "headline": "Держите заботу под контролем",
+          "body": "Прививки, обработки и документы собраны по датам"
+        },
+        {
+          "screen": "places",
+          "headline": "Места для прогулок",
+          "body": "Покрытие, ограждение и загруженность видны в карточке"
+        }
       ]
     },
     "reviewAccount": {
@@ -1477,5 +1360,6 @@
     "mode": "email",
     "confirmation": false,
     "entryTarget": "home"
-  }
+  },
+  "acceptance": []
 }

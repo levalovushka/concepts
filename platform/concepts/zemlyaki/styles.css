@@ -224,60 +224,6 @@
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
-
-/* —— переписка —— */
-.r-chat-scroll {
-  padding: 10px var(--margin) 8px;
-  display: flex;
-  flex-direction: column;
-}
-/* Переписка прижата к низу: живой разговор начинается снизу, а не сверху. */
-.r-chat-scroll > :first-child {
-  margin-top: auto;
-}
-.r-daydiv {
-  align-self: center;
-  margin: 6px auto 10px;
-  padding: 4px 12px;
-  border-radius: 12px;
-  background-color: rgba(60, 60, 67, 0.1);
-  font: 400 12px/16px var(--face);
-  color: var(--ios-secondary);
-  width: fit-content;
-}
-.r-bub {
-  max-width: 76%;
-  margin-bottom: 8px;
-  padding: 9px 12px 7px;
-  border-radius: 16px;
-  background-color: #fff;
-  font: 400 15px/20px var(--face);
-  letter-spacing: -0.01em;
-}
-.r-bub.mine {
-  margin-left: auto;
-  background-color: rgba(238, 114, 3, 0.14);
-}
-.r-bub-time {
-  display: block;
-  margin-top: 2px;
-  text-align: right;
-  font: 400 11px/14px var(--face);
-  color: var(--ios-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.r-voicemsg {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 190px;
-}
-.r-voicemsg .ico-svg {
-  width: 22px;
-  height: 22px;
-  flex: none;
-  color: var(--accent-fill);
-}
 .r-wave {
   flex: 1;
   height: 22px;
@@ -288,43 +234,6 @@
     transparent 2px 5px
   );
   opacity: 0.55;
-}
-.r-kinbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background-color: #fff;
-  border-bottom: 0.5px solid rgba(60, 60, 67, 0.12);
-}
-.r-kinbar-copy {
-  flex: 1;
-  min-width: 0;
-}
-.r-kinbar-t {
-  font: 500 14px/19px var(--face);
-}
-.r-kinbar-s {
-  font: 400 13px/17px var(--face);
-  color: var(--ios-secondary);
-}
-.r-inputbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px var(--margin);
-  background-color: #fff;
-  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
-}
-.r-input {
-  flex: 1;
-  min-width: 0;
-  min-height: 40px;
-  padding: 10px 14px;
-  border-radius: 20px;
-  background-color: rgba(118, 118, 128, 0.12);
-  font: 400 15px/20px var(--face);
-  color: var(--ios-secondary);
 }
 
 /* —— плеер и аудиоархив —— */
@@ -567,24 +476,6 @@
   border: 0;
 }
 
-/* Круглая кнопка голосового в строке ввода — как в ОК. */
-.r-mic {
-  width: 40px;
-  height: 40px;
-  flex: none;
-  border: 0;
-  cursor: pointer;
-  border-radius: 50%;
-  background-color: var(--accent-fill);
-  color: var(--on-accent);
-  display: grid;
-  place-items: center;
-}
-.r-mic .ico-svg {
-  width: 20px;
-  height: 20px;
-}
-
 /* Плейсхолдер внутри контейнера-носителя обязан заполнять его целиком:
    без размеров он схлопывается до иконки и прижимается к левому верхнему углу. */
 .r-post-face > .ph,
@@ -640,10 +531,6 @@
 .r-page .navbar {
   background-color: #fff;
 }
-/* Строка ввода не наезжает на индикатор «Домой». */
-.r-inputbar {
-  padding-bottom: calc(var(--safe-bottom) - 8px);
-}
 
 /* Заголовок и подпись записи в карточке плеера. */
 
@@ -668,37 +555,8 @@
   align-items: center;
   text-align: center;
 }
-.r-call-face {
-  width: 108px;
-  height: 108px;
-  margin: 26px 0 18px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex: none;
-}
-.r-call-face > .ph {
-  width: 100%;
-  height: 100%;
-}
-.r-call-name {
-  font: 700 28px/34px var(--face);
-  letter-spacing: -0.02em;
-  color: #fff;
-}
-.r-call-sub {
-  margin-top: 4px;
-  font: 400 15px/20px var(--face);
-  color: rgba(255, 255, 255, 0.66);
-}
-.r-call-timer {
-  margin-top: 10px;
-  font: 500 17px/22px var(--face);
-  color: rgba(255, 255, 255, 0.86);
-  font-variant-numeric: tabular-nums;
-}
-.r-call-ctl,
 .r-np-ctl,
-.r-cast-ctl {
+.r-cast-ctl{
   gap: 22px;
   margin-bottom: 20px;
 }
@@ -706,8 +564,7 @@
   width: 100%;
   padding-bottom: 8px;
 }
-.r-hangup,
-.r-stopcast {
+.r-stopcast{
   width: 100%;
   min-height: 56px;
   border: 0;
@@ -718,10 +575,6 @@
   justify-content: center;
   gap: 10px;
   font: 600 17px/1 var(--face);
-}
-.r-hangup {
-  background-color: #e5342b;
-  color: #fff;
 }
 .r-stopcast {
   background-color: rgba(255, 255, 255, 0.16);
@@ -741,70 +594,6 @@
   width: 100%;
   margin-bottom: 10px;
   text-align: left;
-}
-/* Баннер входящего звонка на локскрине: матовая карточка с двумя кнопками. */
-.r-incoming {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 14px;
-  border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.14);
-  text-align: left;
-}
-.r-incoming-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.r-incoming-face {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  border-radius: 50%;
-  overflow: hidden;
-}
-.r-incoming-face > .ph {
-  width: 100%;
-  height: 100%;
-}
-.r-incoming-copy {
-  flex: 1;
-  min-width: 0;
-}
-.r-incoming-name {
-  font: 600 16px/21px var(--face);
-  color: #fff;
-}
-.r-incoming-sub {
-  font: 400 14px/19px var(--face);
-  color: rgba(255, 255, 255, 0.68);
-}
-.r-incoming-when {
-  flex: none;
-  font: 400 13px/18px var(--face);
-  color: rgba(255, 255, 255, 0.55);
-}
-.r-incoming-acts {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-}
-.r-decline,
-.r-accept {
-  flex: 1;
-  min-height: 46px;
-  border: 0;
-  cursor: pointer;
-  border-radius: 23px;
-  font: 600 16px/1 var(--face);
-}
-.r-decline {
-  background-color: rgba(255, 255, 255, 0.18);
-  color: #fff;
-}
-.r-accept {
-  background-color: #34c759;
-  color: #fff;
 }
 .r-nowplaying {
   padding: 12px 14px 4px;
@@ -870,9 +659,7 @@
   padding-left: 20px;
   padding-right: 20px;
 }
-
-.r-call .grow,
-.r-cast .grow {
+.r-cast .grow{
   flex: 1;
   min-height: 0;
 }
@@ -1100,8 +887,6 @@
 .r-row:has(.r-row-face.is-art) { min-height: 72px; }
 .r-post-face,
 .r-row-face:not(.is-art) { width: 44px; height: 44px; border-radius: 50%; }
-.r-call-face,
-.r-incoming-face { width: 44px; height: 44px; border-radius: 50%; }
 .r-cast-art {
   width: 160px;
   height: 120px;

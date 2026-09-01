@@ -37,6 +37,7 @@
       "body": "Музыка продолжает играть, когда экран погас или телефон заблокирован"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

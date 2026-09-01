@@ -1163,7 +1163,7 @@
   height: 58px;
   padding: 3px;
   border-radius: 50%;
-  background: conic-gradient(var(--rd-accent), #ffb09f, var(--rd-accent));
+  background: conic-gradient(var(--rd-accent), #73b5ff, var(--rd-accent));
   margin-bottom: 6px;
 }
 .rd-story-ring > div {
@@ -1303,9 +1303,9 @@
   --rd-faint: #737983;
   --rd-line: #2a2c31;
   --rd-soft: #1d1f23;
-  --rd-warm: #30201d;
-  --rd-accent: #ff563f;
-  --rd-blue: #4b7dff;
+  --rd-warm: #16283d;
+  --rd-accent: #0077ff;
+  --rd-blue: #0077ff;
   --rd-green: #3b9a70;
   background: #0d0f12 !important;
   color: var(--rd-ink) !important;
@@ -1488,9 +1488,9 @@
   --rd-faint: #6d7885;
   --rd-line: #343434;
   --rd-soft: #232323;
-  --rd-warm: #35231f;
-  --rd-accent: #ff5c4d;
-  --rd-blue: #4986cc;
+  --rd-warm: #16283d;
+  --rd-accent: #0077ff;
+  --rd-blue: #0077ff;
   background: #191919 !important;
   color: #f2f3f5 !important;
 }
@@ -1659,11 +1659,11 @@
   color: #111 !important;
 }
 .rd-primary.accent {
-  background: #ff5c4d !important;
+  background: #0077ff !important;
   color: #fff !important;
 }
 .rd-primary.blue {
-  background: #4986cc !important;
+  background: #0077ff !important;
   color: #fff !important;
 }
 
@@ -2115,7 +2115,7 @@
   background: transparent !important;
 }
 .rd-story-ring > div {
-  border: 2px solid #ff5c4d !important;
+  border: 2px solid #0077ff !important;
 }
 
 .rd-vk-profile {
@@ -3132,7 +3132,7 @@
   padding: 2px !important;
   border: 0 !important;
   border-radius: 50% !important;
-  background: #ff5c4d !important;
+  background: #0077ff !important;
 }
 .screen[data-screen="subscriptions"] .rd-story-ring > div {
   width: 48px !important;

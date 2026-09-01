@@ -37,6 +37,7 @@
       "body": "Задайте длительность блоков перед первым прогоном"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

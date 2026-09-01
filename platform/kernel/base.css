@@ -158,6 +158,9 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .status.dark-ink { color:#000; text-shadow:none; background:transparent!important; }
 .status-right { display:flex; align-items:center; height:13px; gap:5px; }
 .status-right svg { display:block; }
+.status-cellular,
+.status-wifi,
+.status-battery { display:block; flex:none; }
 .screens { flex:1; min-height:0; position:relative; }
 .screen { display:none; position:absolute; inset:0; flex-direction:column; background:var(--background); }
 .screen.is-on { display:flex; }
@@ -628,7 +631,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 }
 .unified-auth .auth-mark { width:56px; height:56px; margin-top:6px; }
 .unified-auth .auth-brand-glyph { width:28px; height:28px; }
-.unified-auth h1 { margin:24px 0 0; color:inherit; font:750 36px/40px var(--face); letter-spacing:-.035em; text-wrap:balance; }
+.unified-auth h1 { margin:24px 0 0; color:inherit; font:700 36px/40px var(--face); letter-spacing:-.035em; text-wrap:balance; }
 .unified-auth .unified-account-title { max-width:10ch; font-size:32px; line-height:35px; }
 .unified-auth-lede { margin:10px 0 0; max-width:34ch; color:color-mix(in srgb, currentColor 58%, transparent); font:400 16px/23px var(--face); text-wrap:balance; }
 .unified-auth-back {
@@ -993,3 +996,22 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .miniplayer.on-dark .miniplayer-sub { color:rgba(235,235,245,.6); }
 .miniplayer-bar { position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(120,120,128,.2); }
 .miniplayer-bar > i { display:block; height:100%; background:var(--accent-fill); }
+
+/* Capability cards keep permission-backed product features visible and honest.
+   They are shared across concept skins, but inherit each concept's type and surface. */
+.capability-feature {
+  margin:12px; padding:14px; border-radius:16px;
+  color:inherit; background:color-mix(in srgb,currentColor 6%,transparent);
+  border:1px solid color-mix(in srgb,currentColor 10%,transparent);
+}
+.capability-feature > strong { display:block; font:650 16px/21px var(--face); letter-spacing:-.015em; }
+.capability-feature > p { margin:4px 0 12px; color:color-mix(in srgb,currentColor 58%,transparent); font:400 13px/18px var(--face); }
+.capability-actions { display:grid; grid-template-columns:1fr; gap:8px; }
+.capability-action {
+  width:100%; min-height:44px; padding:10px 13px; border:0; border-radius:12px;
+  background:var(--accent-fill); color:#fff; font:600 14px/18px var(--face); text-align:center;
+}
+.capability-action.secondary {
+  background:color-mix(in srgb,var(--accent-fill) 14%,transparent); color:var(--accent-fill);
+}
+.capability-fallback { margin:9px 1px 0; color:color-mix(in srgb,currentColor 62%,transparent); font:400 12px/17px var(--face); }

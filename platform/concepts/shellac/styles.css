@@ -617,6 +617,7 @@
 .sm-login-name{color:#58a6ff!important}
 .sm-login-primary,.sm-primary,[id$="-scanfound"] .btn-filled{background:#0077ff!important;color:#fff!important}
 .sm-login-primary svg,.sm-primary svg,[id$="-scanfound"] .btn-filled svg{color:#fff!important;stroke:currentColor!important}
+.unified-auth.auth-shellac h1{font-weight:700!important}
 .sm-tabs .tab.is-on{color:#fff!important}
 .sm-detail-screen{background:radial-gradient(80% 38% at 50% 0,rgba(0,119,255,.15),transparent 72%),var(--sm-bg)!important}
 .sm-player-screen{background:radial-gradient(120% 52% at 50% 0,rgba(0,119,255,.18),transparent 68%),#090a0d!important}

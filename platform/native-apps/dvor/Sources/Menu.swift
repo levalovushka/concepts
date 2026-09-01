@@ -21,7 +21,7 @@ struct MenuView: View {
         .init(title: "Пароли дома", symbol: "key.fill", from: 0x4A5059, to: 0x767E8A, route: .passwords),
         .init(title: "Гостевая сеть", symbol: "wifi", from: 0xC0399F, to: 0xF061C2, route: .guest),
         .init(title: "Хроника", symbol: "photo.stack.fill", from: 0xE5442E, to: 0xFF7A4D, route: .chronicle, access: [.photos]),
-        .init(title: "Чаты", symbol: "bubble.left.fill", from: 0x5B4CE0, to: 0x7E6BFF, route: nil),
+        .init(title: "Заявки", symbol: "wrench.and.screwdriver.fill", from: 0x5B4CE0, to: 0x7E6BFF, route: .problem),
         .init(title: "Реклама", symbol: "megaphone.fill", from: 0xE03B57, to: 0xFF6B82, route: .ads, access: [.tracking]),
     ]
 
@@ -91,7 +91,7 @@ struct MenuView: View {
     /// в семантические токены он не входит.
     private func tileView(_ tile: MenuTile) -> some View {
         Button {
-            guard let route = tile.route else { nav.tab = .chats; return }
+            guard let route = tile.route else { return }
             if tile.access.isEmpty {
                 nav.push(route)
             } else {

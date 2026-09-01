@@ -48,9 +48,9 @@ for (const slug of slugs) {
 
 const dvor = JSON.parse(readFileSync(join(DIST, 'dvor', 'ux-spec.json'), 'utf8'));
 assert.deepEqual(dvor.gaps, [], 'Двор: эталонная UX-спека не должна содержать пробелов');
-assert.equal(dvor.counts.screens, 34, 'Двор: HTML и UX-спека должны видеть одинаковые 34 экрана');
-assert.equal(dvor.world?.entities?.length, 15, 'Двор: потеряна эталонная модель мира');
-assert.equal(dvor.world?.actions?.length, 18, 'Двор: потеряны эталонные действия');
+assert.equal(dvor.counts.screens, 29, 'Двор: HTML и UX-спека должны видеть одинаковые 29 экранов без мессенджера');
+assert.equal(dvor.world?.entities?.length, 13, 'Двор: потеряна эталонная модель мира');
+assert.equal(dvor.world?.actions?.length, 18, 'Двор: потеряны эталонные продуктовые действия');
 assert.equal(dvor.acceptance?.length, 17, 'Двор: потеряны сценарии приёмки');
 
 console.log(`UX-спеки: ${slugs.length} концептов · phone/password + optional account · состояния и графы согласованы`);

@@ -38,6 +38,7 @@
       "body": "Подписки собирают выступления тех, за кем вы следите"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

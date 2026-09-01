@@ -347,18 +347,6 @@
   font: 600 11px/1 var(--face); color: #fff;
 }
 
-/* Уведомление на локскрине: карточка сообщения с аватаром. */
-.pm-lockcard {
-  display: flex; gap: 10px; padding: 12px 14px; border-radius: 16px;
-  background-color: rgba(255,255,255,.16); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  color: #fff;
-}
-.pm-lockcard + .pm-lockcard { margin-top: 8px; }
-.pm-lock-app { font: 500 12px/16px var(--face); color: rgba(255,255,255,.7); }
-.pm-lock-t { font: 600 15px/20px var(--face); margin-top: 1px; }
-.pm-lock-x { font: 400 14px/19px var(--face); color: rgba(255,255,255,.86); margin-top: 1px; }
-.pm-lock-time { flex: none; font: 400 12px/16px var(--face); color: rgba(255,255,255,.7); }
-
 /* Виджет «Ближайшая смена» на экране «Домой». */
 .pm-widget {
   width: 158px; height: 158px; border-radius: 22px; padding: 14px;
@@ -398,17 +386,6 @@
 }
 .pm-check svg { width: 14px; height: 14px; stroke-width: 3; }
 .pm-check.is-on { background-color: var(--accent-fill); color: #fff; }
-
-/* Переписка: пузыри. */
-.pm-msgs { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; }
-.pm-msg {
-  max-width: 78%; padding: 9px 13px; border-radius: 18px;
-  background-color: #fff; font: 400 15px/20px var(--face); align-self: flex-start;
-}
-.pm-msg.me { background-color: var(--accent-fill); color: #fff; align-self: flex-end; }
-.pm-msg-time { font: 400 11px/15px var(--mono); color: var(--pm-mute); margin-top: 3px; text-align: right; }
-.pm-msg.me .pm-msg-time { color: rgba(255,255,255,.72); }
-.pm-msg-day { align-self: center; font: 400 12px/16px var(--face); color: var(--pm-mute); margin-top: 6px; }
 
 /* Крупная кнопка-действие поверх карточки (отметиться, откликнуться). */
 .pm-cta { padding: 0 16px calc(var(--safe-bottom) + 16px); }
@@ -452,38 +429,6 @@
   font: 500 15px/20px var(--face); color: rgba(255,255,255,.72);
   text-align: center; margin-top: -4px; margin-bottom: 22px;
 }
-.pm-lock-wid { display: flex; gap: 10px; margin-bottom: 16px; }
-.pm-lock-w {
-  flex: 1; border-radius: 14px; padding: 10px 12px; color: #fff;
-  background-color: rgba(255,255,255,.14);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-}
-.pm-lock-w-top { display: flex; align-items: center; gap: 5px; font: 500 11px/15px var(--face); color: rgba(255,255,255,.66); letter-spacing: .04em; text-transform: uppercase; }
-.pm-lock-w-top svg { width: 11px; height: 11px; }
-.pm-lock-w-v { font: 600 21px/25px var(--mono); letter-spacing: -.03em; margin-top: 4px; font-variant-numeric: tabular-nums; }
-.pm-lock-w-s { font: 400 11px/15px var(--face); color: rgba(255,255,255,.62); }
-.pm-lock-foot { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.pm-lock-hint { font: 400 12px/16px var(--face); color: rgba(235,235,245,.5); text-align: center; }
-
-/* —— CallKit-поверхность —— */
-.pm-call-top { text-align: center; margin-bottom: 26px; }
-.pm-call-app { font: 500 12px/16px var(--face); color: rgba(235,235,245,.6); letter-spacing: .04em; text-transform: uppercase; }
-.pm-call-name { font: 600 30px/36px var(--face); letter-spacing: -.03em; color: #fff; margin-top: 6px; }
-.pm-call-sub { font: 400 15px/20px var(--face); color: rgba(235,235,245,.68); margin-top: 4px; }
-.pm-call-state {
-  font: 500 15px/20px var(--face); color: var(--pm-lime);
-  font-variant-numeric: tabular-nums; margin-top: 18px; margin-bottom: 12px;
-}
-.pm-call-acts { display: flex; justify-content: center; gap: 26px; padding-bottom: 10px; }
-.pm-call-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 7px;
-  font: 400 12px/16px var(--face); color: rgba(235,235,245,.72);
-}
-.pm-call-btn svg {
-  width: 24px; height: 24px; padding: 18px; border-radius: 50%;
-  background-color: rgba(255,255,255,.16); color: #fff; box-sizing: content-box;
-}
-.pm-call-btn.end svg { background-color: var(--ios-red); }
 
 /* Face ID: системный запрос биометрии. */
 .pm-faceid {

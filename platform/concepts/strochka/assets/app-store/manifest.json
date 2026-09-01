@@ -37,6 +37,7 @@
       "body": "Слушайте свою партию отдельно и учите её в удобном темпе"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

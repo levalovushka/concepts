@@ -7,8 +7,8 @@
   --sk-faint: #a09a92;
   --sk-line: #e6e2dc;
   --sk-soft: #f5f2ec;
-  --sk-warm: #fdf1e0;
-  --sk-accent: #b4610a;
+  --sk-warm: #eaf3ff;
+  --sk-accent: #0077ff;
   --sk-steel: #3a5a78;
   --sk-ok: #2c7a4b;
 }
@@ -73,7 +73,7 @@
 .sk-ad-row p { margin: 3px 0 0; font-size: 13px; line-height: 17px; color: var(--sk-muted); }
 .sk-ad-poster { width: 66px; height: 66px; border-radius: 10px; flex: none; }
 
-.sk-fallback { margin: 0 16px 16px; padding: 11px 13px; border-radius: 12px; background-color: var(--sk-warm); color: #8a4a08; font-size: 13px; line-height: 18px; }
+.sk-fallback { margin: 0 16px 16px; padding: 11px 13px; border-radius: 12px; background-color: var(--sk-warm); color: #0057b8; font-size: 13px; line-height: 18px; }
 .sk-fallback.flat { margin-left: 0; margin-right: 0; }
 
 /* —— продолжить смотреть —— */

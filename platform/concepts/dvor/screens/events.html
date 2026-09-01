@@ -1,9 +1,7 @@
 <div class="screen d-page" id="scr-events">
-            <div class="body-scroll d-scroll d-safe">
+            <div class="body-scroll d-scroll d-safe"><section class="capability-feature"><strong>Заявки и домофон</strong><p>Надиктуйте заявку в диспетчерскую или примите вызов зарегистрированной панели дома.</p><div class="capability-actions"><button class="capability-action" data-ask="mic+speech|events|events">Надиктовать заявку</button><button class="capability-action secondary" data-activate="commnotif|events">Ответы диспетчера</button><button class="capability-action secondary" data-activate="voip|events">Проверить домофон</button></div><div class="capability-fallback perm-hidden" data-show-denied="mic,speech">Заполните заявку текстом — запись голоса не обязательна.</div></section>
               <div class="d-top">
-                <div class="d-back tap" data-back aria-label="Назад к двору">
-                  <svg class="ico-svg ios-back"><use href="#i-chevron-left"/></svg>
-                </div>
+                <div class="d-back"></div>
                 <div class="d-top-title sm">События дома</div>
               </div>
 
@@ -66,6 +64,12 @@
                 </div>
               </div>
 
+            </div>
+            <div class="tabbar d-dock" aria-label="Основная навигация">
+              <div class="tab tap" data-go="home" aria-label="Раздел Дом"><span class="ico"><svg class="ico-svg"><use href="#i-house"/></svg></span></div>
+              <div class="tab is-on tap" aria-current="page" data-go="events" aria-label="Раздел События"><span class="ico"><svg class="ico-svg"><use href="#i-calendar"/></svg></span><span class="d-badge">3</span></div>
+              <div class="tab tap" data-go="yard" aria-label="Раздел Двор"><span class="ico"><svg class="ico-svg"><use href="#i-map-pin"/></svg></span></div>
+              <div class="tab tap" data-go="menu" aria-label="Раздел Меню"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span></div>
             </div>
             <div class="home-ind" aria-hidden="true"></div>
           </div>

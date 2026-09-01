@@ -38,6 +38,7 @@
       "body": "Разбор показывает порядок работ и нужные детали"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

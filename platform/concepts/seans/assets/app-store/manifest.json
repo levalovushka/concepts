@@ -38,6 +38,7 @@
       "body": "Короткие фрагменты возвращают к лучшим сценам"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

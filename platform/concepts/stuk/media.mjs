@@ -20,7 +20,7 @@ import { seeded } from '../../kernel/media-primitives.mjs';
 const out = join(new URL('.', import.meta.url).pathname, 'assets', 'media');
 mkdirSync(out, { recursive: true });
 
-const ACCENT = '#b4610a';
+const ACCENT = '#0077ff';
 const STEEL = '#3a5a78';
 const IDLE = '#c9c2b8';
 

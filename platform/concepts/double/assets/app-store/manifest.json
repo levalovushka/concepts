@@ -38,6 +38,7 @@
       "body": "Короткая петля экономит время практики"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

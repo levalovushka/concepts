@@ -124,6 +124,13 @@ struct YardView: View {
                     DBullet(symbol: "calendar")
                 } action: { nav.push(.events) }
                 DHair(inset: 56)
+                DRow(title: "Проверить домофон", subtitle: "вызов только с панели у калитки") {
+                    DBullet(symbol: "video.fill")
+                } action: {
+                    access.activate(.voip, on: "yard")
+                    nav.show("Домофон готов принять вызов панели")
+                }
+                DHair(inset: 56)
                 DRow(title: "Мусорные баки", subtitle: "вывоз по чётным") {
                     DBullet(symbol: "trash")
                 } trailing: { EmptyView() }

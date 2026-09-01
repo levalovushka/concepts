@@ -7,15 +7,13 @@ enum Route: Hashable {
     case join, verify, manual
     // дом
     case post, problem, shoot, chronicle
-    // чаты
-    case chat, voice, lockscreen
     // двор
     case guest, scan, meters, background, events
     // меню
-    case passwords, fill, neighbors, profile, call, settings, ads, lock, widget
+    case passwords, fill, neighbors, profile, settings, ads, lock, widget
 }
 
-enum AppTab: Hashable { case home, chats, yard, menu }
+enum AppTab: Hashable { case home, events, yard, menu }
 
 @MainActor
 @Observable
@@ -23,7 +21,7 @@ final class Nav {
     var signedIn = false
     var authPath: [Route] = []
     var tab: AppTab = .home
-    var paths: [AppTab: [Route]] = [.home: [], .chats: [], .yard: [], .menu: []]
+    var paths: [AppTab: [Route]] = [.home: [], .events: [], .yard: [], .menu: []]
 
     var sheet: Route?
     var cover: Route?
@@ -31,6 +29,19 @@ final class Nav {
 
     /// Дом подтверждён домашней сетью, а не заявкой на модерацию.
     var homeConfirmed = false
+
+    init() {
+        guard let raw = ProcessInfo.processInfo.arguments.first(where: { $0.hasPrefix("-screen:") }) else { return }
+        let screen = String(raw.dropFirst("-screen:".count))
+        signedIn = true
+        switch screen {
+        case "events": tab = .events
+        case "yard": tab = .yard
+        case "post": tab = .home; paths[.home] = [.post]
+        case "home": tab = .home
+        default: tab = .home
+        }
+    }
 
     func push(_ route: Route) { paths[tab, default: []].append(route) }
     func pushAuth(_ route: Route) { authPath.append(route) }
@@ -113,10 +124,9 @@ struct AppShell: View {
             Tab("Дом", systemImage: "house", value: AppTab.home) {
                 stack(.home) { HomeView() }
             }
-            Tab("Чаты", systemImage: "bubble.left", value: AppTab.chats) {
-                stack(.chats) { ChatsView() }
+            Tab("События", systemImage: "calendar", value: AppTab.events) {
+                stack(.events) { EventsHubView() }
             }
-            .badge(3)
             Tab("Двор", systemImage: "mappin.and.ellipse", value: AppTab.yard) {
                 stack(.yard) { YardView() }
             }

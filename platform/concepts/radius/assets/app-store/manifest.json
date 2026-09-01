@@ -38,6 +38,7 @@
       "body": "Добавьте видео и место, чтобы поделиться историей"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

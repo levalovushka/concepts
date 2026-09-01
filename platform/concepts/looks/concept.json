@@ -45,7 +45,8 @@
       "Лента и реакции",
       "Авторы и подписки",
       "Сообщества",
-      "Клипы-примерки"
+      "Клипы-примерки",
+      "Свопы вещей с карточкой события и отметкой участия"
     ],
     "distinctions": [
       "Отметки вещей на фото",
@@ -61,11 +62,11 @@
     ],
     "referencePatterns": [
       "social-feed",
-      "messaging",
       "profile",
       "create-post",
       "communities"
-    ]
+    ],
+    "referenceEvidence": []
   },
   "brand": {
     "accent": "#0077FF",
@@ -83,8 +84,9 @@
       "label": "Рядом"
     },
     {
-      "id": "chats",
-      "label": "Сообщения"
+      "id": "swap",
+      "label": "Свопы",
+      "role": "events"
     },
     {
       "id": "profile",
@@ -132,14 +134,14 @@
       "key": "mic",
       "plist": "NSMicrophoneUsageDescription",
       "alert": {
-        "title": "«Образы» запрашивают доступ к микрофону",
-        "text": "Чтобы записать голосовое сообщение автору."
+        "title": "«Образы» запрашивает доступ к микрофону",
+        "text": "Чтобы надиктовать заметки во время разбора гардероба."
       },
-      "feature": "Голосовые сообщения",
-      "gesture": "«Записать голосовое»",
-      "screen": "chat",
-      "target": "voice",
-      "fallback": "Остаются текст и фото",
+      "feature": "Голосовой разбор гардероба",
+      "gesture": "«Начать разбор»",
+      "screen": "talk",
+      "target": "talk",
+      "fallback": "Остаётся текстовая заметка к образу",
       "snack": "Микрофон недоступен — напишите сообщение",
       "risk": "low",
       "anchor": false,
@@ -181,25 +183,6 @@
       "anchor": false,
       "conditional": true,
       "grounding": "APNs через FCM topics",
-      "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
-    },
-    {
-      "key": "commnotif",
-      "plist": "com.apple.developer.usernotifications.communication",
-      "alert": {
-        "title": "Уведомления как сообщения",
-        "text": "Сообщение приходит с аватаром автора и учитывает Focus."
-      },
-      "activate": true,
-      "feature": "Чаты с аватарами в уведомлениях",
-      "gesture": "«Сообщения с аватаром»",
-      "screen": "chat",
-      "target": "chat",
-      "fallback": "Обычное уведомление без аватара",
-      "risk": "low",
-      "anchor": false,
-      "conditional": true,
-      "grounding": "INSendMessageIntent + Notification Service Extension",
       "requires": "Функция активируется только явным действием пользователя и имеет видимый fallback"
     },
     {
@@ -410,26 +393,6 @@
       "reviewNote": "Сценарий: разбор гардероба слушают в дороге, экран в кармане. Приложить видео с локскрином: обложка, название разбора и работающие ±15 секунд."
     },
     {
-      "key": "voip",
-      "plist": "UIBackgroundModes: voip",
-      "alert": {
-        "title": "Звонки в приложении",
-        "text": "Входящий звонок по свопу поднимется обычным экраном вызова."
-      },
-      "activate": true,
-      "feature": "Созвон по свопу без обмена номерами: телефон остаётся у владельца",
-      "gesture": "«Позвонить»",
-      "screen": "chat",
-      "target": "call",
-      "fallback": "Остаётся переписка в чате",
-      "risk": "high",
-      "anchor": false,
-      "conditional": true,
-      "requires": "PushKit + CallKit: входящий звонок поднимается системным экраном вызова, иначе ключ не заявляется",
-      "grounding": "PushKit VoIP push поднимает CallKit, медиапоток идёт через SDK провайдера",
-      "reviewNote": "Звонок нужен, чтобы договориться о встрече на свопе, не раскрывая номер: участники видят имя и профиль, но не телефон. Каждый VoIP-push поднимает CallKit — фонового опроса на этом ключе нет."
-    },
-    {
       "key": "calendar",
       "plist": "NSCalendarsFullAccessUsageDescription + NSCalendarsUsageDescription",
       "alert": {
@@ -485,6 +448,44 @@
       "anchor": false,
       "conditional": false,
       "grounding": "NEHotspotConfigurationManager, имя сети и пароль приходят из QR-кода на стойке площадки"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Ответ ведущего свопа",
+        "text": "Entitlement без системного запроса: результат проверки вещи приходит с именем ведущего."
+      },
+      "activate": true,
+      "feature": "Именной результат проверки вещи ведущим свопа",
+      "gesture": "«Ответ ведущего»",
+      "screen": "swap",
+      "target": "swap",
+      "fallback": "Без entitlement результат остаётся в карточке вещи",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "INSendMessageIntent только для итогового статуса проверки",
+      "grounding": "Структурированный ответ accept/reject, свободной переписки нет"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Живая проверка вещи",
+        "text": "Entitlement без системного запроса: ведущий свопа осматривает вещь по короткому видеоэфиру."
+      },
+      "activate": true,
+      "feature": "Короткая видеопроверка вещи ведущим свопа",
+      "gesture": "«Показать вещь ведущему»",
+      "screen": "swap",
+      "target": "swap",
+      "fallback": "Можно загрузить четыре фото и дождаться проверки",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "CallKit + WebRTC-сеанс только по заявке на проверку",
+      "grounding": "Сеанс привязан к вещи и закрывается после вердикта"
     }
   ],
   "screens": [
@@ -702,86 +703,6 @@
         "density": "low",
         "contentCases": [
           "галерея",
-          "пустое состояние",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "chats",
-      "title": "Сообщения",
-      "type": "tab (root)",
-      "light": true,
-      "meta": "Диалоги",
-      "ui": {
-        "pattern": "collection",
-        "purpose": "Вернуться к диалогам",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "high",
-        "contentCases": [
-          "личный",
-          "группа",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "chat",
-      "title": "Диалог",
-      "type": "push",
-      "light": true,
-      "parent": "chats",
-      "meta": "Личный диалог",
-      "ui": {
-        "pattern": "detail",
-        "purpose": "Договориться",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "medium",
-        "contentCases": [
-          "текст",
-          "голос",
-          "нет сети"
-        ]
-      }
-    },
-    {
-      "id": "voice",
-      "title": "Голосовое сообщение",
-      "type": "modal",
-      "light": true,
-      "parent": "chat",
-      "meta": "Запись",
-      "ui": {
-        "pattern": "capture",
-        "purpose": "Записать голос",
-        "primaryAction": "Отправить",
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "запись",
           "пустое состояние",
           "нет сети"
         ]
@@ -1058,38 +979,10 @@
       }
     },
     {
-      "id": "call",
-      "title": "Звонок по свопу",
-      "type": "fullscreen",
-      "light": false,
-      "parent": "chat",
-      "meta": "VoIP · номер не раскрыт",
-      "ui": {
-        "pattern": "state",
-        "purpose": "Договориться о встрече, не раскрывая номер",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "идёт вызов",
-          "связь слабая",
-          "звонок завершён"
-        ]
-      }
-    },
-    {
       "id": "swap",
       "title": "Своп в Новой Голландии",
-      "type": "push",
+      "type": "tab (root)",
       "light": true,
-      "parent": "clip",
       "meta": "Календарь · дата и место",
       "ui": {
         "pattern": "detail",
@@ -1210,9 +1103,6 @@
         "create",
         "camera",
         "media",
-        "chats",
-        "chat",
-        "voice",
         "profile",
         "settings",
         "widget",
@@ -1223,7 +1113,6 @@
         "subtitles",
         "talk",
         "background",
-        "call",
         "swap",
         "checkin",
         "netqr",
@@ -1244,7 +1133,6 @@
         "talk",
         "clip",
         "nearby",
-        "chats",
         "profile",
         "background"
       ],
@@ -1253,7 +1141,6 @@
         "post",
         "clip",
         "nearby",
-        "chats",
         "profile"
       ]
     },
@@ -1291,25 +1178,6 @@
       "stops": [
         "swap",
         "nearby"
-      ]
-    },
-    {
-      "id": "meet",
-      "label": "Дойти до свопа",
-      "note": "Своп из клипа: календарь, сеть площадки, отметка и созвон без обмена номерами",
-      "start": "chats",
-      "screens": [
-        "chats",
-        "chat",
-        "nearby",
-        "profile",
-        "voice",
-        "call",
-        "mates"
-      ],
-      "stops": [
-        "nearby",
-        "profile"
       ]
     }
   ],
@@ -1356,7 +1224,7 @@
   "appStore": {
     "name": "Образы",
     "subtitle": "Живой стиль реальных людей",
-    "promo": "Сохраняйте сочетания, разбирайте образы на вещи и показывайте свои.",
+    "promo": "Сохраняйте сочетания, разбирайте образы на вещи и встречайтесь на свопах рядом.",
     "keywords": "гардероб,сочетания,примерка,авторы,своп",
     "category": {
       "primary": "Social Networking",
@@ -1372,9 +1240,10 @@
     },
     "description": [
       "Социальная сеть реального личного стиля.",
-      "ОБРАЗЫ И АВТОРЫ\nСмотрите сочетания, отмечайте вещи, сохраняйте и повторяйте."
+      "ОБРАЗЫ И АВТОРЫ\nСмотрите сочетания, отмечайте вещи, сохраняйте и повторяйте.",
+      "СВОПЫ\nНаходите обмены рядом, отмечайте участие и собирайте вещи заранее. В карточке события видны место, время и условия обмена."
     ],
-    "whatsNew": "Первая версия: лента, клипы-примерки, гардеробы и сообщения.",
+    "whatsNew": "Первая версия: живая лента образов, клипы-примерки, гардероб и события обмена вещами.",
     "privacy": [
       {
         "type": "Медиа и геопозиция",
@@ -1405,11 +1274,43 @@
       "email": "review@looks.app",
       "password": "review2026",
       "note": "Тестовый аккаунт готов сразу; OTP и подтверждение почты не используются."
+    },
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        {
+          "screen": "home",
+          "headline": "Находите готовые образы",
+          "body": "Смотрите сочетания и отмеченные на фото вещи"
+        },
+        {
+          "screen": "post",
+          "headline": "Разбирайте образ по деталям",
+          "body": "Открывайте каждую вещь и сохраняйте удачные сочетания"
+        },
+        {
+          "screen": "nearby",
+          "headline": "Смотрите, что носят рядом",
+          "body": "Находите живые образы людей своего города"
+        },
+        {
+          "screen": "swap",
+          "headline": "Обменивайтесь вещами лично",
+          "body": "Место, время и условия обмена собраны в событии"
+        },
+        {
+          "screen": "profile",
+          "headline": "Сохраните живой гардероб",
+          "body": "Собирайте вещи и образы в личном гардеробе"
+        }
+      ]
     }
   },
   "auth": {
     "mode": "email",
     "confirmation": false,
     "entryTarget": "home"
-  }
+  },
+  "acceptance": []
 }

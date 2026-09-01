@@ -18,7 +18,6 @@ enum D {
     static let accent = Color(hex: 0x0077FF)
     static let dark = Color(hex: 0x0A0A0A)
     static let surf = Color(hex: 0x19191A)
-    static let chatBG = Color(hex: 0xE9ECF7)
 
     /// Инсет 12, а не 16–20: плотность важнее воздуха.
     static let inset: CGFloat = 12

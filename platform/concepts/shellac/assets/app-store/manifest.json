@@ -37,6 +37,7 @@
       "body": "Сторона продолжает играть при заблокированном экране"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

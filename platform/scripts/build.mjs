@@ -62,11 +62,33 @@ const authField = ({ label, type, value, autocomplete }) => `<label class="unifi
       <input type="${type}" value="${value}" autocomplete="${autocomplete}" aria-label="${label}">
     </label>`;
 
+const dvorAuthHead = (title) => `<div class="d-top"><button class="d-back unified-auth-back tap" data-back aria-label="Назад"><svg class="ios-back" viewBox="0 0 12 21" fill="none"><path d="M10.25 1.75L1.75 10.5l8.5 8.75" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="d-top-title sm">${title}</div></div>`;
+
+const dvorAuthField = ({ label, type, value, autocomplete }) => `<label class="d-field d-email-field d-auth-field">
+  <span class="d-field-lab">${label}</span>
+  <input class="d-field-val" type="${type}" value="${value}" autocomplete="${autocomplete}" aria-label="${label}">
+</label>`;
+
+const dvorAccountAuthScreens = (spec, target) => {
+  const shell = (id, content, pattern = '') => `<div class="screen d-page auth-dvor${pattern ? ' unified-auth' : ''}" id="scr-${id}"${pattern ? ` data-pattern="${pattern}"` : ''}><div class="body-scroll d-scroll d-safe d-col">${content}</div><div class="home-ind" aria-hidden="true"></div></div>`;
+  const phone = dvorAuthField({ label: 'Номер телефона', type: 'tel', value: '+7 900 123-45-67', autocomplete: 'tel' });
+  const password = dvorAuthField({ label: 'Пароль', type: 'password', value: 'sotki2026', autocomplete: 'current-password' });
+  const newPassword = dvorAuthField({ label: 'Придумайте пароль', type: 'password', value: 'sotki2026', autocomplete: 'new-password' });
+  return {
+    password: shell('password', `${dvorAuthHead('Пароль')}<div class="d-lead">Для аккаунта +7 900 123-45-67</div><div class="d-card pad">${password}</div><div class="push"></div><div class="d-cta"><button class="d-btn tap" data-primary data-auth-target data-go="${target}">Войти</button><button class="d-auth-link tap" data-toast="Ссылка для восстановления отправлена">Забыли пароль?</button></div>`, 'auth'),
+    register: shell('register', `${dvorAuthHead('Создать аккаунт')}<div class="d-lead">Номер нужен для входа и восстановления доступа</div><div class="d-card pad">${phone}<div class="d-note mute"><svg class="ico-svg"><use href="#i-info"/></svg><span>Приложением можно пользоваться и без аккаунта</span></div></div><div class="push"></div><div class="d-cta"><button class="d-btn tap" data-primary data-go="registerpassword">Далее</button><button class="d-auth-link tap" data-go="phone">Уже есть аккаунт</button></div>`, 'auth'),
+    registerpassword: shell('registerpassword', `${dvorAuthHead('Придумайте пароль')}<div class="d-lead">Для аккаунта +7 900 123-45-67</div><div class="d-card pad">${newPassword}</div><div class="push"></div><div class="d-cta"><button class="d-btn tap" data-primary data-auth-target data-go="${target}">Создать аккаунт</button>${authLegalFooter(spec)}</div>`, 'auth'),
+    account: shell('account', `${dvorAuthHead('Профиль и аккаунт')}<div class="d-sec">Вход</div><section class="d-card"><div class="d-row"><span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-phone"/></svg></span><div class="d-row-main"><div class="d-row-title">+7 900 123-45-67</div><div class="d-row-sub">Номер для входа</div></div></div><button class="d-row tap" data-go="password"><span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-lock"/></svg></span><span class="d-row-main"><span class="d-row-title">Изменить пароль</span><span class="d-row-sub">Пароль аккаунта</span></span><span class="d-caret"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span></button></section><div class="d-sec">Управление</div><section class="d-card"><button class="d-row tap" data-go="phone"><span class="d-row-main"><span class="d-row-title">Выйти из аккаунта</span><span class="d-row-sub">Данные на этом устройстве останутся</span></span></button><button class="d-row d-account-danger tap" data-primary data-go="deleteaccount"><span class="d-row-main"><span class="d-row-title">Удалить аккаунт</span><span class="d-row-sub">Профиль и связанные данные будут удалены</span></span><span class="d-caret"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span></button></section>`),
+    deleteaccount: shell('deleteaccount', `${dvorAuthHead('Удалить аккаунт?')}<div class="d-lead">Профиль и связанные с ним данные будут удалены безвозвратно</div><div class="d-card pad"><div class="d-note warn"><svg class="ico-svg"><use href="#i-circle-alert"/></svg><span>Дом, публикации и настройки на этом устройстве останутся, но не будут привязаны к профилю</span></div></div><div class="push"></div><div class="d-cta"><button class="d-btn danger unified-delete-confirm tap" data-primary data-go="phone">Удалить аккаунт</button><button class="d-btn quiet mt8 tap" data-back>Отмена</button></div>`, 'auth'),
+  };
+};
+
 const accountAuthScreens = (spec, target, light = true, sourceClasses = '') => {
   const surface = light ? ' ios-surface' : '';
   const inherited = sourceClasses.split(/\s+/).filter((name) => name && !['screen', 'is-on'].includes(name)).join(' ');
   const rootClass = `screen unified-auth auth-${spec.slug}${surface}${inherited ? ` ${inherited}` : ''}`;
   const icon = registrationIcon(spec) || '<span class="auth-app-icon app-icon-placeholder"></span>';
+  if (spec.slug === 'dvor') return dvorAccountAuthScreens(spec, target);
   const phone = authField({ label: 'Номер телефона', type: 'tel', value: '+7 900 123-45-67', autocomplete: 'tel' });
   const password = authField({ label: 'Пароль', type: 'password', value: 'sotki2026', autocomplete: 'current-password' });
   const newPassword = authField({ label: 'Придумайте пароль', type: 'password', value: 'sotki2026', autocomplete: 'new-password' });
@@ -254,13 +276,6 @@ function customPhoneAuthScreen(source, target, spec) {
     out = out.replace(
       /<div><b>\+7<\/b><i><\/i><strong>900 123-45-67<\/strong><\/div>/,
       '<div><input class="auth-phone-input" type="tel" value="+7 900 123-45-67" autocomplete="tel" aria-label="Номер телефона"></div>',
-    );
-  }
-
-  if (spec.slug === 'set') {
-    out = out.replace(
-      'data-back aria-label="Закрыть"',
-      `data-auth-target data-go="${target}" aria-label="Продолжить без аккаунта"`,
     );
   }
 
@@ -495,9 +510,13 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
       .replaceAll('>Привязать<', '>Изменить<')
       .replaceAll('#i-mail', '#i-phone')
       .replaceAll('#i-apple', '#i-lock');
-    const accountEntry = `<section class="unified-settings-account" aria-label="Профиль и аккаунт"><div><span>Профиль и аккаунт</span><strong>+7 900 123-45-67</strong></div><button class="tap" data-go="account">Открыть</button></section>`;
+    const accountEntry = spec.slug === 'dvor'
+      ? `<div class="d-sec">Аккаунт</div><section class="d-card" aria-label="Профиль и аккаунт"><button class="d-row tap" style="width:100%;border:0;background:none;text-align:left;color:inherit" data-go="account"><span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-user"/></svg></span><span class="d-row-main" style="display:flex;flex-direction:column"><span class="d-row-title">Профиль и аккаунт</span><span class="d-row-sub">Телефон, пароль и выход</span></span><span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span></button></section>`
+      : `<section class="unified-settings-account" aria-label="Профиль и аккаунт"><div><span>Профиль и аккаунт</span><strong>+7 900 123-45-67</strong></div><button class="tap" data-go="account">Открыть</button></section>`;
     if (accountSurfaceId === 'settings' || accountSurfaceId === 'menu') {
-      markup[accountSurfaceId] = /<div class="body-scroll[^>]*>/.test(markup[accountSurfaceId])
+      if (spec.slug === 'dvor' && accountSurfaceId === 'settings') {
+        markup.settings = markup.settings.replace('<div class="d-sec">Мой дом</div>', `${accountEntry}<div class="d-sec">Мой дом</div>`);
+      } else markup[accountSurfaceId] = /<div class="body-scroll[^>]*>/.test(markup[accountSurfaceId])
         ? markup[accountSurfaceId].replace(/(<div class="body-scroll[^>]*>)/, `$1${accountEntry}`)
         : markup[accountSurfaceId].replace('<div class="home-ind"', `${accountEntry}<div class="home-ind"`);
     } else if (accountSurfaceId === 'profile') {
@@ -712,6 +731,79 @@ const brandCss = (b) => `
 :root[data-theme="dark"] { --accent:${b.accentDark}; --accent-fill:${b.accent}; }
 :root[data-theme="light"] { --accent:${b.accent}; --accent-fill:${b.accent}; }`;
 
+/* Локальный CSS концепта может описывать форму кнопки, но не должен ломать
+   продуктовый цвет или делать CTA невидимым. Контракт идёт после styles.css. */
+const productUiContractCss = (spec) => {
+  const isVkMimicry = ['vk-video', 'vk-music'].includes(spec.targetSet);
+  const customAuthMetrics = {
+    double: ['32px', '36px', '650', '13px'], dvor: ['24px', '29px', '700', '8px'],
+    liga: ['28px', '32px', '750', '12px'], looks: ['29px', '33px', '500', '12px'],
+    radius: ['28px', '34px', '650', '12px'], scene: ['31px', '35px', '800', '12px'],
+    set: ['32px', '36px', '800', '14px'], shellac: ['34px', '37px', '790', '12px'],
+    strochka: ['32px', '36px', '780', '12px'], tails: ['32px', '35px', '800', '12px'],
+    today: ['34px', '37px', '800', '12px'],
+  }[spec.slug];
+  return `
+.unified-auth .unified-auth-actions > .btn-filled {
+  background:var(--accent-fill)!important;
+  color:var(--on-accent, #fff)!important;
+  border-color:transparent!important;
+  opacity:1!important;
+}
+.unified-auth .unified-auth-back,
+.unified-auth .unified-auth-link { color:var(--accent-fill)!important; }
+.unified-auth .unified-auth-field {
+  background:color-mix(in srgb, currentColor 8%, transparent)!important;
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent)!important;
+}
+${customAuthMetrics ? `
+.auth-${spec.slug}.unified-auth h1 {
+  font-size:${customAuthMetrics[0]}!important;
+  line-height:${customAuthMetrics[1]}!important;
+  font-weight:650!important;
+  letter-spacing:-.035em!important;
+}
+.auth-${spec.slug}.unified-auth .unified-auth-actions > .btn-filled {
+  border-radius:${customAuthMetrics[3]}!important;
+}
+` : ''}
+${spec.slug === 'karavan' ? `
+.unified-auth .unified-auth-actions > .btn-filled {
+  color:#18201d!important;
+}
+` : ''}
+${isVkMimicry ? `
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --accent:#0077FF; --accent-fill:#0077FF; --on-accent:#fff;
+  --db-accent:#0077FF; --db-accent-strong:#0077FF; --db-accent-soft:rgba(0,119,255,.16);
+  --lx-accent:#0077FF; --rd-accent:#0077FF; --sc-accent:#0077FF; --sc-accent-soft:rgba(0,119,255,.16);
+  --sk-accent:#0077FF; --sh-accent:#0077FF; --sm-accent:#0077FF; --sm-accent-ink:#fff;
+  --vl-accent:#0077FF; --vl-accent-2:#0077FF;
+}
+body .device .screen {
+  --accent:#0077FF!important; --accent-fill:#0077FF!important;
+  --db-accent:#0077FF!important; --db-accent-strong:#0077FF!important; --db-accent-soft:rgba(0,119,255,.16)!important;
+  --lx-accent:#0077FF!important; --rd-accent:#0077FF!important; --sc-accent:#0077FF!important; --sc-accent-soft:rgba(0,119,255,.16)!important;
+  --sk-accent:#0077FF!important; --sh-accent:#0077FF!important; --sm-accent:#0077FF!important; --sm-accent-ink:#fff!important;
+  --vl-accent:#0077FF!important; --vl-accent-2:#0077FF!important;
+  --hot:#0077FF!important; --hot-dim:#5AA7FF!important;
+}
+body .device .screens .screen[data-screen="phone"] [data-primary],
+.unified-auth [data-primary],
+.btn-filled[data-primary] {
+  background:#0077FF!important;
+  border-color:#0077FF!important;
+  color:#fff!important;
+  opacity:1!important;
+}
+.lx-screen .lx-primary2,
+.lx-screen .lx-opbtn.primary,
+.lx-screen .lx-create-action.primary i { background:#0077FF!important; color:#fff!important; }
+` : ''}`;
+};
+
 /* ——— прототипы ——— */
 
 /**
@@ -912,7 +1004,7 @@ export function build(slug, { outDir } = {}) {
     EYEBROW: esc(spec.eyebrow || spec.name),
     DECK: esc(spec.deck || spec.tagline),
     FONT_QUERY: spec.brand.fonts,
-    CSS: [read(join(KERNEL, 'base.css')), brandCss(spec.brand), styles, read(join(KERNEL, 'tablet.css'))].join('\n'),
+    CSS: [read(join(KERNEL, 'base.css')), brandCss(spec.brand), styles, read(join(KERNEL, 'tablet.css')), productUiContractCss(spec)].join('\n'),
     ICON_SPRITE: read(join(KERNEL, 'icons.svg')).trim(),
     HERO_DEVICE: heroDevice,
     VIEW_TOGGLE: viewToggle,

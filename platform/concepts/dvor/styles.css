@@ -125,6 +125,11 @@
 }
 .d-card.pad { padding: var(--d-ins); }
 .d-card.night { background-color: var(--d-surf); color: #E1E3E6; }
+.d-card > button.d-row {
+  width:100%; border:0; background:transparent; color:inherit;
+  text-align:left; font:inherit;
+}
+.d-card > button.d-row .d-row-main { display:flex; flex-direction:column; }
 
 .d-sec {
   font-size: 13px; line-height: 16px; font-weight: 700;
@@ -339,6 +344,7 @@
 
 .d-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  border: 0;
   height: 48px; border-radius: var(--d-r-ctl);
   background-color: var(--accent-fill); color: #fff;
   font-size: 16px; font-weight: 700; letter-spacing: -.2px;
@@ -349,6 +355,7 @@
 .d-card .d-btn.quiet { background-color: var(--d-quiet-in); }
 .d-btn.sm { height: 38px; font-size: 15px; }
 .d-btn.night { background-color: rgba(255, 255, 255, .16); color: #fff; }
+.d-btn.danger { background-color: var(--d-red); color: #fff; }
 .d-btnrow { display: flex; gap: 8px; padding: 0 16px 12px; }
 .d-btnrow > .d-btn { flex: 1; }
 /* Инсет 16 = 4 карточки + 12 внутренних: так левый край кнопок и заголовков
@@ -393,6 +400,18 @@
 .d-email-field { min-height:64px; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; padding:10px 14px; }
 .d-email-field .d-field-lab { font-size:12px; line-height:16px; }
 .d-email-field .d-field-val { font-size:17px; line-height:22px; letter-spacing:-.1px; }
+.auth-dvor .d-back { border:0; padding:0; background:transparent; }
+.d-auth-field input {
+  width:100%; min-width:0; padding:0; border:0; outline:0;
+  background:transparent; color:var(--d-ink); font:600 17px/22px var(--face);
+}
+.d-account-danger .d-row-title,
+.d-account-danger .d-caret { color:var(--d-red); }
+.d-auth-link {
+  width:100%; min-height:44px; border:0; background:transparent;
+  color:var(--accent-fill); font:600 15px/20px var(--face); text-align:center;
+}
+.auth-dvor .auth-legal { margin:10px 4px 0; color:var(--d-sub); }
 .d-fieldrow { display: flex; gap: 8px; padding: 0 var(--d-ins) 10px; }
 .d-fieldrow > .d-field { flex: 1; }
 .d-fieldrow > .d-field.cc { flex: none; width: 74px; justify-content: center; }
@@ -433,63 +452,6 @@
   font-size: 11px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 0 0 2px #fff;
-}
-
-/* ——— чат ————————————————————————————————————————————————————— */
-
-.d-chatbg { background-color: #E9ECF7; }
-/* Переписка прижата к низу: иначе между последним бабблом и композером
-   остаётся полоса пустой подложки, и лента «висит» посередине. */
-.d-msgs { display: flex; flex-direction: column; gap: 8px; padding: 12px var(--d-ins); margin-top: auto; }
-.d-msg { display: flex; gap: 8px; align-items: flex-end; }
-.d-msg.out { justify-content: flex-end; }
-.d-bub {
-  max-width: 76%; border-radius: 18px; padding: 8px 12px;
-  background-color: #fff; color: var(--d-ink);
-  font-size: 15px; line-height: 20px;
-}
-.d-bub.out { background-color: #E4E0FF; }
-.d-bub-name { font-size: 13px; line-height: 16px; font-weight: 700; color: var(--accent-fill); margin-bottom: 2px; }
-.d-bub-foot { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 2px; }
-.d-bub-time { font-size: 11px; color: #6B7280; }
-.d-bub.out .d-bub-time { color: #5C5A7A; }
-.d-checks { width: 14px; height: 14px; color: var(--accent-fill); }
-.d-checks svg { width: 14px; height: 14px; stroke-width: 2.6; }
-.d-voice { display: flex; align-items: center; gap: 10px; min-width: 168px; }
-.d-wave { display: flex; align-items: center; gap: 2px; height: 22px; flex: 1; }
-.d-wave i { display: block; width: 2px; border-radius: 1px; background-color: var(--accent-fill); opacity: .55; }
-.d-vplay {
-  width: 32px; height: 32px; border-radius: 50%; flex: none;
-  background-color: var(--accent-fill); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-.d-vplay svg { width: 14px; height: 14px; }
-.d-script {
-  font-size: 14px; line-height: 19px; color: var(--d-sub);
-  border-top: 1px solid rgba(0, 0, 0, .07); margin-top: 8px; padding-top: 7px;
-}
-.d-pinned {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px var(--d-ins); background-color: #fff;
-}
-.d-pin-x {
-  width: 24px; height: 24px; border-radius: 50%; flex: none;
-  background-color: #F0F1F3; color: var(--d-sub);
-  display: flex; align-items: center; justify-content: center;
-}
-.d-pin-x svg { width: 12px; height: 12px; stroke-width: 2.4; }
-.d-composer {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px var(--d-ins) calc(8px + var(--safe-bottom));
-  background-color: rgba(255, 255, 255, .96);
-  border-top: .5px solid rgba(0, 0, 0, .1);
-  flex: none;
-}
-.d-composer-field {
-  flex: 1; min-height: 36px; border-radius: 18px;
-  background-color: #fff; color: var(--d-mute);
-  box-shadow: inset 0 0 0 1px #DCDFE6;
-  font-size: 15px; padding: 8px 14px;
 }
 
 /* ——— медиа-грид: 3 колонки, гаттер 1px, радиус 0 ————————————————— */
@@ -667,8 +629,6 @@
 .d-frame-code i.off { background-color: #fff; }
 
 .d-lock { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 0 var(--d-ins); background-color: #0A0A0A; }
-.d-lock-time { font-size: 74px; line-height: 80px; font-weight: 300; color: #fff; margin-top: 52px; letter-spacing: -2px; }
-.d-lock-date { font-size: 15px; font-weight: 600; color: rgba(255, 255, 255, .75); }
 .d-notif {
   width: 100%; border-radius: 18px; padding: 11px 13px; margin-top: 24px;
   background-color: rgba(255, 255, 255, .13);
@@ -676,44 +636,9 @@
   color: #fff;
 }
 .d-notif-head { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
-.d-notif-app { font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, .7); letter-spacing: .2px; }
-.d-notif-time { margin-left: auto; font-size: 12px; color: rgba(255, 255, 255, .6); }
 .d-notif-name { font-size: 15px; font-weight: 700; }
 .d-notif-text { font-size: 14px; line-height: 19px; color: rgba(255, 255, 255, .9); }
 .d-notif.plain { background-color: rgba(255, 255, 255, .1); }
-
-/* ——— поверхность звонка ————————————————————————————————————————————
-   Звонок адресуется квартире, а не номеру: номера соседей друг другу не
-   видны. Поэтому на экране стоит квартира и подъезд, а не телефон. */
-
-.d-call { flex: 1; display: flex; flex-direction: column; align-items: center; background-color: #14161C; }
-.d-call-who { font-size: 26px; line-height: 32px; font-weight: 700; color: #fff; letter-spacing: -.6px; }
-.d-call-state { font-size: 15px; color: rgba(255, 255, 255, .62); margin-top: 6px; }
-.d-call-hint {
-  display: flex; align-items: center; gap: 7px;
-  font-size: 13px; line-height: 18px; color: rgba(255, 255, 255, .62);
-  background-color: rgba(255, 255, 255, .08);
-  border-radius: 10px; padding: 8px 12px; margin: 0 16px;
-}
-.d-call-hint svg { width: 15px; height: 15px; stroke-width: 2.2; flex: none; color: rgba(255, 255, 255, .82); }
-.d-call-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 28px; padding: 0 28px; }
-.d-call-key {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  color: #fff; font-size: 11px;
-}
-.d-call-key span:first-child {
-  width: 60px; height: 60px; border-radius: 50%;
-  background-color: rgba(255, 255, 255, .12);
-  display: flex; align-items: center; justify-content: center;
-}
-.d-call-key svg { width: 24px; height: 24px; stroke-width: 1.9; }
-.d-call-key.off span:first-child { background-color: #fff; color: #14161C; }
-.d-call-end {
-  width: 68px; height: 68px; border-radius: 50%; flex: none;
-  background-color: var(--d-red); color: #fff;
-  display: flex; align-items: center; justify-content: center;
-}
-.d-call-end svg { width: 28px; height: 28px; stroke-width: 2; }
 
 .d-springboard {
   flex: 1; display: flex; flex-direction: column; padding: 24px 20px 0;

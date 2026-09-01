@@ -14,9 +14,6 @@ struct Screen: View {
         case .problem: ProblemView()
         case .shoot: ShootView()
         case .chronicle: ChronicleView()
-        case .chat: ChatView()
-        case .voice: VoiceView()
-        case .lockscreen: LockscreenView()
         case .guest: GuestView()
         case .scan: ScanView()
         case .meters: MetersView()
@@ -26,7 +23,6 @@ struct Screen: View {
         case .fill: FillView()
         case .neighbors: NeighborsView()
         case .profile: ProfileView()
-        case .call: CallView()
         case .settings: SettingsView()
         case .ads: AdsView()
         case .lock: LockView()
@@ -193,50 +189,6 @@ struct ChronicleView: View {
                 }
             }
         }
-    }
-}
-
-// MARK: - Чаты
-
-/// Экран блокировки: уведомление о сообщении соседа с аватаром — это entitlement
-/// communication notifications, системного алерта у него нет.
-struct LockscreenView: View {
-    @Environment(Nav.self) private var nav
-
-    var body: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: 0x1B2735), Color(hex: 0x0A0A0A)],
-                           startPoint: .top, endPoint: .bottom).ignoresSafeArea()
-            VStack(spacing: 22) {
-                VStack(spacing: 2) {
-                    Text("9:41").font(.system(size: 74, weight: .light)).foregroundStyle(.white)
-                    Text("четверг, 11 апреля").font(.system(size: 17)).foregroundStyle(.white.opacity(0.75))
-                }
-                .padding(.top, 60)
-
-                HStack(spacing: 10) {
-                    DAvatar(size: 38)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("Пётр, старший по подъезду")
-                            .font(.system(size: 14, weight: .semibold)).foregroundStyle(.white)
-                        Text("Мастер придёт в четверг после двух")
-                            .font(.system(size: 14)).foregroundStyle(.white.opacity(0.85))
-                    }
-                    Spacer()
-                }
-                .padding(12)
-                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .padding(.horizontal, D.inset)
-
-                Text("С entitlement уведомление показывается как сообщение — с аватаром и в сводке.")
-                    .font(.system(size: 13)).foregroundStyle(.white.opacity(0.6))
-                    .multilineTextAlignment(.center).padding(.horizontal, 30)
-
-                Spacer()
-                DButton(title: "Вернуться в чат") { nav.cover = nil }.padding(D.inset)
-            }
-        }
-        .accessibilityIdentifier("screen.lockscreen")
     }
 }
 
@@ -562,7 +514,7 @@ struct NeighborsView: View {
     }
 }
 
-/// Профиль соседа. Звонок в квартиру идёт через CallKit, номера не раскрываются.
+/// Профиль соседа ведёт к общим событиям и объявлениям дома.
 struct ProfileView: View {
     @Environment(Nav.self) private var nav
     @Environment(AccessStore.self) private var access
@@ -578,50 +530,15 @@ struct ProfileView: View {
             .padding(.vertical, 10)
 
             DCard {
-                DRow(title: "Позвонить в квартиру", subtitle: "номер телефона не раскрывается") {
-                    DBullet(symbol: "phone.fill", tint: D.green)
-                } action: {
-                    access.activate(.voip, on: "profile")
-                    nav.cover(.call)
-                }
-                .accessibilityIdentifier("action.call")
+                DRow(title: "События подъезда", subtitle: "собрания, работы и общие дела") {
+                    DBullet(symbol: "calendar", tint: D.green)
+                } action: { nav.tab = .events; nav.paths[.menu] = [] }
+                .accessibilityIdentifier("action.events")
                 DHair(inset: 56)
-                DRow(title: "Написать", subtitle: "личный чат") { DBullet(symbol: "bubble.left.fill") }
-                    action: { nav.tab = .chats; nav.paths[.menu] = [] }
+                DRow(title: "Объявления дома", subtitle: "темы и ответы соседей") { DBullet(symbol: "doc.text.fill") }
+                    action: { nav.tab = .home; nav.paths[.menu] = [] }
             }
         }
-    }
-}
-
-struct CallView: View {
-    @Environment(Nav.self) private var nav
-
-    var body: some View {
-        ZStack {
-            LinearGradient(colors: [Color(hex: 0x2B3B4E), Color(hex: 0x0A0A0A)],
-                           startPoint: .top, endPoint: .bottom).ignoresSafeArea()
-            VStack(spacing: 12) {
-                Spacer()
-                DAvatar(size: 96)
-                Text("Ирина Малова").font(.system(size: 26, weight: .semibold)).foregroundStyle(.white)
-                Text("Двор · вызов в квартиру 51").font(.system(size: 15)).foregroundStyle(.white.opacity(0.7))
-                Spacer()
-                HStack(spacing: 60) {
-                    callButton("phone.down.fill", D.red) { nav.cover = nil }
-                    callButton("mic.slash.fill", .white.opacity(0.2)) {}
-                }
-                .padding(.bottom, 44)
-            }
-        }
-        .accessibilityIdentifier("screen.call")
-    }
-
-    private func callButton(_ symbol: String, _ tint: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Circle().fill(tint).frame(width: 66, height: 66)
-                .overlay { Image(systemName: symbol).font(.system(size: 25)).foregroundStyle(.white) }
-        }
-        .buttonStyle(.plain)
     }
 }
 

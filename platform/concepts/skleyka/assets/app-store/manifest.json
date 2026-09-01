@@ -38,6 +38,7 @@
       "body": "Меняйте порядок и убирайте лишнее без сложного монтажа"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

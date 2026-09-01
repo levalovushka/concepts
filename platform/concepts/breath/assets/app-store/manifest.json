@@ -37,6 +37,7 @@
       "body": "Сессия продолжается, даже когда экран телефона погас"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

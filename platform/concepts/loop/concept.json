@@ -5,8 +5,8 @@
   "qualityContractVersion": 1,
   "uiContractVersion": 2,
   "brand": {
-    "accent": "#B22BC6",
-    "accentDark": "#E56BFF",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
   "deck": "Музыкальный конструктор: находите лупы, собирайте ремиксы и сохраняйте идею без тяжёлой DAW. Все 6 доступов запрашиваются точно в момент функции.",

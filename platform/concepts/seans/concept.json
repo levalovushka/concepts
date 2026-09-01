@@ -72,8 +72,8 @@
     ]
   },
   "brand": {
-    "accent": "#D91F32",
-    "accentDark": "#FF5365",
+    "accent": "#0077FF",
+    "accentDark": "#0077FF",
     "fonts": "Golos+Text:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
   },
   "start": "phone",

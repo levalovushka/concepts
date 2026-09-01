@@ -1,0 +1,9 @@
+{
+  "device": "iPhone 17 Pro",
+  "screens": {
+    "home": "home",
+    "events": "events",
+    "yard": "yard",
+    "post": "post"
+  }
+}

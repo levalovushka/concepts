@@ -25,6 +25,7 @@ import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { build } from './build.mjs';
 import { conceptDir, esc, KERNEL, readSpec } from './lib.mjs';
+import { captureNativeScreens, nativeAppAvailable, nativeAppStoreAvailable } from './native-screens.mjs';
 
 const IPHONE_FRAME = readFileSync(join(KERNEL, 'iphone-frame.png'));
 export const IPHONE_COMPOSITION = Object.freeze({
@@ -473,6 +474,9 @@ export async function generateAppStoreAssets(slug, options = {}) {
   const sourceSpec = readSpec(slug);
   const plan = assetPlan(sourceSpec, options);
   assertPlan(sourceSpec, plan);
+  if (!options.web && nativeAppAvailable(slug) && !nativeAppStoreAvailable(slug)) {
+    throw new Error(`${slug}: найдена SwiftUI-версия, но нет native-apps/${slug}/app-store.json с маппингом экранов`);
+  }
   build(slug);
   const spec = readSpec(slug);
   const root = join(conceptDir(slug), 'assets', 'app-store');
@@ -481,9 +485,14 @@ export async function generateAppStoreAssets(slug, options = {}) {
   mkdirSync(exportRoot, { recursive: true });
   mkdirSync(join(root, 'previews'), { recursive: true });
 
+  const nativeCapture = !options.web && nativeAppStoreAvailable(slug)
+    ? await captureNativeScreens(slug, plan.screens.map((frame) => frame.screen))
+    : null;
+
   const browser = await chromium.launch();
   try {
     const shots = await captureScreens(browser, spec, plan);
+    if (nativeCapture) Object.assign(shots.phone, nativeCapture.shots);
     for (const device of plan.devices) {
       const meta = DEVICE_TARGETS[device];
       const outDir = join(exportRoot, device);
@@ -512,7 +521,14 @@ export async function generateAppStoreAssets(slug, options = {}) {
   if (existsSync(icon)) cpSync(icon, join(root, 'app-icon-source.png'));
   writeFileSync(join(root, 'README.md'), readme(spec, plan));
   const targets = Object.fromEntries(plan.devices.map((id) => [id, DEVICE_TARGETS[id]]));
-  const manifest = { requirementsChecked: '2026-09-01', slug, ...plan, targets };
+  const manifest = {
+    requirementsChecked: '2026-09-01',
+    slug,
+    ...plan,
+    captureSource: nativeCapture ? 'swiftui' : 'web-prototype',
+    nativeSourceHash: nativeCapture?.manifest.sourceHash,
+    targets,
+  };
   writeFileSync(join(root, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   zipAssets(root, slug);
   build(slug);
@@ -527,6 +543,7 @@ function cliOptions(args) {
   return {
     template: value('--template'),
     screenIds: value('--screens')?.split(',').map((id) => id.trim()).filter(Boolean),
+    web: args.includes('--web'),
   };
 }
 

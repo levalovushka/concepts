@@ -37,6 +37,7 @@
       "body": "Альбомы, папки и сохранённые треки доступны в одном разделе"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

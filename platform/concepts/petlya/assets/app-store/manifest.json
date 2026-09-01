@@ -38,6 +38,7 @@
       "body": "Петли и руки мастера хорошо видны на телевизоре"
     }
   ],
+  "captureSource": "web-prototype",
   "targets": {
     "iphone-6.9": {
       "label": "iPhone 6.9″",

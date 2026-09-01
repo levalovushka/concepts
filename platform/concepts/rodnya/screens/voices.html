@@ -1,10 +1,11 @@
 <div class="screen r-page" id="scr-voices">
-  <div class="body-scroll r-scroll r-safe">
+  <div class="body-scroll r-scroll r-safe"><section class="capability-feature"><strong>Семейное интервью</strong><p>Запишите разговор для архива или подтвердите факт по именному запросу хранителя.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|voices">Начать интервью</button><button class="capability-action secondary" data-activate="commnotif|voices">Запросы хранителя</button></div></section>
     <div class="r-top">
       <div class="r-top-title">Голоса</div>
-      <div class="r-top-acts"><div class="r-icon tap" data-go="voice" aria-label="Записать голос"><svg class="ico-svg"><use href="#i-mic"/></svg></div></div>
+      <div class="r-top-acts"><div class="r-icon tap" data-ask="mic|voices|voices" aria-label="Записать историю"><svg class="ico-svg"><use href="#i-mic"/></svg></div></div>
     </div>
     <div class="r-wrap">
+      <div class="r-note perm-hidden" data-show-denied="mic"><svg class="ico-svg"><use href="#i-info"/></svg><span>Микрофон недоступен: загрузите готовую аудиозапись.</span></div>
       <div class="r-sec-head"><h2>Продолжить</h2><span>остановились на 08:12</span></div>
       <div class="r-card">
         <div class="r-row tap" data-primary data-go="player" aria-label="Слушать запись «Дед о войне, 1987»">
@@ -69,7 +70,7 @@
   <div class="tabbar r-dock" aria-label="Основная навигация">
     <div class="tab  tap" data-go="feed" aria-label="Раздел Лента"><span class="ico" aria-label="Лента"><svg class="ico-svg"><use href="#i-house"/></svg></span></div>
     <div class="tab  tap" data-go="discussions" aria-label="Раздел Обсуждения"><span class="ico" aria-label="Обсуждения"><svg class="ico-svg"><use href="#i-message-circle"/></svg></span><span class="r-count">4</span></div>
-    <div class="tab  tap" data-go="chats" aria-label="Раздел Сообщения"><span class="ico" aria-label="Сообщения"><svg class="ico-svg"><use href="#i-mail"/></svg></span></div>
+    <div class="tab  tap" data-go="tree" aria-label="Раздел Древо"><span class="ico" aria-label="Древо"><svg class="ico-svg"><use href="#i-git-branch"/></svg></span></div>
     <div class="tab is-on tap" aria-current="page" data-go="voices" aria-label="Раздел Голоса"><span class="ico" aria-label="Голоса"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></span></div>
     <div class="tab  tap" data-go="profile" aria-label="Раздел Профиль"><span class="ico" aria-label="Профиль"><svg class="ico-svg"><use href="#i-user"/></svg></span></div>
   </div>
