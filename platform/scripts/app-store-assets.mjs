@@ -27,7 +27,13 @@ import { build } from './build.mjs';
 import { conceptDir, esc, KERNEL, readSpec } from './lib.mjs';
 
 const IPHONE_FRAME = readFileSync(join(KERNEL, 'iphone-frame.png'));
-export const IPHONE_COMPOSITION = Object.freeze({ deviceTop: 720, statusOffset: 6 });
+export const IPHONE_COMPOSITION = Object.freeze({
+  deviceTop: 1050,
+  copyTop: 260,
+  headlineSize: 124,
+  bodySize: 54,
+  statusOffset: 6,
+});
 
 export const TEMPLATES = ['studio'];
 
@@ -285,9 +291,9 @@ const css = (accent, tone, target) => {
     .device{position:absolute;z-index:3;filter:drop-shadow(0 ${px(46)} ${px(70)} rgba(5,8,14,${isLight ? '.22' : '.5'}))}
     .device-screen{position:absolute;z-index:1;display:block;object-fit:fill;background:#000}
     .device-frame{position:absolute;z-index:2;inset:0;display:block;width:100%;height:100%;pointer-events:none}
-    .portrait .copy{left:${px(92)};right:${px(92)};top:${px(205)};text-align:center;display:flex;flex-direction:column;align-items:center}
-    .portrait .headline{max-width:${px(1120)};font-size:${px(104)};line-height:1.01}
-    .portrait .body{max-width:${px(1040)};margin-top:${px(28)};font-size:${px(43)};line-height:1.22}
+    .portrait .copy{left:${px(76)};right:${px(76)};top:${px(IPHONE_COMPOSITION.copyTop)};text-align:center;display:flex;flex-direction:column;align-items:center}
+    .portrait .headline{max-width:${px(1168)};font-size:${px(IPHONE_COMPOSITION.headlineSize)};line-height:1.01}
+    .portrait .body{max-width:${px(1120)};margin-top:${px(30)};font-size:${px(IPHONE_COMPOSITION.bodySize)};line-height:1.22}
     .portrait .device{left:${px(120)};top:${px(IPHONE_COMPOSITION.deviceTop)};width:${px(1080)};aspect-ratio:1002/2087}
     .portrait .device-screen{left:4.39%;top:2.3%;width:91.22%;height:95.4%;border-radius:11.8%/5.6%}
     .landscape .copy{left:${px(210)};right:${px(210)};top:${px(122)};height:${px(250)};display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:${px(120)};align-items:end}
