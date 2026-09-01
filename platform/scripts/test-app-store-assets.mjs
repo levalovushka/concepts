@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { assetPlan, DEVICE_TARGETS, TEMPLATES } from './app-store-assets.mjs';
+import { assetPlan, beautifyStoreCopy, DEVICE_TARGETS, TEMPLATES } from './app-store-assets.mjs';
 import { listConcepts, readSpec } from './lib.mjs';
 
 const spec = {
@@ -36,6 +36,11 @@ assert.equal(DEVICE_TARGETS['iphone-6.1'].height, 2532);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].width, 2752);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].height, 2064);
 assert.deepEqual(TEMPLATES, ['studio']);
+assert.equal(
+  beautifyStoreCopy('Находите свежие истории в нескольких минутах ходьбы'),
+  'Находите свежие истории в\u00a0нескольких минутах\u00a0ходьбы',
+  'последние два слова должны оставаться вместе, а короткий предлог — со следующим словом',
+);
 
 const configured = assetPlan({
   ...spec,
@@ -51,12 +56,18 @@ assert.deepEqual(configured.devices, ['iphone-6.9']);
 assert.equal(configured.screens[0].headline, 'Keep the best part');
 
 const internalJargon = /\b(?:IA|Photo Library|PHPicker|UIDocumentPicker|Location|MapKit|MKLocalSearch|aps-environment|Core Data|FileManager|MPNowPlayingInfoCenter|FTS|ID3|MP4|SDK|API|root|metadata|asset|Files|Photos|tempo|mood tags|play\/shuffle)\b/i;
+const danglingWord = /(?:^|\s)(?:а|без|в|во|да|для|до|за|и|из|или|к|ко|на|над|не|но|о|об|от|по|под|при|про|с|со|у|что|чтобы|через)$/iu;
 for (const slug of listConcepts()) {
   const frames = assetPlan(readSpec(slug)).screens;
   assert.ok(frames.length >= 3 && frames.length <= 10, `${slug}: серия должна содержать 3–10 кадров`);
   for (const frame of frames) {
     assert.notEqual(frame.headline, 'Всё главное на одном экране', `${slug}/${frame.screen}: нужен конкретный заголовок`);
     assert.ok(!internalJargon.test(`${frame.headline} ${frame.body}`), `${slug}/${frame.screen}: в App Store copy попал внутренний термин`);
+    assert.ok(!danglingWord.test(frame.body.trim()), `${slug}/${frame.screen}: описание оборвано на служебном слове «${frame.body}»`);
+    assert.ok(!/[.!?…]$/u.test(frame.body.trim()), `${slug}/${frame.screen}: точка в конце описания не нужна`);
+    assert.ok(/^[А-ЯЁ0-9«]/u.test(frame.body.trim()), `${slug}/${frame.screen}: описание должно начинаться с заглавной буквы`);
+    const bodyWords = frame.body.trim().split(/\s+/).length;
+    assert.ok(bodyWords >= 4 && bodyWords <= 14, `${slug}/${frame.screen}: описание должно быть цельной фразой из 4–14 слов`);
   }
 }
 

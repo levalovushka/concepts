@@ -80,10 +80,18 @@ const humanizeTechnicalCopy = (value) => String(value || '')
   .replace(/\s{2,}/g, ' ')
   .trim();
 
-const firstSentence = (value, maxWords = 6) => {
+const COPY_DANGLING_WORD = /(?:^|\s)(?:а|без|в|во|да|для|до|за|и|из|или|к|ко|на|над|не|но|о|об|от|по|под|при|про|с|со|у|что|чтобы|через)$/iu;
+
+const firstSentence = (value, maxWords = 12) => {
   const sentence = humanizeTechnicalCopy(value).split(/(?<=[.!?])\s+/u)[0].replace(/[.!?]+$/u, '');
-  const words = sentence.split(/\s+/).filter(Boolean);
-  return words.length <= maxWords ? sentence : words.slice(0, maxWords).join(' ').replace(/[,:;—]+$/u, '');
+  const wordCount = (text) => text.split(/\s+/).filter(Boolean).length;
+  if (wordCount(sentence) <= maxWords && !COPY_DANGLING_WORD.test(sentence)) return sentence;
+  const clauses = sentence.split(/[,;:—]+/u)
+    .map((part) => part.trim().replace(/^(?:а|и|но)\s+/iu, ''))
+    .filter((part) => wordCount(part) >= 3 && !COPY_DANGLING_WORD.test(part));
+  return clauses.find((part) => wordCount(part) <= maxWords)
+    || clauses.sort((a, b) => wordCount(a) - wordCount(b))[0]
+    || sentence;
 };
 
 function marketingSections(spec) {
@@ -115,25 +123,25 @@ function actionHeadline(screen, title) {
    пользу кадра, а не title экрана. Для будущих концептов остаётся semantic fallback. */
 const REVIEWED_HEADLINES = {
   breath:{home:'Выберите свой ритм',detail:'Настройтесь на дыхание',player:'Следуйте за музыкой',studio:'Создайте тихий визуал',background:'Дышите с погасшим экраном'},
-  druzya:{feed:'Только свои в ленте',post:'Делитесь со своим кругом',messages:'Оставайтесь на связи',profile:'Помните, когда виделись',music:'Слушайте музыку вмесе'},
+  druzya:{feed:'Только свои в ленте',post:'Делитесь со своим кругом',messages:'Оставайтесь на связи',profile:'Помните, когда виделись',music:'Слушайте музыку вместе'},
   ekspeditsiya:{route:'Держите маршрут перед глазами',checkpoint:'Фиксируйте наблюдения на месте',report:'Соберите полевой отчёт',welcome:'Подготовьтесь к выходу',journal:'Восстановите весь путь'},
-  karavan:{trips:'Вся поездка в одном месте',live:'Держите караван вмесе',channel:'Говорите с экипажами на ходу',album:'Соберите итоги поездки',plan:'Согласуйте план заранее'},
+  karavan:{trips:'Вся поездка в одном месте',live:'Держите караван вместе',channel:'Говорите с экипажами на ходу',album:'Соберите итоги поездки',plan:'Согласуйте план заранее'},
   klass:{feed:'Важное для всего СНТ',post:'Не пропускайте объявления',messages:'Решайте вопросы с соседями',profile:'Знайте, кто живёт рядом',records:'Храните общую историю'},
   liga:{home:'Матч начинается здесь',watch:'Смотрите игру в эфире',clips:'Пересматривайте лучшие моменты',camera:'Снимайте матч с трибуны',moments:'Сохраняйте главные секунды'},
   looks:{home:'Находите готовые образы',post:'Разбирайте сочетания по вещам',nearby:'Смотрите, что носят рядом',create:'Соберите свой образ',profile:'Сохраните живой гардероб'},
   loop:{home:'Найдите луп для старта',detail:'Услышьте каждый слой',player:'Соберите ремикс на ходу',studio:'Запишите свой звук',background:'Слушайте с погасшим экраном'},
   nakat:{theory:'Разбирайте теорию на ходу',ticket:'Разберите каждый билет',player:'Слушайте в дороге',lessons:'Все занятия перед глазами',reschedule:'Перенесите занятие без звонка'},
-  obyekt:{journal:'Вся работа в журнале',zones:'Видьте статус каждой зоны',defects:'Держите дефекты под контролем',sync:'Синхронизируйтесь без интернета',act:'Соберите готовый акт'},
+  obyekt:{journal:'Вся работа в журнале',zones:'Контролируйте каждую зону',defects:'Держите дефекты под контролем',sync:'Синхронизируйтесь без интернета',act:'Соберите готовый акт'},
   pereezd:{today:'Весь переезд перед глазами',boxes:'Знайте, где каждая коробка',route:'Следите за всеми машинами',box:'Найдите нужное по метке',scan:'Сканируйте коробки на ходу'},
   peresmenka:{shifts:'Все смены в одном графике',checkin:'Отмечайтесь на смене',swaps:'Найдите подмену быстрее',person:'Понимайте, кто выйдет на смену',brief:'Передайте смену без потерь'},
   petlya:{lessons:'Вяжите вместе с уроком',lesson:'Смотрите, не отпуская спиц',counter:'Считайте ряды голосом',projects:'Храните весь прогресс проекта',cast:'Выведите урок на большой экран'},
-  ploshchadka:{day:'Вся смена в одном ритме',timing:'Следуйте за таймингом',map:'Видьте всю площадку',shots:'Закрывайте кадр за кадром',radio:'Держите команду на связи'},
-  ptitsy:{season:'Слышьте, кто рядом',identify:'Определите птицу без сети',result:'Сравните похожие голоса',bird:'Узнайте птицу ближе',player:'Слушайте с погасшим экраном'},
+  ploshchadka:{day:'Вся смена в одном ритме',timing:'Следуйте за таймингом',map:'Смотрите всю площадку',shots:'Закрывайте кадр за кадром',radio:'Держите команду на связи'},
+  ptitsy:{season:'Слушайте, кто рядом',identify:'Определите птицу без сети',result:'Сравните похожие голоса',bird:'Узнайте птицу ближе',player:'Слушайте с погасшим экраном'},
   radius:{home:'Открывайте места через истории',nearby:'Смотрите, что происходит рядом',clips:'Переноситесь в место за минуту',channel:'Подписывайтесь на места',create:'Делитесь тем, что рядом'},
   rasklad:{home:'Начните с одной карты',scan:'Наведите камеру на карту',player:'Слушайте с закрытыми глазами',diary:'Сохраняйте свои мысли',scanfail:'Выберите карту вручную'},
   rehearsal:{today:'Подготовьтесь к выступлению',recording:'Пройдите весь прогон',analysis:'Найдите затянутые моменты',moment:'Повторите нужный фрагмент',setup:'Задайте точный тайминг'},
-  rodnya:{feed:'Собирайте историю семьи',post:'Добавляйте год к каждому воспоминанию',chats:'Говорите с родными',profile:'Видьте связи между близкими',voices:'Сохраняйте голоса семьи'},
-  seans:{session:'Найдите показ рядом',join:'Подключитесь к залу',hall:'Слушайте звук в наушниках',curator:'Слышьте живой голос куратора',clips:'Возвращайтесь к лучшим сценам'},
+  rodnya:{feed:'Собирайте историю семьи',post:'Добавляйте год к каждому воспоминанию',chats:'Говорите с родными',profile:'Смотрите связи между близкими',voices:'Сохраняйте голоса семьи'},
+  seans:{session:'Найдите показ рядом',join:'Подключитесь к залу',hall:'Слушайте звук в наушниках',curator:'Слушайте живой голос куратора',clips:'Возвращайтесь к лучшим сценам'},
   set:{home:'Найдите сет на сегодня',detail:'Откройте весь треклист',player:'Слушайте сет целиком',studio:'Найдите сет по афише',background:'Оставьте музыку в фоне'},
   shellac:{archive:'Найдите запись по этикетке',record:'Узнайте историю пластинки',player:'Слушайте сторону целиком',shelf:'Храните свою полку',background:'Продолжайте слушать в фоне'},
   skleyka:{projects:'Все видеопроекты на устройстве',project:'Соберите все фрагменты',processing:'Получите черновик автоматически',draft:'Проверьте готовую склейку',editor:'Наведите порядок в пару касаний'},
@@ -141,8 +149,42 @@ const REVIEWED_HEADLINES = {
   stuk:{sound:'Найдите поломку по звуку',record:'Запишите стук машины',compare:'Сравните с эталоном',symptom:'Узнайте возможную причину',watch:'Смотрите разбор целиком'},
   today:{home:'Покажите, чего хочется сегодня',nearby:'Найдите совпадение с друзьями',plan:'Соберите план за минуту',chats:'Договоритесь о деталях',profile:'Оставьте только своих'},
   volna:{home:'Выберите настроение на час',station:'Запустите музыку в дорогу',player:'Слушайте без интернета',search:'Найдите трек на устройстве',library:'Храните музыку у себя'},
-  vypusk:{chronicle:'Соберите хронику выпуска',memory:'Верните имена старым снимкам',messages:'Говорите с одноклассниками',member:'Видьте, кого уже нашли',archive:'Сохраняйте голоса выпуска'},
+  vypusk:{chronicle:'Соберите хронику выпуска',memory:'Верните имена старым снимкам',messages:'Говорите с одноклассниками',member:'Смотрите, кого уже нашли',archive:'Сохраняйте голоса выпуска'},
   zemlyaki:{city:'Узнавайте город заново',object:'Собирайте историю каждого места',messages:'Говорите с земляками',passport:'Покажите свою точку на карте',live:'Слушайте городской эфир'},
+};
+
+const REVIEWED_BODIES = {
+  breath:{home:'Выберите длительность и начните спокойную дыхательную сессию',detail:'Музыка мягко подсказывает темп вдоха и выдоха',player:'Следуйте за ритмом без оценок, серий и соревнования',studio:'Создайте спокойный визуальный фон для своей практики',background:'Сессия продолжается, даже когда экран телефона погас'},
+  double:{home:'Короткий план показывает, что стоит повторить сегодня',reference:'Анализ отмечает точный момент расхождения с референсом',camera:'Силуэт помогает сохранить движение и положение в кадре',analysis:'Сравнивайте попытки кадр за кадром сразу после записи',retry:'Повторяйте сложный фрагмент, не начиная всё движение заново'},
+  druzya:{feed:'В ленте остаются публикации только вашего близкого круга',post:'Оценки открыты и видны всем участникам вашего круга',messages:'Общайтесь лично или группой, голосом и по видео',profile:'Смотрите общие круги, встречи и публикации друга',music:'Собирайте общие плейлисты и слушайте их в фоне'},
+  dvor:{home:'Объявления, заявки и события доступны только жителям дома',chats:'Чаты дома и подъезда не теряются в общей ленте',yard:'Сервисы, парковка и события собраны на схеме двора',post:'Ответы, сроки и уведомления остаются в одном объявлении'},
+  ekspeditsiya:{route:'Маршрут и ближайшая точка всегда остаются перед глазами',checkpoint:'Добавляйте фото, координаты и заметки прямо на месте',report:'Наблюдения автоматически складываются в понятный полевой отчёт',welcome:'Проверьте маршрут и снаряжение перед началом выхода',journal:'Вернитесь к каждой точке и восстановите весь путь'},
+  karavan:{trips:'Маршрут, остановки и экипажи собраны в одной поездке',live:'Смотрите положение экипажей, пока караван находится в пути',channel:'Отвечайте голосом и сообщайте, что услышали команду',album:'Фото и заметки складываются в общий альбом поездки',plan:'Согласуйте маршрут, остановки и время выезда заранее'},
+  klass:{feed:'Важные новости товарищества не теряются в общем чате',post:'Обсуждайте отключения, ремонт и собрания в одной теме',messages:'Общайтесь с соседями, не публикуя личный номер',profile:'Профиль связывает соседа с участком и общими делами',records:'Фотографии и записи собраний хранят общую историю товарищества'},
+  liga:{home:'Счёт и ключевые события матча всегда перед глазами',watch:'Смотрите прямой эфир вместе со счётом и событиями',clips:'Пересматривайте голы, броски и лучшие моменты матча',camera:'Записывайте матч и сразу отмечайте ключевые события',moments:'Сохраняйте важные секунды в короткие видео'},
+  looks:{home:'Находите готовые образы и отмеченные на фото вещи',post:'Открывайте каждую вещь и разбирайте сочетание по деталям',nearby:'Смотрите образы людей рядом и сохраняйте удачные сочетания',create:'Добавьте фото, отметьте вещи и опубликуйте новый образ',profile:'Собирайте сохранённые вещи и образы в личном гардеробе'},
+  loop:{studio:'Запишите свой звук и сразу добавьте его в ремикс',background:'Музыка продолжает играть, когда экран погас или телефон заблокирован'},
+  nakat:{theory:'Короткие аудиоразборы помогают повторять теорию в дороге',ticket:'Разберите ошибки и сразу закрепите сложные вопросы',player:'Продолжайте слушать разбор с погасшим экраном',lessons:'Свободные занятия недели видны в одном расписании',reschedule:'Выберите свободное время и перенесите занятие без звонка'},
+  obyekt:{journal:'Все изменения по зонам сохраняются в едином журнале работ',zones:'Смотрите ответственных, прогресс и присутствие в каждой зоне',defects:'Ответственный, срок и приёмка дефекта собраны в одной карточке',sync:'Передавайте изменения прорабу по локальной сети без интернета',act:'Фото, дефекты и сроки собираются в один проверяемый документ'},
+  pereezd:{today:'Текущий этап и ближайшая задача всегда перед глазами',boxes:'Метки показывают, где находится каждая коробка',route:'Следите за машинами и временем прибытия в одной карте',box:'Откройте метку и сразу найдите содержимое коробки',scan:'Сканируйте коробки при погрузке и разгрузке на ходу'},
+  peresmenka:{swaps:'Смотрите запросы на подмену и свободных коллег рядом',person:'Карточка показывает опыт, роль и подтверждённые смены коллеги',brief:'Фото и чек-лист сохраняют состояние точки между сменами'},
+  petlya:{lessons:'Управляйте уроком голосом, не отпуская спиц',lesson:'Продолжайте вязать, пока урок идёт перед глазами',counter:'Скажите «ряд», чтобы прибавить значение счётчика',projects:'Заметки и прогресс сохраняются внутри каждого проекта',cast:'Петли и руки мастера хорошо видны на телевизоре'},
+  ploshchadka:{day:'Тайминг, зоны и результат смены видны на одном экране',timing:'Откройте смену и сразу увидите ближайшие задачи по времени',map:'Карта показывает зоны, команду и текущие задачи смены',radio:'Короткие голосовые команды доступны всей съёмочной группе сразу'},
+  ptitsy:{result:'Сравнивайте запись с похожими голосами и уточняйте определение'},
+  radius:{home:'Истории открывают знакомые места с новой стороны',nearby:'Находите свежие истории в нескольких минутах ходьбы',clips:'Смотрите, что происходит в районе прямо сейчас',channel:'Следите за двором, парком, набережной или автором',create:'Добавьте видео и место, чтобы поделиться историей'},
+  rasklad:{home:'Одна карта помогает спокойно сформулировать вопрос на сегодня',scan:'Камера узнаёт карту и открывает связанное размышление',player:'Аудио-размышление ведёт от образа карты к своим мыслям',diary:'Сохраняйте выводы и возвращайтесь к ним позже',scanfail:'Колода и номер помогут найти карту, если камера не справилась'},
+  rehearsal:{today:'Структура и целевой тайминг выступления всегда перед глазами',recording:'Запишите полный прогон и сравните его с планом',analysis:'Шкала покажет затянутые блоки и места для повтора',moment:'Повторяйте нужный фрагмент отдельно от полного выступления',setup:'Задайте длительность блоков перед первым прогоном'},
+  rodnya:{profile:'Профиль показывает ветви семьи и связь с каждым родственником'},
+  seans:{session:'Смотрите ближайшие показы и изменения расписания',join:'Подключитесь к показу и выберите звуковую дорожку',hall:'Синхронный звук показа играет в ваших наушниках',curator:'Слушайте комментарии ведущего прямо во время показа',clips:'Короткие фрагменты возвращают к лучшим сценам'},
+  set:{home:'Выбирайте выступление по площадке, дате или жанру',detail:'Треклист сохраняет порядок каждого сета от начала до финала',player:'Живое выступление играет целиком без разрывов между треками',studio:'Наведите камеру на афишу, чтобы найти нужный сет',background:'Музыка продолжает играть на заблокированном экране'},
+  shellac:{archive:'Наведите камеру на этикетку и найдите нужную запись',record:'Откройте историю издания, исполнителей и самой пластинки',player:'Слушайте всю сторону подряд без деления на отдельные треки',shelf:'Храните состояние, фото конверта и заметки о каждом экземпляре',background:'Сторона продолжает играть при заблокированном экране'},
+  skleyka:{projects:'Проекты хранят исходники, черновики и готовые экспорты',project:'Соберите видео из камеры, медиатеки и файлов',processing:'Приложение само собирает черновик из фрагментов',draft:'Проверьте склейку целиком перед финальным экспортом',editor:'Меняйте порядок и убирайте лишнее без сложного монтажа'},
+  strochka:{program:'Порядок номеров и ваши партии собраны в программе концерта',notes:'Поиск находит произведение, композитора и нужную голосовую партию',journal:'Ноты, записи и история занятий остаются в одном месте',releases:'Получайте уведомления о новой записи партии или изменениях',piece:'Слушайте свою партию отдельно и учите её в удобном темпе'},
+  stuk:{sound:'Запишите звук у колеса или под капотом',record:'Короткая запись сохраняет характер стука',compare:'Сравните свою запись с похожим эталоном',symptom:'Получите возможную причину и следующие шаги',watch:'Разбор показывает порядок работ и нужные детали'},
+  today:{chats:'Чат собирает время, место и детали конкретной встречи',profile:'Смотрите только друзей, которых сами добавили в свой круг'},
+  volna:{home:'Музыка из файлов и медиатеки превращается в готовые волны',library:'Альбомы, папки и сохранённые треки доступны в одном разделе'},
+  vypusk:{chronicle:'Снимки и истории складываются в общую хронику выпуска',memory:'Добавляйте имена и годы к старым школьным фотографиям',member:'Профиль показывает выпуск, роль, вклад и статус будущей встречи'},
+  zemlyaki:{city:'События, районы и городские истории собраны по знакомым адресам',object:'Адрес связывает архивные снимки, воспоминания и современный вид места',passport:'Покажите родную точку, период жизни и связанные с ней места'},
 };
 
 function fallbackMarketingCopy(spec, screen, index, screenById) {
@@ -156,7 +198,8 @@ function fallbackMarketingCopy(spec, screen, index, screenById) {
   const evidence = (spec.positioning?.referenceEvidence || []).find((item) => item.screen === screen);
   const distinction = (spec.positioning?.distinctions || [])[index % Math.max(1, spec.positioning?.distinctions?.length || 1)];
   const headline = REVIEWED_HEADLINES[spec.slug]?.[screen] || matched?.heading || actionHeadline(screen, model.title);
-  const body = firstSentence(matched?.body || evidence?.behavior || distinction || spec.tagline);
+  const body = REVIEWED_BODIES[spec.slug]?.[screen]
+    || firstSentence(matched?.body || evidence?.behavior || distinction || spec.tagline);
   return { headline, body };
 }
 
@@ -176,8 +219,8 @@ export function assetPlan(spec, { template, screenIds } = {}) {
     const fallback = fallbackMarketingCopy(spec, screen, index, screenById);
     return {
       screen,
-      headline: override.headline || fallback.headline || titleById[screen] || screen,
-      body: override.body || fallback.body || spec.appStore?.subtitle || spec.tagline,
+      headline: cleanStoreCopy(override.headline || fallback.headline || titleById[screen] || screen),
+      body: cleanStoreCopy(override.body || fallback.body || spec.appStore?.subtitle || spec.tagline),
     };
   });
   const iphoneDevices = ['iphone-6.9', 'iphone-6.5', 'iphone-6.3', 'iphone-6.1'];
@@ -231,7 +274,7 @@ const css = (accent, tone, target) => {
     .canvas:before,.canvas:after{content:"";position:absolute;z-index:-1;pointer-events:none}
     .canvas:before{width:76%;aspect-ratio:1;right:-28%;top:-17%;border-radius:50%;background:${accent};filter:blur(${px(150)});opacity:${isLight ? '.075' : '.16'}}
     .canvas:after{left:-18%;bottom:-15%;width:64%;aspect-ratio:1;border-radius:50%;background:${accent};filter:blur(${px(190)});opacity:${isLight ? '.035' : '.075'}}
-    .copy{position:absolute;z-index:4}.headline{margin:0;letter-spacing:-.035em;font-weight:590;text-wrap:balance}.body{margin:0;color:${muted};letter-spacing:-.012em;font-weight:430;text-wrap:pretty}
+    .copy{position:absolute;z-index:4}.headline{margin:0;letter-spacing:-.035em;font-weight:590;text-wrap:balance}.body{margin:0;color:${muted};letter-spacing:-.012em;font-weight:430;text-wrap:balance}
     .device{position:absolute;z-index:3;background:#090a0c;border:${px(2)} solid #24272d;box-shadow:0 ${px(46)} ${px(120)} rgba(5,8,14,${isLight ? '.2' : '.52'}),inset 0 0 0 ${px(2)} rgba(255,255,255,.035)}
     .device img{display:block;width:100%;height:100%;object-fit:cover;background:#000}
     .portrait .copy{left:${px(92)};right:${px(92)};top:${px(205)};text-align:center;display:flex;flex-direction:column;align-items:center}
@@ -256,6 +299,8 @@ const preventRussianHangingWords = (value) => String(value)
     /(^|[\s(«„])((?:а|без|в|во|да|для|до|за|и|из|или|к|ко|на|над|но|о|об|от|по|под|при|про|с|со|у|через))\s+/giu,
     '$1$2\u00a0',
   );
+const preventTextWidow = (value) => String(value).replace(/(\S+)\s+(\S+)$/u, '$1\u00a0$2');
+export const beautifyStoreCopy = (value) => preventTextWidow(preventRussianHangingWords(value));
 
 function frameHtml({ spec, frame, screenshot, target, template, index }) {
   const meta = DEVICE_TARGETS[target];
@@ -263,7 +308,7 @@ function frameHtml({ spec, frame, screenshot, target, template, index }) {
   const headline = cleanHeadline(frame.headline);
   return `<!doctype html><html><head><meta charset="utf-8"><style>${css(accent, frame.tone, target)}</style></head>
     <body><main class="canvas ${meta.orientation} ${template}">
-      <section class="copy"><h1 class="headline">${esc(preventRussianHangingWords(headline))}</h1><p class="body">${esc(preventRussianHangingWords(cleanStoreCopy(frame.body)))}</p></section>
+      <section class="copy"><h1 class="headline">${esc(beautifyStoreCopy(headline))}</h1><p class="body">${esc(beautifyStoreCopy(cleanStoreCopy(frame.body)))}</p></section>
       <div class="device"><img src="data:image/png;base64,${screenshot.toString('base64')}" alt=""></div>
     </main></body></html>`;
 }
@@ -309,6 +354,19 @@ async function render(browser, html, { width, height, type = 'jpeg', quality = 9
   await page.setContent(html, { waitUntil: 'load' });
   await page.locator('.device img').waitFor({ state: 'visible' });
   const fitResult = await page.evaluate(() => {
+    const lineWordCounts = (element) => {
+      const node = element.firstChild;
+      if (!node || node.nodeType !== Node.TEXT_NODE) return [];
+      const lines = new Map();
+      for (const match of node.textContent.matchAll(/\S+/gu)) {
+        const range = document.createRange();
+        range.setStart(node, match.index);
+        range.setEnd(node, match.index + match[0].length);
+        const top = Math.round(range.getBoundingClientRect().top);
+        lines.set(top, (lines.get(top) || 0) + 1);
+      }
+      return [...lines.values()];
+    };
     const fit = (selector, maxLines, minSize) => {
       const element = document.querySelector(selector);
       let size = Number.parseFloat(getComputedStyle(element).fontSize);
@@ -317,13 +375,16 @@ async function render(browser, html, { width, height, type = 'jpeg', quality = 9
         size -= 2;
         element.style.fontSize = `${size}px`;
       }
-      return { selector, lines: lines(), size };
+      return { selector, lines: lines(), size, lineWordCounts: lineWordCounts(element) };
     };
     const ratio = document.querySelector('.canvas').classList.contains('portrait') ? innerWidth / 1320 : innerWidth / 2752;
     return [fit('.headline', 2, 72 * ratio), fit('.body', 2, 34 * ratio)];
   });
   for (const result of fitResult) {
     if (result.lines > 2.08) throw new Error(`${result.selector} не помещается в две строки даже при ${result.size}px`);
+    if (result.lineWordCounts.length > 1 && result.lineWordCounts.at(-1) === 1) {
+      throw new Error(`${result.selector} оставляет одно слово в последней строке`);
+    }
   }
   const buffer = await page.screenshot(type === 'jpeg' ? { type, quality } : { type });
   await page.close();
