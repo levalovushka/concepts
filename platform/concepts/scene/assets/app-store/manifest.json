@@ -1,0 +1,83 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "scene",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "dark",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1",
+    "ipad-13-landscape"
+  ],
+  "screens": [
+    {
+      "screen": "home",
+      "headline": "Концерт начинается здесь",
+      "body": "Премьеры и полные выступления — в одной живой витрине."
+    },
+    {
+      "screen": "watch",
+      "headline": "Смотрите концерт целиком",
+      "body": "Плеер, сетлист и продолжение на большом экране."
+    },
+    {
+      "screen": "moment",
+      "headline": "Сохраните точную секунду",
+      "body": "Вернитесь к песне вместе с артистом и сетлистом."
+    },
+    {
+      "screen": "clips",
+      "headline": "Откройте концерт из клипа",
+      "body": "Короткий фрагмент ведёт к полному выступлению."
+    },
+    {
+      "screen": "artist",
+      "headline": "Следите за премьерами",
+      "body": "Подписки собирают выступления тех, за кем вы следите."
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "ipad-13-landscape": {
+      "label": "iPad 13″",
+      "width": 2752,
+      "height": 2064,
+      "source": "ipad",
+      "orientation": "landscape",
+      "required": true
+    }
+  }
+}

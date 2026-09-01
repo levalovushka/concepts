@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "rehearsal",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "dark",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "today",
+      "headline": "Подготовьтесь к выступлению",
+      "body": "Таймлайн размечает структуру речи"
+    },
+    {
+      "screen": "recording",
+      "headline": "Пройдите весь прогон",
+      "body": "Задайте целевую длительность и пройдите одну"
+    },
+    {
+      "screen": "analysis",
+      "headline": "Найдите затянутые моменты",
+      "body": "Временная шкала покажет, где блок затянулся"
+    },
+    {
+      "screen": "moment",
+      "headline": "Повторите нужный фрагмент",
+      "body": "Временная шкала покажет, где блок затянулся"
+    },
+    {
+      "screen": "setup",
+      "headline": "Задайте точный тайминг",
+      "body": "Задайте целевую длительность и пройдите одну"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

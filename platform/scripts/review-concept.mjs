@@ -14,6 +14,7 @@ const stages = [
   ['Readiness', 'pipeline-proof.mjs', [slug]],
   ['Сборка', 'build.mjs', [slug]],
   ['Скриншоты', 'capture.mjs', [slug]],
+  ['App Store assets', 'app-store-assets.mjs', [slug]],
   ['Структура и anti-slop', 'lint-concept.mjs', [slug]],
   ['Геометрия и навигация', 'audit-visual.mjs', [slug]],
   ['Интерактивные сценарии', 'test-flows.mjs', [slug]],

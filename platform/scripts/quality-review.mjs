@@ -472,7 +472,10 @@ async function cli() {
   if (!slug) throw new Error('использование: quality-review.mjs [verify] <slug>');
   if (command === 'prepare') {
     const result = await prepareQualityReview(slug);
+    const { generateAppStoreAssets } = await import('./app-store-assets.mjs');
+    await generateAppStoreAssets(slug);
     console.log(`\n${slug}: review bundle ${relative(ROOT, result.runDir)}`);
+    console.log('  app-store: iPhone/iPad assets, gallery and ZIP generated');
     console.log(`  product: ${result.manifest.screens.product.length} · system/auth: ${result.manifest.screens.system.length} · signals: ${result.findings.signals.length} · hard failures: ${result.findings.hardFailures.length}`);
     if (!result.ok) process.exitCode = 1;
   } else {

@@ -17,6 +17,9 @@ import { archetypeFor } from './concept-quality.mjs';
 import { renderMarkdown } from './markdown.mjs';
 
 const read = (f) => readFileSync(f, 'utf8');
+const STATUS_ICONS = ['cellular', 'wifi', 'battery']
+  .map((name) => read(join(KERNEL, `status-${name}.svg`)).replace('<svg ', `<svg class="status-${name}" `))
+  .join('');
 
 /*
  * Единый auth-контракт HTML-прототипов. Старые phone → code →
@@ -621,9 +624,12 @@ const productContract = (spec) => {
 
 const docId = (file) => file.replace(/\.md$/i, '').replace(/[^a-z0-9-]/gi, '-');
 
-const docsLinks = (spec) =>
+const docsLinks = (spec, dir) =>
   (spec.docs || []).map((d, index) => `<button type="button" data-doc="${docId(d.file)}" aria-pressed="${index === 0}">${esc(d.label)}</button>`).join('\n      ') +
-  `\n      <a class="zip" href="docs/${spec.slug}-docs.zip" download>Скачать все (ZIP)</a>`;
+  `\n      <a class="zip" href="docs/${spec.slug}-docs.zip" download>Скачать все документы (ZIP)</a>` +
+  (existsSync(join(dir, 'assets', 'app-store', `${spec.slug}-app-store-assets.zip`))
+    ? `\n      <a href="#app-store-assets">Посмотреть App Store assets</a>\n      <a class="zip" href="assets/app-store/${spec.slug}-app-store-assets.zip" download>Скачать App Store assets (ZIP)</a>`
+    : '');
 
 const docsContent = (spec, dir) => (spec.docs || []).map((doc, index) => {
   const file = join(dir, 'docs', doc.file);
@@ -632,6 +638,32 @@ const docsContent = (spec, dir) => (spec.docs || []).map((doc, index) => {
     ${renderMarkdown(read(file))}
   </article>`;
 }).join('\n');
+
+const appStoreGallery = (spec, dir) => {
+  const root = join(dir, 'assets', 'app-store');
+  const manifestFile = join(root, 'manifest.json');
+  if (!existsSync(manifestFile)) return '';
+  const manifest = JSON.parse(read(manifestFile));
+  const locale = manifest.locale || 'ru-RU';
+  const template = manifest.template || 'studio';
+  const groups = (manifest.devices || []).map((device) => {
+    const source = join(root, locale, template, device);
+    if (!existsSync(source)) return '';
+    const files = readdirSync(source).filter((file) => file.endsWith('.jpg')).sort();
+    if (!files.length) return '';
+    const label = manifest.targets?.[device]?.label || device;
+    const images = files.map((file) => {
+      const href = `assets/app-store/${locale}/${template}/${device}/${file}`;
+      return `<a href="${href}" target="_blank" rel="noreferrer" aria-label="Открыть ${esc(label)} — ${esc(file)} в полном размере"><img data-src="${href}" alt="${esc(spec.name)} · ${esc(file)}" decoding="async"></a>`;
+    }).join('');
+    return `<div class="app-store-group"><h3>${esc(label)}</h3><div class="app-store-grid ${device.startsWith('ipad') ? 'is-ipad' : 'is-iphone'}">${images}</div></div>`;
+  }).filter(Boolean).join('');
+  if (!groups) return '';
+  return `<section class="section app-store-gallery" id="app-store-assets">
+    <div class="app-store-gallery-head"><div><h2>App Store assets</h2><p class="deck">Готовая серия из живого прототипа. Нажмите на кадр, чтобы открыть оригинал в полном размере.</p></div><a class="app-store-download" href="assets/app-store/${spec.slug}-app-store-assets.zip" download>Скачать ZIP</a></div>
+    ${groups}
+  </section>`;
+};
 
 const titleOf = (spec, id) => spec.screens.find((s) => s.id === id)?.title || id;
 
@@ -653,6 +685,20 @@ function packDocs(slug, dir) {
     if (existsSync(join(assets, 'screenshots'))) {
       execFileSync('zip', ['-r', '-q', join(docs, zip), 'screenshots'], { cwd: assets });
     }
+  } catch {
+    console.warn(`внимание: не удалось пересобрать ${zip} — нужен CLI zip`);
+  }
+}
+
+/** Экспорт стора большой, поэтому ZIP не коммитится и пересобирается рядом с ассетами. */
+function packAppStore(slug, dir) {
+  const root = join(dir, 'assets', 'app-store');
+  if (!existsSync(root)) return;
+  const zip = `${slug}-app-store-assets.zip`;
+  try {
+    rmSync(join(root, zip), { force: true });
+    const entries = readdirSync(root).filter((entry) => entry !== zip);
+    if (entries.length) execFileSync('zip', ['-r', '-q', zip, ...entries], { cwd: root });
   } catch {
     console.warn(`внимание: не удалось пересобрать ${zip} — нужен CLI zip`);
   }
@@ -734,9 +780,7 @@ const deviceShell = (proto, screensHtml, ledgerId) => `<div class="device" id="p
           <div class="status">
             <span>9:41</span>
             <span class="status-right" aria-hidden="true">
-              <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="0.5"/><rect x="4.5" y="5" width="3" height="7" rx="0.5"/><rect x="9" y="2.5" width="3" height="9.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity=".35"/></svg>
-              <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 3.6c2.1 0 4 1 5.3 2.5l-1.2 1.2A5.5 5.5 0 0 0 8 5.4c-1.5 0-2.9.6-3.9 1.6L2.9 5.8A7.6 7.6 0 0 1 8 3.6zm0 3.2c1.2 0 2.3.5 3.1 1.3L9.9 9.3A2.7 2.7 0 0 0 8 8.4c-.8 0-1.5.3-2 .8L4.9 8.1A4.5 4.5 0 0 1 8 6.8zM8 10.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>
-              <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="3.5" width="2" height="5" rx="0.6"/><rect x="2" y="3" width="15" height="6" rx="1"/></svg>
+              ${STATUS_ICONS}
             </span>
           </div>
           <div class="screens">
@@ -857,6 +901,7 @@ export function build(slug, { outDir } = {}) {
     <button type="button" data-view="ipad" aria-pressed="false">iPad</button>
   </div>` : '';
 
+  packAppStore(slug, dir);
   const html = fill(read(join(KERNEL, 'page.html')), {
     NAME: esc(spec.name),
     SLUG: spec.slug,
@@ -875,8 +920,9 @@ export function build(slug, { outDir } = {}) {
     VISION_BODY: grab('vision'),
     PRODUCT_CONTRACT: productContract(spec),
     ARCH_BODY: grab('arch'),
-    DOCS_LINKS: docsLinks(spec),
+    DOCS_LINKS: docsLinks(spec, dir),
     DOCS_CONTENT: docsContent(spec, dir),
+    APP_STORE_GALLERY: appStoreGallery(spec, dir),
     LEDGER_INTRO: `${spec.permissions.length} ключей. Каждый запрашивается в момент действия и стоит за фичей, которую видно в интерфейсе. Домен ссылок — только <code style="font-family:var(--mono);font-size:12px">${esc(spec.domain)}</code>.`,
     SECTIONS: sections,
     PERM_MATRIX: permMatrix(spec),

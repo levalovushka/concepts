@@ -925,6 +925,17 @@
         "why": "Только после ATT"
       }
     ],
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        { "screen": "home", "headline": "Повторяйте точнее", "body": "Короткий план показывает, что повторить сегодня" },
+        { "screen": "reference", "headline": "Разберите слабую фазу", "body": "Локальный анализ отмечает точный момент расхождения" },
+        { "screen": "camera", "headline": "Снимите новую попытку", "body": "Силуэт референса помогает сохранить движение в кадре" },
+        { "screen": "analysis", "headline": "Сравните кадр за кадром", "body": "Разница видна сразу после записи" },
+        { "screen": "retry", "headline": "Повторите только сложный момент", "body": "Короткая петля экономит время практики" }
+      ]
+    },
     "reviewAccount": {
       "email": "review@double.app",
       "password": "review2026",

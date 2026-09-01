@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "zemlyaki",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "city",
+      "headline": "Узнавайте город заново",
+      "body": "Местный эфир: интервью со старожилами, городские"
+    },
+    {
+      "screen": "object",
+      "headline": "Собирайте историю каждого места",
+      "body": "Местный эфир: интервью со старожилами, городские"
+    },
+    {
+      "screen": "messages",
+      "headline": "Говорите с земляками",
+      "body": "Личные и местные разговоры, голосовые сообщения"
+    },
+    {
+      "screen": "passport",
+      "headline": "Покажите свою точку на карте",
+      "body": "У встречи земляков есть свой экран"
+    },
+    {
+      "screen": "live",
+      "headline": "Слушайте городской эфир",
+      "body": "Местный эфир: интервью со старожилами, городские"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

@@ -13,6 +13,8 @@
     "docs": "node scripts/gen-docs.mjs",
     "spec": "node scripts/ux-spec.mjs",
     "shots": "node scripts/capture.mjs",
+    "app-store": "node scripts/app-store-assets.mjs",
+    "test:app-store": "node scripts/test-app-store-assets.mjs",
     "test": "node scripts/test-flows.mjs",
     "lint": "node scripts/lint-concept.mjs",
     "audit": "node scripts/audit-visual.mjs",

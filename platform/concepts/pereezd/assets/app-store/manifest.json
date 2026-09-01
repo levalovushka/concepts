@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "pereezd",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "today",
+      "headline": "Весь переезд перед глазами",
+      "body": "Вместо ленты — один этап и"
+    },
+    {
+      "screen": "boxes",
+      "headline": "Знайте, где каждая коробка",
+      "body": "Помощник — роль в переезде, а"
+    },
+    {
+      "screen": "route",
+      "headline": "Следите за всеми машинами",
+      "body": "Единица ценности — перемещённая коробка, а"
+    },
+    {
+      "screen": "box",
+      "headline": "Найдите нужное по метке",
+      "body": "Главная заканчивается текущим этапом, а не"
+    },
+    {
+      "screen": "scan",
+      "headline": "Сканируйте коробки на ходу",
+      "body": "Помощник — роль в переезде, а"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

@@ -46,6 +46,10 @@ async function run(slug) {
   ok(`старт = ${spec.start}`, (await cur()) === spec.start);
   ok('журнал пуст на старте', (await page.$$('#perms .perm:not([data-state="idle"])')).length === 0);
   ok('на старте нет промпта', !(await alertOn()));
+  ok('status bar не рисует свою подложку', await page.evaluate((h) => {
+    const color = getComputedStyle(document.querySelector(h + ' .status')).backgroundColor;
+    return color === 'transparent' || /rgba\([^)]*,\s*0\s*\)$/.test(color);
+  }, H));
   for (const sourcePrototype of sourceSpec.prototypes || []) {
     if (sourcePrototype.hero || sourcePrototype.start === 'phone' || ['code', 'codefail'].includes(sourcePrototype.start)) continue;
     const effectivePrototype = spec.prototypes.find((prototype) => prototype.id === sourcePrototype.id);
@@ -83,6 +87,14 @@ async function run(slug) {
   ok('loading формы остаётся внутри формы', await page.evaluate((h) => {
     const phone = document.querySelector(h + ' [data-screen="phone"]');
     return phone?.querySelector('[aria-disabled="true"].prototype-button-loading') && !document.querySelector(h + ' .prototype-state.is-on');
+  }, H));
+  ok('spinner loading-кнопки свёрстан в строку и не наезжает на текст', await page.evaluate((h) => {
+    const button = document.querySelector(h + ' [data-screen="phone"] .prototype-button-loading');
+    if (!button) return false;
+    const spinner = getComputedStyle(button, '::before');
+    return spinner.position === 'static'
+      && parseFloat(spinner.width) >= 12
+      && parseFloat(spinner.marginRight) >= 6;
   }, H));
   await page.click(`${H} ~ .controls [data-state="default"]`);
 

@@ -5,7 +5,7 @@
  *   node scripts/new-concept.mjs muzloop "Музлуп" vk-music differentiation
  *
  * Дальше: заполнить concept.json по PLAYBOOK.md (фазы 0–5), написать экраны,
- * медиа и доки, затем capture → check (фазы 7–10).
+ * медиа и доки, затем review → App Store assets → check (фазы 7–10).
  */
 import { cpSync, existsSync, readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -69,6 +69,6 @@ console.log(`создан ${dir}
   3. написать только три экрана среза по UI v3 и проверить их в полном размере
   4. только после принятия среза развернуть IA, медиа, стили и состояния
   5. поставить readiness.status=reviewed, собрать bundle и заполнить hash-bound review.json
-     npm run review -- ${slug}
+     npm run review -- ${slug}                # review bundle + App Store gallery/ZIP
      npm run proof -- ${slug}
      npm run check                           # единый приёмочный цикл всех концептов`);

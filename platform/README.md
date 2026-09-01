@@ -59,6 +59,7 @@ scripts/
   build.mjs                спека + экраны + ядро → самодостаточный index.html
   build-all.mjs            все концепты + галерея + ZIP доков
   capture.mjs              скриншоты экранов (фаза 8)
+  app-store-assets.mjs     App Store-серия, device mockup, размеры и ZIP
   test-flows.mjs           проверки, выведенные из спеки (фаза 9)
   lint-concept.mjs         сверка слоёв (фаза 10); `--kernel` — мёртвый код ядра
   gen-docs.mjs             блоки @generated в доках
@@ -107,6 +108,8 @@ native-dist/               сборка Xcode-проектов (генериру
 ```
 
 Нативная половина пайплайна — в [native-apps/README.md](native-apps/README.md).
+
+App Store-скриншоты собираются из живого прототипа командой `npm run app-store -- <slug>`. Для новых концептов этот шаг автоматически входит в `npm run review -- <slug>`: вместе с review bundle появляются iPhone/iPad-экспорты, встроенная галерея лаунчера и ZIP. Форматы и блок `appStore.assets` описаны в [kernel/app-store-assets.md](kernel/app-store-assets.md); актуальные требования Apple зафиксированы в корневом `docs/app-store-assets-requirements.md`.
 
 ## Контракт экрана
 

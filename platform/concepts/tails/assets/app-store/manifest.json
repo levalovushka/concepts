@@ -1,0 +1,79 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "tails",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "home",
+      "headline": "Свои рядом",
+      "body": "Знакомьтесь с питомцами и хозяевами своего района"
+    },
+    {
+      "screen": "pet",
+      "headline": "Найдите компанию по характеру",
+      "body": "Профиль подскажет, подойдут ли питомцы друг другу"
+    },
+    {
+      "screen": "nearby",
+      "headline": "Прогулки поблизости",
+      "body": "Темп, расстояние и компания видны до встречи"
+    },
+    {
+      "screen": "places",
+      "headline": "Места для прогулок",
+      "body": "Покрытие, ограждение и загруженность в одной карточке"
+    },
+    {
+      "screen": "chats",
+      "headline": "Договоритесь о встрече",
+      "body": "Обсудите маршрут без обмена личными контактами"
+    },
+    {
+      "screen": "walk",
+      "headline": "Сохраните маршрут прогулки",
+      "body": "Расстояние и время останутся в истории питомца"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

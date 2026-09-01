@@ -604,10 +604,30 @@
     }
   }
   if (docsNav) {
+    var storeGallery = document.getElementById('app-store-assets');
+    function loadStoreGallery() {
+      if (!storeGallery) return;
+      storeGallery.querySelectorAll('img[data-src]').forEach(function (image) {
+        image.src = image.dataset.src;
+        image.removeAttribute('data-src');
+      });
+    }
+    if (storeGallery && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, observer) {
+        if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+        loadStoreGallery();
+        observer.disconnect();
+      }, { rootMargin: '600px' }).observe(storeGallery);
+    }
     docsNav.addEventListener('click', function (event) {
       var button = event.target.closest('[data-doc]');
-      if (!button) return;
-      openDoc(button.dataset.doc);
+      if (button) openDoc(button.dataset.doc);
+      var storeLink = event.target.closest('a[href="#app-store-assets"]');
+      if (storeLink) {
+        event.preventDefault();
+        loadStoreGallery();
+        storeGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
     document.querySelector('.docs-reader').addEventListener('click', function (event) {
       var link = event.target.closest('a[href^="#doc-"]');

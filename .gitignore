@@ -9,6 +9,7 @@ platform/concepts/*/docs/*-docs.zip
 
 # Экспортные ZIP из Figma дублируют исходники и не участвуют в сборке
 platform/concepts/*/assets/*-figma-screens.zip
+platform/concepts/*/assets/app-store/*-app-store-assets.zip
 
 # Служебное
 platform/_sheet.html

@@ -2,16 +2,19 @@
    node scripts/capture.mjs petlya                     — все экраны
    node scripts/capture.mjs petlya scan yarn           — только указанные */
 import { chromium } from 'playwright';
-import { mkdir, readFile } from 'fs/promises';
+import { mkdir, readFile, readdir, unlink } from 'fs/promises';
 import { join } from 'path';
 import { ROOT, readSpec, readMarkup } from './lib.mjs';
-import { prepareEmailRegistration } from './build.mjs';
+import { build, prepareEmailRegistration } from './build.mjs';
 
 const [slug, ...args] = process.argv.slice(2);
 const sheet = args.includes('--sheet');
 const only = args.filter((arg) => arg !== '--sheet');
 if (!slug) { console.error('нужен slug: node scripts/capture.mjs petlya'); process.exit(1); }
 
+/* PNG должны соответствовать текущим исходникам, а не случайно оставшейся
+   сборке в dist. Это также гарантирует актуальный общий iOS chrome. */
+build(slug);
 const source = readSpec(slug);
 const concept = prepareEmailRegistration(source, readMarkup(slug, source)).spec;
 const light = Object.fromEntries(concept.screens.map((s) => [s.id, !!s.light]));
@@ -24,6 +27,17 @@ const outDir = join(ROOT, 'concepts', slug, 'assets', 'screenshots');
 const html = join(ROOT, 'dist', slug, 'index.html');
 
 await mkdir(outDir, { recursive: true });
+/* Полная пересъёмка также убирает PNG экранов, которых больше нет
+   в спецификации. При точечном capture остальные файлы не трогаем. */
+if (!only.length) {
+  const current = new Set(concept.screens.map((screen) => `${screen.id}.png`));
+  for (const file of await readdir(outDir)) {
+    if (file.endsWith('.png') && file !== 'overview.png' && !current.has(file)) {
+      await unlink(join(outDir, file));
+      console.log('удалён устаревший', file);
+    }
+  }
+}
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1100, height: 1100 } });
 await page.goto('file://' + html, { waitUntil: 'networkidle' });

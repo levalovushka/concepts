@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "ptitsy",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "season",
+      "headline": "Слышьте, кто рядом",
+      "body": "Виды, признаки и голоса доступны после"
+    },
+    {
+      "screen": "identify",
+      "headline": "Определите птицу без сети",
+      "body": "Модель распознавания и сезонный справочник находятся"
+    },
+    {
+      "screen": "result",
+      "headline": "Сравните похожие голоса",
+      "body": "Интерфейс оптимизирован для полевой прогулки"
+    },
+    {
+      "screen": "bird",
+      "headline": "Узнайте птицу ближе",
+      "body": "Виды, признаки и голоса доступны после"
+    },
+    {
+      "screen": "player",
+      "headline": "Слушайте с погасшим экраном",
+      "body": "Записи голосов продолжают звучать при погасшем"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "shellac",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "dark",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "archive",
+      "headline": "Найдите запись по этикетке",
+      "body": "Камера распознаёт этикетку пластинки"
+    },
+    {
+      "screen": "record",
+      "headline": "Узнайте историю пластинки",
+      "body": "Наведите камеру на этикетку: лейбл, название"
+    },
+    {
+      "screen": "player",
+      "headline": "Слушайте сторону целиком",
+      "body": "Никаких дорожек и перемотки вперёд: сторона"
+    },
+    {
+      "screen": "shelf",
+      "headline": "Храните свою полку",
+      "body": "Что есть на руках — с"
+    },
+    {
+      "screen": "background",
+      "headline": "Продолжайте слушать в фоне",
+      "body": "Единица каталога — сторона и матрица"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

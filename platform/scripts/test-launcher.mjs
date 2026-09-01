@@ -71,6 +71,8 @@ try {
     await page.click('[data-tab="docs"]');
     assert.equal(await page.locator('.docs-links a[href$=".md"]').count(), 0, `${url}: ссылка на сырой Markdown`);
     assert.ok(await page.locator('[data-doc-view]').count(), `${url}: нет встроенного чтения документов`);
+    assert.ok(await page.locator('#app-store-assets').count(), `${url}: нет встроенной галереи App Store`);
+    assert.ok(await page.locator('#app-store-assets img').count(), `${url}: галерея App Store пустая`);
   }
   await page.goto(pathToFileURL(launcherPath).href);
 

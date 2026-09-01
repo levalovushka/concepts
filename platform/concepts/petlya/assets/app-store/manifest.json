@@ -1,0 +1,83 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "petlya",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1",
+    "ipad-13-landscape"
+  ],
+  "screens": [
+    {
+      "screen": "lessons",
+      "headline": "Вяжите вместе с уроком",
+      "body": "Hands-free управление во время вязания"
+    },
+    {
+      "screen": "lesson",
+      "headline": "Смотрите, не отпуская спиц",
+      "body": "Один тап — и урок идёт"
+    },
+    {
+      "screen": "counter",
+      "headline": "Считайте ряды голосом",
+      "body": "Скажите «ряд» — счётчик прибавит"
+    },
+    {
+      "screen": "projects",
+      "headline": "Храните весь прогресс проекта",
+      "body": "Заметки привязаны к таймкоду урока "
+    },
+    {
+      "screen": "cast",
+      "headline": "Выведите урок на большой экран",
+      "body": "Скажите «ряд» — счётчик прибавит"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "ipad-13-landscape": {
+      "label": "iPad 13″",
+      "width": 2752,
+      "height": 2064,
+      "source": "ipad",
+      "orientation": "landscape",
+      "required": true
+    }
+  }
+}

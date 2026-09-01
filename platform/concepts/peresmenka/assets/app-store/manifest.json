@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "peresmenka",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "shifts",
+      "headline": "Все смены в одном графике",
+      "body": "График присылают картинкой в рабочий чат"
+    },
+    {
+      "screen": "checkin",
+      "headline": "Отмечайтесь на смене",
+      "body": "Приход и уход отмечаются, когда телефон"
+    },
+    {
+      "screen": "swaps",
+      "headline": "Найдите подмену быстрее",
+      "body": "Витрина, касса, холодильник — снимки и"
+    },
+    {
+      "screen": "person",
+      "headline": "Понимайте, кто выйдет на смену",
+      "body": "Витрина, касса, холодильник — снимки и"
+    },
+    {
+      "screen": "brief",
+      "headline": "Передайте смену без потерь",
+      "body": "Витрина, касса, холодильник — снимки и"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

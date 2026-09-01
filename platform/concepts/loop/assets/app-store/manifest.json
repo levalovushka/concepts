@@ -1,0 +1,74 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "loop",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "dark",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "home",
+      "headline": "Найдите луп для старта",
+      "body": "Каталог строится вокруг совместимых лупов с"
+    },
+    {
+      "screen": "detail",
+      "headline": "Услышьте каждый слой",
+      "body": "Плеер раскрывается в четырёхслойный редактор"
+    },
+    {
+      "screen": "player",
+      "headline": "Соберите ремикс на ходу",
+      "body": "Собственный звук сразу становится материалом для"
+    },
+    {
+      "screen": "studio",
+      "headline": "Запишите свой звук",
+      "body": "Каталог строится вокруг совместимых лупов с"
+    },
+    {
+      "screen": "background",
+      "headline": "Слушайте с погасшим экраном",
+      "body": "Плеер раскрывается в четырёхслойный редактор"
+    }
+  ],
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

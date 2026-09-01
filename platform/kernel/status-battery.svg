@@ -1,0 +1,5 @@
+<svg width="28" height="13" viewBox="0 0 28 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect opacity=".35" x=".5" y=".5" width="24" height="12" rx="3.8" stroke="currentColor"/>
+  <path opacity=".4" d="M26 4.78113V8.8566c.8047-.34517 1.328-1.14813 1.328-2.03774 0-.8896-.5233-1.69256-1.328-2.03773Z" fill="currentColor"/>
+  <rect x="2" y="2" width="21" height="9" rx="2.5" fill="currentColor"/>
+</svg>
