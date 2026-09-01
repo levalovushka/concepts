@@ -255,9 +255,10 @@ function customPhoneAuthScreen(source, target, spec) {
   }
 
   if (spec.slug === 'set') {
-    out = out
-      .replace('data-back aria-label="Закрыть"', `data-auth-target data-go="${target}" aria-label="Продолжить без аккаунта"`)
-      .replace('<span class="cx-wordmark"><i></i>', '<span class="cx-wordmark"><i class="auth-inline-brand"></i>');
+    out = out.replace(
+      'data-back aria-label="Закрыть"',
+      `data-auth-target data-go="${target}" aria-label="Продолжить без аккаунта"`,
+    );
   }
 
   if (!/<input\b[^>]*type="tel"/i.test(out)) {

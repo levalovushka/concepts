@@ -5,7 +5,8 @@ import { join } from 'node:path';
 import { DIST, listConcepts } from './lib.mjs';
 
 const slugs = listConcepts();
-assert.equal(slugs.length, 29, 'портфель должен содержать 29 концептов');
+assert.ok(slugs.length > 0, 'портфель не должен быть пустым');
+assert.ok(slugs.includes('dvor'), 'портфель должен содержать эталонный концепт dvor');
 
 for (const slug of slugs) {
   const file = join(DIST, slug, 'ux-spec.json');

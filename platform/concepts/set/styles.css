@@ -566,7 +566,6 @@
 .cx-wordmark i { width:24px; height:24px; border-radius:8px; background:linear-gradient(145deg,#62adfb,#327bd0); position:relative; }
 .cx-wordmark i::after { content:""; position:absolute; inset:7px; border:2px solid #fff; border-radius:50%; }
 .cx-auth-body { position:absolute; inset:99px 22px 0; padding:36px 0 calc(34px + var(--safe-bottom)); display:flex; flex-direction:column; }
-.cx-auth-kicker { color:#78b8fb; font-size:11px; line-height:14px; font-weight:750; letter-spacing:.12em; }
 .cx-auth h1 { margin:8px 0 9px; font-size:32px; line-height:36px; font-weight:800; letter-spacing:-.05em; }
 .cx-auth p { max-width:315px; margin:0; color:rgba(235,235,245,.58); font-size:14px; line-height:20px; }
 .cx-phone-field { margin-top:35px; padding:10px 14px 11px; border-radius:14px; display:grid; grid-template-columns:32px minmax(0,1fr); background:rgba(255,255,255,.07); }
@@ -576,17 +575,9 @@
 .cx-auth-foot { margin-top:auto; }
 .cx-auth-primary { width:100%; min-height:52px!important; border-radius:14px; background:#f2f3f5!important; color:#101114!important; font-size:15px!important; font-weight:680!important; }
 .cx-auth-foot small { display:block; margin:11px 12px 0; color:rgba(235,235,245,.4); font-size:11px; line-height:15px; text-align:center; }
-.cx-auth-foot .auth-legal { margin-top:7px; font-size:10px; line-height:13px; }
+.cx-auth-foot .auth-legal { margin-top:7px; font-size:11px; line-height:15px; }
 .cx-auth-foot .auth-support { margin-top:2px; }
 .cx-auth-foot .auth-support-link { min-height:44px; margin:-8px 0; font-size:10px; line-height:13px; }
-.cx-code-body { padding-top:36px; }
-.cx-otp { margin-top:32px; display:grid; grid-template-columns:repeat(4,1fr); gap:9px; }
-.cx-otp span { height:58px; border-radius:14px; display:grid; place-items:center; background:rgba(255,255,255,.07); font-size:23px; font-weight:620; }
-.cx-otp span.active { box-shadow:inset 0 0 0 2px #5fa9f6; }
-.cx-otp span.is-error { box-shadow:inset 0 0 0 2px #d70015; background:rgba(215,0,21,.12); color:#d70015; }
-.cx-field-caption { margin:10px 2px 0; font-size:13px; line-height:18px; font-weight:600; }
-.cx-field-caption.is-error { color:#d70015; }
-.cx-resend { align-self:flex-start; min-height:44px; margin-top:7px; color:#75b7fb!important; font-size:12px!important; }
 
 /* VK Music shell: exact VK blue across actions, tabs and progress. */
 .cx-screen{--cx-blue:#0077ff;--cx-blue-pressed:#0066d9}
@@ -595,8 +586,6 @@
 .cx-pills button.on{background:#0077ff!important;color:#fff!important}
 .cx-avatar{background:#0077ff;color:#fff}
 .cx-studio-icon,.cx-action-icon,.cx-settings>button>span{color:#58a6ff}
-.cx-otp span.active{box-shadow:inset 0 0 0 2px #0077ff}
-.cx-resend{color:#58a6ff!important}
 
 /* VK Music reference shell. */
 #scr-home{background:var(--cx-bg)!important}

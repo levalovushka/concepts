@@ -270,8 +270,8 @@
 .vl-offline-progress{background-color:#ececf1;border-radius:4px;display:block;grid-column:1/4;height:4px;margin-top:8px;overflow:hidden}
 .vl-offline-progress i{background-color:var(--vl-accent);display:block;height:100%;width:88%}
 .vl-offline-card>em{color:var(--vl-muted);font-size:11px;font-style:normal;grid-column:1/4;line-height:15px;margin-top:3px}
-.vl-library-rail button{flex-basis:128px}
-.vl-library-rail img{height:128px;width:128px}
+.vl-library-rail button{flex-basis:132px}
+.vl-library-rail img{height:132px;width:132px}
 .vl-service-stations>button{min-height:66px}
 .vl-service-stations>button>svg{color:var(--vl-ink)}
 .vl-album{background-color:#f8f8fa}

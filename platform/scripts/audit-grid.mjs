@@ -42,13 +42,17 @@ for (const slug of slugs) {
       /* Сравниваем внутри одного списка: на экране законно бывают строки
          со значком и строки без него — это разные виды строк, а не разъезд. */
       const groups = new Map();
+      const listIds = new WeakMap();
+      let nextListId = 0;
       for (const row of rows) {
         const label = [...row.querySelectorAll('strong, .t-body, h3')].find((e) => (e.textContent || '').trim());
         if (!label) continue;
         const x = Math.round(label.getBoundingClientRect().left - base.left);
         if (x < 24 || x > 220) continue;
         const hasArt = !!row.querySelector('[class*="row-art"], [class*="avatar"], [class*="lead"], [class*="cover"], [class*="thumb"]');
-        const key = (row.parentElement?.className || 'root').toString() + '|' + hasArt;
+        const list = row.parentElement || scr;
+        if (!listIds.has(list)) listIds.set(list, nextListId++);
+        const key = `${listIds.get(list)}|${hasArt}`;
         const g = groups.get(key) || {};
         (g[x] = g[x] || []).push((label.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 30));
         groups.set(key, g);

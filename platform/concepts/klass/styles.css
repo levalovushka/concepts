@@ -785,6 +785,7 @@
 }
 .r-page .navbar {
   background-color: #fff;
+  grid-template-columns: minmax(44px, 1fr) minmax(0, 52%) minmax(44px, 1fr);
 }
 /* Строка ввода не наезжает на индикатор «Домой». */
 .r-inputbar {

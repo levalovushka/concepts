@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 /** Единый приёмочный цикл: всё, что должно быть зелёным перед публикацией. */
-import { spawnSync } from 'node:child_process';
-import { join } from 'node:path';
-import { ROOT } from './lib.mjs';
+import { runScriptPipeline } from './pipeline-runner.mjs';
 
 const stages = [
   ['Продуктовые ворота', 'pipeline-proof.mjs'],
@@ -16,13 +14,6 @@ const stages = [
   ['Сценарии', 'test-flows.mjs'],
 ];
 
-for (const [label, script] of stages) {
-  console.log(`\n━━ ${label} ━━`);
-  const result = spawnSync(process.execPath, [join(ROOT, 'scripts', script)], {
-    cwd: ROOT,
-    stdio: 'inherit',
-  });
-  if (result.status !== 0) process.exit(result.status ?? 1);
-}
-
-console.log('\n✓ Все проверки зелёные');
+const result = runScriptPipeline(stages);
+if (!result.ok) process.exitCode = result.status;
+else console.log('\n✓ Все проверки зелёные');

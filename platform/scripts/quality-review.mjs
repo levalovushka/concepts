@@ -16,6 +16,7 @@ import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { CONCEPTS, DIST, ROOT, conceptDir, readMarkup, readSpec } from './lib.mjs';
 import { build, prepareEmailRegistration } from './build.mjs';
+import { runScriptStage } from './pipeline-runner.mjs';
 import {
   CONSISTENCY_FAMILIES, requiresPreviousReview, sameJson, validateHumanReview, validateIterationReview, VISUAL_LENSES,
 } from './quality-review-contract.mjs';
@@ -139,7 +140,7 @@ function sourceHashes(slug, spec) {
   const shared = {};
   for (const name of ['page.html', 'base.css', 'tablet.css', 'icons.svg', 'engine.js']) shared[`kernel/${name}`] = hashFile(join(ROOT, 'kernel', name));
   for (const name of [
-    'build.mjs', 'lib.mjs', 'screen-map.mjs', 'concept-quality.mjs', 'markdown.mjs',
+    'build.mjs', 'lib.mjs', 'paths.mjs', 'pipeline-runner.mjs', 'screen-map.mjs', 'concept-quality.mjs', 'markdown.mjs',
     'quality-review.mjs', 'quality-review-contract.mjs', 'lint-concept.mjs',
     'audit-visual.mjs', 'audit-grid.mjs', 'test-flows.mjs',
   ]) shared[`scripts/${name}`] = hashFile(join(ROOT, 'scripts', name));
@@ -154,13 +155,6 @@ function pngHashes(dir, root = dir, out = {}) {
     else if (entry.isFile() && entry.name.endsWith('.png')) out[relative(root, file)] = hashFile(file);
   }
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)));
-}
-
-function runStage(script, args) {
-  const result = spawnSync(process.execPath, [join(ROOT, 'scripts', script), ...args], {
-    cwd: ROOT, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
-  });
-  return { script, ok: result.status === 0, status: result.status, output: `${result.stdout || ''}${result.stderr || ''}`.trim() };
 }
 
 function browserProbe() {
@@ -398,8 +392,8 @@ export async function prepareQualityReview(slug, options = {}) {
      нужна вторая сборка до browser flows. */
   build(slug);
   const auditStages = [
-    runStage('lint-concept.mjs', [slug]), runStage('audit-visual.mjs', [slug]),
-    runStage('audit-grid.mjs', [slug]), runStage('test-flows.mjs', [slug]),
+    runScriptStage('lint-concept.mjs', [slug]), runScriptStage('audit-visual.mjs', [slug]),
+    runScriptStage('audit-grid.mjs', [slug]), runScriptStage('test-flows.mjs', [slug]),
   ];
   findings.auditStages = auditStages;
   auditStages.filter((stage) => !stage.ok && stage.script !== 'audit-grid.mjs').forEach((stage) => findings.hardFailures.push({ id: `hard-stage-${safeId(basename(stage.script, '.mjs'))}`, screen: null, kind: 'objective-audit-failed', selector: stage.script, detail: stage.output.slice(-4000) }));

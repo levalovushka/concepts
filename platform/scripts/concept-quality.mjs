@@ -1,8 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { ROOT } from './paths.mjs';
 
-const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const readJson = (file) => JSON.parse(readFileSync(join(ROOT, 'kernel', file), 'utf8'));
 const RECIPES = readJson('screen-recipes.json');
 const ARCHETYPES = Object.fromEntries(['vk-music', 'vk-video', 'vkontakte', 'ok'].map((id) => [id, readJson(`archetypes/${id}.json`)]));

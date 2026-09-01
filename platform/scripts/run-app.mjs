@@ -39,7 +39,7 @@ export async function runNative(slug, appArgs = []) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const [slug, ...appArgs] = process.argv.slice(2);
   if (!slug) {
-    console.error('использование: node scripts/run-native.mjs <slug> [-grant:key,key] [-deny:key]');
+    console.error('использование: node scripts/run-app.mjs <slug> [-grant:key,key] [-deny:key]');
     process.exit(1);
   }
   try {

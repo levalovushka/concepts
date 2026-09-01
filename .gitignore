@@ -7,6 +7,9 @@ platform/dist/
 # Артефакт сборки: ZIP доков складывает build-all рядом с доками концепта
 platform/concepts/*/docs/*-docs.zip
 
+# Экспортные ZIP из Figma дублируют исходники и не участвуют в сборке
+platform/concepts/*/assets/*-figma-screens.zip
+
 # Служебное
 platform/_sheet.html
 .DS_Store

@@ -16,20 +16,22 @@ import { prepareEmailRegistration } from './build.mjs';
 const read = (f) => readFileSync(f, 'utf8');
 
 /** Классы верхнего уровня — для поиска мёртвых правил. Lookbehind отсекает «base.css». */
+const cssWithoutComments = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
+
 const classesIn = (css) =>
-  new Set([...css.matchAll(/(?<![\w-])\.([a-z][a-z0-9-]+)(?=[\s,.:{>[])/g)].map((m) => m[1]));
+  new Set([...cssWithoutComments(css).matchAll(/(?<![\w-])\.([a-z][a-z0-9-]+)(?=[\s,.:{>[])/g)].map((m) => m[1]));
 
 /**
  * Классы, которые правило объявляет «с нуля»: селектор — ровно `.name`.
  * `.photo.p1` или `.row.row-media` — это расширение ядра, а не конфликт.
  */
 const bareClassesIn = (css) =>
-  new Set([...css.matchAll(/(?:^|[},])\s*((?:\.[a-z][a-z0-9-]+\s*,\s*)*\.[a-z][a-z0-9-]+)\s*\{/g)]
+  new Set([...cssWithoutComments(css).matchAll(/(?:^|[},])\s*((?:\.[a-z][a-z0-9-]+\s*,\s*)*\.[a-z][a-z0-9-]+)\s*\{/g)]
     .flatMap((m) => m[1].split(',').map((s) => s.trim().slice(1))));
 
 /** Все имена классов, включая модификаторы в составных селекторах (.photo.p11). */
 const allClassTokens = (css) =>
-  new Set([...css.matchAll(/\.([a-z][a-z0-9-]+)(?=[\s,.:{>[])/g)].map((m) => m[1]));
+  new Set([...cssWithoutComments(css).matchAll(/\.([a-z][a-z0-9-]+)(?=[\s,.:{>[])/g)].map((m) => m[1]));
 
 /** Ядро общее: класс мёртв, только если его не использует НИ ОДИН концепт. */
 function lintKernel() {
@@ -257,7 +259,7 @@ function lint(slug) {
   /* Комментарии попадают в собранный HTML вместе с CSS/JS, но не являются
      пользовательским интерфейсом. Не считаем совпадения внутри них утечкой
      бренда: иначе экран «Сегодня» даёт ложный конфликт с одноимённым концептом. */
-  const renderedHtml = html
+  const renderedHtml = Object.values(effectiveMarkup).join('\n')
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/(^|\n)\s*\/\/[^\n]*/g, '$1');

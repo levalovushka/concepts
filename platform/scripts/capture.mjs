@@ -3,13 +3,9 @@
    node scripts/capture.mjs petlya scan yarn           — только указанные */
 import { chromium } from 'playwright';
 import { mkdir, readFile } from 'fs/promises';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { readSpec, readMarkup } from './lib.mjs';
+import { join } from 'path';
+import { ROOT, readSpec, readMarkup } from './lib.mjs';
 import { prepareEmailRegistration } from './build.mjs';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = join(__dirname, '..');
 
 const [slug, ...args] = process.argv.slice(2);
 const sheet = args.includes('--sheet');
@@ -24,8 +20,8 @@ const hero = (concept.prototypes || []).find((p) => p.hero) || (concept.prototyp
 const H = `#pr-${hero.id}`;
 const ids = concept.screens.map((s) => s.id).filter((id) => !only.length || only.includes(id));
 
-const outDir = join(root, 'concepts', slug, 'assets', 'screenshots');
-const html = join(root, 'dist', slug, 'index.html');
+const outDir = join(ROOT, 'concepts', slug, 'assets', 'screenshots');
+const html = join(ROOT, 'dist', slug, 'index.html');
 
 await mkdir(outDir, { recursive: true });
 const browser = await chromium.launch();

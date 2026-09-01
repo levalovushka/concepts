@@ -49,8 +49,10 @@ kernel/                    общее ядро — версионируется 
   doc-templates/           заготовки доков 01–06
   media-primitives.mjs     цвет, детерминированный псевдослучай
 scripts/
+  paths.mjs                единый реестр путей platform/kernel/concepts/dist
   lib.mjs                  пути, чтение и ВАЛИДАЦИЯ спеки, производные данные
   concept-quality.mjs      глубокий модуль продуктового и UI-качества
+  pipeline-runner.mjs      единый запуск стадий check/review/quality-review
   pipeline-proof.mjs       быстрые продуктовые ворота до сборки
   screen-map.mjs           карта экранов из разметки: дерево IA, таблица переходов
   new-concept.mjs          скаффолд из _template

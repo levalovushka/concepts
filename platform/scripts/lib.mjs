@@ -1,15 +1,11 @@
 /** Общее для всех инструментов платформы: пути, чтение спеки, производные данные. */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { validateConceptQuality, validateUiContract } from './concept-quality.mjs';
+import { CONCEPTS } from './paths.mjs';
 
 export { POSITIONING_MODES } from './concept-quality.mjs';
-
-export const ROOT = fileURLToPath(new URL('..', import.meta.url));
-export const KERNEL = join(ROOT, 'kernel');
-export const CONCEPTS = join(ROOT, 'concepts');
-export const DIST = join(ROOT, 'dist');
+export { CONCEPTS, DIST, KERNEL, ROOT, SCRIPTS } from './paths.mjs';
 
 /** Один реестр связывает набор доступов, продукт-референс и категорию стора. */
 export const TARGET_PRODUCTS = {

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /** Полная приёмка одного концепта после ручных visual passes. */
-import { spawnSync } from 'node:child_process';
-import { join } from 'node:path';
-import { ROOT, readSpec } from './lib.mjs';
+import { readSpec } from './lib.mjs';
+import { runScriptPipeline } from './pipeline-runner.mjs';
 
 const [slug] = process.argv.slice(2);
 if (!slug) {
@@ -20,9 +19,6 @@ const stages = [
   ['Интерактивные сценарии', 'test-flows.mjs', [slug]],
 ];
 
-for (const [label, script, args] of stages) {
-  console.log(`\n━━ ${label} ━━`);
-  const result = spawnSync(process.execPath, [join(ROOT, 'scripts', script), ...args], { cwd: ROOT, stdio: 'inherit' });
-  if (result.status !== 0) process.exit(result.status ?? 1);
-}
-console.log(`\n✓ ${slug}: готов к интеграции`);
+const result = runScriptPipeline(stages);
+if (!result.ok) process.exitCode = result.status;
+else console.log(`\n✓ ${slug}: готов к интеграции`);

@@ -198,26 +198,6 @@
   align-items: center;
   justify-content: center;
 }
-.rd-otp {
-  display: flex;
-  gap: 10px;
-  margin-top: 34px;
-}
-.rd-otp span {
-  width: 54px;
-  height: 62px;
-  border-radius: 16px;
-  background: var(--rd-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font:
-    600 26px/1 "IBM Plex Mono",
-    monospace;
-}
-.rd-otp span.active {
-  box-shadow: inset 0 0 0 2px var(--rd-ink);
-}
 .rd-avatar {
   width: 34px;
   height: 34px;
@@ -1416,8 +1396,7 @@
   background: #f3f4f6 !important;
   color: #111318 !important;
 }
-.rd-secondary,
-.rd-otp span {
+.rd-secondary{
   background: #1d1f23 !important;
   color: #f4f5f7 !important;
 }
@@ -3053,39 +3032,6 @@
   border-right: 1px solid rgba(255, 255, 255, 0.12) !important;
   color: rgba(235, 235, 245, 0.72) !important;
 }
-.screen[data-screen="code"] .rd-otp,
-.screen[data-screen="codefail"] .rd-otp {
-  display: grid !important;
-  grid-template-columns: repeat(4, 52px) !important;
-  gap: 10px !important;
-}
-.screen[data-screen="code"] .rd-otp input,
-.screen[data-screen="codefail"] .rd-otp input {
-  width: 52px !important;
-  height: 56px !important;
-  padding: 0 !important;
-  border: 1px solid rgba(255, 255, 255, 0.14) !important;
-  border-radius: 14px !important;
-  outline: 0 !important;
-  background: #19191a !important;
-  color: #f2f3f5 !important;
-  font: inherit !important;
-  font-size: 22px !important;
-  line-height: 56px !important;
-  font-weight: 510 !important;
-  text-align: center !important;
-  caret-color: #f2f3f5 !important;
-}
-.screen[data-screen="code"] .rd-otp input:focus,
-.screen[data-screen="codefail"] .rd-otp input:focus {
-  border-color: rgba(255, 255, 255, 0.72) !important;
-}
-.screen[data-screen="code"] .rd-otp input.is-error,
-.screen[data-screen="codefail"] .rd-otp input.is-error {
-  border-color: #d70015 !important;
-  background: rgba(215, 0, 21, 0.12) !important;
-  color: #d70015 !important;
-}
 .screen[data-screen="code"] .rd-field-caption,
 .screen[data-screen="codefail"] .rd-field-caption {
   margin: 10px 0 0 !important;
@@ -3131,17 +3077,6 @@
 /* The create menu follows the native VK Video action-sheet rhythm. */
 .screen[data-screen="create"] .rd-create-sheet-row + .rd-create-sheet-row {
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-.screen[data-screen="code"] .rd-resend ,
-.screen[data-screen="codefail"] .rd-resend {
-  min-height: 44px !important;
-  margin-top: 8px !important;
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: rgba(235, 235, 245, 0.4) !important;
-  font-size: 13px !important;
-  text-align: left !important;
 }
 .screen[data-screen="phone"] .rd-auth-foot,
 .screen[data-screen="code"] .rd-auth-foot ,
@@ -3437,10 +3372,6 @@
 .screen[data-screen="code"] .rd-auth-copy ,
 .screen[data-screen="codefail"] .rd-auth-copy {
   margin-top: 44px !important;
-}
-.screen[data-screen="code"] .rd-otp ,
-.screen[data-screen="codefail"] .rd-otp {
-  margin-top: 32px !important;
 }
 .screen[data-screen="phone"] .rd-auth-foot,
 .screen[data-screen="code"] .rd-auth-foot ,

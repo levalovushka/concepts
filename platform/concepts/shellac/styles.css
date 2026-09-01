@@ -530,9 +530,7 @@
 
 /* —— музыкальный вход —— */
 .sm-login { background:radial-gradient(110% 56% at 20% -5%,rgba(0,119,255,.22),transparent 58%),linear-gradient(180deg,#121b28 0%,#19191b 48%)!important; }
-.sm-login-head { min-height:calc(var(--safe-top) + 48px); padding:var(--safe-top) 16px 0; box-sizing:border-box; display:flex; align-items:center; }
 .sm-login-body { height:100%; padding:calc(var(--safe-top) + 38px) 22px calc(var(--safe-bottom) + 24px); box-sizing:border-box; display:flex; flex-direction:column; }
-.sm-code-body { height:calc(100% - var(--safe-top) - 48px); padding-top:28px; }
 .sm-login-brand { width:58px; height:58px; position:relative; border-radius:19px; background:#0077ff; box-shadow:0 18px 38px rgba(0,119,255,.22); }
 .sm-login-brand::before { content:""; width:30px; height:30px; position:absolute; left:14px; top:14px; border-radius:50%; border:5px solid rgba(255,255,255,.94); box-sizing:border-box; }
 .sm-login-brand i { width:6px; height:6px; position:absolute; left:26px; top:26px; border-radius:50%; background:#fff; }
@@ -544,15 +542,6 @@
 .sm-phone-field input { width:100%; margin-top:4px; padding:0; border:0; outline:0; background:none; color:#fff; font:560 18px/24px var(--face); }
 .sm-login-primary { min-height:54px; margin-top:14px; border:0; border-radius:17px; background:#fff; color:#15121a; font:700 15px/19px var(--face); }
 .sm-login-body>small { margin:12px 10px 0; color:rgba(255,255,255,.4); text-align:center; font:450 11px/15px var(--face); }
-.sm-code-body .sm-login-name { margin-top:0; }
-.sm-otp { margin-top:34px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-.sm-otp span { height:62px; border-radius:16px; display:grid; place-items:center; background:rgba(255,255,255,.08); color:#fff; font:600 26px/1 var(--face); }
-.sm-otp span.is-active { box-shadow:inset 0 0 0 2px #0077ff; }
-.sm-otp span.is-error { box-shadow:inset 0 0 0 2px #d70015; background:rgba(215,0,21,.14); color:#fff; }
-.sm-field-caption { margin:10px 2px 0; font:450 13px/18px var(--face); }
-.sm-field-caption.is-error { color:#d70015; }
-.sm-resend { min-height:44px; margin-top:12px; border:0; background:none; color:#58a6ff; font:550 13px/18px var(--face); }
-.sm-code-body .sm-login-primary { margin-top:auto; }
 
 /* тёмные системные состояния: поверхности без лишних белых карточек */
 [id$="-scanfound"] .navbar,[id$="-scanfail"] .navbar,[id$="-notfound"] .navbar,[id$="-want"] .navbar { background:rgba(11,11,13,.92)!important; border-color:transparent!important; }
@@ -625,8 +614,7 @@
 /* Final VK Music palette and player contract: no violet interface colors. */
 .sm-login{background:radial-gradient(110% 54% at 25% -6%,rgba(0,119,255,.22),transparent 62%),#19191b!important}
 .sm-login-brand{background:#0077ff!important;box-shadow:0 16px 36px rgba(0,119,255,.22)!important}
-.sm-login-name,.sm-resend{color:#58a6ff!important}
-.sm-otp span.is-active{box-shadow:inset 0 0 0 2px #0077ff!important}
+.sm-login-name{color:#58a6ff!important}
 .sm-login-primary,.sm-primary,[id$="-scanfound"] .btn-filled{background:#0077ff!important;color:#fff!important}
 .sm-login-primary svg,.sm-primary svg,[id$="-scanfound"] .btn-filled svg{color:#fff!important;stroke:currentColor!important}
 .sm-tabs .tab.is-on{color:#fff!important}

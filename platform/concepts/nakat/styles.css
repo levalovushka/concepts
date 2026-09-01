@@ -7,6 +7,8 @@
 .nk-pad { padding: 12px var(--margin) 24px; }
 .nk-group { margin-bottom: 22px; }
 .nk-list { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 .5px rgba(60,60,67,.13); }
+[data-screen="notif"] .row-avatar { width: 29px; height: 29px; }
+[data-screen="notif"] .row.has-avatar::after { left: 60px; }
 .nk-meta { font: 400 13px/17px var(--face); color: var(--ios-secondary); letter-spacing: -.01em; }
 /* Строка списка здесь несёт контент, а не пункт настроек: ядро режет такие
    заголовки многоточием (`.grow > .t-headline` — nowrap), поэтому в своих

@@ -5,10 +5,18 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { assessConceptReadiness } from './concept-quality.mjs';
 import { CONCEPTS, listConcepts, readSpec, validate } from './lib.mjs';
+import { runScriptStage } from './pipeline-runner.mjs';
 import { CONSISTENCY_FAMILIES, detectCrossScreenSignals, detectHeuristicSignals, validateHumanReview, validateIterationReview, VISUAL_LENSES } from './quality-review.mjs';
 import { requiresPreviousReview } from './quality-review-contract.mjs';
 
 const ROOT_FIXTURE = join(fileURLToPath(new URL('.', import.meta.url)), 'fixtures', 'quality-review');
+
+const successfulStage = runScriptStage('fixtures/tooling/stage-ok.mjs', ['fixture']);
+assert.equal(successfulStage.ok, true, successfulStage.output);
+assert.equal(successfulStage.output, 'stage-ok:fixture');
+const missingStage = runScriptStage('fixtures/tooling/missing.mjs');
+assert.equal(missingStage.ok, false, 'missing pipeline stage must fail');
+assert.equal(missingStage.status, 1);
 
 for (const slug of listConcepts()) readSpec(slug);
 
