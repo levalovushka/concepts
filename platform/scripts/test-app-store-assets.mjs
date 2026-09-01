@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { assetPlan, beautifyStoreCopy, DEVICE_TARGETS, screenUsesDarkStatusInk, TEMPLATES } from './app-store-assets.mjs';
+import { assetPlan, beautifyStoreCopy, DEVICE_TARGETS, IPHONE_COMPOSITION, screenUsesDarkStatusInk, TEMPLATES } from './app-store-assets.mjs';
 import { listConcepts, readSpec } from './lib.mjs';
 
 const spec = {
@@ -36,6 +36,8 @@ assert.equal(DEVICE_TARGETS['iphone-6.1'].height, 2532);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].width, 2752);
 assert.equal(DEVICE_TARGETS['ipad-13-landscape'].height, 2064);
 assert.deepEqual(TEMPLATES, ['studio']);
+assert.equal(IPHONE_COMPOSITION.deviceTop, 720, 'телефон должен уходить за нижнюю границу кадра');
+assert.equal(IPHONE_COMPOSITION.statusOffset, 6, 'status bar должен быть совмещён с центром Dynamic Island');
 assert.equal(screenUsesDarkStatusInk({ screens: [{ id: 'feed', light: true }] }, 'feed'), true);
 assert.equal(screenUsesDarkStatusInk({ screens: [{ id: 'clips', light: false }] }, 'clips'), false);
 assert.equal(

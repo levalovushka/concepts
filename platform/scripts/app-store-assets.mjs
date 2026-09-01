@@ -27,6 +27,7 @@ import { build } from './build.mjs';
 import { conceptDir, esc, KERNEL, readSpec } from './lib.mjs';
 
 const IPHONE_FRAME = readFileSync(join(KERNEL, 'iphone-frame.png'));
+export const IPHONE_COMPOSITION = Object.freeze({ deviceTop: 720, statusOffset: 6 });
 
 export const TEMPLATES = ['studio'];
 
@@ -287,7 +288,7 @@ const css = (accent, tone, target) => {
     .portrait .copy{left:${px(92)};right:${px(92)};top:${px(205)};text-align:center;display:flex;flex-direction:column;align-items:center}
     .portrait .headline{max-width:${px(1120)};font-size:${px(104)};line-height:1.01}
     .portrait .body{max-width:${px(1040)};margin-top:${px(28)};font-size:${px(43)};line-height:1.22}
-    .portrait .device{left:${px(120)};top:${px(630)};width:${px(1080)};aspect-ratio:1002/2087}
+    .portrait .device{left:${px(120)};top:${px(IPHONE_COMPOSITION.deviceTop)};width:${px(1080)};aspect-ratio:1002/2087}
     .portrait .device-screen{left:4.39%;top:2.3%;width:91.22%;height:95.4%;border-radius:11.8%/5.6%}
     .landscape .copy{left:${px(210)};right:${px(210)};top:${px(122)};height:${px(250)};display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:${px(120)};align-items:end}
     .landscape .headline{max-width:${px(1480)};font-size:${px(100)};line-height:1.01}
@@ -322,7 +323,7 @@ function frameHtml({ spec, frame, screenshot, target, template, index }) {
 }
 
 async function selectScreen(page, selector, screenId, ipad, darkInk) {
-  await page.evaluate(({ selector, screenId, ipad, darkInk }) => {
+  await page.evaluate(({ selector, screenId, ipad, darkInk, IPHONE_COMPOSITION }) => {
     const root = document.querySelector(selector);
     root.classList.toggle('is-ipad', ipad);
     root.style.boxShadow = 'none';
@@ -334,9 +335,10 @@ async function selectScreen(page, selector, screenId, ipad, darkInk) {
     });
     root.querySelector(`[data-screen="${screenId}"]`)?.classList.add('is-on');
     root.querySelector('.status')?.classList.toggle('dark-ink', darkInk);
+    if (root.querySelector('.status')) root.querySelector('.status').style.transform = ipad ? '' : `translateY(${IPHONE_COMPOSITION.statusOffset}px)`;
     root.querySelector('.sysask')?.classList.remove('is-on');
     root.querySelector('.snackbar')?.classList.remove('is-on');
-  }, { selector, screenId, ipad, darkInk });
+  }, { selector, screenId, ipad, darkInk, IPHONE_COMPOSITION });
   await page.waitForTimeout(120);
 }
 

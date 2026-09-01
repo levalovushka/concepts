@@ -50,6 +50,13 @@ async function run(slug) {
     const color = getComputedStyle(document.querySelector(h + ' .status')).backgroundColor;
     return color === 'transparent' || /rgba\([^)]*,\s*0\s*\)$/.test(color);
   }, H));
+  ok('auth не получает чужую подложку под status bar', await page.evaluate((h) => {
+    const auth = document.querySelector(h + ' .screen.unified-auth');
+    if (!auth) return true;
+    const pseudo = getComputedStyle(auth, '::before');
+    const color = pseudo.backgroundColor;
+    return pseudo.content === 'none' || color === 'transparent' || /rgba\([^)]*,\s*0\s*\)$/.test(color);
+  }, H));
   for (const sourcePrototype of sourceSpec.prototypes || []) {
     if (sourcePrototype.hero || sourcePrototype.start === 'phone' || ['code', 'codefail'].includes(sourcePrototype.start)) continue;
     const effectivePrototype = spec.prototypes.find((prototype) => prototype.id === sourcePrototype.id);

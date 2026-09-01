@@ -843,7 +843,7 @@
 /* Сам status bar остаётся прозрачным. Белая поверхность светлой шапки
    продолжается под safe area на уровне экрана, поэтому над «Лентой» не
    возникает отдельная серая полоса. */
-.r-page:not(.r-dark)::before {
+.r-page:not(.r-dark):not(.unified-auth)::before {
   content: "";
   position: absolute;
   z-index: 0;
