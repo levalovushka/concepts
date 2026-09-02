@@ -32,22 +32,28 @@ struct EventsHubView: View {
                 }
             }
 
-            DSectionTitle(text: "Заявка в диспетчерскую")
+            DSectionTitle(text: "Диспетчерская")
             DCard {
-                DRow(title: "Надиктовать заявку", subtitle: "получится текстовый черновик") {
+                DRow(title: "Новая заявка голосом", subtitle: "опишите проблему и назовите подъезд") {
                     DBullet(symbol: "waveform", tint: D.accent)
+                } trailing: {
+                    DChevron()
                 } action: {
                     Task {
                         let ok = await access.request([.mic, .speech], on: "events")
-                        nav.show(ok ? "Черновик записан — проверьте текст" : Access.mic.fallback)
+                        nav.show(ok ? "Заявка записана — проверьте текст" : Access.mic.fallback)
                     }
                 }
                 DHair(inset: 56)
-                DRow(title: "Ответы диспетчера", subtitle: "по номеру и статусу заявки") {
-                    DBullet(symbol: "checkmark.message.fill", tint: D.green)
+                DRow(title: "Доводчик, второй подъезд", subtitle: "Елена назначена · ждём ответ") {
+                    DBullet(symbol: "wrench.and.screwdriver.fill", tint: D.orange)
+                } trailing: {
+                    Text("в работе")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(D.orangeInk)
                 } action: {
                     access.activate(.commnotif, on: "events")
-                    nav.show("Именные ответы по заявке включены")
+                    nav.show("Будем сообщать о ходе работ")
                 }
             }
             DeniedNotice(key: .mic)

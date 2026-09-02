@@ -305,6 +305,19 @@
       syncPermUI();
       if (previewState !== 'default') setPreviewState(previewState);
       else syncStateControls(isFormScreen(next));
+      /* На узком окне переход по нижней кнопке может прокрутить всю страницу
+         к кнопке до того, как старый экран скроется. Новый экран тогда
+         открывается со срезанными рамкой и status bar. Возвращаем целое
+         устройство под sticky-шапку, но только когда оно помещается в окно. */
+      requestAnimationFrame(function () {
+        var bar = document.querySelector('.topbar');
+        var barBottom = bar ? bar.getBoundingClientRect().bottom : 0;
+        var inset = barBottom + 16;
+        var rect = root.getBoundingClientRect();
+        if (rect.height + inset <= window.innerHeight && rect.top < inset) {
+          window.scrollTo({ top: Math.max(0, window.scrollY + rect.top - inset), behavior: 'auto' });
+        }
+      });
     }
     /**
      * Показать экран. opts.back — возврат по IA (не записывает презентера).
@@ -365,6 +378,10 @@
       root.querySelectorAll('[data-show-granted]').forEach(function (e) {
         var rec = state[e.dataset.showGranted];
         e.classList.toggle('perm-hidden', !(rec && rec.answer === 'granted'));
+      });
+      root.querySelectorAll('[data-hide-granted]').forEach(function (e) {
+        var rec = state[e.dataset.hideGranted];
+        e.classList.toggle('perm-hidden', !!(rec && rec.answer === 'granted'));
       });
       root.querySelectorAll('[data-switch]').forEach(function (e) {
         var rec = state[e.dataset.switch];

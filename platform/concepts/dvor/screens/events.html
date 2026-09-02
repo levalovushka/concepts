@@ -1,5 +1,5 @@
 <div class="screen d-page" id="scr-events">
-            <div class="body-scroll d-scroll d-safe"><section class="capability-feature"><strong>Заявки и домофон</strong><p>Надиктуйте заявку в диспетчерскую или примите вызов зарегистрированной панели дома.</p><div class="capability-actions"><button class="capability-action" data-ask="mic+speech|events|events">Надиктовать заявку</button><button class="capability-action secondary" data-activate="commnotif|events">Ответы диспетчера</button><button class="capability-action secondary" data-activate="voip|events">Проверить домофон</button></div><div class="capability-fallback perm-hidden" data-show-denied="mic,speech">Заполните заявку текстом — запись голоса не обязательна.</div></section>
+            <div class="body-scroll d-scroll d-safe">
               <div class="d-top">
                 <div class="d-back"></div>
                 <div class="d-top-title sm">События дома</div>
@@ -9,6 +9,43 @@
                 <div class="d-chip is-on tap">Апрель</div>
                 <div class="d-chip tap">Май</div>
                 <div class="d-chip tap">Прошедшие</div>
+              </div>
+
+              <div class="d-sec">Диспетчерская</div>
+              <div class="d-card">
+                <div class="d-row tap" data-hide-granted="mic" data-ask="mic+speech|events|events" aria-label="Надиктовать заявку в диспетчерскую">
+                  <span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-mic"/></svg></span>
+                  <div class="d-row-main">
+                    <div class="d-row-title">Новая заявка голосом</div>
+                    <div class="d-row-sub">опишите проблему и назовите подъезд</div>
+                  </div>
+                  <span class="d-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+                </div>
+                <div class="d-row perm-hidden" data-show-granted="mic">
+                  <span class="d-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-file-text"/></svg></span>
+                  <div class="d-row-main">
+                    <div class="d-row-title">Черновик: дверь не закрывается</div>
+                    <div class="d-row-sub">второй подъезд · распознано из записи 0:12</div>
+                  </div>
+                  <span class="d-row-val tap" data-toast="Черновик заявки открыт">Проверить</span>
+                </div>
+                <div class="d-row tap" data-hide-granted="commnotif" data-activate="commnotif|events" aria-label="Следить за ответом диспетчера по заявке">
+                  <span class="d-bul orange" aria-hidden="true"><svg class="ico-svg"><use href="#i-wrench"/></svg></span>
+                  <div class="d-row-main">
+                    <div class="d-row-title">Доводчик, второй подъезд</div>
+                    <div class="d-row-sub">Елена назначена · ждём ответ</div>
+                  </div>
+                  <span class="d-row-val warn">в работе</span>
+                </div>
+                <div class="d-row perm-hidden" data-show-granted="commnotif">
+                  <span class="d-bul green" aria-hidden="true"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+                  <div class="d-row-main"><div class="d-row-title">Елена взяла заявку</div><div class="d-row-sub">мастер будет сегодня с 16:00 до 18:00</div></div>
+                  <span class="d-row-val">обновлено</span>
+                </div>
+              </div>
+              <div class="d-note perm-hidden" data-show-denied="mic,speech">
+                <svg class="ico-svg"><use href="#i-info"/></svg>
+                <span>Заявку можно заполнить текстом — голос необязателен.</span>
               </div>
 
               <div class="d-card">

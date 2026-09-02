@@ -61,11 +61,22 @@ for (const [slug, bannedIds] of Object.entries(policy)) {
   for (const action of spec.product?.world?.actions || []) if (banned.has(action.screen)) errors.push(`${slug}: действие мира ${action.name}`);
 
   const screenDir = join(ROOT, 'concepts', slug, 'screens');
+  const contextualCapabilities = new Set();
+  const completedStates = new Set();
   for (const screen of spec.screens) {
     const file = join(screenDir, `${screen.id}.html`);
     const html = readFileSync(file, 'utf8');
+    if (/capability-(?:feature|actions?|fallback)/.test(html)) errors.push(`${slug}/${screen.id}: универсальная capability-карточка вместо продуктовой функции`);
+    for (const match of html.matchAll(/data-(?:ask|activate)="([^"]+)"/g)) {
+      for (const key of match[1].split('|')[0].split('+')) contextualCapabilities.add(key);
+    }
+    for (const match of html.matchAll(/data-show-granted="([^"]+)"/g)) completedStates.add(match[1]);
     if (staleCopy.test(html)) errors.push(`${slug}/${screen.id}: в интерфейсе остался текст мессенджера`);
     for (const id of banned) if (new RegExp(`data-(?:go|ask|activate|toast)="[^"]*(?:\\||^)${id}(?:\\||")`).test(html) || html.includes(`data-go="${id}"`)) errors.push(`${slug}/${screen.id}: переход в ${id}`);
+  }
+  for (const key of requiredCapabilities[slug] || []) if (!contextualCapabilities.has(key)) errors.push(`${slug}: доступ ${key} объявлен, но не встроен в действие продукта`);
+  for (const key of ['commnotif', 'voip']) if (declared.has(key) && !completedStates.has(key)) {
+    errors.push(`${slug}: ${key} запрашивается, но функция не показывает результат действия`);
   }
 
   if (slug === 'dvor') {

@@ -317,7 +317,7 @@ function applyLegalSafeguards(spec, sourceMarkup) {
       .replace('>Заметка о самочувствии<', '>Наблюдение владельца<')
       .replace('<div class="body-scroll tl-list">', '<div class="body-scroll tl-list"><div class="tl-fallback" style="display:block;background:#eef6ff;color:#435267">Это личные записи владельца, а не диагноз или рекомендация по лечению. При симптомах обратитесь к ветеринару.</div>');
     markup.vaccine = markup.vaccine
-      .replace('<div class="body-scroll tl-list">', '<div class="body-scroll tl-list"><div class="tl-fallback" style="display:block;background:#eef6ff;color:#435267">Сроки переписаны из ветпаспорта. Схему вакцинации и препараты подтверждает ветеринар.</div>')
+      .replace('<div class="tl-section-head tl-vaccine-next-head">', '<p class="tl-vaccine-legal">Схему вакцинации и препараты подтверждает ветеринар.</p><div class="tl-section-head tl-vaccine-next-head">')
       .replace('>Надиктовать заметку о самочувствии<', '>Добавить наблюдение владельца<')
       .replace('доза Bravecto считается от 20 до 40 кг', 'вес записан на приёме; назначения хранит клиника');
   }

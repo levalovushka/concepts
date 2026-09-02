@@ -117,6 +117,23 @@ for (const slug of listConcepts()) {
   if (result.dvorInternalLogos.length) failures.push(`${slug}: логотип остался на внутренних auth-экранах (${result.dvorInternalLogos.join(', ')})`);
   if (result.dvorGenericLeaks.length) failures.push(`${slug}: на внутренних auth-экранах остались общие компоненты (${result.dvorGenericLeaks.join(', ')})`);
   if (result.internalAuthLogos.length) failures.push(`${slug}: логотип должен быть только на стартовом экране (${result.internalAuthLogos.join(', ')})`);
+  if (slug === 'dvor') {
+    await page.setViewportSize({ width: 934, height: 946 });
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.locator(`#pr-${hero.id} [data-screen="phone"].is-on [data-go="register"]`).click();
+    await page.waitForTimeout(50);
+    const navigationGeometry = await page.evaluate((heroId) => {
+      const device = document.querySelector(`#pr-${heroId}`);
+      const bar = document.querySelector('.topbar');
+      return {
+        deviceTop: device?.getBoundingClientRect().top ?? -1,
+        headerBottom: bar?.getBoundingClientRect().bottom ?? 0,
+      };
+    }, hero.id);
+    if (navigationGeometry.deviceTop < navigationGeometry.headerBottom + 12) {
+      failures.push(`${slug}: переход по нижней auth-кнопке срезает верх телефона (${Math.round(navigationGeometry.deviceTop)}px)`);
+    }
+  }
   await page.close();
 }
 

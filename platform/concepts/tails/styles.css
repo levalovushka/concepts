@@ -190,3 +190,14 @@
 /* Аватар в строке списка — по сетке 44px, как значок: иначе текст рядом
    с ним встаёт на четыре пикселя правее соседней строки. */
 .tl-row .tl-avatar, .tl-row-button .tl-avatar { width: 44px; height: 44px; }
+
+/* Ветпаспорт — это один экран с общей 16px-сеткой, а не набор
+   полноширинных CTA. Ближайший приём живёт в списке и сразу объясняет,
+   зачем нужны видеовызов, изменения и Календарь. */
+.tl-vaccine-summary { padding: 18px 16px 4px; }
+.tl-vaccine-summary h1 { margin: 0; font-size: 24px; line-height: 29px; letter-spacing: -.04em; }
+.tl-vaccine-summary > p { margin: 5px 0 0; color: var(--tl-muted); font-size: 12px; line-height: 18px; }
+.tl-vaccine-summary .tl-walk-meta { margin-left: 0; flex-wrap: wrap; }
+.tl-vaccine-next-head { margin-top: 20px; }
+.tl-vaccine-next-head .tl-link { font-size: 12px; }
+.tl-vaccine-legal { margin: 9px 16px 0; color: var(--tl-muted); font-size: 11px; line-height: 16px; }

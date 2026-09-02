@@ -1,10 +1,31 @@
 <div class="screen r-page" id="scr-live">
-  <div class="body-scroll r-scroll r-safe"><section class="capability-feature"><strong>Интервью городского архива</strong><p>Запишите устную историю в запланированном эфире или подтвердите архивный факт хранителю.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|live">Начать интервью</button><button class="capability-action secondary" data-activate="commnotif|live">Запросы хранителя</button></div></section>
+  <div class="body-scroll r-scroll r-safe">
     <div class="r-top">
       <div class="r-top-title">Эфир</div>
       <div class="r-top-acts"><div class="r-icon tap" data-ask="mic|recorder|recorder" aria-label="Записать устную историю"><svg class="ico-svg"><use href="#i-mic"/></svg></div></div>
     </div>
     <div class="r-wrap">
+      <div class="r-card perm-hidden" data-show-granted="mic"><div class="r-row">
+        <div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+        <div class="r-row-copy"><div class="r-row-t">Новая устная история · 00:27</div><div class="r-row-s">после записи отметьте место, год и имя рассказчика</div></div>
+        <div class="r-end is-act tap" data-toast="История сохранена для разметки">Готово</div>
+      </div></div>
+      <div class="r-note perm-hidden" data-show-denied="mic"><svg class="ico-svg"><use href="#i-info"/></svg><span>Без микрофона загрузите готовую запись и добавьте к ней место и год.</span></div>
+      <div class="r-sec-head"><h2>Сегодня в архиве</h2><span>19:30</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-hide-granted="voip" data-activate="voip|live" aria-label="Начать запланированное интервью для городского архива">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Нина Петровна о кинотеатре «Октябрь»</div><div class="r-row-s">интервью с хранителем · запись сразу попадёт в архив города</div></div>
+          <div class="r-end is-act">Начать</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="voip"><div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div><div class="r-row-copy"><div class="r-row-t">Интервью записывается · 04:18</div><div class="r-row-s">тема: первый сеанс и очередь у кассы · Павел ставит метки</div></div><div class="r-end is-act tap" data-toast="Интервью свёрнуто">Свернуть</div></div>
+        <div class="r-row tap" data-hide-granted="commnotif" data-activate="commnotif|live" aria-label="Открыть запрос хранителя городского архива">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-badge-check"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Подтвердите дату открытия</div><div class="r-row-s">хранитель Павел спрашивает: 1968 или 1969 год</div></div>
+          <div class="r-end">1 запрос</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="commnotif"><div class="r-row-face"><svg class="ico-svg"><use href="#i-check"/></svg></div><div class="r-row-copy"><div class="r-row-t">Подтверждено: 1969 год</div><div class="r-row-s">свидетельство Нины Петровны добавлено к карточке кинотеатра</div></div><div class="r-end">сохранено</div></div>
+      </div>
       <div class="r-sec-head"><h2>Продолжить</h2><span>остановились на 08:12</span></div>
       <div class="r-card">
         <div class="r-row tap" data-primary data-go="broadcast" aria-label="Слушать запись «Как открывали кинотеатр Октябрь»">

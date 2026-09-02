@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="body-scroll nk-pad"><section class="capability-feature"><strong>Разбор с инструктором</strong><p>Подключитесь к забронированному видеоразбору или получайте только изменения своего занятия.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|lesson">Начать видеоразбор</button><button class="capability-action secondary" data-activate="commnotif|lesson">Изменения инструктора</button></div></section>
+  <div class="body-scroll nk-pad">
     <div class="nk-lead">
       <div class="nk-lead-when">Завтра, ср 15 августа · 7:20 — 8:50</div>
       <div class="nk-lead-what">Маршрут №3: Кабельная — Гвардейская — площадь Победы</div>
@@ -25,6 +25,32 @@
             <div class="nk-meta">инструктор с 2009 · 14 занятий вместе</div>
           </div>
         </div>
+        <div class="row has-lead tap" data-hide-granted="voip" data-activate="voip|lesson" aria-label="Открыть забронированный видеоразбор занятия">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-video"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Видеоразбор после маршрута</div>
+            <div class="nk-meta">сегодня в 10:15 · Сергей разберёт запись эстакады</div>
+          </div>
+          <span class="row-value accent">12 мин</span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-granted="voip">
+          <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-video"/></svg></div>
+          <div class="grow"><div class="t-body">Разбор начался</div><div class="nk-meta">Сергей показывает въезд на эстакаду · запись занятия на экране</div></div>
+          <span class="row-value accent tap" data-toast="Видеоразбор свёрнут">Свернуть</span>
+        </div>
+        <div class="row has-lead tap" data-hide-granted="commnotif" data-activate="commnotif|lesson" aria-label="Получать изменения занятия от инструктора">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+          <div class="grow">
+            <div class="t-body">Изменения этого занятия</div>
+            <div class="nk-meta">инструктор сообщит только о времени, машине или точке посадки</div>
+          </div>
+          <span class="ios-disclosure" aria-hidden="true"></span>
+        </div>
+        <div class="row has-lead perm-hidden" data-show-granted="commnotif">
+          <div class="lead-ico green"><svg class="ico-svg"><use href="#i-check"/></svg></div>
+          <div class="grow"><div class="t-body">Изменения занятия включены</div><div class="nk-meta">только время, машина и точка посадки от Сергея</div></div>
+          <span class="row-value">готово</span>
+        </div>
         <div class="row has-lead tap" data-go="reschedule" aria-label="Выбрать новый слот">
           <div class="lead-ico brand"><svg class="ico-svg"><use href="#i-phone"/></svg></div>
           <div class="grow">
@@ -33,8 +59,8 @@
           </div>
           <span class="ios-disclosure" aria-hidden="true"></span>
         </div>
-        <div class="row has-lead tap" data-go="reschedule" aria-label="Написать инструктору">
-          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-message-circle"/></svg></div>
+        <div class="row has-lead tap" data-go="reschedule" aria-label="Перенести занятие">
+          <div class="lead-ico gray"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
           <div class="grow">
             <div class="t-body">Перенести занятие</div>
             <div class="nk-meta">вчера в 21:14: «возьмите права с собой»</div>

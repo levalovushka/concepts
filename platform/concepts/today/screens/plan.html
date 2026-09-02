@@ -1,7 +1,7 @@
 <div class="screen td" id="scr-plan">
   <div class="td-safe"></div>
   <header class="td-head"><button class="td-hit" data-back aria-label="Назад"><svg class="td-icon"><use href="#i-chevron-left"/></svg></button><strong>План</strong><button class="td-hit" aria-label="Ещё"><svg class="td-icon"><use href="#i-ellipsis"/></svg></button></header>
-  <div class="body-scroll" style="padding-bottom:40px"><section class="capability-feature"><strong>Площадка и организатор</strong><p>Слушайте живой аудиогид места и получайте только структурированные изменения активного плана.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|plan">Слушать аудиогид</button><button class="capability-action secondary" data-activate="commnotif|plan">Обновления организатора</button></div></section>
+  <div class="body-scroll" style="padding-bottom:40px">
     <div class="td-cover plan"><div class="td-cover-copy"><span>Сегодня · 20:10</span><h1>Кино под<br>открытым небом</h1></div></div>
     <div class="td-plan-summary">
       <div class="td-private"><svg class="td-icon"><use href="#i-lock"/></svg>Только для 4 участников</div>
@@ -9,6 +9,10 @@
       <h2>Выберите место</h2>
       <button class="td-place is-on"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Севкабель Порт</strong><span>20:10 · всем до 24 минут</span></div><span class="td-votes">3</span></button>
       <button class="td-place"><svg class="td-icon"><use href="#i-map-pin"/></svg><div><strong>Новая Голландия</strong><span>20:30 · всем до 31 минуты</span></div><span class="td-votes">1</span></button>
+      <button class="td-place" data-hide-granted="voip" data-activate="voip|plan" aria-label="Слушать аудиогид площадки Севкабель Порт"><svg class="td-icon"><use href="#i-audio-lines"/></svg><div><strong>Аудиогид Севкабеля</strong><span>18 минут · включится у входа и закончится у амфитеатра</span></div><span class="td-votes">▶</span></button>
+      <button class="td-place perm-hidden" data-show-granted="voip" data-toast="Аудиогид свёрнут"><svg class="td-icon"><use href="#i-audio-lines"/></svg><div><strong>Играет: путь к амфитеатру</strong><span>02:14 из 18:00 · следующий ориентир — башня</span></div><span class="td-votes">Ⅱ</span></button>
+      <button class="td-place" data-hide-granted="commnotif" data-activate="commnotif|plan" aria-label="Получать изменения активного плана от организатора"><svg class="td-icon"><use href="#i-bell"/></svg><div><strong>Миша изменил точку сбора</strong><span>встречаемся у синего контейнера · только обновления этого плана</span></div><span class="td-votes">сейчас</span></button>
+      <div class="td-place perm-hidden" data-show-granted="commnotif"><svg class="td-icon"><use href="#i-check"/></svg><div><strong>Точка сбора обновлена</strong><span>синий контейнер отмечен на карте у входа</span></div><span class="td-votes">готово</span></div>
       <div class="td-fallback perm-hidden" data-show-denied="push">Изменения плана будут отмечены точкой внутри приложения.</div>
       <button class="td-primary block" data-toast="Следим за планом">Подтвердить план</button>
       <button class="td-secondary block" data-ask="calendar|plan|plan"><svg class="td-icon" style="width:17px;height:17px"><use href="#i-calendar-plus"/></svg>Добавить в Календарь</button>

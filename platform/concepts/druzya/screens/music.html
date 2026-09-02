@@ -1,10 +1,24 @@
 <div class="screen r-page" id="scr-music">
-  <div class="body-scroll r-scroll r-safe"><section class="capability-feature"><strong>Поздравление и встреча круга</strong><p>Запишите аудиопоздравление или подключитесь к общему эфиру встречи — без личных чатов и звонков.</p><div class="capability-actions"><button class="capability-action" data-ask="mic|music|music">Записать поздравление</button><button class="capability-action secondary" data-activate="commnotif|music">Именные обновления встречи</button><button class="capability-action secondary" data-activate="voip|music">Подключиться к эфиру</button></div><div class="capability-fallback perm-hidden" data-show-denied="mic">Микрофон недоступен — добавьте поздравление текстом.</div></section>
+  <div class="body-scroll r-scroll r-safe">
     <div class="r-top">
       <div class="r-top-title">Музыка</div>
       <div class="r-top-acts"><div class="r-icon tap" data-go="player" aria-label="Записать голосовую заметку"><svg class="ico-svg"><use href="#i-mic"/></svg></div></div>
     </div>
     <div class="r-wrap">
+      <div class="r-sec-head"><h2>Для Марины, к завтра</h2><span>добавили 6 из 9</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-hide-granted="mic" data-ask="mic|music|music" aria-label="Записать аудиопоздравление для Марины">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Ваше поздравление</div><div class="r-row-s">до 30 секунд · попадёт между песнями в общий альбом</div></div>
+          <div class="r-end is-act">Записать</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="mic">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Поздравление записано · 0:18</div><div class="r-row-s">стоит после третьей песни · услышат только участники круга</div></div>
+          <div class="r-end is-act tap" data-toast="Запись можно переснять до завтра">Править</div>
+        </div>
+      </div>
+      <div class="r-note perm-hidden" data-show-denied="mic"><svg class="ico-svg"><use href="#i-info"/></svg><span>Без микрофона оставьте короткую подпись — она появится на обложке альбома.</span></div>
       <div class="r-sec-head"><h2>Продолжить</h2><span>остановились на 41-м треке</span></div>
       <div class="r-card">
         <div class="r-row tap" data-primary data-go="player" aria-label="Слушать плейлист «В дорогу к Денису»">

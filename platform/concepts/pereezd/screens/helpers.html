@@ -1,1 +1,130 @@
-<div class="screen ios-surface pz-page" id="scr-helpers"><div class="navbar pz-nav"><div class="nav-leading"></div><div class="title">Помощники</div><div class="nav-spacer"></div></div><div class="body-scroll pz-scroll"><section class="capability-feature"><strong>Штаб переезда</strong><p>Меняйте статусы голосом, получайте сигналы о блокерах и подключайтесь к общей линии штаба.</p><div class="capability-actions"><button class="capability-action" data-ask="mic|helpers|helpers">Сказать команду</button><button class="capability-action secondary" data-ask="push|helpers|helpers">Сигналы штаба</button><button class="capability-action secondary" data-activate="commnotif|helpers">Именные назначения</button><button class="capability-action secondary" data-activate="voip|helpers">Связаться со штабом</button></div><div class="capability-fallback perm-hidden" data-show-denied="mic,push">Все действия доступны кнопками, а блокеры остаются в списке.</div></section><button class="pz-primary tap" data-primary data-ask="contacts|helpers|helpers"><svg class="ico-svg"><use href="#i-users"/></svg>Добавить из контактов</button><div class="pz-state perm-hidden" data-show-denied="contacts"><b>Контакты недоступны</b><span>Введите номер помощника или покажите ему QR-приглашение.</span></div><div class="pz-sec"><b>Кухня</b><span>1</span></div><div class="pz-card"><div class="pz-row" aria-label="Марат: заносит коробки через заднюю дверь"><span class="pz-icon hot"><svg class="ico-svg"><use href="#i-user"/></svg></span><span class="pz-row-main"><b>Марат</b><span>Заносит коробки через заднюю дверь</span></span></div></div><div class="pz-sec"><b>Спальня</b><span>1</span></div><div class="pz-card"><div class="pz-row" aria-label="Ана: собирает и подписывает коробки"><span class="pz-icon"><svg class="ico-svg"><use href="#i-user"/></svg></span><span class="pz-row-main"><b>Ана</b><span>Собирает и подписывает коробки</span></span></div></div><div class="pz-sec"><b>За рулём</b><span>1</span></div><div class="pz-card"><button class="pz-row tap" data-go="helpers" aria-label="Открыть задачу Ильи, за рулём машины 1"><span class="pz-icon ok"><svg class="ico-svg"><use href="#i-car"/></svg></span><span class="pz-row-main"><b>Илья</b><span>Машина 1 · в пути, будет в 10:05</span></span><span class="pz-icon hot"><svg class="ico-svg"><use href="#i-clipboard-check"/></svg></span></button><div class="pz-pad"><p class="pz-box-note">Срочная задача закрепляется в штабе и остаётся видна всей команде.</p></div></div></div><div class="tabbar light" aria-label="Основная навигация"><div class="tab" data-go="today"><span class="ico"><svg class="ico-svg"><use href="#i-gauge"/></svg></span><span class="tab-label">Штаб</span></div><div class="tab" data-go="boxes"><span class="ico"><svg class="ico-svg"><use href="#i-layout-grid"/></svg></span><span class="tab-label">Коробки</span></div><div class="tab" data-go="route"><span class="ico"><svg class="ico-svg"><use href="#i-car"/></svg></span><span class="tab-label">Машины</span></div><div class="tab is-on" aria-current="page" data-go="helpers"><span class="ico"><svg class="ico-svg"><use href="#i-users"/></svg></span><span class="tab-label">Помощники</span></div><div class="tab" data-go="settings"><span class="ico"><svg class="ico-svg"><use href="#i-menu"/></svg></span><span class="tab-label">Ещё</span></div></div><div class="home-ind"></div></div>
+<div class="screen ios-surface pz-page" id="scr-helpers">
+  <div class="navbar pz-nav">
+    <div class="nav-leading"></div>
+    <div class="title">Помощники</div>
+    <div class="nav-spacer"></div>
+  </div>
+  <div class="body-scroll pz-scroll">
+    <div class="pz-sec"><b>Штаб сейчас</b><span>2 блокера</span></div>
+    <div class="pz-card">
+      <button class="pz-row tap" data-hide-granted="voip" data-activate="voip|helpers" aria-label="Подключиться к линии активного переезда">
+        <span class="pz-icon hot"><svg class="ico-svg"><use href="#i-audio-lines" /></svg></span>
+        <span class="pz-row-main"><b>Линия активного переезда</b><span>Илья координирует машины · подключены трое</span></span>
+        <span class="pz-icon hot"><svg class="ico-svg"><use href="#i-play" /></svg></span>
+      </button>
+      <div class="pz-row perm-hidden" data-show-granted="voip">
+        <span class="pz-icon hot"><svg class="ico-svg"><use href="#i-audio-lines" /></svg></span>
+        <span class="pz-row-main"><b>Вы в линии погрузки</b><span>Илья ведёт · сейчас разгружают машину у подъезда</span></span>
+        <span class="pz-icon tap" data-toast="Линия свёрнута"><svg class="ico-svg"><use href="#i-chevron-down" /></svg></span>
+      </div>
+      <button class="pz-row tap" data-hide-granted="mic" data-ask="mic|helpers|helpers" aria-label="Изменить статус задачи голосом">
+        <span class="pz-icon"><svg class="ico-svg"><use href="#i-mic" /></svg></span>
+        <span class="pz-row-main"><b>Сказать: «Кухня собрана»</b><span>голос меняет статус выбранной зоны, команду можно проверить перед отправкой</span></span>
+      </button>
+      <div class="pz-row perm-hidden" data-show-granted="mic">
+        <span class="pz-icon"><svg class="ico-svg"><use href="#i-check" /></svg></span>
+        <span class="pz-row-main"><b>Распознано: «Кухня собрана»</b><span>12 из 14 коробок отмечены готовыми · две остались открыты</span></span>
+        <span class="tap" data-toast="Статус кухни обновлён">Применить</span>
+      </div>
+      <button class="pz-row tap" data-hide-granted="commnotif" data-activate="commnotif|helpers" aria-label="Открыть назначение ответственного на блокер">
+        <span class="pz-icon"><svg class="ico-svg"><use href="#i-clipboard-check" /></svg></span>
+        <span class="pz-row-main"><b>Марат назначен на блокер</b><span>лифт занят до 10:30 · решение относится только к кухне</span></span>
+      </button>
+      <div class="pz-row perm-hidden" data-show-granted="commnotif">
+        <span class="pz-icon"><svg class="ico-svg"><use href="#i-check" /></svg></span>
+        <span class="pz-row-main"><b>Марат подтвердил</b><span>освободит лифт к 10:30 и отметит готовность в штабе</span></span>
+        <span>принято</span>
+      </div>
+      <button class="pz-row tap" data-ask="push|helpers|helpers" aria-label="Включить сигналы о блокерах погрузки">
+        <span class="pz-icon"><svg class="ico-svg"><use href="#i-bell" /></svg></span>
+        <span class="pz-row-main"><b>Сигналы о блокерах</b><span>только пока переезд активен · выключатся после разгрузки</span></span>
+      </button>
+    </div>
+    <div class="pz-state perm-hidden" data-show-denied="mic,push">
+      <b>Штаб остаётся доступен</b><span>Статусы меняются кнопками, а блокеры остаются в списке.</span>
+    </div>
+    <button
+      class="pz-primary tap"
+      data-primary
+      data-ask="contacts|helpers|helpers"
+    >
+      <svg class="ico-svg"><use href="#i-users" /></svg>Добавить из контактов
+    </button>
+    <div class="pz-state perm-hidden" data-show-denied="contacts">
+      <b>Контакты недоступны</b
+      ><span>Введите номер помощника или покажите ему QR-приглашение.</span>
+    </div>
+    <div class="pz-sec"><b>Кухня</b><span>1</span></div>
+    <div class="pz-card">
+      <div
+        class="pz-row"
+        aria-label="Марат: заносит коробки через заднюю дверь"
+      >
+        <span class="pz-icon hot"
+          ><svg class="ico-svg"><use href="#i-user" /></svg></span
+        ><span class="pz-row-main"
+          ><b>Марат</b><span>Заносит коробки через заднюю дверь</span></span
+        >
+      </div>
+    </div>
+    <div class="pz-sec"><b>Спальня</b><span>1</span></div>
+    <div class="pz-card">
+      <div class="pz-row" aria-label="Ана: собирает и подписывает коробки">
+        <span class="pz-icon"
+          ><svg class="ico-svg"><use href="#i-user" /></svg></span
+        ><span class="pz-row-main"
+          ><b>Ана</b><span>Собирает и подписывает коробки</span></span
+        >
+      </div>
+    </div>
+    <div class="pz-sec"><b>За рулём</b><span>1</span></div>
+    <div class="pz-card">
+      <button
+        class="pz-row tap"
+        data-go="helpers"
+        aria-label="Открыть задачу Ильи, за рулём машины 1"
+      >
+        <span class="pz-icon ok"
+          ><svg class="ico-svg"><use href="#i-car" /></svg></span
+        ><span class="pz-row-main"
+          ><b>Илья</b><span>Машина 1 · в пути, будет в 10:05</span></span
+        ><span class="pz-icon hot"
+          ><svg class="ico-svg"><use href="#i-clipboard-check" /></svg
+        ></span>
+      </button>
+      <div class="pz-pad">
+        <p class="pz-box-note">
+          Срочная задача закрепляется в штабе и остаётся видна всей команде.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar light" aria-label="Основная навигация">
+    <div class="tab" data-go="today">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-gauge" /></svg></span
+      ><span class="tab-label">Штаб</span>
+    </div>
+    <div class="tab" data-go="boxes">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Коробки</span>
+    </div>
+    <div class="tab" data-go="route">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-car" /></svg></span
+      ><span class="tab-label">Машины</span>
+    </div>
+    <div class="tab is-on" aria-current="page" data-go="helpers">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Помощники</span>
+    </div>
+    <div class="tab" data-go="settings">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-menu" /></svg></span
+      ><span class="tab-label">Ещё</span>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+</div>

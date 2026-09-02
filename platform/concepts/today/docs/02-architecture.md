@@ -78,8 +78,8 @@
 | `NSExtensionPointIdentifier: com.apple.share-services` | «Поделиться» в другом приложении | Настройки | Место добавляется поиском внутри приложения | **Условный** — Отдельный target расширения; место кладётся в общий контейнер App Group |
 | `com.apple.developer.networking.HotspotConfiguration` | «Подключиться» | Сеть места по QR | Сеть выбирается вручную в Настройках | Низкий |
 | `UIBackgroundModes: audio` | «Слушать подряд» | По дороге | Без entitlement маршрут остаётся доступен текстом и на карте | **Условный** — Реальный playback очереди, заполненный MPNowPlayingInfoCenter и remote-команды |
-| `com.apple.developer.usernotifications.communication` | «Обновления организатора» | План | Изменение остаётся в карточке плана и обычном уведомлении | **Условный** — INSendMessageIntent только для времени и места активного плана |
-| `UIBackgroundModes: voip` | «Слушать аудиогид» | План | Остаётся карта и записанные подсказки маршрута | **Условный** — PushKit + CallKit для эфира площадки |
+| `com.apple.developer.usernotifications.communication` | «Миша изменил точку сбора» | План | Изменение остаётся в карточке плана и обычном уведомлении | **Условный** — INSendMessageIntent только для времени и места активного плана |
+| `UIBackgroundModes: voip` | «Аудиогид Севкабеля» | План | Остаётся карта и записанные подсказки маршрута | **Условный** — PushKit + CallKit для эфира площадки |
 <!-- @end -->
 
 ## Информационная архитектура

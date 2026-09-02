@@ -1,8 +1,28 @@
 <div class="screen r-page" id="scr-archive">
-  <div class="body-scroll r-scroll r-safe"><section class="capability-feature"><strong>Встреча выпуска в эфире</strong><p>Одноклассники из других городов подключаются к общему эфиру, а изменения программы приходят от организатора.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|archive">Подключиться к эфиру</button><button class="capability-action secondary" data-activate="commnotif|archive">Обновления организатора</button></div></section>
+  <div class="body-scroll r-scroll r-safe">
     <div class="r-top"><div class="r-top-title">Архив</div><div class="r-top-acts"><div class="r-icon tap" data-ask="mic|recording|archive" aria-label="Записать воспоминание"><svg class="ico-svg"><use href="#i-mic"/></svg></div><div class="r-icon tap" data-go="media" aria-label="Видео"><svg class="ico-svg"><use href="#i-video"/></svg></div></div></div>
     <div class="r-wrap">
       <div class="r-note perm-hidden" data-show-denied="mic"><svg class="ico-svg"><use href="#i-info"/></svg><span>Микрофон недоступен: загрузите готовую аудиозапись.</span></div>
+      <div class="r-card r-now perm-hidden" data-show-granted="mic">
+        <div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+        <div class="r-row-copy"><div class="r-row-t">Воспоминание для 11 «Б» · 00:31</div><div class="r-row-s">тема: последний звонок · автор укажет имя перед публикацией</div><div class="r-mini-track"><span style="width:31%"></span></div></div>
+        <div class="r-end is-act tap" data-toast="Воспоминание сохранено в черновики">Готово</div>
+      </div>
+      <div class="r-sec-head"><h2>Встреча 11 «Б»</h2><span>суббота, 18:00</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-hide-granted="voip" data-activate="voip|archive" aria-label="Подключиться к общему эфиру встречи выпуска">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Актовый зал в прямом эфире</div><div class="r-row-s">ведёт Ольга · выпускники из других городов подключаются слушателями</div></div>
+          <div class="r-end is-act">В эфир</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="voip"><div class="r-row-face"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></div><div class="r-row-copy"><div class="r-row-t">Актовый зал · прямой эфир</div><div class="r-row-s">идёт приветствие классного руководителя · слушают 17 выпускников</div></div><div class="r-end is-act tap" data-toast="Эфир свёрнут">Свернуть</div></div>
+        <div class="r-row tap" data-hide-granted="commnotif" data-activate="commnotif|archive" aria-label="Получать изменения программы встречи выпуска">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Общее фото перенесли на 19:10</div><div class="r-row-s">Ольга обновила программу · другие уведомления не включатся</div></div>
+          <div class="r-end">сейчас</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="commnotif"><div class="r-row-face"><svg class="ico-svg"><use href="#i-check"/></svg></div><div class="r-row-copy"><div class="r-row-t">Программа обновлена</div><div class="r-row-s">общее фото · 19:10 · ступени у главного входа</div></div><div class="r-end">в плане</div></div>
+      </div>
       <div class="r-card r-now tap" data-primary data-go="recording" aria-label="Продолжить выпускной вечер 2004">
         <span class="r-sr-only">Слушать</span>
         <div class="r-thumb74 ph"></div>

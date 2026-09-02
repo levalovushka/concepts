@@ -996,22 +996,3 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .miniplayer.on-dark .miniplayer-sub { color:rgba(235,235,245,.6); }
 .miniplayer-bar { position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(120,120,128,.2); }
 .miniplayer-bar > i { display:block; height:100%; background:var(--accent-fill); }
-
-/* Capability cards keep permission-backed product features visible and honest.
-   They are shared across concept skins, but inherit each concept's type and surface. */
-.capability-feature {
-  margin:12px; padding:14px; border-radius:16px;
-  color:inherit; background:color-mix(in srgb,currentColor 6%,transparent);
-  border:1px solid color-mix(in srgb,currentColor 10%,transparent);
-}
-.capability-feature > strong { display:block; font:650 16px/21px var(--face); letter-spacing:-.015em; }
-.capability-feature > p { margin:4px 0 12px; color:color-mix(in srgb,currentColor 58%,transparent); font:400 13px/18px var(--face); }
-.capability-actions { display:grid; grid-template-columns:1fr; gap:8px; }
-.capability-action {
-  width:100%; min-height:44px; padding:10px 13px; border:0; border-radius:12px;
-  background:var(--accent-fill); color:#fff; font:600 14px/18px var(--face); text-align:center;
-}
-.capability-action.secondary {
-  background:color-mix(in srgb,var(--accent-fill) 14%,transparent); color:var(--accent-fill);
-}
-.capability-fallback { margin:9px 1px 0; color:color-mix(in srgb,currentColor 62%,transparent); font:400 12px/17px var(--face); }

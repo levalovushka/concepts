@@ -4,7 +4,7 @@
     <div class="title large">Смены</div>
   </div>
 
-  <div class="body-scroll pm-scroll"><section class="capability-feature"><strong>Решения и брифинг смены</strong><p>Управляющий подтверждает заявку одним решением, а команда подключается к общему брифингу точки.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|shifts">Подключиться к брифингу</button><button class="capability-action secondary" data-activate="commnotif|shifts">Решения управляющего</button></div></section>
+  <div class="body-scroll pm-scroll">
     <div class="pm-tabs" aria-label="Точки, к которым вы привязаны">
       <span class="pm-pill is-on tap">Гоголя, 7</span>
       <span class="pm-pill tap">Батон<span class="pm-pill-n">2</span></span>
@@ -46,6 +46,32 @@
           <div class="pm-row-s">приход 07:41 · перерыв 11:20–11:48</div>
         </div>
         <span class="pm-caret" aria-hidden="true"><svg class="ico-svg"><use href="#i-chevron-right"/></svg></span>
+      </div>
+      <div class="pm-row tap" data-hide-granted="commnotif" data-activate="commnotif|shifts" aria-label="Открыть решение управляющего по подмене">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-badge-check"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Лена подтвердила подмену на пятницу</div>
+          <div class="pm-row-s">Марат выйдет с 08:00 · решение относится только к этой заявке</div>
+        </div>
+        <span class="pm-row-v accent">сейчас</span>
+      </div>
+      <div class="pm-row perm-hidden" data-show-granted="commnotif">
+        <span class="pm-bul accent"><svg class="ico-svg"><use href="#i-check"/></svg></span>
+        <div class="pm-row-main"><div class="pm-row-t">Подмена подтверждена</div><div class="pm-row-s">Марат выйдет в пятницу к 08:00 · ваша смена снята</div></div>
+        <span class="pm-row-v accent">готово</span>
+      </div>
+      <div class="pm-row tap" data-hide-granted="voip" data-activate="voip|brief" aria-label="Подключиться к пятиминутке точки Гоголя, 7">
+        <span class="pm-bul accent" aria-hidden="true"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></span>
+        <div class="pm-row-main">
+          <div class="pm-row-t">Пятиминутка точки</div>
+          <div class="pm-row-s">в 15:45 · Лена ведёт, сотрудники подключаются только слушателями</div>
+        </div>
+        <span class="pm-row-v accent">через 12 мин</span>
+      </div>
+      <div class="pm-row perm-hidden" data-show-granted="voip">
+        <span class="pm-bul accent"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></span>
+        <div class="pm-row-main"><div class="pm-row-t">Пятиминутка идёт · 03:18</div><div class="pm-row-s">сейчас: стоп-лист и передача кассы вечерним</div></div>
+        <span class="pm-row-v accent tap" data-toast="Пятиминутка свёрнута">Свернуть</span>
       </div>
       <div class="pm-row tap" data-go="brief" aria-label="Брифинг смены">
         <span class="pm-bul" aria-hidden="true"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></span>

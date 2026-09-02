@@ -1,8 +1,36 @@
 <div class="screen r-page" id="scr-records">
-  <div class="body-scroll r-scroll r-safe"><section class="capability-feature"><strong>Общее собрание</strong><p>Получайте именные изменения программы и подключайтесь к одному общему эфиру СНТ.</p><div class="capability-actions"><button class="capability-action" data-activate="voip|records">Подключиться к собранию</button><button class="capability-action secondary" data-activate="commnotif|records">Именные обновления</button></div></section>
+  <div class="body-scroll r-scroll r-safe">
     <div class="r-top"><div class="r-top-title">Записи</div><div class="r-top-acts"><div class="r-icon tap" data-ask="mic|records|records" aria-label="Записать собрание"><svg class="ico-svg"><use href="#i-mic"/></svg></div><div class="r-icon tap" data-go="album" aria-label="Открыть альбом товарищества"><svg class="ico-svg"><use href="#i-video"/></svg></div></div></div>
     <div class="r-wrap">
       <div class="r-note perm-hidden" data-show-denied="mic"><svg class="ico-svg"><use href="#i-info"/></svg><span>Микрофон недоступен: остаются текстовый протокол и загрузка готовой записи.</span></div>
+      <div class="r-card r-now perm-hidden" data-show-granted="mic">
+        <div class="r-row-face"><svg class="ico-svg"><use href="#i-mic"/></svg></div>
+        <div class="r-row-copy"><div class="r-row-t">Записывается протокол собрания</div><div class="r-row-s">00:18 · запись хранится у товарищества</div><div class="r-mini-track"><span style="width:18%"></span></div></div>
+        <div class="r-end is-act tap" data-toast="Запись сохранена в черновики">Завершить</div>
+      </div>
+      <div class="r-sec-head"><h2>Собрание сегодня</h2><span>начало в 19:00</span></div>
+      <div class="r-card">
+        <div class="r-row tap" data-hide-granted="voip" data-activate="voip|records" aria-label="Подключиться к трансляции собрания товарищества">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Правление, северная дорога</div><div class="r-row-s">один общий эфир из дома правления · микрофон слушателей выключен</div></div>
+          <div class="r-end is-act">Войти</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="voip">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-audio-lines"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Собрание идёт · пункт 2 из 5</div><div class="r-row-s">смета на шлагбаум · слушают 38 собственников</div></div>
+          <div class="r-end is-act tap" data-toast="Трансляция свёрнута">Свернуть</div>
+        </div>
+        <div class="r-row tap" data-hide-granted="commnotif" data-activate="commnotif|records" aria-label="Получать изменения повестки собрания от председателя">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-file-text"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Председатель обновила повестку</div><div class="r-row-s">добавили смету на шлагбаум · уведомим только об изменениях</div></div>
+          <div class="r-end">сейчас</div>
+        </div>
+        <div class="r-row perm-hidden" data-show-granted="commnotif">
+          <div class="r-row-face"><svg class="ico-svg"><use href="#i-check"/></svg></div>
+          <div class="r-row-copy"><div class="r-row-t">Повестка обновлена</div><div class="r-row-s">смета на шлагбаум добавлена пятым пунктом</div></div>
+          <div class="r-end">5 пунктов</div>
+        </div>
+      </div>
       <div class="r-card r-now tap" data-primary data-go="player" aria-label="Продолжить запись собрания 4 сентября">
         <span class="r-sr-only">Слушать</span>
         <div class="r-thumb74 ph"></div>
