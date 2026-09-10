@@ -1,0 +1,1640 @@
+{
+  "slug": "verstak",
+  "name": "Верстак",
+  "eyebrow": "Верстак · iOS",
+  "targetSet": "vkontakte",
+  "domain": "verstak.app",
+  "heroTitle": "Верстак — станок свободен, работа продолжается",
+  "heroDeck": "Живое состояние оборудования, расписание броней, присутствие и структурированная передача работы одной общей мастерской.",
+  "tagline": "Не каталог мастер-классов, а живая мастерская вокруг реальной работы",
+  "insight": "в общей мастерской важнее не интерес к ремеслу, а физическое присутствие, свободный станок и понятная передача незаконченной работы",
+  "deck": "Рабочее приложение мастерской: доступность станка ведёт к брони, отметке, безопасной операции и освобождению оборудования без чатов и звонков.",
+  "qualityContractVersion": 3,
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "machines",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "product": {
+    "audience": "Участники общей мастерской, которые бронируют оборудование и передают незавершённую работу между сменами",
+    "situation": "Перед поездкой и во время работы человек должен знать, какой станок свободен, где его бронь и что нужно сделать перед освобождением места",
+    "problem": "Брони, присутствие и состояние оборудования разнесены по разным инструментам, поэтому мастерская теряет время на уточнения",
+    "promise": "Проверить доступность, забронировать станок, отметиться и завершить смену со структурированной передачей за один цикл",
+    "differentiator": "Единицей продукта является оборудование и его временной слот, а не разговор между участниками",
+    "returnReasons": [
+      "Изменение доступности нужного станка",
+      "Ближайшая бронь и обязательный чек-лист",
+      "Готовность проекта к следующей операции"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "machines",
+      "result": "schedule"
+    },
+    "coreLoop": [
+      "Проверить доступность оборудования",
+      "Забронировать слот и подтвердить присутствие",
+      "Выполнить операцию и освободить станок с фиксированной передачей"
+    ],
+    "nonGoals": [
+      "Чаты, ответы, обсуждения и комментарийные ветки",
+      "Адресные звонки и созвоны участников",
+      "Универсальная социальная лента вне работы мастерской"
+    ],
+    "world": {
+      "note": "Верстак хранит оборудование, брони, присутствие, операции и передачи; коммуникация заменена фиксированными состояниями.",
+      "entities": [
+        {
+          "id": "person",
+          "name": "Участник",
+          "identity": "профиль и допуски",
+          "fields": ["name", "skills", "credentials", "presence"],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "booking"
+            }
+          ]
+        },
+        {
+          "id": "equipment",
+          "name": "Оборудование",
+          "identity": "инвентарный номер и зона",
+          "fields": ["name", "status", "safetyRules", "nextAvailableAt"],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "booking"
+            }
+          ]
+        },
+        {
+          "id": "booking",
+          "name": "Бронь",
+          "identity": "оборудование, участник и интервал",
+          "fields": ["startsAt", "endsAt", "status", "calendarEvent"],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "equipment"
+            },
+            {
+              "kind": "belongs-to",
+              "to": "person"
+            }
+          ]
+        },
+        {
+          "id": "presence",
+          "name": "Присутствие",
+          "identity": "участник, место и срок",
+          "fields": ["place", "confirmedAt", "expiresAt", "method"],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "person"
+            }
+          ]
+        },
+        {
+          "id": "project",
+          "name": "Проект",
+          "identity": "название и текущая операция",
+          "fields": ["stage", "media", "nextOperation", "owner"],
+          "relations": [
+            {
+              "kind": "uses",
+              "to": "equipment"
+            }
+          ]
+        },
+        {
+          "id": "handoff",
+          "name": "Передача",
+          "identity": "проект и время фиксации",
+          "fields": [
+            "transcript",
+            "checklist",
+            "machineState",
+            "nextSlot",
+            "releasedAt",
+            "acceptedBy",
+            "acceptanceStatus"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "project"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "check-availability",
+          "name": "Проверить доступность",
+          "actor": "person",
+          "entity": "equipment",
+          "effect": "показывается актуальный статус и следующий слот",
+          "screen": "machines",
+          "result": "Понятно, какой станок можно занять или забронировать",
+          "capabilities": ["remotenotif", "fetch", "bgtask"]
+        },
+        {
+          "id": "book-equipment",
+          "name": "Забронировать оборудование",
+          "actor": "person",
+          "entity": "booking",
+          "effect": "создаётся слот оборудования",
+          "screen": "schedule",
+          "result": "Бронь видна в расписании, календаре и виджете",
+          "capabilities": ["calendar", "appgroups", "keychain"]
+        },
+        {
+          "id": "confirm-presence",
+          "name": "Подтвердить присутствие",
+          "actor": "person",
+          "entity": "presence",
+          "effect": "бронь получает подтверждение на месте",
+          "screen": "checkin",
+          "result": "Станок закреплён до конца слота",
+          "capabilities": ["location", "wifiinfo", "hotspot"]
+        },
+        {
+          "id": "record-stage",
+          "name": "Зафиксировать этап",
+          "actor": "person",
+          "entity": "project",
+          "effect": "к проекту добавляется медиа этапа",
+          "screen": "create",
+          "result": "Следующая операция видит актуальное состояние",
+          "capabilities": ["camera", "photos", "shareext"]
+        },
+        {
+          "id": "release-equipment",
+          "name": "Освободить станок",
+          "actor": "person",
+          "entity": "handoff",
+          "effect": "диктовка превращается в фиксированный чек-лист",
+          "screen": "voice",
+          "result": "Станок свободен, состояние и следующий шаг зафиксированы",
+          "capabilities": ["mic", "speech", "push", "commnotif"]
+        },
+        {
+          "id": "play-briefing",
+          "name": "Прослушать инструктаж",
+          "actor": "person",
+          "entity": "equipment",
+          "effect": "односторонняя инструкция доступна во время операции",
+          "screen": "briefing",
+          "result": "Шаги безопасности слышны при погашенном экране",
+          "capabilities": ["audio"]
+        },
+        {
+          "id": "manage-device",
+          "name": "Настроить устройство",
+          "actor": "person",
+          "entity": "person",
+          "effect": "обновлены защита, вход и персонализация",
+          "screen": "profile",
+          "result": "Системные функции доступны независимо от рабочих данных",
+          "capabilities": ["autofill", "contacts", "faceid", "tracking"]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Утилита физической мастерской: состояние оборудования, бронирование, присутствие и безопасная передача смены.",
+    "familiarPatterns": [
+      "Панель доступности оборудования",
+      "Календарное расписание броней",
+      "Карточка проекта и этапов",
+      "Профиль с допусками и устройствами"
+    ],
+    "distinctions": [
+      "Станок и временной слот — главные объекты интерфейса",
+      "Передача всегда структурирована как состояние и чек-лист",
+      "Любое действие заканчивается наблюдаемым состоянием оборудования"
+    ],
+    "evidenceScreens": [
+      "machines",
+      "schedule",
+      "checkin",
+      "project",
+      "voice",
+      "profile"
+    ],
+    "referencePatterns": [],
+    "referenceEvidence": []
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines: Location",
+        "observation": "Запрос геопозиции должен следовать за понятным действием и объяснять непосредственный результат",
+        "decision": "Разрешение появляется только после кнопки подтверждения присутствия, а ручная отметка остаётся fallback"
+      },
+      {
+        "source": "Наблюдаемый распорядок общих мастерских и makerspace",
+        "observation": "Перед поездкой участнику важнее свободное оборудование и люди на месте, чем архив обсуждений",
+        "decision": "Первый экран показывает занятость зон и реальные работы сегодняшнего дня"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Присутствие можно написать обычным сообщением в групповом чате",
+        "resolution": "Отметка связана с конкретной зоной, временем окончания и подтверждённым местом, поэтому не теряется в переписке",
+        "evidenceScreens": ["checkin", "present"]
+      },
+      {
+        "objection": "Проверка Wi-Fi выглядит как контроль сотрудников",
+        "resolution": "Приложение показывает проверку до действия, не хранит SSID и предлагает равноправное ручное подтверждение",
+        "evidenceScreens": ["checkin", "present"]
+      },
+      {
+        "objection": "Экран занятости рискует стать декоративной лентой работ",
+        "resolution": "Каждая карточка ведёт к доступному слоту, активной брони, проекту или зафиксированной передаче",
+        "evidenceScreens": ["machines", "schedule", "project"]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "единый проход · оборудование, брони и передача",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#9F3F1E",
+    "accentDark": "#E68155",
+    "authIcon": "hammer",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "machines",
+      "label": "Станки",
+      "role": "feed"
+    },
+    {
+      "id": "schedule",
+      "label": "Расписание",
+      "role": "events"
+    },
+    {
+      "id": "projects",
+      "label": "Проекты",
+      "role": "projects"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к геопозиции",
+        "text": "Чтобы подтвердить, что вы находитесь рядом с выбранной мастерской."
+      },
+      "feature": "Отметка присутствия в мастерской",
+      "gesture": "«Подтвердить присутствие»",
+      "screen": "checkin",
+      "target": "present",
+      "fallback": "Можно отправить ручную отметку, которую подтвердит человек уже на месте",
+      "snack": "Геопозиция недоступна — отправьте ручную отметку",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "CLLocationManager whenInUse; координата сравнивается с радиусом мастерской на устройстве"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сведения о сети Wi-Fi",
+        "text": "Entitlement без системного запроса: имя текущей сети завершает проверку присутствия."
+      },
+      "feature": "Подтверждение присутствия по сети мастерской",
+      "gesture": "«Проверить сеть»",
+      "screen": "present",
+      "target": "present",
+      "activate": true,
+      "fallback": "Отметка остаётся ожидающей подтверждения другим участником",
+      "snack": "Сеть мастерской не найдена",
+      "risk": "low",
+      "anchor": true,
+      "conditional": true,
+      "requires": "CNCopyCurrentNetworkInfo доступен после разрешения геопозиции",
+      "grounding": "SSID сравнивается локально с сохранённым именем сети и нигде не передаётся"
+    },
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к камере",
+        "text": "Чтобы снять этап работы или QR-код оборудования."
+      },
+      "feature": "Съёмка этапа проекта",
+      "gesture": "«Снять этап»",
+      "screen": "create",
+      "target": "camera",
+      "fallback": "Остаётся выбор готового снимка и текстовая публикация",
+      "snack": "Камера недоступна",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation; кадр сохраняется в черновик проекта"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к медиатеке",
+        "text": "Чтобы выбрать готовые фотографии этапа работы."
+      },
+      "feature": "Выбор кадров проекта",
+      "gesture": "«Из медиатеки»",
+      "screen": "create",
+      "target": "library",
+      "fallback": "Остаётся съёмка камерой и публикация без медиа",
+      "snack": "Медиатека недоступна",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker и Photos; выбранные файлы копируются в черновик"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к микрофону",
+        "text": "Чтобы надиктовать передачу незаконченной работы."
+      },
+      "feature": "Диктовка состояния станка в карточку передачи",
+      "gesture": "«Записать передачу»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Передачу можно написать текстом",
+      "snack": "Микрофон недоступен",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioRecorder пишет локальный черновик"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает распознавание речи",
+        "text": "Чтобы превратить голосовую передачу в чек-лист."
+      },
+      "feature": "Распознавание диктовки в поля чек-листа передачи",
+      "gesture": "«Записать передачу»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Аудио остаётся без расшифровки, чек-лист вводится руками",
+      "snack": "Распознавание речи недоступно",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Speech framework распознаёт запись на устройстве"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Верстак» хочет отправлять уведомления",
+        "text": "Чтобы сообщать о начале брони и освободившемся оборудовании."
+      },
+      "feature": "События начала, завершения и освобождения брони",
+      "gesture": "«Включить уведомления»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Все события остаются в расписании",
+      "snack": "Уведомления выключены",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "UserNotifications и push SDK провайдера"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Именные уведомления",
+        "text": "Entitlement без алерта: карточка показывает станок, событие и время без поля ответа."
+      },
+      "feature": "Атомарная карточка фиксированного события брони",
+      "gesture": "«Показывать имя автора»",
+      "screen": "alerts",
+      "target": "alerts",
+      "activate": true,
+      "fallback": "Обычное уведомление без коммуникационного оформления",
+      "snack": "Именные уведомления недоступны",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "INPerson передаётся в UNNotificationContent"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Фоновое обновление по push",
+        "text": "Фоновый режим без алерта обновляет занятость зон."
+      },
+      "feature": "Актуальная занятость при закрытом приложении",
+      "gesture": "«Обновлять занятость»",
+      "screen": "sync",
+      "target": "sync",
+      "activate": true,
+      "fallback": "Данные обновятся при следующем открытии",
+      "snack": "Фоновое обновление недоступно",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Silent push меняет только локальный снимок расписания"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновая выборка",
+        "text": "Фоновый режим без алерта готовит ленту до открытия."
+      },
+      "feature": "Лента готова к первому открытию",
+      "gesture": "«Готовить ленту заранее»",
+      "screen": "sync",
+      "target": "sync",
+      "activate": true,
+      "fallback": "Лента загрузится после открытия",
+      "snack": "Фоновая выборка недоступна",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "BGAppRefreshTask получает небольшой JSON-снимок"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Плановое обновление",
+        "text": "Фоновая задача без алерта очищает старые черновики и готовит расписание."
+      },
+      "feature": "Плановое обслуживание локальных данных",
+      "gesture": "«Запланировать обслуживание»",
+      "screen": "sync",
+      "target": "sync",
+      "activate": true,
+      "fallback": "Очистка выполняется при открытии",
+      "snack": "Задача не зарегистрирована",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "BGTaskScheduler с идентификатором app.verstak.refresh"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общие данные расширений",
+        "text": "Entitlement без алерта: виджет и Share Extension читают локальный снимок."
+      },
+      "feature": "Виджет ближайшей брони",
+      "gesture": "«Добавить виджет»",
+      "screen": "widget",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Все данные остаются в основном приложении",
+      "snack": "Общая группа недоступна",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "App Group хранит только расписание и черновик публикации"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая сессия",
+        "text": "Entitlement без алерта: приложение и расширения используют один токен."
+      },
+      "feature": "Одна сессия для виджета и расширения",
+      "gesture": "«Использовать на этом устройстве»",
+      "screen": "widget",
+      "target": "widget",
+      "activate": true,
+      "fallback": "Расширение попросит открыть приложение",
+      "snack": "Общая сессия недоступна",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Keychain access group хранит токен SDK входа"
+    },
+    {
+      "key": "shareext",
+      "plist": "Share Extension",
+      "alert": {
+        "title": "Поделиться в «Верстак»",
+        "text": "Расширение без алерта принимает чертёж или фото в новый черновик."
+      },
+      "feature": "Черновик из Safari и Фото",
+      "gesture": "«Добавить из другого приложения»",
+      "screen": "create",
+      "target": "create",
+      "activate": true,
+      "fallback": "Файл выбирается внутри приложения",
+      "snack": "Расширение недоступно",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Share Extension пишет файл в App Group"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Автозаполнение паролей мастерской",
+        "text": "Entitlement без алерта подставляет сохранённые логины порталов."
+      },
+      "feature": "Пароли поставщиков и учебного портала",
+      "gesture": "«Включить автозаполнение»",
+      "screen": "credentials",
+      "target": "credentials",
+      "activate": true,
+      "fallback": "Логин копируется вручную после Face ID",
+      "snack": "Автозаполнение недоступно",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderExtension работает с локальным зашифрованным хранилищем"
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "Подключиться к сети мастерской",
+        "text": "Чтобы добавить гостевую сеть после сканирования QR на стенде."
+      },
+      "feature": "Подключение к гостевой сети",
+      "gesture": "«Подключиться к сети»",
+      "screen": "network",
+      "target": "network",
+      "fallback": "Имя и пароль можно ввести в Настройках iOS",
+      "snack": "Сеть не добавлена",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotConfiguration добавляет одну известную сеть"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к контактам",
+        "text": "Чтобы показать, кто из знакомых уже работает в мастерской."
+      },
+      "feature": "Знакомые участники",
+      "gesture": "«Найти знакомых»",
+      "screen": "profile",
+      "target": "profile",
+      "fallback": "Людей можно найти по имени",
+      "snack": "Контакты недоступны",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Нормализованные номера сопоставляет SDK провайдера без загрузки адресной книги целиком"
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Верстак» запрашивает доступ к календарю",
+        "text": "Чтобы добавить бронь станка и обновлять её при переносе."
+      },
+      "feature": "Бронь оборудования в календаре",
+      "gesture": "«Добавить бронь в календарь»",
+      "screen": "schedule",
+      "target": "schedule",
+      "fallback": "Бронь остаётся внутри приложения",
+      "snack": "Календарь недоступен",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit создаёт и обновляет одно событие"
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "«Верстак» использует Face ID",
+        "text": "Чтобы закрыть сметы, чертежи и сохранённые пароли."
+      },
+      "feature": "Защита приватных материалов",
+      "gesture": "«Включить Face ID»",
+      "screen": "lock",
+      "target": "lock",
+      "fallback": "Раздел открывается после пароля аккаунта",
+      "snack": "Face ID недоступен",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LocalAuthentication; биометрические данные приложение не получает"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить подходящие предложения?",
+        "text": "Чтобы учитывать выбранные ремёсла в рекламе местных поставщиков."
+      },
+      "feature": "Реклама материалов вместо подписки",
+      "gesture": "«Показывать подходящее»",
+      "screen": "sponsors",
+      "target": "sponsors",
+      "fallback": "Остаётся неперсонализированная реклама мастерской",
+      "snack": "Предложения не персонализируются",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Бесплатная модель с рекламным SDK, функции от решения не зависят",
+      "grounding": "ATT вызывается только из отдельной настройки рекламы"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое аудио",
+        "text": "Фоновый режим без алерта продолжает инструктаж при погашенном экране."
+      },
+      "feature": "Инструктаж операции в наушниках",
+      "gesture": "«Слушать инструктаж»",
+      "screen": "briefing",
+      "target": "nowplaying",
+      "activate": true,
+      "fallback": "Текстовый чек-лист остаётся на экране проекта",
+      "snack": "Фоновое аудио недоступно",
+      "risk": "medium",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioSession playback и Now Playing с паузой и ±15 секунд"
+    }
+  ],
+  "screens": [
+    {
+      "id": "machines",
+      "title": "Станки",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Доступность, активные слоты и быстрый check-in",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать состояние оборудования и следующий доступный слот",
+        "primaryAction": "Обновить отметку",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "empty"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "schedule",
+      "title": "Расписание",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Брони оборудования по времени",
+      "ui": {
+        "pattern": "task",
+        "navigation": "root",
+        "purpose": "Показать личные и общие брони оборудования",
+        "primaryAction": "Выбрать свободный слот",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "phone",
+      "title": "Вход",
+      "type": "push",
+      "light": true,
+      "meta": "Войти или продолжить без аккаунта",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Войти или продолжить без аккаунта",
+        "primaryAction": "Далее",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "projects",
+      "title": "Проекты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать активные работы и передачи",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать активные работы и передачи",
+        "primaryAction": "Новый этап",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "empty"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль участника",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Управлять идентичностью и интеграциями",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Управлять идентичностью и интеграциями",
+        "primaryAction": "Аккаунт",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "checkin",
+      "title": "Отметка присутствия",
+      "type": "push",
+      "light": true,
+      "parent": "machines",
+      "meta": "Выбрать зону и подтвердить присутствие",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Выбрать зону и подтвердить присутствие",
+        "primaryAction": "Подтвердить присутствие",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "present",
+      "title": "Присутствие подтверждено",
+      "type": "push",
+      "light": true,
+      "parent": "checkin",
+      "meta": "Показать результат проверки присутствия",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать результат проверки присутствия",
+        "primaryAction": "Проверить сеть",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "project",
+      "title": "Полка для винила",
+      "type": "push",
+      "light": true,
+      "parent": "projects",
+      "meta": "Собрать этапы, файлы и следующую передачу",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать этапы, файлы и следующую передачу",
+        "primaryAction": "Зафиксировать передачу",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "title": "Новый этап",
+      "type": "modal",
+      "light": true,
+      "parent": "projects",
+      "meta": "Создать публикацию о ходе проекта",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Создать публикацию о ходе проекта",
+        "primaryAction": "Камера",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "error", "success"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера этапа",
+      "type": "fullscreen",
+      "light": true,
+      "parent": "create",
+      "meta": "Снять новый кадр этапа работы",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять новый кадр этапа работы",
+        "primaryAction": "Использовать кадр",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Медиатека",
+      "type": "system",
+      "light": true,
+      "parent": "create",
+      "meta": "Выбрать готовые фотографии проекта",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать готовые фотографии проекта",
+        "primaryAction": "Выбрать 3 фото",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Фиксация передачи",
+      "type": "modal",
+      "light": true,
+      "parent": "project",
+      "meta": "Диктовка в структурированный чек-лист",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "modal",
+        "purpose": "Преобразовать одностороннюю диктовку в поля передачи",
+        "primaryAction": "Собрать чек-лист",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "briefing",
+      "title": "Инструктаж",
+      "type": "push",
+      "light": true,
+      "parent": "project",
+      "meta": "Подготовить безопасную операцию по шагам",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Подготовить безопасную операцию по шагам",
+        "primaryAction": "Слушать инструктаж",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nowplaying",
+      "title": "Инструктаж играет",
+      "type": "fullscreen",
+      "light": true,
+      "parent": "briefing",
+      "meta": "Управлять фоновым инструктажем",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Управлять фоновым инструктажем",
+        "primaryAction": "Вернуться к проекту",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "loading", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sync",
+      "title": "Фоновое обновление",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Управлять обновлением ленты и расписания",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять обновлением ленты и расписания",
+        "primaryAction": "Тихие push-обновления",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "widget",
+      "title": "Виджет мастерской",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Подключить виджет и общую сессию",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Подключить виджет и общую сессию",
+        "primaryAction": "Общие данные",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "credentials",
+      "title": "Пароли мастерской",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Подключить автозаполнение порталов",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Подключить автозаполнение порталов",
+        "primaryAction": "Включить автозаполнение",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "network",
+      "title": "Сеть мастерской",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Добавить гостевую сеть по известной конфигурации",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Добавить гостевую сеть по известной конфигурации",
+        "primaryAction": "Подключиться к сети",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lock",
+      "title": "Приватные материалы",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Закрыть сметы и чертежи биометрией",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Закрыть сметы и чертежи биометрией",
+        "primaryAction": "Включить Face ID",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerts",
+      "title": "Оповещения",
+      "type": "push",
+      "light": true,
+      "parent": "schedule",
+      "meta": "События броней и освобождения станков",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Настроить атомарные события расписания и оборудования",
+        "primaryAction": "Брони и освобождение",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sponsors",
+      "title": "Партнёрские предложения",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Объяснить персонализацию рекламы отдельно от функций",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Объяснить персонализацию рекламы отдельно от функций",
+        "primaryAction": "Показывать подходящее",
+        "hierarchy": {
+          "primary": "Главный объект сценария и его актуальное состояние",
+          "secondary": "Контекст, последствия действия и доступный запасной путь"
+        },
+        "states": ["default"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Карточка «Корпус лампы» показывает автора, срок 20:10 и доступное действие"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько одновременных событий, длинные имена и перенесённое время"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа, но локальный запасной путь остаётся видимым"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Полный концепт",
+      "note": "Все поверхности мастерской",
+      "start": "phone",
+      "screens": [
+        "machines",
+        "schedule",
+        "phone",
+        "projects",
+        "profile",
+        "checkin",
+        "present",
+        "project",
+        "create",
+        "camera",
+        "library",
+        "voice",
+        "briefing",
+        "nowplaying",
+        "sync",
+        "widget",
+        "credentials",
+        "network",
+        "lock",
+        "alerts",
+        "sponsors"
+      ]
+    },
+    {
+      "id": "arrival",
+      "label": "Приход в мастерскую",
+      "note": "Место, Wi‑Fi и ручной fallback",
+      "start": "machines",
+      "screens": ["machines", "checkin", "present", "alerts", "schedule"],
+      "stops": ["checkin", "present", "alerts", "schedule"]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать этап",
+      "note": "Камера, медиатека и внешний черновик",
+      "start": "create",
+      "screens": ["projects", "create", "camera", "library"],
+      "stops": ["projects", "camera", "library"]
+    },
+    {
+      "id": "handoff",
+      "label": "Передать работу",
+      "note": "Голос, расшифровка и календарь",
+      "start": "project",
+      "screens": ["projects", "project", "voice", "schedule", "briefing"],
+      "stops": ["projects", "voice", "schedule", "briefing"]
+    },
+    {
+      "id": "briefing",
+      "label": "Безопасный инструктаж",
+      "note": "Плеер и фон с погашенным экраном",
+      "start": "briefing",
+      "screens": ["projects", "project", "briefing", "nowplaying"],
+      "stops": ["projects", "project", "nowplaying"]
+    },
+    {
+      "id": "device",
+      "label": "Интеграции устройства",
+      "note": "Виджет, ключи, сеть и Face ID",
+      "start": "widget",
+      "screens": ["profile", "widget", "credentials", "network", "lock"],
+      "stops": ["profile", "credentials", "network", "lock"]
+    },
+    {
+      "id": "signals",
+      "label": "Оповещения и фон",
+      "note": "Push, атомарные события и три фоновых режима",
+      "start": "alerts",
+      "screens": ["schedule", "alerts", "profile", "sync"],
+      "stops": ["schedule", "profile", "sync"]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Актуальная занятость, брони и конечные передачи",
+      "solution": "BaaS SDK с готовыми коллекциями, Storage и push; собственный серверный обработчик не пишется"
+    },
+    {
+      "needs": "Проверка места и сети мастерской",
+      "solution": "CLLocationManager и CNCopyCurrentNetworkInfo сравнивают данные локально"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Верстак",
+    "subtitle": "Живая общая мастерская",
+    "promo": "Свободные станки, понятные брони и безопасная передача работы — состояние общей мастерской в одном месте.",
+    "keywords": "станок,проект,ремесло,бронь,makerspace,работа,инструмент,помощь",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Productivity"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — стандартное HTTPS-соединение",
+    "urls": {
+      "support": "https://verstak.app/support",
+      "marketing": "https://verstak.app",
+      "privacy": "https://verstak.app/privacy"
+    },
+    "description": [
+      "Рабочее приложение одной общей мастерской.",
+      "СТАНКИ\nПроверяйте доступность оборудования и ближайший свободный слот до поездки.",
+      "РАСПИСАНИЕ\nБронируйте время, подтверждайте присутствие и освобождайте станок по чек-листу.",
+      "ПРОЕКТЫ\nФиксируйте этапы, состояние оборудования и следующий шаг без переписки."
+    ],
+    "whatsNew": "Первая версия: станки, расписание, проекты, брони, виджет и фоновые обновления.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа через SDK провайдера"
+      },
+      {
+        "type": "Точная геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Однократная локальная проверка присутствия"
+      },
+      {
+        "type": "Фото, аудио и речь",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Явно созданные этапы и передачи проектов"
+      },
+      {
+        "type": "Идентификатор рекламы",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама третьих лиц",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после отдельного решения в настройке партнёров"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "password": "review2026",
+      "note": "Тестовый номер принимает пароль; гостевой вход доступен без аккаунта."
+    }
+  },
+  "acceptance": [
+    {
+      "id": "book-equipment",
+      "name": "Забронировать станок",
+      "action": "book-equipment",
+      "given": "Нужный станок занят",
+      "when": "Выбирает свободный интервал и добавляет бронь",
+      "then": "Слот виден в расписании, календаре и виджете",
+      "screens": ["machines", "schedule", "widget"],
+      "capabilities": ["calendar", "appgroups", "keychain"]
+    },
+    {
+      "id": "confirm-presence",
+      "name": "Подтвердить присутствие",
+      "action": "confirm-presence",
+      "given": "Начинается бронь",
+      "when": "Проверяет место и сеть мастерской",
+      "then": "Бронь активна до конца слота",
+      "screens": ["machines", "checkin", "present"],
+      "capabilities": ["location", "wifiinfo"]
+    },
+    {
+      "id": "release-equipment",
+      "name": "Освободить станок",
+      "action": "release-equipment",
+      "given": "Операция завершена или передаётся",
+      "when": "Диктует состояние и проверяет собранный чек-лист",
+      "then": "Станок свободен, следующий шаг проекта зафиксирован",
+      "screens": ["project", "voice", "schedule"],
+      "capabilities": ["mic", "speech", "push", "commnotif"]
+    }
+  ],
+  "fixtures": {
+    "note": "Демо-данные вертикального среза.",
+    "works": [
+      {
+        "title": "Корпус лампы",
+        "subtitle": "Фрезерный стол · нужна помощь с последним проходом"
+      },
+      {
+        "title": "Полка для винила",
+        "subtitle": "Сборочный стол · передача в 19:20"
+      }
+    ]
+  }
+}

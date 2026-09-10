@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "kontur",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "feed",
+      "headline": "Плёнка живёт в контексте",
+      "body": "Прогулки, кадры и лабораторные этапы собраны вместе"
+    },
+    {
+      "screen": "post",
+      "headline": "История каждого кадра",
+      "body": "Место, плёнка и автор сохраняются в публикации"
+    },
+    {
+      "screen": "walks",
+      "headline": "Фотопрогулки рядом",
+      "body": "Маршрут, состав и время видны до старта"
+    },
+    {
+      "screen": "batch",
+      "headline": "Проявка без потерянных этапов",
+      "body": "Таймер и журнал ведут плёнку через лабораторию"
+    },
+    {
+      "screen": "handoff",
+      "headline": "Передайте отпечаток точно",
+      "body": "Получатель видит статус, место и следующий шаг"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

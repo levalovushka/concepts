@@ -1,0 +1,47 @@
+<div class="screen pc-page cx-page cx-night" id="scr-nowplaying">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Сводка играет</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-player">
+      <div class="cx-album">ПР<b>19</b></div>
+      <span>МАРШРУТ · 01:18</span>
+      <h1>Порывы у волнореза</h1>
+      <div class="cx-progress"><i></i></div>
+      <div class="cx-controls">
+        <button
+          class="tap"
+          data-toast="Назад 15 секунд"
+          aria-label="Назад 15 секунд"
+        >
+          −15</button
+        ><button class="tap" data-toast="Пауза" aria-label="Пауза">
+          <svg class="ico-svg"><use href="#i-pause" /></svg></button
+        ><button
+          class="tap"
+          data-toast="Вперёд 15 секунд"
+          aria-label="Вперёд 15 секунд"
+        >
+          +15
+        </button>
+      </div>
+    </div>
+    <button class="cx-primary tap" data-primary data-go="outing">
+      Вернуться к выходу
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

@@ -1,0 +1,97 @@
+<div class="screen ios-surface m-page m-cast-status" id="scr-cast">
+  <div class="body-scroll m-scroll m-safe">
+    <div class="m-top">
+      <div class="m-top-title">Состояние пути</div>
+      <div class="m-top-acts">
+        <button class="m-pill quiet m-live-exit tap" data-go="feed">
+          Закрыть
+        </button>
+      </div>
+    </div>
+    <div class="m-wrap">
+      <div class="m-gather m-cast-summary">
+        <div class="m-gather-when">ДОМ → ОФИС · ОБНОВЛЯЕТСЯ АВТОМАТИЧЕСКИ</div>
+        <div class="m-gather-t">Спуск к реке</div>
+        <div class="m-gather-s">Участок 2 из 5 · следующий риск через 280 м</div>
+      </div>
+      <section class="m-card">
+        <div class="m-row">
+          <span class="m-bul warn"
+            ><svg class="ico-svg"><use href="#i-triangle-alert" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Лёд у ограждения</span
+            ><span class="m-row-s"
+              >снизьте скорость до начала поворота</span
+            ></span
+          ><span class="m-status is-warn">280 м</span>
+        </div>
+        <div class="m-row">
+          <span class="m-bul accent"
+            ><svg class="ico-svg"><use href="#i-radio" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Видно в коридоре</span
+            ><span class="m-row-s"
+              >без адресата, слушателей и ответа</span
+            ></span
+          ><span class="m-status is-ready">сейчас</span>
+        </div>
+      </section>
+      <div class="m-sec-head">
+        <h2>Добавить факт</h2>
+        <span>в этот участок</span>
+      </div>
+      <section class="m-card">
+        <button class="m-row tap" data-primary data-ask="mic+speech|cast|cast">
+          <span class="m-bul accent"
+            ><svg class="ico-svg"><use href="#i-mic" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Заполнить голосом</span
+            ><span class="m-row-s"
+              >тип риска, ориентир и срок</span
+            ></span
+          >
+        </button>
+        <div class="m-row">
+          <span class="m-row-copy"
+            ><span class="m-row-t">Песок после поворота</span
+            ><span class="m-row-s"
+              >Набережная · действует ещё 1 час</span
+            ></span
+          ><span class="m-status is-ready">готово</span>
+        </div>
+      </section>
+      <div class="m-sec-head">
+        <h2>Дальше по пути</h2>
+        <span>2,4 км</span>
+      </div>
+      <section class="m-card">
+        <div class="m-way">
+          <span class="m-way-dot is-moving"></span>
+          <span class="m-row-copy"><span class="m-row-t">Поворот у набережной</span><span class="m-row-s">через 1,2 км · осторожно</span></span>
+        </div>
+        <div class="m-way">
+          <span class="m-way-dot is-here"></span>
+          <span class="m-row-copy"><span class="m-row-t">Мост</span><span class="m-row-s">путь свободен · проверено в 07:31</span></span>
+        </div>
+      </section>
+      <div class="m-cta">
+        <button class="btn-quiet tap" data-activate="audio|background">
+          Включить подсказки в пути
+        </button>
+      </div>
+      <div class="m-note" data-show-granted="mic" hidden>
+        <svg class="ico-svg"><use href="#i-check" /></svg
+        ><span>Диктовка записана локально.</span>
+      </div>
+      <div class="m-note" data-show-granted="speech" hidden>
+        <svg class="ico-svg"><use href="#i-check" /></svg
+        ><span>Поля распознаны; публикация требует подтверждения.</span>
+      </div>
+      <div class="m-note" data-show-denied="mic,speech" hidden>
+        <svg class="ico-svg"><use href="#i-info" /></svg
+        ><span>Заполните тип риска и ориентир вручную.</span>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

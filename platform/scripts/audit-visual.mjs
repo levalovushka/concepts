@@ -134,6 +134,34 @@ function probe(scr, cfg) {
     const bars = s.querySelectorAll('.tabbar').length;
     if (cfg.navigation === 'root' && bars !== 1) out.push({ kind: 'tabbar-contract', what: scr, detail: `root: tabbar ${bars}` });
     if (cfg.navigation !== 'root' && bars) out.push({ kind: 'tabbar-contract', what: scr, detail: `${cfg.navigation}: tabbar ${bars}` });
+    if (cfg.navigation === 'root' && bars === 1) {
+      const bar = s.querySelector('.tabbar');
+      const br = bar.getBoundingClientRect();
+      const bottomGap = Math.round(base.bottom - br.bottom);
+      if (Math.abs(bottomGap) > 1) {
+        out.push({ kind: 'floating-tabbar', what: scr, detail: `${bottomGap}px до нижней границы` });
+      }
+      const content = bar.previousElementSibling;
+      if (content) {
+        const cr = content.getBoundingClientRect();
+        const contentGap = Math.round(br.top - cr.bottom);
+        if (Math.abs(contentGap) > 2) {
+          out.push({ kind: 'root-layout-gap', what: label(content), detail: `${contentGap}px перед tabbar` });
+        }
+      }
+    }
+
+    /* Текстовый символ внутри кнопки-иконки почти всегда означает временный
+       плейсхолдер (+, ⋯, ⌕), который случайно дошёл до финального UI. */
+    for (const button of s.querySelectorAll('button[class*="icon"],button[class*="Icon"]')) {
+      const ownText = [...button.childNodes]
+        .filter((node) => node.nodeType === 3)
+        .map((node) => node.textContent.trim())
+        .join('');
+      if (ownText && !button.querySelector('svg,img')) {
+        out.push({ kind: 'text-icon', what: label(button), detail: `символ «${ownText.slice(0, 6)}»` });
+      }
+    }
 
     for (const el of s.querySelectorAll('.card,.ios-card,.tile,[class*="-card"]')) {
       const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
@@ -201,6 +229,9 @@ const KIND = {
   'formula-prose': 'подписи по одному шаблону',
   'primary-count': 'главное действие не единственное',
   'tabbar-contract': 'нарушен контракт навигации',
+  'floating-tabbar': 'tabbar не закреплён у нижней границы',
+  'root-layout-gap': 'разрыв между контентом и tabbar',
+  'text-icon': 'текстовый символ вместо иконки',
   'empty-monolith': 'крупный малосодержательный блок',
 };
 

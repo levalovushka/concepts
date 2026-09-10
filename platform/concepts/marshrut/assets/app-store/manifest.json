@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "marshrut",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "feed",
+      "headline": "Знайте дорогу до старта",
+      "body": "Свежие факты стоят в порядке приближения по вашему пути"
+    },
+    {
+      "screen": "compose",
+      "headline": "Оставьте точный факт",
+      "body": "Участок, срок жизни и кадр предупреждают следующего"
+    },
+    {
+      "screen": "meetup",
+      "headline": "Выезжайте вместе",
+      "body": "Сбор, темп и живые предупреждения в одной карточке"
+    },
+    {
+      "screen": "route",
+      "headline": "Передайте риск дальше",
+      "body": "Следующий человек увидит и перепроверит участок"
+    },
+    {
+      "screen": "music",
+      "headline": "Маршрут готов офлайн",
+      "body": "Карта, риски и разборы доступны без мобильной сети"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

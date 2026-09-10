@@ -1,0 +1,2363 @@
+{
+  "slug": "tropa",
+  "name": "Тропа",
+  "eyebrow": "Тропа · Сообщество городских маршрутов · iOS",
+  "targetSet": "vkontakte",
+  "domain": "tropa.city",
+  "heroTitle": "Тропа — зелёный маршрут, который помнят вместе",
+  "heroDeck": "Небольшое городское сообщество наблюдает одну и ту же зелёную сеть, собирается на уход и передаёт незакрытые задачи следующей группе.",
+  "tagline": "Не публикации о природе, а непрерывная забота о конкретной городской тропе",
+  "insight": "городской зелёный маршрут меняется медленно, а люди бывают на нём в разные дни: ценность появляется, когда сегодняшнее наблюдение продолжает вчерашнюю задачу и готовит следующую сессию",
+  "deck": "Закрытая социальная сеть небольшого сообщества: четыре раздела связывают наблюдения, паспорт тропы, совместные уходовые сессии и ответственность людей. Синхронизация работает на SDK провайдера, без собственного сервера.",
+  "qualityContractVersion": 3,
+  "product": {
+    "audience": "Жители одного района, волонтёры и смотрители, которые регулярно проходят и поддерживают 2–7 городских зелёных маршрутов",
+    "situation": "После ветра, жары или выходных разные люди замечают поваленные ветки, сухие молодые деревья и размытые участки, но приходят на маршрут в разное время",
+    "problem": "Наблюдения теряются в несвязанных записях, уходовые встречи начинаются без актуального списка, а незакрытые задачи не переходят следующей группе",
+    "promise": "За минуту понять, что изменилось на тропе, взять конкретную задачу и оставить следующему человеку проверяемый результат",
+    "differentiator": "Социальный граф строится вокруг долговременной ответственности за реальные маршруты; публикация ценна только когда меняет состояние точки, задачи или сезона",
+    "returnReasons": [
+      "Новые наблюдения и изменения на своих тропах",
+      "Ближайшие сессии ухода и взятые задачи",
+      "Переданные хвосты, которые нужно проверить после погоды"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "compose",
+      "result": "observation"
+    },
+    "coreLoop": [
+      "Увидеть изменение на своей тропе или заметить его на прогулке",
+      "Зафиксировать точку и превратить наблюдение в задачу с конечным статусом",
+      "Закрыть задачу на сессии либо передать её дальше с результатом"
+    ],
+    "nonGoals": [
+      "Публичная экологическая медиа-платформа и алгоритмическая лента",
+    "Экстренная диспетчерская служба и приём обращений городскими ведомствами",
+      "Маркетплейс волонтёрских проектов и сбор пожертвований"
+    ],
+    "world": {
+      "note": "Маршрут — долговременный социальный объект. Наблюдение меняет состояние точки, задача назначает следующий шаг, сессия фиксирует коллективный результат.",
+      "entities": [
+        {
+          "id": "trail",
+          "name": "Тропа",
+          "identity": "устойчивый маршрут и его паспорт",
+          "fields": [
+            "название",
+            "длина",
+            "сезон",
+            "состояние"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "point"
+            },
+            {
+              "kind": "has-many",
+              "to": "session"
+            }
+          ]
+        },
+        {
+          "id": "point",
+          "name": "Точка",
+          "identity": "координата и ориентир на маршруте",
+          "fields": [
+            "тип",
+            "состояние",
+            "последняя проверка"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "trail"
+            },
+            {
+              "kind": "has-many",
+              "to": "observation"
+            }
+          ]
+        },
+        {
+          "id": "observation",
+          "name": "Наблюдение",
+          "identity": "автор, точка и время",
+          "fields": [
+            "текст",
+            "медиа",
+            "срочность",
+            "погода"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "point"
+            },
+            {
+              "kind": "may-create",
+              "to": "task"
+            }
+          ]
+        },
+        {
+          "id": "task",
+          "name": "Задача",
+          "identity": "результат и ответственная передача",
+          "fields": [
+            "статус",
+            "инструменты",
+            "кому передано",
+            "срок"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "point"
+            },
+            {
+              "kind": "included-in",
+              "to": "session"
+            }
+          ]
+        },
+        {
+          "id": "session",
+          "name": "Сессия ухода",
+          "identity": "дата, тропа и ведущий",
+          "fields": [
+            "участники",
+            "задачи",
+            "точка сбора",
+            "итог"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "trail"
+            },
+            {
+              "kind": "has-many",
+              "to": "task"
+            }
+          ]
+        },
+        {
+          "id": "member",
+          "name": "Участник",
+          "identity": "аккаунт и набор поддерживаемых троп",
+          "fields": [
+            "имя",
+            "вклад",
+            "дежурство",
+            "устройства"
+          ],
+          "relations": [
+            {
+              "kind": "follows",
+              "to": "trail"
+            },
+            {
+              "kind": "joins",
+              "to": "session"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "record_observation",
+          "name": "Зафиксировать наблюдение",
+          "actor": "member",
+          "entity": "observation",
+          "effect": "у точки появляется свежая запись и состояние",
+          "screen": "compose",
+          "result": "сообщество видит изменение в ленте и паспорте тропы",
+          "capabilities": [
+            "camera",
+            "photos",
+            "location"
+          ]
+        },
+        {
+          "id": "document_result",
+          "name": "Сохранить полевой результат",
+          "actor": "member",
+          "entity": "observation",
+          "effect": "итог сохраняется в галерею или получает голосовую заметку",
+          "screen": "observation",
+          "result": "у следующей группы есть проверяемое свидетельство",
+          "capabilities": [
+            "mic",
+            "speech"
+          ]
+        },
+        {
+          "id": "assemble_people",
+          "name": "Собрать участников",
+          "actor": "member",
+          "entity": "session",
+          "effect": "к сессии добавляются знакомые и календарная договорённость",
+          "screen": "people",
+          "result": "виден состав и незакрытые роли",
+          "capabilities": [
+            "contacts",
+            "calendar"
+          ]
+        },
+        {
+          "id": "follow_route",
+          "name": "Пройти маршрут",
+          "actor": "member",
+          "entity": "trail",
+          "effect": "точки получают отметки обхода и прибытия",
+          "screen": "route",
+          "result": "сообщество видит, какой участок реально проверен",
+          "capabilities": [
+            "location"
+          ]
+        },
+        {
+          "id": "coordinate_session",
+          "name": "Координировать сессию",
+          "actor": "member",
+          "entity": "session",
+          "effect": "зоны передают на общее табло структурированные статусы без адресата",
+          "screen": "live",
+          "result": "группа видит единое состояние работ и фиксированные следующие действия",
+          "capabilities": [
+            "commnotif",
+            "voip"
+          ]
+        },
+        {
+          "id": "sync_at_meeting",
+          "name": "Сверить план рядом",
+          "actor": "member",
+          "entity": "session",
+          "effect": "планы устройств сверяются в локальной сети",
+          "screen": "nearby",
+          "result": "у всех один актуальный список без мобильной связи",
+          "capabilities": [
+            "wifiinfo",
+            "hotspot"
+          ]
+        },
+        {
+          "id": "keep_current",
+          "name": "Поддерживать свежесть",
+          "actor": "member",
+          "entity": "trail",
+          "effect": "лента, оповещения и сезонный индекс обновляются в фоне",
+          "screen": "settings",
+          "result": "после открытия видны новые задачи и пересчитанный сезон",
+          "capabilities": [
+            "push",
+            "remotenotif",
+            "fetch",
+            "bgtask"
+          ]
+        },
+        {
+          "id": "protect_identity",
+          "name": "Защитить вход",
+          "actor": "member",
+          "entity": "member",
+          "effect": "токен хранится в общей защищённой группе",
+          "screen": "settings",
+          "result": "участник возвращается в то же сообщество на своих устройствах",
+          "capabilities": [
+            "keychain",
+            "appgroups",
+            "autofill",
+            "faceid"
+          ]
+        },
+        {
+          "id": "choose_measurement",
+          "name": "Выбрать измерение приглашений",
+          "actor": "member",
+          "entity": "member",
+          "effect": "источник вступления учитывается только после согласия",
+          "screen": "privacy",
+          "result": "сообщество видит полезный канал без ограничения функций",
+          "capabilities": [
+            "tracking"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Это Social Networking: ценность создают наблюдения, совместные действия и передача ответственности внутри устойчивого малого сообщества",
+    "familiarPatterns": [
+      "Хронологическая социальная лента",
+      "Профиль участника и его вклад",
+      "Создание публикации с медиа",
+      "Группы вокруг устойчивого интереса"
+    ],
+    "distinctions": [
+      "Лента организована по изменениям конкретных точек, а не по охвату авторов",
+      "Главный социальный объект — тропа с сезонной памятью, задачами и ответственными",
+      "Сессия заканчивается передачей хвостов следующей группе, а не фотоотчётом"
+    ],
+    "evidenceScreens": [
+      "feed",
+      "trail",
+      "sessions",
+      "handoff",
+      "profile"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "structured-assignments",
+      "profile"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "feed",
+        "behavior": "Наблюдения знакомых участников идут хронологически, но каждая запись привязана к точке и состоянию тропы"
+      },
+      {
+        "pattern": "structured-assignments",
+        "screen": "task",
+        "behavior": "Карточка задачи хранит атомарное назначение, срок, статус и следующего ответственного без разговорной ветки"
+      },
+      {
+        "pattern": "profile",
+        "screen": "profile",
+        "behavior": "Профиль показывает поддерживаемые тропы, дежурства и проверяемый вклад вместо подписчиков"
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines: Privacy",
+        "observation": "Разрешение запрашивается после понятного действия, а не на старте",
+        "decision": "Каждый системный запрос следует за подписанной функцией и имеет рабочий fallback"
+      },
+      {
+        "source": "Apple Background Tasks documentation",
+        "observation": "Фоновая задача не гарантирует точный момент запуска",
+        "decision": "Сезонный индекс показывает время последнего пересчёта и допускает ручное обновление"
+      },
+      {
+        "source": "Apple Local Network Privacy",
+        "observation": "Локальная сеть оправдана обнаружением устройств рядом",
+        "decision": "Обмен планом запускается только на точке сбора; QR остаётся fallback"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Эту работу можно вести в разрозненных заметках",
+        "resolution": "Заметки не связывают устойчивые точки, сезонные сравнения и переход ответственности; здесь каждое уточнение меняет структурированное поле объекта",
+        "evidenceScreens": [
+          "trail",
+          "task",
+          "handoff"
+        ]
+      },
+      {
+        "objection": "Лента превратится в красивые фотографии парков",
+        "resolution": "Создание начинается с выбора состояния и точки, а публикация показывает следующий шаг и владельца задачи",
+        "evidenceScreens": [
+          "compose",
+          "observation",
+          "task"
+        ]
+      },
+      {
+        "objection": "Двадцать доступов перегрузят первый запуск",
+        "resolution": "До входа и на корнях запросов нет; каждый доступ появляется только в отдельной функции",
+        "evidenceScreens": [
+          "phone",
+          "feed",
+          "settings"
+        ]
+      },
+      {
+        "objection": "Сезонная память слишком сложна для малого сообщества",
+        "resolution": "На корневом экране видны только изменения с прошлого обхода; полный архив открывается из паспорта тропы",
+        "evidenceScreens": [
+          "trail",
+          "seasons"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Полный проход по продуктовым и системным экранам",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#146C43",
+    "accentDark": "#62C38B",
+    "authIcon": "route",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "feed",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "tabs": [
+    {
+      "id": "feed",
+      "label": "Лента",
+      "role": "feed"
+    },
+    {
+      "id": "trails",
+      "label": "Тропы",
+      "role": "places"
+    },
+    {
+      "id": "sessions",
+      "label": "Сессии",
+      "role": "groups"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает доступ к камере",
+        "text": "Чтобы снять состояние точки и приложить кадр к наблюдению."
+      },
+      "feature": "Полевой снимок состояния точки",
+      "gesture": "«Снять на месте»",
+      "screen": "compose",
+      "target": "camera",
+      "fallback": "Наблюдение публикуется с текстом и отметкой состояния",
+      "snack": "Камера недоступна — оставьте текстовую отметку",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation, файл прикладывается к наблюдению"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает доступ к Фото",
+        "text": "Чтобы выбрать уже снятый кадр этой точки."
+      },
+      "feature": "Выбор полевого кадра из медиатеки",
+      "gesture": "«Выбрать из Фото»",
+      "screen": "compose",
+      "target": "library",
+      "fallback": "Остаются камера и публикация без медиа",
+      "snack": "Фото недоступны — используйте камеру или текст",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker возвращает только выбранные файлы"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает геопозицию",
+        "text": "Чтобы поставить наблюдение на правильный участок маршрута."
+      },
+      "feature": "Привязка наблюдения к точке тропы",
+      "gesture": "«Определить участок»",
+      "screen": "compose",
+      "target": "place",
+      "fallback": "Точку можно выбрать по ориентиру вручную",
+      "snack": "Геопозиция выключена — выберите ориентир",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Core Location while-in-use и координаты паспорта тропы"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает доступ к контактам",
+        "text": "Чтобы выбрать знакомых участников для ближайшей сессии."
+      },
+      "feature": "Добавление знакомых в сессию ухода",
+      "gesture": "«Выбрать из Контактов»",
+      "screen": "people",
+      "target": "people",
+      "fallback": "Имя и телефон вводятся вручную",
+      "snack": "Контакты недоступны — добавьте участника вручную",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactPicker отдаёт только выбранные записи"
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает доступ к календарю",
+        "text": "Чтобы добавить выбранную сессию ухода в ваш календарь."
+      },
+      "feature": "Сессия ухода в календаре",
+      "gesture": "«Добавить в календарь»",
+      "screen": "session",
+      "target": "calendar",
+      "fallback": "Дата остаётся в приложении и копируется текстом",
+      "snack": "Календарь недоступен — дата сохранена в «Тропе»",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit создаёт одно событие после подтверждения"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает доступ к микрофону",
+        "text": "Чтобы записать короткий полевой итог перед распознаванием."
+      },
+      "feature": "Локальная запись полевого итога",
+      "gesture": "«Надиктовать заново»",
+      "screen": "transcript",
+      "target": "transcript",
+      "fallback": "Итог вводится в структурированное поле",
+      "snack": "Микрофон выключен — введите итог вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioRecorder создаёт локальный временный файл одной передачи и удаляет его после распознавания"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Тропа» запрашивает распознавание речи",
+        "text": "Чтобы превратить голосовой итог сессии в список передаваемых задач."
+      },
+      "feature": "Расшифровка голосового итога в задачи",
+      "gesture": "«Надиктовать итог»",
+      "screen": "handoff",
+      "target": "transcript",
+      "fallback": "Итог вводится вручную",
+      "snack": "Распознавание недоступно — заполните итог текстом",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Speech framework, расшифровка подтверждается до сохранения"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Тропа» хочет отправлять уведомления",
+        "text": "Чтобы сообщать о переданных вам задачах и изменениях сессии."
+      },
+      "feature": "Оповещения о передаче задач",
+      "gesture": "«Включить оповещения»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Новые задачи видны в ленте при открытии",
+      "snack": "Оповещения выключены — проверяйте ленту",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "APNs через SDK провайдера"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes/remote-notification",
+      "alert": {
+        "title": "Разрешить тихое обновление?",
+        "text": "Чтобы переданные задачи были свежими до открытия приложения."
+      },
+      "feature": "Тихое обновление состояний задач",
+      "gesture": "«Обновлять переданные задачи»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Состояния обновляются при открытии",
+      "snack": "Фоновое обновление уведомлений выключено",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Silent push обновляет только изменённые записи",
+      "reviewNote": "Фоновое remote notification включается тем же явным переключателем, что и оповещения о передаче задач."
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Разрешить карточки срочных статусов?",
+        "text": "Чтобы показывать состояние зоны и действия «Взять», «Готово» или «Не могу»."
+      },
+      "feature": "Атомарные карточки срочных статусов",
+      "gesture": "«Карточки срочных статусов»",
+      "screen": "live",
+      "target": "live",
+      "fallback": "Статус остаётся на полевом табло",
+      "snack": "Карточки выключены — статусы доступны в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Communication Notifications отображает только карточку зоны с фиксированными действиями",
+      "reviewNote": "Свободного ввода, истории и ответа нет; результат каждого действия сразу меняет статус зоны."
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes/voip",
+      "alert": {
+        "title": "Разрешить фоновую трансляцию табло?",
+        "text": "Чтобы время, зоны и статусы активной сессии обновлялись при погашенном экране."
+      },
+      "feature": "Односторонняя фоновая трансляция состояния сессии",
+      "gesture": "«Фоновая трансляция табло»",
+      "screen": "live",
+      "target": "live",
+      "fallback": "Табло обновляется при открытии",
+      "snack": "Фоновая трансляция выключена",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "PushKit будит только односторонний read-only поток состояния без адресации человеку",
+      "requires": "PushKit transport для короткоживущей трансляции состояния; без аудиодорожки и без пользовательского ответа",
+      "reviewNote": "На экране нет собеседника, набора, принятия и истории; пользователь только наблюдает табло либо выбирает фиксированный статус."
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Проверить текущую сеть?",
+        "text": "Чтобы сверить планы участников, подключённых к одной точке сбора."
+      },
+      "feature": "Проверка общей сети в точке сбора",
+      "gesture": "«Сверить планы рядом»",
+      "screen": "nearby",
+      "target": "nearby",
+      "fallback": "План сверяется QR-кодом",
+      "snack": "Имя сети недоступно — откройте QR",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "NEHotspotNetwork.fetchCurrentWithCompletionHandler после явного действия"
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "Подключиться к сети точки сбора?",
+        "text": "Чтобы участники обменялись актуальным планом без мобильного интернета."
+      },
+      "feature": "Подключение к сохранённой сети точки сбора",
+      "gesture": "«Подключиться к сети»",
+      "screen": "nearby",
+      "target": "nearby",
+      "fallback": "Доступен QR-код плана и ручное обновление",
+      "snack": "Не подключено — используйте QR",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "NEHotspotConfiguration для одной явно выбранной сети",
+      "requires": "Сеть заранее названа ведущим; автоматического сканирования и фонового подключения нет",
+      "reviewNote": "Приложение предлагает конкретную сеть только после нажатия на экране сверки; не сканирует и не подключается автоматически."
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Обновлять ленту в фоне?",
+        "text": "Чтобы новые передачи были готовы при следующем открытии «Тропы»."
+      },
+      "feature": "Фоновое обновление ленты своих троп",
+      "gesture": "«Обновлять ленту в фоне»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Есть кнопка «Обновить сейчас»",
+      "snack": "Фоновое обновление выключено",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Background App Refresh с отметкой свежести"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Пересчитывать сезонный итог?",
+        "text": "Чтобы сравнивать наблюдения при зарядке и свободном времени системы."
+      },
+      "feature": "Плановая сверка сезонных изменений",
+      "gesture": "«Пересчитывать сезонный итог»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Индекс пересчитывается при открытии паспорта",
+      "snack": "Пересчёт выполнится при следующем открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "BGAppRefreshTask с идентификатором city.tropa.refresh"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Показывать дежурство в виджете?",
+        "text": "Чтобы следующая точка и срок были видны без открытия приложения."
+      },
+      "feature": "Общий офлайн-план для приложения и виджета дежурства",
+      "gesture": "«Показывать дежурство в виджете»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Дежурство видно в профиле",
+      "snack": "Виджет выключен",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "App Group хранит только следующий участок и срок"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Хранить вход на устройстве?",
+        "text": "Чтобы безопасно возвращаться в своё сообщество без повторного ввода пароля."
+      },
+      "feature": "Защищённая сессия участника",
+      "gesture": "«Хранить вход на устройстве»",
+      "screen": "security",
+      "target": "security",
+      "fallback": "Вход повторяется по телефону и паролю",
+      "snack": "Вход не сохранён",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Keychain хранит токен SDK аутентификации"
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Подставлять коды сообщества?",
+        "text": "Чтобы вводить сохранённые коды закрытых троп из системной подсказки."
+      },
+      "feature": "Автоподстановка кода сообщества",
+      "gesture": "«Подставлять коды сообщества»",
+      "screen": "security",
+      "target": "security",
+      "fallback": "Код вводится вручную",
+      "snack": "Автоподстановка выключена",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Credential Provider для кодов закрытых сообществ"
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "Разрешить Face ID для «Тропы»?",
+        "text": "Чтобы открывать контакты участников и черновики передачи без повторного кода."
+      },
+      "feature": "Защита контактов и черновиков",
+      "gesture": "«Защитить Face ID»",
+      "screen": "security",
+      "target": "security",
+      "fallback": "Используется код устройства",
+      "snack": "Face ID выключен — используйте код",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "LocalAuthentication, биометрические данные не покидают устройство"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить измерение приглашений?",
+        "text": "Чтобы понять, какие районные объявления приводят новых участников."
+      },
+      "feature": "Добровольное измерение источника приглашения",
+      "gesture": "«Разрешить измерение»",
+      "screen": "privacy",
+      "target": "privacy",
+      "fallback": "Все функции работают, источник не сохраняется",
+      "snack": "Измерение приглашений выключено",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "ATT до чтения IDFA; аналитика полностью опциональна",
+      "requires": "SDK измерения не инициализируется до согласия; отказ не ограничивает ни одну функцию",
+      "reviewNote": "ATT запрашивается только из настроек приватности. Отказ не меняет ленту, тропы, сессии или профиль."
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход по номеру",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран приложения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Получить номер для закрытого сообщества",
+        "primaryAction": "Получить код",
+        "hierarchy": {
+          "primary": "Главная область: Название продукта и номер",
+          "secondary": "Вторичная область: Правовые ссылки"
+        },
+        "states": [
+          "default",
+          "error",
+          "loading"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Корректный номер"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Длинный локализованный номер"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Неверный формат"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Код из SMS",
+      "type": "push, без таб-бара",
+      "light": true,
+      "parent": "phone",
+      "meta": "Четыре цифры",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Подтвердить номер",
+        "primaryAction": "Войти",
+        "hierarchy": {
+          "primary": "Главная область: Код и вход",
+          "secondary": "Вторичная область: Повтор и смена номера"
+        },
+        "states": [
+          "default",
+          "error",
+          "loading"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Код подставлен"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Долгий таймер"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Просроченный код"
+          }
+        ]
+      }
+    },
+    {
+      "id": "feed",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Три поддерживаемые тропы",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать изменения и переданные задачи своих троп",
+        "primaryAction": "Что изменилось на тропе?",
+        "hierarchy": {
+          "primary": "Главная область: Срочная передача и свежие наблюдения",
+          "secondary": "Вторичная область: Сессии и сезонные отметки"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Наблюдения, задача и итог сессии"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Длинный ориентир и восемь событий"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Офлайн-слепок"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compose",
+      "title": "Новое наблюдение",
+      "type": "modal",
+      "light": true,
+      "parent": "feed",
+      "meta": "Состояние · точка · медиа",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Зафиксировать наблюдаемое изменение",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Главная область: Состояние точки и текст",
+          "secondary": "Вторичная область: Кадр, место и срочность"
+        },
+        "states": [
+          "default",
+          "denied",
+          "error",
+          "loading",
+          "offline",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Сухая молодая липа"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Длинное описание повреждения"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Нет камеры и геопозиции"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Съёмка точки",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "compose",
+      "meta": "Камера · ориентир 07",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять проверяемое состояние точки",
+        "primaryAction": "Снять состояние",
+        "hierarchy": {
+          "primary": "Главная область: Видоискатель и ориентир",
+          "secondary": "Вторичная область: Сетка и подсказка ракурса"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Ствол и лунка в одном кадре"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Сумерки и дрожание"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Камера запрещена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Фото",
+      "type": "modal",
+      "light": true,
+      "parent": "compose",
+      "meta": "Последние полевые кадры",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "modal",
+        "purpose": "Выбрать готовый кадр",
+        "primaryAction": "Добавить",
+        "hierarchy": {
+          "primary": "Главная область: Сетка выбранных файлов",
+          "secondary": "Вторичная область: Дата и размер"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Девять кадров"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Видео и панорама"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Фото запрещены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place",
+      "title": "Участок тропы",
+      "type": "modal",
+      "light": true,
+      "parent": "compose",
+      "meta": "Координата или ориентир",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Привязать наблюдение к устойчивой точке",
+        "primaryAction": "Липы у верхней лестницы",
+        "hierarchy": {
+          "primary": "Главная область: Ближайшие точки маршрута",
+          "secondary": "Вторичная область: Ручной поиск ориентира"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Три точки рядом"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Неточный GPS"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Геопозиция запрещена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "observation",
+      "title": "Наблюдение",
+      "type": "push detail",
+      "light": true,
+      "parent": "feed",
+      "meta": "Точка 07 · 18 минут назад",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать свидетельство, проверки и следующий шаг",
+        "primaryAction": "Создать задачу",
+        "hierarchy": {
+          "primary": "Главная область: Состояние точки и автор",
+          "secondary": "Вторичная область: Структурированные проверки и история"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Кадр, три проверки и созданная задача"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Двенадцать структурированных проверок"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Медиа не загрузилось"
+          }
+        ]
+      }
+    },
+    {
+      "id": "task",
+      "title": "Задача точки",
+      "type": "push detail",
+      "light": true,
+      "parent": "observation",
+      "meta": "Нужен полив до четверга",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Взять или передать конкретную работу",
+        "primaryAction": "Взять задачу",
+        "hierarchy": {
+          "primary": "Главная область: Результат, срок и ответственный",
+          "secondary": "Вторичная область: Чек-лист и история назначений"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Один ответственный"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три передачи и длинный список инструмента"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Конфликт назначения"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trails",
+      "title": "Тропы",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Три своих маршрута",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать состояние поддерживаемых маршрутов",
+        "primaryAction": "Открыть паспорт",
+        "hierarchy": {
+          "primary": "Главная область: Маршруты и свежесть обхода",
+          "secondary": "Вторичная область: Сезон и незакрытые точки"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Три маршрута в разных состояниях"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Семь маршрутов"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Нет свежего обхода"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trail",
+      "title": "Серебряная петля",
+      "type": "push detail",
+      "light": true,
+      "parent": "trails",
+      "meta": "3,8 км · 14 точек",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать паспорт маршрута, точки и сезон",
+        "primaryAction": "Начать обход",
+        "hierarchy": {
+          "primary": "Главная область: Состояние и карта точек",
+          "secondary": "Вторичная область: История сезона и участники"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Четырнадцать точек"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Пять проблемных участков"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Карта офлайн"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Обход тропы",
+      "type": "fullscreen task",
+      "light": true,
+      "parent": "trail",
+      "meta": "2,1 из 3,8 км",
+      "ui": {
+        "pattern": "task",
+        "navigation": "fullscreen",
+        "purpose": "Отмечать реально пройденные точки",
+        "primaryAction": "Проверить точку",
+        "hierarchy": {
+          "primary": "Главная область: Текущий участок и следующая точка",
+          "secondary": "Вторичная область: Темп, связь и выход"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Семь точек проверено"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Сход с маршрута"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Нет GPS"
+          }
+        ]
+      }
+    },
+    {
+      "id": "checkpoint",
+      "title": "Точка 07",
+      "type": "sheet",
+      "light": true,
+      "parent": "route",
+      "meta": "Липы у лестницы",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Сверить состояние точки на обходе",
+        "primaryAction": "Подтвердить без изменений",
+        "hierarchy": {
+          "primary": "Главная область: Последний и текущий статус",
+          "secondary": "Вторичная область: Задача и заметка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Без изменений"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Две активные задачи"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Нет прошлого снимка"
+          }
+        ]
+      }
+    },
+    {
+      "id": "seasons",
+      "title": "Сезонная память",
+      "type": "push collection",
+      "light": true,
+      "parent": "trail",
+      "meta": "Весна → осень 2026",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Сравнить устойчивые изменения маршрута",
+        "primaryAction": "Сентябрь открыт",
+        "hierarchy": {
+          "primary": "Главная область: Динамика точек по сезонам",
+          "secondary": "Вторичная область: Погода и полнота наблюдений"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Пять месячных срезов"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три года истории"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Неполный месяц"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sessions",
+      "title": "Сессии",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Ближайшая · суббота 09:30",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать предстоящий уход и прошлые результаты",
+        "primaryAction": "Полив и проверка мостика",
+        "hierarchy": {
+          "primary": "Главная область: Ближайшая сессия и её готовность",
+          "secondary": "Вторичная область: История и предложенные даты"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Две будущие и четыре прошлые"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Сессия на двух тропах"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Дата перенесена"
+          }
+        ]
+      }
+    },
+    {
+      "id": "session",
+      "title": "Субботний уход",
+      "type": "push detail",
+      "light": true,
+      "parent": "sessions",
+      "meta": "12 сентября · 09:30",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать людей, задачи и точку встречи",
+        "primaryAction": "Я приду",
+        "hierarchy": {
+          "primary": "Главная область: Готовность и список работ",
+          "secondary": "Вторичная область: Состав, календарь и синхронизация"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Восемь участников и шесть задач"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Не хватает перчаток"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Ведущий отменил"
+          }
+        ]
+      }
+    },
+    {
+      "id": "people",
+      "title": "Участники сессии",
+      "type": "push collection",
+      "light": true,
+      "parent": "session",
+      "meta": "8 идут · 2 думают",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Закрыть роли знакомыми людьми",
+        "primaryAction": "Выбрать из Контактов",
+        "hierarchy": {
+          "primary": "Главная область: Люди и незакрытые роли",
+          "secondary": "Вторичная область: Ручное добавление"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Десять людей"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Один человек на три роли"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Контакты запрещены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "calendar",
+      "title": "Событие в календаре",
+      "type": "modal result",
+      "light": true,
+      "parent": "session",
+      "meta": "12 сентября · 09:30–12:00",
+      "ui": {
+        "pattern": "state",
+        "navigation": "modal",
+        "purpose": "Подтвердить календарное событие",
+        "primaryAction": "Готово",
+        "hierarchy": {
+          "primary": "Главная область: Дата, место и календарь",
+          "secondary": "Вторичная область: Напоминание"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Событие создано"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Конфликт времени"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Календарь запрещён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "live",
+      "title": "Сессия идёт",
+      "type": "fullscreen status",
+      "light": false,
+      "parent": "session",
+      "meta": "8 человек · 4 зоны",
+      "ui": {
+        "pattern": "task",
+        "navigation": "fullscreen",
+        "purpose": "Показывать единое состояние зон во время ухода",
+        "primaryAction": "Взять задачу",
+        "hierarchy": {
+          "primary": "Главная область: текущая зона и следующий шаг",
+          "secondary": "Вторичная область: быстрые статусы и фоновая трансляция"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: четыре зоны на полевом табло"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Слабая сеть"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: фоновая трансляция недоступна"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nearby",
+      "title": "Сверка рядом",
+      "type": "push task",
+      "light": true,
+      "parent": "session",
+      "meta": "Точка сбора · 8 устройств",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Сверить план без мобильной связи",
+        "primaryAction": "Сверить планы рядом",
+        "hierarchy": {
+          "primary": "Главная область: Общая сеть и версии плана",
+          "secondary": "Вторичная область: QR fallback"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "denied",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Восемь устройств"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три разные версии"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Нет доступа к сети"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff",
+      "title": "Передача задач",
+      "type": "push task",
+      "light": true,
+      "parent": "session",
+      "meta": "4 закрыто · 2 дальше",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Зафиксировать итог и владельцев хвостов",
+        "primaryAction": "Передать задачи",
+        "hierarchy": {
+          "primary": "Главная область: Незакрытые задачи и следующий ответственный",
+          "secondary": "Вторичная область: Итог и история"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Две задачи переданы"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Длинный итог и пять хвостов"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Конфликт владельца"
+          }
+        ]
+      }
+    },
+    {
+      "id": "transcript",
+      "title": "Голосовой итог",
+      "type": "modal composer",
+      "light": true,
+      "parent": "handoff",
+      "meta": "Расшифровка · 00:38",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Проверить распознанный итог перед сохранением",
+        "primaryAction": "Добавить в передачу",
+        "hierarchy": {
+          "primary": "Главная область: Редактируемая расшифровка",
+          "secondary": "Вторичная область: Длительность и повтор"
+        },
+        "states": [
+          "default",
+          "denied",
+          "error",
+          "loading",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Три предложения"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Шум ветра"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Речь не распознана"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Алия · 3 тропы",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "root",
+        "purpose": "Показать ответственность и вклад участника",
+        "primaryAction": "Настройки",
+        "hierarchy": {
+          "primary": "Главная область: Тропы, дежурства и вклад",
+          "secondary": "Вторичная область: История и настройки"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Три тропы и 28 задач"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Двенадцать месяцев вклада"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Данные не обновлены"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push settings",
+      "light": true,
+      "parent": "profile",
+      "meta": "Устройство и фон",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять оповещениями, свежестью и защитой",
+        "primaryAction": "Показывать дежурство в виджете",
+        "hierarchy": {
+          "primary": "Главная область: Системные функции продукта",
+          "secondary": "Вторичная область: Приватность и аккаунт"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Все функции настроены"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Несколько устройств"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Фон выключен"
+          }
+        ]
+      }
+    },
+    {
+      "id": "privacy",
+      "title": "Приватность",
+      "type": "push settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Измерение выключено",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Дать добровольный выбор аналитики приглашений",
+        "primaryAction": "Разрешить измерение",
+        "hierarchy": {
+          "primary": "Главная область: ATT и последствия выбора",
+          "secondary": "Вторичная область: Состав и срок хранения"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Измерение выключено"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Длинное объяснение"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: ATT запрещён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerts",
+      "title": "Оповещения",
+      "type": "push settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Передачи и изменения",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Включить только полезные социальные сигналы",
+        "primaryAction": "Включить оповещения",
+        "hierarchy": {
+          "primary": "Главная область: Переданные задачи и переносы",
+          "secondary": "Вторичная область: Тихие часы и fallback"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Два типа включены"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три тропы с разными правилами"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Push запрещён"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фон и сезон",
+      "type": "push settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Обновлено 14 минут назад",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Показать свежесть и управлять сезонным пересчётом",
+        "primaryAction": "Обновить сейчас",
+        "hierarchy": {
+          "primary": "Главная область: Свежесть ленты и индекс сезона",
+          "secondary": "Вторичная область: Очередь и ручной запуск"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Очередь пуста"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три задания ждут питания"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Фон не запускался"
+          }
+        ]
+      }
+    },
+    {
+      "id": "security",
+      "title": "Защита входа",
+      "type": "push settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Keychain · Face ID · коды",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Защитить сессию и коды сообщества",
+        "primaryAction": "Защитить Face ID",
+        "hierarchy": {
+          "primary": "Главная область: Биометрия, токен и автоподстановка",
+          "secondary": "Вторичная область: Повторный вход"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error",
+          "denied"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Типичный случай: Face ID включён"
+          },
+          {
+            "kind": "stress",
+            "example": "Предельный случай: Три кода сообщества"
+          },
+          {
+            "kind": "failure",
+            "example": "Сбойный случай: Keychain недоступен"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "32 экрана, 4 вкладки и 20 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "feed",
+        "compose",
+        "camera",
+        "library",
+        "place",
+        "observation",
+        "task",
+        "trails",
+        "trail",
+        "route",
+        "checkpoint",
+        "seasons",
+        "sessions",
+        "session",
+        "people",
+        "calendar",
+        "live",
+        "nearby",
+        "handoff",
+        "transcript",
+        "profile",
+        "settings",
+        "privacy",
+        "alerts",
+        "background",
+        "security"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход в сообщество",
+      "note": "Номер, пароль и чистый вход в ленту без запросов доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "feed"
+      ],
+      "stops": [
+        "feed"
+      ]
+    },
+    {
+      "id": "observe",
+      "label": "Наблюдение на тропе",
+      "note": "Состояние точки, камера, готовый кадр, место и задача",
+      "start": "feed",
+      "screens": [
+        "feed",
+        "compose",
+        "camera",
+        "library",
+        "place",
+        "observation",
+        "task",
+        "alerts"
+      ],
+      "stops": [
+        "task",
+        "alerts"
+      ]
+    },
+    {
+      "id": "patrol",
+      "label": "Обход и сезон",
+      "note": "Паспорт маршрута, проверка точки и сравнение сезонов",
+      "start": "trails",
+      "screens": [
+        "trails",
+        "trail",
+        "route",
+        "checkpoint",
+        "seasons",
+        "compose"
+      ],
+      "stops": [
+        "compose"
+      ]
+    },
+    {
+      "id": "care",
+      "label": "Совместный уход",
+      "note": "Состав, календарь, локальная сверка и координация активной сессии",
+      "start": "sessions",
+      "screens": [
+        "sessions",
+        "session",
+        "people",
+        "calendar",
+        "nearby",
+        "live",
+        "handoff"
+      ],
+      "stops": [
+        "handoff"
+      ]
+    },
+    {
+      "id": "handover",
+      "label": "Передать хвосты",
+      "note": "Итог сессии, голосовая расшифровка и новая ответственная рука",
+      "start": "handoff",
+      "screens": [
+        "handoff",
+        "transcript",
+        "task",
+        "observation"
+      ],
+      "stops": [
+        "task",
+        "observation"
+      ]
+    },
+    {
+      "id": "controls",
+      "label": "Фон, защита и оповещения",
+      "note": "ATT, APNs, сезонный пересчёт, Keychain, Face ID и виджет дежурства",
+      "start": "profile",
+      "screens": [
+        "profile",
+        "settings",
+        "privacy",
+        "alerts",
+        "background",
+        "security",
+        "task"
+      ],
+      "stops": [
+        "task"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Номер, участники, лента, задачи и сессии",
+      "solution": "Firebase Authentication, Firestore и security rules; собственных серверных обработчиков нет"
+    },
+    {
+      "needs": "Кадры наблюдений и голосовые вложения",
+      "solution": "Storage SDK провайдера, ссылки хранятся в документах наблюдений"
+    },
+    {
+      "needs": "Оповещения о переданных задачах",
+      "solution": "APNs и Cloud Messaging через SDK провайдера"
+    },
+    {
+      "needs": "Паспорт маршрута и офлайн-обход",
+      "solution": "Core Data хранит последний подписанный слепок точек и очередь локальных отметок"
+    },
+    {
+      "needs": "Сверка планов на точке сбора",
+      "solution": "Multipeer Connectivity и сеть, выбранная через Hotspot Configuration; QR как fallback"
+    },
+    {
+      "needs": "Сезонный индекс",
+      "solution": "Vision и локальные правила сравнения запускаются в BGTaskScheduler на устройстве"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Тропа: зелёное сообщество",
+    "subtitle": "Забота о маршрутах вместе",
+    "promo": "Замечайте изменения на своих маршрутах, собирайтесь на уход и передавайте незакрытые задачи следующей группе с понятным контекстом.",
+    "keywords": "наблюдение,волонтёры,район,деревья,парк,обход,сезон,уход,задачи,жители",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только системный TLS",
+    "urls": {
+      "support": "https://tropa.city/support",
+      "marketing": "https://tropa.city",
+      "privacy": "https://tropa.city/privacy"
+    },
+    "description": [
+      "«Тропа» — закрытая сеть людей, которые регулярно поддерживают одни и те же городские зелёные маршруты.",
+      "НАБЛЮДЕНИЯ ПО ТОЧКАМ\nОтмечайте сухое дерево, размытый участок или результат ухода прямо в паспорте маршрута.",
+      "СЕССИИ УХОДА\nСобирайте людей, инструменты и задачи в одной встрече. Во время работы группа остаётся на связи.",
+      "ПЕРЕДАЧА ОТВЕТСТВЕННОСТИ\nНезакрытая задача получает следующего владельца, срок и контекст — она остаётся в структурированном плане.",
+      "СЕЗОННАЯ ПАМЯТЬ\nСравнивайте одни и те же точки весной, летом и осенью, чтобы видеть медленные изменения."
+    ],
+    "whatsNew": "Первая версия: четыре раздела, полевые наблюдения, паспорта троп, сессии ухода и передача задач.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход через SDK аутентификации"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Выбираются отдельные знакомые для сессии"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Привязка наблюдения к точке маршрута"
+      },
+      {
+        "type": "Фото и голос",
+        "apple": "User Content → Photos or Videos; Audio Data",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Свидетельства состояния и итоги сессии"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Аналитика",
+        "linked": false,
+        "tracking": true,
+        "why": "Только после ATT для измерения источника приглашения"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 700 000-08-17",
+      "password": "review2026",
+      "note": "Тестовый номер принимает пароль. После входа разрешения не запрашиваются до явного действия."
+    },
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        {
+          "screen": "feed",
+          "headline": "Изменения, которые важны тропе",
+          "body": "Наблюдения, переданные задачи и итоги своих маршрутов в одной ленте"
+        },
+        {
+          "screen": "trail",
+          "headline": "Паспорт живого маршрута",
+          "body": "Устойчивые точки, свежесть обхода и сезонная память"
+        },
+        {
+          "screen": "session",
+          "headline": "Уход начинается с общего плана",
+          "body": "Люди, инструменты и работы собраны до точки встречи"
+        },
+        {
+          "screen": "handoff",
+          "headline": "Ни одна задача не теряется",
+          "body": "Хвост получает следующего ответственного и проверяемый контекст"
+        },
+        {
+          "screen": "profile",
+          "headline": "Вклад вместо подписчиков",
+          "body": "Поддерживаемые тропы, дежурства и завершённые задачи"
+        }
+      ]
+    }
+  },
+  "acceptance": [
+    {
+      "id": "quiet_entry",
+      "name": "Вход без запросов",
+      "action": "protect_identity",
+      "given": "Первый запуск",
+      "when": "Пользователь вводит номер и код",
+      "then": "Открывается лента, журнал доступов пуст",
+      "screens": [
+        "phone",
+        "code",
+        "feed"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "field_observation",
+      "name": "Полевое наблюдение",
+      "action": "record_observation",
+      "given": "На точке 07 замечена сухая липа",
+      "when": "Пользователь выбирает камеру и определяет участок",
+      "then": "Наблюдение появляется с точкой и состоянием",
+      "screens": [
+        "feed",
+        "compose",
+        "camera",
+        "place",
+        "observation"
+      ],
+      "capabilities": [
+        "camera",
+        "location"
+      ]
+    },
+    {
+      "id": "invite_people",
+      "name": "Состав сессии",
+      "action": "assemble_people",
+      "given": "На субботу не хватает двух участников",
+      "when": "Пользователь выбирает знакомых из Контактов",
+      "then": "Люди добавлены к ролям, при отказе доступен ручной ввод",
+      "screens": [
+        "session",
+        "people"
+      ],
+      "capabilities": [
+        "contacts"
+      ]
+    },
+    {
+      "id": "live_care",
+      "name": "Сессия идёт",
+      "action": "coordinate_session",
+      "given": "Участники разошлись по четырём зонам",
+      "when": "Ведущий зажимает голосовую кнопку",
+      "then": "Идёт адресный голосовой сигнал, быстрые команды остаются fallback",
+      "screens": [
+        "session",
+        "live"
+      ],
+      "capabilities": [
+        "mic",
+        "commnotif",
+        "voip"
+      ]
+    },
+    {
+      "id": "nearby_sync",
+      "name": "Сверка на точке сбора",
+      "action": "sync_at_meeting",
+      "given": "У восьми устройств разные версии плана",
+      "when": "Пользователь запускает сверку рядом",
+      "then": "Показываются сеть, версии и QR fallback",
+      "screens": [
+        "session",
+        "nearby"
+      ],
+      "capabilities": [
+        "wifiinfo",
+        "hotspot"
+      ]
+    },
+    {
+      "id": "task_handoff",
+      "name": "Передача незакрытого",
+      "action": "document_result",
+      "given": "После сессии осталось две задачи",
+      "when": "Ведущий надиктовывает итог и назначает следующего",
+      "then": "Расшифровка редактируется, задача получает владельца",
+      "screens": [
+        "handoff",
+        "transcript",
+        "task"
+      ],
+      "capabilities": [
+        "speech"
+      ]
+    },
+    {
+      "id": "season_refresh",
+      "name": "Свежесть сезона",
+      "action": "keep_current",
+      "given": "Новые наблюдения накопились за неделю",
+      "when": "Пользователь включает фон и обновляет сейчас",
+      "then": "Показано время свежести и очередь пересчёта",
+      "screens": [
+        "settings",
+        "background"
+      ],
+      "capabilities": [
+        "fetch",
+        "bgtask"
+      ]
+    }
+  ],
+  "fixtures": {
+    "trails": [
+      {
+        "title": "Серебряная петля",
+        "subtitle": "3,8 км · проверена сегодня"
+      },
+      {
+        "title": "Липовый спуск",
+        "subtitle": "2,1 км · 2 задачи после ветра"
+      },
+      {
+        "title": "Речной карман",
+        "subtitle": "5,4 км · обход 6 дней назад"
+      }
+    ],
+    "tasks": [
+      {
+        "title": "Полить молодые липы",
+        "subtitle": "до четверга · взяла Алия"
+      },
+      {
+        "title": "Проверить размыв у моста",
+        "subtitle": "передано Тимуру · завтра"
+      },
+      {
+        "title": "Убрать ветку с прохода",
+        "subtitle": "закрыто в 11:42"
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+<div class="screen vs-page cx-page" id="scr-alerts">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Оповещения</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-notification">
+      <div class="ph"></div>
+      <span
+        ><small>ЛЕНА · СЕЙЧАС</small><b>Фрезер освободился раньше</b>
+        <p>Можно начинать проход в 18:55.</p></span
+      >
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="push">
+      <b>Можно продолжить</b
+      ><span>Все события останутся в расписании оборудования.</span>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-granted="commnotif">
+      <b>Карточки событий включены</b><span>В уведомлении видны станок, тип события и время; действия ответа нет.</span>
+    </div>
+    <button class="cx-row tap" data-primary data-ask="push|alerts|alerts">
+      <svg class="ico-svg"><use href="#i-bell" /></svg
+      ><span
+        ><b>Брони и освобождение</b
+        ><small>Push только по выбранным проектам</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="commnotif|alerts">
+      <svg class="ico-svg"><use href="#i-user" /></svg
+      ><span
+        ><b>Показывать автора</b
+        ><small>Именное коммуникационное уведомление</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

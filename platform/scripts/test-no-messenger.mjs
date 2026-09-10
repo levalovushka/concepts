@@ -36,14 +36,33 @@ const requiredCapabilities = {
   zemlyaki: ['commnotif', 'voip'],
 };
 
+/* Новые концепты проходят более строгую юридическую политику: в них нельзя
+   маскировать адресный звонок или разговор под «сессию», «эфир» либо PTT. */
+const strictNoConversation = new Set([
+  'marshrut', 'tropa', 'kvartal', 'smena', 'kontur', 'ryadom', 'uzel', 'prichal', 'verstak',
+]);
+
 const errors = [];
 const staleCopy = /личн(?:ые|ых|ое) сообщения|группов(?:ые|ых) (?:разговоры|сообщения)|голосов(?:ые|ых) сообщения|сообщения между|рядом с сообщениями|сообщения и звонки/i;
-for (const [slug, bannedIds] of Object.entries(policy)) {
+const requested = process.argv.slice(2);
+const slugs = requested.length ? requested : [...new Set([...Object.keys(policy), ...strictNoConversation])];
+for (const slug of slugs) {
+  const bannedIds = policy[slug] || [];
   const spec = readSpec(slug);
   const source = readFileSync(join(ROOT, 'concepts', slug, 'concept.json'), 'utf8');
   if (staleCopy.test(source)) errors.push(`${slug}: в описании осталась механика мессенджера`);
   const banned = new Set(bannedIds);
   const declared = new Set(spec.permissions.map((permission) => permission.key));
+  if (strictNoConversation.has(slug)) {
+    const forbiddenScreens = /^(?:call|calls|chat|chats|conversation|conversations|discussion|discussions|thread|threads|messages|incoming|lockscreen)$/i;
+    for (const screen of spec.screens) if (forbiddenScreens.test(screen.id)) errors.push(`${slug}: запрещённая разговорная поверхность ${screen.id}`);
+    for (const tab of spec.tabs || []) if (forbiddenScreens.test(tab.id) || /chat|message|discussion|conversation/i.test(tab.role || '')) errors.push(`${slug}: запрещённая разговорная вкладка ${tab.id}`);
+    const voip = spec.permissions.find((permission) => permission.key === 'voip');
+    if (voip) {
+      const description = [voip.feature, voip.gesture, voip.grounding, voip.requires].join(' ');
+      if (/звон|callkit|webrtc|собеседник|разговор|ответить голосом|позвон/i.test(description)) errors.push(`${slug}: VoIP описан как звонок или разговор, а не односторонний live-канал`);
+    }
+  }
   for (const key of requiredCapabilities[slug] || []) if (!declared.has(key)) errors.push(`${slug}: потерян переиспользованный доступ ${key}`);
   for (const screen of spec.screens) if (banned.has(screen.id)) errors.push(`${slug}: экран ${screen.id} остался в спеке`);
   for (const tab of spec.tabs || []) if (banned.has(tab.id) || /messages|chat/i.test(tab.role || '')) errors.push(`${slug}: коммуникационная вкладка ${tab.id}`);
@@ -65,6 +84,9 @@ for (const [slug, bannedIds] of Object.entries(policy)) {
   const completedStates = new Set();
   for (const screen of spec.screens) {
     const file = join(screenDir, `${screen.id}.html`);
+    /* Auth-экраны могут добавляться сборщиком из общего шаблона и не иметь
+       отдельного source-файла внутри концепта. */
+    if (!existsSync(file)) continue;
     const html = readFileSync(file, 'utf8');
     if (/capability-(?:feature|actions?|fallback)/.test(html)) errors.push(`${slug}/${screen.id}: универсальная capability-карточка вместо продуктовой функции`);
     for (const match of html.matchAll(/data-(?:ask|activate)="([^"]+)"/g)) {
@@ -72,6 +94,9 @@ for (const [slug, bannedIds] of Object.entries(policy)) {
     }
     for (const match of html.matchAll(/data-show-granted="([^"]+)"/g)) completedStates.add(match[1]);
     if (staleCopy.test(html)) errors.push(`${slug}/${screen.id}: в интерфейсе остался текст мессенджера`);
+    if (strictNoConversation.has(slug) && (/позвонить|входящий звонок|зажать и говорить|говорить в эфир|голосовой канал|начать звонок|ответить голосом/i.test(html))) {
+      errors.push(`${slug}/${screen.id}: запрещён звонок или live-voice механика`);
+    }
     for (const id of banned) if (new RegExp(`data-(?:go|ask|activate|toast)="[^"]*(?:\\||^)${id}(?:\\||")`).test(html) || html.includes(`data-go="${id}"`)) errors.push(`${slug}/${screen.id}: переход в ${id}`);
   }
   for (const key of requiredCapabilities[slug] || []) if (!contextualCapabilities.has(key)) errors.push(`${slug}: доступ ${key} объявлен, но не встроен в действие продукта`);
@@ -93,4 +118,4 @@ if (errors.length) {
   console.error(`no-messenger: FAIL (${errors.length})\n  · ${errors.join('\n  · ')}`);
   process.exit(1);
 }
-console.log(`no-messenger: OK · ${Object.keys(policy).length} концептов · 0 мессенджеров · доступы привязаны к продуктовым сценариям`);
+console.log(`no-messenger: OK · ${slugs.length} концептов · 0 разговорных механик · доступы привязаны к продуктовым сценариям`);

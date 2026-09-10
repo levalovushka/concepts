@@ -1,0 +1,46 @@
+<div class="screen vs-page cx-page" id="scr-sync">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Фоновое обновление</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <section class="cx-section">
+      <header><h2>Состояние</h2></header>
+      <div class="cx-status">
+        <b>Лента свежая</b><span>Последнее обновление · 18:46</span><i></i>
+      </div>
+    </section>
+    <button class="cx-row tap" data-primary data-activate="remotenotif|sync">
+      <svg class="ico-svg"><use href="#i-bell" /></svg
+      ><span
+        ><b>Тихие push-обновления</b
+        ><small>Занятость зон при закрытом приложении</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="fetch|sync">
+      <svg class="ico-svg"><use href="#i-repeat-2" /></svg
+      ><span
+        ><b>Готовить ленту заранее</b
+        ><small>Небольшой снимок перед открытием</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="bgtask|sync">
+      <svg class="ico-svg"><use href="#i-clock" /></svg
+      ><span
+        ><b>Плановое обслуживание</b
+        ><small>Очистка старых черновиков</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

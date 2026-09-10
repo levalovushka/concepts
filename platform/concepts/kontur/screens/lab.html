@@ -1,0 +1,128 @@
+<div class="screen ios-surface kt-screen" id="scr-lab">
+  <div class="navbar is-large">
+    <div class="nav-top">
+      <div class="nav-leading"></div>
+      <button
+        class="icon-btn tap"
+        data-go="labnet"
+        aria-label="Сеть лаборатории"
+      >
+        <svg class="ico-svg" aria-hidden="true"><use href="#i-wifi" /></svg>
+      </button>
+    </div>
+    <div class="title large">Лаборатория</div>
+  </div>
+  <main class="body-scroll kt-scroll">
+    <section class="kt-lab-status">
+      <div>
+        <span class="kt-kicker">Lab-Red · открыта до 23:00</span>
+        <h2>Красный свет занят</h2>
+        <p>Айжан печатает до 20:10. Сканер свободен.</p>
+      </div>
+      <span class="kt-safe-dot"></span>
+    </section>
+    <section class="kt-reservation"><div><span class="kt-kicker">ваше окно · сканер 02</span><h2>Сегодня, 20:20–20:50</h2><p>Оператор: Марат · партия K-185</p></div><button class="btn-plain tap" data-toast="Выбор другого окна открыт">Перенести</button></section>
+    <div class="kt-fallback perm-hidden" data-show-denied="calendar">Окно сохранено внутри «Контура»; добавьте 20:20 в календарь вручную.</div>
+    <button class="kt-batch-card" data-primary data-go="batch">
+      <div>
+        <span class="kt-kicker">в процессе · 06:42</span>
+        <h2>HP5 · партия K-184</h2>
+        <p>DD-X 1+4 · 20 °C · следующий переворот через 18 с</p>
+      </div>
+      <span class="kt-timer">06:42</span>
+    </button>
+    <h2 class="kt-section-title">Очередь</h2>
+    <div class="ios-list kt-queue-list">
+      <button class="row has-lead tap" data-go="scan">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-images" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Portra 400 · K-185</strong
+          ><span>Сканируется 62 % · Тимур</span></span
+        ><span class="kt-queue-state is-active">62 %</span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-go="batch">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-droplets" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Fomapan 200 · K-186</strong
+          ><span>Ожидает бачок · Лиза</span></span
+        ><span class="kt-queue-state">следующая</span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-go="materials">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-bookmark" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Ilford MG RC · 18 листов</strong
+          ><span>Мало · передача завтра</span></span
+        ><span class="kt-queue-state is-warn">мало</span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg>
+      </button>
+    </div>
+    <h2 class="kt-section-title">Общее</h2>
+    <div class="ios-list">
+      <button class="row has-lead tap" data-go="materials">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-bookmark" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Материалы</strong
+          ><span>7 позиций требуют внимания</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-go="labnet">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-wifi" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Сеть лаборатории</strong
+          ><span>Lab-Red · сканер виден</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg>
+      </button>
+    </div>
+  </main>
+  <div class="tabbar light kt-tabs" aria-label="Основная навигация">
+    <div class="tab tap" data-go="feed" aria-label="Раздел Лента">
+      <span class="ico"
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-images" /></svg></span
+      ><span class="tab-label">Лента</span>
+    </div>
+    <div class="tab tap" data-go="walks" aria-label="Раздел Прогулки">
+      <span class="ico"
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-map-pin" /></svg></span
+      ><span class="tab-label">Прогулки</span>
+    </div>
+    <div
+      class="tab tap is-on"
+      aria-current="page"
+      data-go="lab"
+      aria-label="Раздел Лаборатория"
+    >
+      <span class="ico"
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-droplets" /></svg></span
+      ><span class="tab-label">Лаборатория</span>
+    </div>
+    <div class="tab tap" data-go="profile" aria-label="Раздел Профиль">
+      <span class="ico"
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

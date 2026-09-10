@@ -1,0 +1,101 @@
+<div class="screen vs-page cx-page" id="scr-profile">
+  <div class="body-scroll cx-scroll vs-safe">
+    <header class="cx-top">
+      <div>
+        <span>МАСТЕРСКАЯ НА ЛЕСНОЙ</span>
+        <h1>Профиль</h1>
+      </div>
+    </header>
+    <div class="cx-profile">
+      <div class="cx-avatar ph"></div>
+      <h2>Алексей Морозов</h2>
+      <p>дерево · фрезер · сборка</p>
+      <div><b>14</b><span>работ</span><b>6</b><span>помощей</span></div>
+    </div>
+    <section class="cx-section">
+      <header><h2>Люди</h2></header>
+      <button class="cx-row tap" data-ask="contacts|profile|profile">
+        <svg class="ico-svg"><use href="#i-users" /></svg
+        ><span
+          ><b>Найти знакомых</b
+          ><small>Сопоставление только после вашего действия</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+      <div class="cx-denied perm-hidden" data-show-denied="contacts">
+        <b>Можно продолжить</b
+        ><span>Ищите участников мастерской по имени.</span>
+      </div>
+    </section>
+    <section class="cx-section">
+      <header><h2>Интеграции</h2></header>
+      <button class="cx-row tap" data-go="sync">
+        <svg class="ico-svg"><use href="#i-repeat-2" /></svg
+        ><span
+          ><b>Фон и синхронизация</b
+          ><small>Лента, push и плановые задачи</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="cx-row tap" data-go="widget">
+        <svg class="ico-svg"><use href="#i-layout-grid" /></svg
+        ><span
+          ><b>Виджет мастерской</b
+          ><small>Ближайшая бронь на экране Домой</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="cx-row tap" data-go="credentials">
+        <svg class="ico-svg"><use href="#i-key" /></svg
+        ><span
+          ><b>Пароли мастерской</b
+          ><small>Автозаполнение учебных порталов</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="cx-row tap" data-go="network">
+        <svg class="ico-svg"><use href="#i-wifi" /></svg
+        ><span
+          ><b>Гостевая сеть</b
+          ><small>Подключение по конфигурации стенда</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="cx-row tap" data-go="lock">
+        <svg class="ico-svg"><use href="#i-lock" /></svg
+        ><span
+          ><b>Приватные материалы</b
+          ><small>Сметы и чертежи под Face ID</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="cx-row tap" data-go="sponsors">
+        <svg class="ico-svg"><use href="#i-banknote" /></svg
+        ><span><b>Партнёры</b><small>Настройка бесплатной модели</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <button class="cx-row tap" data-primary data-go="account">
+      <svg class="ico-svg"><use href="#i-user" /></svg
+      ><span><b>Аккаунт</b><small>Телефон, выход и удаление данных</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+    </button>
+  </div>
+  <div class="tabbar light vs-tabs" aria-label="Основная навигация">
+    <div class="tab tap" data-go="machines" aria-label="Раздел Станки">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-wrench" /></svg></span
+      ><span class="tab-label">Станки</span>
+    </div>
+    <div class="tab tap" data-go="schedule" aria-label="Раздел Расписание">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span class="tab-label">Расписание</span>
+    </div>
+    <div class="tab tap" data-go="projects" aria-label="Раздел Проекты">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Проекты</span>
+    </div>
+    <div
+      class="tab tap is-on"
+      aria-current="page"
+      data-go="profile"
+      aria-label="Раздел Профиль"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

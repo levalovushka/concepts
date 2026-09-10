@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "ryadom",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "feed",
+      "headline": "Лента людей из вашего клуба",
+      "body": "Знакомые лица, реальные результаты и планы на сегодня"
+    },
+    {
+      "screen": "events",
+      "headline": "Тренировки без лишней координации",
+      "body": "Время, темп, маршрут, места и фиксированные роли"
+    },
+    {
+      "screen": "meetup",
+      "headline": "Соберитесь на одной тренировке",
+      "body": "Темп, дистанция, состав и точка старта"
+    },
+    {
+      "screen": "music",
+      "headline": "Выберите локальный маршрут",
+      "body": "Проверенные треки от людей, которых вы знаете"
+    },
+    {
+      "screen": "profile",
+      "headline": "Узнавайте своих рядом",
+      "body": "Клуб, дисциплины, маршруты и совместные тренировки"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

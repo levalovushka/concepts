@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "smena",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "today",
+      "headline": "Начинайте смену с главного",
+      "body": "Животные и задачи уже расставлены по срочности"
+    },
+    {
+      "screen": "animal",
+      "headline": "Знайте историю каждого",
+      "body": "Уход, назначения и наблюдения собраны в одной карточке"
+    },
+    {
+      "screen": "observations",
+      "headline": "Замечайте изменения вместе",
+      "body": "Фото и факты переходят между сменами без потери контекста"
+    },
+    {
+      "screen": "handoff",
+      "headline": "Передавайте смену ясно",
+      "body": "Следующий волонтёр подтверждает каждый важный факт"
+    },
+    {
+      "screen": "people",
+      "headline": "Доверяйте через общее дело",
+      "body": "Профиль складывается из реальных смен и навыков"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { chromium } from 'playwright';
 import { DIST, conceptDir, listConcepts, readSpec } from './lib.mjs';
 
 const launcherPath = join(DIST, 'index.html');
+const currentBatch = new Set(['uzel', 'kontur', 'tropa', 'smena', 'kvartal', 'marshrut', 'ryadom', 'prichal', 'verstak']);
 assert.ok(existsSync(launcherPath), 'сначала соберите лаунчер: npm run build:all');
 
 const errors = [];
@@ -29,6 +30,10 @@ try {
   assert.equal(Object.values(modeCounts).reduce((sum, count) => sum + count, 0), concepts.length, 'каждый концепт должен принадлежать одной стратегии');
   const cards = page.locator('.card');
   assert.equal(await cards.count(), concepts.length, 'в лаунчере должен быть каждый концепт');
+  assert.equal(await page.locator('.card .new-badge').count(), currentBatch.size, 'текущая партия должна быть помечена NEW');
+  for (const slug of currentBatch) {
+    assert.equal(await page.locator(`.card[href="./${slug}/index.html"] .new-badge`).count(), 1, `${slug}: нет метки NEW`);
+  }
   const conceptsWithIcons = concepts.filter((slug) => existsSync(join(conceptDir(slug), 'assets', 'app-icon.png')));
   assert.equal(await page.locator('.card .app-icon').count(), conceptsWithIcons.length, 'лаунчер должен показывать все доступные логотипы');
   const conceptUrls = [];

@@ -1,0 +1,111 @@
+<div class="screen ios-surface m-page" id="scr-music">
+  <div class="body-scroll m-scroll m-safe">
+    <div class="m-top">
+      <div class="m-top-title">Маршруты</div>
+      <div class="m-top-acts">
+        <button class="m-icon tap" data-go="settings" aria-label="Настройки">
+          <svg class="ico-svg"><use href="#i-settings" /></svg>
+        </button>
+      </div>
+    </div>
+    <div class="m-wrap">
+      <button class="m-ride-hero tap" data-primary data-go="feed">
+        <div class="m-ride-kicker">ОСНОВНОЙ · ПАК СВЕЖИЙ</div>
+        <h2>Дом → офис</h2>
+        <p>7,4 км · 5 участков · 3 актуальных риска</p>
+        <div class="m-ride-status">
+          <span>обновлён 07:42</span><span>старт 08:10</span>
+        </div>
+      </button>
+      <div class="m-sec-head"><h2>Инструменты пути</h2></div>
+      <section class="m-card">
+        <button class="m-row tap" data-go="tv">
+          <span class="m-bul accent"
+            ><svg class="ico-svg"><use href="#i-download" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Офлайн-пак</span
+            ><span class="m-row-s"
+              >184 МБ · геометрия, факты и разборы</span
+            ></span
+          ><span class="m-caret"
+            ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+          ></span></button
+        ><button class="m-row tap" data-go="videos">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-video" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Визуальные разборы</span
+            ><span class="m-row-s">6 сложных участков</span></span
+          ><span class="m-caret"
+            ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+          ></span></button
+        ><button class="m-row tap" data-go="player">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-volume-2" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Аудиогид участков</span
+            ><span class="m-row-s">короткие ориентиры без экрана</span></span
+          ><span class="m-caret"
+            ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+          ></span></button
+        ><button class="m-row tap" data-go="circles">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-list-checks" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Очередь проверок</span
+            ><span class="m-row-s"
+              >2 участка ждут контрольного проезда</span
+            ></span
+          ><span class="m-caret"
+            ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+          ></span>
+        </button>
+      </section>
+      <div class="m-sec-head">
+        <h2>Другие коридоры</h2>
+        <span>2</span>
+      </div>
+      <section class="m-card">
+        <button class="m-row tap" data-go="feed">
+          <span class="m-row-copy"
+            ><span class="m-row-t">Дом → метро</span
+            ><span class="m-row-s">3,1 км · путь свободен</span></span
+          ><span class="m-status is-ready">чисто</span></button
+        ><button class="m-row tap" data-go="feed">
+          <span class="m-row-copy"
+            ><span class="m-row-t">Офис → парк</span
+            ><span class="m-row-s">5,8 км · пакет не загружен</span></span
+          ><span class="m-status is-muted">только сеть</span>
+        </button>
+      </section>
+    </div>
+  </div>
+  <div class="tabbar m-dock" aria-label="Основная навигация">
+    <div class="tab tap" data-go="feed" aria-label="Раздел Путь">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg
+      ></span>
+    </div>
+    <div class="tab tap" data-go="rides" aria-label="Раздел Проверки">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-clipboard-check" /></svg
+      ></span>
+    </div>
+    <div
+      class="tab is-on tap"
+      aria-current="page"
+      data-go="music"
+      aria-label="Раздел Маршруты"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-route" /></svg
+      ></span>
+    </div>
+    <div class="tab tap" data-go="profile" aria-label="Раздел Профиль">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg
+      ></span>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

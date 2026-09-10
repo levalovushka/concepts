@@ -132,6 +132,21 @@ function lint(slug) {
     }
   }
 
+  /* Для VK-мимикрии недостаточно синего акцента и декларации в JSON. Лента
+     обязана реально показывать нескольких авторов и набор публичных действий;
+     сообщения, звонки и сообщества при этом не являются обязательными. */
+  if (spec.positioning?.mode === 'mimicry' && spec.targetSet === 'vkontakte') {
+    const evidence = (spec.positioning.referenceEvidence || []).find((row) => row.pattern === 'social-feed');
+    const feed = evidence ? effectiveMarkup[evidence.screen] || '' : '';
+    if (!evidence) P('VK-мимикрия: нет экранного доказательства social-feed');
+    else {
+      const authorSignals = [...feed.matchAll(/class="[^"]*(?:post-author|author|avatar)[^"]*"/gi)].length;
+      const publicActions = new Set((feed.match(/подпис\w*|полезн\w*|нравит\w*|сохран\w*|поделит\w*/gi) || []).map((item) => item.toLowerCase().slice(0, 6)));
+      if (authorSignals < 2) P(`VK-мимикрия: экран ${evidence.screen} не доказывает ленту нескольких узнаваемых авторов`);
+      if (publicActions.size < 2) P(`VK-мимикрия: экран ${evidence.screen} не содержит минимум двух публичных действий (подписка/реакция/сохранение/поделиться)`);
+    }
+  }
+
   /* Навигационные шевроны — часть общего iOS chrome. Текстовые глифы и
      обычный ico-svg дают другую толщину и посадку. */
   for (const screen of spec.screens) {

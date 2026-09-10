@@ -1,0 +1,63 @@
+<div class="screen ios-surface m-page" id="scr-match">
+  <div class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Найденные коридоры</div>
+    <div class="nav-spacer"></div>
+  </div>
+  <div class="body-scroll m-scroll">
+    <div class="m-wrap">
+      <div class="m-note">
+        <svg class="ico-svg"><use href="#i-shield" /></svg
+        ><span
+          >Найдено 3 агрегированных совпадения. Кто именно использует путь,
+          приложение не раскрывает.</span
+        >
+      </div>
+      <div class="m-note" data-show-denied="contacts" hidden>
+        <svg class="ico-svg"><use href="#i-info" /></svg
+        ><span>Контакты закрыты — коридоры найдены по началу и концу пути.</span>
+      </div>
+      <section class="m-card">
+        <button class="m-row tap" data-primary data-go="music">
+          <span class="m-bul accent"
+            ><svg class="ico-svg"><use href="#i-route" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Дом → метро</span
+            ><span class="m-row-s">3,1 км · 4 локальных совпадения</span></span
+          ><span class="m-status is-ready">сохранить</span></button
+        ><button class="m-row tap" data-go="music">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-route" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Парк → набережная</span
+            ><span class="m-row-s">5,8 км · 2 локальных совпадения</span></span
+          ><span class="m-status">сохранить</span>
+        </button>
+      </section>
+      <div class="m-sec-head"><h2>Нет совпадений</h2></div>
+      <section class="m-card">
+        <div class="m-row">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-search" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Офис → вокзал</span
+            ><span class="m-row-s"
+              >измените радиус начала или создайте свой коридор</span
+            ></span
+          >
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

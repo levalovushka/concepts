@@ -1,0 +1,1716 @@
+{
+  "slug": "ryadom",
+  "name": "Рядом",
+  "eyebrow": "Рядом · Люди и тренировки одного клуба · iOS",
+  "targetSet": "vkontakte",
+  "domain": "ryadom.club",
+  "heroTitle": "Рядом — свой клуб в привычной ленте",
+  "heroDeck": "Знакомые люди публикуют тренировки и маршруты, а подписки собирают клубную жизнь в персональную ленту.",
+  "tagline": "Не искать компанию по всему городу: в ленте уже те, с кем вы переодеваетесь в одной раздевалке",
+  "insight": "в большом спортивном сервисе виден результат незнакомца, а в клубе важнее узнать знакомое лицо, договориться о темпе и выйти на один маршрут сегодня",
+  "deck": "Гиперлокальная спортивная соцсеть в знакомой грамматике ВКонтакте: авторская лента, тренировки, маршруты и профиль без чатов, звонков и сообществ.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Участники одного городского спортивного клуба: бегуны, велосипедисты, пловцы и тренеры, которые регулярно видят друг друга офлайн",
+    "situation": "Перед тренировкой человек хочет понять, кто из знакомых сегодня рядом, какой темп собирают и где начинается маршрут",
+    "problem": "Анонсы живут в разных каналах, треки в спортивных приложениях, фотографии в общей соцсети — знакомая клубная жизнь рассыпана по разным местам",
+    "promise": "Открыть клубную ленту, выбрать тренировку по месту и темпу и присоединиться к знакомой группе за минуту",
+    "differentiator": "Социальный граф ограничен подтверждённым клубом, а публикации и профили связаны с реальными тренировками и локальными маршрутами.",
+    "returnReasons": [
+      "Свежие отчёты людей, которых встречаешь на тренировках",
+      "Новые сборы на сегодня и изменения точки старта",
+      "Назначения, подтверждения участия и новые локальные маршруты"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "compose",
+      "result": "post"
+    },
+    "coreLoop": [
+      "Открыть ленту клуба и увидеть знакомых участников",
+      "Выбрать тренировку или опубликовать свой локальный маршрут",
+      "Вернуться за участниками, задачами и изменением точки старта"
+    ],
+    "nonGoals": [
+      "Глобальный рейтинг спортсменов и соревнование с незнакомцами",
+      "Персональные тренировочные планы и медицинские рекомендации",
+      "Чаты, звонки, комментарийные ветки и отдельные сообщества"
+    ],
+    "world": {
+      "note": "Рядом хранит людей, подписки, авторские публикации, тренировки и маршруты; свободная коммуникация исключена.",
+      "entities": [
+        {
+          "id": "member",
+          "name": "Участник",
+          "identity": "профиль и членство в клубе",
+          "fields": ["name", "disciplines", "followersCount", "clubStatus"],
+          "relations": [
+            {
+              "kind": "follows",
+              "to": "member"
+            },
+            {
+              "kind": "has-many",
+              "to": "participation"
+            }
+          ]
+        },
+        {
+          "id": "post",
+          "name": "Публикация",
+          "identity": "автор и время",
+          "fields": [
+            "author",
+            "text",
+            "media",
+            "place",
+            "reactionCount",
+            "saved"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "member"
+            },
+            {
+              "kind": "links-to",
+              "to": "training"
+            }
+          ]
+        },
+        {
+          "id": "training",
+          "name": "Тренировка",
+          "identity": "время, точка старта и темп",
+          "fields": ["date", "place", "pace", "capacity", "status"],
+          "relations": [
+            {
+              "kind": "uses",
+              "to": "route"
+            },
+            {
+              "kind": "has-many",
+              "to": "participation"
+            }
+          ]
+        },
+        {
+          "id": "participation",
+          "name": "Участие",
+          "identity": "участник и тренировка",
+          "fields": ["role", "status", "joinedAt", "presence"],
+          "relations": [
+            { "kind": "belongs-to", "to": "member" },
+            { "kind": "belongs-to", "to": "training" }
+          ]
+        },
+        {
+          "id": "route",
+          "name": "Маршрут",
+          "identity": "трек и дистанция",
+          "fields": ["distance", "surface", "elevation", "audioGuide"],
+          "relations": [
+            {
+              "kind": "created-by",
+              "to": "member"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "publish-post",
+          "name": "Опубликовать запись",
+          "actor": "member",
+          "entity": "post",
+          "effect": "публикация попадает в ленту подписчиков",
+          "screen": "compose",
+          "result": "В ленте видны автор, медиа, место и связанная тренировка",
+          "capabilities": ["camera", "photos", "location"]
+        },
+        {
+          "id": "join-training",
+          "name": "Подтвердить участие",
+          "actor": "member",
+          "entity": "participation",
+          "effect": "участник занимает место и роль",
+          "screen": "meetup",
+          "result": "Карточка фиксирует участие, время и статус пути",
+          "capabilities": ["locationalways", "commnotif", "voip"]
+        },
+        {
+          "id": "follow-person",
+          "name": "Подписаться на участника",
+          "actor": "member",
+          "entity": "member",
+          "effect": "публикации автора влияют на персональную ленту",
+          "screen": "profile",
+          "result": "Профиль показывает подписку и активность автора",
+          "capabilities": ["contacts"]
+        },
+        {
+          "id": "use-route",
+          "name": "Начать маршрут",
+          "actor": "member",
+          "entity": "route",
+          "effect": "маршрут и голосовые ориентиры доступны на тренировке",
+          "screen": "player",
+          "result": "Прогресс и следующий ориентир остаются доступными в фоне",
+          "capabilities": ["audio", "mic"]
+        },
+        {
+          "id": "prepare-feed",
+          "name": "Подготовить ленту",
+          "actor": "member",
+          "entity": "post",
+          "effect": "локальный снапшот обновлён",
+          "screen": "settings",
+          "result": "Лента, тренировки и оповещения актуальны до открытия",
+          "capabilities": [
+            "push",
+            "remotenotif",
+            "fetch",
+            "processing",
+            "bgtask",
+            "keychain"
+          ]
+        },
+        {
+          "id": "present-media",
+          "name": "Показать разбор техники",
+          "actor": "member",
+          "entity": "post",
+          "effect": "выбранное видео открывается на доступном экране",
+          "screen": "tv",
+          "result": "Разбор можно посмотреть вместе без разговорной функции",
+          "capabilities": ["localnetwork", "wifiinfo"]
+        },
+        {
+          "id": "save-route-scheme",
+          "name": "Сохранить схему маршрута",
+          "actor": "member",
+          "entity": "route",
+          "effect": "Экспортирует выбранную схему в медиатеку телефона",
+          "screen": "post",
+          "result": "Схема остаётся доступна вне приложения без публикации",
+          "capabilities": ["photosadd"]
+        },
+        {
+          "id": "personalize-feed",
+          "name": "Настроить персонализацию",
+          "actor": "member",
+          "entity": "post",
+          "effect": "промо учитывает отдельное согласие",
+          "screen": "feed",
+          "result": "Отказ не влияет на ленту и тренировки",
+          "capabilities": ["tracking"]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Авторская лента, подписки, публичные профили, реакции, сохранения и создание публикации соответствуют Social Networking.",
+    "familiarPatterns": [
+      "Лента публикаций узнаваемых людей",
+      "Навигация Лента · Тренировки · Маршруты · Профиль",
+      "Создание поста с текстом, медиа и местом",
+      "Профиль с подписками и собственной активностью",
+      "Реакции, сохранения и переход к связанной тренировке"
+    ],
+    "distinctions": [
+      "Граф ограничен участниками одного подтверждённого клуба",
+      "Каждая публикация несёт прикладной контекст: темп, дистанцию или точку старта",
+      "Тренировка фиксирует участие структурированно, без переписки"
+    ],
+    "evidenceScreens": [
+      "feed",
+      "events",
+      "music",
+      "profile",
+      "compose",
+      "meetup"
+    ],
+    "referencePatterns": ["social-feed", "profile", "create-post"],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "feed",
+        "behavior": "Лента состоит из записей нескольких авторов; видны автор, время, реакция, сохранение и связанная тренировка."
+      },
+      {
+        "pattern": "profile",
+        "screen": "profile",
+        "behavior": "Профиль связывает человека, подписки, дисциплины, маршруты и собственные публикации."
+      },
+      {
+        "pattern": "create-post",
+        "screen": "compose",
+        "behavior": "Композер собирает текст, камеру, медиатеку и место на одной поверхности."
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "ВКонтакте — мобильная лента и композер",
+        "observation": "Корневой поток строится из авторских публикаций; создание записи доступно до прокрутки, а реакции и связанная активность закреплены под постом",
+        "decision": "Сохраняем силуэт и поведение ленты, но каждая запись получает клубный контекст: секцию, дистанцию, темп или точку старта"
+      },
+      {
+        "source": "ВКонтакте — мобильный профиль и события в ленте",
+        "observation": "Профиль связывает человека, подписки и публикации, а прикладное событие может быть самостоятельным объектом ленты",
+        "decision": "Профиль участника ведёт к знакомым людям и активности, а тренировка хранит состав, темп и точку старта без отдельного сообщества"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Для сборов уже есть общий канал клуба",
+        "resolution": "Разрозненный поток не даёт устойчивой авторской ленты и карточки тренировки с темпом, местом, ролями и составом",
+        "evidenceScreens": ["feed", "events", "music", "meetup"]
+      },
+      {
+        "objection": "Маршруты уже записывает спортивный трекер",
+        "resolution": "Трекер сравнивает показатели, а «Рядом» показывает социальный контекст маршрута: кто из знакомых идёт, какой темп держат и где встречаются сегодня",
+        "evidenceScreens": ["music", "player", "meetup", "route"]
+      },
+      {
+        "objection": "Это просто закрытая группа в большой соцсети",
+        "resolution": "В закрытой группе тренировка остаётся записью в потоке; здесь она имеет состав, вместимость, маршрут, статус участия и точку старта",
+        "evidenceScreens": ["feed", "profile", "events", "compose"]
+      },
+      {
+        "objection": "Один клуб слишком узок для отдельного приложения",
+        "resolution": "Ограничение создаёт доверие и частоту офлайн-контакта: вместо рекомендаций незнакомцев интерфейс показывает тех, кого пользователь узнает на следующей тренировке",
+        "evidenceScreens": ["feed", "friends", "profile"]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "проход 1 · клубная семантика и VK-грамматика",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "проход 2 · плотность, состояния и переходы",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#2688EB",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "feed",
+      "label": "Лента",
+      "role": "feed"
+    },
+    {
+      "id": "events",
+      "label": "Тренировки",
+      "role": "events"
+    },
+    {
+      "id": "music",
+      "label": "Маршруты",
+      "role": "routes"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к камере",
+        "text": "Чтобы снимать фото и видео для публикаций."
+      },
+      "feature": "Съёмка фото и видео прямо в публикацию",
+      "gesture": "«Снять»",
+      "screen": "compose",
+      "target": "shoot",
+      "fallback": "Остаётся выбор готового снимка из медиатеки и публикация без медиа",
+      "snack": "Нет доступа к камере",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation: съёмка и запись на устройстве"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к медиатеке",
+        "text": "Чтобы прикладывать к публикации снимки, которые уже сняты."
+      },
+      "feature": "Выбор схемы маршрута, кадра тренировки или видео техники из медиатеки",
+      "gesture": "«Из медиатеки»",
+      "screen": "compose",
+      "target": "picker",
+      "fallback": "Остаётся съёмка на камеру и публикация без медиа",
+      "snack": "Нет доступа к медиатеке",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "PHPicker: выбор без полного доступа к библиотеке"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ на сохранение в галерею",
+        "text": "Чтобы сохранить схему маршрута или снимок с тренировки."
+      },
+      "feature": "Сохранение схемы клубного маршрута в галерею телефона",
+      "gesture": "«Сохранить»",
+      "screen": "post",
+      "target": "post",
+      "fallback": "Снимок остаётся в приложении, но не попадает в галерею телефона",
+      "snack": "Нет доступа на сохранение",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "UIImageWriteToSavedPhotosAlbum: запись без чтения библиотеки"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к контактам",
+        "text": "Чтобы сверить номера из книги с теми, кто уже здесь."
+      },
+      "feature": "Поиск знакомых участников клуба в записной книжке",
+      "gesture": "«Найти знакомых»",
+      "screen": "friends",
+      "target": "match",
+      "fallback": "Остаётся приглашение ссылкой и поиск по имени",
+      "snack": "Нет доступа к контактам",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Локальное сопоставление номеров на устройстве, книга целиком никуда не уходит"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "feature": "Точка старта и локальный маршрут в публикации",
+      "gesture": "«Отметить место»",
+      "screen": "compose",
+      "target": "place",
+      "fallback": "Место можно ввести вручную или оставить публикацию без метки",
+      "snack": "Нет доступа к геопозиции",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "MKLocalSearch и CLGeocoder: места и адреса с карт Apple, без своего сервера",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к геопозиции",
+        "text": "Чтобы предложить точку старта и маршруты рядом с клубом."
+      }
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к геопозиции всегда",
+        "text": "Чтобы участники выбранной тренировки видели, что вы уже движетесь к точке старта."
+      },
+      "feature": "Статус «в пути» во время выбранной тренировки",
+      "gesture": "«Отмечать дорогу»",
+      "screen": "meetup",
+      "target": "route",
+      "fallback": "Отметиться можно вручную кнопкой «Я на месте»",
+      "snack": "Нет фонового доступа к геопозиции",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "CLLocationManager со значимыми изменениями, включается на день события и выключается сам",
+      "requires": "CLLocationManager с фоновым режимом и автоотключением на следующий день после события — без этого 5.1.1",
+      "reviewNote": "Фоновые отметки привязаны к одному сбору и одному дню. Участник включает их кнопкой «Отмечать дорогу» на экране тренировки; приложение отмечает значимые перемещения по пути и выключает режим на следующий день после тренировки автоматически. Постоянного трека нет. Отказ оставляет ручную кнопку «Я на месте». Как проверить: демо-аккаунт → Лента → «Субботний лонгран» (13 сентября) → «Отмечать дорогу»."
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)",
+      "feature": "Показ клубного разбора техники на телевизоре",
+      "gesture": "«Смотреть на телевизоре»",
+      "screen": "tv",
+      "target": "cast",
+      "fallback": "Остаётся просмотр и прослушивание на телефоне",
+      "snack": "Нет доступа к локальной сети",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Bonjour-поиск устройств Google Cast в текущей сети, воспроизведение на стороне телевизора",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к локальной сети",
+        "text": "Чтобы найти телевизор в вашей сети и показать снимки."
+      }
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "feature": "Имя сети рядом со списком устройств: объясняет, почему телевизор не находится",
+      "gesture": "«Обновить список»",
+      "screen": "tv",
+      "target": "tv",
+      "fallback": "Список устройств остаётся, но без подсказки о сети",
+      "snack": "Нет доступа к сведениям о сети",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotNetwork.fetchCurrent: SSID текущей сети, требует уже выданной геопозиции",
+      "alert": {
+        "title": "Сведения о сети Wi-Fi",
+        "text": "Entitlement без системного запроса: имя текущей сети объясняет, почему телевизор не находится."
+      },
+      "activate": true
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "feature": "Промо-карточка в ленте: реклама местных мест вместо платной подписки",
+      "gesture": "«Показывать подходящее»",
+      "screen": "feed",
+      "target": "feed",
+      "fallback": "Реклама остаётся, но перестаёт учитывать интересы",
+      "snack": "Трекинг отключён",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ATT перед первым показом промо-блока; IDFA уходит в рекламный SDK только после согласия",
+      "alert": {
+        "title": "Разрешить «Рядом» отслеживать вашу активность?",
+        "text": "Чтобы показывать предложения спортивных мест и магазинов по интересам."
+      },
+      "reviewNote": "Промпт ATT показывается один раз, перед первым показом промо-блока в ленте, и только после того, как человек увидел, за что платит бесплатность приложения. IDFA передаётся рекламному SDK исключительно после согласия; при отказе реклама остаётся, но перестаёт учитывать интересы. Как проверить: демо-аккаунт → Лента → промо-карточка → «Показывать подходящее»."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "feature": "Оповещения об подтверждениях, тренировках и изменениях точки старта",
+      "gesture": "«Включить оповещения»",
+      "screen": "notif",
+      "target": "notif",
+      "fallback": "Новое видно при открытии приложения",
+      "snack": "Оповещения выключены",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Регистрация в APNs через SDK провайдера, отправка из его дашборда",
+      "alert": {
+        "title": "«Рядом» запрашивает разрешение на уведомления",
+        "text": "Чтобы сообщать об подтверждениях и изменениях ближайшей тренировки."
+      }
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "feature": "Голосовой пейсинг маршрута продолжает звучать после сворачивания приложения",
+      "gesture": "«Слушать»",
+      "screen": "player",
+      "target": "background",
+      "fallback": "Маршрут останавливается при сворачивании приложения",
+      "snack": "Фоновое воспроизведение недоступно",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "grounding": "AVAudioSession в режиме playback, MPNowPlayingInfoCenter и команды с локскрина",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Entitlement без системного запроса: маршрут продолжает играть после сворачивания приложения."
+      },
+      "activate": true,
+      "requires": "AVAudioSession playback, заполненный MPNowPlayingInfoCenter и remote-команды — иначе 2.5.4",
+      "reviewNote": "Фоновое аудио несёт вкладка «Маршруты»: выбранный маршрут даёт интервальные подсказки и голосовой пейсинг. После сворачивания MPNowPlayingInfoCenter показывает дистанцию и следующий отрезок, с локскрина работают пауза и ±15 секунд. Как проверить: демо-аккаунт → Маршруты → «Набережная 8 км» → «Начать с подсказками» → свернуть приложение."
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "feature": "Тихие пуши обновляют счётчики разделов до открытия приложения",
+      "gesture": "«Обновлять счётчики в фоне»",
+      "screen": "notif",
+      "target": "notif",
+      "fallback": "Счётчики обновляются при открытии приложения",
+      "snack": "Фоновое обновление выключено",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Обработка silent push в приложении, отправка из дашборда провайдера",
+      "alert": {
+        "title": "Тихие уведомления",
+        "text": "Entitlement без системного запроса: тихие пуши обновляют счётчики разделов."
+      },
+      "activate": true
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "feature": "Лента клуба и тренировки на сегодня подгружаются до первого открытия",
+      "gesture": "«Лента к первому открытию»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Лента обновляется при открытии",
+      "snack": "Фоновая загрузка выключена",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGAppRefreshTask с идентификатором app.ryadom.feed_refresh",
+      "alert": {
+        "title": "Обновление в фоне",
+        "text": "Entitlement без системного запроса: лента подгружается до открытия приложения."
+      },
+      "activate": true,
+      "requires": "BGAppRefreshTask, который реально читает клубную ленту и тренировки на сегодня"
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "feature": "Разбор загруженных видео техники идёт на зарядке",
+      "gesture": "«Разобрать снимки»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Разбор идёт при открытом приложении",
+      "snack": "Фоновая обработка выключена",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGProcessingTask app.ryadom.archive_index с requiresExternalPower",
+      "alert": {
+        "title": "Фоновая обработка",
+        "text": "Entitlement без системного запроса: разбор снимков идёт на зарядке."
+      },
+      "activate": true,
+      "requires": "BGProcessingTask с requiresExternalPower, который действительно разбирает архив"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "feature": "Список фоновых задач: обновление клубной ленты и разбор видео техники",
+      "gesture": "«Фоновые задачи»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Фоновых задач нет, всё обновляется вручную",
+      "snack": "Фоновые задачи недоступны",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "Идентификаторы в Info.plist совпадают с регистрацией в коде",
+      "alert": {
+        "title": "Идентификаторы фоновых задач",
+        "text": "Entitlement без системного запроса: список фоновых задач приложения."
+      },
+      "activate": true,
+      "requires": "строки в Info.plist совпадают с BGTaskScheduler.register — иначе падение при регистрации"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "feature": "Общий вход у приложения, расширения уведомлений и «Поделиться»",
+      "gesture": "«Общая связка ключей»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Расширения требуют отдельного входа",
+      "snack": "Общий keychain недоступен",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Группа доступа keychain на все таргеты сборки",
+      "alert": {
+        "title": "Общая связка ключей",
+        "text": "Entitlement без системного запроса: одна сессия на приложение, расширение уведомлений и «Поделиться»."
+      },
+      "activate": true
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Рядом» запрашивает доступ к микрофону",
+        "text": "Чтобы записать голосовую подсказку для участников маршрута."
+      },
+      "feature": "Голосовая заметка тренера к маршруту",
+      "gesture": "«Записать подсказку»",
+      "screen": "music",
+      "target": "music",
+      "fallback": "Поздравление можно написать текстом",
+      "snack": "Микрофон недоступен — добавьте текст",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "AVAudioRecorder, запись прикрепляется только к выбранному альбому"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Обновления тренировки от организатора",
+        "text": "Служебная возможность без системного запроса: изменение точки тренировки приходит от организатора с его именем."
+      },
+      "activate": true,
+      "feature": "Именное изменение времени или точки старта от организатора",
+      "gesture": "«Изменения от Ильи»",
+      "screen": "meetup",
+      "target": "meetup",
+      "fallback": "Без этой возможности обновление приходит обычным уведомлением",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Только структурированное обновление одной активной тренировки от организатора",
+      "grounding": "Системное приоритетное уведомление с фиксированными действиями «Открыть карточку» и «Подтвердить»",
+      "reviewNote": "Организатор отправляет только структурированное изменение времени, дистанции или точки одной активной тренировки."
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Живое подключение к встрече",
+        "text": "Служебная возможность без системного запроса: участник, который не смог приехать, подключается к общему аудиоэфиру тренировки."
+      },
+      "activate": true,
+      "feature": "Односторонний аудиоэфир тренера во время клубной тренировки",
+      "gesture": "«Слушать тренера»",
+      "screen": "meetup",
+      "target": "meetup",
+      "fallback": "Без фонового режима эфир доступен только в открытом приложении",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit и фоновая аудиосессия для одного одностороннего эфира события",
+      "grounding": "LiveKit broadcast room в режиме только для ведущего; слушатели не передают звук",
+      "reviewNote": "Это эфир конкретного события, а не звонки между пользователями."
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Регистрация по почте",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта · без OTP и подтверждения",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт по почте без отдельного подтверждения",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Почта и создание аккаунта",
+          "secondary": "Правовая строка, помощь и поддержка"
+        },
+        "states": ["default", "loading", "empty", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Корректный адрес электронной почты"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный адрес на локализованном домене"
+          },
+          {
+            "kind": "failure",
+            "example": "Адрес уже занят, введён неверно или сеть недоступна"
+          }
+        ]
+      }
+    },
+    {
+      "id": "feed",
+      "title": "Лента клуба",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Публикации участников, тренировки на сегодня, промо",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать публикации знакомых участников клуба и ближайшие тренировки",
+        "primaryAction": "Что нового?",
+        "hierarchy": {
+          "primary": "Публикации участников и секций с реакциями и подтверждениями",
+          "secondary": "Дни рождения и промо-блок"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Смешаны сегодняшние планы, отчёты и маршрут с предупреждением о покрытии"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя в две строки, публикация на девять снимков, крупный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Пустая лента у нового участника и отказ в трекинге"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "meta": "Публикация партнёр по тренировкеа и кто оценил",
+      "parent": "feed",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать публикацию целиком с оценками и подтверждениями",
+        "primaryAction": "Открыть тренировку",
+        "hierarchy": {
+          "primary": "Снимок, подпись и год",
+          "secondary": "Оценки, подтверждения и сохранение в галерею"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Архивный снимок 1974 года с двумя неподписанными лицами"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная подпись на четыре строки и карточка связанной тренировки"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в сохранении снимка в галерею"
+          }
+        ]
+      }
+    },
+    {
+      "id": "videos",
+      "title": "Видео техники",
+      "type": "push",
+      "light": true,
+      "parent": "music",
+      "meta": "Ролики компании и показ на телевизоре",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Собрать видео разбора техники и отправить его на большой экран",
+        "primaryAction": "Смотреть на телевизоре",
+        "hierarchy": {
+          "primary": "Список семейного видео и кнопка показа",
+          "secondary": "Длительность, источник и состояние загрузки каждой записи"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Двенадцать видео техники, три ещё обрабатываются"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинный разбор техники на 21:36 с четырьмя камерами"
+          },
+          {
+            "kind": "failure",
+            "example": "Запись, которая скачана лишь на 62 процента"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compose",
+      "title": "Новая публикация",
+      "type": "modal",
+      "light": true,
+      "meta": "Текст, медиа, место и тренировка",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Собрать публикацию из текста, медиа, места и адресата",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Поле текста и строка медиа",
+          "secondary": "Ветвь-адресат, место и год снимка"
+        },
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Текст, два снимка и выбранная ветвь"
+          },
+          {
+            "kind": "stress",
+            "example": "Девять снимков, длинный текст и ручной ввод места"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в камере и медиатеке одновременно"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shoot",
+      "title": "Камера",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Камера · фото и видео",
+      "parent": "compose",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять кадр для публикации",
+        "primaryAction": "Снять",
+        "hierarchy": {
+          "primary": "Видоискатель во весь экран и кнопка спуска",
+          "secondary": "Переключение фото и видео, вспышка и переход в медиатеку"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Кадр в режиме фото"
+          },
+          {
+            "kind": "stress",
+            "example": "Видео со звуком, отсчёт длительности"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в доступе к камере"
+          }
+        ]
+      }
+    },
+    {
+      "id": "picker",
+      "title": "Медиатека",
+      "type": "modal",
+      "light": true,
+      "meta": "PHPicker · выбор снимков",
+      "parent": "compose",
+      "ui": {
+        "pattern": "system",
+        "navigation": "modal",
+        "purpose": "Выбрать снимки из медиатеки телефона",
+        "primaryAction": "Добавить",
+        "hierarchy": {
+          "primary": "Сетка снимков медиатеки телефона",
+          "secondary": "Выбор альбома и счётчик выбранного"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Выбраны два снимка из недавних"
+          },
+          {
+            "kind": "stress",
+            "example": "Выбор из альбома на 3 400 снимков"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в доступе к медиатеке"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place",
+      "title": "Точка старта",
+      "type": "modal",
+      "light": true,
+      "meta": "Места рядом · ручной ввод",
+      "parent": "compose",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Отметить на публикации место съёмки",
+        "primaryAction": "Отметить",
+        "hierarchy": {
+          "primary": "Список мест рядом с текущей точкой",
+          "secondary": "Поиск по названию и ручной ввод адреса"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Пять мест рядом с текущей точкой"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название села и район в две строки"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в геопозиции — остаётся ручной ввод"
+          }
+        ]
+      }
+    },
+    {
+      "id": "events",
+      "title": "Тренировки",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "События, заявки и назначенные задачи",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать тренировки клуба, заявки и назначенные задачи в одном месте",
+        "primaryAction": "Создать",
+        "hierarchy": {
+          "primary": "Ближайшие тренировки и их статусы",
+          "secondary": "Заявки, свободные роли и сроки"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Четыре тренировки, две заявки и задача со сроком сегодня"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название тренировки и статус в две строки"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет ближайших тренировок — остаётся кнопка создания"
+          }
+        ]
+      }
+    },
+    {
+      "id": "music",
+      "title": "Маршруты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Общие маршруты и голосовые заметки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать локальные маршруты клуба и начать маршрут с голосовыми подсказками",
+        "primaryAction": "Начать",
+        "hierarchy": {
+          "primary": "Записи голосов и аудиописьма",
+          "secondary": "Продолжить начатое и разобранное"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Смешаны разобранные записи, скачанные и незакрытые"
+          },
+          {
+            "kind": "stress",
+            "example": "Название маршрута на три строки и тренировка на 1:42:08"
+          },
+          {
+            "kind": "failure",
+            "example": "Архив пуст у нового участника"
+          }
+        ]
+      }
+    },
+    {
+      "id": "player",
+      "title": "Маршрут",
+      "type": "push",
+      "light": true,
+      "meta": "Общий маршрут компании",
+      "parent": "music",
+      "ui": {
+        "pattern": "player",
+        "navigation": "push",
+        "purpose": "Пройти маршрут с дистанцией, отрезками и голосовыми подсказками",
+        "primaryAction": "Начать",
+        "hierarchy": {
+          "primary": "Дорожка и управление",
+          "secondary": "Метки, расшифровка и скачивание"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Запись 12:41 с четырьмя метками"
+          },
+          {
+            "kind": "stress",
+            "example": "Запись 1:42:08 с расшифровкой на 30 строк"
+          },
+          {
+            "kind": "failure",
+            "example": "Файл не скачан и нет сети"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Тренировка на локскрине",
+      "type": "system",
+      "light": false,
+      "meta": "MPNowPlayingInfoCenter",
+      "parent": "player",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Показать голосовой пейсинг маршрута после сворачивания приложения",
+        "primaryAction": "Пауза",
+        "hierarchy": {
+          "primary": "Now Playing с названием записи",
+          "secondary": "Пауза и перемотка ±15 секунд"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Играет запись, экран заблокирован"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название записи в две строки"
+          },
+          {
+            "kind": "failure",
+            "example": "Воспроизведение продолжено с сохранённой позиции"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль участника",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Человек, подписки и свои публикации",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать клубную идентичность человека, связи и собственную активность",
+        "primaryAction": "Подписки",
+        "hierarchy": {
+          "primary": "Имя, фотография и родство",
+          "secondary": "Связи, публикации и настройки"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Профиль с родителями, детьми и 38 публикациями"
+          },
+          {
+            "kind": "stress",
+            "example": "Двойная фамилия и шесть братьев и сестёр"
+          },
+          {
+            "kind": "failure",
+            "example": "Профиль без единой публикации"
+          }
+        ]
+      }
+    },
+    {
+      "id": "friends",
+      "title": "Знакомые в клубе",
+      "type": "push",
+      "light": true,
+      "meta": "Знакомые участники и поиск по контактам",
+      "parent": "profile",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать знакомых участников клуба и найти их в записной книжке",
+        "primaryAction": "Найти знакомых",
+        "hierarchy": {
+          "primary": "Список знакомых участников и их секции",
+          "secondary": "Приглашение и поиск по книге"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Сорок семь знакомых участников, пятеро ещё не найдены"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные названия секций и участники с одинаковыми фамилиями"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в контактах — остаётся приглашение ссылкой"
+          }
+        ]
+      }
+    },
+    {
+      "id": "match",
+      "title": "Найденные участники",
+      "type": "push",
+      "light": true,
+      "meta": "Совпадения по записной книжке",
+      "parent": "friends",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать совпадения из записной книжки и связать их с ветвями",
+        "primaryAction": "Добавить",
+        "hierarchy": {
+          "primary": "Совпадения по номерам",
+          "secondary": "Подсказка родства и пропуск"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Девять совпадений, из них шесть с подсказкой родства"
+          },
+          {
+            "kind": "stress",
+            "example": "Однофамильцы без подсказки и контакт без имени"
+          },
+          {
+            "kind": "failure",
+            "example": "Ни одного совпадения в книге"
+          }
+        ]
+      }
+    },
+    {
+      "id": "meetup",
+      "title": "Тренировка",
+      "type": "push",
+      "light": true,
+      "meta": "Участие, маршрут, роли и служебный эфир",
+      "parent": "events",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать участников на локальную тренировку и показать, кого ещё ждут",
+        "primaryAction": "Отмечать дорогу",
+        "hierarchy": {
+          "primary": "Событие, время и место",
+          "secondary": "Кто в пути, кто приехал, кто не сможет"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Сбор 13 сентября, девять из четырнадцати подтвердили"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название села и девять человек в пути"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в фоновой геопозиции — остаётся кнопка «Я приехал»"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Кто в пути",
+      "type": "push",
+      "light": true,
+      "meta": "Отметки дороги в день тренировки",
+      "parent": "meetup",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать, кто уже движется к точке старта и когда будет",
+        "primaryAction": "Обновить",
+        "hierarchy": {
+          "primary": "Список едущих со временем в пути",
+          "secondary": "Ручная отметка «Я приехал»"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Шестеро в пути, двое уже приехали"
+          },
+          {
+            "kind": "stress",
+            "example": "Восемь часов в пути и пересадка"
+          },
+          {
+            "kind": "failure",
+            "example": "Фоновые отметки выключены — только ручные"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tv",
+      "title": "Телевизор клуба",
+      "type": "modal",
+      "light": true,
+      "meta": "Google Cast · устройства в сети",
+      "parent": "post",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Выбрать телевизор в сети и отправить на него видео или запись",
+        "primaryAction": "Смотреть на телевизоре",
+        "hierarchy": {
+          "primary": "Список найденных устройств",
+          "secondary": "Имя текущей сети и повтор поиска"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Два устройства в домашней сети"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя телевизора и четыре устройства"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ в локальной сети или телефон в гостевой сети"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "Показ на телевизоре",
+      "type": "fullscreen",
+      "light": false,
+      "meta": "Показ на телевизоре",
+      "parent": "tv",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Управлять показом клубного разбора техники на телевизоре",
+        "primaryAction": "Пауза",
+        "hierarchy": {
+          "primary": "Кадр, который сейчас идёт на телевизоре",
+          "secondary": "Перелистывание, пауза и остановка показа"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показ альбома из 34 снимков"
+          },
+          {
+            "kind": "stress",
+            "example": "Видео на 8:12 внутри альбома"
+          },
+          {
+            "kind": "failure",
+            "example": "Телевизор пропал из сети"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notif",
+      "title": "Оповещения",
+      "type": "modal",
+      "light": true,
+      "meta": "Пуши · подтверждения и тренировки",
+      "parent": "feed",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Объяснить, о чём приходят оповещения, и включить их",
+        "primaryAction": "Включить оповещения",
+        "hierarchy": {
+          "primary": "Что именно будет приходить",
+          "secondary": "Отложить и настроить позже"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три вида оповещений с показанным видом баннера"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинная подпись про перенос точки старта и смену дистанции"
+          },
+          {
+            "kind": "failure",
+            "example": "Отказ — остаётся проверка при открытии"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "meta": "Вход · фоновые задачи · видео техники",
+      "parent": "profile",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять входом, оповещениями и фоновым разбором видео техники",
+        "primaryAction": "Разобрать видео",
+        "hierarchy": {
+          "primary": "Вход в приложение и подтверждённый клуб",
+          "secondary": "Фоновые задачи, разбор видео техники и выход из аккаунта"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Подтверждённый телефон, две фоновые задачи, видео разобраны на 62 %"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные идентификаторы задач и список из шести устройств"
+          },
+          {
+            "kind": "failure",
+            "example": "Разбор архива остановлен без зарядки"
+          }
+        ]
+      }
+    },
+    {
+      "id": "invite",
+      "title": "Приглашение в клуб",
+      "type": "modal",
+      "light": true,
+      "meta": "Системное меню «Поделиться»",
+      "parent": "friends",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Отправить обычную веб-ссылку на страницу клуба через системное меню",
+        "primaryAction": "Отправить ссылку",
+        "hierarchy": {
+          "primary": "Ссылка-приглашение в ветвь",
+          "secondary": "Способы отправки и срок действия"
+        },
+        "states": ["default", "loading", "empty", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Ссылка в ветвь по отцовской линии"
+          },
+          {
+            "kind": "stress",
+            "example": "Отправка страницы клуба сразу нескольким знакомым"
+          },
+          {
+            "kind": "failure",
+            "example": "Ссылка просрочена и требует новой"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все 24 экрана клубной соцсети",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "feed",
+        "post",
+        "videos",
+        "compose",
+        "shoot",
+        "picker",
+        "place",
+        "events",
+        "music",
+        "player",
+        "background",
+        "profile",
+        "friends",
+        "match",
+        "meetup",
+        "route",
+        "tv",
+        "cast",
+        "notif",
+        "settings",
+        "invite"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход в клуб",
+      "note": "Номер телефона и первая клубная лента",
+      "start": "phone",
+      "screens": ["phone", "feed"],
+      "stops": ["feed"]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать тренировку",
+      "note": "Текст, камера, медиатека, место и готовый пост",
+      "start": "compose",
+      "screens": ["compose", "shoot", "picker", "place", "post", "meetup"],
+      "stops": ["post", "meetup"]
+    },
+    {
+      "id": "clubroute",
+      "label": "Выбрать маршрут",
+      "note": "Маршрут, голосовой пейсинг и локскрин",
+      "start": "music",
+      "screens": ["music", "player", "background", "videos", "tv", "place"],
+      "stops": ["videos", "tv", "place"]
+    },
+    {
+      "id": "training",
+      "label": "Присоединиться к тренировке",
+      "note": "Состав, эфир тренера и статусы в пути",
+      "start": "meetup",
+      "screens": ["meetup", "route"]
+    },
+    {
+      "id": "bigscreen",
+      "label": "Разбор на телевизоре",
+      "note": "Видео техники, выбор экрана и показ",
+      "start": "videos",
+      "screens": ["videos", "tv", "cast"]
+    },
+    {
+      "id": "notifications",
+      "label": "Оповещения клуба",
+      "note": "Подтверждения, тренировки и фоновые обновления",
+      "start": "settings",
+      "screens": ["settings", "invite", "notif"],
+      "stops": ["invite", "notif"]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Регистрация по номеру телефона и сессия",
+      "solution": "SDK провайдера аутентификации по телефону, токен в Keychain общей группы"
+    },
+    {
+      "needs": "Лента клуба, карточки тренировок и локальные маршруты",
+      "solution": "Firestore как хранилище с security rules — конфигурация, а не свой код"
+    },
+    {
+      "needs": "Пуши о публикациях, подтверждениях и тренировках",
+      "solution": "Cloud Messaging: регистрация в APNs через SDK, отправка из дашборда провайдера"
+    },
+    {
+      "needs": "Снимки, видео и аудиозаметки",
+      "solution": "Storage провайдера, ссылки в документах Firestore"
+    },
+    {
+      "needs": "Место на публикации и подсказка «места рядом»",
+      "solution": "MKLocalSearch и CLGeocoder — карты Apple на устройстве"
+    },
+    {
+      "needs": "Показ снимков на телевизоре",
+      "solution": "Bonjour-поиск Google Cast в локальной сети, приём на стороне телевизора"
+    },
+    {
+      "needs": "Разбор снимков вечера",
+      "solution": "Vision на устройстве в BGProcessingTask, результат в локальную базу"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Рядом — клуб и тренировки",
+    "subtitle": "Знакомые люди на маршруте",
+    "promo": "Лента вашего клуба, знакомые люди, локальные тренировки и маршруты: видно, кто идёт, какой темп держит группа и где точка старта.",
+    "keywords": "спортклуб,тренировка,маршрут,бег,велосипед,секция,темп,лонгран,пейсинг",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Sports"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, реклама спортивных мест и магазинов, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка контента",
+    "urls": {
+      "support": "https://ryadom.club/support",
+      "marketing": "https://ryadom.club",
+      "privacy": "https://ryadom.club/privacy"
+    },
+    "description": [
+      "«Рядом» — социальная сеть одного спортивного клуба. В ленте знакомые люди и реальные тренировки рядом.",
+      "ЛЕНТА КЛУБА\nПубликуйте дистанцию, темп, фото и точку старта. Подписывайтесь на знакомых, реагируйте и сохраняйте полезное.",
+      "ТРЕНИРОВКИ\nВыбирайте сбор по времени, темпу и точке старта, подтверждайте участие одной кнопкой.",
+      "ЛОКАЛЬНЫЕ МАРШРУТЫ\nВыбирайте трек от клуба, слушайте интервальные подсказки и сохраняйте схему на телефон.",
+      "ТРЕНИРОВКИ\nНа карточке сбора видно, кто подтвердил участие, кто уже в пути и где перенесли точку старта.",
+      "ПРОФИЛЬ УЧАСТНИКА\nДисциплины, знакомые люди, любимые маршруты и собственные публикации собраны вокруг реальной жизни клуба.",
+      "Приложение бесплатное: в ленте есть один промо-блок. При отказе от отслеживания реклама остаётся контекстной."
+    ],
+    "whatsNew": "Первая версия: авторская лента, подписки, локальные маршруты, тренировки и профиль участника.",
+    "privacy": [
+      {
+        "type": "Адрес электронной почты",
+        "apple": "Contact Info → Email Address",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа. Обрабатывается SDK провайдера аутентификации"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Сопоставление номеров идёт на устройстве, книга целиком не выгружается"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Место на публикации и отметки дороги на день тренировки; фоновые отметки включаются только на событие"
+      },
+      {
+        "type": "Фото и видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Содержимое публикаций и клубного архива тренировок"
+      },
+      {
+        "type": "Аудио",
+        "apple": "User Content → Audio Data",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Аудиозаметки и записи общего архива"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама третьих лиц",
+        "linked": true,
+        "tracking": true,
+        "why": "IDFA передаётся рекламному SDK только после согласия в ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 999 555-01-84",
+      "password": "review2026",
+      "note": "Тестовый номер принимает пароль; дополнительное подтверждение не требуется."
+    },
+    "assets": {
+      "template": "studio",
+      "tone": "light",
+      "screens": [
+        {
+          "screen": "feed",
+          "headline": "Лента людей из вашего клуба",
+          "body": "Знакомые лица, реальные результаты и планы на сегодня"
+        },
+        {
+          "screen": "events",
+          "headline": "Тренировки без лишней координации",
+          "body": "Время, темп, маршрут, места и фиксированные роли"
+        },
+        {
+          "screen": "meetup",
+          "headline": "Соберитесь на одной тренировке",
+          "body": "Темп, дистанция, состав и точка старта"
+        },
+        {
+          "screen": "music",
+          "headline": "Выберите локальный маршрут",
+          "body": "Проверенные треки от людей, которых вы знаете"
+        },
+        {
+          "screen": "profile",
+          "headline": "Узнавайте своих рядом",
+          "body": "Клуб, дисциплины, маршруты и совместные тренировки"
+        }
+      ]
+    }
+  },
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "feed",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "acceptance": []
+}

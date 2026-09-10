@@ -1,0 +1,2141 @@
+{
+  "slug": "kontur",
+  "name": "Контур",
+  "eyebrow": "Контур · аналоговая фотография · iOS",
+  "targetSet": "vkontakte",
+  "domain": "kontur.photo",
+  "heroTitle": "Плёнка становится общей практикой",
+  "heroDeck": "Локальное сообщество аналоговых фотографов: прогулки, контакт-листы, проявка и честная передача материалов.",
+  "tagline": "От первого кадра до передачи отпечатка — в одном локальном контуре",
+  "insight": "аналоговый кадр живёт не в момент публикации, а в цепочке людей, мест и физических материалов длиной в несколько дней",
+  "deck": "Социальная сеть для локальной аналоговой фотографии, где ядром служит не бесконечная лента, а наблюдаемая цепочка: встретиться, снять, проявить, обсудить и передать.",
+  "qualityContractVersion": 3,
+  "uiContractVersion": 3,
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "feed",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "product": {
+    "audience": "Аналоговые фотографы 18–45 лет в одном городе: начинающие, владельцы домашних тёмных комнат и участники общих лабораторий",
+    "situation": "Плёнка отснята, но для прогулки, проявки, сканирования или передачи отпечатков нужен человек и место рядом",
+    "problem": "Договорённости распадаются между афишами событий, фотолентами и личными таблицами, а физические материалы теряют контекст",
+    "promise": "За один вечер найти прогулку или лабораторию, провести плёнку через процесс и не потерять автора, режим и следующую передачу",
+    "differentiator": "Социальный объект — контакт-лист и его физический маршрут через прогулку, проявку и передачу, а не универсальный пост",
+    "returnReasons": [
+      "Новые контакт-листы знакомых фотографов",
+      "Фотопрогулки и свободные окна лаборатории рядом",
+      "Статусы собственных партий и передач материалов"
+    ],
+    "verticalSlice": {
+      "entry": "feed",
+      "action": "post",
+      "result": "handoff"
+    },
+    "coreLoop": [
+      "Увидеть контакт-лист или ближайшую прогулку",
+      "Встретиться, снять и провести плёнку через лабораторию",
+      "Опубликовать лист и передать физический результат следующему участнику"
+    ],
+    "nonGoals": [
+      "Универсальная соцсеть без физического контекста или облачный архив оригиналов",
+      "Маркетплейс техники и химии",
+      "Автоматическая художественная оценка фотографий"
+    ],
+    "world": {
+      "note": "Модель мира держится на физическом носителе и его наблюдаемом пути.",
+      "entities": [
+        {
+          "id": "sheet",
+          "name": "Контакт-лист",
+          "identity": "Автор, плёнка и дата",
+          "fields": [
+            "36 кадров",
+            "режим съёмки",
+            "статус печати"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "photographer"
+            },
+            {
+              "kind": "comes-from",
+              "to": "batch"
+            }
+          ]
+        },
+        {
+          "id": "walk",
+          "name": "Фотопрогулка",
+          "identity": "Время и точка сбора",
+          "fields": [
+            "маршрут",
+            "свет",
+            "участники"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "photographer"
+            }
+          ]
+        },
+        {
+          "id": "batch",
+          "name": "Партия проявки",
+          "identity": "Эмульсия и старт",
+          "fields": [
+            "раствор",
+            "температура",
+            "этапы"
+          ],
+          "relations": [
+            {
+              "kind": "produces",
+              "to": "sheet"
+            },
+            {
+              "kind": "processed-at",
+              "to": "lab"
+            },
+            {
+              "kind": "uses",
+              "to": "reservation"
+            }
+          ]
+        },
+        {
+          "id": "lab",
+          "name": "Общая лаборатория",
+          "identity": "Адрес и правила доступа",
+          "fields": ["название", "адрес", "часы работы", "правила"],
+          "relations": [{"kind": "has-many", "to": "resource"}, {"kind": "has-many", "to": "reservation"}]
+        },
+        {
+          "id": "resource",
+          "name": "Ресурс лаборатории",
+          "identity": "Тип и инвентарный номер",
+          "fields": ["тип", "состояние", "владелец слота"],
+          "relations": [{"kind": "belongs-to", "to": "lab"}]
+        },
+        {
+          "id": "reservation",
+          "name": "Окно лаборатории",
+          "identity": "Ресурс, время и фотограф",
+          "fields": ["начало", "конец", "статус", "оператор"],
+          "relations": [{"kind": "reserves", "to": "resource"}, {"kind": "for", "to": "batch"}]
+        },
+        {
+          "id": "handoff",
+          "name": "Передача",
+          "identity": "От кого, кому и что",
+          "fields": [
+            "материал",
+            "место",
+            "статус",
+            "подтверждение отправителя",
+            "подтверждение получателя",
+            "время получения"
+          ],
+          "relations": [
+            {
+              "kind": "references",
+              "to": "sheet"
+            }
+          ]
+        },
+        {
+          "id": "photographer",
+          "name": "Фотограф",
+          "identity": "Имя и локальная практика",
+          "fields": [
+            "район",
+            "камеры",
+            "серии"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "sheet"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "publish-sheet",
+          "name": "Опубликовать контакт-лист",
+          "actor": "photographer",
+          "entity": "sheet",
+          "effect": "Добавляет серию в локальную ленту",
+          "screen": "compose",
+          "result": "Серия получает параметры, отметки кадров и статус печати",
+          "capabilities": [
+            "camera",
+            "photos"
+          ]
+        },
+        {
+          "id": "join-walk",
+          "name": "Присоединиться к прогулке",
+          "actor": "photographer",
+          "entity": "walk",
+          "effect": "Фиксирует участие и время",
+          "screen": "walks",
+          "result": "Появляется маршрут и сбор",
+          "capabilities": [
+            "location",
+            "calendar"
+          ]
+        },
+        {
+          "id": "develop-batch",
+          "name": "Проявить партию",
+          "actor": "photographer",
+          "entity": "batch",
+          "effect": "Записывает этапы и наблюдения",
+          "screen": "batch",
+          "result": "Контакт-лист связан с режимом проявки",
+          "capabilities": [
+            "mic",
+            "speech",
+            "bgtask"
+          ]
+        },
+        {
+          "id": "coordinate",
+          "name": "Передать материал",
+          "actor": "photographer",
+          "entity": "handoff",
+          "effect": "Меняет владельца физического материала",
+          "screen": "handoff",
+          "result": "Обе стороны видят подтверждённую передачу",
+          "capabilities": [
+            "push",
+            "remotenotif",
+            "commnotif"
+          ]
+        },
+        {
+          "id": "prepare-home",
+          "name": "Подготовить следующий ритуал",
+          "actor": "photographer",
+          "entity": "walk",
+          "effect": "Обновляет ленту и виджет до открытия",
+          "screen": "background",
+          "result": "Следующая прогулка видна в виджете с защищённой сессией",
+          "capabilities": [
+            "fetch",
+            "appgroups",
+            "keychain"
+          ]
+        },
+        {
+          "id": "connect-lab",
+          "name": "Подключиться к лаборатории",
+          "actor": "photographer",
+          "entity": "batch",
+          "effect": "Находит выбранную сеть и лабораторный сканер",
+          "screen": "labnet",
+          "result": "Сканы передаются на локальный Mac",
+          "capabilities": [
+            "wifiinfo",
+            "hotspot"
+          ]
+        },
+        {
+          "id": "protect-journal",
+          "name": "Защитить лабораторный журнал",
+          "actor": "photographer",
+          "entity": "photographer",
+          "effect": "Включает системную биометрию и вход на сайте",
+          "screen": "security",
+          "result": "Журнал закрыт Face ID, аккаунт доступен расширению",
+          "capabilities": [
+            "faceid",
+            "autofill"
+          ]
+        },
+        {
+          "id": "find-known",
+          "name": "Найти знакомых фотографов",
+          "actor": "photographer",
+          "entity": "photographer",
+          "effect": "Сверяет только выбранные системные карточки",
+          "screen": "contacts",
+          "result": "В профиле появляются знакомые из города",
+          "capabilities": [
+            "contacts"
+          ]
+        },
+        {
+          "id": "personalize-offers",
+          "name": "Персонализировать предложения",
+          "actor": "photographer",
+          "entity": "photographer",
+          "effect": "Разрешает рекламному SDK измерять предложения мастерских",
+          "screen": "ads",
+          "result": "Предложения учитывают интересы без использования снимков и маршрутов",
+          "capabilities": [
+            "tracking"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Photo & Video: продукт организует создание, проявку, разбор и передачу аналоговых изображений, а социальный граф обслуживает этот процесс",
+    "familiarPatterns": [
+      "Лента авторских публикаций и реакций",
+      "Профили и локальные связи",
+      "События с участниками и уведомлениями"
+    ],
+    "distinctions": [
+      "Вместо универсального поста — контакт-лист одной физической плёнки",
+      "Вместо бесконечного потребления — конечный цикл прогулка → проявка → разбор → передача",
+      "Вместо глобальных рекомендаций — люди, лаборатории и материалы в достижимом городе"
+    ],
+    "evidenceScreens": [
+      "feed",
+      "post",
+      "walks",
+      "batch",
+      "handoff"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "structured-handoff",
+      "profile"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "feed",
+        "behavior": "Лента состоит из авторов, контакт-листов, отметок кадров и статусов печати; каждый объект сохраняет параметры плёнки"
+      },
+      {
+        "pattern": "structured-handoff",
+        "screen": "handoff",
+        "behavior": "Адресное действие оформлено как карточка материала с участниками, окном, точкой и одним подтверждаемым статусом"
+      },
+      {
+        "pattern": "profile",
+        "screen": "photographer",
+        "behavior": "Профиль показывает практику, серии, районы и общие прогулки вместо общей анкеты"
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple HIG — Privacy",
+        "observation": "Доступ запрашивается из понятного пользовательского действия",
+        "decision": "Ни одного запроса на регистрации; все 19 функций имеют единственный подписанный жест и fallback"
+      },
+      {
+        "source": "Apple PhotoKit и PHPicker documentation",
+        "observation": "Выборочные фотографии можно получить без просмотра всей медиатеки",
+        "decision": "Импорт сканов использует PHPicker и прямо говорит о выбранных файлах"
+      },
+      {
+        "source": "Apple Background Tasks documentation",
+        "observation": "Фоновая обработка должна быть конечной и зарегистрированной",
+        "decision": "BGProcessingTask собирает миниатюры одной очереди только на зарядке"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Это тематическая группа внутри большой соцсети",
+        "resolution": "Группа не ведёт партию проявки, физическую передачу и происхождение контакт-листа как одну связанную модель",
+        "evidenceScreens": [
+          "post",
+          "batch",
+          "handoff"
+        ]
+      },
+      {
+        "objection": "Фотопрогулке достаточно календаря и таблицы участников",
+        "resolution": "Маршрут, свет, состав и получившиеся листы остаются связаны после встречи",
+        "evidenceScreens": [
+          "walks",
+          "walk",
+          "route",
+          "post"
+        ]
+      },
+      {
+        "objection": "Лабораторный журнал — одиночная утилита",
+        "resolution": "Общая лаборатория связывает очередь, материалы, автора партии, голосовые наблюдения и будущую передачу",
+        "evidenceScreens": [
+          "lab",
+          "batch",
+          "materials",
+          "voice"
+        ]
+      },
+      {
+        "objection": "Доступов слишком много для нишевого продукта",
+        "resolution": "Центр доступов ведёт к настоящим действиям, а три рискованных режима — гео, ATT и фон — имеют отдельный контекст и работающий отказ",
+        "evidenceScreens": [
+          "permissions",
+          "walks",
+          "ads",
+          "background"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Композиция и плотность",
+        "screensReviewed": "all",
+        "found": 14,
+        "fixed": 14,
+        "blockersOpen": 0,
+        "majorOpen": 0,
+        "note": "Уплотнены списки, выровнены строки, плейсхолдеры уменьшены до роли контента"
+      },
+      {
+        "name": "Контрольный проход",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0,
+        "note": "Проверены состояния, контраст, таб-бары и JIT-точки доступов"
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#B42318",
+    "accentDark": "#FF5A4F",
+    "authIcon": "camera",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
+  },
+  "start": "phone",
+  "tabs": [
+    {
+      "id": "feed",
+      "label": "Лента",
+      "role": "feed"
+    },
+    {
+      "id": "walks",
+      "label": "Прогулки",
+      "role": "events"
+    },
+    {
+      "id": "lab",
+      "label": "Лаборатория",
+      "role": "workspace"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "Разрешить «Контуру» камеру?",
+        "text": "Сканировать контакт-лист или контрольный отпечаток камерой телефона."
+      },
+      "feature": "Сканирование контакт-листа",
+      "gesture": "«Сканировать лист»",
+      "screen": "compose",
+      "target": "camera",
+      "fallback": "Кадр можно описать текстом или выбрать из Фото",
+      "snack": "Кадр можно описать текстом или выбрать из Фото",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVCaptureSession; оригинал остаётся в локальном хранилище"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "Выбрать сканы из Фото?",
+        "text": "Добавить в контакт-лист только выбранные изображения."
+      },
+      "feature": "Импорт выбранных сканов",
+      "gesture": "«Выбрать из Фото»",
+      "screen": "compose",
+      "target": "picker",
+      "fallback": "Можно снять кадр камерой или оставить запись без изображения",
+      "snack": "Можно снять кадр камерой или оставить запись без изображения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "PHPicker возвращает только выбранные файлы"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "Разрешить микрофон?",
+        "text": "Надиктовать короткую заметку во время проявки, не снимая перчаток."
+      },
+      "feature": "Голосовая заметка к партии",
+      "gesture": "«Записать голосом»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Заметку можно набрать текстом",
+      "snack": "Заметку можно набрать текстом",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioRecorder; запись прикрепляется к локальной партии"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Показать фотопрогулки рядом?",
+        "text": "Отсортировать сегодняшние маршруты по расстоянию от вас."
+      },
+      "feature": "Фотопрогулки поблизости",
+      "gesture": "«Найти рядом»",
+      "screen": "walks",
+      "target": "route",
+      "fallback": "Район можно выбрать вручную",
+      "snack": "Район можно выбрать вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Core Location используется только во время поиска"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "Разрешить уведомления?",
+        "text": "Сообщать о готовности листа, изменениях прогулки и передаче материалов."
+      },
+      "feature": "Адресные статусы объектов",
+      "gesture": "«Разрешить уведомления»",
+      "screen": "notifications",
+      "target": "notifications",
+      "fallback": "Новые статусы останутся в журнале событий",
+      "snack": "Новые статусы останутся в журнале событий",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "APNs через готовый сервис уведомлений",
+      "requires": "Реальные статусы листов, прогулок и передач"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "alert": {
+        "title": "Тихое обновление",
+        "text": "Подтягивать состав прогулки и статус передачи до открытия."
+      },
+      "feature": "Актуальные статусы без ручной перезагрузки",
+      "gesture": "«Обновлять статусы заранее»",
+      "screen": "notifications",
+      "target": "notifications",
+      "fallback": "Статусы обновятся при открытии",
+      "snack": "Статусы обновятся при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "didReceiveRemoteNotification обновляет локальный snapshot",
+      "activate": true,
+      "requires": "Content-available payload и видимый timestamp"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "Фоновое обновление ленты",
+        "text": "Подготовить новые контакт-листы к следующему открытию."
+      },
+      "feature": "Свежая лента к запуску",
+      "gesture": "«Обновлять ленту в фоне»",
+      "screen": "feed",
+      "target": "feed",
+      "fallback": "Лента обновится после открытия",
+      "snack": "Лента обновится после открытия",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGAppRefreshTask читает SDK-кэш",
+      "activate": true,
+      "requires": "Лента реально читается из синхронизируемого SDK-кэша"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "Задача синхронизации",
+        "text": "Завершать миниатюры сканов, когда устройство на зарядке."
+      },
+      "feature": "Фоновая подготовка контакт-листов",
+      "gesture": "«Обрабатывать на зарядке»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Миниатюры будут собраны при открытом приложении",
+      "snack": "Миниатюры будут собраны при открытом приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGProcessingTask app.kontur.contactsheet",
+      "activate": true,
+      "requires": "Зарегистрированный identifier совпадает с Info.plist"
+    },
+    {
+      "key": "appgroups",
+      "plist": "com.apple.security.application-groups",
+      "alert": {
+        "title": "Общий контейнер",
+        "text": "Передать ближайшую прогулку и передачу материалов в виджет."
+      },
+      "feature": "Виджет следующего события",
+      "gesture": "«Добавить виджет»",
+      "screen": "widget",
+      "target": "widget",
+      "fallback": "События остаются внутри приложения",
+      "snack": "События остаются внутри приложения",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "App Group group.app.kontur хранит JSON snapshot",
+      "activate": true
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Защищённая сессия",
+        "text": "Открывать виджет и приложение с одной защищённой сессией."
+      },
+      "feature": "Общий вход приложения и виджета",
+      "gesture": "«Открыть виджет без повторного входа»",
+      "screen": "widget",
+      "target": "widget",
+      "fallback": "Виджет попросит открыть приложение и войти",
+      "snack": "Виджет попросит открыть приложение и войти",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "SDK-токен хранится в общей Keychain group",
+      "activate": true
+    },
+    {
+      "key": "autofill",
+      "plist": "com.apple.developer.authentication-services.autofill-credential-provider",
+      "alert": {
+        "title": "Сохранённый вход",
+        "text": "Подставить аккаунт kontur.photo на системной странице входа."
+      },
+      "feature": "Credential Provider для сайта",
+      "gesture": "«Вход на сайте»",
+      "screen": "security",
+      "target": "security",
+      "fallback": "Адрес и пароль можно ввести вручную",
+      "snack": "Адрес и пароль можно ввести вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ASCredentialProviderViewController и общий Keychain",
+      "activate": true
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сеть лаборатории",
+        "text": "Проверить, что телефон подключён к Wi-Fi общей лаборатории."
+      },
+      "feature": "Проверка сети лаборатории",
+      "gesture": "«Проверить сеть»",
+      "screen": "labnet",
+      "target": "labnet",
+      "fallback": "Лабораторию можно выбрать из списка вручную",
+      "snack": "Лабораторию можно выбрать из списка вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "CNCopyCurrentNetworkInfo после выданной геопозиции",
+      "activate": true,
+      "requires": "Выданная геопозиция и активный Wi-Fi"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "Найти знакомых фотографов?",
+        "text": "Показать, кто из выбранных контактов уже в «Контуре»."
+      },
+      "feature": "Поиск участников среди контактов",
+      "gesture": "«Найти в контактах»",
+      "screen": "contacts",
+      "target": "contacts",
+      "fallback": "Остаётся поиск по имени и псевдониму",
+      "snack": "Остаётся поиск по имени и псевдониму",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "CNContactPicker отдаёт только выбранные карточки",
+      "reviewNote": "Адресная книга целиком не выгружается; пользователь выбирает карточки в системном picker."
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "Добавить фотопрогулку в календарь?",
+        "text": "Создать событие с точкой старта и временем сбора."
+      },
+      "feature": "Событие фотопрогулки в календаре",
+      "gesture": "«Добавить в календарь»",
+      "screen": "calendar",
+      "target": "calendar",
+      "fallback": "Время и адрес остаются в карточке прогулки",
+      "snack": "Время и адрес остаются в карточке прогулки",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "EventKit создаёт одно выбранное событие"
+    },
+    {
+      "key": "faceid",
+      "plist": "NSFaceIDUsageDescription",
+      "alert": {
+        "title": "Открывать журнал Face ID?",
+        "text": "Защитить личные заметки о партиях и передачах материалов."
+      },
+      "feature": "Биометрическая защита лабораторного журнала",
+      "gesture": "«Включить Face ID»",
+      "screen": "security",
+      "target": "security",
+      "fallback": "Остаётся код устройства",
+      "snack": "Остаётся код устройства",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "LocalAuthentication + Keychain access control",
+      "requires": "Устройство с настроенной биометрией"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить измерение рекламы?",
+        "text": "Подбирать предложения фотомагазинов по интересам и измерять их пользу."
+      },
+      "feature": "Опциональные предложения плёнки и печати",
+      "gesture": "«Персонализировать предложения»",
+      "screen": "ads",
+      "target": "ads",
+      "fallback": "Предложения остаются неперсональными",
+      "snack": "Предложения остаются неперсональными",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "ATTrackingManager; IDFA только после согласия",
+      "requires": "Рекламный SDK и неперсональный режим при отказе",
+      "reviewNote": "ATT показывается только после отдельного экрана обмена ценности; отказ не ограничивает продукт."
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "Распознать заметку?",
+        "text": "Превратить голосовую заметку о проявке в текст журнала."
+      },
+      "feature": "Расшифровка лабораторной заметки",
+      "gesture": "«Распознать запись»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Аудиозаметка сохранится без расшифровки",
+      "snack": "Аудиозаметка сохранится без расшифровки",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Speech framework; язык выбирается пользователем"
+    },
+    {
+      "key": "hotspot",
+      "plist": "com.apple.developer.networking.HotspotConfiguration",
+      "alert": {
+        "title": "Подключиться к лаборатории?",
+        "text": "Предложить сохранённую сеть общей лаборатории для передачи сканов."
+      },
+      "feature": "Подключение к Wi-Fi лаборатории",
+      "gesture": "«Подключиться к Lab-Red»",
+      "screen": "labnet",
+      "target": "labnet",
+      "fallback": "Данные сети можно ввести в Настройках iOS",
+      "snack": "Данные сети можно ввести в Настройках iOS",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "NEHotspotConfiguration для заранее выбранной лаборатории",
+      "requires": "Явный выбор известной SSID"
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Участник передачи",
+        "text": "Показывать имя фотографа в атомарном статусе физической передачи."
+      },
+      "feature": "Именной статус передачи материалов",
+      "gesture": "«Показывать участника передачи»",
+      "screen": "notifications",
+      "target": "notifications",
+      "fallback": "Придёт обычный статус без имени",
+      "snack": "Придёт обычный статус без имени",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "Системное уведомление связано с реальным участником и карточкой передачи; показывает только состояние операции",
+      "activate": true,
+      "requires": "Реальный социальный граф и атомарный статус передачи"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Регистрация",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Почта → создать аккаунт",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Создать аккаунт и объяснить ценность сообщества",
+        "primaryAction": "Создать аккаунт",
+        "hierarchy": {
+          "primary": "Создать аккаунт и объяснить ценность сообщества",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Создать аккаунт и объяснить ценность сообщества: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "code",
+      "title": "Аккаунт создан",
+      "type": "push",
+      "light": true,
+      "parent": "phone",
+      "meta": "Переход в продукт без OTP",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Подтвердить создание аккаунта и открыть ленту",
+        "primaryAction": "Открыть Контур",
+        "hierarchy": {
+          "primary": "Подтвердить создание аккаунта и открыть ленту",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Подтвердить создание аккаунта и открыть ленту: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "feed",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Контакт-листы и лабораторные заметки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать свежие серии локальных фотографов",
+        "primaryAction": "36 кадров после дождя",
+        "hierarchy": {
+          "primary": "Показать свежие серии локальных фотографов",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показать свежие серии локальных фотографов: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Контакт-лист",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Одна плёнка · 36 кадров",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Рассмотреть серию, параметры и разговор вокруг неё",
+        "primaryAction": "Передать автору материал",
+        "hierarchy": {
+          "primary": "Рассмотреть серию, параметры и разговор вокруг неё",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Рассмотреть серию, параметры и разговор вокруг неё: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "photographer",
+      "title": "Профиль фотографа",
+      "type": "push",
+      "light": true,
+      "parent": "post",
+      "meta": "Серии, районы и общие связи",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Понять практику человека и найти повод встретиться",
+        "primaryAction": "Следить за Даной",
+        "hierarchy": {
+          "primary": "Понять практику человека и найти повод встретиться",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Понять практику человека и найти повод встретиться: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compose",
+      "title": "Новый контакт-лист",
+      "type": "modal",
+      "light": true,
+      "parent": "feed",
+      "meta": "Текст, камера, выбранные сканы",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Собрать и опубликовать контакт-лист",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Собрать и опубликовать контакт-лист",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Собрать и опубликовать контакт-лист: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Скан контакт-листа",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "compose",
+      "meta": "Сканирование физического контакт-листа",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Сканировать физический контакт-лист камерой телефона",
+        "primaryAction": "Сохранить скан",
+        "hierarchy": {
+          "primary": "Выровнять и сохранить скан контакт-листа",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Сканировать контакт-лист партии K-184 с 36 миниатюрами"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "picker",
+      "title": "Выбор сканов",
+      "type": "system",
+      "light": true,
+      "parent": "compose",
+      "meta": "Системный PHPicker",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать только нужные сканы из медиатеки",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Выбрать только нужные сканы из медиатеки",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Выбрать только нужные сканы из медиатеки: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "walks",
+      "title": "Фотопрогулки",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Маршруты, сборы и люди рядом",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Найти локальную прогулку по времени и району",
+        "primaryAction": "Найти рядом",
+        "hierarchy": {
+          "primary": "Найти локальную прогулку по времени и району",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Найти локальную прогулку по времени и району: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "walk",
+      "title": "Детали прогулки",
+      "type": "push",
+      "light": true,
+      "parent": "walks",
+      "meta": "Маршрут, участники, материалы",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Подготовиться к прогулке и присоединиться",
+        "primaryAction": "Присоединиться",
+        "hierarchy": {
+          "primary": "Подготовиться к прогулке и присоединиться",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Подготовиться к прогулке и присоединиться: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Маршрут",
+      "type": "push",
+      "light": true,
+      "parent": "walk",
+      "meta": "Точки, свет и дистанция",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать маршрут как последовательность съёмочных точек",
+        "primaryAction": "Открыть сбор",
+        "hierarchy": {
+          "primary": "Показать маршрут как последовательность съёмочных точек",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показать маршрут как последовательность съёмочных точек: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "calendar",
+      "title": "Календарь прогулки",
+      "type": "push",
+      "light": true,
+      "parent": "walk",
+      "meta": "Системное событие",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Добавить один выбранный сбор в календарь",
+        "primaryAction": "Добавить в календарь",
+        "hierarchy": {
+          "primary": "Добавить один выбранный сбор в календарь",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Добавить один выбранный сбор в календарь: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff",
+      "title": "Передача материалов",
+      "type": "push",
+      "light": true,
+      "parent": "post",
+      "meta": "Кому, что и когда передать",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Зафиксировать физическую передачу плёнки или отпечатков",
+        "primaryAction": "Отметить полученным",
+        "hierarchy": {
+          "primary": "Зафиксировать физическую передачу плёнки или отпечатков",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "success",
+          "error",
+          "offline"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Зафиксировать физическую передачу плёнки или отпечатков: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lab",
+      "title": "Лаборатория",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Очередь партий и общие ресурсы",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Вести общую лабораторию без потери контекста",
+        "primaryAction": "HP5 · партия K-184",
+        "hierarchy": {
+          "primary": "Вести общую лабораторию без потери контекста",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Вести общую лабораторию без потери контекста: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "batch",
+      "title": "Партия проявки",
+      "type": "push",
+      "light": true,
+      "parent": "lab",
+      "meta": "Процесс, раствор, температура",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Вести живой журнал одной партии",
+        "primaryAction": "Запустить таймер",
+        "hierarchy": {
+          "primary": "Вести живой журнал одной партии",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Вести живой журнал одной партии: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "timer",
+      "title": "Таймер проявки",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "batch",
+      "meta": "Этапы и такт переворотов",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Сопровождать этапы проявки крупными контролами",
+        "primaryAction": "Начать проявку",
+        "hierarchy": {
+          "primary": "Сопровождать этапы проявки крупными контролами",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Сопровождать этапы проявки крупными контролами: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "scan",
+      "title": "Скан контакт-листа",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "batch",
+      "meta": "Рамка и распознавание номеров",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Считать номера кадров с готового листа",
+        "primaryAction": "Сканировать лист",
+        "hierarchy": {
+          "primary": "Считать номера кадров с готового листа",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Считать номера кадров с готового листа: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "materials",
+      "title": "Материалы",
+      "type": "push",
+      "light": true,
+      "parent": "lab",
+      "meta": "Плёнка, химия, бумага",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать остатки и ближайшие передачи",
+        "primaryAction": "Запросить Ilford HP5",
+        "hierarchy": {
+          "primary": "Показать остатки и ближайшие передачи",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показать остатки и ближайшие передачи: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосовая заметка",
+      "type": "push",
+      "light": true,
+      "parent": "batch",
+      "meta": "Запись и расшифровка",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "push",
+        "purpose": "Зафиксировать наблюдение во время проявки без рук",
+        "primaryAction": "Записать голосом",
+        "hierarchy": {
+          "primary": "Зафиксировать наблюдение во время проявки без рук",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Зафиксировать наблюдение во время проявки без рук: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "labnet",
+      "title": "Сеть лаборатории",
+      "type": "push",
+      "light": true,
+      "parent": "lab",
+      "meta": "Wi-Fi и локальная передача сканов",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Подключить телефон к выбранной лаборатории",
+        "primaryAction": "Проверить сеть",
+        "hierarchy": {
+          "primary": "Подключить телефон к выбранной лаборатории",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Подключить телефон к выбранной лаборатории: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Практика, связи и настройки",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "root",
+        "purpose": "Собрать личную практику и управление аккаунтом",
+        "primaryAction": "Открыть доступы",
+        "hierarchy": {
+          "primary": "Собрать личную практику и управление аккаунтом",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Собрать личную практику и управление аккаунтом: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contacts",
+      "title": "Знакомые фотографы",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Системный выбор контактов",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Найти знакомых фотографов с минимальным раскрытием данных",
+        "primaryAction": "Найти в контактах",
+        "hierarchy": {
+          "primary": "Найти знакомых фотографов с минимальным раскрытием данных",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default",
+          "empty"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Найти знакомых фотографов с минимальным раскрытием данных: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notifications",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Готовность листов, прогулки, передачи",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Выбрать полезные статусы предметных объектов",
+        "primaryAction": "Разрешить уведомления",
+        "hierarchy": {
+          "primary": "Выбрать полезные статусы предметных объектов",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Выбрать полезные статусы предметных объектов: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фоновая работа",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Лента и обработка миниатюр",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять реальными фоновыми задачами",
+        "primaryAction": "Обрабатывать на зарядке",
+        "hierarchy": {
+          "primary": "Управлять реальными фоновыми задачами",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Управлять реальными фоновыми задачами: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "widget",
+      "title": "Виджет",
+      "type": "system",
+      "light": true,
+      "parent": "profile",
+      "meta": "Следующая прогулка и передача",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Показать следующий локальный ритуал вне приложения",
+        "primaryAction": "Добавить виджет",
+        "hierarchy": {
+          "primary": "Показать следующий локальный ритуал вне приложения",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показать следующий локальный ритуал вне приложения: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "security",
+      "title": "Защита и вход",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Face ID, Keychain, сайт",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Защитить журнал и связать вход с расширениями",
+        "primaryAction": "Включить Face ID",
+        "hierarchy": {
+          "primary": "Защитить журнал и связать вход с расширениями",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Защитить журнал и связать вход с расширениями: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Предложения мастерских",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Прозрачный экран перед ATT",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Объяснить обмен до запроса персонализации",
+        "primaryAction": "Персонализировать предложения",
+        "hierarchy": {
+          "primary": "Объяснить обмен до запроса персонализации",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Объяснить обмен до запроса персонализации: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    },
+    {
+      "id": "permissions",
+      "title": "Доступы",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Все функции и точки запроса",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Показать состояние каждой функции и путь к её жесту",
+        "primaryAction": "Открыть создание",
+        "hierarchy": {
+          "primary": "Показать состояние каждой функции и путь к её жесту",
+          "secondary": "Контекст, состояние и безопасный следующий шаг"
+        },
+        "states": [
+          "default"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Показать состояние каждой функции и путь к её жесту: партия K-184, 36 кадров и статус 18:40"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя автора, несколько статусов и плотный список"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети, пустой результат или отказ в доступе"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "32 экрана, 4 вкладки и 19 честных доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "code",
+        "feed",
+        "post",
+        "photographer",
+        "compose",
+        "camera",
+        "picker",
+        "walks",
+        "walk",
+        "route",
+        "calendar",
+        "handoff",
+        "lab",
+        "batch",
+        "timer",
+        "scan",
+        "materials",
+        "voice",
+        "labnet",
+        "profile",
+        "contacts",
+        "notifications",
+        "background",
+        "widget",
+        "security",
+        "ads",
+        "permissions"
+      ]
+    },
+    {
+      "id": "sheet",
+      "label": "Контакт-лист",
+      "note": "Лента → серия → физическая передача",
+      "start": "feed",
+      "screens": [
+        "feed",
+        "post",
+        "photographer",
+        "handoff",
+        "compose",
+        "walks",
+        "lab"
+      ],
+      "stops": [
+        "photographer",
+        "handoff",
+        "compose",
+        "walks",
+        "lab"
+      ]
+    },
+    {
+      "id": "publish",
+      "label": "Публикация",
+      "note": "Новая серия, камера и выбранные сканы",
+      "start": "feed",
+      "screens": [
+        "feed",
+        "compose",
+        "camera",
+        "picker",
+        "post",
+        "photographer",
+        "walks",
+        "lab",
+        "batch"
+      ],
+      "stops": [
+        "post",
+        "photographer",
+        "walks",
+        "lab",
+        "batch"
+      ]
+    },
+    {
+      "id": "walk",
+      "label": "Фотопрогулка",
+      "note": "Поиск рядом, маршрут и календарь",
+      "start": "walks",
+      "screens": [
+        "walks",
+        "route",
+        "walk",
+        "calendar",
+        "post",
+        "lab"
+      ],
+      "stops": [
+        "calendar",
+        "post",
+        "lab"
+      ]
+    },
+    {
+      "id": "develop",
+      "label": "Проявка",
+      "note": "Партия, таймер, скан и голосовая заметка",
+      "start": "lab",
+      "screens": [
+        "lab",
+        "batch",
+        "timer",
+        "scan",
+        "voice",
+        "materials",
+        "labnet"
+      ],
+      "stops": [
+        "timer",
+        "scan",
+        "voice",
+        "materials",
+        "labnet"
+      ]
+    },
+    {
+      "id": "labnet",
+      "label": "Общая лаборатория",
+      "note": "Материалы и подключение к локальной сети",
+      "start": "lab",
+      "screens": [
+        "lab",
+        "materials",
+        "labnet",
+        "batch",
+        "scan",
+        "handoff"
+      ],
+      "stops": [
+        "materials",
+        "labnet",
+        "batch",
+        "scan",
+        "handoff"
+      ]
+    },
+    {
+      "id": "account",
+      "label": "Профиль и доступы",
+      "note": "Уведомления, фон, виджет, безопасность и ATT",
+      "start": "profile",
+      "screens": [
+        "profile",
+        "contacts",
+        "notifications",
+        "background",
+        "widget",
+        "security",
+        "ads",
+        "permissions",
+        "compose"
+      ],
+      "stops": [
+        "contacts",
+        "notifications",
+        "background",
+        "widget",
+        "security",
+        "ads",
+        "permissions",
+        "compose"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Аккаунты, лента и социальный граф",
+      "solution": "Firebase Authentication, Firestore и Storage через готовый BaaS SDK; своего серверного обработчика нет"
+    },
+    {
+      "needs": "Уведомления и статусы передач",
+      "solution": "Cloud Messaging topics и document listeners; адресаты определяются правилами коллекции"
+    },
+    {
+      "needs": "Партии, таймер и контакт-листы офлайн",
+      "solution": "Core Data и FileManager; синхронизация SDK возобновляется после сети"
+    },
+    {
+      "needs": "Миниатюры и распознавание номеров",
+      "solution": "Core Image и Vision на устройстве"
+    },
+    {
+      "needs": "Лаборатории и маршруты",
+      "solution": "Статический каталог партнёрских лабораторий плюс MapKit Local Search"
+    }
+  ],
+  "appStore": {
+    "name": "Контур — плёнка рядом",
+    "subtitle": "Прогулки и лаборатория",
+    "promo": "Найдите фотопрогулку, проведите плёнку через общую лабораторию и передайте отпечаток, не теряя историю кадра.",
+    "keywords": "аналоговая,фотопрогулка,проявка,контактлист,темнаякомната,скан,фотограф",
+    "category": {
+      "primary": "Photo & Video",
+      "secondary": "Social Networking"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS через SDK",
+    "urls": {
+      "support": "https://kontur.photo/support",
+      "marketing": "https://kontur.photo",
+      "privacy": "https://kontur.photo/privacy"
+    },
+    "reviewAccount": {
+      "phone": "+7 900 123-45-67",
+      "password": "review2026",
+      "note": "Тестовый аккаунт входит по телефону и паролю; подтверждение по SMS не используется."
+    },
+    "privacy": [
+      {
+        "type": "Contact Info",
+        "linked": true,
+        "tracking": false,
+        "purpose": "App Functionality"
+      },
+      {
+        "type": "Photos or Videos",
+        "linked": true,
+        "tracking": false,
+        "purpose": "User Content"
+      },
+      {
+        "type": "Location",
+        "linked": false,
+        "tracking": false,
+        "purpose": "App Functionality"
+      },
+      {
+        "type": "Identifiers",
+        "linked": false,
+        "tracking": true,
+        "purpose": "Third-Party Advertising"
+      }
+    ],
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "tone": "light",
+      "screens": [
+        {
+          "screen": "feed",
+          "headline": "Плёнка живёт в контексте",
+          "body": "Прогулки, кадры и лабораторные этапы собраны вместе"
+        },
+        {
+          "screen": "post",
+          "headline": "История каждого кадра",
+          "body": "Место, плёнка и автор сохраняются в публикации"
+        },
+        {
+          "screen": "walks",
+          "headline": "Фотопрогулки рядом",
+          "body": "Маршрут, состав и время видны до старта"
+        },
+        {
+          "screen": "batch",
+          "headline": "Проявка без потерянных этапов",
+          "body": "Таймер и журнал ведут плёнку через лабораторию"
+        },
+        {
+          "screen": "handoff",
+          "headline": "Передайте отпечаток точно",
+          "body": "Получатель видит статус, место и следующий шаг"
+        }
+      ]
+    }
+  },
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Доказательства качества"
+    }
+  ]
+}

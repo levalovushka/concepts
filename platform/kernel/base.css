@@ -669,8 +669,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .unified-account-card span { color:color-mix(in srgb, currentColor 52%, transparent); font:400 14px/20px var(--face); }
 .unified-account-card strong { color:inherit; font:500 16px/22px var(--face); }
 .unified-account-card button { width:100%; border-top:1px solid color-mix(in srgb, currentColor 10%, transparent); text-align:center; }
-.unified-auth-danger,.unified-delete-confirm { color:#ff3b30; }
-.unified-delete-confirm { min-height:56px; border-radius:14px; background:#ff3b30; color:#fff; text-align:center; }
+.unified-auth-danger,.unified-delete-confirm { color:#b42318; }
+.unified-delete-confirm { min-height:56px; border-radius:14px; background:#b42318; color:#fff; text-align:center; }
 .unified-auth-note { margin:14px 4px 0; color:color-mix(in srgb, currentColor 52%, transparent); font:400 13px/18px var(--face); }
 /* Auth сохраняет единый сценарий, но не стирает визуальный язык продукта. */
 .auth-karavan.unified-auth{background:#f4f3ef;color:#182528}

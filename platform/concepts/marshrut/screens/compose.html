@@ -1,0 +1,95 @@
+<div class="screen ios-surface m-page" id="scr-compose">
+  <div class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back>Отмена</button>
+    </div>
+    <div class="title">Новый факт</div>
+    <div class="nav-trailing">
+      <button class="btn-plain tap" data-primary data-go="post">Готово</button>
+    </div>
+  </div>
+  <div class="body-scroll m-scroll">
+    <div class="m-wrap">
+      <div class="m-sec-head">
+        <h2>Участок</h2>
+        <span>обязательно</span>
+      </div>
+      <section class="m-card">
+        <button class="m-row tap" data-ask="location|compose|place">
+          <span class="m-bul accent"
+            ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Спуск к реке</span
+            ><span class="m-row-s">1,2–1,8 км · точность 18 м</span></span
+          ><span class="m-caret"
+            ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+          ></span>
+        </button>
+      </section>
+      <div class="m-sec-head"><h2>Тип риска</h2></div>
+      <section class="m-card">
+        <button class="m-row tap" data-toast="Выбрано: скользко">
+          <span class="m-bul warn"
+            ><svg class="ico-svg"><use href="#i-triangle-alert" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Скользко</span
+            ><span class="m-row-s">лёд, вода или мокрая разметка</span></span
+          ><span class="m-status is-warn">выбрано</span></button
+        ><button
+          class="m-row tap"
+          data-toast="Типы: яма, песок, перекрытие, видимость"
+        >
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-list" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Другой тип</span
+            ><span class="m-row-s"
+              >яма, песок, перекрытие, видимость</span
+            ></span
+          >
+        </button>
+      </section>
+      <div class="m-sec-head">
+        <h2>Доказательство</h2>
+        <span>необязательно</span>
+      </div>
+      <section class="m-card">
+        <button class="m-row tap" data-ask="camera|compose|shoot">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-camera" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Снять один кадр</span
+            ><span class="m-row-s">сфокусируйтесь на самом риске</span></span
+          ></button
+        ><button class="m-row tap" data-ask="photos|compose|picker">
+          <span class="m-bul"
+            ><svg class="ico-svg"><use href="#i-image" /></svg></span
+          ><span class="m-row-copy"
+            ><span class="m-row-t">Выбрать из медиатеки</span
+            ><span class="m-row-s"
+              >добавляется только выбранный снимок</span
+            ></span
+          >
+        </button>
+      </section>
+      <div class="m-sec-head"><h2>Срок жизни</h2></div>
+      <section class="m-card">
+        <button class="m-row tap" data-toast="Срок: 1 час">
+          <span class="m-row-copy"
+            ><span class="m-row-t">1 час</span
+            ><span class="m-row-s"
+              >после срока факт потребует новой проверки</span
+            ></span
+          ><span class="m-status is-ready">выбрано</span>
+        </button>
+      </section>
+      <div class="m-note" data-show-denied="location,camera,photos" hidden>
+        <svg class="ico-svg"><use href="#i-info" /></svg
+        ><span
+          >Участок можно выбрать вручную, а факт опубликовать без снимка.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

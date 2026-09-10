@@ -1,0 +1,38 @@
+<div class="screen pc-page cx-page" id="scr-widget">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Виджет выхода</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-widget">
+      <span>ПРИЧАЛ</span>
+      <h2>Сегодня · 19:30</h2>
+      <p>«Роса» · ещё 1 место · ветер 7 уз</p>
+      <div>Открыть выход →</div>
+    </div>
+    <button class="cx-row tap" data-primary data-activate="appgroups|widget">
+      <svg class="ico-svg"><use href="#i-layout-grid" /></svg
+      ><span
+        ><b>Общие данные</b><small>Только следующий выход и погода</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="keychain|widget">
+      <svg class="ico-svg"><use href="#i-key" /></svg
+      ><span
+        ><b>Общая сессия</b><small>Виджет не просит войти снова</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

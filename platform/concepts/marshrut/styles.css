@@ -1,0 +1,1458 @@
+/* «Маршрут» — социальная дорожная лента одного повторяемого пути.
+   Нейтральная основа и спокойный сине-серый акцент сохраняют читаемость;
+   цвет предупреждения используется только для риска. */
+
+/* WCAG / HIG release gate. */
+.m-page,.m-browser{--m-secondary:#55616b;--m-warn:#874900}
+.m-status.is-warn,.m-status.is-wait,.m-row-v.warn{color:#874900}
+.m-status.is-muted,.m-status:not(.is-warn):not(.is-wait):not(.is-ok){color:#55616b}
+.m-badge{background:#18794e;color:#fff}
+.m-sr-only{display:none!important}
+
+/* Локальная mini design system «Маршрута». */
+:root {
+  --m-bg: #fff;
+  --m-surface: #fff;
+  --m-text: #18212a;
+  --m-secondary: #697681;
+  --m-accent: #315b7d;
+  --m-accent-soft: #e8eff4;
+  --m-border: rgba(24, 33, 42, 0.09);
+  --m-success: #18794e;
+  --m-warn: #b86700;
+  --m-danger: #b42318;
+  --m-s4: 4px;
+  --m-s8: 8px;
+  --m-s12: 12px;
+  --m-s16: 16px;
+  --m-s24: 24px;
+  --m-r8: 8px;
+  --m-r12: 12px;
+  --m-r16: 16px;
+  --m-r24: 24px;
+  --m-display: 800 30px/35px var(--face);
+  --m-title: 750 22px/27px var(--face);
+  --m-section: 750 16px/21px var(--face);
+  --m-body: 400 16px/22px var(--face);
+  --m-body-strong: 650 16px/22px var(--face);
+  --m-secondary-type: 400 14px/19px var(--face);
+  --m-caption: 600 12px/16px var(--mono);
+  --m-button: 700 15px/20px var(--face);
+  --m-row-h: 56px;
+  --m-icon: 22px;
+}
+.m-page,
+.m-browser {
+  background-color: var(--m-bg);
+  color: var(--m-text);
+}
+.m-page h1,
+.m-page h2,
+.m-page h3,
+.m-page p,
+.m-page button,
+.m-browser h1,
+.m-browser h2,
+.m-browser h3,
+.m-browser p,
+.m-browser button {
+  margin: 0;
+  font: inherit;
+}
+.m-top-title {
+  font: var(--m-title);
+  letter-spacing: -0.02em;
+}
+.m-page .navbar .title {
+  font: 750 14px/19px var(--face);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.m-page .navbar .back-label {
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+.m-sec-head h2 {
+  font: var(--m-section);
+  letter-spacing: -0.01em;
+}
+.m-row-t {
+  font: var(--m-body-strong);
+}
+.m-row-s,
+:where(.m-page) [class~="t-subhead"] {
+  font: var(--m-secondary-type);
+  color: var(--m-secondary);
+}
+.m-card {
+  background: var(--m-surface);
+  border-color: var(--m-border);
+  border-radius: var(--m-r12);
+}
+.m-row {
+  width: 100%;
+  min-height: var(--m-row-h);
+  padding-left: var(--m-s16);
+  padding-right: var(--m-s16);
+  border: 0;
+  appearance: none;
+  color: var(--m-text);
+  font: inherit;
+}
+.m-row-face,
+.m-bul {
+  width: 40px;
+  height: 40px;
+}
+.m-row-face .ico-svg,
+.m-bul .ico-svg,
+.m-icon .ico-svg {
+  width: var(--m-icon);
+  height: var(--m-icon);
+}
+.m-pill,
+.m-listen,
+:where(.m-page) [class~="btn-filled"] {
+  min-height: 44px;
+  font: var(--m-button);
+  border-radius: var(--m-r12);
+}
+.ios-disclosure,
+.m-caret .ico-svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+:where(.m-page) [class~="switch"] {
+  margin-right: var(--m-s4);
+}
+.m-scroll {
+  padding-bottom: calc(var(--tab-h) + var(--m-s24));
+}
+
+.m-page {
+  background-color: var(--m-bg);
+  color: var(--m-text);
+}
+.m-scroll {
+  padding-bottom: calc(var(--safe-bottom) + var(--m-s24));
+}
+.m-page:has(> .tabbar) .m-scroll {
+  padding-bottom: calc(var(--tab-h) + var(--safe-bottom) + var(--m-s24));
+}
+.m-scroll > .m-top {
+  margin-bottom: 8px;
+}
+.m-safe {
+  padding-top: var(--safe-top);
+}
+
+/* —— верхняя панель раздела —— */
+.m-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 8px 16px;
+  background-color: var(--m-surface);
+  color: var(--m-text);
+  border-bottom: 1px solid var(--m-border);
+}
+.m-top-title {
+  flex: 1;
+  min-width: 0;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.m-top-acts {
+  display: flex;
+  gap: 2px;
+}
+.m-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--m-accent);
+  background-color: var(--m-accent-soft);
+  position: relative;
+  border: 0;
+}
+.m-icon .ico-svg {
+  width: 23px;
+  height: 23px;
+}
+.m-badge {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 11px/18px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— карточка раздела —— */
+.m-card {
+  background-color: #fff;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(23, 26, 29, 0.08);
+}
+.m-card > .m-row {
+  background-color: var(--m-surface);
+}
+.m-card.pad {
+  padding: 14px 16px;
+}
+.m-wrap {
+  padding-top: 0;
+  position: relative;
+}
+
+/* —— повод дня: дни рождения —— */
+.m-dates {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px 16px;
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.m-date {
+  width: 74px;
+  flex: none;
+  text-align: center;
+}
+.m-date-ring {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  padding: 2px;
+  background-color: var(--accent-fill);
+}
+.m-date-ring.is-past {
+  background-color: rgba(60, 60, 67, 0.2);
+}
+.m-date-in {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 2px;
+}
+.m-date-add {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.1);
+  display: grid;
+  place-items: center;
+  color: #14110f;
+}
+.m-date-lab {
+  font: 400 12px/15px var(--face);
+  color: var(--ios-secondary);
+}
+.m-date-lab b {
+  display: block;
+  font: 600 12px/15px var(--face);
+  color: #14110f;
+}
+
+/* —— промо-блок: инвентарь под ATT —— */
+.m-promo {
+  position: relative;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background-color: #fff;
+  border: 1px solid var(--m-border);
+  margin-bottom: 8px;
+}
+.m-promo-lab {
+  font: 500 11px/14px var(--face);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ios-secondary);
+  margin-bottom: 6px;
+}
+.m-promo-t {
+  font: 600 16px/21px var(--face);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+  max-width: 24ch;
+}
+.m-promo-d {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 12px;
+  max-width: 30ch;
+}
+.m-promo-more {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--ios-secondary);
+}
+.m-pill {
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 20px;
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 15px/1 var(--face);
+}
+.m-pill.quiet {
+  background-color: rgba(60, 60, 67, 0.1);
+  color: #14110f;
+}
+
+/* —— публикация —— */
+.m-post-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+}
+.m-post-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+.m-post-who {
+  flex: 1;
+  min-width: 0;
+}
+.m-post-name {
+  font: 600 15px/19px var(--face);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.m-kin {
+  font: 400 13px/17px var(--face);
+  color: var(--accent-fill);
+}
+.m-post-meta {
+  font: 400 13px/17px var(--face);
+  color: var(--ios-secondary);
+}
+.m-post-text {
+  padding: 0 14px 10px;
+  font: 400 15px/21px var(--face);
+  letter-spacing: -0.01em;
+}
+
+.m-media {
+  height: 214px;
+}
+.m-media.tall {
+  height: 268px;
+}
+.m-media-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  height: 168px;
+}
+
+.m-acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 8px;
+}
+.m-act {
+  min-height: 44px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  color: var(--ios-secondary);
+  font: 400 14px/1 var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.m-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.m-act.is-on {
+  color: var(--accent-fill);
+}
+.m-act.last {
+  margin-left: auto;
+}
+
+/* —— секции и строки —— */
+.m-sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px 8px;
+}
+.m-sec-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 700 17px/22px var(--face);
+  letter-spacing: -0.02em;
+}
+.m-sec-head span {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.m-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 14px;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.m-row:last-child {
+  border-bottom: 0;
+}
+.m-row-face {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex: none;
+  position: relative;
+}
+/* Обрезка живёт на самом плейсхолдере: на контейнере она срезала
+   зелёную точку присутствия, приклеенную к краю аватара. */
+.m-row-face > .ph {
+  border-radius: inherit;
+  overflow: hidden;
+}
+.m-online {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #4bb34b;
+  box-shadow: 0 0 0 2px #fff;
+}
+.m-row-copy {
+  flex: 1;
+  min-width: 0;
+}
+.m-row-t {
+  font: 500 15px/20px var(--face);
+  letter-spacing: -0.01em;
+}
+.m-row-s {
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+  text-wrap: pretty;
+}
+.m-end {
+  flex: none;
+  text-align: right;
+  color: var(--ios-secondary);
+  font: 400 13px/18px var(--face);
+}
+.m-count {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #4bb34b;
+  color: #fff;
+  font: 600 12px/20px var(--face);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— плеер и аудиоархив —— */
+.m-player-art {
+  height: 200px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.m-track {
+  height: 4px;
+  border-radius: 2px;
+  background-color: rgba(60, 60, 67, 0.18);
+  margin-bottom: 6px;
+  position: relative;
+}
+.m-track-in {
+  position: absolute;
+  inset: 0 62% 0 0;
+  border-radius: 2px;
+  background-color: var(--accent-fill);
+}
+.m-times {
+  display: flex;
+  justify-content: space-between;
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 18px;
+}
+.m-marks {
+  display: flex;
+  flex-direction: column;
+}
+/* Метка живёт на общей сетке концепта: поле 16, колонка тайм-кода 56,
+   текст с 72 — как значок и текст в обычной строке. */
+.m-mark {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 8px 16px;
+  font: 400 15px/20px var(--face);
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.m-mark:last-child {
+  border-bottom: 0;
+}
+.m-mark-at {
+  font: 500 14px/19px var(--face);
+  color: var(--accent-fill);
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  width: 56px;
+}
+
+/* —— сбор и дорога —— */
+.m-gather {
+  padding: 16px 14px;
+  border-radius: 14px;
+  background-color: var(--m-accent-soft);
+  color: var(--m-text);
+  margin-bottom: 10px;
+}
+.m-gather-when {
+  font: 500 13px/17px var(--face);
+  color: var(--m-accent);
+  margin-bottom: 4px;
+}
+.m-gather-t {
+  font: 700 24px/29px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.m-gather-s {
+  font: 400 14px/19px var(--face);
+  color: var(--m-secondary);
+}
+.m-way {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 8px 16px 8px 0;
+  border-bottom: 0.5px solid rgba(60, 60, 67, 0.1);
+}
+.m-way:last-child {
+  border-bottom: 0;
+}
+.m-way-dot {
+  width: 10px;
+  height: 10px;
+  margin: 0 17px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.25);
+}
+.m-way-dot.is-moving {
+  background-color: var(--m-accent);
+}
+.m-way-dot.is-here {
+  background-color: #4bb34b;
+}
+
+/* —— устройства в сети —— */
+.m-net {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.m-net .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+/* —— ветвь рода —— */
+
+/* —— профиль —— */
+.m-prof {
+  padding: 18px 14px 14px;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.m-prof-face {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.m-prof-n {
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+}
+.m-prof-r {
+  margin-top: 3px;
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+}
+.m-prof-acts {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.m-prof-acts .m-pill {
+  flex: 1 1 0;
+  justify-content: center;
+  max-width: 168px;
+}
+.m-prof-nums {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin-top: 14px;
+}
+.m-prof-num b {
+  display: block;
+  font: 700 18px/22px var(--face);
+  font-variant-numeric: tabular-nums;
+}
+.m-prof-num span {
+  font: 400 12px/16px var(--face);
+  color: var(--ios-secondary);
+}
+
+/* —— мелкие утилиты концепта —— */
+.m-note {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  font: 400 13px/18px var(--face);
+  color: var(--ios-secondary);
+}
+.m-note .ico-svg {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  margin-top: 1px;
+}
+.m-cta {
+  padding: 10px 16px 8px;
+}
+.m-dock .tab .ico-svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* Карта дороги — плейсхолдер: визуал в концептах не рисуется,
+   данные несёт список ниже. */
+.m-map {
+  height: 190px;
+  flex: none;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+
+/* Тёмные экраны концепта: ядро задаёт только цвет текста, подложку ставит концепт. */
+.m-page .lock-bg {
+  background-color: #18212a;
+}
+.m-page .lock-bg .miniplayer-title,
+.m-page .lock-bg .miniplayer-sub {
+  color: rgba(255, 255, 255, 0.78);
+}
+.m-page .cam {
+  background-color: #101820;
+}
+
+/* Счётчик на вкладке сидит на иконке, а не под ней. */
+.m-dock .tab {
+  position: relative;
+}
+.m-dock .tab .m-count {
+  position: absolute;
+  top: 1px;
+  left: calc(50% + 4px);
+}
+
+/* Запись — не человек: миниатюра квадратная, а не круглая. */
+.m-row-face.is-art {
+  border-radius: 8px;
+}
+
+/* Строка со значком вместо лица: значок центрируется и получает подложку.
+   Без этого svg из спрайта рендерится обрезком в 44-пиксельном круге. */
+.m-row-face:has(> .ico-svg) {
+  display: grid;
+  place-items: center;
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.m-row-face > .ico-svg {
+  width: 22px;
+  height: 22px;
+}
+.m-mark .ico-svg,
+.m-way .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Таб-бар в ОК светлый, счётчики зелёные, активная вкладка оранжевая.
+   Ядро отдаёт тёмное стекло — концепт переопределяет подложку и цвета. */
+.m-dock {
+  background-color: #fff;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: 0.5px solid rgba(60, 60, 67, 0.12);
+  color: rgba(60, 60, 67, 0.45);
+}
+.m-dock > .tab.is-on {
+  color: var(--accent-fill);
+}
+/* Ядро заливает иконку активной вкладки под залитый SF Symbol, но иконки
+   спрайта контурные: залитый конверт превращается в оранжевый квадрат.
+   В ОК активная вкладка — тот же контур, только акцентным цветом. */
+.m-dock .tab.is-on .ico svg {
+  fill: none;
+  stroke-width: 2;
+}
+.m-dock .tab .m-count {
+  position: absolute;
+  top: -1px;
+  left: 52%;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* Композер ленты: аватар, приглашение написать и съёмка — как в ОК. */
+.m-composer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: #fff;
+  border-radius: 14px;
+  margin-bottom: 8px;
+}
+.m-composer-face {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.m-composer-hint {
+  flex: 1;
+  min-width: 0;
+  font: 400 15px/20px var(--face);
+  color: var(--ios-secondary);
+}
+.m-composer-act {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 67, 0.08);
+  display: grid;
+  place-items: center;
+  color: #14110f;
+}
+.m-composer-act .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Подпись только для скринридера — у круглых кнопок без текста. */
+.m-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Плейсхолдер внутри контейнера-носителя обязан заполнять его целиком:
+   без размеров он схлопывается до иконки и прижимается к левому верхнему углу. */
+.m-post-face > .ph,
+.m-row-face > .ph,
+.m-composer-face > .ph,
+.m-date-in > .ph,
+.m-prof-face > .ph,
+.m-player-art > .ph,
+.m-media-pair > .ph,
+.miniplayer-face > .ph {
+  width: 100%;
+  height: 100%;
+}
+
+/* Выбранные снимки в композере — полоса миниатюр, а не два поля во весь экран. */
+.m-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+.m-thumb {
+  width: 92px;
+  height: 92px;
+  flex: none;
+  border-radius: 10px;
+}
+
+/* Кнопка-действие в шапке раздела: компактная пилюля, а не иконка без подписи. */
+.m-top-acts .m-pill {
+  min-height: 36px;
+  padding: 0 14px;
+  font: 600 14px/1 var(--face);
+}
+/* Кнопка в подвале секции всегда во всю ширину: ядровая .btn-filled
+   инлайновая, и без этого главное действие съезжает к левому краю. */
+.m-cta .btn-filled {
+  width: 100%;
+}
+/* Тихая кнопка концепта: белая карточка с акцентным текстом.
+   Ядровая заливка на тёплой подложке читается как выключенная. */
+.m-cta .btn-quiet {
+  width: 100%;
+  min-height: 50px;
+  border-radius: var(--r-btn);
+  background-color: #fff;
+  color: var(--accent-fill);
+  font: 600 15px/1 var(--face);
+}
+
+/* Сам status bar остаётся прозрачным. Белая поверхность светлой шапки
+   продолжается под safe area на уровне экрана, поэтому над «Лентой» не
+   возникает отдельная серая полоса. */
+.m-page:not(.m-dark):not(.unified-auth)::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0 0 auto;
+  height: var(--safe-top);
+  background-color: #fff;
+  pointer-events: none;
+}
+.m-page .navbar {
+  background-color: #fff;
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+
+/* Полоса прогресса в строке списка: доля задаётся классом,
+   inline-style в UI v3 запрещён. */
+.m-row-copy .dl-bar {
+  margin-top: 8px;
+  max-width: 150px;
+}
+.m-p62 {
+  width: 62%;
+}
+
+/* Модальный лист: подложка за ним притемняется, иначе экран читается
+   как обычный, у которого контент почему-то начинается с середины. */
+.m-page:has(> .sheet) {
+  background-color: #ddd6cf;
+}
+
+/* —— тёмные экраны: звонок, локскрин, показ на телевизоре —— */
+.m-page .lock-bg {
+  align-items: center;
+  text-align: center;
+}
+.m-np-ctl,
+.m-cast-ctl {
+  gap: 22px;
+  margin-bottom: 20px;
+}
+.m-call-end {
+  width: 100%;
+  padding-bottom: 8px;
+}
+.m-stopcast {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  cursor: pointer;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font: 600 17px/1 var(--face);
+}
+.m-stopcast {
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.m-lock-date {
+  margin-top: 18px;
+  font: 400 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.72);
+}
+.m-lock-time {
+  font: 300 76px/84px var(--face);
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.m-nowplaying {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.m-nowplaying {
+  padding: 12px 14px 4px;
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.m-nowplaying .miniplayer {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+.m-nowplaying .dl-bar {
+  margin: 16px 0 6px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+.m-cast-art {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex: none;
+}
+.m-cast-art > .ph {
+  width: 100%;
+  height: 100%;
+}
+.m-cast-t {
+  margin-top: 18px;
+  font: 700 22px/27px var(--face);
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.m-cast-s {
+  margin-top: 4px;
+  font: 400 14px/19px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+}
+.m-cast-track {
+  width: 100%;
+  margin-top: 18px;
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Модификаторы тёмных экранов: подложка и вертикальный ритм. */
+.m-dark {
+  background-color: #18212a;
+}
+/* Сцена тёмного экрана без больших часов: ядровой .lock-bg прячет время
+   в статус-баре, потому что на локскрине часы свои. Звонку и показу
+   на телевизоре часы нужны. */
+.m-stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 10px);
+}
+.m-lock {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.m-cast .grow {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Управление поверх видоискателя белое: акцентный цвет ядра на камере
+   читается как активное состояние, которого нет. */
+.cam .icon-btn {
+  color: #fff;
+}
+/* Переключатель режима съёмки поверх тёмного видоискателя. */
+.cam .ios-segmented {
+  background-color: rgba(0, 0, 0, 0.42);
+}
+.cam .ios-segmented .seg {
+  color: rgba(255, 255, 255, 0.72);
+}
+.cam .ios-segmented .seg.is-on {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #14110f;
+}
+
+/* Действие в хвосте строки читается как нажимаемое, а не как данные. */
+.m-end.is-act {
+  color: var(--accent-fill);
+  font: 500 14px/19px var(--face);
+}
+
+/* Управление записью: перемотка по краям, главное действие в центре. */
+.m-play-ctl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.m-play-ctl .m-ctl {
+  background-color: rgba(60, 60, 67, 0.08);
+  color: #14110f;
+}
+.m-listen {
+  flex: 1;
+  min-height: 50px;
+  border: 0;
+  cursor: pointer;
+  border-radius: var(--r-btn);
+  background-color: var(--accent-fill);
+  color: var(--on-accent);
+  font: 600 17px/1 var(--face);
+}
+
+/* Заголовок и подпись записи в карточке плеера. */
+.m-player-t {
+  font: 700 20px/25px var(--face);
+  letter-spacing: -0.02em;
+  margin-bottom: 3px;
+}
+.m-player-s {
+  font: 400 14px/19px var(--face);
+  color: var(--ios-secondary);
+  margin-bottom: 18px;
+}
+
+/* Поле публикации — область ввода, а не строка списка. */
+.m-editor {
+  min-height: 108px;
+}
+
+/* Ячейки кода отбиваются от подводки так же{
+  margin-top: 24px;
+}
+
+/* Экраны входа белые: тёплая подложка держит белые карточки в разделах,
+   а на входе карточек нет — она читается как незакрашенный фон. */
+.m-page:has(> .auth) {
+  background-color: #fff;
+}
+
+/* Управление воспроизведением внутри экрана. Ядровой .ctl — класс страницы
+   документа, а не устройства: у него своя типографика и рамка. */
+.m-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+.m-ctl {
+  width: 52px;
+  height: 52px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.m-ctl .ico-svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.m-album-cast {
+  width: 100%;
+  margin-top: 16px;
+  gap: 8px;
+}
+[data-screen="picker"] .home-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px 8px;
+  padding: 12px 0;
+}
+[data-screen="picker"] .home-grid > .ph {
+  height: 58px;
+  border-radius: 8px;
+}
+
+/* Системные поверхности и расширения маршрута. */
+.m-night {
+  background-color: #18212a;
+  color: #fff;
+}
+.m-lock-scroll {
+  padding: calc(var(--safe-top) + 18px) 16px 24px;
+}
+.m-lock-date {
+  font: 600 15px/20px var(--face);
+  color: rgba(255, 255, 255, 0.66);
+  margin-bottom: 14px;
+}
+.m-widget-stack {
+  display: grid;
+  gap: 12px;
+}
+.m-widget-card {
+  border: 0;
+  width: 100%;
+  min-height: 154px;
+  border-radius: 22px;
+  padding: 16px;
+  background-color: #24292e;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 8px;
+  font: 500 14px/19px var(--face);
+}
+.m-widget-card strong {
+  font: 800 24px/28px var(--face);
+  letter-spacing: -0.03em;
+}
+.m-widget-card small {
+  color: rgba(255, 255, 255, 0.62);
+  font: 500 12px/16px var(--face);
+}
+.m-widget-card.is-muted {
+  background-color: #2d343b;
+}
+.m-widget-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #ff7a52;
+  font: 700 12px/15px var(--mono);
+  letter-spacing: 0.08em;
+}
+.m-widget-brand .ico-svg {
+  width: 17px;
+  height: 17px;
+}
+.m-note-dark {
+  color: rgba(255, 255, 255, 0.74);
+  margin-top: 14px;
+}
+.m-pad {
+  padding: 16px;
+}
+.m-pad h2 {
+  font: 750 20px/25px var(--face);
+  margin: 0 0 6px;
+}
+.m-action {
+  width: calc(100% - 32px);
+  margin: 18px 16px 26px;
+}
+.m-browser {
+  background-color: #f3f4f5;
+}
+.m-browser-bar {
+  height: calc(var(--safe-top) + 44px);
+  padding: var(--safe-top) 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #555b61;
+  background-color: #e4e7e9;
+  font: 500 13px/18px var(--face);
+}
+.m-browser-bar .ico-svg {
+  width: 13px;
+  height: 13px;
+}
+.m-browser-body {
+  padding: 24px 18px 180px;
+}
+.m-web-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 28px rgba(20, 24, 28, 0.09);
+}
+.m-web-brand {
+  color: var(--accent-fill);
+  font: 700 13px/18px var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.m-web-card h2 {
+  margin: 8px 0 20px;
+  font: 800 24px/29px var(--face);
+}
+.m-web-field {
+  min-height: 56px;
+  border: 1px solid rgba(23, 26, 29, 0.16);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.m-web-field span {
+  color: var(--ios-secondary);
+  font: 500 12px/16px var(--face);
+}
+.m-web-field b {
+  font: 600 16px/21px var(--face);
+}
+.m-autofill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--home-ind);
+  background-color: #fff;
+  border-top: 1px solid rgba(23, 26, 29, 0.12);
+  padding: 8px 12px 14px;
+}
+.m-lock-state {
+  color: #fff;
+}
+.m-lock-state p {
+  color: rgba(255, 255, 255, 0.68);
+  max-width: 27ch;
+}
+.m-faceid {
+  width: 72px;
+  height: 72px;
+  border: 2px solid #ff7a52;
+  color: #ff7a52;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+}
+.m-faceid .ico-svg {
+  width: 42px;
+  height: 42px;
+}
+.m-night .state-foot .btn-quiet {
+  color: rgba(255, 255, 255, 0.72);
+}
+.m-dock .tab {
+  flex: 1 1 25%;
+}
+.m-caret {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--ios-tertiary);
+}
+.m-caret .ico-svg {
+  width: 17px;
+  height: 17px;
+}
+.m-bul {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background-color: rgba(60, 60, 67, 0.09);
+  color: var(--ios-secondary);
+}
+.m-bul .ico-svg {
+  width: 20px;
+  height: 20px;
+}
+.m-bul.accent {
+  background-color: var(--m-accent-soft);
+  color: var(--m-accent);
+}
+.m-bul.warn {
+  background-color: rgba(255, 149, 0, 0.14);
+  color: #b86700;
+}
+.m-row-v {
+  flex: none;
+  color: var(--ios-secondary);
+  font: 500 13px/17px var(--face);
+}
+.m-row-v.warn {
+  color: #b86700;
+}
+.m-ride-hero {
+  margin: var(--m-s16);
+  padding: var(--m-s16);
+  border-radius: var(--m-r16);
+  background-color: var(--m-accent-soft);
+  color: var(--m-text);
+  border: 0;
+}
+.m-page button.ph {
+  border: 0;
+}
+#scr-cast .m-pill.quiet {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+.m-ride-hero h2 {
+  margin: var(--m-s8) 0 var(--m-s4);
+  font: var(--m-title);
+}
+.m-ride-hero p {
+  color: var(--m-secondary);
+  font: var(--m-secondary-type);
+}
+.m-ride-kicker {
+  color: var(--m-accent);
+  font: var(--m-caption);
+  letter-spacing: 0.06em;
+}
+.m-ride-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m-s8);
+  margin-top: var(--m-s16);
+  font: var(--m-caption);
+  color: var(--m-secondary);
+}
+.m-ride-status span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.72);
+}
+.m-ride-time {
+  width: 42px;
+  flex: none;
+  color: var(--m-accent);
+  font: var(--m-caption);
+}
+.m-status {
+  flex: none;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: var(--m-secondary);
+  background-color: rgba(98, 105, 112, 0.12);
+  font: var(--m-caption);
+}
+.m-status.is-open {
+  color: var(--m-success);
+  background-color: rgba(24, 121, 78, 0.12);
+}
+.m-status.is-warn {
+  color: var(--m-warn);
+  background-color: rgba(184, 103, 0, 0.12);
+}
+.m-status.is-ready {
+  color: var(--m-success);
+  background-color: rgba(24, 121, 78, 0.12);
+}
+.m-status.is-wait {
+  color: var(--m-warn);
+  background-color: rgba(184, 103, 0, 0.12);
+}
+.m-status.is-moving {
+  color: var(--m-accent);
+  background-color: var(--m-accent-soft);
+}
+.m-status.is-muted {
+  color: var(--m-secondary);
+  background-color: rgba(98, 105, 112, 0.12);
+}
+.is-wait {
+  color: var(--m-warn);
+}
+.m-page [data-lint-marker] {
+  display: none !important;
+}
+.m-page .navbar .title {
+  font-size: 13px;
+}
+.m-page .m-live-exit {
+  background-color: var(--m-accent-soft);
+  color: var(--m-accent);
+}
+.m-row-copy,
+.m-row-t,
+.m-row-s {
+  display: block;
+}
+.m-row-copy {
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.m-cast-status .m-top {
+  margin-bottom: var(--m-s8);
+}
+.m-cast-status .m-cast-summary {
+  margin-left: var(--m-s8);
+  margin-right: var(--m-s8);
+  padding: var(--m-s12) var(--m-s16);
+}
+.m-cast-status .m-gather-t {
+  font: var(--m-title);
+  margin-bottom: var(--m-s4);
+}
+.m-cast-status .m-gather-when {
+  font: 650 11px/15px var(--face);
+  letter-spacing: .035em;
+}
+.m-cast-status .m-card {
+  margin-left: var(--m-s8);
+  margin-right: var(--m-s8);
+}
+.m-cast-status .m-row {
+  min-height: 56px;
+}
+.m-cast-status .m-cta {
+  padding-top: 2px;
+}
+
+/* WCAG / HIG release gate — final overrides stay after component rules. */
+.m-page,.m-browser{--m-secondary:#55616b;--m-warn:#874900}
+.m-status.is-warn,.m-status.is-wait,.m-row-v.warn{color:#874900}
+.m-status.is-muted,.m-status:not(.is-warn):not(.is-wait):not(.is-ok){color:#55616b}
+.m-badge{background:#18794e;color:#fff}
+.m-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}

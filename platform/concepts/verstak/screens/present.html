@@ -1,0 +1,58 @@
+<div class="screen vs-page" id="scr-present">
+  <div class="navbar vs-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Присутствие</div>
+  </div>
+  <div class="body-scroll vs-result">
+    <div class="vs-status-icon">
+      <svg class="ico-svg"><use href="#i-map-pin" /></svg>
+    </div>
+    <span class="vs-kicker">МЕСТО СОВПАЛО</span>
+    <h1>Сборочный стол 2</h1>
+    <p class="vs-lede">
+      Вы рядом с мастерской. Осталось проверить локальную сеть — после этого
+      отметка появится в ленте.
+    </p>
+    <section class="vs-ticket">
+      <div><span>начало</span><strong>18:47</strong></div>
+      <div><span>до</span><strong>21:30</strong></div>
+      <p><span>работа</span><strong>Полка для винила</strong></p>
+    </section>
+    <div class="vs-network">
+      <svg class="ico-svg"><use href="#i-wifi" /></svg>
+      <div>
+        <strong>Сеть мастерской</strong
+        ><span>Имя читается один раз и не сохраняется</span>
+      </div>
+      <span class="vs-pending">ожидает</span>
+    </div>
+    <div class="vs-denied">
+      <strong>Если сеть не найдётся</strong
+      ><span
+        >Отметка останется на подтверждении у людей, которые уже работают
+        сегодня.</span
+      >
+    </div>
+    <div class="push"></div>
+    <button
+      class="vs-primary block tap"
+      data-primary
+      data-activate="wifiinfo|present"
+    >
+      Проверить сеть
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

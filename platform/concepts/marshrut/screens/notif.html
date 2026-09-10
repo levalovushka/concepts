@@ -1,0 +1,44 @@
+<div class="screen m-page" id="scr-notif">
+  <div class="sheet">
+    <div class="grabber" aria-hidden="true"></div>
+    <div class="sheet-body flush">
+      <div class="m-top"><div class="m-top-title">Оповещения</div><div class="m-top-acts"><div class="m-icon tap" data-back aria-label="Закрыть"><svg class="ico-svg"><use href="#i-x"/></svg></div></div></div>
+      <div class="m-card">
+        <div class="m-row">
+          <div class="m-row-face"><svg class="ico-svg"><use href="#i-mail"/></svg></div>
+          <div class="m-row-copy"><div class="m-row-t">Риски и выезды</div><div class="m-row-s">приходят с названием маршрута и временем старта</div></div>
+        </div>
+        <div class="m-row">
+          <div class="m-row-face"><svg class="ico-svg"><use href="#i-shield"/></svg></div>
+          <div class="m-row-copy"><div class="m-row-t">Передача риска</div><div class="m-row-s">только когда следующий райдер принял участок</div></div>
+        </div>
+        <div class="m-row">
+          <div class="m-row-face"><svg class="ico-svg"><use href="#i-calendar"/></svg></div>
+          <div class="m-row-copy"><div class="m-row-t">Дни рождения и сборы</div><div class="m-row-s">накануне и утром в день события</div></div>
+        </div>
+      </div>
+      <div class="m-card">
+        <div class="m-row tap" data-go="notif" aria-label="Показывать аватар в баннере">
+          <div class="m-row-face"><svg class="ico-svg"><use href="#i-id-card"/></svg></div>
+          <div class="m-row-copy"><div class="m-row-t">Лицо в баннере</div><div class="m-row-s">коммуникационные уведомления учитывают режим фокусирования</div></div>
+          <div class="m-end"><div class="switch is-on"></div></div>
+        </div>
+        <div class="m-row tap" data-activate="remotenotif|widget" aria-label="Обновлять счётчики в фоне">
+          <div class="m-row-face"><svg class="ico-svg"><use href="#i-loader-circle"/></svg></div>
+          <div class="m-row-copy"><div class="m-row-t">Счётчики в фоне</div><div class="m-row-s">тихие пуши обновляют разделы до открытия</div></div>
+          <div class="m-end"><div class="switch is-on"></div></div>
+        </div>
+      </div>
+      <div class="state" data-show-denied="push" hidden>
+        <div class="state-ico"><svg class="ico-svg"><use href="#i-bell"/></svg></div>
+        <div class="t-headline">Оповещения выключены</div>
+        <div class="t-body">Новое видно при открытии приложения: счётчики разделов считаются так же.</div>
+        <div class="state-actions"><div class="btn-filled tap" data-go="feed" aria-label="Открыть ленту">Открыть ленту</div></div>
+      </div>
+      <div class="m-note" data-show-denied="remotenotif" hidden><svg class="ico-svg"><use href="#i-info"/></svg><span>Виджет обновится после следующего открытия приложения.</span></div>
+    </div>
+    <div class="sheet-footer">
+      <button class="btn-filled tap" data-primary data-ask="push|notif|notif" aria-label="Включить оповещения">Включить оповещения</button>
+    </div>
+  </div>
+</div>

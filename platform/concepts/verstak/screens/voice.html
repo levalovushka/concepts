@@ -1,0 +1,71 @@
+<div class="screen vs-page cx-page" id="scr-voice">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Фиксация передачи</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-recorder">
+      <svg class="ico-svg"><use href="#i-mic" /></svg><span>00:00</span>
+      <div>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+        ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>
+        Продиктуйте факты: что завершено, что сохнет и с какого шага продолжать.
+        После распознавания появится проверяемый чек-лист.
+      </p>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="mic,speech">
+      <b>Можно продолжить</b
+      ><span>Заполните поля вручную; проект и чек-лист сохранятся.</span>
+    </div>
+    <section
+      class="vs-handoff-result perm-hidden"
+      data-show-granted="mic,speech"
+    >
+      <header><span>ПЕРЕДАЧА СОБРАНА</span><b>Сборочный стол 2</b></header>
+      <div>
+        <strong>Готово</strong
+        ><small>Пазы размечены, поверхность очищена</small>
+      </div>
+      <div>
+        <strong>Состояние</strong
+        ><small>Клей сохнет до 19:20 · питание выключено</small>
+      </div>
+      <div>
+        <strong>Следующий шаг</strong
+        ><small>Проверить геометрию и освободить стол</small>
+      </div>
+      <button
+        class="cx-row tap"
+        data-toast="Станок освобождён · передача зафиксирована"
+      >
+        <svg class="ico-svg"><use href="#i-circle-check" /></svg
+        ><span
+          ><b>Освободить станок</b
+          ><small>Записать время и открыть следующий слот</small></span
+        >
+      </button>
+    </section>
+    <button
+      class="cx-primary tap"
+      data-primary
+      data-ask="mic+speech|voice|voice"
+    >
+      Собрать чек-лист
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

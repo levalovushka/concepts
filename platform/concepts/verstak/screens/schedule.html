@@ -1,0 +1,101 @@
+<div class="screen vs-page cx-page" id="scr-schedule">
+  <div class="body-scroll cx-scroll vs-safe">
+    <header class="cx-top">
+      <div>
+        <span>МАСТЕРСКАЯ НА ЛЕСНОЙ</span>
+        <h1>Расписание</h1>
+      </div>
+      <button class="vs-round tap" data-go="alerts" aria-label="События броней">
+        <svg class="ico-svg"><use href="#i-bell" /></svg>
+      </button>
+    </header>
+    <section class="cx-section">
+      <header>
+        <h2>Моя бронь</h2>
+        <span>сегодня</span>
+      </header>
+      <button class="cx-row tap" data-go="checkin">
+        <svg class="ico-svg"><use href="#i-wrench" /></svg
+        ><span
+          ><b>Фрезерный стол</b><small>20:20–21:05 · корпус лампы</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+      <div class="cx-denied perm-hidden" data-show-denied="calendar">
+        <b>Бронь сохранена</b
+        ><span
+          >Она остаётся в расписании мастерской без системного календаря.</span
+        >
+      </div>
+    </section>
+    <section class="cx-section">
+      <header>
+        <h2>Сегодня</h2>
+        <span>18:00–22:00</span>
+      </header>
+      <button class="cx-row tap" data-go="project">
+        <svg class="ico-svg"><use href="#i-clock" /></svg
+        ><span
+          ><b>18:00–19:20 · Сборочный стол 2</b
+          ><small>Марат · полка для винила · сохнет</small></span
+        ><span class="vs-state">идёт</span>
+      </button>
+      <button
+        class="cx-row tap"
+        data-primary
+        data-toast="Слот выбран: 19:40–20:20"
+      >
+        <svg class="ico-svg"><use href="#i-zap" /></svg
+        ><span
+          ><b>19:40–20:20 · Лазер Trotec</b
+          ><small>свободный слот · доступ подтверждён</small></span
+        ><svg class="ico-svg"><use href="#i-plus" /></svg>
+        <span class="vs-sr-only">Выбрать свободный слот</span>
+      </button>
+      <button class="cx-row tap" data-go="project">
+        <svg class="ico-svg"><use href="#i-wrench" /></svg
+        ><span
+          ><b>20:20–21:05 · Фрезерный стол</b
+          ><small>Алексей · корпус лампы</small></span
+        ><span class="vs-state">ваша</span>
+      </button>
+      <button class="cx-row tap" data-toast="Слот выбран: 21:10–21:50">
+        <svg class="ico-svg"><use href="#i-wrench" /></svg
+        ><span
+          ><b>21:10–21:50 · Фрезерный стол</b
+          ><small>свободный слот</small></span
+        ><svg class="ico-svg"><use href="#i-plus" /></svg>
+      </button>
+    </section>
+    <button class="cx-primary tap" data-ask="calendar|schedule|schedule">
+      Добавить мою бронь в календарь
+    </button>
+  </div>
+  <div class="tabbar light vs-tabs" aria-label="Основная навигация">
+    <div class="tab tap" data-go="machines" aria-label="Раздел Станки">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-wrench" /></svg></span
+      ><span class="tab-label">Станки</span>
+    </div>
+    <div
+      class="tab tap is-on"
+      aria-current="page"
+      data-go="schedule"
+      aria-label="Раздел Расписание"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span class="tab-label">Расписание</span>
+    </div>
+    <div class="tab tap" data-go="projects" aria-label="Раздел Проекты">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Проекты</span>
+    </div>
+    <div class="tab tap" data-go="profile" aria-label="Раздел Профиль">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

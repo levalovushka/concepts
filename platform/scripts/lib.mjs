@@ -132,9 +132,9 @@ export function readMarkup(slug, spec) {
   const out = {};
   for (const s of spec.screens) {
     const f = join(conceptDir(slug), 'screens', s.id + '.html');
-    /* Концепты без собственного auth-экрана получают нейтральную email-форму
-       из build.mjs; её отсутствие не означает битую продуктовую поверхность. */
-    if (!existsSync(f) && s.id === 'phone' && spec.auth?.mode === 'email') continue;
+    /* Единый phone → password auth генерируется в build.mjs. Концепт может
+       переопределить phone.html, но фиктивный локальный файл не обязателен. */
+    if (!existsSync(f) && s.id === 'phone') continue;
     if (!existsSync(f)) throw new Error(`${slug}: нет разметки экрана ${s.id} (${f})`);
     out[s.id] = readFileSync(f, 'utf8').trimEnd();
   }

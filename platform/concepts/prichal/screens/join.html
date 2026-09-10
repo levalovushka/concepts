@@ -1,0 +1,41 @@
+<div class="screen pc-page cx-page" id="scr-join">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Встреча экипажа</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-radar">
+      <i></i><b>Понтон C</b><span>вы в радиусе 34 м</span>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="location">
+      <b>Можно продолжить</b
+      ><span>Отметьтесь вручную по клубному номеру выхода.</span>
+    </div>
+    <button class="cx-row tap" data-primary data-ask="location|join|join">
+      <svg class="ico-svg"><use href="#i-map-pin" /></svg
+      ><span
+        ><b>Геопозиция сейчас</b
+        ><small>Маршрут и перемещения не сохраняются</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="wifiinfo|join">
+      <svg class="ico-svg"><use href="#i-wifi" /></svg
+      ><span><b>Сеть марины</b><small>Однократная проверка SSID</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-primary tap" data-toast="Запрос точки сбора запущен">
+      Подтвердить точку сбора
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

@@ -1,0 +1,57 @@
+<div class="screen vs-page cx-page" id="scr-create">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Новый этап</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-compose">
+      <label
+        ><span>Что изменилось</span
+        ><textarea
+          placeholder="Например, собрал корпус и оставил струбцины до утра"
+        ></textarea>
+      </label>
+      <div class="cx-media-slots">
+        <div>+</div>
+        <div>+</div>
+        <div>+</div>
+      </div>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="camera">
+      <b>Можно продолжить</b
+      ><span>Добавьте текст или выберите готовый снимок.</span>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="photos">
+      <b>Можно продолжить</b
+      ><span>Сделайте новый кадр или опубликуйте только текст.</span>
+    </div>
+    <button class="cx-row tap" data-primary data-ask="camera|camera|create">
+      <svg class="ico-svg"><use href="#i-camera" /></svg
+      ><span><b>Камера</b><small>Снять состояние прямо сейчас</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-ask="photos|library|create">
+      <svg class="ico-svg"><use href="#i-image" /></svg
+      ><span><b>Медиатека</b><small>Выбрать готовые кадры</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+    ><button class="cx-row tap" data-activate="shareext|create">
+      <svg class="ico-svg"><use href="#i-share" /></svg
+      ><span
+        ><b>Из другого приложения</b
+        ><small>Share Extension создаст черновик</small></span
+      ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

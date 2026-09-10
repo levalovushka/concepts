@@ -1,0 +1,103 @@
+<!-- Блоки @overview:* уходят в раздел Overview итогового файла, всё
+       остальное ниже — в раздел «Документы». Структуру страницы задаёт
+       ядро (kernel/page.html), здесь только содержимое. -->
+
+<!-- @overview:vision -->
+<p class="deck">
+  Социальная сеть марины строится вокруг одного ограничения: {{INSIGHT}}.
+  Поэтому выход, лодка, экипаж и бортовой факт всегда образуют один проверяемый
+  контекст.
+</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+{{FEAT_GRID}}
+<!-- @end -->
+
+<!-- @overview:arch -->
+<p class="deck">
+  30 итоговых экранов образуют четыре раздела и семь сценариев. Все разрешения
+  следуют за понятным жестом: записью, проверкой места, добавлением события или
+  подключением системной интеграции.
+</p>
+<div class="flow">
+  <span class="chip">Выход</span><span class="arr">→</span
+  ><span class="chip">Точка сбора</span><span class="arr">→</span
+  ><span class="chip">Место + сеть</span>
+</div>
+<div class="flow">
+  <span class="chip">Флот</span><span class="arr">→</span
+  ><span class="chip">Журнал лодки</span><span class="arr">→</span
+  ><span class="chip">Видео / фото / речь</span>
+</div>
+
+<div class="arch" style="margin-top: var(--s-lg)">
+  <div class="arch-layer">
+    <h3>UI</h3>
+    <p>
+      Экраны, tab bar, nav stack, system ask, snackbar. Только отображение —
+      статусы доступов не хранит.
+    </p>
+  </div>
+  <div class="arch-layer">
+    <h3>Domain</h3>
+    <p>
+      Участник · выход · экипаж · лодка · судовой узел · бортовой факт · марина.
+    </p>
+  </div>
+  <div class="arch-layer">
+    <h3>Services</h3>
+    <p>
+      Permissions · PhoneAuth · Outings · Fleet · Logbook · MediaDraft · Speech
+      · Calendar · CallKit · Background · Widget.
+    </p>
+  </div>
+  <div class="arch-layer">
+    <h3>Data</h3>
+    <p>
+      CoreData — своё. Keychain — токен входа. FileManager — файлы пользователя.
+      Статический контент-пак только на чтение.
+      <strong>Своего бэкенда нет.</strong>
+    </p>
+  </div>
+  <div class="arch-layer">
+    <h3>External</h3>
+    <p>
+      CDN контент-пака · SDK входа по номеру · остальные SDK, если они реально в
+      сборке.
+    </p>
+  </div>
+</div>
+<!-- @end -->
+
+<section class="section" id="perm-matrix">
+  <h2>Матрица доступов</h2>
+  <p class="deck">
+    Столбец «риск» — честная оценка: «условные» доступы живут только за счёт
+    того, что фича реально будет в сборке.
+  </p>
+  {{PERM_MATRIX}}
+  <div class="note-box" style="margin-top: var(--s-lg)">
+    <p>
+      <strong>Правило, которое важнее таблицы.</strong> До каждой фичи ревьюер
+      должен дойти сам за 2–3 тапа без инструкции. Фича, которая в сборке есть,
+      но спрятана, по последствиям равна её отсутствию.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="no-backend">
+  <h2>Почему здесь нет бэкенда</h2>
+  <p class="deck">
+    Выходы, экипажи и push хранит готовый BaaS SDK; запись, офлайн-пакет, сеть,
+    ключи и документы обрабатываются на устройстве.
+  </p>
+  {{BACKENDLESS}}
+</section>
+
+<section class="section" id="screen-table">
+  <h2>Экраны и доступы</h2>
+  <p class="deck">
+    Полный список экранов концепта с типом представления и доступами, которые
+    запрашиваются именно на нём.
+  </p>
+  {{SCREEN_TABLE}}
+</section>

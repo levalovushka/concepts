@@ -1,0 +1,40 @@
+<div class="screen vs-page cx-page" id="scr-network">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Сеть мастерской</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-wifi">
+      <svg class="ico-svg"><use href="#i-wifi" /></svg
+      ><span>GUEST NETWORK</span>
+      <h1>VERSTAK-GUEST</h1>
+      <p>
+        Конфигурация считана с QR на стенде. Пароль не показывается приложению.
+      </p>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="hotspot">
+      <b>Можно продолжить</b
+      ><span>Откройте Настройки iOS и введите данные со стенда вручную.</span>
+    </div>
+    <button
+      class="cx-primary tap"
+      data-primary
+      data-ask="hotspot|network|network"
+    >
+      Подключиться к сети
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

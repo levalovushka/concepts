@@ -53,6 +53,8 @@ const pluralRu = (n, one, few, many) => {
   return many;
 };
 
+const CURRENT_BATCH = new Set(['uzel', 'kontur', 'tropa', 'smena', 'kvartal', 'marshrut', 'ryadom', 'prichal', 'verstak']);
+
 const gallery = (items) => {
   const filters = [...new Set(items.map((item) => item.targetSet))]
     .sort((a, b) => targetSetMeta(a).label.localeCompare(targetSetMeta(b).label, 'ru'));
@@ -60,7 +62,7 @@ const gallery = (items) => {
   const card = (item) => `    <a class="card" href="./${item.slug}/index.html" data-target-set="${esc(item.targetSet)}" data-mode="${item.mode}" aria-label="${esc(item.name)} — ${esc(item.modeLabel)}, ${esc(item.category)}">
       <div class="shot"><img src="./${item.slug}/assets/screenshots/${item.start}.png" alt="Экран «${esc(item.name)}»" loading="lazy"></div>
       <div class="meta">
-        <div class="card-kicker"><span class="category">${esc(item.category)}</span><span class="mode-badge ${item.mode}">${esc(item.modeLabel)}</span></div>
+        <div class="card-kicker"><span class="category">${esc(item.category)}</span><span class="card-badges">${item.isNew ? '<span class="new-badge">NEW</span>' : ''}<span class="mode-badge ${item.mode}">${esc(item.modeLabel)}</span></span></div>
         <div class="name-row"><div class="name-row-main">${item.iconPlaceholder ? '<span class="app-icon app-icon-placeholder"></span>' : item.hasAppIcon ? `<img class="app-icon" src="./${item.slug}/assets/app-icon.png" alt="" loading="lazy">` : ''}<div class="name">${esc(item.name)}</div></div><span class="arrow" aria-hidden="true">→</span></div>
         <div class="tag">${esc(item.tagline)}</div>
         <div class="chips"><span class="chip">${item.perms} ${pluralRu(item.perms, 'доступ', 'доступа', 'доступов')}</span><span class="chip">${item.screens} ${pluralRu(item.screens, 'экран', 'экрана', 'экранов')}</span><span class="chip secondary">${esc(item.targetSetLabel)}</span></div>
@@ -68,7 +70,10 @@ const gallery = (items) => {
     </a>`;
   const group = (mode) => {
     const meta = POSITIONING_MODES[mode];
-    const selected = items.filter((item) => item.mode === mode);
+    const selected = items.filter((item) => item.mode === mode).sort((a, b) => {
+      const batchOrder = Number(CURRENT_BATCH.has(b.slug)) - Number(CURRENT_BATCH.has(a.slug));
+      return batchOrder || a.name.localeCompare(b.name, 'ru');
+    });
     return `  <section class="concept-group" data-mode-group="${mode}">
     <header class="group-head"><div><h2>${meta.label}</h2><p>${meta.description}</p></div><span data-group-count>${selected.length}</span></header>
     <div class="grid">${selected.map(card).join('\n')}</div>
@@ -136,6 +141,8 @@ const gallery = (items) => {
   .meta { flex:1; display:flex; flex-direction:column; padding:18px; }
   .card-kicker { min-height:20px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
   .category { color:var(--page-ink-mute); font:600 10px/1.3 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
+  .card-badges { display:flex; align-items:center; gap:6px; }
+  .new-badge { padding:3px 7px; border-radius:6px; color:#fff; background:var(--accent); font:600 9px/1.3 var(--mono); letter-spacing:.06em; }
   .mode-badge { padding:3px 7px; border-radius:6px; color:var(--page-ink-dim); background:var(--page-chip); font:600 9px/1.3 var(--mono); letter-spacing:.04em; text-transform:uppercase; }
   .mode-badge.mimicry { color:var(--accent); background:color-mix(in srgb,var(--accent) 12%,transparent); }
   .name-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:7px; }
@@ -247,6 +254,7 @@ for (const slug of slugs) {
     mode: spec.positioning.mode,
     modeLabel: POSITIONING_MODES[spec.positioning.mode].label,
     category: categoryLabel(spec.appStore?.category?.primary),
+    isNew: CURRENT_BATCH.has(slug),
     hasAppIcon: existsSync(join(conceptDir(slug), 'assets', 'app-icon.png')),
     iconPlaceholder: Boolean(spec.iconPlaceholder),
   });

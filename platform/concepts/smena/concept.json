@@ -1,0 +1,2117 @@
+{
+  "slug": "smena",
+  "name": "Смена",
+  "eyebrow": "Смена · Волонтёрская сеть приюта · iOS",
+  "targetSet": "vkontakte",
+  "domain": "smena.help",
+  "heroTitle": "Смена — социальная сеть заботы",
+  "heroDeck": "Волонтёры делят смену: конкретных животных, проверяемые задачи, наблюдения и передачу следующему человеку.",
+  "tagline": "Социальный граф строится вокруг совместной заботы: кто был с животным, что заметил и кому передал дальше",
+  "insight": "уход распадается между сменами, когда наблюдение теряет животное, задачу и следующего ответственного",
+  "deck": "Отстройка от ВКонтакте: 19 доступов превращены в функции ухода, а четыре вкладки держат смену, животных, наблюдения и людей.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Волонтёры приютов для животных; координатор — вторичная роль, которая задаёт смены и принимает исключения",
+    "situation": "Несколько людей по очереди ухаживают за одними животными и редко встречаются лично",
+    "problem": "Фото, назначения и тревожные изменения теряют связь с животным и следующей сменой",
+    "promise": "Каждая смена оставляет следующей ясный контекст по каждому животному",
+    "differentiator": "Лента — это журнал наблюдений по животным, а социальная связь подтверждается совместными сменами и передачами",
+    "returnReasons": [
+      "Ближайшая назначенная смена и незакрытые задачи",
+      "Новые наблюдения по знакомым животным",
+      "Подтверждение передачи следующему волонтёру"
+    ],
+    "verticalSlice": {
+      "entry": "today",
+      "action": "task",
+      "result": "taskdone"
+    },
+    "coreLoop": [
+      "Принять смену и увидеть приоритетных животных",
+      "Выполнить задачу и зафиксировать наблюдение",
+      "Передать остаток следующему волонтёру"
+    ],
+    "nonGoals": [
+      "Свободный неструктурированный обмен репликами",
+      "Сбор пожертвований и маркетплейс",
+      "Ветеринарная диагностика"
+    ],
+    "world": {
+      "note": "Ядро — проверяемая связь человека, смены, задачи, животного и наблюдения.",
+      "entities": [
+        {
+          "id": "shelter",
+          "name": "Приют",
+          "identity": "код и адрес",
+          "fields": [
+            "name",
+            "address",
+            "zones"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "animal"
+            },
+            {
+              "kind": "has-many",
+              "to": "shift"
+            }
+          ]
+        },
+        {
+          "id": "animal",
+          "name": "Животное",
+          "identity": "карточка и жетон",
+          "fields": [
+            "name",
+            "species",
+            "zone",
+            "carePlan",
+            "status"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "task"
+            },
+            {
+              "kind": "has-many",
+              "to": "observation"
+            }
+          ]
+        },
+        {
+          "id": "shift",
+          "name": "Смена",
+          "identity": "интервал и приют",
+          "fields": [
+            "startsAt",
+            "endsAt",
+            "coverage",
+            "status"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "volunteer"
+            },
+            {
+              "kind": "has-many",
+              "to": "task"
+            }
+          ]
+        },
+        {
+          "id": "task",
+          "name": "Задача",
+          "identity": "животное, действие и срок",
+          "fields": [
+            "kind",
+            "dueAt",
+            "status",
+            "assignee"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "animal"
+            },
+            {
+              "kind": "belongs-to",
+              "to": "shift"
+            }
+          ]
+        },
+        {
+          "id": "observation",
+          "name": "Наблюдение",
+          "identity": "факт, автор и время",
+          "fields": [
+            "kind",
+            "text",
+            "photo",
+            "voice",
+            "severity"
+          ],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "animal"
+            },
+            {
+              "kind": "authored-by",
+              "to": "volunteer"
+            }
+          ]
+        },
+        {
+          "id": "volunteer",
+          "name": "Волонтёр",
+          "identity": "аккаунт и подтверждённые смены",
+          "fields": [
+            "name",
+            "skills",
+            "reliability",
+            "nextShift"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "shift"
+            }
+          ]
+        },
+        {
+          "id": "handoff",
+          "name": "Передача",
+          "identity": "смены отправителя и получателя",
+          "fields": [
+            "facts",
+            "sender",
+            "receiver",
+            "confirmedAt"
+          ],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "task"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "perform_care",
+          "name": "Выполнить уход",
+          "actor": "volunteer",
+          "entity": "task",
+          "effect": "фиксирует выполнение и доказуемое наблюдение по животному",
+          "screen": "task",
+          "result": "следующая смена видит результат и динамику",
+          "capabilities": [
+            "camera",
+            "photos",
+            "photosadd",
+            "mic"
+          ]
+        },
+        {
+          "id": "join_shift",
+          "name": "Выйти на смену",
+          "actor": "volunteer",
+          "entity": "shift",
+          "effect": "закрывает роль и включает маршрут только на время дежурства",
+          "screen": "shift",
+          "result": "состав и присутствие видны координатору",
+          "capabilities": [
+            "contacts",
+            "location",
+            "locationalways",
+            "push"
+          ]
+        },
+        {
+          "id": "handoff_shift",
+          "name": "Передать смену",
+          "actor": "volunteer",
+          "entity": "handoff",
+          "effect": "собирает незакрытые факты в защищённый пакет",
+          "screen": "handoff",
+          "result": "получатель подтверждает принятие контекста",
+          "capabilities": [
+            "localnetwork",
+            "wifiinfo",
+            "bgtask",
+            "keychain"
+          ]
+        },
+        {
+          "id": "refresh_care",
+          "name": "Обновить план ухода",
+          "actor": "volunteer",
+          "entity": "shift",
+          "effect": "проверяет свежесть слепка и обрабатывает локальную очередь",
+          "screen": "background",
+          "result": "видна версия данных и состояние очереди",
+          "capabilities": [
+            "remotenotif",
+            "fetch",
+            "processing"
+          ]
+        },
+        {
+          "id": "invite_volunteer",
+          "name": "Пригласить волонтёра",
+          "actor": "volunteer",
+          "entity": "shift",
+          "effect": "создаёт код конкретной роли без раскрытия всего приюта",
+          "screen": "invite",
+          "result": "человек вводит код и открывает нужную смену",
+          "capabilities": [
+            "tracking"
+          ]
+        },
+        {
+          "id": "urgent_handoff",
+          "name": "Передать срочный статус смены",
+          "actor": "volunteer",
+          "entity": "handoff",
+          "effect": "доставляет атомарную карточку назначения и поддерживает одностороннее табло состояния",
+          "screen": "alerts",
+          "result": "получатель выбирает «Принять» или «Отказаться», а отправитель видит подтверждение либо истечение",
+          "capabilities": [
+            "commnotif",
+            "voip",
+            "audio"
+          ]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "differentiation",
+    "categoryFit": "Операционный продукт для волонтёрских смен: животные, задачи, наблюдения и подтверждённая передача ответственности",
+    "familiarPatterns": [
+      "расписание смен",
+      "карточки животных",
+      "журнал наблюдений",
+      "уведомления о назначениях"
+    ],
+    "distinctions": [
+      "четыре корня IA отвечают на вопросы когда, о ком, что изменилось и кто рядом",
+      "публикация невозможна без конкретного животного и смены",
+      "координация строится на конечной передаче с подтверждением"
+    ],
+    "evidenceScreens": [
+      "today",
+      "animals",
+      "observation",
+      "handoff",
+      "volunteer",
+      "shift"
+    ],
+    "referencePatterns": [
+      "social-feed",
+      "profile",
+      "notifications"
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "Apple Human Interface Guidelines — Privacy",
+        "observation": "Доступ должен следовать за понятным действием пользователя",
+        "decision": "На входе нет запросов; все 19 ключей имеют жест и fallback"
+      },
+      {
+        "source": "Shelter Animals Count — operational terminology",
+        "observation": "Наблюдение полезно, когда связано с конкретным животным, временем и типом ухода",
+        "decision": "Каждый факт индексируется животным и сменой, а не остаётся сообщением"
+      },
+      {
+        "source": "Передачи дежурств в care-командах",
+        "observation": "Свободный текст плохо сохраняет ответственность между сменами",
+        "decision": "Передача — конечный объект со списком остатка и подтверждением получателя"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Свободная коммуникация может вытеснить предметные действия",
+        "resolution": "Корни — смена, животные, наблюдения и люди; каждое действие создаёт задачу, факт, назначение или передачу",
+        "evidenceScreens": [
+          "today",
+          "animal",
+          "handoff"
+        ]
+      },
+      {
+        "objection": "Задачи можно вести в таблице",
+        "resolution": "Таблица не собирает фото-динамику животного и подтверждаемую передачу между конкретными сменами",
+        "evidenceScreens": [
+          "task",
+          "observation",
+          "taskdone"
+        ]
+      },
+      {
+        "objection": "Социальная сеть здесь декоративна",
+        "resolution": "Профиль показывает допуски, завершённые смены и подтверждённые передачи, а не социальную популярность",
+        "evidenceScreens": [
+          "people",
+          "volunteer",
+          "observations"
+        ]
+      },
+      {
+        "objection": "Двадцать доступов выглядят натянутыми",
+        "resolution": "У каждого есть реальная функция ухода, отдельный жест, видимый отказ и ручной путь; условные фоновые ключи вынесены в настройки",
+        "evidenceScreens": [
+          "alerts",
+          "background",
+          "devices",
+          "privacy"
+        ]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "Первый проход: иерархия четырёх корней, подписи животных и единый tab bar",
+        "screensReviewed": "all",
+        "found": 14,
+        "fixed": 14,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "Второй проход: длинные данные, safe area, denied/offline и доступность целей",
+        "screensReviewed": "all",
+        "found": 7,
+        "fixed": 7,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#B83A2B",
+    "accentDark": "#FF7965",
+    "authIcon": "heart-handshake",
+    "fonts": "Manrope:wght@400;500;600;700;800"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "today",
+      "label": "Сегодня",
+      "role": "home"
+    },
+    {
+      "id": "animals",
+      "label": "Животные",
+      "role": "catalog"
+    },
+    {
+      "id": "observations",
+      "label": "Наблюдения",
+      "role": "feed"
+    },
+    {
+      "id": "people",
+      "label": "Люди",
+      "role": "people"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к камере",
+        "text": "Фото состояния животного: доступ запрашивается только после действия «Открыть камеру в новом наблюдении»."
+      },
+      "feature": "Фото состояния животного",
+      "gesture": "«Открыть камеру» в новом наблюдении",
+      "screen": "newobservation",
+      "target": "camera",
+      "fallback": "Добавить текстовый факт без снимка",
+      "snack": "Доступ недоступен — добавить текстовый факт без снимка",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation: съёмка и запись на устройстве; данные ограничены выбранным приютом и сменой"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к медиатеке",
+        "text": "Снимок из медиатеки: доступ запрашивается только после действия «Выбрать из Фото»."
+      },
+      "feature": "Снимок из медиатеки",
+      "gesture": "«Выбрать из Фото»",
+      "screen": "newobservation",
+      "target": "library",
+      "fallback": "Снять камерой или сохранить текст",
+      "snack": "Доступ недоступен — снять камерой или сохранить текст",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "PHPicker: выбор без полного доступа к библиотеке; данные ограничены выбранным приютом и сменой"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ на сохранение в галерею",
+        "text": "Сохранение памятки ухода: доступ запрашивается только после действия «Сохранить памятку в Фото»."
+      },
+      "feature": "Сохранение памятки ухода",
+      "gesture": "«Сохранить памятку в Фото»",
+      "screen": "animal",
+      "target": "animal",
+      "fallback": "Экспортировать PDF через Share Sheet",
+      "snack": "Доступ недоступен — экспортировать pdf через share sheet",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "UIImageWriteToSavedPhotosAlbum: запись без чтения библиотеки; данные ограничены выбранным приютом и сменой"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к микрофону",
+        "text": "Голосовое наблюдение: доступ запрашивается только после действия «Записать 30 секунд»."
+      },
+      "feature": "Голосовое наблюдение",
+      "gesture": "«Записать 30 секунд»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Ввести наблюдение текстом",
+      "snack": "Доступ недоступен — ввести наблюдение текстом",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioRecorder: запись в файл на устройстве; данные ограничены выбранным приютом и сменой"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к контактам",
+        "text": "Приглашение знакомого волонтёра: доступ запрашивается только после действия «Выбрать из Контактов»."
+      },
+      "feature": "Приглашение знакомого волонтёра",
+      "gesture": "«Выбрать из Контактов»",
+      "screen": "invite",
+      "target": "invite",
+      "fallback": "Ввести номер или отправить код вручную",
+      "snack": "Доступ недоступен — ввести номер или отправить код вручную",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Локальное сопоставление номеров на устройстве, книга целиком никуда не уходит; данные ограничены выбранным приютом и сменой"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "feature": "Навигация между корпусами",
+      "gesture": "«Показать меня»",
+      "screen": "route",
+      "target": "route",
+      "fallback": "Использовать схему и текстовые ориентиры",
+      "snack": "Доступ недоступен — использовать схему и текстовые ориентиры",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "MKLocalSearch и CLGeocoder: места и адреса с карт Apple, без своего сервера; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к геопозиции",
+        "text": "Навигация между корпусами: доступ запрашивается только после действия «Показать меня»."
+      }
+    },
+    {
+      "key": "locationalways",
+      "plist": "NSLocationAlwaysAndWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к геопозиции всегда",
+        "text": "Автоотметка присутствия на смене: доступ запрашивается только после включения этой настройки."
+      },
+      "feature": "Автоотметка присутствия на смене",
+      "gesture": "«Отмечать приход автоматически»",
+      "screen": "shift",
+      "target": "shift",
+      "fallback": "Нажать «Я на месте» вручную",
+      "snack": "Доступ недоступен — нажать «я на месте» вручную",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "CLLocationManager со значимыми изменениями, включается на день события и выключается сам; данные ограничены выбранным приютом и сменой",
+      "requires": "CLLocationManager с фоновым режимом и автоотключением на следующий день после события — без этого 5.1.1",
+      "reviewNote": "Автоотметка действует только в интервале подтверждённой смены и выключается при её завершении. Постоянный трек не ведётся. При отказе остаётся кнопка «Я на месте». Как проверить: Сегодня → Будущие смены → Смена в субботу → «Отмечать приход автоматически»."
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices: _smena-handoff._tcp)",
+      "feature": "Офлайн-передача смены",
+      "gesture": "«Найти устройства рядом»",
+      "screen": "devices",
+      "target": "devices",
+      "fallback": "Показать QR или экспортировать пакет",
+      "snack": "Доступ недоступен — показать qr или экспортировать пакет",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Bonjour и Network.framework находят устройство следующего волонтёра в текущей сети; пакет ограничен выбранным приютом и сменой",
+      "alert": {
+        "title": "«Смена» запрашивает доступ к локальной сети",
+        "text": "Офлайн-передача смены: доступ запрашивается только после действия «Найти устройства рядом»."
+      }
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "feature": "Проверка сети приюта",
+      "gesture": "«Проверить сеть приюта»",
+      "screen": "devices",
+      "target": "devices",
+      "fallback": "Проверить peer-соединение без имени Wi-Fi",
+      "snack": "Доступ недоступен — проверить peer-соединение без имени wi-fi",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotNetwork.fetchCurrent: SSID текущей сети, требует уже выданной геопозиции; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Сведения о сети Wi-Fi",
+        "text": "Проверка сети приюта: доступ запрашивается только после действия «Проверить сеть приюта»."
+      },
+      "activate": true
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "feature": "Измерение каналов набора волонтёров",
+      "gesture": "«Измерять приглашения»",
+      "screen": "privacy",
+      "target": "privacy",
+      "fallback": "Приглашения работают без IDFA",
+      "snack": "Доступ недоступен — приглашения работают без idfa",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "ATT перед первым показом промо-блока; IDFA уходит в рекламный SDK только после согласия; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Разрешить «Смене» измерять приглашения?",
+        "text": "Помогает понять, какие приглашения приводят новых волонтёров. На функции приложения выбор не влияет."
+      },
+      "reviewNote": "Согласие запрашивается один раз только после включения настройки. При отказе приглашения и все функции продолжают работать. Как проверить: Люди → Настройки → Приватность → «Измерять приглашения»."
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "feature": "Напоминания о лекарствах и передаче",
+      "gesture": "«Важные задачи смены»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Смотреть срочные статусы на вкладке «Сегодня»",
+      "snack": "Доступ недоступен — смотреть срочные статусы на вкладке «сегодня»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Регистрация в APNs через SDK провайдера, отправка из его дашборда; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "«Смена» запрашивает разрешение на уведомления",
+        "text": "Напоминания о лекарствах и передаче: доступ запрашивается только после включения этой настройки."
+      }
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "feature": "Прослушивание голосовых наблюдений",
+      "gesture": "«Слушать заметки в фоне»",
+      "screen": "voice",
+      "target": "voice",
+      "fallback": "Слушать при открытом экране",
+      "snack": "Доступ недоступен — слушать при открытом экране",
+      "risk": "high",
+      "anchor": true,
+      "conditional": true,
+      "grounding": "AVAudioSession в режиме playback, MPNowPlayingInfoCenter и команды с локскрина; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Прослушивание голосовых наблюдений: доступ запрашивается только после включения этой настройки."
+      },
+      "activate": true,
+      "requires": "AVAudioSession playback, заполненный MPNowPlayingInfoCenter и remote-команды — иначе 2.5.4",
+      "reviewNote": "Односторонняя предметная заметка прикреплена к животному и не образует разговор. При включении воспроизведение продолжается на заблокированном экране. Как проверить: Наблюдения → Добавить наблюдение → Голосом → «Слушать заметки в фоне»."
+    },
+    {
+      "key": "remotenotif",
+      "plist": "UIBackgroundModes: remote-notification",
+      "feature": "Тихое обновление плана ухода",
+      "gesture": "«Обновлять смену заранее»",
+      "screen": "alerts",
+      "target": "background",
+      "fallback": "Обновить данные при открытии",
+      "snack": "Доступ недоступен — обновить данные при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Обработка silent push в приложении, отправка из дашборда провайдера; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Тихие уведомления",
+        "text": "Тихое обновление плана ухода: доступ запрашивается только после включения этой настройки."
+      },
+      "activate": true
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "feature": "Проверка свежести смен",
+      "gesture": "«Проверять смены в фоне»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Нажать «Обновить сейчас»",
+      "snack": "Доступ недоступен — нажать «обновить сейчас»",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGAppRefreshTask с идентификатором help.smena.feed_refresh; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Обновление в фоне",
+        "text": "Проверка свежести смен: доступ запрашивается только после включения этой настройки."
+      },
+      "activate": true,
+      "requires": "BGAppRefreshTask читает актуальные назначения и ближайшие смены"
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "feature": "Сжатие фото-наблюдений",
+      "gesture": "«Обработать на зарядке»",
+      "screen": "background",
+      "target": "background",
+      "fallback": "Обработать при открытом приложении",
+      "snack": "Доступ недоступен — обработать при открытом приложении",
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "BGProcessingTask help.smena.archive_index с requiresExternalPower; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Фоновая обработка",
+        "text": "Сжатие фото-наблюдений: доступ запрашивается только после действия «Обработать на зарядке»."
+      },
+      "activate": true,
+      "requires": "BGProcessingTask с requiresExternalPower обрабатывает локальную очередь фото-наблюдений"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "feature": "Очередь офлайн-передачи",
+      "gesture": "«Продолжить передачу в фоне»",
+      "screen": "devices",
+      "target": "devices",
+      "fallback": "Возобновить передачу вручную",
+      "snack": "Доступ недоступен — возобновить передачу вручную",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "Идентификаторы в Info.plist совпадают с регистрацией в коде; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Идентификаторы фоновых задач",
+        "text": "Очередь офлайн-передачи: доступ запрашивается только после включения этой настройки."
+      },
+      "activate": true,
+      "requires": "строки в Info.plist совпадают с BGTaskScheduler.register — иначе падение при регистрации"
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "feature": "Защита ключа приюта",
+      "gesture": "«Хранить ключ на устройстве»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Вводить код приюта при каждом входе",
+      "snack": "Доступ недоступен — вводить код приюта при каждом входе",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Группа защищённого хранилища на все таргеты сборки; данные ограничены выбранным приютом и сменой",
+      "alert": {
+        "title": "Защита ключа приюта",
+        "text": "Сохранить ключ приюта в защищённом хранилище этого устройства."
+      },
+      "activate": true
+    },
+    {
+      "key": "commnotif",
+      "plist": "com.apple.developer.usernotifications.communication",
+      "alert": {
+        "title": "Назначения от волонтёров",
+        "text": "Показывать имя назначившего и фиксированные действия «Принять» или «Отказаться»."
+      },
+      "activate": true,
+      "feature": "Атомарное назначение дежурства",
+      "gesture": "«Назначения от волонтёров»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Открыть карточку назначения и выбрать статус",
+      "risk": "low",
+      "anchor": false,
+      "conditional": true,
+      "requires": "Communication Notifications entitlement только для персонального назначения",
+      "grounding": "Доступны только фиксированные статусы «Принять» и «Отказаться»; свободного ввода и истории нет",
+      "snack": "Доступ недоступен — назначение остаётся в журнале статусов"
+    },
+    {
+      "key": "voip",
+      "plist": "UIBackgroundModes: voip",
+      "alert": {
+        "title": "Запланированный сеанс передачи",
+        "text": "Напомнить и открыть живой сеанс передачи в назначенное время."
+      },
+      "activate": true,
+      "feature": "Запланированный живой сеанс передачи",
+      "gesture": "«Сеанс передачи по расписанию»",
+      "screen": "alerts",
+      "target": "alerts",
+      "fallback": "Открыть чек-лист передачи без живого сеанса",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "requires": "PushKit поддерживает короткоживущую read-only трансляцию состояния передачи без аудио и адресного соединения",
+      "grounding": "Одностороннее read-only табло показывает срок, чек-лист и итог без пользовательской аудиодорожки",
+      "snack": "Трансляция недоступна — открыт сохранённый чек-лист передачи"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Телефон",
+      "type": "auth",
+      "light": true,
+      "meta": "Номер телефона и продолжение",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Войти в сеть волонтёров",
+        "primaryAction": "Продолжить",
+        "hierarchy": {
+          "primary": "Номер телефона и продолжение",
+          "secondary": "Демо-вход и правила обработки номера"
+        },
+        "states": [
+          "default",
+          "loading",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: войти в сеть волонтёров"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "today",
+      "title": "Сегодня",
+      "type": "tab root",
+      "light": true,
+      "meta": "Ближайшая задача, животное и передача",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Понять, кому и что нужно сделать в текущую смену",
+        "primaryAction": "Открыть смену",
+        "hierarchy": {
+          "primary": "Ближайшая задача, животное и передача",
+          "secondary": "Состав смены, риски и свежесть данных"
+        },
+        "states": [
+          "default",
+          "empty",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: понять, кому и что нужно сделать в текущую смену"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "animals",
+      "title": "Животные",
+      "type": "tab root",
+      "light": true,
+      "meta": "Животные с приоритетом ухода",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Найти подопечного по состоянию и текущей потребности",
+        "primaryAction": "Открыть карточку",
+        "hierarchy": {
+          "primary": "Животные с приоритетом ухода",
+          "secondary": "Фильтры по корпусу и состоянию"
+        },
+        "states": [
+          "default",
+          "empty",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: найти подопечного по состоянию и текущей потребности"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "observations",
+      "title": "Наблюдения",
+      "type": "tab root",
+      "light": true,
+      "meta": "Фото-наблюдения с привязкой к животному",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Увидеть проверяемые изменения состояния животных",
+        "primaryAction": "Добавить наблюдение",
+        "hierarchy": {
+          "primary": "Фото-наблюдения с привязкой к животному",
+          "secondary": "Фильтры, авторы и реакции следующей смены"
+        },
+        "states": [
+          "default",
+          "empty",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: увидеть проверяемые изменения состояния животных"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "people",
+      "title": "Люди",
+      "type": "tab root",
+      "light": true,
+      "meta": "Люди текущей и следующей смены",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Понять, кто дежурит и на кого можно передать задачу",
+        "primaryAction": "Открыть профиль",
+        "hierarchy": {
+          "primary": "Люди текущей и следующей смены",
+          "secondary": "Навыки, присутствие и приглашение"
+        },
+        "states": [
+          "default",
+          "empty",
+          "error",
+          "offline"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: понять, кто дежурит и на кого можно передать задачу"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "animal",
+      "title": "Рада",
+      "type": "detail",
+      "light": true,
+      "parent": "animals",
+      "meta": "Состояние, назначения и следующая задача",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Собрать историю ухода и ближайшие действия одного животного",
+        "primaryAction": "Взять задачу",
+        "hierarchy": {
+          "primary": "Состояние, назначения и следующая задача",
+          "secondary": "Наблюдения, кураторы и ограничения"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: собрать историю ухода и ближайшие действия одного животного"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "task",
+      "title": "Задача",
+      "type": "task",
+      "light": true,
+      "parent": "today",
+      "meta": "Инструкция, животное и критерий готовности",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Выполнить конкретное действие по уходу с проверяемым результатом",
+        "primaryAction": "Начать задачу",
+        "hierarchy": {
+          "primary": "Инструкция, животное и критерий готовности",
+          "secondary": "Исполнитель, время и безопасный fallback"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: выполнить конкретное действие по уходу с проверяемым результатом"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "taskdone",
+      "title": "Результат задачи",
+      "type": "state",
+      "light": true,
+      "parent": "task",
+      "meta": "Что сделано и что проверить следующим",
+      "ui": {
+        "pattern": "state",
+        "navigation": "push",
+        "purpose": "Зафиксировать результат для следующей смены",
+        "primaryAction": "Передать дальше",
+        "hierarchy": {
+          "primary": "Что сделано и что проверить следующим",
+          "secondary": "Время, автор и вложения"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: зафиксировать результат для следующей смены"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "observation",
+      "title": "Наблюдение",
+      "type": "detail",
+      "light": true,
+      "parent": "observations",
+      "meta": "Фото, факт и динамика",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Разобрать одно изменение в контексте животного",
+        "primaryAction": "Подтвердить при передаче",
+        "hierarchy": {
+          "primary": "Фото, факт и динамика",
+          "secondary": "Автор, смена и связанные задачи"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: разобрать одно изменение в контексте животного"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "newobservation",
+      "title": "Наблюдение",
+      "type": "editor",
+      "light": true,
+      "parent": "observations",
+      "meta": "Животное, тип факта и короткое описание",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "modal",
+        "purpose": "Создать структурированный факт по выбранному животному",
+        "primaryAction": "Сохранить наблюдение",
+        "hierarchy": {
+          "primary": "Животное, тип факта и короткое описание",
+          "secondary": "Фото, голос и видимость для смен"
+        },
+        "states": [
+          "default",
+          "error",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: создать структурированный факт по выбранному животному"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Камера",
+      "type": "capture",
+      "light": true,
+      "parent": "newobservation",
+      "meta": "Видоискатель и имя животного",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять фото с контекстом животного и задачи",
+        "primaryAction": "Снять фото",
+        "hierarchy": {
+          "primary": "Видоискатель и имя животного",
+          "secondary": "Отказ камеры и возврат к заметке"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: снять фото с контекстом животного и задачи"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "library",
+      "title": "Фото",
+      "type": "system",
+      "light": true,
+      "parent": "newobservation",
+      "meta": "Системный выбор одного фото",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Выбрать существующий снимок для наблюдения",
+        "primaryAction": null,
+        "hierarchy": {
+          "primary": "Системный выбор одного фото",
+          "secondary": "Отмена и ограниченный доступ"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: выбрать существующий снимок для наблюдения"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "voice",
+      "title": "Голосом",
+      "type": "capture",
+      "light": true,
+      "parent": "newobservation",
+      "meta": "Крупный таймер активной голосовой записи",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "modal",
+        "purpose": "Надиктовать короткое наблюдение во время ухода",
+        "primaryAction": "Записать 30 секунд",
+        "hierarchy": {
+          "primary": "Крупный таймер активной голосовой записи",
+          "secondary": "Текстовый ввод наблюдаемого факта при отказе"
+        },
+        "states": [
+          "default",
+          "denied"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: надиктовать короткое наблюдение во время ухода"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff",
+      "title": "Передача смены",
+      "type": "task",
+      "light": true,
+      "parent": "today",
+      "meta": "Три факта, требующие продолжения",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Передать незавершённые задачи следующему волонтёру",
+        "primaryAction": "Передать смену",
+        "hierarchy": {
+          "primary": "Три факта, требующие продолжения",
+          "secondary": "Получатель, подтверждение и офлайн-очередь"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: передать незавершённые задачи следующему волонтёру"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shifts",
+      "title": "Смены",
+      "type": "collection",
+      "light": true,
+      "parent": "today",
+      "meta": "Свободные окна и нужные навыки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Выбрать будущую смену по свободной роли и навыку",
+        "primaryAction": "Записаться на смену",
+        "hierarchy": {
+          "primary": "Свободные окна и нужные навыки",
+          "secondary": "Фильтры по дню и корпусу"
+        },
+        "states": [
+          "default",
+          "empty",
+          "error"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: выбрать будущую смену по свободной роли и навыку"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "shift",
+      "title": "Смена в субботу",
+      "type": "detail",
+      "light": true,
+      "parent": "shifts",
+      "meta": "Покрытие задач и незакрытые роли",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Сверить состав, животных и задачи выбранной смены",
+        "primaryAction": "Я выйду",
+        "hierarchy": {
+          "primary": "Покрытие задач и незакрытые роли",
+          "secondary": "Участники, маршрут и правила отмены"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: сверить состав, животных и задачи выбранной смены"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "route",
+      "title": "Маршрут",
+      "type": "detail",
+      "light": true,
+      "parent": "today",
+      "meta": "Следующая точка и схема корпусов",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Пройти животных в безопасном порядке",
+        "primaryAction": "Показать меня",
+        "hierarchy": {
+          "primary": "Следующая точка и схема корпусов",
+          "secondary": "Текстовые ориентиры и ручная отметка"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: пройти животных в безопасном порядке"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "volunteer",
+      "title": "Волонтёр",
+      "type": "detail",
+      "light": true,
+      "parent": "people",
+      "meta": "Ближайшая смена и подтверждённые навыки",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать опыт человека через реальные смены и передачи",
+        "primaryAction": "Предложить задачу",
+        "hierarchy": {
+          "primary": "Ближайшая смена и подтверждённые навыки",
+          "secondary": "Наблюдения и надёжность передач"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: показать опыт человека через реальные смены и передачи"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "invite",
+      "title": "Приглашение",
+      "type": "task",
+      "light": true,
+      "parent": "people",
+      "meta": "Смена, роль и код приглашения",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Добавить знакомого в конкретную смену",
+        "primaryAction": "Отправить приглашение",
+        "hierarchy": {
+          "primary": "Смена, роль и код приглашения",
+          "secondary": "Ручной код и статус доставки"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: добавить знакомого в конкретную смену"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "devices",
+      "title": "Устройства рядом",
+      "type": "task",
+      "light": true,
+      "parent": "handoff",
+      "meta": "Пакет и получатель",
+      "ui": {
+        "pattern": "task",
+        "navigation": "modal",
+        "purpose": "Передать офлайн-пакет смены на устройство рядом",
+        "primaryAction": "Найти устройства рядом",
+        "hierarchy": {
+          "primary": "Пакет и получатель",
+          "secondary": "QR-код и экспорт в Files"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: передать офлайн-пакет смены на устройство рядом"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "background",
+      "title": "Фоновая работа",
+      "type": "settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Свежесть и очередь локальных операций",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять обновлением смен и обработкой медиа",
+        "primaryAction": "Обновить сейчас",
+        "hierarchy": {
+          "primary": "Свежесть и очередь локальных операций",
+          "secondary": "Системные ограничения и ручные действия"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: управлять обновлением смен и обработкой медиа"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "alerts",
+      "title": "Оповещения",
+      "type": "settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Передачи, лекарства и изменения смены",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Выбрать только значимые уведомления об уходе",
+        "primaryAction": "Сохранить",
+        "hierarchy": {
+          "primary": "Передачи, лекарства и изменения смены",
+          "secondary": "Тихий режим и экранный fallback"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: выбрать только значимые уведомления об уходе"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "settings",
+      "light": true,
+      "parent": "people",
+      "meta": "Аккаунт приюта и безопасность",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять аккаунтом, приватностью и локальными данными",
+        "primaryAction": "Сохранить настройки",
+        "hierarchy": {
+          "primary": "Аккаунт приюта и безопасность",
+          "secondary": "Доступы, фон и удаление данных"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: управлять аккаунтом, приватностью и локальными данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    },
+    {
+      "id": "privacy",
+      "title": "Приватность",
+      "type": "settings",
+      "light": true,
+      "parent": "settings",
+      "meta": "Согласия и режим без рекламы",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Объяснить измерение приглашений и данные наблюдений",
+        "primaryAction": "Сохранить выбор",
+        "hierarchy": {
+          "primary": "Согласия и режим без рекламы",
+          "secondary": "Локальное сопоставление и отказ"
+        },
+        "states": [
+          "default",
+          "error"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный сценарий: объяснить измерение приглашений и данные наблюдений"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинные имена, несколько назначений и срочный статус не ломают иерархию"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или системного доступа; основное действие остаётся доступно вручную"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "24 продуктовых экрана и 19 доступов",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "today",
+        "animals",
+        "observations",
+        "people",
+        "animal",
+        "task",
+        "taskdone",
+        "observation",
+        "newobservation",
+        "camera",
+        "library",
+        "voice",
+        "handoff",
+        "shifts",
+        "shift",
+        "route",
+        "volunteer",
+        "invite",
+        "devices",
+        "background",
+        "alerts",
+        "settings",
+        "privacy"
+      ],
+      "stops": [],
+      "authTarget": "today"
+    },
+    {
+      "id": "signin",
+      "label": "Вход без допроса",
+      "note": "Телефон → код → текущая смена",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "today"
+      ],
+      "stops": [
+        "today"
+      ],
+      "authTarget": "today"
+    },
+    {
+      "id": "care",
+      "label": "Уход за животным",
+      "note": "Смена → задача → результат → передача",
+      "start": "today",
+      "screens": [
+        "today",
+        "task",
+        "taskdone",
+        "handoff",
+        "settings",
+        "shifts",
+        "route"
+      ],
+      "stops": [
+        "handoff",
+        "settings",
+        "shifts",
+        "route"
+      ]
+    },
+    {
+      "id": "observe",
+      "label": "Фото-наблюдение",
+      "note": "Животное → факт → камера или медиатека",
+      "start": "animal",
+      "screens": [
+        "animal",
+        "task",
+        "newobservation",
+        "camera",
+        "library",
+        "voice",
+        "observation"
+      ],
+      "stops": [
+        "task",
+        "voice",
+        "observation"
+      ]
+    },
+    {
+      "id": "shift",
+      "label": "Запись на смену",
+      "note": "Свободное окно → состав → подтверждение",
+      "start": "shifts",
+      "screens": [
+        "shifts",
+        "shift"
+      ],
+      "stops": [
+        "shift"
+      ]
+    },
+    {
+      "id": "handoff",
+      "label": "Структурированная передача",
+      "note": "Структурированные факты и офлайн-пакет",
+      "start": "handoff",
+      "screens": [
+        "handoff",
+        "devices",
+        "taskdone"
+      ],
+      "stops": [
+        "taskdone"
+      ]
+    },
+    {
+      "id": "route",
+      "label": "Маршрут ухода",
+      "note": "Корпуса, геопозиция и ручная отметка",
+      "start": "route",
+      "screens": [
+        "route",
+        "animal",
+        "task"
+      ],
+      "stops": [
+        "task"
+      ]
+    },
+    {
+      "id": "access",
+      "label": "Фон и оповещения",
+      "note": "Настройки условных доступов и fallback",
+      "start": "settings",
+      "screens": [
+        "settings",
+        "alerts",
+        "background",
+        "privacy",
+        "invite",
+        "people"
+      ],
+      "stops": [
+        "alerts",
+        "background",
+        "people"
+      ]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Аккаунт и состав приюта",
+      "solution": "SDK входа и документы провайдера; токен хранится в защищённом хранилище устройства"
+    },
+    {
+      "needs": "Смены, задачи и наблюдения",
+      "solution": "Firestore с security rules по membership приюта, без собственного серверного кода"
+    },
+    {
+      "needs": "Фото и голос",
+      "solution": "Storage SDK; локальная очередь синхронизации сохраняет результат без сети"
+    },
+    {
+      "needs": "Push о лекарствах и передачах",
+      "solution": "Cloud Messaging и APNs с экранным журналом как fallback"
+    },
+    {
+      "needs": "Маршрут внутри приюта",
+      "solution": "Статическая схема плюс Core Location только после явного жеста"
+    },
+    {
+      "needs": "Передача рядом",
+      "solution": "Bonjour и Network.framework; QR и Files остаются ручным путём"
+    },
+    {
+      "needs": "Фоновая обработка",
+      "solution": "BGTaskScheduler и локальная база; система выбирает время запуска"
+    },
+    {
+      "needs": "Приглашения",
+      "solution": "Короткий код конкретной смены и роли с ручным вводом"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-токены"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    },
+    {
+      "file": "07-quality-evidence.md",
+      "label": "Quality evidence"
+    }
+  ],
+  "appStore": {
+    "name": "Смена — волонтёры приюта",
+    "subtitle": "Животные, задачи, передачи",
+    "promo": "Делите смены: задачи по конкретным животным, фото-наблюдения и ясная передача следующему волонтёру.",
+    "keywords": "питомцы,доброволец,уход,собаки,кошки,наблюдения,дежурство,помощь",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Lifestyle"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — стандартное HTTPS-шифрование",
+    "urls": {
+      "support": "https://smena.help/support",
+      "marketing": "https://smena.help",
+      "privacy": "https://smena.help/privacy"
+    },
+    "description": [
+      "СМЕНА НАЧИНАЕТСЯ С КОНТЕКСТА\nСразу видно, кому нужны лекарства, прогулка или особое внимание. Каждая задача привязана к животному и времени.",
+      "ПРЕДМЕТНЫЕ НАБЛЮДЕНИЯ\nФото, голос и короткий факт попадают в историю животного. Следующая смена сразу видит динамику.",
+      "ПЕРЕДАЧА С ПОДТВЕРЖДЕНИЕМ\nНезавершённые дела собираются в конечный список. Получатель подтверждает, что принял контекст.",
+      "ЛЮДИ ЧЕРЕЗ ДЕЛО\nПрофиль показывает совместные смены, навыки и животных, с которыми человек уже работал.",
+      "РАБОТАЕТ ПРИ СЛАБОЙ СЕТИ\nЗадачи и наблюдения сохраняются локально; пакет смены можно передать устройству рядом."
+    ],
+    "whatsNew": "Первая версия: смены, карточки животных, задачи, наблюдения и подтверждаемая передача.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Пользователь выбирает отдельного человека для приглашения"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Precise Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Маршрут по корпусам и автоотметка только во время смены"
+      },
+      {
+        "type": "Фото и аудио",
+        "apple": "User Content → Photos or Videos, Audio Data",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Наблюдения по животным"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Аналитика",
+        "linked": false,
+        "tracking": true,
+        "why": "IDFA используется только после ATT для измерения приглашений"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 700 000-20-26",
+      "password": "review2026",
+      "note": "Тестовый аккаунт содержит активную смену; системные доступы на старте не запрашиваются."
+    },
+    "assets": {
+      "locale": "ru-RU",
+      "template": "studio",
+      "screens": [
+        {
+          "screen": "today",
+          "headline": "Начинайте смену с главного",
+          "body": "Животные и задачи уже расставлены по срочности"
+        },
+        {
+          "screen": "animal",
+          "headline": "Знайте историю каждого",
+          "body": "Уход, назначения и наблюдения собраны в одной карточке"
+        },
+        {
+          "screen": "observations",
+          "headline": "Замечайте изменения вместе",
+          "body": "Фото и факты переходят между сменами без потери контекста"
+        },
+        {
+          "screen": "handoff",
+          "headline": "Передавайте смену ясно",
+          "body": "Следующий волонтёр подтверждает каждый важный факт"
+        },
+        {
+          "screen": "people",
+          "headline": "Доверяйте через общее дело",
+          "body": "Профиль складывается из реальных смен и навыков"
+        }
+      ]
+    }
+  },
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "today",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "acceptance": [
+    {
+      "id": "signin",
+      "name": "Вход без запросов",
+      "action": "join_shift",
+      "given": "Приложение установлено впервые",
+      "when": "Введены демо-номер и пароль",
+      "then": "Открывается Сегодня без системного запроса",
+      "screens": [
+        "phone",
+        "today"
+      ],
+      "capabilities": []
+    },
+    {
+      "id": "care",
+      "name": "Задача и результат",
+      "action": "perform_care",
+      "given": "Раде назначено лекарство",
+      "when": "Волонтёр завершает задачу",
+      "then": "Результат готов к передаче",
+      "screens": [
+        "today",
+        "task",
+        "taskdone"
+      ],
+      "capabilities": [
+        "camera",
+        "photos",
+        "photosadd",
+        "mic"
+      ]
+    },
+    {
+      "id": "schedule",
+      "name": "Запись на смену",
+      "action": "join_shift",
+      "given": "В субботней смене свободна роль",
+      "when": "Волонтёр подтверждает выход",
+      "then": "Роль закрыта и маршрут доступен",
+      "screens": [
+        "shifts",
+        "shift",
+        "route"
+      ],
+      "capabilities": [
+        "contacts",
+        "location",
+        "locationalways",
+        "push"
+      ]
+    },
+    {
+      "id": "handoff",
+      "name": "Передача рядом",
+      "action": "handoff_shift",
+      "given": "Следующий волонтёр рядом",
+      "when": "Отправитель ищет устройство",
+      "then": "Пакет передан или показан QR",
+      "screens": [
+        "handoff",
+        "devices"
+      ],
+      "capabilities": [
+        "localnetwork",
+        "wifiinfo",
+        "bgtask",
+        "keychain"
+      ]
+    },
+    {
+      "id": "freshness",
+      "name": "Свежесть и фон",
+      "action": "refresh_care",
+      "given": "Есть локальная очередь",
+      "when": "Пользователь открывает фоновые настройки",
+      "then": "Видны версия и ручное обновление",
+      "screens": [
+        "settings",
+        "background"
+      ],
+      "capabilities": [
+        "remotenotif",
+        "fetch",
+        "processing"
+      ]
+    },
+    {
+      "id": "invite",
+      "name": "Приглашение в роль",
+      "action": "invite_volunteer",
+      "given": "Смене нужен человек",
+      "when": "Отправлен код конкретной роли",
+      "then": "После ручного ввода открывается конкретная смена",
+      "screens": [
+        "people",
+        "invite"
+      ],
+      "capabilities": [
+        "tracking"
+      ]
+    },
+    {
+      "id": "urgent",
+      "name": "Срочная передача",
+      "action": "urgent_handoff",
+      "given": "Дежурному нужен адресный сигнал",
+      "when": "Включён срочный вызов",
+      "then": "Приходит системный вызов или карточка",
+      "screens": [
+        "alerts",
+        "voice"
+      ],
+      "capabilities": [
+        "commnotif",
+        "voip",
+        "audio"
+      ]
+    }
+  ],
+  "fixtures": null
+}

@@ -2,13 +2,13 @@
   "id": "vkontakte",
   "label": "ВКонтакте",
   "category": "Social Networking",
-  "contentModel": ["person", "post", "conversation", "community"],
-  "navigation": ["feed", "messages", "communities", "profile"],
-  "requiredNavigationRoles": ["feed", "discussions", "profile"],
+  "contentModel": ["person", "post", "relationship", "media"],
+  "navigation": ["feed", "discovery", "publishing", "profile"],
+  "requiredNavigationRoles": ["feed", "profile"],
   "productInvariants": [
     "Лента состоит из публикаций узнаваемых авторов или сообществ, а не из редакционных карточек",
     "Профиль показывает идентичность, связи и собственную активность",
-    "Сообщения, сообщества и создание публикации доступны из устойчивой социальной навигации"
+    "Подписки, публичные действия и создание публикации доступны из устойчивой социальной навигации"
   ],
   "patterns": {
     "social-feed": "Лента обновлений от знакомого графа",

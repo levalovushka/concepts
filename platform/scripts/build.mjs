@@ -735,6 +735,7 @@ const brandCss = (b) => `
    продуктовый цвет или делать CTA невидимым. Контракт идёт после styles.css. */
 const productUiContractCss = (spec) => {
   const isVkMimicry = ['vk-video', 'vk-music'].includes(spec.targetSet);
+  const hasCurrentBatchAuth = new Set(['kontur', 'kvartal', 'marshrut', 'prichal', 'ryadom', 'smena', 'tropa', 'uzel', 'verstak']).has(spec.slug);
   const customAuthMetrics = {
     double: ['32px', '36px', '650', '13px'], dvor: ['24px', '29px', '700', '8px'],
     liga: ['28px', '32px', '750', '12px'], looks: ['29px', '33px', '500', '12px'],
@@ -756,6 +757,29 @@ const productUiContractCss = (spec) => {
   background:color-mix(in srgb, currentColor 8%, transparent)!important;
   box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent)!important;
 }
+${hasCurrentBatchAuth ? `
+.auth-${spec.slug}.unified-auth .unified-auth-body {
+  padding-top:calc(var(--safe-top) + 24px)!important;
+}
+.auth-${spec.slug}.unified-auth .auth-mark {
+  margin-top:4px!important;
+  margin-bottom:0!important;
+}
+.auth-${spec.slug}.unified-auth h1 {
+  margin:24px 0 0!important;
+  font-family:var(--face)!important;
+  font-size:34px!important;
+  line-height:39px!important;
+  font-weight:700!important;
+  letter-spacing:-.035em!important;
+}
+.auth-${spec.slug}.unified-auth .unified-auth-lede {
+  margin-top:10px!important;
+  font-size:16px!important;
+  line-height:23px!important;
+  font-weight:400!important;
+}
+` : ''}
 ${customAuthMetrics ? `
 .auth-${spec.slug}.unified-auth h1 {
   font-size:${customAuthMetrics[0]}!important;

@@ -1,0 +1,79 @@
+<div class="screen vs-page" id="scr-checkin">
+  <div class="navbar vs-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Отметиться</div>
+  </div>
+  <div class="body-scroll vs-task">
+    <div class="vs-place-mark">
+      <svg class="ico-svg"><use href="#i-wrench" /></svg>
+    </div>
+    <span class="vs-kicker">МАСТЕРСКАЯ НА ЛЕСНОЙ</span>
+    <h1>Где будете работать?</h1>
+    <p class="vs-lede">
+      Отметка появится рядом с вашей текущей работой и исчезнет автоматически в
+      21:30.
+    </p>
+    <div class="vs-choice is-selected">
+      <div>
+        <strong>Сборочный стол 2</strong><span>свободен · розетки справа</span>
+      </div>
+      <svg class="ico-svg"><use href="#i-check" /></svg>
+    </div>
+    <div class="vs-choice">
+      <div>
+        <strong>Фрезерная</strong><span>занята до 20:10 · 2 человека</span>
+      </div>
+      <span>18 мин</span>
+    </div>
+    <div class="vs-choice">
+      <div>
+        <strong>Покраска</strong
+        ><span>вытяжка включена · свободно с 19:30</span>
+      </div>
+      <span>43 мин</span>
+    </div>
+    <div class="vs-check-note">
+      <svg class="ico-svg"><use href="#i-map-pin" /></svg>
+      <p>
+        <strong>Проверим только сейчас</strong
+        ><span
+          >Сравним место с радиусом мастерской. Маршрут и перемещения не
+          сохраняются.</span
+        >
+      </p>
+    </div>
+    <div class="vs-denied perm-hidden" data-show-denied="location">
+      <strong>Геопозиция выключена</strong
+      ><span
+        >Отправьте ручную отметку — её подтвердит любой участник, который уже на
+        месте.</span
+      ><button
+        class="vs-link tap"
+        data-toast="Ручная отметка отправлена участникам на месте"
+      >
+        Отправить вручную
+      </button>
+    </div>
+    <div class="push"></div>
+    <button
+      class="vs-primary block tap"
+      data-primary
+      data-ask="location|present|checkin"
+    >
+      Подтвердить присутствие
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

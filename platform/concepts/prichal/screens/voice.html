@@ -1,0 +1,36 @@
+<div class="screen pc-page cx-page" id="scr-voice">
+  <div class="navbar cx-nav">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Голосовая проверка</div>
+  </div>
+  <div class="body-scroll cx-scroll">
+    <div class="cx-recorder">
+      <svg class="ico-svg"><use href="#i-mic" /></svg><span>00:00</span>
+      <div>
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i
+        ><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <p>Назовите узел, звук и что проверить следующему экипажу.</p>
+    </div>
+    <div class="cx-denied perm-hidden" data-show-denied="speech">
+      <b>Можно продолжить</b
+      ><span>Сохраните аудио без расшифровки или заполните текст вручную.</span>
+    </div>
+    <button class="cx-primary tap" data-primary data-ask="speech|voice|voice">
+      Записать проверку
+    </button>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

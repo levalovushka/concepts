@@ -1,0 +1,16 @@
+<!-- @overview:vision -->
+<p class="deck">{{INSIGHT}}.</p>
+<div class="utp-box"><strong>УТП.</strong> {{TAGLINE}}</div>
+{{FEAT_GRID}}
+<!-- @end -->
+
+<!-- @overview:arch -->
+<p class="deck">Клиентское приложение без собственного серверного кода. Каждый доступ появляется после предметного действия и сохраняет работающий fallback.</p>
+<div class="flow"><span class="chip">Вход по номеру</span><span class="arr">→</span><span class="chip">Пароль</span><span class="arr">→</span><span class="chip">Лента троп</span></div>
+<div class="flow"><span class="chip">Лента</span><span class="arr">→</span><span class="chip">Наблюдение точки</span><span class="arr">→</span><span class="chip">Задача и передача</span></div>
+<div class="arch tr-arch"><div class="arch-layer"><h3>UI</h3><p>Четыре tab roots, навигация, permission alerts и предметные fallback.</p></div><div class="arch-layer"><h3>Domain</h3><p>Тропа · точка · наблюдение · задача · сессия · участник.</p></div><div class="arch-layer"><h3>Services</h3><p>Permissions · PhoneAuth · маршрут · сезонный индекс · локальная сверка.</p></div><div class="arch-layer"><h3>Data</h3><p>Core Data — офлайн-слепок. Keychain — токен. Файлы — локальный кэш. Своего бэкенда нет.</p></div></div>
+<!-- @end -->
+
+<section class="section" id="perm-matrix"><h2>Матрица доступов</h2><p class="deck">Каждый ключ привязан к подписанному действию, доступному за 2–3 тапа.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Почему здесь нет бэкенда</h2><p class="deck">Что требовало бы собственного сервера и чем заменено.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и доступы</h2><p class="deck">Экраны, типы переходов и точки запроса.</p>{{SCREEN_TABLE}}</section>

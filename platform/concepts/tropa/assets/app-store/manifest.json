@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "tropa",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "feed",
+      "headline": "Изменения, которые важны тропе",
+      "body": "Наблюдения, переданные задачи и итоги своих маршрутов в одной ленте"
+    },
+    {
+      "screen": "trail",
+      "headline": "Паспорт живого маршрута",
+      "body": "Устойчивые точки, свежесть обхода и сезонная память"
+    },
+    {
+      "screen": "session",
+      "headline": "Уход начинается с общего плана",
+      "body": "Люди, инструменты и работы собраны до точки встречи"
+    },
+    {
+      "screen": "handoff",
+      "headline": "Ни одна задача не теряется",
+      "body": "Хвост получает следующего ответственного и проверяемый контекст"
+    },
+    {
+      "screen": "profile",
+      "headline": "Вклад вместо подписчиков",
+      "body": "Поддерживаемые тропы, дежурства и завершённые задачи"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

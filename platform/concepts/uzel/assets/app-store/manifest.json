@@ -1,0 +1,75 @@
+{
+  "requirementsChecked": "2026-09-01",
+  "slug": "uzel",
+  "locale": "ru-RU",
+  "template": "studio",
+  "tone": "light",
+  "devices": [
+    "iphone-6.9",
+    "iphone-6.5",
+    "iphone-6.3",
+    "iphone-6.1"
+  ],
+  "screens": [
+    {
+      "screen": "feed",
+      "headline": "Следите за ремонтом людей",
+      "body": "Авторские этапы, реакции и сохранения в живой ленте"
+    },
+    {
+      "screen": "project",
+      "headline": "Весь путь одной вещи",
+      "body": "Этапы, ответственный и срок остаются в проекте"
+    },
+    {
+      "screen": "projects",
+      "headline": "Все ваши вещи под рукой",
+      "body": "Проект хранит текущий этап, срок и следующий шаг"
+    },
+    {
+      "screen": "shifts",
+      "headline": "Работа начинается со смены",
+      "body": "Роль, время и задача закреплены до прихода"
+    },
+    {
+      "screen": "profile",
+      "headline": "Показывайте свой опыт",
+      "body": "Профиль собирает публикации, подписчиков и сохранённые решения"
+    }
+  ],
+  "captureSource": "web-prototype",
+  "targets": {
+    "iphone-6.9": {
+      "label": "iPhone 6.9″",
+      "width": 1320,
+      "height": 2868,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": true
+    },
+    "iphone-6.5": {
+      "label": "iPhone 6.5″",
+      "width": 1284,
+      "height": 2778,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.3": {
+      "label": "iPhone 6.3″",
+      "width": 1206,
+      "height": 2622,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    },
+    "iphone-6.1": {
+      "label": "iPhone 6.1″",
+      "width": 1170,
+      "height": 2532,
+      "source": "phone",
+      "orientation": "portrait",
+      "required": false
+    }
+  }
+}

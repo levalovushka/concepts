@@ -1,0 +1,103 @@
+<div class="screen s-page" id="scr-alerts">
+  <div class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Оповещения</div>
+  </div>
+  <div class="body-scroll s-scroll">
+    <div class="s-identity">
+      <span>Только то, что меняет уход</span>
+      <h2>Оповещения смены</h2>
+    </div>
+    <div class="s-stack">
+      <div class="s-card">
+        <span class="s-mark">01</span
+        ><span
+          ><b>Лекарства и срочные проверки</b
+          ><small>точное животное, срок и действие</small></span
+        ><svg class="ico-svg ios-disclosure">
+          <use href="#i-chevron-right" />
+        </svg>
+      </div>
+      <div class="s-card">
+        <span class="s-mark">02</span
+        ><span
+          ><b>Карточки назначений</b
+          ><small>только «Принять» или «Отказаться»</small></span
+        ><svg class="ico-svg ios-disclosure">
+          <use href="#i-chevron-right" />
+        </svg>
+      </div>
+    </div>
+    <button class="s-access is-toggle tap" data-ask="push|alerts|alerts">
+      <span
+        ><b>Важные задачи смены</b
+        ><small>Напоминания о лекарствах и сроках</small></span
+      ><span class="s-switch"
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+      ></span>
+    </button>
+    <div class="s-denied perm-hidden" data-show-denied="push">
+      Срочные статусы доступны на главной вкладке.
+    </div>
+    <button
+      class="s-access is-toggle tap"
+      data-activate="remotenotif|background"
+    >
+      <span
+        ><b>Обновлять план заранее</b
+        ><small>Тихая загрузка изменений смены</small></span
+      ><span class="s-switch"
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+      ></span>
+    </button>
+    <div class="s-denied perm-hidden" data-show-denied="remotenotif">
+      План обновится при открытии.
+    </div>
+    <button class="s-access is-toggle tap" data-activate="commnotif|alerts">
+      <span
+        ><b>Атомарные назначения</b
+        ><small>Карточка без поля ввода и истории</small></span
+      ><span class="s-switch"
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+      ></span>
+    </button>
+    <div class="s-denied perm-hidden" data-show-denied="commnotif">
+      Назначение останется в журнале передачи.
+    </div>
+    <div class="s-denied perm-hidden" data-show-granted="commnotif">
+      Карточки включены: доступны фиксированные действия «Принять» и
+      «Отказаться».
+    </div>
+    <button class="s-access is-toggle tap" data-activate="voip|alerts">
+      <span
+        ><b>Фоновое табло передачи</b
+        ><small>Одностороннее обновление срока, чек-листа и итога</small></span
+      ><span class="s-switch"
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+      ></span>
+    </button>
+    <div class="s-denied perm-hidden" data-show-denied="voip">
+      Откроется сохранённый чек-лист передачи.
+    </div>
+    <div class="s-denied perm-hidden" data-show-granted="voip">
+      Табло активно: статус обновляется в фоне без адресного соединения.
+    </div>
+    <button class="btn-filled tap s-primary" data-primary data-go="today">
+      Сохранить
+    </button>
+    <div class="s-space"></div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

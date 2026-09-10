@@ -1,0 +1,75 @@
+<div class="screen ios-surface kt-screen" id="scr-compose">
+  <div class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-left" /></svg
+        ><span class="back-label">Назад</span>
+      </button>
+    </div>
+    <div class="nav-spacer"></div>
+  </div>
+  <main class="body-scroll kt-scroll">
+    <div class="kt-editor-head">
+      <h1>Новый контакт-лист</h1>
+      <button
+        class="btn-plain"
+        data-primary
+        data-toast="Контакт-лист опубликован"
+      >
+        Опубликовать
+      </button>
+    </div>
+    <div class="kt-textarea">Коротко опишите серию и отбор кадров</div>
+    <div class="kt-compose-grid">
+      <button data-ask="camera|camera|compose">
+        <span
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-camera" /></svg></span
+        ><strong>Сканировать лист</strong><small>Камера телефона</small></button
+      ><button data-ask="photos|picker|compose">
+        <span
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-images" /></svg></span
+        ><strong>Выбрать из Фото</strong><small>Только выбранные</small>
+      </button>
+    </div>
+    <div class="kt-fallback perm-hidden" data-show-denied="camera">
+      Камера недоступна — опишите кадр текстом или выберите скан.
+    </div>
+    <div class="kt-fallback perm-hidden" data-show-denied="photos">
+      Фото недоступны — снимите контрольный кадр камерой.
+    </div>
+    <div class="ios-list kt-form">
+      <button class="row has-lead tap" data-toast="Плёнка выбрана">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-bookmark" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Плёнка</strong><span>Ilford HP5 · EI 800</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-go="batch">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-droplets" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Проявка</strong><span>DD-X 1+4 · 20 °C · 9:30</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-toast="Место сохранено">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-map-pin" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Место</strong><span>Самал-2 · вручную</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg>
+      </button>
+    </div>
+  </main>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

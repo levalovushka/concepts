@@ -1,0 +1,86 @@
+<div class="screen ios-surface kt-screen" id="scr-notifications">
+  <div class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-left" /></svg
+        ><span class="back-label">Назад</span>
+      </button>
+    </div>
+    <div class="nav-spacer"></div>
+  </div>
+  <main class="body-scroll kt-scroll">
+    <h1>Уведомления</h1>
+    <p class="kt-lede">
+      Только события, которые меняют договорённость или физический материал.
+    </p>
+    <div class="kt-fallback perm-hidden" data-show-denied="push">
+      Уведомления выключены — статусы останутся в журнале событий.
+    </div>
+    <div class="kt-fallback perm-hidden" data-show-denied="remotenotif">
+      Статусы обновятся после открытия.
+    </div>
+    <div class="kt-fallback perm-hidden" data-show-denied="commnotif">
+      Участник не показывается в системном статусе.
+    </div>
+    <div class="kt-safe-note perm-hidden" data-show-granted="commnotif">Именной статус передачи включён · только фиксированное событие</div>
+    <button
+      class="btn-filled block"
+      data-primary
+      data-ask="push|notifications|notifications"
+    >
+      Разрешить уведомления
+    </button>
+    <div class="ios-list kt-form">
+      <button class="row has-lead tap" data-toast="Статус готовности включён">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-check" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Готовность контакт-листа</strong><span>Включено</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-toast="Статус прогулки включён">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-map-pin" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Изменение прогулки</strong><span>Включено</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="row has-lead tap" data-toast="Статус передачи включён">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-arrow-left-right" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Передача материалов</strong><span>Включено</span></span
+        ><svg class="ico-svg" aria-hidden="true">
+          <use href="#i-chevron-right" />
+        </svg>
+      </button>
+      <div class="row has-lead" data-activate="remotenotif|notifications">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-rotate-cw" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Обновлять статусы заранее</strong
+          ><span>Состав и передачи до открытия</span></span
+        >
+        <div class="switch" data-switch="remotenotif"></div>
+      </div>
+      <div class="row has-lead" data-activate="commnotif|notifications">
+        <span class="kt-row-icon"
+          ><svg class="ico-svg" aria-hidden="true">
+            <use href="#i-user" /></svg></span
+        ><span class="kt-row-copy"
+          ><strong>Показывать участника передачи</strong
+          ><span>Имя в карточке физической операции</span></span
+        >
+        <div class="switch" data-switch="commnotif"></div>
+      </div>
+    </div>
+  </main>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>
