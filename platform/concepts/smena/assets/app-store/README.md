@@ -1,4 +1,4 @@
-# Смена — App Store assets
+# Передача — App Store assets
 
 Сгенерировано из живого прототипа командой `npm run app-store -- smena`.
 

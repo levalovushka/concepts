@@ -1,6 +1,6 @@
 # Карточка App Store
 
-Name: «Смена — волонтёры приюта». Subtitle: «Животные, задачи, передачи». Primary category — Social Networking, secondary — Lifestyle, рейтинг 13+, бесплатно без встроенных покупок.
+Name: «Передача — помощь приюту». Subtitle: «Животные, задачи, передачи». Primary category — Social Networking, secondary — Lifestyle, рейтинг 13+, бесплатно без встроенных покупок.
 
 Галерея показывает пять доказательств: текущую смену, карточку животного, ленту наблюдений, передачу и людей. Тексты, privacy labels, ссылки, review account и порядок кадров хранятся в `concept.json` и проверяются линтером.
 
