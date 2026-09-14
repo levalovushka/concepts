@@ -375,8 +375,8 @@
     ]
   },
   "brand": {
-    "accent": "#B83A2B",
-    "accentDark": "#FF7965",
+    "accent": "#C21F24",
+    "accentDark": "#FF7A7A",
     "authIcon": "heart-handshake",
     "fonts": "Manrope:wght@400;500;600;700;800"
   },

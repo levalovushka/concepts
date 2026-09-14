@@ -58,7 +58,7 @@
   height: 9px;
   border: 2px solid #071c26;
   border-radius: 50%;
-  background-color: #f0b84a;
+  background-color: #56e0c2;
 }
 .pc-next {
   margin: 0 12px 12px;
@@ -76,7 +76,7 @@
   flex: 1;
 }
 .pc-next-head b {
-  color: #f0b84a;
+  color: #56e0c2;
   font: 600 11px/14px var(--face);
 }
 .pc-next h2 {
@@ -138,7 +138,7 @@
   padding: 0 16px;
   border: 0;
   border-radius: 12px;
-  background-color: #f0b84a;
+  background-color: #56e0c2;
   color: #172027;
   font: 750 15px/20px var(--face);
 }
@@ -205,7 +205,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #f0b84a;
+  background-color: #56e0c2;
 }
 .pc-row > i.is-ready {
   background-color: #4faf82;
@@ -220,7 +220,7 @@
   height: 38px;
   border-radius: 10px;
   background-color: #173d49;
-  color: #f0b84a;
+  color: #56e0c2;
   flex: none;
 }
 .pc-log-mark .ico-svg {
@@ -279,7 +279,7 @@
 .pc-frame span {
   position: absolute;
   top: -21px;
-  color: #f0b84a;
+  color: #56e0c2;
   font:
     600 10px/14px "IBM Plex Mono",
     monospace;
@@ -288,7 +288,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background-color: #f0b84a;
+  background-color: #56e0c2;
 }
 .pc-frame b {
   position: absolute;
@@ -361,7 +361,7 @@
 .pc-offline {
   margin: 6px 16px;
   padding: 10px 12px;
-  border-left: 3px solid #f0b84a;
+  border-left: 3px solid #56e0c2;
   background-color: #0d2a34;
 }
 .pc-denied strong,
@@ -385,7 +385,7 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: #f0b84a;
+  color: #56e0c2;
   font: 650 12px/16px var(--face);
 }
 .pc-shutter {
@@ -483,7 +483,7 @@
 .pc-transfer > .ico-svg {
   width: 20px;
   height: 20px;
-  color: #f0b84a;
+  color: #56e0c2;
   flex: none;
 }
 .pc-transfer strong,
@@ -517,7 +517,7 @@
   --cx-text: #edf5f7;
   --cx-muted: #8eabb6;
   --cx-line: rgba(255, 255, 255, 0.09);
-  --cx-accent: #f0b84a;
+  --cx-accent: #56e0c2;
 }
 .cx-night {
   background: #06151c;
@@ -1452,7 +1452,7 @@
   border-top:1px solid var(--cx-line);
   color:var(--cx-muted);
 }
-[data-screen="board"] .pc-tabs .tab.is-on { color:#315f73; }
+[data-screen="board"] .pc-tabs .tab.is-on { color:#00735d; }
 [data-screen="board"] .home-ind { background:#000; }
 [data-screen="board"] .cx-scroll{padding-top:calc(var(--safe-top) + 18px);padding-left:18px;padding-right:18px;background:#f5f7f8}
 [data-screen="board"] .cx-top{padding:0 2px 22px}
@@ -1485,7 +1485,7 @@
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-tabs { background:rgba(255,255,255,.96);border-top:1px solid rgba(18,40,50,.11);color:#687d87; }
 .cx-section > .cx-row,.cx-scroll > .cx-row{margin-bottom:8px;border-bottom:0;border-radius:14px}
 .cx-section > .cx-post{border-bottom:0;border-radius:14px}
-.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-tabs .tab.is-on { color:#315f73; }
+.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-tabs .tab.is-on { color:#00735d; }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) :is(.pc-next,.pc-row,.pc-log) { background:#fff;border-color:rgba(18,40,50,.11); }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-next { box-shadow:inset 0 0 0 1px rgba(18,40,50,.11); }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-next > p,
@@ -1493,13 +1493,13 @@
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-facts { background:rgba(18,40,50,.08); }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-facts > div { background:#eaf0f2; }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-facts span { color:#687d87; }
-.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-icon { background:#eaf0f2;color:#315f73;border-color:transparent; }
+.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-icon { background:#eaf0f2;color:#00735d;border-color:transparent; }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .home-ind { background:#000; }
 .device:has(.pc-page.is-on:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"])) > .status { color:#000!important;text-shadow:none!important; }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .cx-open-outing {
   border:0;
   background:#eaf0f2;
-  color:#315f73;
+  color:#00735d;
 }
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .navbar {
   background:#fff!important;
@@ -1520,17 +1520,27 @@
 [data-screen="logged"] .pc-offline span { color:#687d87; }
 
 /* WCAG / HIG release gate for auth and light product surfaces. */
-.auth-prichal.unified-auth{--accent:#1f657b!important}
-.auth-prichal.unified-auth :is(.btn-filled,.unified-delete-confirm){background:#1f657b!important;color:#fff!important}
-.auth-prichal.unified-auth :is(.unified-auth-link,.unified-auth-back,.unified-auth-help){color:#1f657b!important}
-.pc-page.cx-page:not(.cx-night):not([data-screen="lock"]):not([data-screen="widget"]){--cx-muted:#526873;--cx-accent:#805500}
+.auth-prichal.unified-auth{--accent:#00735d!important}
+.auth-prichal.unified-auth :is(.btn-filled,.unified-delete-confirm){background:#00735d!important;color:#fff!important}
+.auth-prichal.unified-auth :is(.unified-auth-link,.unified-auth-back,.unified-auth-help){color:#00735d!important}
+.pc-page.cx-page:not(.cx-night):not([data-screen="lock"]):not([data-screen="widget"]){--cx-muted:#526873;--cx-accent:#00735d}
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-tabs{color:#526873}
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) :is(.pc-kicker,.pc-next-head span,.pc-camera-top span){color:#4e7180}
-.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-next-head b{color:#805500}
-.pc-page.cx-page:not(.cx-night):not([data-screen="lock"]):not([data-screen="widget"]) .cx-primary{background:#805500;color:#fff}
+.pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-next-head b{color:#00735d}
+.pc-page.cx-page:not(.cx-night):not([data-screen="lock"]):not([data-screen="widget"]) .cx-primary{background:#00735d;color:#fff}
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) :is(.pc-next>p,.pc-crew span,.pc-log span,.pc-log p,.pc-time span,.pc-facts span){color:#526873}
 .pc-page.cx-page:not(.cx-night):not([data-screen="lock"]):not([data-screen="widget"]) .cx-system-note{color:#526873}
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-section>span{color:#4e7180}
 .pc-page:not(.cx-night):not([data-screen="record"]):not([data-screen="lock"]):not([data-screen="widget"]) .pc-row>div:nth-child(2)>span{color:#526873}
 [data-screen="board"] :is(.cx-top>div>span,.cx-section>header>span){color:#526873}
 [data-screen="logged"] .pc-sheet span,[data-screen="logged"] .pc-transfer span,[data-screen="logged"] .pc-offline span{color:#526873!important}
+
+/* Logo-aligned brand palette. */
+.pc-page.cx-page{--cx-accent:#56e0c2}
+.pc-page.cx-page:not(.cx-night),.pc-page.cx-page.pc-day{--cx-accent:#00735d}
+.auth-prichal.unified-auth{--accent:#00735d!important;--accent-fill:#00735d!important}
+.auth-prichal.unified-auth .btn-filled{background:#00735d!important;color:#fff!important}
+.auth-prichal.unified-auth .unified-auth-link,.auth-prichal.unified-auth .unified-auth-back,.auth-prichal.unified-auth .unified-auth-help{color:#00735d!important}
+.pc-page:not(.cx-night) .pc-tabs .tab.is-on,.pc-page:not(.cx-night) .pc-icon,.pc-page:not(.cx-night) .pc-next-head b{color:#00735d}
+.pc-page:not(.cx-night) .cx-primary{background:#00735d;color:#fff}
+.pc-page.cx-night .pc-next-head b,.pc-page.cx-night .pc-transfer>.ico-svg{color:#56e0c2}

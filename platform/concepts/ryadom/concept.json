@@ -306,8 +306,8 @@
     ]
   },
   "brand": {
-    "accent": "#0077FF",
-    "accentDark": "#2688EB",
+    "accent": "#B63E00",
+    "accentDark": "#FF985C",
     "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500"
   },
   "start": "phone",

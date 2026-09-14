@@ -483,7 +483,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--u-space-3);
-  background: linear-gradient(180deg, #dfeeff, #fff);
+  background: linear-gradient(180deg, #f1e7ff, #fff);
   color: var(--u-text);
 }
 .u-widget h1 {
@@ -869,7 +869,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #dcecff;
+  background: #eee3ff;
   color: var(--u-accent);
   font: 700 13px/1 var(--face);
   flex: none;
@@ -1103,3 +1103,13 @@
 .u-live{--u-accent:#67a9ff;--u-muted:#c0cbda}
 .u-live-now{--u-accent:#0057b8;--u-muted:#566271}
 .u-capture .u-back{color:#fff!important}
+
+/* Logo-aligned brand palette. */
+:root{--u-accent:#7d2bd2;--u-accent-soft:#f1e7ff}
+.unified-auth.auth-uzel{--accent:#7d2bd2;--accent-fill:#7d2bd2}
+.u-screen{--accent-fill:#7d2bd2;--u-accent:#7d2bd2;--u-accent-soft:#f1e7ff}
+.u-btn{background:#7d2bd2!important;color:#fff!important}
+.u-soft,.u-inline,.u-follow,.u-edit,.u-status,.u-mark,.u-avatar,.u-screen .tabbar>.tab.is-on{color:#7d2bd2}
+.u-live{--u-accent:#b88bff;--u-muted:#c0cbda}
+.u-live-now{--u-accent:#7d2bd2;--u-muted:#566271}
+.u-map-point{box-shadow:0 2px 7px #5b1aa066}

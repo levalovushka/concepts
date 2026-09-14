@@ -414,8 +414,8 @@
     ]
   },
   "brand": {
-    "accent": "#B42318",
-    "accentDark": "#FF5A4F",
+    "accent": "#007A2A",
+    "accentDark": "#66E794",
     "authIcon": "camera",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },

@@ -18,3 +18,6 @@
 .tr-icon-button i{background:#a43e17}
 .tr-season-hero .tr-eyebrow{color:#c6d2d8}
 .tr-season-card small,.tr-season-link small,.tr-date small{color:#4f6470}
+
+/* Logo-aligned brand palette. */
+:root{--tr-green:#0b7518;--tr-green-2:#07510e;--tr-mint:#e3f4e0}

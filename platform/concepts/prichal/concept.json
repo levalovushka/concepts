@@ -275,8 +275,8 @@
     ]
   },
   "brand": {
-    "accent": "#805500",
-    "accentDark": "#FFD06B",
+    "accent": "#00735D",
+    "accentDark": "#56E0C2",
     "authIcon": "anchor",
     "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600"
   },

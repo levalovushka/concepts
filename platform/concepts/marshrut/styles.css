@@ -1,5 +1,5 @@
 /* «Маршрут» — социальная дорожная лента одного повторяемого пути.
-   Нейтральная основа и спокойный сине-серый акцент сохраняют читаемость;
+   Нейтральная основа и малиновый акцент логотипа сохраняют читаемость;
    цвет предупреждения используется только для риска. */
 
 /* WCAG / HIG release gate. */
@@ -1168,7 +1168,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #ff7a52;
+  color: #ff7790;
   font: 700 12px/15px var(--mono);
   letter-spacing: 0.08em;
 }
@@ -1263,8 +1263,8 @@
 .m-faceid {
   width: 72px;
   height: 72px;
-  border: 2px solid #ff7a52;
-  color: #ff7a52;
+  border: 2px solid #ff7790;
+  color: #ff7790;
   border-radius: 20px;
   display: grid;
   place-items: center;
@@ -1456,3 +1456,6 @@
 .m-status.is-muted,.m-status:not(.is-warn):not(.is-wait):not(.is-ok){color:#55616b}
 .m-badge{background:#18794e;color:#fff}
 .m-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Logo-aligned brand palette. */
+:root{--m-accent:#c2183a;--m-accent-soft:#fde7ec}

@@ -430,8 +430,8 @@
     ]
   },
   "brand": {
-    "accent": "#245E4B",
-    "accentDark": "#78D6AE",
+    "accent": "#A63A00",
+    "accentDark": "#FF985C",
     "authIcon": "blocks",
     "fonts": "Manrope:wght@400;500;600;700;800"
   },
