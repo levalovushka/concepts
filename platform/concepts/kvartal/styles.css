@@ -25,9 +25,14 @@
 
 /* Logo-aligned brand palette. */
 :root{--kv-accent:#a63a00;--kv-accent-2:#6f2600;--kv-mint:#fbe8dc}
-.kv-auth,.unified-auth.kv-auth{background:#5a2108;color:#fff!important}
-.kv-logo,.kv-auth .kv-primary,.unified-auth.kv-auth .btn-filled,.unified-auth.kv-auth .auth-mark{background:#ffe1cf;color:#5a2108!important}
-.kv-kicker,.kv-auth .kv-secondary,.unified-auth.kv-auth .unified-auth-link,.unified-auth.kv-auth .unified-auth-back,.unified-auth.kv-auth .unified-auth-help{color:#ffb58e!important}
-.kv-auth p:not(.kv-kicker),.unified-auth.kv-auth .unified-auth-lede,.unified-auth.kv-auth .unified-auth-field>span,.unified-auth.kv-auth .auth-legal,.unified-auth.kv-auth .unified-auth-note{color:rgba(255,226,209,.78)!important}
-.kv-auth .auth-link{color:#edb89c}
-.kv-otp span{background:#7a2c08}
+.kv-auth,.unified-auth.kv-auth{background:var(--kv-bg);color:var(--kv-text)!important}
+.unified-auth.kv-auth h1{color:var(--kv-text)!important}
+.kv-logo{background:var(--kv-mint);color:var(--kv-accent-2)}
+.unified-auth.kv-auth .auth-mark{background:transparent;color:var(--kv-accent)!important}
+.kv-auth .kv-primary,.unified-auth.kv-auth .btn-filled{background:var(--kv-accent);color:#fff!important}
+.kv-kicker,.kv-auth .kv-secondary,.unified-auth.kv-auth .unified-auth-link,.unified-auth.kv-auth .unified-auth-back{color:var(--kv-accent)!important}
+.kv-auth p:not(.kv-kicker),.unified-auth.kv-auth .unified-auth-lede,.unified-auth.kv-auth .unified-auth-field>span,.unified-auth.kv-auth .auth-legal,.unified-auth.kv-auth .unified-auth-note,.unified-auth.kv-auth .unified-auth-help{color:var(--kv-muted)!important}
+.unified-auth.kv-auth .unified-auth-field,.unified-auth.kv-auth .unified-account-card{background:var(--kv-surface);box-shadow:inset 0 0 0 1px var(--kv-line)}
+.unified-auth.kv-auth .unified-auth-field input,.unified-auth.kv-auth .unified-account-card strong{color:var(--kv-text)}
+.kv-auth .auth-link{color:var(--kv-accent)}
+.kv-otp span{background:var(--kv-surface);box-shadow:inset 0 0 0 1px var(--kv-line)}
