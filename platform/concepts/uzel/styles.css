@@ -496,7 +496,7 @@
   margin-top: auto;
 }
 .unified-auth.auth-uzel .unified-auth-link {
-  color: #00458f !important;
+  color: #7d2bd2 !important;
 }
 .unified-auth.auth-uzel { --accent:#0057b8; --accent-fill:#0057b8; }
 .auth-uzel[data-screen="account"] .unified-auth-danger {

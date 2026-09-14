@@ -135,9 +135,9 @@ const gallery = (items) => {
   .card { min-width:0; display:flex; flex-direction:column; text-decoration:none; color:inherit; border:1px solid var(--page-line); border-radius:var(--r-device); background:var(--page-card); overflow:hidden; overflow:clip; isolation:isolate; transition:border-color 120ms,transform 120ms; }
   .card:hover { border-color:var(--page-ink-mute); transform:translateY(-2px); }
   .card[hidden] { display:none; }
-  /* PNG сняты из .device с радиусом 32px. Одинаковый внешний радиус убирает светлые ступеньки в углах на тёмной теме. */
-  .shot { aspect-ratio:375/500; overflow:hidden; background:var(--page-chip); border-bottom:1px solid var(--page-line); }
-  .shot img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+  /* Превью сохраняет полный iPhone-экран без увеличения и обрезки интерфейса. */
+  .shot { aspect-ratio:376/812; overflow:hidden; background:var(--page-chip); border-bottom:1px solid var(--page-line); }
+  .shot img { width:100%; height:100%; object-fit:contain; display:block; }
   .meta { flex:1; display:flex; flex-direction:column; padding:18px; }
   .card-kicker { min-height:20px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
   .category { color:var(--page-ink-mute); font:600 10px/1.3 var(--mono); letter-spacing:.07em; text-transform:uppercase; }
