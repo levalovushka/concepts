@@ -57,6 +57,7 @@ for (const slug of ["stol", "podacha", "shtrikh"]) {
   else messengerAccents.add(accent);
   const tokenUses = (styles.match(new RegExp(`var\\(--${prefix}-chat-accent\\)`, "g")) || []).length;
   if (tokenUses < 4) failures.push(`${slug}: цвет мессенджера не проведён через интерактивные состояния`);
+  if (slug === "podacha" && accent !== "#0077ff") failures.push("podacha: управляющие состояния мимикрии ВК должны использовать VK-синий #0077ff");
 
   for (const screen of spec.screens) {
     if (["settings", "meters"].includes(screen.id)) continue;
