@@ -1,0 +1,95 @@
+<div class="screen s-page" id="scr-events">
+  <div class="body-scroll s-scroll">
+    <header class="s-vkbar">
+      <strong>Пленэры</strong>
+      <div>
+        <button class="s-vkicon">
+          <svg class="ico-svg"><use href="#i-plus" /></svg>
+        </button>
+      </div>
+    </header>
+    <nav class="s-feed-tabs">
+      <button class="is-on">Ближайшие</button><button>Мои</button>
+    </nav>
+    <section class="s-card s-event">
+      <div class="s-event-date"><b>21</b><span>сен</span></div>
+      <div>
+        <span class="s-event-label">Открытый пленэр</span>
+        <h2>Утро на Зелёном базаре</h2>
+        <p>09:00 · главный вход<br />18 участников</p>
+        <div class="s-event-actions">
+          <button class="primary" data-ask="calendar|events|events">
+            Я пойду</button
+          ><button data-ask="push|meters|events">Следить</button>
+        </div>
+      </div>
+    </section>
+    <section class="s-card s-event">
+      <div class="s-event-date"><b>27</b><span>сен</span></div>
+      <div>
+        <span class="s-event-label">Прогулка с линером</span>
+        <h2>Линии старого города</h2>
+        <p>16:30 · сквер у театра<br />24 участника</p>
+        <div class="s-event-actions">
+          <button class="primary" data-ask="calendar|events|events">
+            Я пойду</button
+          ><button data-ask="mic|events|events">Голосом</button>
+        </div>
+      </div>
+    </section>
+    <div class="s-list-section">
+      <button data-activate="commnotif|events">
+        <span
+          ><b>Именные изменения встречи</b
+          ><small>Точка и время от организатора</small></span
+        ><span class="switch is-on"><i></i></span></button
+      ><button data-activate="voip|events">
+        <span
+          ><b>Статус начала пленэра</b
+          ><small>Одностороннее системное обновление</small></span
+        ><span class="switch"><i></i></span>
+      </button>
+    </div>
+    <p class="s-list-foot perm-hidden" data-show-granted="commnotif">
+      Именные изменения места и времени включены
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-granted="voip">
+      Фоновый статус начала пленэра включён
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="calendar">
+      Дата останется в карточке
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="mic">
+      Можно написать заметку
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="speech">
+      Текст можно набрать вручную
+    </p>
+  </div>
+  <nav class="tabbar s-dock">
+    <div class="tab" data-go="home">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab" data-go="yard">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+      ><span class="tab-label">Места</span>
+    </div>
+    <div class="tab is-on">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span class="tab-label">Пленэры</span>
+    </div>
+    <div class="tab" data-go="menu">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-menu" /></svg></span
+      ><span class="tab-label">Сервисы</span>
+    </div>
+  </nav>
+  <p class="s-list-foot perm-hidden" data-show-denied="push">
+    Изменения видны в карточке пленэра
+  </p>
+  <div class="home-ind"></div>
+</div>

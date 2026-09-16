@@ -1,0 +1,75 @@
+<div class="screen s-page" id="scr-problem">
+  <header class="s-pushbar">
+    <button data-back aria-label="Закрыть">
+      <svg class="ico-svg"><use href="#i-x" /></svg></button
+    ><strong>Новая зарисовка</strong
+    ><button class="s-blue" data-go="post">Опубликовать</button>
+  </header>
+  <div class="body-scroll s-compose">
+    <div class="s-compose-author">
+      <span class="s-avatar"><span class="ph"></span></span>
+      <div>
+        <strong>Анна Разумова</strong
+        ><button>
+          Видно всем <svg class="ico-svg"><use href="#i-chevron-down" /></svg>
+        </button>
+      </div>
+    </div>
+    <p class="s-compose-copy">Что заметили в городе?</p>
+    <button class="s-compose-media" data-ask="camera|shoot|problem">
+      <span class="ph"></span
+      ><span
+        ><svg class="ico-svg"><use href="#i-camera" /></svg>Снять рисунок</span
+      >
+    </button>
+    <div class="s-service-list">
+      <button data-ask="photos|chronicle|problem">
+        <span class="s-list-icon blue"
+          ><svg class="ico-svg"><use href="#i-images" /></svg></span
+        ><span
+          ><b>Фото из медиатеки</b><small>Выбрать готовую работу</small></span
+        ><svg class="ico-svg chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button data-ask="location|yard|problem">
+        <span class="s-list-icon red"
+          ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+        ><span
+          ><b>Отметить место</b><small>Собрать серию этой точки</small></span
+        ><svg class="ico-svg chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button data-ask="mic|events|problem">
+        <span class="s-list-icon violet"
+          ><svg class="ico-svg"><use href="#i-mic" /></svg></span
+        ><span
+          ><b>Голосовая заметка</b><small>Надиктовать впечатление</small></span
+        ><svg class="ico-svg chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button data-ask="speech|events|problem">
+        <span class="s-list-icon green"
+          ><svg class="ico-svg"><use href="#i-file-text" /></svg></span
+        ><span
+          ><b>Расшифровать заметку</b><small>Текст можно поправить</small></span
+        ><svg class="ico-svg chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </div>
+    <p class="s-list-foot perm-hidden" data-show-denied="camera">
+      Без камеры можно выбрать готовую работу
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="photos">
+      Без медиатеки можно снять работу камерой
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="location">
+      Место можно найти вручную
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="mic">
+      Подпись можно набрать текстом
+    </p>
+    <p class="s-list-foot perm-hidden" data-show-denied="speech">
+      Текст можно набрать вручную
+    </p>
+  </div>
+  <div class="home-ind"></div>
+</div>

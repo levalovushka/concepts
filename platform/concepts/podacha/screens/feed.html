@@ -1,0 +1,137 @@
+<div class="screen p-page" id="scr-feed">
+  <main class="body-scroll p-scroll">
+    <header class="p-top">
+      <strong>Подача</strong>
+      <div>
+        <button class="p-icon tap" data-go="discover" aria-label="Поиск">
+          <svg class="ico-svg"><use href="#i-search" /></svg></button
+        ><button class="p-icon tap" data-go="notif" aria-label="Уведомления">
+          <svg class="ico-svg"><use href="#i-bell" /></svg><i class="p-dot"></i>
+        </button>
+      </div>
+    </header>
+    <section class="p-compose tap" data-primary data-go="compose">
+      <div class="p-avatar ph"></div>
+      <span>Что получилось сегодня?</span
+      ><button data-go="camera" aria-label="Снять блюдо">
+        <svg class="ico-svg"><use href="#i-camera" /></svg>
+      </button>
+    </section>
+    <section class="p-stories" aria-label="Быстрые действия">
+      <button data-go="compose">
+        <i
+          ><svg class="ico-svg"><use href="#i-plus" /></svg></i
+        ><span><b>Моё</b><small>Добавить</small></span></button
+      ><button data-go="post">
+        <i class="ph"></i
+        ><span><b>Жанна</b><small>25 минут</small></span></button
+      ><button data-go="cookalong">
+        <i class="ph"></i><span><b>Вместе</b><small>19:00</small></span></button
+      ><button data-go="post">
+        <i class="ph"></i><span><b>Тимур</b><small>Замена</small></span>
+      </button>
+    </section>
+    <article class="p-card">
+      <div class="p-author">
+        <div class="p-avatar ph"></div>
+        <span
+          ><b>Жанна Ким</b><em>вы подписаны</em
+          ><small>сегодня, 12:14 · Алматы</small></span
+        ><button
+          class="p-icon tap"
+          data-toast="Скрыть · Пожаловаться · Скопировать ссылку"
+        >
+          <svg class="ico-svg"><use href="#i-ellipsis" /></svg>
+        </button>
+      </div>
+      <p class="p-post-text">
+        Тот самый чечевичный суп, но без сливок: запекла перец заранее и
+        добавила ложку тахини. Ниже оставила точные замены — вкус не потерялся
+      </p>
+      <div class="ph p-media"><span>Чечевичный суп · 35 минут</span></div>
+      <div class="p-actions">
+        <button class="tap">
+          <svg class="ico-svg"><use href="#i-heart" /></svg
+          ><span>126</span></button
+        ><button class="tap" data-go="cookalong">
+          <svg class="ico-svg"><use href="#i-utensils" /></svg
+          ><span>34 готовили</span></button
+        ><button class="tap p-save" data-toast="Сохранено в рецепты">
+          <svg class="ico-svg"><use href="#i-bookmark" /></svg
+          ><span>Сохранить</span>
+        </button>
+      </div>
+    </article>
+    <aside class="p-promo">
+      <small>Рекомендация</small><b>Фермерские овощи для сохранённых блюд</b>
+      <p>
+        Контекст текущего рецепта. Без согласия не учитываем активность вне
+        «Подачи»
+      </p>
+      <button class="p-pill tap" data-ask="tracking|feed|feed">
+        Настроить рекомендации
+      </button>
+      <div class="p-note" data-show-denied="tracking">
+        <svg class="ico-svg"><use href="#i-info" /></svg
+        ><span>Останутся общие сезонные рекомендации без персонализации</span>
+      </div>
+    </aside>
+    <article class="p-card">
+      <div class="p-author">
+        <div class="p-avatar ph"></div>
+        <span
+          ><b>Тимур Садыков</b><em>часто сохраняете</em
+          ><small>вчера, 20:48</small></span
+        ><button
+          class="p-icon tap"
+          data-toast="Скрыть · Пожаловаться · Скопировать ссылку"
+        >
+          <svg class="ico-svg"><use href="#i-ellipsis" /></svg>
+        </button>
+      </div>
+      <p class="p-post-text">
+        Проверил хачапури на обычной сковороде. На фото — реальная корочка после
+        7 минут с каждой стороны. Сулугуни можно заменить смесью моцареллы и
+        брынзы 2:1
+      </p>
+      <div class="ph p-media"><span>Хачапури на сковороде</span></div>
+      <div class="p-actions">
+        <button class="tap">
+          <svg class="ico-svg"><use href="#i-heart" /></svg
+          ><span>89</span></button
+        ><button class="tap" data-go="cookalong">
+          <svg class="ico-svg"><use href="#i-utensils" /></svg
+          ><span>58 готовили</span></button
+        ><button class="tap p-save" data-toast="Сохранено в рецепты">
+          <svg class="ico-svg"><use href="#i-bookmark" /></svg
+          ><span>Сохранить</span>
+        </button>
+      </div>
+    </article>
+  </main>
+  <nav class="tabbar p-tabs" aria-label="Основная навигация">
+    <button
+      class="tab tap is-on"
+      data-go="feed"
+      aria-label="Лента"
+      aria-current="page"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span>Лента</span></button
+    ><button class="tab tap" data-go="cookings" aria-label="Готовим">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span>Готовим</span></button
+    ><button class="tab tap" data-go="recipes" aria-label="Рецепты">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span>Рецепты</span></button
+    ><button class="tab tap" data-go="profile" aria-label="Профиль">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg></span
+      ><span>Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind"></div>
+</div>

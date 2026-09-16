@@ -1,0 +1,175 @@
+<div class="screen stol-screen" id="scr-feed">
+  <div class="st-safe"></div>
+  <header class="st-top is-root">
+    <h1>Стол</h1>
+    <div class="st-top-actions">
+      <button
+        class="st-icon-btn tap"
+        data-go="compose"
+        aria-label="Создать запись"
+      >
+        <svg class="st-icon"><use href="#i-plus" /></svg></button
+      ><button
+        class="st-icon-btn tap"
+        data-toast="Новых событий: 3"
+        aria-label="Оповещения"
+      >
+        <svg class="st-icon"><use href="#i-bell" /></svg
+        ><span class="st-badge">3</span>
+      </button>
+    </div>
+  </header>
+  <div class="body-scroll st-page">
+    <nav class="st-feed-switch">
+      <button class="is-on">Для вас</button><button>Обновления</button>
+    </nav>
+    <section class="st-next-tables" aria-label="Ближайшие столы">
+      <div class="st-next-head">
+        <div><h2>Ближайшие столы</h2><span>2 встречи на этой неделе</span></div>
+        <button class="st-create-table" data-primary data-go="compose">
+          <svg class="st-icon"><use href="#i-plus" /></svg><span>Создать</span>
+        </button>
+      </div>
+      <button class="st-next-row" data-go="table">
+        <span class="st-next-time">Сегодня<b>19:30</b></span>
+        <span class="st-next-copy"><b>Лесные союзы</b><small>Клуб «Полка» · 1 место</small></span>
+        <svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+      <button class="st-next-row" data-go="table">
+        <span class="st-next-time">Суббота<b>16:00</b></span>
+        <span class="st-next-copy"><b>Маршруты Севера</b><small>Кафе «Клетка» · 2 места</small></span>
+        <svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <article class="st-card">
+      <div class="st-post-head">
+        <span class="st-avatar"><span class="ph"></span></span
+        ><span class="st-post-who post-author"
+          ><strong>Маша Орлова</strong
+          ><span>сегодня, 12:14 · клуб «Полка»</span></span
+        ><button
+          class="st-icon-btn"
+          data-toast="Скрыть · Пожаловаться · Копировать ссылку"
+          aria-label="Ещё о публикации Маши"
+        >
+          <svg class="st-icon"><use href="#i-ellipsis" /></svg>
+        </button>
+      </div>
+      <div class="st-post-copy">
+        Вечером раскладываем «Лесные союзы». Объяснение займёт минут десять,
+        играем спокойно, без гонки за первым ходом
+      </div>
+      <button
+        class="st-media st-block"
+        data-go="post"
+        aria-label="Открыть публикацию Маши"
+      >
+        <span class="ph"></span
+        ><span class="st-media-tag">Лесные союзы · 2–4</span></button
+      ><button
+        class="st-session-card st-block"
+        data-go="table"
+        aria-label="Открыть стол Маши"
+      >
+        <span class="st-session-date">19:30</span
+        ><span class="st-session-copy"
+          ><b>Одно место свободно</b
+          ><span>75 минут · объясним правила</span></span
+        ><svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+      <div class="st-actions">
+        <button
+          class="st-action is-on"
+          data-toast="Реакция добавлена"
+          aria-label="Нравится публикация Маши"
+        >
+          <svg class="st-icon"><use href="#i-heart" /></svg
+          ><span>18</span></button
+        ><button
+          class="st-action"
+          data-toast="Поделиться публикацией"
+          aria-label="Поделиться публикацией Маши"
+        >
+          <svg class="st-icon"><use href="#i-share" /></svg
+          ><span>4</span></button
+        ><button
+          class="st-action last"
+          data-toast="Публикация сохранена"
+          aria-label="Сохранить публикацию Маши"
+        >
+          <svg class="st-icon"><use href="#i-bookmark" /></svg
+          ><span>Сохранить</span>
+        </button>
+      </div>
+    </article>
+    <article class="st-card">
+      <div class="st-post-head">
+        <span class="st-avatar"><span class="ph"></span></span
+        ><span class="st-post-who post-author"
+          ><strong>Илья Левин</strong><span>вчера, 22:08</span></span
+        ><button
+          class="st-icon-btn"
+          data-toast="Скрыть · Пожаловаться · Копировать ссылку"
+          aria-label="Ещё о публикации Ильи"
+        >
+          <svg class="st-icon"><use href="#i-ellipsis" /></svg>
+        </button>
+      </div>
+      <div class="st-post-copy">
+        Первая партия в «Маршруты Севера»: 84–79–71. Редкий случай, когда все
+        попросили сразу разложить ещё раз
+      </div>
+      <div class="st-session-card">
+        <span class="st-session-date">84</span
+        ><span class="st-session-copy"
+          ><b>Итог партии · 3 игрока</b
+          ><span>Илья, Саша и Денис · 52 минуты</span></span
+        >
+      </div>
+      <div class="st-actions">
+        <button
+          class="st-action"
+          data-toast="Реакция добавлена"
+          aria-label="Нравится публикация Ильи"
+        >
+          <svg class="st-icon"><use href="#i-heart" /></svg
+          ><span>27</span></button
+        ><button
+          class="st-action"
+          data-toast="Поделиться публикацией"
+          aria-label="Поделиться публикацией Ильи"
+        >
+          <svg class="st-icon"><use href="#i-share" /></svg
+          ><span>7</span></button
+        ><button
+          class="st-action last"
+          data-toast="Публикация сохранена"
+          aria-label="Сохранить публикацию Ильи"
+        >
+          <svg class="st-icon"><use href="#i-bookmark" /></svg
+          ><span>Сохранить</span>
+        </button>
+      </div>
+    </article>
+  </div>
+  <nav class="tabbar st-tabbar" aria-label="Основная навигация">
+    <button class="tab is-on" data-go="feed" aria-label="Лента">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Лента</span></button
+    ><button class="tab" data-go="games" aria-label="Игры">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Игры</span></button
+    ><button class="tab" data-go="tables" aria-label="Столы">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Столы</span></button
+    ><button class="tab" data-go="profile" aria-label="Профиль">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

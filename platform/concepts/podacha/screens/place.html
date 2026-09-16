@@ -1,0 +1,50 @@
+<div class="screen p-page" id="scr-place">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Место</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <label class="p-search"
+      ><svg class="ico-svg"><use href="#i-search" /></svg
+      ><input value="Зелёный базар" aria-label="Место"
+    /></label>
+    <div class="p-map ph"><span>Карта мест рядом</span></div>
+    <section class="p-section">
+      <button
+        class="p-row tap"
+        data-primary
+        data-toast="Место добавлено|compose"
+      >
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+        ><span
+          ><b>Добавить место</b
+          ><small>Зелёный базар · Жибек Жолы, 53 · 240 м</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-toast="Введите название места|compose">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-file-text" /></svg></span
+        ><span
+          ><b>Указать вручную</b><small>Без доступа к геопозиции</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="p-note" data-show-denied="location">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Название места всегда можно написать вручную</span>
+    </div>
+  </main>
+  <div class="home-ind"></div>
+</div>

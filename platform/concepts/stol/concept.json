@@ -1,0 +1,1021 @@
+{
+  "slug": "stol",
+  "name": "Стол",
+  "eyebrow": "Стол · Настольные игры и живые партии · iOS",
+  "targetSet": "vkontakte",
+  "domain": "stol.place",
+  "heroTitle": "Стол — люди, игры и партии рядом",
+  "heroDeck": "Знакомая социальная лента помогает увидеть, во что играют друзья, найти свободное место и собрать живую партию.",
+  "tagline": "Не искать абстрактный клуб: видеть конкретный стол, состав и темп партии до того, как выйти из дома",
+  "insight": "для настольной игры важнее не рейтинг коробки, а совместимость людей, времени и игрового темпа за одним физическим столом",
+  "deck": "Социальная сеть настольных игр в знакомой грамматике ВКонтакте: авторская лента, подписки, реакции, коллекции и структурированные сборы без чатов и маркетплейса.",
+  "qualityContractVersion": 3,
+  "product": {
+    "audience": "Городские игроки 20–40 лет, которые играют дома и в клубах и хотят чаще собираться со знакомыми людьми",
+    "situation": "Свободный вечер появился внезапно, но непонятно, кто готов играть, какая коробка будет на столе и сколько продлится партия",
+    "problem": "Отчёты, коллекции и приглашения живут в разных чатах; важные параметры партии теряются в переписке",
+    "promise": "За минуту увидеть живые столы знакомых людей, понять состав и сложность и занять свободное место",
+    "differentiator": "Публикация связана с реальной сыгранной или будущей партией, а профиль показывает не абстрактные интересы, а игровой темп и опыт за общими столами.",
+    "returnReasons": [
+      "Новые партии от людей, с которыми уже совпал игровой темп",
+      "Свободные места за столами сегодня и изменения времени",
+      "Итоги партий, новые коробки в коллекциях и сохранённые составы"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "compose",
+      "result": "post"
+    },
+    "coreLoop": [
+      "Открыть ленту и увидеть партии знакомых авторов",
+      "Занять место за подходящим столом или опубликовать свой",
+      "Вернуться за составом, счётом и итогами общей партии"
+    ],
+    "nonGoals": [
+      "Продажа и аренда настольных игр",
+      "Свободные чаты, звонки и глобальные игровые сообщества",
+      "Автоматическое судейство и замена правил конкретной игры"
+    ],
+    "world": {
+      "note": "Стол хранит игроков, подписки, публикации, коробки, живые партии, места и результат; коммуникация заменена структурированными действиями.",
+      "entities": [
+        {
+          "id": "player",
+          "name": "Игрок",
+          "identity": "профиль и игровой почерк",
+          "fields": ["name", "pace", "gamesCount", "followersCount"],
+          "relations": [
+            { "kind": "follows", "to": "player" },
+            { "kind": "has-many", "to": "seat" }
+          ]
+        },
+        {
+          "id": "game",
+          "name": "Игра",
+          "identity": "название и издание",
+          "fields": ["title", "duration", "complexity", "players"],
+          "relations": [{ "kind": "appears-in", "to": "session" }]
+        },
+        {
+          "id": "session",
+          "name": "Партия",
+          "identity": "игра, время и стол",
+          "fields": ["date", "place", "pace", "capacity", "status"],
+          "relations": [
+            { "kind": "uses", "to": "game" },
+            { "kind": "has-many", "to": "seat" }
+          ]
+        },
+        {
+          "id": "seat",
+          "name": "Место",
+          "identity": "игрок и партия",
+          "fields": ["player", "color", "status", "score"],
+          "relations": [
+            { "kind": "belongs-to", "to": "player" },
+            { "kind": "belongs-to", "to": "session" }
+          ]
+        },
+        {
+          "id": "post",
+          "name": "Публикация",
+          "identity": "автор и время",
+          "fields": ["author", "text", "media", "reactionCount", "saved"],
+          "relations": [
+            { "kind": "belongs-to", "to": "player" },
+            { "kind": "links-to", "to": "session" }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "publish-post",
+          "name": "Опубликовать стол",
+          "actor": "player",
+          "entity": "post",
+          "effect": "запись попадает в ленту подписчиков",
+          "screen": "compose",
+          "result": "В ленте видны автор, игра, состав и время",
+          "capabilities": ["camera", "photos", "location"]
+        },
+        {
+          "id": "join-session",
+          "name": "Занять место",
+          "actor": "player",
+          "entity": "seat",
+          "effect": "место закрепляется за игроком",
+          "screen": "table",
+          "result": "Карточка показывает обновлённый состав и статус",
+          "capabilities": ["calendar", "push"]
+        },
+        {
+          "id": "record-score",
+          "name": "Назвать счёт",
+          "actor": "player",
+          "entity": "seat",
+          "effect": "распознанное число добавляется игроку",
+          "screen": "score",
+          "result": "Табло пересчитывается для всех за физическим столом",
+          "capabilities": ["speech", "mic"]
+        },
+        {
+          "id": "listen-rules",
+          "name": "Слушать памятку",
+          "actor": "player",
+          "entity": "game",
+          "effect": "локальная памятка продолжает воспроизводиться",
+          "screen": "audio",
+          "result": "Правила доступны с погашенным экраном",
+          "capabilities": ["audio"]
+        },
+        {
+          "id": "show-scoreboard",
+          "name": "Показать табло",
+          "actor": "player",
+          "entity": "session",
+          "effect": "табло открывается на экране в той же сети",
+          "screen": "cast",
+          "result": "Все участники видят общий счёт",
+          "capabilities": ["localnetwork", "wifiinfo"]
+        },
+        {
+          "id": "share-session",
+          "name": "Сохранить сессию",
+          "actor": "player",
+          "entity": "player",
+          "effect": "сессия доступна приложению и расширениям",
+          "screen": "settings",
+          "result": "Вход сохраняется при публикации из системного меню",
+          "capabilities": ["keychain"]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Авторская лента, подписки, публичные профили, реакции, сохранения и создание публикаций соответствуют Social Networking.",
+    "familiarPatterns": [
+      "Плотная лента публикаций нескольких узнаваемых авторов",
+      "Нижняя навигация Лента · Игры · Столы · Профиль",
+      "Композер записи с текстом, медиа и местом",
+      "Профиль со связями, коллекцией и собственной активностью",
+      "Реакции, сохранения и переход к связанному объекту"
+    ],
+    "distinctions": [
+      "Каждая запись связана с конкретной коробкой или живой партией",
+      "Сбор фиксирует места, темп и длительность без переписки",
+      "Профиль показывает совместимость за столом и историю общих партий"
+    ],
+    "evidenceScreens": [
+      "feed",
+      "games",
+      "tables",
+      "profile",
+      "compose",
+      "table"
+    ],
+    "referencePatterns": ["social-feed", "profile", "create-post"],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "feed",
+        "behavior": "Лента показывает нескольких авторов, время, реакции, сохранение и связанную партию."
+      },
+      {
+        "pattern": "profile",
+        "screen": "profile",
+        "behavior": "Профиль связывает человека, подписки, игровой темп, коллекцию и публикации."
+      },
+      {
+        "pattern": "create-post",
+        "screen": "compose",
+        "behavior": "Композер собирает текст, фото, место и параметры стола на одной поверхности."
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "ВКонтакте — мобильная лента",
+        "observation": "Плотные авторские карточки сохраняют личность автора, время и публичные действия в одном ритме",
+        "decision": "Сохраняем социальный силуэт, но связываем каждую запись с коробкой или партией"
+      },
+      {
+        "source": "ВКонтакте — профиль и создание записи",
+        "observation": "Профиль и композер доступны из устойчивой навигации",
+        "decision": "Оставляем привычную доступность, заменяя общие метрики игровым почерком и общими партиями"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Раздел столов может выглядеть как обычная афиша событий без социальной связи",
+        "resolution": "Каждая партия принадлежит знакомому автору и показывает общий игровой опыт участников",
+        "evidenceScreens": ["feed", "tables", "table"]
+      },
+      {
+        "objection": "Голосовой счёт может казаться избыточным по сравнению с ручным вводом",
+        "resolution": "Он запускается только за активным столом, а кнопки плюс и минус всегда остаются доступны",
+        "evidenceScreens": ["score"]
+      },
+      {
+        "objection": "Каталог игр может перетянуть ценность с людей на карточки коробок",
+        "resolution": "Раздел показывает наличие у знакомых и ведёт к живой партии, а не к покупке или рейтингу",
+        "evidenceScreens": ["games", "tables"]
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#0065D8",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600",
+    "authIcon": "layout-grid"
+  },
+  "start": "phone",
+  "auth": { "entryTarget": "feed" },
+  "uiContractVersion": 3,
+  "tabs": [
+    { "id": "feed", "label": "Лента", "role": "feed" },
+    { "id": "games", "label": "Игры", "role": "discovery" },
+    { "id": "tables", "label": "Столы", "role": "publishing" },
+    { "id": "profile", "label": "Профиль", "role": "profile" }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к камере",
+        "text": "Чтобы снять игровое поле для публикации."
+      },
+      "feature": "Снимок партии прямо в запись",
+      "gesture": "«Камера»",
+      "screen": "compose",
+      "target": "compose",
+      "fallback": "Можно выбрать готовое фото или опубликовать запись без медиа",
+      "snack": "Камера недоступна",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVFoundation, снимок остаётся в черновике до публикации"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к фото",
+        "text": "Чтобы выбрать снимок сыгранной партии."
+      },
+      "feature": "Выбор фото игрового поля",
+      "gesture": "«Фото»",
+      "screen": "compose",
+      "target": "compose",
+      "fallback": "Можно снять новый кадр или оставить запись без медиа",
+      "snack": "Фото недоступны",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "PHPicker с выбором отдельного снимка"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к геопозиции",
+        "text": "Чтобы предложить клуб или кафе рядом для этой партии."
+      },
+      "feature": "Место стола и партии рядом",
+      "gesture": "«Место»",
+      "screen": "compose",
+      "target": "compose",
+      "fallback": "Название места вводится вручную или не указывается",
+      "snack": "Геопозиция недоступна",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Core Location только при открытом композере"
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsFullAccessUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к календарю",
+        "text": "Чтобы добавить выбранную партию одним событием."
+      },
+      "feature": "Партия в личном календаре",
+      "gesture": "«В календарь»",
+      "screen": "table",
+      "target": "table",
+      "fallback": "Дата и время остаются в карточке, их можно перенести вручную",
+      "snack": "Календарь недоступен",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "EventKit создаёт только выбранное событие после жеста"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Стол» запрашивает разрешение на уведомления",
+        "text": "Чтобы сообщить, если изменится время или состав вашей партии."
+      },
+      "feature": "Изменения занятого места",
+      "gesture": "«Следить за столом»",
+      "screen": "table",
+      "target": "table",
+      "fallback": "Изменения видны при следующем открытии карточки",
+      "snack": "Оповещения выключены",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "APNs через SDK провайдера социальных данных"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает распознавание речи",
+        "text": "Чтобы превратить названный вслух счёт в число на табло."
+      },
+      "feature": "Голосовой ввод счёта",
+      "gesture": "«Назвать счёт»",
+      "screen": "score",
+      "target": "score",
+      "fallback": "Счёт вводится кнопками плюс и минус",
+      "snack": "Распознавание недоступно",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Speech framework распознаёт короткое числовое высказывание"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к микрофону",
+        "text": "Чтобы услышать короткую команду со счётом."
+      },
+      "feature": "Запись команды для счёта",
+      "gesture": "«Назвать счёт»",
+      "screen": "score",
+      "target": "score",
+      "fallback": "Счёт вводится кнопками плюс и минус",
+      "snack": "Микрофон недоступен",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "AVAudioEngine активен только пока удерживается кнопка"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "Фоновое воспроизведение",
+        "text": "Памятка продолжит звучать после блокировки экрана."
+      },
+      "feature": "Аудиопамятка правил в фоне",
+      "gesture": "«Слушать памятку»",
+      "screen": "audio",
+      "target": "audio",
+      "fallback": "Текстовая памятка остаётся доступна на экране",
+      "snack": "Фоновое аудио недоступно",
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
+      "grounding": "AVAudioSession playback и MPNowPlayingInfoCenter",
+      "activate": true,
+      "requires": "Реальная локальная аудиодорожка правил и remote-команды",
+      "reviewNote": "Открыть Игры → Лесные союзы → Слушать памятку, затем заблокировать экран; на локскрине видны глава и пауза."
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)",
+      "alert": {
+        "title": "«Стол» запрашивает доступ к локальной сети",
+        "text": "Чтобы найти экран рядом и показать общее табло."
+      },
+      "feature": "Общее табло на телевизоре",
+      "gesture": "«Показать на экране»",
+      "screen": "cast",
+      "target": "cast",
+      "fallback": "Табло остаётся на телефоне",
+      "snack": "Экран не найден",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Bonjour ищет устройства Google Cast в текущей сети"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "com.apple.developer.networking.wifi-info",
+      "alert": {
+        "title": "Сведения о Wi‑Fi",
+        "text": "Имя сети помогает понять, почему общий экран не найден."
+      },
+      "feature": "Имя текущей сети рядом со списком экранов",
+      "gesture": "«Проверить сеть»",
+      "screen": "cast",
+      "target": "cast",
+      "fallback": "Устройства ищутся без подписи сети",
+      "snack": "Сеть не определена",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "NEHotspotNetwork.fetchCurrent после явного жеста",
+      "activate": true
+    },
+    {
+      "key": "keychain",
+      "plist": "keychain-access-groups",
+      "alert": {
+        "title": "Общая связка ключей",
+        "text": "Одна сессия используется приложением и расширением публикации."
+      },
+      "feature": "Единый вход для приложения и Share Extension",
+      "gesture": "«Общая сессия»",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "В расширении потребуется повторный вход",
+      "snack": "Общая сессия недоступна",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Keychain access group только для таргетов одной команды",
+      "activate": true
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход в Стол",
+      "type": "старт, без таб-бара",
+      "light": true,
+      "meta": "Первый экран · место за столом",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Показать характер сообщества и начать вход по номеру",
+        "primaryAction": "Далее",
+        "hierarchy": {
+          "primary": "Зарезервированное место и поле номера телефона",
+          "secondary": "Регистрация, гостевой вход, legal и помощь"
+        },
+        "states": ["default", "error", "loading"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Российский номер с кодом страны и пробелами"
+          },
+          {
+            "kind": "stress",
+            "example": "Очень длинное локализованное название игрового клуба"
+          },
+          {
+            "kind": "failure",
+            "example": "Ошибка проверки номера при недоступной мобильной сети"
+          }
+        ]
+      }
+    },
+    {
+      "id": "feed",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Социальная лента",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать партии и отчёты знакомых игроков",
+        "primaryAction": "Создать",
+        "hierarchy": {
+          "primary": "Карточки узнаваемых авторов и их публикации",
+          "secondary": "Связанные игры, столы, реакции и сохранения"
+        },
+        "states": ["default", "empty", "offline"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Три знакомых автора и две связанные живые партии"
+          },
+          {
+            "kind": "stress",
+            "example": "Публикация на восемь строк и состав из шести участников"
+          },
+          {
+            "kind": "failure",
+            "example": "Офлайн-снапшот ленты без свежих сетевых данных"
+          }
+        ]
+      }
+    },
+    {
+      "id": "games",
+      "title": "Игры",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Коллекция знакомых",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Найти коробку по времени и сложности",
+        "primaryAction": "Лесные союзы",
+        "hierarchy": {
+          "primary": "Игры в коллекциях знакомых участников сети",
+          "secondary": "Фильтры по длительности, составу и правилам"
+        },
+        "states": ["default", "empty", "offline"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Четыре игры с владельцами и длительностью партии"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название локализованного расширенного издания"
+          },
+          {
+            "kind": "failure",
+            "example": "По выбранным фильтрам не найдено ни одной игры"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tables",
+      "title": "Столы",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Партии сегодня",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать партии с реальными свободными местами",
+        "primaryAction": "Лесные союзы",
+        "hierarchy": {
+          "primary": "Сгруппированные по датам партии со свободными местами",
+          "secondary": "Физическое место, игровой темп и текущий состав"
+        },
+        "states": ["default", "empty", "offline"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Две партии сегодня с одним и двумя свободными местами"
+          },
+          {
+            "kind": "stress",
+            "example": "Полный состав из шести участников с длинными именами"
+          },
+          {
+            "kind": "failure",
+            "example": "На выбранную дату не осталось ни одного свободного места"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Игровой почерк",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "root",
+        "purpose": "Показать идентичность, связи и игровую активность",
+        "primaryAction": "Профиль",
+        "hierarchy": {
+          "primary": "Личность игрока, социальные связи и совместимость",
+          "secondary": "Коллекция, игровые метрики и собственные публикации"
+        },
+        "states": ["default", "empty", "offline"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Двадцать четыре партии, подписчики и шесть публикаций"
+          },
+          {
+            "kind": "stress",
+            "example": "Большой список любимых механик и игровых форматов"
+          },
+          {
+            "kind": "failure",
+            "example": "Новый профиль без сыгранных партий и публикаций"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compose",
+      "title": "Новая запись",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Текст, медиа, место",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "push",
+        "purpose": "Опубликовать отчёт или новый стол",
+        "primaryAction": "Готово",
+        "hierarchy": {
+          "primary": "Автор, текст и главное действие публикации",
+          "secondary": "Фото, место, выбранная игра и параметры стола"
+        },
+        "states": ["default", "loading", "error", "success", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Публикация с выбранной игрой, фотографией и местом"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное описание партии с полным набором параметров"
+          },
+          {
+            "kind": "failure",
+            "example": "Камера, фотографии или геопозиция недоступны пользователю"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Итог партии",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать запись и связанный результат",
+        "primaryAction": "Одно место свободно",
+        "hierarchy": {
+          "primary": "Узнаваемый автор, текст и медиаповерхность записи",
+          "secondary": "Связанный состав партии, реакции и сохранение"
+        },
+        "states": ["default", "offline", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Публикация с фотографией и связанным вечерним столом"
+          },
+          {
+            "kind": "stress",
+            "example": "Шесть игроков с именами, ролями и статусами участия"
+          },
+          {
+            "kind": "failure",
+            "example": "Связанная партия отменена после публикации записи"
+          }
+        ]
+      }
+    },
+    {
+      "id": "table",
+      "title": "Стол",
+      "type": "push",
+      "light": true,
+      "parent": "tables",
+      "meta": "Состав и место",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Проверить состав и занять место",
+        "primaryAction": "Занять место",
+        "hierarchy": {
+          "primary": "Игра, время и одно доступное место за столом",
+          "secondary": "Участники, напоминания и календарное событие"
+        },
+        "states": ["default", "loading", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Одно место свободно для знакомого игрока сегодня"
+          },
+          {
+            "kind": "stress",
+            "example": "Все четыре места уже заняты знакомыми игроками"
+          },
+          {
+            "kind": "failure",
+            "example": "Доступ к календарю отклонён владельцем телефона"
+          }
+        ]
+      }
+    },
+    {
+      "id": "score",
+      "title": "Счёт",
+      "type": "push",
+      "light": true,
+      "parent": "table",
+      "meta": "Общее табло",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Вести счёт за физическим столом",
+        "primaryAction": "Назвать счёт",
+        "hierarchy": {
+          "primary": "Текущие очки каждого участника живой партии",
+          "secondary": "Ручные кнопки коррекции и вывод на общий экран"
+        },
+        "states": ["default", "loading", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Четыре игрока с двузначным счётом после раунда"
+          },
+          {
+            "kind": "stress",
+            "example": "Трёхзначный счёт у шести участников одной партии"
+          },
+          {
+            "kind": "failure",
+            "example": "Распознавание речи и микрофон недоступны пользователю"
+          }
+        ]
+      }
+    },
+    {
+      "id": "audio",
+      "title": "Памятка",
+      "type": "push",
+      "light": true,
+      "parent": "games",
+      "meta": "Правила в фоне",
+      "ui": {
+        "pattern": "player",
+        "navigation": "push",
+        "purpose": "Освежить правила без чтения телефона",
+        "primaryAction": "Лесные союзы",
+        "hierarchy": {
+          "primary": "Текущая глава, прогресс и управление воспроизведением",
+          "secondary": "Полное оглавление текстовой памятки правил"
+        },
+        "states": ["default", "loading", "offline", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Пять коротких глав правил доступны на устройстве"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное название главы с уточнением исключения правил"
+          },
+          {
+            "kind": "failure",
+            "example": "Аудиодорожка памятки не была загружена заранее"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "Общий экран",
+      "type": "push",
+      "light": true,
+      "parent": "score",
+      "meta": "Табло по локальной сети",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать счёт всем участникам",
+        "primaryAction": "Экран у большого стола",
+        "hierarchy": {
+          "primary": "Найденные в локальной сети телевизоры и проекторы",
+          "secondary": "Имя текущей сети и превью общего табло"
+        },
+        "states": ["default", "loading", "denied", "empty"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Телевизор клуба найден в текущей локальной сети"
+          },
+          {
+            "kind": "stress",
+            "example": "Одновременно доступны три экрана с похожими названиями"
+          },
+          {
+            "kind": "failure",
+            "example": "Доступ к локальной сети отклонён пользователем"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Аккаунт и доступы",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять аккаунтом и техническими возможностями",
+        "primaryAction": "Саша Руденко",
+        "hierarchy": {
+          "primary": "Секционная карточка профиля и управления аккаунтом",
+          "secondary": "Оповещения, приватность, доступы и сессия расширения"
+        },
+        "states": ["default", "denied", "error"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Аккаунт активен и общая сессия включена"
+          },
+          {
+            "kind": "stress",
+            "example": "Несколько служебных статусов с длинными пояснениями"
+          },
+          {
+            "kind": "failure",
+            "example": "Общая связка ключей недоступна расширению публикации"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Полный социальный продукт и все доступы",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "feed",
+        "games",
+        "tables",
+        "profile",
+        "compose",
+        "post",
+        "table",
+        "score",
+        "audio",
+        "cast",
+        "settings"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Место за столом",
+      "note": "Уникальный тематический вход, регистрация и гостевой проход",
+      "start": "phone",
+      "screens": ["phone", "feed"],
+      "stops": ["feed"]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Лента, профили, подписки и партии",
+      "solution": "Firestore и Storage провайдера с security rules; собственного серверного кода нет"
+    },
+    {
+      "needs": "Синхронный счёт",
+      "solution": "Firestore realtime document одной партии; офлайн-кэш сохраняет ручной ввод"
+    },
+    {
+      "needs": "Места и календарь",
+      "solution": "MapKit и EventKit работают на устройстве после явного жеста"
+    }
+  ],
+  "docs": [
+    { "file": "01-product-vision.md", "label": "Вижен" },
+    { "file": "02-architecture.md", "label": "Архитектура" },
+    { "file": "03-design-system.md", "label": "Дизайн-токены" },
+    { "file": "04-references.md", "label": "Референсы" },
+    { "file": "05-visual-audit.md", "label": "Визуальный аудит" },
+    { "file": "06-app-store.md", "label": "Карточка App Store" }
+  ],
+  "appStore": {
+    "name": "Стол — партии рядом",
+    "subtitle": "Игры со знакомыми людьми",
+    "promo": "Смотрите живые столы знакомых игроков, занимайте место и сохраняйте счёт одной партии без переписки.",
+    "keywords": "настолки,партия,игроки,клуб,коллекция,счет,встреча,друзья",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Entertainment"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS-загрузка социальных данных",
+    "urls": {
+      "support": "https://stol.place/support",
+      "marketing": "https://stol.place",
+      "privacy": "https://stol.place/privacy"
+    },
+    "description": [
+      "Стол — социальная сеть для людей, которые хотят чаще играть в настольные игры со знакомыми.",
+      "ЛЕНТА ИГРОКОВ\nПубликации, реакции и сохранения связаны с реальными партиями.",
+      "ЖИВЫЕ СТОЛЫ\nВремя, место, длительность и свободные места видны до присоединения.",
+      "СЧЁТ И ПРАВИЛА\nГолосовой ввод очков и аудиопамятка помогают не отвлекаться от игры."
+    ],
+    "whatsNew": "Первая версия: лента игроков, коллекции, живые столы, счёт и аудиопамятки правил.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа через SDK провайдера"
+      },
+      {
+        "type": "Публикации и реакции",
+        "apple": "User Content → Other User Content",
+        "purpose": "Функциональность приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Социальная лента и история партий"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Подстановка места только при создании партии"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 900 000-00-00",
+      "code": "stol2026",
+      "note": "Телефон и пароль предзаполнены; SMS не отправляется. Гостевой вход открывает тот же демо-снапшот."
+    }
+  },
+  "acceptance": [
+    {
+      "id": "publish-table",
+      "name": "Публикация стола",
+      "action": "publish-post",
+      "given": "Игрок находится в ленте",
+      "when": "Открывает композер, выбирает фото и публикует",
+      "then": "Видит запись с автором, игрой и местом",
+      "screens": ["feed", "compose", "post"],
+      "capabilities": ["camera", "photos", "location"]
+    },
+    {
+      "id": "join-table",
+      "name": "Место за столом",
+      "action": "join-session",
+      "given": "У партии осталось одно место",
+      "when": "Нажимает «Занять место» и добавляет событие",
+      "then": "В составе появляется игрок, дата остаётся в календаре",
+      "screens": ["tables", "table"],
+      "capabilities": ["calendar", "push"]
+    },
+    {
+      "id": "voice-score",
+      "name": "Голосовой счёт",
+      "action": "record-score",
+      "given": "Партия уже началась",
+      "when": "Нажимает «Назвать счёт» и произносит число",
+      "then": "Число появляется у выбранного игрока",
+      "screens": ["table", "score"],
+      "capabilities": ["speech", "mic"]
+    },
+    {
+      "id": "shared-board",
+      "name": "Общее табло",
+      "action": "show-scoreboard",
+      "given": "Телефон и телевизор в одной сети",
+      "when": "Выбирает «Показать на экране»",
+      "then": "Устройство найдено, табло готово к показу",
+      "screens": ["score", "cast"],
+      "capabilities": ["localnetwork", "wifiinfo"]
+    }
+  ],
+  "fixtures": {
+    "players": [
+      {
+        "title": "Маша Орлова",
+        "subtitle": "спокойный темп · 18 общих партий"
+      },
+      { "title": "Илья Левин", "subtitle": "любит евро · объясняет правила" }
+    ],
+    "games": [
+      { "title": "Лесные союзы", "subtitle": "2–4 игрока · 75 минут" },
+      { "title": "Маршруты Севера", "subtitle": "3–5 игроков · 50 минут" }
+    ],
+    "sessions": [
+      { "title": "Сегодня в 19:30", "subtitle": "Лесные союзы · 1 место" },
+      { "title": "Суббота в 16:00", "subtitle": "Маршруты Севера · 2 места" }
+    ]
+  }
+}

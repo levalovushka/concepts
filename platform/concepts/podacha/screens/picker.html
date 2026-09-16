@@ -1,0 +1,46 @@
+<div class="screen p-page" id="scr-picker">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Медиатека</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <div class="p-photo-grid">
+      <button class="ph"><span></span></button
+      ><button class="ph selected"><span>1</span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph selected"><span>2</span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button
+      ><button class="ph"><span></span></button>
+    </div>
+    <div class="p-note" data-show-denied="photos">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Без доступа можно снять новый кадр камерой</span>
+    </div>
+    <button
+      class="btn-filled p-fixed tap"
+      data-primary
+      data-ask="photos|compose|compose"
+    >
+      Добавить 2 фото
+    </button>
+  </main>
+  <div class="home-ind"></div>
+</div>

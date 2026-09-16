@@ -1,0 +1,104 @@
+<div class="screen stol-screen" id="scr-tables">
+  <div class="st-safe"></div>
+  <header class="st-top is-root">
+    <h1>Столы</h1>
+    <div class="st-top-actions">
+      <button class="st-icon-btn" data-go="compose" aria-label="Собрать стол">
+        <svg class="st-icon"><use href="#i-plus" /></svg></button
+      ><button
+        class="st-icon-btn"
+        data-toast="Календарь столов"
+        aria-label="Выбрать дату"
+      >
+        <svg class="st-icon"><use href="#i-calendar" /></svg>
+      </button>
+    </div>
+  </header>
+  <div class="body-scroll st-page">
+    <div class="st-filter-row">
+      <button class="st-chip is-on">Сегодня</button
+      ><button class="st-chip">Завтра</button
+      ><button class="st-chip">Выходные</button
+      ><button class="st-chip">Рядом</button>
+    </div>
+    <div class="st-day-head">
+      <strong>Сегодня, 16 сентября</strong><span>3 свободных места</span>
+    </div>
+    <section class="st-card">
+      <button
+        class="st-list-row st-block"
+        data-primary
+        data-go="table"
+        aria-label="Открыть стол Лесные союзы"
+      >
+        <span class="st-session-date">19:30</span
+        ><span class="st-list-copy"
+          ><strong>Лесные союзы</strong
+          ><span>Клуб «Полка» · спокойный темп</span></span
+        ><span class="st-seat-stack"
+          ><span class="st-seat-avatar"><span class="ph"></span></span
+          ><span class="st-seat-avatar"><span class="ph"></span></span
+          ><span class="st-seat-avatar"><span class="ph"></span></span
+          ><span class="st-seat-open">1</span></span
+        ></button
+      ><button
+        class="st-list-row st-block"
+        data-go="table"
+        aria-label="Открыть стол Городские линии"
+      >
+        <span class="st-session-date">20:15</span
+        ><span class="st-list-copy"
+          ><strong>Городские линии</strong
+          ><span>У Жени дома · уже знают правила</span></span
+        ><span class="st-table-meta">2 / 4</span>
+      </button>
+    </section>
+    <div class="st-day-head">
+      <strong>Суббота, 19 сентября</strong><span>4 стола</span>
+    </div>
+    <section class="st-card">
+      <button
+        class="st-list-row st-block"
+        data-go="table"
+        aria-label="Открыть стол Маршруты Севера"
+      >
+        <span class="st-session-date">16:00</span
+        ><span class="st-list-copy"
+          ><strong>Маршруты Севера</strong
+          ><span>Кафе «Клетка» · объясним правила</span></span
+        ><span class="st-seat-stack"
+          ><span class="st-seat-avatar"><span class="ph"></span></span
+          ><span class="st-seat-avatar"><span class="ph"></span></span
+          ><span class="st-seat-open">2</span></span
+        >
+      </button>
+      <div class="st-list-row">
+        <span class="st-session-date">18:30</span
+        ><span class="st-list-copy"
+          ><strong>Архив острова</strong
+          ><span>Клуб «Полка» · стол заполнен</span></span
+        ><span class="st-table-meta">4 / 4</span>
+      </div>
+    </section>
+  </div>
+  <nav class="tabbar st-tabbar" aria-label="Основная навигация">
+    <button class="tab" data-go="feed" aria-label="Лента">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Лента</span></button
+    ><button class="tab" data-go="games" aria-label="Игры">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Игры</span></button
+    ><button class="tab is-on" data-go="tables" aria-label="Столы">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Столы</span></button
+    ><button class="tab" data-go="profile" aria-label="Профиль">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

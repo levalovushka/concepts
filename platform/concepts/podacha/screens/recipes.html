@@ -1,0 +1,67 @@
+<div class="screen p-page" id="scr-recipes">
+  <main class="body-scroll p-scroll">
+    <header class="p-top">
+      <strong>Рецепты</strong>
+      <div>
+        <button
+          class="p-icon tap"
+          data-go="discover"
+          aria-label="Поиск рецептов"
+        >
+          <svg class="ico-svg"><use href="#i-search" /></svg>
+        </button>
+      </div>
+    </header>
+    <section class="p-saved-head">
+      <div>
+        <small>Моя книга</small>
+        <h1>27 проверенных рецептов</h1>
+      </div>
+    </section>
+    <div class="p-chips">
+      <button class="active">Все</button><button>Быстро</button
+      ><button>Выпечка</button><button>Ужин</button>
+    </div>
+    <div class="p-recipe-grid">
+      <button data-primary data-go="recipe">
+        <div class="ph p-media"><span>35 мин</span></div>
+        <b>Открыть рецепт</b
+        ><small>Чечевичный суп · готовили 34 раза</small></button
+      ><button data-go="recipe">
+        <div class="ph p-media"><span>20 мин</span></div>
+        <b>Хачапури на сковороде</b><small>2 удачные замены</small></button
+      ><button data-go="recipe">
+        <div class="ph p-media"><span>55 мин</span></div>
+        <b>Грушевый пирог</b><small>ваша проверка</small></button
+      ><button data-go="recipe">
+        <div class="ph p-media"><span>15 мин</span></div>
+        <b>Тёплый салат</b><small>сезонное</small>
+      </button>
+    </div>
+  </main>
+  <nav class="tabbar p-tabs" aria-label="Основная навигация">
+    <button class="tab tap" data-go="feed" aria-label="Лента">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span>Лента</span></button
+    ><button class="tab tap" data-go="cookings" aria-label="Готовим">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span>Готовим</span></button
+    ><button
+      class="tab tap is-on"
+      data-go="recipes"
+      aria-label="Рецепты"
+      aria-current="page"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span>Рецепты</span></button
+    ><button class="tab tap" data-go="profile" aria-label="Профиль">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg></span
+      ><span>Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind"></div>
+</div>

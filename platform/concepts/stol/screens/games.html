@@ -1,0 +1,108 @@
+<div class="screen stol-screen" id="scr-games">
+  <div class="st-safe"></div>
+  <header class="st-top is-root">
+    <h1>Игры</h1>
+    <div class="st-top-actions">
+      <button
+        class="st-icon-btn"
+        data-toast="Сканер коробки пока не нужен: найдите игру по названию"
+        aria-label="Добавить игру"
+      >
+        <svg class="st-icon"><use href="#i-plus" /></svg></button
+      ><button
+        class="st-icon-btn"
+        data-toast="Фильтры коллекции"
+        aria-label="Фильтры"
+      >
+        <svg class="st-icon"><use href="#i-settings" /></svg>
+      </button>
+    </div>
+  </header>
+  <div class="body-scroll st-page">
+    <div class="st-search">
+      <svg class="st-icon"><use href="#i-search" /></svg
+      ><span>Название, автор или механика</span>
+    </div>
+    <div class="st-filter-row">
+      <button class="st-chip is-on">Для компании</button
+      ><button class="st-chip">До часа</button
+      ><button class="st-chip">Знакомые правила</button>
+    </div>
+    <div class="st-section-title">Сейчас у знакомых</div>
+    <section class="st-round-card">
+      <button
+        class="st-game-row st-block"
+        data-primary
+        data-go="audio"
+        aria-label="Открыть игру Лесные союзы"
+      >
+        <span class="st-game-art"><span class="ph"></span></span
+        ><span class="st-game-copy"
+          ><strong>Лесные союзы</strong
+          ><span>У 6 знакомых · 2–4 игрока · 75 минут</span></span
+        ><svg class="st-icon st-chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button
+        class="st-game-row st-block"
+        data-toast="Игра сохранена"
+        aria-label="Сохранить игру Маршруты Севера"
+      >
+        <span class="st-game-art"><span class="ph"></span></span
+        ><span class="st-game-copy"
+          ><strong>Маршруты Севера</strong
+          ><span>У 3 знакомых · 3–5 игроков · 50 минут</span></span
+        ><svg class="st-icon st-chevron">
+          <use href="#i-bookmark" />
+        </svg></button
+      ><button
+        class="st-game-row st-block"
+        data-toast="Игра сохранена"
+        aria-label="Сохранить игру Тихая гавань"
+      >
+        <span class="st-game-art"><span class="ph"></span></span
+        ><span class="st-game-copy"
+          ><strong>Тихая гавань: второе издание</strong
+          ><span>У 8 знакомых · 2 игрока · 35 минут</span></span
+        ><svg class="st-icon st-chevron"><use href="#i-bookmark" /></svg>
+      </button>
+    </section>
+    <div class="st-section-title">Из вашей коллекции</div>
+    <section class="st-round-card">
+      <div class="st-game-row">
+        <span class="st-game-art"><span class="ph"></span></span
+        ><span class="st-game-copy"
+          ><strong>Городские линии</strong
+          ><span>Сыграно 12 партий · знаете правила</span></span
+        ><span class="st-table-meta">12</span>
+      </div>
+      <div class="st-game-row">
+        <span class="st-game-art"><span class="ph"></span></span
+        ><span class="st-game-copy"
+          ><strong>Архив острова</strong
+          ><span>Сыграно 4 партии · средний темп</span></span
+        ><span class="st-table-meta">4</span>
+      </div>
+    </section>
+  </div>
+  <nav class="tabbar st-tabbar" aria-label="Основная навигация">
+    <button class="tab" data-go="feed" aria-label="Лента">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Лента</span></button
+    ><button class="tab is-on" data-go="games" aria-label="Игры">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-layout-grid" /></svg></span
+      ><span class="tab-label">Игры</span></button
+    ><button class="tab" data-go="tables" aria-label="Столы">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-users" /></svg></span
+      ><span class="tab-label">Столы</span></button
+    ><button class="tab" data-go="profile" aria-label="Профиль">
+      <span class="ico"
+        ><svg class="st-icon"><use href="#i-user" /></svg></span
+      ><span class="tab-label">Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

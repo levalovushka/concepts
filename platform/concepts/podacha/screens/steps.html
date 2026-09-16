@@ -1,0 +1,61 @@
+<div class="screen p-page" id="scr-steps">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Шаги готовки</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <div class="p-step-clock">
+      <small>Шаг 2 из 6</small><b>05:42</b
+      ><span>лук становится прозрачным</span>
+    </div>
+    <ol class="p-full-steps">
+      <li class="done">
+        <b>01</b
+        ><span
+          ><strong>Подготовить продукты</strong
+          ><small>всё на столе · 7 минут</small></span
+        ><svg class="ico-svg"><use href="#i-check" /></svg>
+      </li>
+      <li class="active">
+        <b>02</b
+        ><span
+          ><strong>Обжарить лук</strong
+          ><small>средний огонь · 6 минут</small></span
+        >
+      </li>
+      <li>
+        <b>03</b
+        ><span
+          ><strong>Добавить томаты и фасоль</strong
+          ><small>перемешать один раз</small></span
+        >
+      </li>
+      <li>
+        <b>04</b
+        ><span><strong>Томить под крышкой</strong><small>12 минут</small></span>
+      </li>
+    </ol>
+    <div class="p-note" data-show-denied="speech">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Заметку о продукте можно набрать с клавиатуры</span>
+    </div>
+    <button class="p-wide-link tap" data-ask="speech|steps|steps">
+      Надиктовать заметку</button
+    ><button class="btn-filled tap" data-primary data-go="kitchen">
+      Шаг готов
+    </button>
+  </main>
+  <div class="home-ind"></div>
+</div>

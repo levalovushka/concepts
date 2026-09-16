@@ -1,0 +1,72 @@
+<div class="screen s-page" id="scr-yard">
+  <div class="body-scroll s-scroll">
+    <header class="s-vkbar">
+      <strong>Места</strong>
+      <div>
+        <button class="s-vkicon" aria-label="Поиск места">
+          <svg class="ico-svg"><use href="#i-search" /></svg>
+        </button>
+      </div>
+    </header>
+    <div class="s-search">
+      <svg class="ico-svg"><use href="#i-search" /></svg>Найти улицу или точку
+    </div>
+    <section class="s-place-map">
+      <div class="s-map-grid"></div>
+      <span class="s-map-pin p1">27</span><span class="s-map-pin p2">42</span
+      ><span class="s-map-pin p3">18</span
+      ><button
+        data-ask="location|yard|yard"
+        aria-label="Показать моё положение"
+      >
+        <svg class="ico-svg"><use href="#i-navigation" /></svg>
+      </button>
+    </section>
+    <div class="s-list-section">
+      <h2>Популярно рядом</h2>
+      <button data-go="chronicle">
+        <span class="s-list-thumb"><span class="ph"></span></span
+        ><span><b>Панфилова, 84</b><small>27 работ · 14 авторов</small></span
+        ><svg class="ico-svg chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button data-go="chronicle">
+        <span class="s-list-thumb"><span class="ph"></span></span
+        ><span><b>Зелёный базар</b><small>42 работы · 19 авторов</small></span
+        ><svg class="ico-svg chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button data-go="chronicle">
+        <span class="s-list-thumb"><span class="ph"></span></span
+        ><span><b>Терренкур</b><small>18 работ · 11 авторов</small></span
+        ><svg class="ico-svg chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </div>
+  </div>
+  <p class="s-list-foot perm-hidden" data-show-denied="location">
+    Без геопозиции выберите место поиском
+  </p>
+  <nav class="tabbar s-dock">
+    <div class="tab" data-go="home">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span class="tab-label">Главная</span>
+    </div>
+    <div class="tab is-on">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+      ><span class="tab-label">Места</span>
+    </div>
+    <div class="tab" data-go="events">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span class="tab-label">Пленэры</span>
+    </div>
+    <div class="tab" data-go="menu">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-menu" /></svg></span
+      ><span class="tab-label">Сервисы</span>
+    </div>
+  </nav>
+  <div class="home-ind"></div>
+</div>

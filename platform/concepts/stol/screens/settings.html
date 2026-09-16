@@ -1,0 +1,82 @@
+<div class="screen stol-screen" id="scr-settings">
+  <div class="st-safe"></div>
+  <header class="st-top">
+    <button class="st-icon-btn" data-back aria-label="Назад">
+      <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+        <path
+          d="M10.25 1.75L1.75 10.5l8.5 8.75"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <h1>Настройки</h1>
+    <span></span>
+  </header>
+  <div class="body-scroll st-settings">
+    <div class="st-section-title">Аккаунт</div>
+    <section class="st-settings-group">
+      <button class="st-setting st-block" data-primary data-go="account">
+        <span class="st-setting-mark"
+          ><svg class="st-icon"><use href="#i-user" /></svg></span
+        ><span class="st-setting-copy"
+          ><strong>Саша Руденко</strong
+          ><span>Телефон, пароль и удаление аккаунта</span></span
+        ><svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="st-section-title">Оповещения и приватность</div>
+    <section class="st-settings-group">
+      <button
+        class="st-setting st-block"
+        data-toast="Только занятые места и изменения времени"
+      >
+        <span class="st-setting-mark"
+          ><svg class="st-icon"><use href="#i-bell" /></svg></span
+        ><span class="st-setting-copy"
+          ><strong>Оповещения</strong
+          ><span>Столы, где вы заняли место</span></span
+        ><svg class="st-icon st-chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button
+        class="st-setting st-block"
+        data-toast="Публикации видны подписчикам"
+      >
+        <span class="st-setting-mark"
+          ><svg class="st-icon"><use href="#i-shield" /></svg></span
+        ><span class="st-setting-copy"
+          ><strong>Приватность</strong
+          ><span>Кто видит партии и коллекцию</span></span
+        ><svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="st-section-title">Сервисы</div>
+    <section class="st-settings-group">
+      <button class="st-setting st-block" data-activate="keychain|settings">
+        <span class="st-setting-mark"
+          ><svg class="st-icon"><use href="#i-key" /></svg></span
+        ><span class="st-setting-copy"
+          ><strong>Общая сессия</strong
+          ><span>Для приложения и «Поделиться»</span></span
+        ><span class="st-switch is-on"></span></button
+      ><button
+        class="st-setting st-block"
+        data-toast="Камера, фото, геопозиция, календарь и микрофон"
+      >
+        <span class="st-setting-mark"
+          ><svg class="st-icon"><use href="#i-lock" /></svg></span
+        ><span class="st-setting-copy"
+          ><strong>Доступы приложения</strong
+          ><span>Управляются в настройках iPhone</span></span
+        ><svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="st-fallback perm-hidden" data-show-denied="keychain">
+      Расширение «Поделиться» попросит войти отдельно
+    </div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

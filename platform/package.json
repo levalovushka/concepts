@@ -10,6 +10,8 @@
     "test:launcher": "node scripts/test-launcher.mjs",
     "test:auth-visual": "node scripts/test-auth-visual.mjs",
     "test:no-messenger": "node scripts/test-no-messenger.mjs",
+    "test:vk-ui": "node scripts/test-vk-ui.mjs",
+    "test:three-polish": "node scripts/test-three-concepts-polish.mjs",
     "test:spec": "node scripts/test-ux-spec.mjs",
     "docs": "node scripts/gen-docs.mjs",
     "spec": "node scripts/ux-spec.mjs",

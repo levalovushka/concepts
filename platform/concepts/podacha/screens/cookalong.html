@@ -1,0 +1,74 @@
+<div class="screen p-page" id="scr-cookalong">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Готовим вместе</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <section class="p-cook-hero">
+      <div class="ph p-media"><span>Одна сковорода</span></div>
+      <span class="p-live">Сегодня · 19:00</span>
+      <h1>Ужин из одной сковороды</h1>
+      <p>Амина ведёт · 8 участников уже подготовились</p>
+    </section>
+    <div class="p-progress"><i class="p-progress-third"></i></div>
+    <section class="p-section">
+      <h2>Сейчас</h2>
+      <div class="p-current-step">
+        <b>02</b
+        ><span
+          ><h3>Обжарьте лук до прозрачности</h3>
+          <p>6 минут · средний огонь</p></span
+        >
+      </div>
+      <button class="btn-filled tap" data-primary data-go="steps">
+        Открыть все шаги
+      </button>
+    </section>
+    <button class="p-wide-link tap" data-activate="commnotif|cookalong">
+      Показывать текущий шаг в статусе
+    </button>
+    <div class="p-note perm-hidden" data-show-granted="commnotif">
+      <svg class="ico-svg"><use href="#i-check" /></svg
+      ><span>Текущий шаг закреплён в системном статусе</span>
+    </div>
+    <section class="p-section">
+      <h2>До начала</h2>
+      <button class="p-row tap" data-ask="calendar|cookalong|cookalong">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+        ><span
+          ><b>Добавить в календарь</b
+          ><small>16 сентября · 19:00–19:45</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-ask="push|cookalong|cookalong">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-bell" /></svg></span
+        ><span
+          ><b>Напомнить за 15 минут</b
+          ><small>Только об этой готовке</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="p-note" data-show-denied="calendar">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Время останется в разделе «Готовим»</span>
+    </div>
+    <div class="p-note" data-show-denied="push">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Напоминание будет видно внутри приложения</span>
+    </div>
+  </main>
+  <div class="home-ind"></div>
+</div>

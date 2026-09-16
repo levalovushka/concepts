@@ -1,0 +1,99 @@
+<div class="screen p-page" id="scr-profile">
+  <main class="body-scroll p-scroll">
+    <header class="p-top">
+      <strong>Профиль</strong>
+      <div>
+        <button class="p-icon tap" data-go="settings" aria-label="Настройки">
+          <svg class="ico-svg"><use href="#i-settings" /></svg>
+        </button>
+      </div>
+    </header>
+    <section class="p-profile">
+      <div class="p-profile-avatar ph"></div>
+      <h1>Саша Левина</h1>
+      <p>Готовлю дома · Алматы</p>
+      <div>
+        <span><b>42</b><small>публикации</small></span
+        ><span><b>218</b><small>подписчиков</small></span
+        ><span><b>27</b><small>проверено</small></span>
+      </div>
+      <button class="p-pill tap" data-primary data-go="compose">
+        Опубликовать</button
+      ><button class="p-pill quiet tap" data-go="settings">Изменить</button>
+    </section>
+    <section class="p-section">
+      <button class="p-row tap" data-go="following">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-users" /></svg></span
+        ><span
+          ><b>Подписки</b><small>31 автор · 6 новых блюд сегодня</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-go="recipes">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-book-open" /></svg></span
+        ><span><b>Мои проверки</b><small>27 блюд с результатом</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-go="settings">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-settings" /></svg></span
+        ><span
+          ><b>Настройки</b><small>Аккаунт, уведомления и доступы</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <article class="p-card">
+      <div class="p-author">
+        <div class="p-avatar ph"></div>
+        <span><b>Саша Левина</b><small>вчера, 18:40</small></span
+        ><button
+          class="p-icon tap"
+          data-toast="Скрыть · Пожаловаться · Скопировать ссылку"
+        >
+          <svg class="ico-svg"><use href="#i-ellipsis" /></svg>
+        </button>
+      </div>
+      <p class="p-post-text">
+        Пирог с грушей на цельнозерновой муке. Сахара вдвое меньше, результат
+        всё равно мягкий
+      </p>
+      <div class="ph p-media"><span>Грушевый пирог</span></div>
+      <div class="p-actions">
+        <button class="tap">
+          <svg class="ico-svg"><use href="#i-heart" /></svg
+          ><span>53</span></button
+        ><button class="tap" data-go="cookalong">
+          <svg class="ico-svg"><use href="#i-utensils" /></svg
+          ><span>18 готовили</span></button
+        ><button class="tap p-save" data-toast="Сохранено в рецепты">
+          <svg class="ico-svg"><use href="#i-bookmark" /></svg
+          ><span>Сохранить</span>
+        </button>
+      </div>
+    </article>
+  </main>
+  <nav class="tabbar p-tabs" aria-label="Основная навигация">
+    <button class="tab tap" data-go="feed" aria-label="Лента">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-house" /></svg></span
+      ><span>Лента</span></button
+    ><button class="tab tap" data-go="cookings" aria-label="Готовим">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
+      ><span>Готовим</span></button
+    ><button class="tab tap" data-go="recipes" aria-label="Рецепты">
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-bookmark" /></svg></span
+      ><span>Рецепты</span></button
+    ><button
+      class="tab tap is-on"
+      data-go="profile"
+      aria-label="Профиль"
+      aria-current="page"
+    >
+      <span class="ico"
+        ><svg class="ico-svg"><use href="#i-user" /></svg></span
+      ><span>Профиль</span>
+    </button>
+  </nav>
+  <div class="home-ind"></div>
+</div>

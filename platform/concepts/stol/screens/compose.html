@@ -1,0 +1,70 @@
+<div class="screen stol-screen" id="scr-compose">
+  <div class="st-safe"></div>
+  <header class="st-top">
+    <button class="st-icon-btn" data-back aria-label="Назад">
+      <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+        <path
+          d="M10.25 1.75L1.75 10.5l8.5 8.75"
+          stroke="currentColor"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+    <h1>Новая запись</h1>
+    <button class="st-publish" data-primary data-go="post">Готово</button>
+  </header>
+  <div class="body-scroll">
+    <main class="st-compose">
+      <div class="st-compose-author">
+        <span class="st-avatar"><span class="ph"></span></span
+        ><span
+          ><strong>Саша Руденко</strong><span>Видно подписчикам</span></span
+        >
+      </div>
+      <div class="st-compose-text">
+        Сегодня раскладываем «Лесные союзы». Одно место свободно, правила
+        объясним перед партией
+      </div>
+      <div class="st-compose-tools">
+        <button class="st-compose-tool" data-ask="camera|compose|compose">
+          <svg class="st-icon"><use href="#i-camera" /></svg
+          ><span>Камера</span></button
+        ><button class="st-compose-tool" data-ask="photos|compose|compose">
+          <svg class="st-icon"><use href="#i-image" /></svg
+          ><span>Фото</span></button
+        ><button class="st-compose-tool" data-ask="location|compose|compose">
+          <svg class="st-icon"><use href="#i-map-pin" /></svg><span>Место</span>
+        </button>
+      </div>
+      <div class="st-fallback perm-hidden" data-show-denied="camera">
+        Снимок можно выбрать из медиатеки или опубликовать запись без него
+      </div>
+      <div class="st-fallback perm-hidden" data-show-denied="photos">
+        Можно снять новый кадр или оставить запись без медиа
+      </div>
+      <div class="st-fallback perm-hidden" data-show-denied="location">
+        Введите «Клуб Полка, Абая 44» вручную или не указывайте место
+      </div>
+      <button class="st-option st-block" data-toast="Выбрана игра Лесные союзы">
+        <svg class="st-icon"><use href="#i-layout-grid" /></svg><span>Игра</span
+        ><small>Лесные союзы</small
+        ><svg class="st-icon st-chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="st-option st-block" data-toast="Настроить время и места">
+        <svg class="st-icon"><use href="#i-users" /></svg
+        ><span>Собрать стол</span><small>Сегодня · 19:30</small
+        ><svg class="st-icon st-chevron">
+          <use href="#i-chevron-right" />
+        </svg></button
+      ><button class="st-option st-block" data-toast="Клуб Полка, Абая 44">
+        <svg class="st-icon"><use href="#i-map-pin" /></svg><span>Место</span
+        ><small>Клуб «Полка»</small
+        ><svg class="st-icon st-chevron"><use href="#i-chevron-right" /></svg>
+      </button>
+    </main>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

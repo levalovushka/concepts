@@ -1,0 +1,81 @@
+<div class="screen s-page" id="scr-guest">
+  <div class="body-scroll s-scroll s-safe s-col">
+    <div class="s-top">
+      <div class="s-back tap" data-back aria-label="Назад во город">
+        <svg class="ico-svg ios-back"><use href="#i-chevron-left" /></svg>
+      </div>
+      <div class="s-top-title sm">Экран выставки</div>
+    </div>
+
+    <div class="s-card">
+      <div class="s-kv">
+        <span class="s-kv-k">Сеть</span>
+        <span class="s-kv-v">Shtrikh-Guest</span>
+      </div>
+      <div class="s-kv">
+        <span class="s-kv-k">Шифрование</span>
+        <span class="s-kv-v">WPA2</span>
+      </div>
+      <div class="s-kv">
+        <span class="s-kv-k">Действует</span>
+        <span class="s-kv-v">до 30 апреля</span>
+      </div>
+    </div>
+
+    <div class="s-card">
+      <div class="s-row" data-go="scan" aria-label="Сканировать QR площадки">
+        <span class="s-bul accent" aria-hidden="true"
+          ><svg class="ico-svg"><use href="#i-qr-code" /></svg
+        ></span>
+        <div class="s-row-main">
+          <div class="s-row-title wrap">Сканировать QR площадки</div>
+          <div class="s-row-sub wrap">Код действует во время выставки</div>
+        </div>
+        <span class="s-caret" aria-hidden="true"
+          ><svg class="ico-svg"><use href="#i-chevron-right" /></svg
+        ></span>
+      </div>
+      <div class="s-note perm-hidden" data-show-denied="camera">
+        <svg class="ico-svg"><use href="#i-circle-alert" /></svg>
+        <span>Без камеры — имя и пароль ниже</span>
+      </div>
+    </div>
+
+    <div class="s-cta">
+      <div
+        class="s-btn"
+        data-ask="hotspot|guest|guest"
+        aria-label="Подключиться к Shtrikh-Guest"
+      >
+        Подключиться к Shtrikh-Guest
+      </div>
+    </div>
+
+    <div class="s-note" data-hide-denied="hotspot">
+      <svg class="ico-svg"><use href="#i-check" /></svg>
+      <span>Пароль вводить не нужно</span>
+    </div>
+
+    <div class="s-note warn perm-hidden" data-show-denied="hotspot">
+      <svg class="ico-svg"><use href="#i-triangle-alert" /></svg>
+      <span>Сеть придётся выбрать руками</span>
+    </div>
+
+    <div class="s-card perm-hidden" data-show-denied="camera,hotspot">
+      <div class="s-kv">
+        <span class="s-kv-k">Сеть</span>
+        <span class="s-kv-v">Shtrikh-Guest</span>
+      </div>
+      <div class="s-kv">
+        <span class="s-kv-k">Пароль</span>
+        <span class="s-kv-v">shtrikh-2026</span>
+      </div>
+      <div class="s-note mute">
+        <span>Настройки → Wi-Fi → Shtrikh-Guest</span>
+      </div>
+    </div>
+
+    <div class="push"></div>
+  </div>
+  <div class="home-ind" aria-hidden="true"></div>
+</div>

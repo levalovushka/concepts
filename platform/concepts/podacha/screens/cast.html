@@ -1,0 +1,48 @@
+<div class="screen p-page" id="scr-cast">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Экран на кухне</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <section class="p-section">
+      <h2>Доступные устройства</h2>
+      <button class="p-row tap" data-activate="wifiinfo|cast">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-tv-minimal" /></svg></span
+        ><span
+          ><b>Кухня · Apple TV</b><small>одна сеть Wi‑Fi · готово</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-toast="Шаги показаны на экране">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-tv-minimal" /></svg></span
+        ><span
+          ><b>Гостиная · Smart TV</b><small>доступен показ шагов</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="p-note" data-show-denied="wifiinfo">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Выберите экран вручную по названию устройства</span>
+    </div>
+    <button
+      class="btn-filled p-cta tap"
+      data-primary
+      data-toast="Шаг 3 показан на кухонном экране"
+    >
+      Показать шаги
+    </button>
+  </main>
+  <div class="home-ind"></div>
+</div>

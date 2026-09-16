@@ -1,0 +1,1661 @@
+{
+  "slug": "podacha",
+  "name": "Подача",
+  "eyebrow": "Подача · Домашняя еда от знакомых авторов · iOS",
+  "targetSet": "vkontakte",
+  "domain": "podacha.app",
+  "heroTitle": "Подача — домашняя еда в знакомой ленте",
+  "heroDeck": "Авторы показывают реальные блюда, рабочие замены и собирают совместные готовки по фиксированным шагам.",
+  "tagline": "Не идеальный рецепт, а результат, который уже получился у знакомого человека",
+  "insight": "рецепту доверяют сильнее, когда виден настоящий результат, автор, рабочие замены и люди, которые уже повторили блюдо",
+  "deck": "Тёплая социальная сеть в продуктовой грамматике ВКонтакте: авторская лента, подписки, реакции, сохранения, публикации и профили — вокруг домашней готовки.",
+  "qualityContractVersion": 2,
+  "product": {
+    "audience": "Люди, которые регулярно готовят дома и больше доверяют опыту знакомых авторов, чем безличным каталогам рецептов",
+    "situation": "Перед ужином человек хочет быстро выбрать блюдо и понять, получится ли оно с обычными продуктами и техникой",
+    "problem": "Рецепты выглядят идеально, но скрывают реальные замены, время и результат на домашней кухне",
+    "promise": "Открыть ленту знакомых авторов, увидеть честный результат и повторить блюдо по проверенным шагам",
+    "differentiator": "Социальный граф строится вокруг авторов и подтверждённых приготовлений, а не вокруг каталога контента",
+    "returnReasons": [
+      "Новые блюда авторов, которым доверяешь",
+      "Ответ на вашу замену или повторение рецепта",
+      "Совместная готовка, которую добавили в календарь"
+    ],
+    "verticalSlice": {
+      "entry": "phone",
+      "action": "compose",
+      "result": "post"
+    },
+    "coreLoop": [
+      "Увидеть реальный результат знакомого автора",
+      "Сохранить рецепт или приготовить по шагам",
+      "Опубликовать свой результат и рабочую замену"
+    ],
+    "nonGoals": [
+      "Доставка еды и заказ продуктов",
+      "Профессиональная нутрициология и медицинские советы",
+      "Чаты, звонки и свободные комментарийные ветки"
+    ],
+    "world": {
+      "note": "Подача хранит авторов, публикации, рецепты, проверки и совместные готовки.",
+      "entities": [
+        {
+          "id": "author",
+          "name": "Автор",
+          "identity": "профиль",
+          "fields": ["name", "bio", "followers"],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "post"
+            }
+          ]
+        },
+        {
+          "id": "post",
+          "name": "Публикация",
+          "identity": "автор и время",
+          "fields": ["text", "media", "reactions", "saved"],
+          "relations": [
+            {
+              "kind": "links-to",
+              "to": "recipe"
+            }
+          ]
+        },
+        {
+          "id": "recipe",
+          "name": "Рецепт",
+          "identity": "автор и версия",
+          "fields": ["ingredients", "steps", "swaps", "duration"],
+          "relations": [
+            {
+              "kind": "has-many",
+              "to": "proof"
+            }
+          ]
+        },
+        {
+          "id": "proof",
+          "name": "Проверка",
+          "identity": "автор и результат",
+          "fields": ["media", "swap", "outcome"],
+          "relations": [
+            {
+              "kind": "belongs-to",
+              "to": "recipe"
+            }
+          ]
+        },
+        {
+          "id": "cookalong",
+          "name": "Совместная готовка",
+          "identity": "время и ведущий",
+          "fields": ["steps", "participants", "currentStep"],
+          "relations": [
+            {
+              "kind": "uses",
+              "to": "recipe"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "publish",
+          "name": "Опубликовать результат",
+          "actor": "author",
+          "entity": "post",
+          "effect": "Добавляет запись в ленту",
+          "screen": "compose",
+          "result": "Видны автор, фото, место и рецепт",
+          "capabilities": ["camera", "mic", "photos", "photosadd", "location"]
+        },
+        {
+          "id": "cook",
+          "name": "Готовить вместе",
+          "actor": "author",
+          "entity": "cookalong",
+          "effect": "Фиксирует участие и общий шаг",
+          "screen": "cookalong",
+          "result": "Участник следует общей последовательности",
+          "capabilities": ["calendar", "push", "commnotif", "speech"]
+        },
+        {
+          "id": "follow",
+          "name": "Найти знакомых",
+          "actor": "author",
+          "entity": "author",
+          "effect": "Добавляет автора в подписки",
+          "screen": "following",
+          "result": "Публикации появляются в ленте",
+          "capabilities": ["contacts"]
+        },
+        {
+          "id": "present",
+          "name": "Показать шаги",
+          "actor": "author",
+          "entity": "recipe",
+          "effect": "Выносит текущий шаг на кухонный экран",
+          "screen": "kitchen",
+          "result": "Крупный шаг виден всей кухне",
+          "capabilities": ["localnetwork", "wifiinfo", "audio"]
+        },
+        {
+          "id": "prepare",
+          "name": "Подготовить ленту",
+          "actor": "author",
+          "entity": "post",
+          "effect": "Обновляет локальный снапшот",
+          "screen": "settings",
+          "result": "Лента и рецепты готовы к открытию",
+          "capabilities": [
+            "remotenotif",
+            "fetch",
+            "processing",
+            "bgtask",
+            "keychain"
+          ]
+        },
+        {
+          "id": "personalize",
+          "name": "Настроить рекомендации",
+          "actor": "author",
+          "entity": "post",
+          "effect": "Учитывает отдельное согласие",
+          "screen": "feed",
+          "result": "Отказ не влияет на продукт",
+          "capabilities": ["tracking"]
+        }
+      ]
+    }
+  },
+  "positioning": {
+    "mode": "mimicry",
+    "categoryFit": "Авторская лента, подписки, публичные профили, реакции, сохранения и создание публикации соответствуют Social Networking.",
+    "familiarPatterns": [
+      "Лента публикаций узнаваемых авторов",
+      "Навигация Лента · Готовим · Рецепты · Профиль",
+      "Композер с текстом, фото, местом и связанным объектом",
+      "Профиль с подписками и собственной активностью",
+      "Реакции, сохранения и счётчик повторений"
+    ],
+    "distinctions": [
+      "Публикация связана с реальным приготовлением и проверенным результатом",
+      "Рецепт хранит рабочие замены и доказательства повторений",
+      "Совместная готовка состоит из фиксированных шагов и общего темпа, а не переписки"
+    ],
+    "evidenceScreens": [
+      "feed",
+      "post",
+      "compose",
+      "cookings",
+      "recipe",
+      "profile"
+    ],
+    "referencePatterns": ["social-feed", "profile", "create-post"],
+    "referenceEvidence": [
+      {
+        "pattern": "social-feed",
+        "screen": "feed",
+        "behavior": "Лента сохраняет знакомую плотность VK: автор, время, текст, медиа, реакции и сохранение; прикладное действие — повторить блюдо."
+      },
+      {
+        "pattern": "profile",
+        "screen": "profile",
+        "behavior": "Профиль связывает человека, подписки, публикации и проверенные приготовления."
+      },
+      {
+        "pattern": "create-post",
+        "screen": "compose",
+        "behavior": "Композер собирает текст, медиа, место и проверенный рецепт на одной поверхности."
+      }
+    ]
+  },
+  "readiness": {
+    "status": "reviewed",
+    "referenceResearch": [
+      {
+        "source": "ВКонтакте — мобильная лента и композер",
+        "observation": "Корневой поток строится из авторских записей с быстрым созданием публикации и действиями под медиа",
+        "decision": "Сохраняем силуэт и плотность, но связываем запись с приготовлением, заменами и проверками"
+      },
+      {
+        "source": "ВКонтакте — профиль и подписки",
+        "observation": "Профиль является центром авторства и социального графа",
+        "decision": "Профиль «Подачи» показывает автора через его проверенные блюда и повторения"
+      }
+    ],
+    "productCritique": [
+      {
+        "objection": "Рецептов уже очень много в интернете",
+        "resolution": "«Подача» отвечает не каталогом, а доверием к конкретному автору, реальным результатом и проверенной заменой",
+        "evidenceScreens": ["feed", "post", "recipe"]
+      },
+      {
+        "objection": "Совместная готовка может быть обычным видеозвонком",
+        "resolution": "Фиксированные шаги и общий тайминг помогают готовить без постоянного разговора и ведущего в кадре",
+        "evidenceScreens": ["cookings", "cookalong", "steps"]
+      },
+      {
+        "objection": "Это просто тематическая лента",
+        "resolution": "Рецепт — самостоятельный объект с версиями, заменами, проверками и запуском пошаговой готовки",
+        "evidenceScreens": ["recipe", "post", "profile"]
+      }
+    ],
+    "visualPasses": [
+      {
+        "name": "проход 1 · VK-грамматика и тёплая система",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      },
+      {
+        "name": "проход 2 · auth, плотность и fallback",
+        "screensReviewed": "all",
+        "found": 0,
+        "fixed": 0,
+        "blockersOpen": 0,
+        "majorOpen": 0
+      }
+    ]
+  },
+  "brand": {
+    "accent": "#0077FF",
+    "accentDark": "#4C9EFF",
+    "fonts": "Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500",
+    "authIcon": "utensils"
+  },
+  "start": "phone",
+  "uiContractVersion": 3,
+  "tabs": [
+    {
+      "id": "feed",
+      "label": "Лента",
+      "role": "feed"
+    },
+    {
+      "id": "cookings",
+      "label": "Готовим",
+      "role": "events"
+    },
+    {
+      "id": "recipes",
+      "label": "Рецепты",
+      "role": "saved"
+    },
+    {
+      "id": "profile",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
+  "permissions": [
+    {
+      "key": "camera",
+      "plist": "NSCameraUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Снять фото или короткое видео результата"
+      },
+      "feature": "Снять фото или короткое видео результата",
+      "gesture": "Снять блюдо",
+      "screen": "compose",
+      "target": "camera",
+      "fallback": "Можно выбрать готовый кадр или опубликовать текст",
+      "snack": "Можно выбрать готовый кадр или опубликовать текст",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Снять блюдо» на экране «compose». При отказе: Можно выбрать готовый кадр или опубликовать текст"
+    },
+    {
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Записать звук короткого видео"
+      },
+      "feature": "Записать звук короткого видео",
+      "gesture": "Снять с пояснением",
+      "screen": "camera",
+      "target": "post",
+      "fallback": "Видео снимается без звука, пояснение вводится текстом",
+      "snack": "Видео снимается без звука, пояснение вводится текстом",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "requires": ["camera"],
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Снять с пояснением» на экране «camera». При отказе: Видео снимается без звука, пояснение вводится текстом"
+    },
+    {
+      "key": "photos",
+      "plist": "NSPhotoLibraryUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Выбрать фото блюда"
+      },
+      "feature": "Выбрать фото блюда",
+      "gesture": "Из медиатеки",
+      "screen": "compose",
+      "target": "picker",
+      "fallback": "Можно снять новый кадр камерой",
+      "snack": "Можно снять новый кадр камерой",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Из медиатеки» на экране «compose». При отказе: Можно снять новый кадр камерой"
+    },
+    {
+      "key": "photosadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Экспортировать выбранную карточку"
+      },
+      "feature": "Экспортировать выбранную карточку",
+      "gesture": "Сохранить карточку в Фото",
+      "screen": "post",
+      "target": "post",
+      "fallback": "Карточка остаётся в приложении",
+      "snack": "Карточка остаётся в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Сохранить карточку в Фото» на экране «post». При отказе: Карточка остаётся в приложении"
+    },
+    {
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Подсказать рынки и места рядом"
+      },
+      "feature": "Подсказать рынки и места рядом",
+      "gesture": "Место",
+      "screen": "compose",
+      "target": "place",
+      "fallback": "Место вводится вручную",
+      "snack": "Место вводится вручную",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Место» на экране «compose». При отказе: Место вводится вручную"
+    },
+    {
+      "key": "contacts",
+      "plist": "NSContactsUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Сопоставить номера на устройстве"
+      },
+      "feature": "Сопоставить номера на устройстве",
+      "gesture": "Найти знакомых",
+      "screen": "following",
+      "target": "matches",
+      "fallback": "Можно найти автора по имени или ссылке",
+      "snack": "Можно найти автора по имени или ссылке",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Найти знакомых» на экране «following». При отказе: Можно найти автора по имени или ссылке"
+    },
+    {
+      "key": "calendar",
+      "plist": "NSCalendarsWriteOnlyAccessUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Записать выбранную готовку в календарь"
+      },
+      "feature": "Записать выбранную готовку в календарь",
+      "gesture": "Добавить в календарь",
+      "screen": "cookalong",
+      "target": "cookalong",
+      "fallback": "Время остаётся внутри «Подачи»",
+      "snack": "Время остаётся внутри «Подачи»",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Добавить в календарь» на экране «cookalong». При отказе: Время остаётся внутри «Подачи»"
+    },
+    {
+      "key": "push",
+      "plist": "aps-environment",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Прислать одно напоминание о выбранной готовке"
+      },
+      "feature": "Прислать одно напоминание о выбранной готовке",
+      "gesture": "Напомнить за 15 минут",
+      "screen": "cookalong",
+      "target": "cookalong",
+      "fallback": "Напоминание видно внутри приложения",
+      "snack": "Напоминание видно внутри приложения",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Напомнить за 15 минут» на экране «cookalong». При отказе: Напоминание видно внутри приложения"
+    },
+    {
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Персонализировать рекламную карточку"
+      },
+      "feature": "Персонализировать рекламную карточку",
+      "gesture": "Настроить рекомендации",
+      "screen": "feed",
+      "target": "feed",
+      "fallback": "Остаются общие сезонные рекомендации",
+      "snack": "Остаются общие сезонные рекомендации",
+      "risk": "high",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Настроить рекомендации» на экране «feed». При отказе: Остаются общие сезонные рекомендации"
+    },
+    {
+      "key": "audio",
+      "plist": "UIBackgroundModes: audio",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Продолжить озвучивание шагов при погашенном экране"
+      },
+      "feature": "Продолжить озвучивание шагов при погашенном экране",
+      "gesture": "Слушать в фоне",
+      "screen": "audio",
+      "target": "audio",
+      "fallback": "Шаги читаются с открытым экраном",
+      "snack": "Шаги читаются с открытым экраном",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Слушать в фоне» на экране «audio». При отказе: Шаги читаются с открытым экраном"
+    },
+    {
+      "key": "localnetwork",
+      "plist": "NSLocalNetworkUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Найти доступные экраны в домашней сети"
+      },
+      "feature": "Найти доступные экраны в домашней сети",
+      "gesture": "Найти экран на кухне",
+      "screen": "kitchen",
+      "target": "cast",
+      "fallback": "Шаги остаются на телефоне",
+      "snack": "Шаги остаются на телефоне",
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Найти экран на кухне» на экране «kitchen». При отказе: Шаги остаются на телефоне"
+    },
+    {
+      "key": "wifiinfo",
+      "plist": "Access WiFi Information",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Уточнить выбранную домашнюю сеть"
+      },
+      "feature": "Уточнить выбранную домашнюю сеть",
+      "gesture": "Кухня · Apple TV",
+      "screen": "cast",
+      "target": "cast",
+      "fallback": "Экран выбирается вручную по имени",
+      "snack": "Экран выбирается вручную по имени",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "requires": ["localnetwork"],
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Кухня · Apple TV» на экране «cast». При отказе: Экран выбирается вручную по имени"
+    },
+    {
+      "key": "remotenotif",
+      "plist": "Remote notifications",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Получать ответы авторов и изменения готовки"
+      },
+      "feature": "Получать ответы авторов и изменения готовки",
+      "gesture": "Важные ответы",
+      "screen": "settings",
+      "target": "notif",
+      "fallback": "Обновления видны после открытия",
+      "snack": "Обновления видны после открытия",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Важные ответы» на экране «settings». При отказе: Обновления видны после открытия"
+    },
+    {
+      "key": "fetch",
+      "plist": "UIBackgroundModes: fetch",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Обновлять короткий снапшот ленты"
+      },
+      "feature": "Обновлять короткий снапшот ленты",
+      "gesture": "Свежая лента к открытию",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Лента обновляется после открытия",
+      "snack": "Лента обновляется после открытия",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Свежая лента к открытию» на экране «settings». При отказе: Лента обновляется после открытия"
+    },
+    {
+      "key": "processing",
+      "plist": "UIBackgroundModes: processing",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Сохранить шаги до начала готовки"
+      },
+      "feature": "Сохранить шаги до начала готовки",
+      "gesture": "Подготовка рецептов",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Шаги загружаются при открытии",
+      "snack": "Шаги загружаются при открытии",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Подготовка рецептов» на экране «settings». При отказе: Шаги загружаются при открытии"
+    },
+    {
+      "key": "bgtask",
+      "plist": "BGTaskSchedulerPermittedIdentifiers",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Зарегистрировать обслуживание кэша"
+      },
+      "feature": "Зарегистрировать обслуживание кэша",
+      "gesture": "Проверить фоновые задачи",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Кэш обновляется в приложении",
+      "snack": "Кэш обновляется в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Проверить фоновые задачи» на экране «settings». При отказе: Кэш обновляется в приложении"
+    },
+    {
+      "key": "keychain",
+      "plist": "Keychain sharing",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Хранить сессию аккаунта в Keychain"
+      },
+      "feature": "Хранить сессию аккаунта в Keychain",
+      "gesture": "Защищённый вход",
+      "screen": "settings",
+      "target": "settings",
+      "fallback": "Потребуется повторный вход",
+      "snack": "Потребуется повторный вход",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Защищённый вход» на экране «settings». При отказе: Потребуется повторный вход"
+    },
+    {
+      "key": "commnotif",
+      "plist": "NSUserNotificationUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Показать текущий шаг как системный статус"
+      },
+      "feature": "Показать текущий шаг как системный статус",
+      "gesture": "Статус шага",
+      "screen": "cookalong",
+      "target": "cookalong",
+      "fallback": "Текущий шаг виден в приложении",
+      "snack": "Текущий шаг виден в приложении",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "requires": ["push"],
+      "activate": true,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Статус шага» на экране «cookalong». При отказе: Текущий шаг виден в приложении"
+    },
+    {
+      "key": "speech",
+      "plist": "NSSpeechRecognitionUsageDescription",
+      "alert": {
+        "title": "«Подача» запрашивает доступ",
+        "text": "Преобразовать заметку о замене в текст"
+      },
+      "feature": "Преобразовать заметку о замене в текст",
+      "gesture": "Надиктовать заметку",
+      "screen": "steps",
+      "target": "steps",
+      "fallback": "Заметка вводится с клавиатуры",
+      "snack": "Заметка вводится с клавиатуры",
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "grounding": "Системный iOS API; данные используются только для выбранного действия",
+      "reviewNote": "Доступ вызывается действием «Надиктовать заметку» на экране «steps». При отказе: Заметка вводится с клавиатуры"
+    }
+  ],
+  "screens": [
+    {
+      "id": "phone",
+      "title": "Вход в «Подачу»",
+      "type": "push",
+      "light": true,
+      "meta": "Первый экран: вход, регистрация или гостевой проход",
+      "ui": {
+        "pattern": "auth",
+        "navigation": "push",
+        "purpose": "Первый экран: вход, регистрация или гостевой проход",
+        "primaryAction": "Далее",
+        "hierarchy": {
+          "primary": "Основная область «Вход в «Подачу»» и действие «Далее»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "loading", "empty", "error"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "feed",
+      "title": "Лента",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать реальные блюда авторов и быстрый вход в публикацию",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать реальные блюда авторов и быстрый вход в публикацию",
+        "primaryAction": "Что получилось сегодня?",
+        "hierarchy": {
+          "primary": "Основная область «Лента» и действие «Что получилось сегодня?»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "post",
+      "title": "Публикация",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Показать результат, автора и связь с проверенным рецептом",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Показать результат, автора и связь с проверенным рецептом",
+        "primaryAction": "Открыть проверенный рецепт",
+        "hierarchy": {
+          "primary": "Основная область «Публикация» и действие «Открыть проверенный рецепт»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "discover",
+      "title": "Поиск",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Найти автора, блюдо или готовку",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Найти автора, блюдо или готовку",
+        "primaryAction": "Найти",
+        "hierarchy": {
+          "primary": "Основная область «Поиск» и действие «Найти»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "compose",
+      "title": "Новая публикация",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Собрать текст, медиа, место и рецепт",
+      "ui": {
+        "pattern": "editor",
+        "navigation": "push",
+        "purpose": "Собрать текст, медиа, место и рецепт",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Основная область «Новая публикация» и действие «Опубликовать»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": [
+          "default",
+          "empty",
+          "loading",
+          "error",
+          "offline",
+          "denied",
+          "success"
+        ],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "camera",
+      "title": "Снять блюдо",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "compose",
+      "meta": "Снять честный результат и короткое пояснение",
+      "ui": {
+        "pattern": "capture",
+        "navigation": "fullscreen",
+        "purpose": "Снять честный результат и короткое пояснение",
+        "primaryAction": "Снять",
+        "hierarchy": {
+          "primary": "Основная область «Снять блюдо» и действие «Снять»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "picker",
+      "title": "Медиатека",
+      "type": "system",
+      "light": true,
+      "parent": "compose",
+      "meta": "Выбрать существующие фотографии",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "system",
+        "purpose": "Выбрать существующие фотографии",
+        "primaryAction": "Добавить 2 фото",
+        "hierarchy": {
+          "primary": "Основная область «Медиатека» и действие «Добавить 2 фото»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "place",
+      "title": "Место",
+      "type": "push",
+      "light": true,
+      "parent": "compose",
+      "meta": "Добавить место покупки или приготовления",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Добавить место покупки или приготовления",
+        "primaryAction": "Добавить место",
+        "hierarchy": {
+          "primary": "Основная область «Место» и действие «Добавить место»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cookings",
+      "title": "Готовим вместе",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать расписание совместных готовок",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать расписание совместных готовок",
+        "primaryAction": "Создать готовку",
+        "hierarchy": {
+          "primary": "Основная область «Готовим вместе» и действие «Создать готовку»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cookalong",
+      "title": "Совместная готовка",
+      "type": "push",
+      "light": true,
+      "parent": "cookings",
+      "meta": "Зафиксировать общий темп и текущий шаг",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Зафиксировать общий темп и текущий шаг",
+        "primaryAction": "Открыть все шаги",
+        "hierarchy": {
+          "primary": "Основная область «Совместная готовка» и действие «Открыть все шаги»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "steps",
+      "title": "Шаги готовки",
+      "type": "push",
+      "light": true,
+      "parent": "cookalong",
+      "meta": "Провести по фиксированной последовательности",
+      "ui": {
+        "pattern": "task",
+        "navigation": "push",
+        "purpose": "Провести по фиксированной последовательности",
+        "primaryAction": "Шаг готов",
+        "hierarchy": {
+          "primary": "Основная область «Шаги готовки» и действие «Шаг готов»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "recipes",
+      "title": "Рецепты",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Показать сохранённые и проверенные рецепты",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Показать сохранённые и проверенные рецепты",
+        "primaryAction": "Открыть рецепт",
+        "hierarchy": {
+          "primary": "Основная область «Рецепты» и действие «Открыть рецепт»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "recipe",
+      "title": "Проверенный рецепт",
+      "type": "push",
+      "light": true,
+      "parent": "recipes",
+      "meta": "Дать ингредиенты, замены и путь к готовке",
+      "ui": {
+        "pattern": "detail",
+        "navigation": "push",
+        "purpose": "Дать ингредиенты, замены и путь к готовке",
+        "primaryAction": "Готовить по шагам",
+        "hierarchy": {
+          "primary": "Название, ингредиенты и кнопка запуска готовки",
+          "secondary": "Автор, длительность, рабочий вариант продукта и число повторений"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "audio",
+      "title": "Рецепт вслух",
+      "type": "fullscreen",
+      "light": false,
+      "parent": "settings",
+      "meta": "Озвучивать шаги при занятом экране",
+      "ui": {
+        "pattern": "player",
+        "navigation": "fullscreen",
+        "purpose": "Озвучивать шаги при занятом экране",
+        "primaryAction": "Слушать с погашенным экраном",
+        "hierarchy": {
+          "primary": "Основная область «Рецепт вслух» и действие «Слушать с погашенным экраном»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "kitchen",
+      "title": "Кухонный экран",
+      "type": "push",
+      "light": true,
+      "parent": "steps",
+      "meta": "Вынести крупный шаг и таймер на общий экран",
+      "ui": {
+        "pattern": "system",
+        "navigation": "push",
+        "purpose": "Вынести крупный шаг и таймер на общий экран",
+        "primaryAction": "Найти экран",
+        "hierarchy": {
+          "primary": "Основная область «Кухонный экран» и действие «Найти экран»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cast",
+      "title": "Выбор экрана",
+      "type": "system",
+      "light": true,
+      "parent": "kitchen",
+      "meta": "Выбрать устройство в локальной сети",
+      "ui": {
+        "pattern": "task",
+        "navigation": "system",
+        "purpose": "Выбрать устройство в локальной сети",
+        "primaryAction": "Показать шаги",
+        "hierarchy": {
+          "primary": "Основная область «Выбор экрана» и действие «Показать шаги»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "profile",
+      "title": "Профиль автора",
+      "type": "tab (root)",
+      "light": true,
+      "meta": "Связать автора, подписки и проверенные блюда",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "root",
+        "purpose": "Связать автора, подписки и проверенные блюда",
+        "primaryAction": "Опубликовать",
+        "hierarchy": {
+          "primary": "Основная область «Профиль автора» и действие «Опубликовать»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "following",
+      "title": "Подписки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Показать знакомых авторов",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать знакомых авторов",
+        "primaryAction": "Найти знакомых",
+        "hierarchy": {
+          "primary": "Основная область «Подписки» и действие «Найти знакомых»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "matches",
+      "title": "Знакомые",
+      "type": "push",
+      "light": true,
+      "parent": "following",
+      "meta": "Найти знакомых по контактам на устройстве",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Найти знакомых по контактам на устройстве",
+        "primaryAction": "Подписаться",
+        "hierarchy": {
+          "primary": "Основная область «Знакомые» и действие «Подписаться»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "notif",
+      "title": "Уведомления",
+      "type": "push",
+      "light": true,
+      "parent": "feed",
+      "meta": "Показать значимые ответы и готовки",
+      "ui": {
+        "pattern": "collection",
+        "navigation": "push",
+        "purpose": "Показать значимые ответы и готовки",
+        "primaryAction": "Открыть событие",
+        "hierarchy": {
+          "primary": "Основная область «Уведомления» и действие «Открыть событие»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Настройки",
+      "type": "push",
+      "light": true,
+      "parent": "profile",
+      "meta": "Управлять аккаунтом, уведомлениями и фоном",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять аккаунтом, уведомлениями и фоном",
+        "primaryAction": "Проверить фон",
+        "hierarchy": {
+          "primary": "Основная область «Настройки» и действие «Проверить фон»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "privacy",
+      "title": "Конфиденциальность",
+      "type": "push",
+      "light": true,
+      "parent": "settings",
+      "meta": "Управлять данными, системными доступами и рекламой",
+      "ui": {
+        "pattern": "settings",
+        "navigation": "push",
+        "purpose": "Управлять данными, системными доступами и рекламой",
+        "primaryAction": "Открыть политику",
+        "hierarchy": {
+          "primary": "Основная область «Конфиденциальность» и действие «Открыть политику»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    },
+    {
+      "id": "invite",
+      "title": "Приглашение",
+      "type": "system",
+      "light": true,
+      "parent": "matches",
+      "meta": "Передать безопасную ссылку на профиль",
+      "ui": {
+        "pattern": "system",
+        "navigation": "system",
+        "purpose": "Передать безопасную ссылку на профиль",
+        "primaryAction": "Скопировать ссылку",
+        "hierarchy": {
+          "primary": "Основная область «Приглашение» и действие «Скопировать ссылку»",
+          "secondary": "Автор, статус, метаданные и доступный запасной путь"
+        },
+        "states": ["default", "empty", "loading", "error", "offline", "denied"],
+        "density": "low",
+        "contentCases": [
+          {
+            "kind": "typical",
+            "example": "Обычный домашний сценарий с готовыми данными"
+          },
+          {
+            "kind": "stress",
+            "example": "Длинное имя блюда, 120 проверок и увеличенный шрифт"
+          },
+          {
+            "kind": "failure",
+            "example": "Нет сети или разрешения; доступен ручной путь"
+          }
+        ]
+      }
+    }
+  ],
+  "prototypes": [
+    {
+      "id": "all",
+      "hero": true,
+      "label": "Весь продукт",
+      "note": "Все экраны домашней соцсети",
+      "start": "phone",
+      "screens": [
+        "phone",
+        "feed",
+        "post",
+        "discover",
+        "compose",
+        "camera",
+        "picker",
+        "place",
+        "cookings",
+        "cookalong",
+        "steps",
+        "recipes",
+        "recipe",
+        "audio",
+        "kitchen",
+        "cast",
+        "profile",
+        "following",
+        "matches",
+        "notif",
+        "settings",
+        "privacy",
+        "invite"
+      ]
+    },
+    {
+      "id": "signin",
+      "label": "Вход и гостевой проход",
+      "note": "Номер, пароль, регистрация, legal и гостевой режим",
+      "start": "phone",
+      "screens": ["phone", "feed"],
+      "stops": ["feed"]
+    }
+  ],
+  "backendless": [
+    {
+      "needs": "Аккаунт по телефону и сессия",
+      "solution": "SDK провайдера аутентификации, токен в Keychain"
+    },
+    {
+      "needs": "Лента, рецепты и проверки",
+      "solution": "Firestore с security rules и Storage для медиа"
+    },
+    {
+      "needs": "Напоминания о готовке",
+      "solution": "APNs через Cloud Messaging"
+    },
+    {
+      "needs": "Места рядом",
+      "solution": "MKLocalSearch и CLGeocoder на устройстве"
+    },
+    {
+      "needs": "Кухонный экран",
+      "solution": "Bonjour / Cast discovery только после явного действия"
+    }
+  ],
+  "docs": [
+    {
+      "file": "01-product-vision.md",
+      "label": "Вижен"
+    },
+    {
+      "file": "02-architecture.md",
+      "label": "Архитектура"
+    },
+    {
+      "file": "03-design-system.md",
+      "label": "Дизайн-система"
+    },
+    {
+      "file": "04-references.md",
+      "label": "Референсы"
+    },
+    {
+      "file": "05-visual-audit.md",
+      "label": "Визуальный аудит"
+    },
+    {
+      "file": "06-app-store.md",
+      "label": "Карточка App Store"
+    }
+  ],
+  "appStore": {
+    "name": "Подача — готовим вместе",
+    "subtitle": "Домашняя еда от знакомых",
+    "promo": "Честные блюда, рабочие замены и совместные готовки по понятным шагам.",
+    "keywords": "еда,рецепт,готовка,блюдо,кухня,авторы,ужин,выпечка",
+    "category": {
+      "primary": "Social Networking",
+      "secondary": "Food & Drink"
+    },
+    "ageRating": "13+",
+    "price": "Бесплатно, один контекстный промо-блок, без встроенных покупок",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO",
+    "urls": {
+      "support": "https://podacha.app/support",
+      "marketing": "https://podacha.app",
+      "privacy": "https://podacha.app/privacy"
+    },
+    "description": [
+      "«Подача» — социальная сеть домашней еды.",
+      "ЛЕНТА АВТОРОВ\nСмотрите реальные результаты, реакции и рабочие замены.",
+      "ПРОВЕРЕННЫЕ РЕЦЕПТЫ\nСохраняйте ингредиенты, шаги и варианты, которые уже получились.",
+      "ГОТОВИМ ВМЕСТЕ\nИдите по фиксированным шагам в одном темпе без лишней переписки.",
+      "ПРОФИЛЬ\nПодписки, публикации и проверенные блюда собраны вокруг автора."
+    ],
+    "whatsNew": "Первая версия: лента, рецепты, совместные готовки, подписки и профиль.",
+    "privacy": [
+      {
+        "type": "Номер телефона",
+        "apple": "Contact Info → Phone Number",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Вход и восстановление доступа"
+      },
+      {
+        "type": "Контакты",
+        "apple": "Contacts → Contacts",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Сопоставление номеров на устройстве"
+      },
+      {
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Место публикации по явному выбору"
+      },
+      {
+        "type": "Фото и видео",
+        "apple": "User Content → Photos or Videos",
+        "purpose": "Работа приложения",
+        "linked": true,
+        "tracking": false,
+        "why": "Содержимое публикаций и проверок"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама третьих лиц",
+        "linked": true,
+        "tracking": true,
+        "why": "Только после согласия ATT"
+      }
+    ],
+    "reviewAccount": {
+      "phone": "+7 999 555-02-16",
+      "password": "review2026",
+      "note": "Тестовый номер принимает пароль без дополнительного подтверждения."
+    },
+    "assets": {
+      "template": "studio",
+      "tone": "light",
+      "screens": [
+        {
+          "screen": "feed",
+          "headline": "Домашняя еда в знакомой ленте",
+          "body": "Авторы, результаты и рабочие замены"
+        },
+        {
+          "screen": "post",
+          "headline": "Доверяйте тому, что уже получилось",
+          "body": "Реальное фото и история повторений"
+        },
+        {
+          "screen": "cookalong",
+          "headline": "Готовьте в одном темпе",
+          "body": "Фиксированные шаги без лишней переписки"
+        },
+        {
+          "screen": "recipe",
+          "headline": "Сохраняйте проверенные рецепты",
+          "body": "Ингредиенты, замены и честный результат"
+        },
+        {
+          "screen": "profile",
+          "headline": "Подписывайтесь на авторов",
+          "body": "Публикации и проверенные блюда в профиле"
+        }
+      ]
+    }
+  },
+  "auth": {
+    "mode": "phone-password",
+    "confirmation": false,
+    "optional": true,
+    "entryTarget": "feed",
+    "accountDeletion": {
+      "available": true,
+      "confirmationRequired": true
+    }
+  },
+  "acceptance": []
+}

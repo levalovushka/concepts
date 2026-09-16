@@ -1,0 +1,19 @@
+<!-- @overview:vision -->
+<p class="deck">Социальная сеть настольных игр: знакомые люди показывают сыгранное, собирают живые партии и сохраняют общий результат.</p>
+<div class="utp-box"><strong>Ограничение продукта.</strong> {{TAGLINE}}</div>
+<p>Если убрать автора, физический стол, состав, темп и длительность, останется каталог игр. «Стол» держится на связи людей с реальной партией.</p>
+{{FEAT_GRID}}
+<!-- @end -->
+
+<!-- @overview:arch -->
+<p class="deck">Знакомая социальная навигация ведёт к предметным объектам настольной игры.</p>
+<div class="flow"><span class="chip">Лента</span><span class="arr">→</span><span class="chip">Что на столе?</span><span class="arr">→</span><span class="chip">фото / место / игра</span><span class="arr">→</span><span class="chip">публикация</span></div>
+<div class="flow"><span class="chip">Столы</span><span class="arr">→</span><span class="chip">партия сегодня</span><span class="arr">→</span><span class="chip">занять место</span><span class="arr">→</span><span class="chip">календарь</span></div>
+<div class="flow"><span class="chip">Партия</span><span class="arr">→</span><span class="chip">голосовой счёт</span><span class="arr">→</span><span class="chip">общее табло</span></div>
+<div class="arch" style="margin-top:var(--s-lg)"><div class="arch-layer"><h3>UI</h3><p>Четыре вкладки, карточная лента, плотные секционные списки и профиль в узнаваемой социальной грамматике.</p></div><div class="arch-layer"><h3>Domain</h3><p>Игрок, игра, партия, место и публикация. Все действия меняют одну из этих сущностей.</p></div><div class="arch-layer"><h3>Services</h3><p>Phone Auth, Firestore, Storage, Core Location, EventKit, Speech, AVFoundation, APNs, Bonjour и Keychain.</p></div><div class="arch-layer"><h3>Data</h3><p>Локальные черновики, правила и офлайн-счёт; удалённые социальные данные обслуживает SDK провайдера.</p></div></div>
+<!-- @end -->
+
+<section class="section" id="perm-matrix"><h2>Матрица доступов</h2><p class="deck">Запрос появляется только после предметного жеста; отказ сохраняет ручной путь.</p>{{PERM_MATRIX}}</section>
+<section class="section" id="no-backend"><h2>Почему нет своего бэкенда</h2><p class="deck">Лента и профили используют готовый провайдер, а системные функции работают на устройстве.</p>{{BACKENDLESS}}</section>
+<section class="section" id="screen-table"><h2>Экраны и доступы</h2><p class="deck">Социальные корни, предметные детали и полный телефонно-парольный auth-контракт.</p>{{SCREEN_TABLE}}</section>
+<section class="section" id="tokens"><h2>Дизайн-токены</h2><div class="feat-grid"><div class="feat"><h3>Действия</h3><p><code>#0077FF</code> — синий для ссылок, кнопок и активной вкладки.</p></div><div class="feat"><h3>Поверхности</h3><p>Холодный серый фон, белые карточки и разделители близкой социальной плотности.</p></div><div class="feat"><h3>Предметность</h3><p>Дерево и фишки появляются только в деталях партии и auth, не ломая VK-грамматику.</p></div><div class="feat"><h3>Медиа</h3><p>Только ядровой <code>.ph</code>; реальных или сгенерированных картинок нет.</p></div></div></section>

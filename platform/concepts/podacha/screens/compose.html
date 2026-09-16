@@ -1,0 +1,71 @@
+<div class="screen p-page" id="scr-compose">
+  <header class="navbar">
+    <div class="nav-leading">
+      <button class="btn-plain tap" data-back aria-label="Назад">
+        <svg class="ios-back" viewBox="0 0 12 21" fill="none">
+          <path
+            d="M10.25 1.75L1.75 10.5l8.5 8.75"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="title">Новая публикация</div>
+  </header>
+  <main class="body-scroll p-scroll">
+    <section class="p-editor">
+      <div class="p-avatar ph"></div>
+      <textarea>
+Проверила пирог с грушей на цельнозерновой муке. Сахара взяла вдвое меньше — текстура осталась мягкой</textarea>
+    </section>
+    <div class="p-compose-media">
+      <div class="ph p-media"><span>01</span></div>
+      <div class="ph p-media"><span>02</span></div>
+    </div>
+    <section class="p-section">
+      <h2>Добавить</h2>
+      <button class="p-row tap" data-ask="camera|camera|compose">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-camera" /></svg></span
+        ><span
+          ><b>Снять блюдо</b
+          ><small>Фото или короткое видео со звуком</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-ask="photos|picker|compose">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-images" /></svg></span
+        ><span><b>Из медиатеки</b><small>Выбрать готовые кадры</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-ask="location|place|place">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-map-pin" /></svg></span
+        ><span><b>Место</b><small>Кухня, рынок или кафе рядом</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button
+      ><button class="p-row tap" data-go="recipe">
+        <span class="p-row-icon"
+          ><svg class="ico-svg"><use href="#i-book-open" /></svg></span
+        ><span
+          ><b>Проверенный рецепт</b
+          ><small>Ингредиенты, замены и шаги</small></span
+        ><svg class="ico-svg"><use href="#i-chevron-right" /></svg>
+      </button>
+    </section>
+    <div class="p-note" data-show-denied="camera">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Публикацию можно отправить без фото или выбрать готовый кадр</span>
+    </div>
+    <div class="p-note" data-show-denied="photos">
+      <svg class="ico-svg"><use href="#i-info" /></svg
+      ><span>Снимите новый кадр камерой или опубликуйте только текст</span>
+    </div>
+    <div class="p-cta">
+      <button class="btn-filled tap" data-primary data-go="post">
+        Опубликовать
+      </button>
+    </div>
+  </main>
+  <div class="home-ind"></div>
+</div>
