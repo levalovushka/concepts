@@ -20,6 +20,7 @@ const AUTH_SIGNATURES = {
 const browser = await chromium.launch();
 const failures = [];
 let custom = 0;
+const authGeometry = new Map();
 
 for (const slug of listConcepts()) {
   const signature = AUTH_SIGNATURES[slug] || [];
@@ -44,6 +45,10 @@ for (const slug of listConcepts()) {
     const retained = expected.filter((token) => phoneClasses.has(token));
     const gap = status && first ? first.getBoundingClientRect().top - status.getBoundingClientRect().bottom : -1;
     const phonePrimary = phone?.querySelector('[data-primary]');
+    const phoneInput = phone?.querySelector('.unified-auth-field input');
+    const phoneLede = phone?.querySelector('.unified-auth-lede');
+    const phoneField = phone?.querySelector('.unified-auth-field');
+    const phoneLegal = phone?.querySelector('.auth-legal');
     const password = device?.querySelector('[data-screen="password"]');
     const product = [...device?.querySelectorAll('.screen') || []].find((screen) => !['phone', 'password', 'register', 'registerpassword', 'account', 'deleteaccount'].includes(screen.dataset.screen));
     const passwordTitle = password?.querySelector('h1');
@@ -87,6 +92,13 @@ for (const slug of listConcepts()) {
       phoneBackground: phone ? getComputedStyle(phone).backgroundColor : null,
       passwordBackground: password ? getComputedStyle(password).backgroundColor : null,
       phonePrimaryColor: phonePrimary ? getComputedStyle(phonePrimary).backgroundColor : null,
+      phonePrimaryTop: phonePrimary && phone ? phonePrimary.getBoundingClientRect().top - phone.getBoundingClientRect().top : null,
+      phoneInputBackground: phoneInput ? getComputedStyle(phoneInput).backgroundColor : null,
+      phoneLedeTop: phoneLede && phone ? phoneLede.getBoundingClientRect().top - phone.getBoundingClientRect().top : null,
+      phoneLedeHeight: phoneLede?.getBoundingClientRect().height ?? null,
+      phoneFieldTop: phoneField && phone ? phoneField.getBoundingClientRect().top - phone.getBoundingClientRect().top : null,
+      phoneFieldHeight: phoneField?.getBoundingClientRect().height ?? null,
+      phoneLegalTop: phoneLegal && phone ? phoneLegal.getBoundingClientRect().top - phone.getBoundingClientRect().top : null,
       primaryColor: primary ? getComputedStyle(primary).backgroundColor : null,
       primaryOpacity: primary ? Number(getComputedStyle(primary).opacity) : null,
       backColor: back ? getComputedStyle(back).color : null,
@@ -106,6 +118,8 @@ for (const slug of listConcepts()) {
   if (result.authWeight > 700) failures.push(`${slug}: заголовок авторизации слишком жирный (${result.authWeight})`);
   if (result.hasClose) failures.push(`${slug}: на корневом экране входа осталась кнопка закрытия`);
   if (!result.primaryColor || result.primaryColor === 'rgba(0, 0, 0, 0)' || result.primaryOpacity < 0.95) failures.push(`${slug}: кнопка входа невидима (${result.primaryColor}, opacity ${result.primaryOpacity})`);
+  if (slug === 'pereezd' && result.phoneInputBackground !== 'rgba(0, 0, 0, 0)') failures.push(`${slug}: нативный фон input перекрывает поверхность поля (${result.phoneInputBackground})`);
+  if (['stol', 'podacha', 'shtrikh'].includes(slug)) authGeometry.set(slug, result);
   if (signature.length && result.phoneBackground !== result.passwordBackground) failures.push(`${slug}: экраны номера и пароля имеют разные поверхности (${result.phoneBackground} / ${result.passwordBackground})`);
   if (enforceVkBlue && result.phonePrimaryColor !== 'rgb(0, 119, 255)') failures.push(`${slug}: кнопка первого шага не VK-синяя (${result.phonePrimaryColor})`);
   if (enforceVkBlue && !['#0077ff', 'rgb(0, 119, 255)'].includes(result.productAccent)) failures.push(`${slug}: продуктовый акцент не VK-синий (${result.productAccent})`);
@@ -135,6 +149,18 @@ for (const slug of listConcepts()) {
     }
   }
   await page.close();
+}
+
+const threeConceptGeometry = ['stol', 'podacha', 'shtrikh'].map((slug) => authGeometry.get(slug)).filter(Boolean);
+const geometrySpread = (key) => {
+  const values = threeConceptGeometry.map((geometry) => geometry[key]).filter(Number.isFinite);
+  return values.length === 3 ? Math.max(...values) - Math.min(...values) : 0;
+};
+if (geometrySpread('phonePrimaryTop') > 16) {
+  failures.push(`stol/podacha/shtrikh: первый CTA авторизации стоит на разной высоте (${threeConceptGeometry.map(({ phonePrimaryTop }) => Math.round(phonePrimaryTop)).join(' / ')}px)`);
+}
+if (geometrySpread('phoneLedeTop') > 4 || geometrySpread('phoneLedeHeight') > 4 || geometrySpread('phoneFieldTop') > 4 || geometrySpread('phoneFieldHeight') > 12 || geometrySpread('phoneLegalTop') > 16) {
+  failures.push('stol/podacha/shtrikh: нарушен общий вертикальный ритм первого auth-экрана');
 }
 
 await browser.close();

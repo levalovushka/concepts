@@ -1262,18 +1262,21 @@
 }
 .auth-stol.unified-auth h1 {
   max-width: 13ch;
-  margin: 24px 0 7px !important;
+  margin: 24px 0 0 !important;
   font: 700 30px/34px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
   letter-spacing: -0.03em !important;
 }
 .auth-stol.unified-auth .unified-auth-lede {
   max-width: 31ch;
-  margin-bottom: 0;
+  margin: 10px 0 0;
+  font-size: 16px;
+  line-height: 23px;
 }
 .auth-stol.unified-auth .unified-auth-field {
   height: auto;
-  min-height: 58px;
+  min-height: 70px;
   margin-top: 22px;
+  padding: 10px 14px;
   border: 0 !important;
   border-radius: 10px !important;
   background: #e5e7eb !important;
@@ -1282,6 +1285,18 @@
 .auth-stol.unified-auth .unified-auth-actions {
   margin-top: auto;
   padding-top: 24px;
+  gap: 6px;
+}
+.auth-stol.unified-auth .unified-auth-help {
+  margin-top: 6px;
+}
+.auth-stol.unified-auth .unified-auth-link,
+.auth-stol.unified-auth .unified-auth-help {
+  font-size: 15px;
+  line-height: 24px;
+}
+.auth-stol.unified-auth .auth-legal {
+  margin: 12px 0 0;
 }
 .auth-stol.unified-auth .unified-auth-actions > .btn-filled,
 .auth-stol.unified-auth .unified-delete-confirm {

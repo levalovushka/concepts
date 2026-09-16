@@ -9,4 +9,5 @@
 .pz-page *{text-transform:none!important;letter-spacing:normal!important}
 .pz-page :is(.pz-card,.pz-facts,.pz-sync-list){border-color:transparent!important;box-shadow:none!important}
 .pz-page :is(input,textarea){border:0!important;box-shadow:none!important;background:#fff!important}
+.auth-pereezd .unified-auth-field input{background:transparent!important}
 .pz-page .pz-kicker{text-transform:lowercase!important}
