@@ -31,16 +31,14 @@
     <section class="st-settings-group">
       <button
         class="st-setting st-block"
-        data-toast="Только занятые места и изменения времени"
+        data-activate="commnotif|settings"
       >
         <span class="st-setting-mark"
           ><svg class="st-icon"><use href="#i-bell" /></svg></span
         ><span class="st-setting-copy"
           ><strong>Оповещения</strong
-          ><span>Столы, где вы заняли место</span></span
-        ><svg class="st-icon st-chevron">
-          <use href="#i-chevron-right" />
-        </svg></button
+          ><span>Столы и именные сообщения</span></span
+        ><span class="st-switch" data-switch="commnotif"></span></button
       ><button
         class="st-setting st-block"
         data-toast="Публикации видны подписчикам"
@@ -76,6 +74,9 @@
     </section>
     <div class="st-fallback perm-hidden" data-show-denied="keychain">
       Расширение «Поделиться» попросит войти отдельно
+    </div>
+    <div class="st-fallback perm-hidden" data-show-denied="commnotif">
+      Новые сообщения останутся во вкладке «Чаты»
     </div>
   </div>
   <div class="home-ind" aria-hidden="true"></div>

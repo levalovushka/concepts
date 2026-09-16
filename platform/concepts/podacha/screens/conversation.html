@@ -1,17 +1,13 @@
-<div class="screen p-page" id="scr-conversation">
-  <header class="p-chat-top"><button class="p-icon" data-back aria-label="Назад"><svg class="ico-svg"><use href="#i-chevron-left" /></svg></button><button class="p-chat-person" data-go="cookalong"><span class="p-chat-avatar kitchen"><svg class="ico-svg"><use href="#i-utensils" /></svg></span><span><b>Ужин из одной сковороды</b><small>8 участников · шаг 2 из 6</small></span></button><button class="p-icon" data-activate="commnotif|conversation" aria-label="Уведомления кухни"><svg class="ico-svg"><use href="#i-bell" /></svg></button></header>
+<div class="screen p-page p-messenger" id="scr-conversation">
+  <header class="p-chat-top"><button class="p-icon" data-back aria-label="Назад"><svg class="ico-svg"><use href="#i-chevron-left" /></svg></button><button class="p-chat-person" data-go="cookalong"><span class="p-chat-avatar kitchen"><svg class="ico-svg"><use href="#i-utensils" /></svg></span><span><b>Ужин из одной сковороды</b><small>Амина ведёт · 8 участников</small></span></button><button class="p-icon" data-ask="mic+voip|conversation|conversation" aria-label="Позвонить на кухню"><svg class="ico-svg"><use href="#i-phone" /></svg></button></header>
   <main class="body-scroll p-messages">
-    <button class="p-context-card" data-message-context data-go="cookalong"><span class="p-step">02</span><span><b>Обжарьте лук до прозрачности</b><small>6 минут · средний огонь</small></span><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button>
-    <p class="p-chat-day">Сегодня</p>
-    <div class="p-system-message">Амина открыла шаг 2 для всех</div>
-    <div class="p-bubble incoming"><b>Амина</b><span>Если сковорода маленькая, обжаривайте в два захода</span><time>19:16</time></div>
+    <button class="p-context-card" data-message-context data-go="cookalong"><span class="p-step"><small>Шаг</small>02</span><span><b>Обжарьте лук до прозрачности</b><small>Осталось 4 минуты · средний огонь</small><i class="p-context-progress"><span></span></i></span><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button>
+    <p class="p-chat-day">Сегодня, 19:16</p><div class="p-system-message">Амина открыла шаг 2 для всех</div>
+    <div class="p-bubble incoming"><b>Амина · автор</b><span>Если сковорода маленькая, обжаривайте в два захода</span><time>19:16</time></div>
     <div class="p-bubble outgoing"><span>Можно заменить фасоль нутом?</span><time>19:17 · прочитано</time></div>
-    <div class="p-bubble incoming"><b>Амина</b><span>Да, но добавьте его на следующем шаге</span><time>19:18</time></div>
-    <p class="p-chat-state perm-hidden" data-show-granted="commnotif">Именные сообщения кухни включены</p>
-    <p class="p-chat-state perm-hidden" data-show-denied="commnotif">Сообщения останутся внутри кухни</p>
-    <p class="p-chat-state perm-hidden" data-show-denied="photos">Фото можно отправить позже или описать результат</p>
-    <p class="p-chat-state perm-hidden" data-show-denied="mic">Голосовое недоступно — напишите сообщение</p>
+    <div class="p-bubble incoming"><b>Амина · автор</b><span>Да, но добавьте его на следующем шаге</span><time>19:18</time></div>
+    <p class="p-chat-state perm-hidden" data-show-granted="voip">Групповой звонок кухни начат</p><p class="p-chat-state perm-hidden" data-show-denied="voip">Звонок недоступен — задайте вопрос сообщением</p><p class="p-chat-state perm-hidden" data-show-denied="photos">Фото можно отправить позже или описать результат</p><p class="p-chat-state perm-hidden" data-show-denied="mic">Голосовое недоступно — напишите сообщение</p>
   </main>
-  <div class="p-composer"><button data-ask="photos|conversation|conversation" aria-label="Добавить фото"><svg class="ico-svg"><use href="#i-paperclip" /></svg></button><label><input aria-label="Сообщение" placeholder="Сообщение кухне" /></label><button data-ask="mic|conversation|conversation" aria-label="Записать голосовое"><svg class="ico-svg"><use href="#i-mic" /></svg></button><button data-primary data-toast="Сообщение отправлено" aria-label="Отправить"><span class="ui-visually-hidden">Отправить сообщение</span><svg class="ico-svg"><use href="#i-send" /></svg></button></div>
+  <div class="p-composer"><button data-ask="photos|conversation|conversation" aria-label="Добавить фото блюда"><svg class="ico-svg"><use href="#i-paperclip" /></svg></button><label><input aria-label="Сообщение" placeholder="Спросить на кухне" /></label><button data-ask="mic|conversation|conversation" aria-label="Записать голосовое"><svg class="ico-svg"><use href="#i-mic" /></svg></button><button data-primary data-toast="Сообщение отправлено" aria-label="Отправить"><span class="ui-visually-hidden">Отправить сообщение</span><svg class="ico-svg"><use href="#i-send" /></svg></button></div>
   <div class="home-ind"></div>
 </div>

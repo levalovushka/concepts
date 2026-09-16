@@ -1,40 +1,22 @@
-<div class="screen stol-screen" id="scr-chats">
+<div class="screen stol-screen st-messenger" id="scr-chats">
   <div class="st-safe"></div>
-  <header class="st-top is-root">
+  <header class="st-top is-root st-inbox-top">
     <h1>Чаты</h1>
     <button class="st-icon-btn" data-toast="Новый диалог" aria-label="Новый диалог"><svg class="st-icon"><use href="#i-plus" /></svg></button>
   </header>
   <main class="body-scroll st-page st-chat-list">
-    <label class="st-chat-search"><svg class="st-icon"><use href="#i-search" /></svg><input aria-label="Поиск по чатам" placeholder="Игрок или стол" /></label>
-    <div class="st-section-title">Активные столы</div>
-    <section class="st-round-card">
-      <button class="st-chat-row" data-primary data-go="conversation">
-        <span class="ui-visually-hidden">Открыть разговор</span>
-        <span class="st-chat-avatar group"><svg class="st-icon"><use href="#i-users" /></svg></span>
-        <span class="st-chat-copy"><b>Лесные союзы · сегодня</b><small>Маша: беру дополнение и жетоны</small></span>
-        <span class="st-chat-side"><time>12:14</time><i>2</i></span>
-      </button>
-      <button class="st-chat-row" data-go="conversation">
-        <span class="st-chat-avatar"><span class="ph"></span></span>
-        <span class="st-chat-copy"><b>Маршруты Севера</b><small>Илья изменил время на 16:30</small></span>
-        <span class="st-chat-side"><time>вчера</time></span>
-      </button>
+    <label class="st-chat-search"><svg class="st-icon"><use href="#i-search" /></svg><input aria-label="Поиск по чатам" placeholder="Игрок, игра или стол" /></label>
+    <div class="ios-segmented st-chat-filters" role="tablist" aria-label="Фильтр чатов"><button class="seg is-on" role="tab" aria-selected="true">Все</button><button class="seg" role="tab">Сегодня</button><button class="seg" role="tab">Личные</button></div>
+    <p class="st-section-title">Столы сегодня</p>
+    <section class="st-chat-stack">
+      <button class="st-chat-row is-unread" data-primary data-go="conversation"><span class="ui-visually-hidden">Лесные союзы · сегодня</span><span class="st-chat-avatar group"><svg class="st-icon"><use href="#i-users" /></svg></span><span class="st-chat-copy"><b>Лесные союзы</b><small><strong>Маша:</strong> беру дополнение и жетоны</small><span class="st-chat-meta">Сегодня · 19:30 · 4 игрока</span></span><span class="st-chat-side"><time>12:14</time><i>2</i></span></button>
+      <button class="st-chat-row" data-go="conversation"><span class="st-chat-avatar game"><svg class="st-icon"><use href="#i-layout-grid" /></svg></span><span class="st-chat-copy"><b>Маршруты Севера</b><small>Илья изменил время на 16:30</small><span class="st-chat-meta">Суббота · 3 из 5 игроков</span></span><span class="st-chat-side"><time>вчера</time></span></button>
     </section>
-    <div class="st-section-title">Личные</div>
-    <section class="st-round-card">
-      <button class="st-chat-row" data-go="conversation">
-        <span class="st-chat-avatar"><span class="ph"></span></span>
-        <span class="st-chat-copy"><b>Саша Руденко</b><small>Сыграем ещё раз на неделе?</small></span>
-        <span class="st-chat-side"><time>пн</time></span>
-      </button>
-    </section>
+    <p class="st-section-title">Личные</p>
+    <section class="st-chat-stack"><button class="st-chat-row" data-go="conversation"><span class="st-chat-avatar"><span class="ph"></span></span><span class="st-chat-copy"><b>Саша Руденко</b><small>Сыграем ещё раз на неделе?</small></span><span class="st-chat-side"><time>пн</time></span></button></section>
   </main>
   <nav class="tabbar st-tabbar" aria-label="Основная навигация">
-    <button class="tab" data-go="feed"><span class="ico"><svg class="st-icon"><use href="#i-house" /></svg></span><span class="tab-label">Лента</span></button>
-    <button class="tab" data-go="games"><span class="ico"><svg class="st-icon"><use href="#i-layout-grid" /></svg></span><span class="tab-label">Игры</span></button>
-    <button class="tab" data-go="tables"><span class="ico"><svg class="st-icon"><use href="#i-users" /></svg></span><span class="tab-label">Столы</span></button>
-    <button class="tab is-on" data-go="chats" aria-current="page"><span class="ico"><svg class="st-icon"><use href="#i-message-circle" /></svg></span><span class="tab-label">Чаты</span></button>
-    <button class="tab" data-go="profile"><span class="ico"><svg class="st-icon"><use href="#i-user" /></svg></span><span class="tab-label">Профиль</span></button>
+    <button class="tab" data-go="feed"><span class="ico"><svg class="st-icon"><use href="#i-house" /></svg></span><span class="tab-label">Лента</span></button><button class="tab" data-go="games"><span class="ico"><svg class="st-icon"><use href="#i-layout-grid" /></svg></span><span class="tab-label">Игры</span></button><button class="tab" data-go="tables"><span class="ico"><svg class="st-icon"><use href="#i-users" /></svg></span><span class="tab-label">Столы</span></button><button class="tab is-on" data-go="chats" aria-current="page"><span class="ico"><svg class="st-icon"><use href="#i-message-circle" /></svg></span><span class="tab-label">Чаты</span></button><button class="tab" data-go="profile"><span class="ico"><svg class="st-icon"><use href="#i-user" /></svg></span><span class="tab-label">Профиль</span></button>
   </nav>
   <div class="home-ind"></div>
 </div>

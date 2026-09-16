@@ -1,29 +1,14 @@
-<div class="screen stol-screen" id="scr-conversation">
+<div class="screen stol-screen st-messenger" id="scr-conversation">
   <div class="st-safe"></div>
-  <header class="st-top st-chat-top">
-    <button class="st-icon-btn" data-back aria-label="Назад"><svg class="st-icon"><use href="#i-chevron-left" /></svg></button>
-    <button class="st-chat-person" data-go="table"><span class="st-chat-avatar group"><svg class="st-icon"><use href="#i-users" /></svg></span><span><b>Лесные союзы</b><small>4 участника · сегодня в 19:30</small></span></button>
-    <button class="st-icon-btn" data-activate="commnotif|conversation" aria-label="Уведомления чата"><svg class="st-icon"><use href="#i-bell" /></svg></button>
-  </header>
+  <header class="st-top st-chat-top"><button class="st-icon-btn" data-back aria-label="Назад"><svg class="st-icon"><use href="#i-chevron-left" /></svg></button><button class="st-chat-person" data-go="table"><span class="st-chat-avatar group"><svg class="st-icon"><use href="#i-users" /></svg></span><span><b>Лесные союзы</b><small>4 игрока · сегодня в 19:30</small></span></button><button class="st-icon-btn" data-ask="mic+voip|conversation|conversation" aria-label="Позвонить игрокам"><svg class="st-icon"><use href="#i-phone" /></svg></button></header>
   <main class="body-scroll st-messages">
-    <button class="st-context-card" data-message-context data-go="table">
-      <span class="st-context-time">19:30</span><span><b>Лесные союзы</b><small>Клуб «Полка» · 1 место свободно</small></span><svg class="st-icon"><use href="#i-chevron-right" /></svg>
-    </button>
-    <p class="st-chat-day">Сегодня</p>
-    <div class="st-system-message">Маша заняла последнее место</div>
+    <button class="st-context-card" data-message-context data-go="table"><span class="st-context-time">19:30<small>сегодня</small></span><span><b>Стол собран: 4 из 4</b><small>Клуб «Полка» · зал у окна</small></span><svg class="st-icon"><use href="#i-chevron-right" /></svg></button>
+    <p class="st-chat-day">Сегодня</p><div class="st-system-message">Маша заняла последнее место</div>
     <div class="st-bubble incoming"><b>Маша</b><span>Я принесу базовую коробку. Кто возьмёт дополнение?</span><time>12:08</time></div>
     <div class="st-bubble outgoing"><span>Беру дополнение и жетоны</span><time>12:11 · прочитано</time></div>
-    <div class="st-bubble incoming voice"><b>Илья</b><span><svg class="st-icon"><use href="#i-play" /></svg>0:12</span><time>12:14</time></div>
-    <p class="st-chat-state perm-hidden" data-show-granted="commnotif">Именные уведомления этого стола включены</p>
-    <p class="st-chat-state perm-hidden" data-show-denied="commnotif">Новые сообщения останутся внутри чата</p>
-    <p class="st-chat-state perm-hidden" data-show-denied="photos">Фото можно отправить позже или написать сообщение</p>
-    <p class="st-chat-state perm-hidden" data-show-denied="mic">Голосовое недоступно — напишите сообщение</p>
+    <div class="st-bubble incoming voice"><b>Илья</b><span><svg class="st-icon"><use href="#i-play" /></svg><i></i><em>0:12</em></span><time>12:14</time></div>
+    <p class="st-chat-state perm-hidden" data-show-granted="voip">Групповой звонок стола начат</p><p class="st-chat-state perm-hidden" data-show-denied="voip">Звонок недоступен — продолжите договорённость сообщениями</p><p class="st-chat-state perm-hidden" data-show-denied="photos">Фото можно отправить позже или написать сообщение</p><p class="st-chat-state perm-hidden" data-show-denied="mic">Голосовое недоступно — напишите сообщение</p>
   </main>
-  <div class="st-composer">
-    <button data-ask="photos|conversation|conversation" aria-label="Добавить фото"><svg class="st-icon"><use href="#i-paperclip" /></svg></button>
-    <label><input aria-label="Сообщение" placeholder="Сообщение" /></label>
-    <button data-ask="mic|conversation|conversation" aria-label="Записать голосовое"><svg class="st-icon"><use href="#i-mic" /></svg></button>
-    <button data-primary data-toast="Сообщение отправлено" aria-label="Отправить"><span class="ui-visually-hidden">Отправить сообщение</span><svg class="st-icon"><use href="#i-send" /></svg></button>
-  </div>
+  <div class="st-composer"><button data-ask="photos|conversation|conversation" aria-label="Добавить фото"><svg class="st-icon"><use href="#i-paperclip" /></svg></button><label><input aria-label="Сообщение" placeholder="Написать столу" /></label><button data-ask="mic|conversation|conversation" aria-label="Записать голосовое"><svg class="st-icon"><use href="#i-mic" /></svg></button><button data-primary data-toast="Сообщение отправлено" aria-label="Отправить"><span class="ui-visually-hidden">Отправить сообщение</span><svg class="st-icon"><use href="#i-send" /></svg></button></div>
   <div class="home-ind"></div>
 </div>

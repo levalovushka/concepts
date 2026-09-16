@@ -150,6 +150,7 @@ export function engineData(spec) {
       if (p.alert.deny || p.alert.grant) row.push(p.alert.deny || 'Запретить', p.alert.grant || 'Разрешить');
       return row;
     }),
+    activate: Object.fromEntries(spec.permissions.filter((p) => p.activate).map((p) => [p.key, 1])),
     titles: Object.fromEntries(spec.screens.map((s) => [s.id, s.title])),
     light: Object.fromEntries(spec.screens.filter((s) => s.light).map((s) => [s.id, 1])),
     tabs: Object.fromEntries((spec.tabs || []).map((t) => [t.id, 1])),

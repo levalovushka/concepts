@@ -2,9 +2,9 @@
 
 ## Слои
 
-- UI: четыре корневые вкладки, социальная лента, карточки партий, профиль, композер и сервисные секционные списки.
-- Domain: Player, Game, Session, Seat, Post.
-- Services: Phone Auth, Firestore/Storage, Core Location, EventKit, Speech, AVAudioSession, APNs, Bonjour/Cast, Keychain.
+- UI: пять корневых вкладок, социальная лента, карточки партий, контекстные разговоры, профиль, композер и сервисные секционные списки.
+- Domain: Player, Game, Session, Seat, Post, Conversation, Message, GroupCall.
+- Services: Phone Auth, Firestore/Storage, Core Location, EventKit, Speech, AVAudioSession, APNs, Communication Notifications, PushKit/CallKit, Bonjour/Cast, Keychain.
 - Local data: черновики, скачанные памятки и офлайн-счёт.
 
 ## Потоки
@@ -13,6 +13,7 @@
 - Столы → партия → место → календарь/оповещение.
 - Партия → счёт → голосовой ввод → общий экран.
 - Игры → памятка → фоновое аудио.
+- Стол → чат → сообщение или групповой звонок; именные уведомления настраиваются только в общих настройках.
 
 ## Auth
 
@@ -20,7 +21,7 @@
 
 ## Отказоустойчивость
 
-Каждый доступ имеет ручной путь: текст без медиа, место строкой, дата из карточки, кнопки ± для счёта, табло на телефоне, текстовые правила и отдельный вход в расширении.
+Каждый доступ имеет ручной путь: текст без медиа, место строкой, дата из карточки, кнопки ± для счёта, табло на телефоне, текстовые правила и отдельный вход в расширении. При недоступном звонке договорённость продолжается сообщениями; без Communication Notifications новые сообщения остаются во вкладке «Чаты».
 
 <!-- @generated:ia-tree -->
 ```
@@ -32,19 +33,22 @@
         └─ Пароль нового аккаунта (registerpassword) — push, без таб-бара · открывается: «Далее»
 
 Лента (feed) — tab (root) · открывается: «Продолжить без аккаунта», «Войти» …
-    ├─ Новая запись (compose) — push · открывается: «Создать запись», «Создать новую публикацию» … · camera, photos, location
+    ├─ Новая запись (compose) — push · открывается: «Создать запись», «Создать» … · camera, photos, location
     └─ Публикация (post) — push · открывается: «Открыть публикацию Маши», «Открыть партию Лесные союзы» …
 
 Игры (games) — tab (root) · открывается: вкладка таб-бара
     └─ Памятка (audio) — push · открывается: «Открыть игру Лесные союзы» · audio
 
 Столы (tables) — tab (root) · открывается: вкладка таб-бара
-    └─ Стол (table) — push · открывается: «Стол Маши сегодня», «Стол Ильи в субботу» … · calendar, push
+    └─ Стол (table) — push · открывается: «Сегодня», «Суббота» … · calendar, push
         └─ Счёт (score) — push · открывается: «Открыть счёт» · speech, mic
             └─ Общий экран (cast) — push · открывается: «Показать на общем экране», «Показать на экране» · localnetwork, wifiinfo
 
 Профиль (profile) — tab (root) · открывается: вкладка таб-бара
-    └─ Настройки (settings) — push · открывается: «Открыть настройки» · keychain
+    └─ Настройки (settings) — push · открывается: «Открыть настройки» · keychain, commnotif
+
+Чаты (chats) — tab (root) · открывается: вкладка таб-бара
+    └─ Разговор стола (conversation) — push · открывается: «Открыть чат стола», «Лесные союзы · сегодня» … · voip
 ```
 <!-- @end -->
 
@@ -66,8 +70,8 @@
 | `account` | «Удалить аккаунт» | `deleteaccount` | — | переход |
 | `deleteaccount` | «Назад» | `account` | — | возврат по IA |
 | `deleteaccount` | «Удалить аккаунт» | `phone` | — | переход |
-| `feed` | «Создать запись», «Создать новую публикацию» … | `compose` | — | переход |
-| `feed` | «Стол Маши сегодня», «Стол Ильи в субботу» … | `table` | — | переход |
+| `feed` | «Создать запись», «Создать» | `compose` | — | переход |
+| `feed` | «Сегодня», «Суббота» … | `table` | — | переход |
 | `feed` | «Открыть публикацию Маши» | `post` | — | переход |
 | `games` | «Открыть игру Лесные союзы» | `audio` | — | переход |
 | `tables` | «Собрать стол» | `compose` | — | переход |
@@ -83,6 +87,7 @@
 | `post` | «Открыть связанный стол» | `table` | — | переход |
 | `table` | «Назад» | `tables` | — | возврат по IA |
 | `table` | «Открыть счёт» | `score` | — | переход |
+| `table` | «Открыть чат стола» | `conversation` | — | переход |
 | `table` | «Добавить в календарь» | `table` | `NSCalendarsFullAccessUsageDescription` | доступ разрешён |
 | `table` | «Следить за столом» | `table` | `aps-environment` | доступ разрешён |
 | `score` | «Назад» | `table` | — | возврат по IA |
@@ -93,7 +98,14 @@
 | `cast` | «Назад» | `score` | — | возврат по IA |
 | `cast` | «Проверить сеть» | `cast` | `com.apple.developer.networking.wifi-info` | entitlement, без alert |
 | `cast` | «Экран у большого стола», «Проектор клуба» | `cast` | `NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)` | доступ разрешён |
+| `chats` | «Лесные союзы · сегодня», «Маршруты Севера» … | `conversation` | — | переход |
+| `conversation` | «Назад» | `chats` | — | возврат по IA |
+| `conversation` | «Лесные союзы», «19:30» | `table` | — | переход |
+| `conversation` | «Позвонить игрокам» | `conversation` | `NSMicrophoneUsageDescription + UIBackgroundModes: voip` | доступ разрешён |
+| `conversation` | «Добавить фото» | `conversation` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
+| `conversation` | «Записать голосовое» | `conversation` | `NSMicrophoneUsageDescription` | доступ разрешён |
 | `settings` | «Назад» | `profile` | — | возврат по IA |
 | `settings` | «Саша Руденко» | `account` | — | переход |
+| `settings` | «Оповещения» | `settings` | `com.apple.developer.usernotifications.communication` | entitlement, без alert |
 | `settings` | «Общая сессия» | `settings` | `keychain-access-groups` | entitlement, без alert |
 <!-- @end -->

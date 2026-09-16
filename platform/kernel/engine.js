@@ -2,6 +2,7 @@
   /* Данные концепта подставляет build.mjs из concept.json. */
   var C = window.__CONCEPT__;
   var PERMS = C.perms;
+  var ACTIVATE = C.activate || {};
   var TITLES = C.titles;
   var LIGHT = C.light;
   var SNACK = C.snack;
@@ -444,6 +445,33 @@
       ask.querySelector('[data-answer="grant"]').textContent = p[5] || 'Разрешить';
       ask.classList.add('is-on');
     }
+    function advanceRequest() {
+      while (pending && pending.queue.length) {
+        var key = pending.queue[0];
+        if (state[key]) {
+          if (state[key].answer !== 'granted') {
+            ask.classList.remove('is-on');
+            show(pending.other);
+            denySnack(key);
+            pending = null;
+            return;
+          }
+          pending.queue.shift();
+          continue;
+        }
+        if (ACTIVATE[key]) {
+          pending.queue.shift();
+          markGranted(key);
+          continue;
+        }
+        showAlert(key);
+        return;
+      }
+      if (!pending) return;
+      ask.classList.remove('is-on');
+      show(pending.then);
+      pending = null;
+    }
     /**
      * Запрос доступа. keys — одна цепочка вида "speech+mic": iOS показывает такие
      * алерты подряд, и отказ на любом шаге уводит на fallback-экран.
@@ -460,7 +488,7 @@
       }
       if (!list.length) { show(thenTo); return; }
       pending = { queue: list, then: thenTo, other: target, where: where };
-      showAlert(list[0]);
+      advanceRequest();
     }
 
     ask.addEventListener('click', function (e) {
@@ -478,12 +506,8 @@
         pending = null;
         return;
       }
-      /* Разрешено и в цепочке остались ключи — сразу следующий системный alert. */
-      while (pending.queue.length && state[pending.queue[0]]) pending.queue.shift();
-      if (pending.queue.length) { showAlert(pending.queue[0]); return; }
-      ask.classList.remove('is-on');
-      show(pending.then);
-      pending = null;
+      /* Разрешено: продолжаем цепочку системных запросов и активаций. */
+      advanceRequest();
     });
 
     var SEL = '[data-ask], [data-go], [data-back], [data-activate], [data-jump], [data-toast]';

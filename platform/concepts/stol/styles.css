@@ -1764,3 +1764,67 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* Messenger — table coordination, built from Stol's native controls. */
+.st-messenger {
+  --st-chat-accent: #245fc7;
+  --st-chat-accent-soft: #e8f0ff;
+  --st-chat-surface: #f4f6f9;
+  background: #fff;
+}
+.st-messenger .st-inbox-top { grid-template-columns: minmax(0,1fr) 52px; padding-right: 4px; box-shadow: none; }
+.st-messenger .st-inbox-top .st-icon-btn { justify-self: end; }
+.st-messenger .st-chat-list { padding: 10px 0 92px; background: #fff; }
+.st-messenger .st-chat-search { height: 40px; margin: 0 12px 10px; border-radius: 12px; background: #f1f3f6; }
+.st-messenger .st-chat-search .st-icon { width: 20px; height: 20px; }
+.st-messenger .st-chat-search input { font-size: 15px; }
+.st-chat-filters { width: auto; margin: 0 12px 8px; }
+.st-chat-filters .seg.is-on { background: var(--st-chat-accent); color: #fff; box-shadow: none; }
+.st-messenger .st-section-title { margin: 12px 16px 4px; color: #7b8490; font-size: 13px; line-height: 18px; font-weight: 600; }
+.st-chat-stack { margin: 0 8px; padding: 2px 0; border-radius: 16px; background: #f7f8fa; }
+.st-messenger .st-chat-row { min-height: 78px; grid-template-columns: 52px minmax(0,1fr) auto; gap: 11px; padding: 10px 10px; border-radius: 14px; }
+.st-messenger .st-chat-row + .st-chat-row { margin-top: 2px; }
+.st-messenger .st-chat-row.is-unread { background: #fff; box-shadow: 0 4px 18px rgba(29, 99, 184, .08); }
+.st-messenger .st-chat-side i { background: var(--st-chat-accent); }
+.st-messenger .st-chat-avatar { width: 52px; height: 52px; }
+.st-messenger .st-chat-avatar.group { border-radius: 15px; background: var(--st-chat-accent-soft); color: var(--st-chat-accent); }
+.st-messenger .st-chat-avatar.game { border-radius: 15px; background: #eceff4; color: #667386; }
+.st-messenger .st-chat-avatar .st-icon { width: 25px; height: 25px; }
+.st-messenger .st-chat-copy { gap: 1px; }
+.st-messenger .st-chat-copy b { font-size: 16px; line-height: 21px; }
+.st-messenger .st-chat-copy small { font-size: 13px; line-height: 18px; }
+.st-messenger .st-chat-copy small strong { color: var(--st-text); font-weight: 600; }
+.st-chat-meta { overflow: hidden; color: #8a94a1; font-size: 11px; line-height: 16px; white-space: nowrap; text-overflow: ellipsis; }
+.st-messenger .st-chat-side { padding: 7px 0; justify-content: space-between; font-size: 11px; }
+.st-messenger .st-chat-side i { min-width: 22px; height: 22px; border-radius: 11px; }
+.st-messenger .st-chat-top { grid-template-columns: 44px minmax(0,1fr) 44px; padding-inline: 4px; box-shadow: none; }
+.st-messenger .st-chat-top .st-icon-btn { color: var(--st-chat-accent); }
+.st-messenger .st-chat-person { justify-content: flex-start; padding: 0 4px; }
+.st-messenger .st-chat-person .st-chat-avatar { width: 38px; height: 38px; border-radius: 12px; }
+.st-messenger .st-chat-person b { overflow: hidden; font-size: 14px; line-height: 18px; white-space: nowrap; text-overflow: ellipsis; }
+.st-messenger .st-chat-person small { font-size: 11px; line-height: 15px; }
+.st-messenger .st-messages { padding: 8px 12px 94px; background: #fff; }
+.st-messenger .st-context-card { min-height: 64px; grid-template-columns: 58px minmax(0,1fr) 20px; gap: 10px; padding: 9px 12px; border-radius: 16px; background: #f5efe8; }
+.st-messenger .st-context-time { color: #88582f; }
+.st-messenger .st-context-time { display: flex; flex-direction: column; font-size: 18px; line-height: 20px; }
+.st-messenger .st-context-time small { color: #6f7b8b; font-size: 10px; line-height: 14px; font-weight: 500; }
+.st-messenger .st-context-card b { font-size: 14px; line-height: 19px; }
+.st-messenger .st-context-card small { font-size: 11px; line-height: 16px; }
+.st-messenger .st-chat-day { margin: 18px auto 10px; }
+.st-messenger .st-system-message { margin: 8px auto 14px; padding: 6px 10px; border-radius: 12px; background: #eef0f3; font-size: 11px; }
+.st-messenger .st-bubble { max-width: 82%; margin: 8px 0; padding: 10px 12px 8px; gap: 3px; border-radius: 18px; background: var(--st-chat-surface); font-size: 15px; line-height: 20px; }
+.st-messenger .st-bubble.incoming { border-bottom-left-radius: 6px; }
+.st-messenger .st-bubble.outgoing { border-bottom-right-radius: 6px; background: var(--st-chat-accent-soft); }
+.st-messenger .st-bubble b { color: var(--st-chat-accent); font-size: 12px; line-height: 16px; }
+.st-messenger .st-bubble time { font-size: 11px; line-height: 14px; }
+.st-messenger .st-bubble.voice { min-width: 172px; }
+.st-messenger .st-bubble.voice > span { min-height: 28px; display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 8px; }
+.st-messenger .st-bubble.voice > span .st-icon { width: 18px; height: 18px; }
+.st-messenger .st-bubble.voice > span i { height: 3px; border-radius: 2px; background: linear-gradient(90deg,var(--st-chat-accent) 38%,#c9d0d9 38%); }
+.st-messenger .st-bubble.voice > span em { color: #667386; font-size: 12px; font-style: normal; }
+.st-messenger .st-composer { min-height: 68px; padding: 8px 6px; grid-template-columns: 44px minmax(0,1fr) 44px 44px; gap: 1px; background: #fff; box-shadow: 0 -8px 24px rgba(18,37,63,.05); }
+.st-messenger .st-composer button { border-radius: 12px; color: var(--st-chat-accent); }
+.st-messenger .st-composer button .st-icon { width: 23px; height: 23px; }
+.st-messenger .st-composer label { height: 44px; border-radius: 14px; background: #f1f3f6; }
+.st-messenger .st-composer input { font-size: 15px; }
+.st-messenger .st-tabbar .tab.is-on { color: var(--st-chat-accent); }

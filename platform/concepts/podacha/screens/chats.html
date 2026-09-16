@@ -1,10 +1,11 @@
-<div class="screen p-page" id="scr-chats">
+<div class="screen p-page p-messenger" id="scr-chats">
   <main class="body-scroll p-scroll p-chat-list">
-    <header class="p-top"><strong>Чаты</strong><div><button class="p-icon" data-toast="Новый диалог" aria-label="Новый диалог"><svg class="ico-svg"><use href="#i-plus" /></svg></button></div></header>
+    <header class="p-top p-inbox-top"><strong>Чаты</strong><div><button class="p-icon" data-toast="Новый диалог" aria-label="Новый диалог"><svg class="ico-svg"><use href="#i-plus" /></svg></button></div></header>
     <label class="p-chat-search"><svg class="ico-svg"><use href="#i-search" /></svg><input aria-label="Поиск по чатам" placeholder="Автор, рецепт или готовка" /></label>
+    <div class="ios-segmented p-chat-filters" role="tablist" aria-label="Фильтр чатов"><button class="seg is-on" role="tab" aria-selected="true">Все</button><button class="seg" role="tab">Кухни</button><button class="seg" role="tab">Авторы</button></div>
     <section class="p-section">
-      <h2>Кухни сейчас</h2>
-      <button class="p-chat-row" data-primary data-go="conversation"><span class="p-chat-avatar kitchen"><svg class="ico-svg"><use href="#i-utensils" /></svg></span><span><b>Ужин из одной сковороды</b><small>Амина: переходим к шагу 2 через 5 минут</small></span><em><time>19:18</time><i>4</i></em><span class="ui-visually-hidden">Открыть разговор</span></button>
+      <h2>Готовим сейчас</h2>
+      <button class="p-chat-row is-live" data-primary data-go="conversation"><span class="p-chat-avatar kitchen"><svg class="ico-svg"><use href="#i-utensils" /></svg><i></i></span><span><b>Ужин из одной сковороды</b><small><strong>Амина:</strong> шаг 2 открою через 5 минут</small><span class="p-chat-meta"><i>02</i> Лук на среднем огне · 8 участников</span></span><em><time>19:18</time><i>4</i></em><span class="ui-visually-hidden">Открыть разговор</span></button>
     </section>
     <section class="p-section">
       <h2>Личные</h2>
@@ -13,11 +14,7 @@
     </section>
   </main>
   <nav class="tabbar p-tabs" aria-label="Основная навигация">
-    <button class="tab" data-go="feed"><span class="ico"><svg class="ico-svg"><use href="#i-house" /></svg></span><span>Лента</span></button>
-    <button class="tab" data-go="cookings"><span class="ico"><svg class="ico-svg"><use href="#i-calendar" /></svg></span><span>Готовим</span></button>
-    <button class="tab is-on" data-go="chats" aria-current="page"><span class="ico"><svg class="ico-svg"><use href="#i-message-circle" /></svg></span><span>Чаты</span></button>
-    <button class="tab" data-go="recipes"><span class="ico"><svg class="ico-svg"><use href="#i-bookmark" /></svg></span><span>Рецепты</span></button>
-    <button class="tab" data-go="profile"><span class="ico"><svg class="ico-svg"><use href="#i-user" /></svg></span><span>Профиль</span></button>
+    <button class="tab" data-go="feed"><span class="ico"><svg class="ico-svg"><use href="#i-house" /></svg></span><span>Лента</span></button><button class="tab" data-go="cookings"><span class="ico"><svg class="ico-svg"><use href="#i-calendar" /></svg></span><span>Готовим</span></button><button class="tab is-on" data-go="chats" aria-current="page"><span class="ico"><svg class="ico-svg"><use href="#i-message-circle" /></svg></span><span>Чаты</span></button><button class="tab" data-go="recipes"><span class="ico"><svg class="ico-svg"><use href="#i-bookmark" /></svg></span><span>Рецепты</span></button><button class="tab" data-go="profile"><span class="ico"><svg class="ico-svg"><use href="#i-user" /></svg></span><span>Профиль</span></button>
   </nav>
   <div class="home-ind"></div>
 </div>

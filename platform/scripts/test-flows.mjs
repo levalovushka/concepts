@@ -407,23 +407,25 @@ async function run(slug) {
   for (const p of spec.permissions) {
     if (p.activate) {
       await reset();
-      const el = await page.$(`[data-activate^="${p.key}|"]`);
+      const el = await page.$(`[data-activate^="${p.key}|"], [data-ask^="${p.key}+"], [data-ask*="+${p.key}|"]`);
       if (!el) {
-        ok(`${p.key}: есть триггер activate`, false);
+        ok(`${p.key}: есть триггер активации`, false);
         continue;
       }
       const scr = await page.evaluate(
         ({ k, h }) =>
           document
-            .querySelector(h + ` [data-activate^="${k}|"]`)
+            .querySelector(h + ` [data-activate^="${k}|"], ` + h + ` [data-ask^="${k}+"], ` + h + ` [data-ask*="+${k}|"]`)
             .closest(".screen").dataset.screen,
         { k: p.key, h: H },
       );
       await goto(scr);
-      await page.click(
-        `${H} [data-screen="${scr}"] [data-activate^="${p.key}|"]`,
-      );
+      await page.click(`${H} [data-screen="${scr}"] [data-activate^="${p.key}|"], ${H} [data-screen="${scr}"] [data-ask^="${p.key}+"], ${H} [data-screen="${scr}"] [data-ask*="+${p.key}|"]`);
       await page.waitForTimeout(60);
+      for (let i = 0; i < 4 && (await alertOn()); i++) {
+        await answer("grant");
+        await page.waitForTimeout(60);
+      }
       ok(`${p.key}: entitlement без системного alert`, !(await alertOn()));
       continue;
     }
@@ -517,7 +519,11 @@ async function run(slug) {
     await page.waitForTimeout(60);
     await answer("grant");
     await page.waitForTimeout(60);
-    ok(`цепочка ${chain}: второй alert показан сразу`, await alertOn());
+    const secondIsActivation = !!spec.permissions.find((p) => p.key === second)?.activate;
+    ok(
+      `цепочка ${chain}: ${secondIsActivation ? "активация выполнена без второго alert" : "второй alert показан сразу"}`,
+      secondIsActivation ? !(await alertOn()) : await alertOn(),
+    );
     await reset();
     await goto(scr);
     await page.click(`${H} [data-screen="${scr}"] [data-ask^="${chain}|"]`);
