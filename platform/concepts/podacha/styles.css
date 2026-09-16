@@ -1034,10 +1034,6 @@
   place-items: center;
   transform: rotate(-4deg);
 }
-.auth-podacha.unified-auth .auth-brand-glyph {
-  width: 29px;
-  height: 29px;
-}
 .auth-podacha.unified-auth h1 {
   max-width: 10ch;
   margin-top: 28px !important;
@@ -1462,15 +1458,6 @@
   color: #fff !important;
   transform: none;
 }
-.auth-podacha.unified-auth .auth-brand-glyph {
-  width: 26px;
-  height: 26px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
 .auth-podacha.unified-auth h1 {
   max-width: 13ch;
   margin-top: 24px !important;
@@ -1752,7 +1739,7 @@
 }
 .p-tabs {
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
   align-items: start !important;
 }
 .p-tabs .tab {
@@ -1901,4 +1888,56 @@
 }
 :is(#scr-cookalong, [data-screen="cookalong"]) .p-section > .btn-filled {
   margin-top: 6px;
+}
+
+/* Messaging keeps recipe and cooking context visible above the conversation. */
+.p-chat-list { padding-top: 8px; }
+.p-chat-search { height: 42px; margin: 0 12px 8px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border-radius: 10px; background: #e5e7eb; color: var(--p-muted); }
+.p-chat-search .ico-svg { width: 18px; height: 18px; }
+.p-chat-search input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; color: var(--p-text); font-size: 14px; }
+.p-chat-row { width: 100%; min-height: 68px; display: grid; grid-template-columns: 44px minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 9px 4px; text-align: left; }
+.p-chat-avatar { width: 44px; height: 44px; overflow: hidden; display: grid; place-items: center; border-radius: 50%; background: #e5e7eb; color: var(--p-accent); }
+.p-chat-avatar.kitchen { border-radius: 13px; background: #e6f2ff; }
+.p-chat-avatar .ico-svg { width: 22px; height: 22px; }
+.p-chat-row > span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.p-chat-row b { font-size: 14px; line-height: 19px; font-weight: 600; }
+.p-chat-row small { overflow: hidden; color: var(--p-muted); font-size: 12px; line-height: 16px; white-space: nowrap; text-overflow: ellipsis; }
+.p-chat-row em { align-self: stretch; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 5px; color: var(--p-muted); font-size: 11px; font-style: normal; }
+.p-chat-row em i { min-width: 20px; height: 20px; padding: 0 6px; display: grid; place-items: center; border-radius: 10px; background: var(--p-accent); color: #fff; font-style: normal; font-weight: 600; }
+.p-chat-top { height: calc(var(--safe-top) + 52px); padding: var(--safe-top) 8px 0; display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; align-items: center; background: #fff; }
+.p-chat-person { min-width: 0; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: left; }
+.p-chat-person .p-chat-avatar { width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; }
+.p-chat-person > span:last-child { min-width: 0; display: flex; flex-direction: column; }
+.p-chat-person b { font-size: 13px; line-height: 17px; }
+.p-chat-person small { color: var(--p-muted); font-size: 10px; line-height: 14px; white-space: nowrap; }
+.p-messages { padding: 10px 12px 82px; background: #f2f3f5; }
+.p-context-card { width: 100%; min-height: 64px; display: grid; grid-template-columns: 46px minmax(0,1fr) 18px; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 12px; background: #fff; text-align: left; }
+.p-step { color: var(--p-accent); font-size: 25px; line-height: 30px; font-weight: 700; }
+.p-context-card > span:nth-child(2) { display: flex; flex-direction: column; }
+.p-context-card b { font-size: 13px; line-height: 18px; }
+.p-context-card small { color: var(--p-muted); font-size: 11px; line-height: 15px; }
+.p-context-card > .ico-svg { color: #b8c1cc; }
+.p-chat-day,.p-system-message,.p-chat-state { margin: 12px auto; color: var(--p-muted); font-size: 11px; line-height: 15px; text-align: center; }
+.p-system-message { width: fit-content; padding: 5px 9px; border-radius: 10px; background: #dfe3e8; }
+.p-bubble { width: fit-content; max-width: 78%; margin: 7px 0; padding: 8px 10px 6px; display: flex; flex-direction: column; gap: 2px; border-radius: 14px; background: #fff; font-size: 13px; line-height: 18px; }
+.p-bubble.incoming { border-bottom-left-radius: 4px; }
+.p-bubble.outgoing { margin-left: auto; border-bottom-right-radius: 4px; background: #dcecff; }
+.p-bubble b { color: var(--p-accent); font-size: 11px; line-height: 14px; }
+.p-bubble time { align-self: flex-end; color: var(--p-muted); font-size: 9px; line-height: 12px; }
+.p-composer { position: absolute; z-index: 5; left: 0; right: 0; bottom: var(--safe-bottom); min-height: 60px; padding: 6px 5px; display: grid; grid-template-columns: 44px minmax(0,1fr) 44px 44px; align-items: center; gap: 2px; background: #fff; }
+.p-composer button { width: 44px; height: 44px; display: grid; place-items: center; color: var(--p-accent); }
+.p-composer label { height: 38px; padding: 0 12px; display: flex; align-items: center; border-radius: 19px; background: #f2f3f5; }
+.p-composer input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 14px; }
+.p-tabs .tab { min-width: 0; }
+.p-tabs .tab > span:last-child { font-size: 10px; }
+.ui-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

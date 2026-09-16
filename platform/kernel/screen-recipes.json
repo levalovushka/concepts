@@ -6,6 +6,7 @@
   "player": { "densities": ["low", "medium"], "requiredStates": ["default", "loading", "error"], "rule": "Контент первичен, управление стабильно и доступно одной рукой" },
   "capture": { "densities": ["low"], "requiredStates": ["default", "denied"], "rule": "Кадр первичен, разрешение спрашивается из явного жеста" },
   "editor": { "densities": ["medium"], "requiredStates": ["default", "error", "success"], "rule": "Черновик сохраняется, главное действие не конкурирует со вторичными" },
+  "messaging": { "densities": ["medium", "high"], "requiredStates": ["default", "error", "offline"], "rule": "Контекст разговора виден, история читается, а композер остаётся доступен над клавиатурой" },
   "settings": { "densities": ["medium", "high"], "requiredStates": ["default"], "rule": "Grouped-структура, предсказуемые строки и системные контролы" },
   "state": { "densities": ["low"], "requiredStates": [], "rule": "Причина состояния и следующий доступный шаг" },
   "system": { "densities": ["low", "medium"], "requiredStates": ["default"], "rule": "Не имитировать системную поверхность собственным контролом" }

@@ -20,7 +20,7 @@
         <div class="s-event-actions">
           <button class="primary" data-ask="calendar|events|events">
             Я пойду</button
-          ><button data-ask="push|meters|events">Следить</button>
+          ><button data-go="conversation">Чат</button>
         </div>
       </div>
     </section>
@@ -40,21 +40,21 @@
     <div class="s-list-section">
       <button data-activate="commnotif|events">
         <span
-          ><b>Именные изменения встречи</b
-          ><small>Точка и время от организатора</small></span
+          ><b>Именные сообщения пленэра</b
+          ><small>Авторы и название встречи в уведомлении</small></span
         ><span class="switch is-on"><i></i></span></button
       ><button data-activate="voip|events">
         <span
-          ><b>Статус начала пленэра</b
-          ><small>Одностороннее системное обновление</small></span
+          ><b>Входящий аудиоразбор</b
+          ><small>Групповой звонок после встречи</small></span
         ><span class="switch"><i></i></span>
       </button>
     </div>
     <p class="s-list-foot perm-hidden" data-show-granted="commnotif">
-      Именные изменения места и времени включены
+      Именные сообщения пленэра включены
     </p>
     <p class="s-list-foot perm-hidden" data-show-granted="voip">
-      Фоновый статус начала пленэра включён
+      Входящий звонок аудиоразбора включён
     </p>
     <p class="s-list-foot perm-hidden" data-show-denied="calendar">
       Дата останется в карточке
@@ -82,6 +82,7 @@
         ><svg class="ico-svg"><use href="#i-calendar" /></svg></span
       ><span class="tab-label">Пленэры</span>
     </div>
+    <div class="tab" data-go="chats"><span class="ico"><svg class="ico-svg"><use href="#i-message-circle" /></svg></span><span class="tab-label">Чаты</span></div>
     <div class="tab" data-go="menu">
       <span class="ico"
         ><svg class="ico-svg"><use href="#i-menu" /></svg></span

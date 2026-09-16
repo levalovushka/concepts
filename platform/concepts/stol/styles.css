@@ -1708,3 +1708,59 @@
   width: 34px;
   height: 34px;
 }
+
+/* Messaging is anchored to a player or a live table, never a generic room. */
+.st-chat-list { padding-top: 8px; }
+.st-chat-search { height: 42px; margin: 0 12px 4px; padding: 0 12px; display: flex; align-items: center; gap: 8px; border-radius: 10px; background: #e5e7eb; color: var(--st-muted); }
+.st-chat-search .st-icon { width: 18px; height: 18px; }
+.st-chat-search input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; font-size: 14px; color: var(--st-text); }
+.st-chat-row { width: 100%; min-height: 68px; display: grid; grid-template-columns: 44px minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 9px 12px; text-align: left; }
+.st-chat-avatar { width: 44px; height: 44px; overflow: hidden; display: grid; place-items: center; border-radius: 50%; background: #e5e7eb; color: var(--st-blue); }
+.st-chat-avatar .ph { width: 100%; height: 100%; border-radius: inherit; }
+.st-chat-avatar.group { border-radius: 13px; background: #e6f2ff; }
+.st-chat-avatar .st-icon { width: 22px; height: 22px; }
+.st-chat-copy { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.st-chat-copy b { font-size: 14px; line-height: 19px; font-weight: 600; }
+.st-chat-copy small { overflow: hidden; color: var(--st-muted); font-size: 12px; line-height: 16px; white-space: nowrap; text-overflow: ellipsis; }
+.st-chat-side { align-self: stretch; display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 5px; color: var(--st-muted); font-size: 11px; }
+.st-chat-side i { min-width: 20px; height: 20px; padding: 0 6px; display: grid; place-items: center; border-radius: 10px; background: var(--st-blue); color: #fff; font-style: normal; font-weight: 600; }
+.st-chat-top { grid-template-columns: 44px minmax(0,1fr) 44px; padding: 0 8px; }
+.st-chat-person { min-width: 0; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: left; }
+.st-chat-person .st-chat-avatar { width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; }
+.st-chat-person > span:last-child { min-width: 0; display: flex; flex-direction: column; }
+.st-chat-person b { font-size: 13px; line-height: 17px; }
+.st-chat-person small { color: var(--st-muted); font-size: 10px; line-height: 14px; white-space: nowrap; }
+.st-messages { padding: 10px 12px 82px; background: #f2f3f5; }
+.st-context-card { width: 100%; min-height: 62px; display: grid; grid-template-columns: 54px minmax(0,1fr) 18px; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 12px; background: #fff; text-align: left; }
+.st-context-time { color: var(--st-blue); font-size: 15px; font-weight: 700; }
+.st-context-card > span:nth-child(2) { display: flex; flex-direction: column; }
+.st-context-card b { font-size: 13px; line-height: 18px; }
+.st-context-card small { color: var(--st-muted); font-size: 11px; line-height: 15px; }
+.st-context-card > .st-icon { color: #b8c1cc; }
+.st-chat-day,.st-system-message,.st-chat-state { margin: 12px auto; color: var(--st-muted); font-size: 11px; line-height: 15px; text-align: center; }
+.st-system-message { width: fit-content; padding: 5px 9px; border-radius: 10px; background: #dfe3e8; }
+.st-bubble { width: fit-content; max-width: 78%; margin: 7px 0; padding: 8px 10px 6px; display: flex; flex-direction: column; gap: 2px; border-radius: 14px; background: #fff; font-size: 13px; line-height: 18px; }
+.st-bubble.incoming { border-bottom-left-radius: 4px; }
+.st-bubble.outgoing { margin-left: auto; border-bottom-right-radius: 4px; background: #dcecff; }
+.st-bubble b { color: var(--st-blue); font-size: 11px; line-height: 14px; }
+.st-bubble time { align-self: flex-end; color: var(--st-muted); font-size: 9px; line-height: 12px; }
+.st-bubble.voice > span { display: flex; align-items: center; gap: 4px; }
+.st-bubble.voice > span .st-icon { width: 12px; height: 12px; }
+.st-bubble.voice { min-width: 134px; }
+.st-composer { position: absolute; z-index: 5; left: 0; right: 0; bottom: var(--safe-bottom); min-height: 60px; padding: 6px 5px; display: grid; grid-template-columns: 44px minmax(0,1fr) 44px 44px; align-items: center; gap: 2px; background: #fff; }
+.st-composer button { width: 44px; height: 44px; display: grid; place-items: center; color: var(--st-blue); }
+.st-composer label { height: 38px; padding: 0 12px; display: flex; align-items: center; border-radius: 19px; background: #f2f3f5; }
+.st-composer input { width: 100%; border: 0; outline: 0; background: transparent; font-size: 14px; }
+.st-tabbar .tab { min-width: 0; }
+.st-tabbar .tab-label { font-size: 10px; }
+.ui-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

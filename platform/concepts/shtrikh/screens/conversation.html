@@ -1,0 +1,20 @@
+<div class="screen s-page" id="scr-conversation">
+  <header class="s-chat-top"><button class="s-vkicon" data-back aria-label="Назад"><svg class="ico-svg"><use href="#i-chevron-left" /></svg></button><button class="s-chat-person" data-go="events"><span class="s-chat-avatar event"><svg class="ico-svg"><use href="#i-calendar" /></svg></span><span><b>Утро на Зелёном базаре</b><small>18 участников · завтра в 09:00</small></span></button><button class="s-vkicon" data-activate="commnotif|conversation" aria-label="Уведомления пленэра"><svg class="ico-svg"><use href="#i-bell" /></svg></button></header>
+  <main class="body-scroll s-messages">
+    <button class="s-context-card" data-message-context data-go="events"><span class="s-context-date">21<small>сен</small></span><span><b>Утро на Зелёном базаре</b><small>09:00 · главный вход · 18 участников</small></span><svg class="ico-svg"><use href="#i-chevron-right" /></svg></button>
+    <button class="s-critique-call" data-activate="voip|conversation"><svg class="ico-svg"><use href="#i-phone" /></svg><span><b>Аудиоразбор после пленэра</b><small>Короткий групповой звонок в 11:30</small></span></button>
+    <p class="s-chat-day">Сегодня</p>
+    <div class="s-system-message">Организатор уточнил точку сбора</div>
+    <div class="s-bubble incoming"><b>Марина</b><span>Встречаемся у главного входа, возле часов</span><time>08:38</time></div>
+    <div class="s-bubble outgoing"><span>Возьму линер и складной стул</span><time>08:40 · прочитано</time></div>
+    <div class="s-bubble incoming voice"><b>Пётр</b><span><svg class="ico-svg"><use href="#i-play" /></svg>0:09</span><time>08:42</time></div>
+    <p class="s-chat-state perm-hidden" data-show-granted="commnotif">Именные уведомления пленэра включены</p>
+    <p class="s-chat-state perm-hidden" data-show-granted="voip">Аудиоразбор добавлен как входящий звонок</p>
+    <p class="s-chat-state perm-hidden" data-show-denied="commnotif">Обновления останутся внутри чата</p>
+    <p class="s-chat-state perm-hidden" data-show-denied="voip">Разбор можно открыть вручную из разговора</p>
+    <p class="s-chat-state perm-hidden" data-show-denied="photos">Фото можно отправить позже или описать работу</p>
+    <p class="s-chat-state perm-hidden" data-show-denied="mic">Голосовое недоступно — напишите сообщение</p>
+  </main>
+  <div class="s-composer"><button data-ask="photos|conversation|conversation" aria-label="Добавить работу"><svg class="ico-svg"><use href="#i-paperclip" /></svg></button><label><input aria-label="Сообщение" placeholder="Сообщение пленэру" /></label><button data-ask="mic|conversation|conversation" aria-label="Записать голосовое"><svg class="ico-svg"><use href="#i-mic" /></svg></button><button data-toast="Сообщение отправлено" aria-label="Отправить"><svg class="ico-svg"><use href="#i-send" /></svg></button></div>
+  <div class="home-ind"></div>
+</div>

@@ -12,6 +12,7 @@
     "test:no-messenger": "node scripts/test-no-messenger.mjs",
     "test:vk-ui": "node scripts/test-vk-ui.mjs",
     "test:three-polish": "node scripts/test-three-concepts-polish.mjs",
+    "test:three-messaging": "node scripts/test-three-messaging.mjs",
     "test:spec": "node scripts/test-ux-spec.mjs",
     "docs": "node scripts/gen-docs.mjs",
     "spec": "node scripts/ux-spec.mjs",
