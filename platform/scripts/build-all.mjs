@@ -53,7 +53,7 @@ const pluralRu = (n, one, few, many) => {
   return many;
 };
 
-const CURRENT_BATCH = new Set(['uzel', 'kontur', 'tropa', 'smena', 'kvartal', 'marshrut', 'ryadom', 'prichal', 'verstak']);
+const CURRENT_BATCH = new Set(['stol', 'podacha', 'shtrikh']);
 
 const gallery = (items) => {
   const filters = [...new Set(items.map((item) => item.targetSet))]

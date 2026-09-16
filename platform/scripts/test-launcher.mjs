@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 import { DIST, conceptDir, listConcepts, readSpec } from './lib.mjs';
 
 const launcherPath = join(DIST, 'index.html');
-const currentBatch = new Set(['uzel', 'kontur', 'tropa', 'smena', 'kvartal', 'marshrut', 'ryadom', 'prichal', 'verstak']);
+const currentBatch = new Set(['stol', 'podacha', 'shtrikh']);
 assert.ok(existsSync(launcherPath), 'сначала соберите лаунчер: npm run build:all');
 
 const errors = [];
