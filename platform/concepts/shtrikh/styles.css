@@ -3066,7 +3066,7 @@
 .s-messenger .s-system-message { margin: 8px auto 14px; padding: 6px 10px; border-radius: 12px; background: #eef0f3; font-size: 11px; }
 .s-messenger .s-bubble { max-width: 82%; margin: 8px 0; padding: 10px 12px 8px; gap: 3px; border-radius: 18px; background: var(--s-chat-surface); font-size: 15px; line-height: 20px; }
 .s-messenger .s-bubble.incoming { border-bottom-left-radius: 6px; }
-.s-messenger .s-bubble.outgoing { border-bottom-right-radius: 6px; background: var(--s-chat-accent); color: #fff; }
+.s-messenger .s-bubble.outgoing { margin-left: auto; border-bottom-right-radius: 6px; background: var(--s-chat-accent); color: #fff; }
 .s-messenger .s-bubble.outgoing time { color: rgba(255,255,255,.78); }
 .s-messenger .s-bubble b { color: var(--s-chat-accent); font-size: 12px; line-height: 16px; }
 .s-messenger .s-bubble time { font-size: 11px; line-height: 14px; }

@@ -1993,7 +1993,7 @@
 .p-messenger .p-system-message { margin: 8px auto 14px; padding: 6px 10px; border-radius: 12px; background: #f2ece7; font-size: 11px; }
 .p-messenger .p-bubble { max-width: 82%; margin: 8px 0; padding: 10px 12px 8px; gap: 3px; border-radius: 18px; background: var(--p-chat-surface); font-size: 15px; line-height: 20px; }
 .p-messenger .p-bubble.incoming { border-bottom-left-radius: 6px; }
-.p-messenger .p-bubble.outgoing { border-bottom-right-radius: 6px; background: var(--p-chat-accent-soft); }
+.p-messenger .p-bubble.outgoing { margin-left: auto; border-bottom-right-radius: 6px; background: var(--p-chat-accent-soft); }
 .p-messenger .p-bubble b { color: var(--p-chat-food); font-size: 12px; line-height: 16px; }
 .p-messenger .p-bubble time { font-size: 11px; line-height: 14px; }
 .p-messenger .p-composer { min-height: 68px; padding: 8px 6px; grid-template-columns: 44px minmax(0,1fr) 44px 44px; gap: 1px; background: #fff; box-shadow: 0 -8px 24px rgba(55,39,28,.05); }

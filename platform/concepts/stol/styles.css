@@ -1814,7 +1814,7 @@
 .st-messenger .st-system-message { margin: 8px auto 14px; padding: 6px 10px; border-radius: 12px; background: #eef0f3; font-size: 11px; }
 .st-messenger .st-bubble { max-width: 82%; margin: 8px 0; padding: 10px 12px 8px; gap: 3px; border-radius: 18px; background: var(--st-chat-surface); font-size: 15px; line-height: 20px; }
 .st-messenger .st-bubble.incoming { border-bottom-left-radius: 6px; }
-.st-messenger .st-bubble.outgoing { border-bottom-right-radius: 6px; background: var(--st-chat-accent-soft); }
+.st-messenger .st-bubble.outgoing { margin-left: auto; border-bottom-right-radius: 6px; background: var(--st-chat-accent-soft); }
 .st-messenger .st-bubble b { color: var(--st-chat-accent); font-size: 12px; line-height: 16px; }
 .st-messenger .st-bubble time { font-size: 11px; line-height: 14px; }
 .st-messenger .st-bubble.voice { min-width: 172px; }

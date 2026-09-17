@@ -58,6 +58,8 @@ for (const slug of ["stol", "podacha", "shtrikh"]) {
   const tokenUses = (styles.match(new RegExp(`var\\(--${prefix}-chat-accent\\)`, "g")) || []).length;
   if (tokenUses < 4) failures.push(`${slug}: цвет мессенджера не проведён через интерактивные состояния`);
   if (slug === "podacha" && accent !== "#0077ff") failures.push("podacha: управляющие состояния мимикрии ВК должны использовать VK-синий #0077ff");
+  const outgoingRule = styles.match(new RegExp(`\\.${prefix}-messenger \\.${prefix}-bubble\\.outgoing\\s*\\{([^}]*)\\}`, "i"))?.[1] || "";
+  if (!/margin-left:\s*auto/i.test(outgoingRule)) failures.push(`${slug}: исходящее сообщение не закреплено у правого края`);
 
   for (const screen of spec.screens) {
     if (["settings", "meters"].includes(screen.id)) continue;
