@@ -4,6 +4,11 @@ import { ROOT, readSpec } from "./lib.mjs";
 
 const failures = [];
 const messengerAccents = new Set();
+const expectedPrototypeIds = {
+  stol: ["signin", "publish", "join", "score", "cast", "messaging", "access"],
+  podacha: ["signin", "publish", "discover", "cookalong", "recipe", "kitchen", "messaging", "social", "access"],
+  shtrikh: ["signin", "publish", "place", "pleinair", "exhibition", "messaging", "services"],
+};
 
 for (const slug of ["stol", "podacha", "shtrikh"]) {
   const spec = readSpec(slug);
@@ -13,6 +18,14 @@ for (const slug of ["stol", "podacha", "shtrikh"]) {
   const entities = new Set((spec.product?.world?.entities || []).map((entity) => entity.id));
   const actions = new Set((spec.product?.world?.actions || []).map((action) => action.id));
   const productActions = spec.product?.world?.actions || [];
+  const prototypeIds = new Set((spec.prototypes || []).filter((prototype) => !prototype.hero).map((prototype) => prototype.id));
+
+  for (const id of expectedPrototypeIds[slug]) {
+    if (!prototypeIds.has(id)) failures.push(`${slug}: не собран сценарный прототип ${id}`);
+  }
+  const architecture = readFileSync(join(ROOT, "concepts", slug, "docs", "02-architecture.md"), "utf8");
+  if (!architecture.includes("## Сценарные прототипы")) failures.push(`${slug}: документация не описывает набор сценарных прототипов`);
+  if (!architecture.includes("| Экран | Что можно сделать | Ведёт на |")) failures.push(`${slug}: в документации не собрана карта переходов`);
 
   if (!tabs.has("chats")) failures.push(`${slug}: нет постоянной вкладки чатов`);
   for (const screen of ["chats", "conversation"]) if (!screens.has(screen)) failures.push(`${slug}: нет экрана ${screen}`);
@@ -97,4 +110,4 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`  · ${failure}`));
   process.exit(1);
 }
-console.log("three-messaging: OK · 3 inbox · 3 contextual conversations · permissions are honest");
+console.log("three-messaging: OK · 23 scenario prototypes · 3 inbox · generated navigation docs · permissions are honest");

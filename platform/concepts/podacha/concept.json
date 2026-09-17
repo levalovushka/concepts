@@ -1682,6 +1682,68 @@
       "start": "phone",
       "screens": ["phone", "feed"],
       "stops": ["feed"]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать блюдо",
+      "note": "Камера или фото, место, рецепт и готовая публикация",
+      "start": "compose",
+      "screens": ["compose", "camera", "picker", "place", "recipe", "post", "cookalong"],
+      "stops": ["cookalong"]
+    },
+    {
+      "id": "discover",
+      "label": "Найти автора и блюдо",
+      "note": "Поиск по знакомым авторам, публикациям и совместным готовкам",
+      "start": "discover",
+      "screens": ["discover", "post", "profile", "cookings"],
+      "stops": ["post", "profile", "cookings"]
+    },
+    {
+      "id": "cookalong",
+      "label": "Готовить вместе",
+      "note": "Активная готовка, шаги, календарь, чат и кухонный экран",
+      "start": "cookings",
+      "screens": ["cookings", "notif", "cookalong", "steps", "conversation", "kitchen", "cast"]
+    },
+    {
+      "id": "recipe",
+      "label": "Сохранить и повторить рецепт",
+      "note": "Коллекция рецептов и переход к совместной готовке",
+      "start": "recipes",
+      "screens": ["recipes", "discover", "recipe", "cookalong"],
+      "stops": ["discover", "cookalong"]
+    },
+    {
+      "id": "kitchen",
+      "label": "Открыть кухонный экран",
+      "note": "Голосовой шаг и передача процесса на экран рядом",
+      "start": "steps",
+      "screens": ["steps", "kitchen", "cast"]
+    },
+    {
+      "id": "messaging",
+      "label": "Обсудить готовку",
+      "note": "Групповой разговор, личные диалоги, голосовые и звонок",
+      "start": "chats",
+      "screens": ["chats", "conversation", "direct-zhanna", "direct-timur", "cookalong", "profile"],
+      "stops": ["cookalong", "profile"]
+    },
+    {
+      "id": "social",
+      "label": "Найти знакомых авторов",
+      "note": "Подписки, совпадения контактов и безопасное приглашение",
+      "start": "following",
+      "screens": ["following", "profile", "matches", "invite"],
+      "stops": ["profile"]
+    },
+    {
+      "id": "access",
+      "label": "Настроить приложение",
+      "note": "Приватность, фон, оповещения, аудио и кухонный экран",
+      "start": "settings",
+      "screens": ["settings", "privacy", "audio", "kitchen", "picker", "place", "following", "cast", "profile", "matches", "compose"],
+      "stops": ["cast", "profile", "matches", "compose"]
     }
   ],
   "backendless": [

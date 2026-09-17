@@ -1156,6 +1156,60 @@
       ],
       "stops": [],
       "authTarget": "home"
+    },
+    {
+      "id": "signin",
+      "label": "Вход и гостевой проход",
+      "note": "Телефон, пароль, регистрация и продолжение без аккаунта",
+      "start": "phone",
+      "screens": ["phone", "home"],
+      "stops": ["home"]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать зарисовку",
+      "note": "Камера или фото, место, подпись и готовая публикация",
+      "start": "problem",
+      "screens": ["problem", "shoot", "post", "chronicle", "yard", "events", "profile"],
+      "stops": ["chronicle", "yard", "events", "profile"]
+    },
+    {
+      "id": "place",
+      "label": "Выбрать место зарисовки",
+      "note": "Геопозиция по жесту и ручной выбор из сохранённых мест",
+      "start": "yard",
+      "screens": ["yard", "chronicle", "events"],
+      "stops": ["chronicle", "events"]
+    },
+    {
+      "id": "pleinair",
+      "label": "Собраться на пленэр",
+      "note": "Календарь встречи, голосовая заметка и разговор участников",
+      "start": "events",
+      "screens": ["events", "conversation"]
+    },
+    {
+      "id": "exhibition",
+      "label": "Подключиться на выставке",
+      "note": "QR площадки, гостевая сеть и понятный ручной fallback",
+      "start": "guest",
+      "screens": ["guest", "scan"]
+    },
+    {
+      "id": "messaging",
+      "label": "Обсудить работу",
+      "note": "Чат пленэра, личные диалоги, голосовые и звонок",
+      "start": "chats",
+      "screens": ["chats", "conversation", "direct-petr", "direct-irina", "events", "profile"],
+      "stops": ["events", "profile"]
+    },
+    {
+      "id": "services",
+      "label": "Сервисы и доступы",
+      "note": "Аккаунт, приватность, фон, пароли, виджет и уведомления",
+      "start": "menu",
+      "screens": ["menu", "settings", "profile", "chronicle", "neighbors", "guest", "passwords", "meters", "background", "widget"],
+      "stops": ["profile", "chronicle", "neighbors", "guest", "passwords", "meters", "background", "widget"]
     }
   ],
   "backendless": [

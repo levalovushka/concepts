@@ -1026,6 +1026,53 @@
       "start": "phone",
       "screens": ["phone", "feed"],
       "stops": ["feed"]
+    },
+    {
+      "id": "publish",
+      "label": "Опубликовать сыгранную партию",
+      "note": "Запись с игрой, фотографией и конкретным столом",
+      "start": "feed",
+      "screens": ["feed", "compose", "post", "table"],
+      "stops": ["post", "table"]
+    },
+    {
+      "id": "join",
+      "label": "Занять место за столом",
+      "note": "Выбор партии, место в составе, календарь и оповещения",
+      "start": "tables",
+      "screens": ["tables", "compose", "table", "score", "conversation"],
+      "stops": ["compose", "score", "conversation"]
+    },
+    {
+      "id": "score",
+      "label": "Вести счёт партии",
+      "note": "Общее табло, ручной и голосовой ввод очков",
+      "start": "table",
+      "screens": ["table", "score", "conversation", "cast"],
+      "stops": ["conversation", "cast"]
+    },
+    {
+      "id": "cast",
+      "label": "Показать общее табло",
+      "note": "Поиск экрана в локальной сети и понятный ручной fallback",
+      "start": "score",
+      "screens": ["score", "cast"]
+    },
+    {
+      "id": "messaging",
+      "label": "Договориться в чате",
+      "note": "Разговор стола, личный диалог, голосовые и звонок",
+      "start": "chats",
+      "screens": ["chats", "conversation", "direct-sasha", "table", "profile"],
+      "stops": ["table", "profile"]
+    },
+    {
+      "id": "access",
+      "label": "Аккаунт и доступы",
+      "note": "Именные уведомления, общая сессия и управление аккаунтом",
+      "start": "profile",
+      "screens": ["profile", "settings", "post"],
+      "stops": ["post"]
     }
   ],
   "backendless": [
