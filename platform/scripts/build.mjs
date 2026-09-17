@@ -64,7 +64,7 @@ const FORM_STATES = ["default", "loading", "empty", "error"];
 const CONTENT_STATES = [...FORM_STATES, "offline", "denied"];
 
 const firstGoOutsideAuth = (html = "") =>
-  [...html.matchAll(/data-go="([a-z]+)"/g)]
+  [...html.matchAll(/data-go="([a-z][a-z0-9-]*)"/g)]
     .map((match) => match[1])
     .find((id) => !LEGACY_AUTH.has(id) && id !== "phone");
 
@@ -1322,12 +1322,12 @@ body .device .screens .screen[data-screen="phone"] [data-primary],
  */
 function screenFor(proto, id, markup, own, isStop) {
   let out = markup.replace(
-    /id="scr-([a-z]+)"/,
+    /id="scr-([a-z][a-z0-9-]*)"/,
     `id="pr-${proto.id}-$1" data-screen="$1"`,
   );
   if (proto.authTarget)
     out = out.replace(
-      /data-auth-target data-go="[a-z]+"/g,
+      /data-auth-target data-go="[a-z][a-z0-9-]*"/g,
       `data-auth-target data-go="${proto.authTarget}"`,
     );
   if (isStop) return asStop(out);
@@ -1336,7 +1336,7 @@ function screenFor(proto, id, markup, own, isStop) {
     /<div class="tabbar[^"]*"[^>]*>[\s\S]*?<\/div>\s*<\/div>/,
     (bar) =>
       bar.replace(
-        /<div class="([^"]*)"([^>]*?)\sdata-go="([a-z]+)"([^>]*)>/g,
+        /<div class="([^"]*)"([^>]*?)\sdata-go="([a-z][a-z0-9-]*)"([^>]*)>/g,
         (m, cls, mid, target, tail) =>
           own.has(target) ? m : `<div class="${cls} is-off"${mid}${tail}>`,
       ),
@@ -1396,14 +1396,14 @@ function targetsIn(markup) {
   const push = (v) => {
     if (v) out.push(v);
   };
-  for (const m of markup.matchAll(/data-(?:go|jump)="([a-z]+)"/g)) push(m[1]);
-  for (const m of markup.matchAll(/data-ask="[^"]*?\|([a-z]*)\|?([a-z]*)"/g)) {
+  for (const m of markup.matchAll(/data-(?:go|jump)="([a-z][a-z0-9-]*)"/g)) push(m[1]);
+  for (const m of markup.matchAll(/data-ask="[^"]*?\|([a-z][a-z0-9-]*)?\|?([a-z][a-z0-9-]*)?"/g)) {
     push(m[1]);
     push(m[2]);
   }
-  for (const m of markup.matchAll(/data-activate="[^"|]*\|([a-z]+)"/g))
+  for (const m of markup.matchAll(/data-activate="[^"|]*\|([a-z][a-z0-9-]*)"/g))
     push(m[1]);
-  for (const m of markup.matchAll(/data-toast="[^"|]*\|([a-z]+)"/g)) push(m[1]);
+  for (const m of markup.matchAll(/data-toast="[^"|]*\|([a-z][a-z0-9-]*)"/g)) push(m[1]);
   return out;
 }
 
@@ -1512,7 +1512,7 @@ export function build(slug, { outDir } = {}) {
       if (stops.has(id)) continue;
       const bound = p.authTarget
         ? markup[id].replace(
-            /data-auth-target data-go="[a-z]+"/g,
+            /data-auth-target data-go="[a-z][a-z0-9-]*"/g,
             `data-auth-target data-go="${p.authTarget}"`,
           )
         : markup[id];

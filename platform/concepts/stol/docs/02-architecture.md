@@ -44,11 +44,12 @@
         └─ Счёт (score) — push · открывается: «Открыть счёт» · speech, mic
             └─ Общий экран (cast) — push · открывается: «Показать на общем экране», «Показать на экране» · localnetwork, wifiinfo
 
-Профиль (profile) — tab (root) · открывается: вкладка таб-бара
+Профиль (profile) — tab (root) · открывается: «Саша Руденко»
     └─ Настройки (settings) — push · открывается: «Открыть настройки» · keychain, commnotif
 
 Чаты (chats) — tab (root) · открывается: вкладка таб-бара
-    └─ Разговор стола (conversation) — push · открывается: «Открыть чат стола», «Лесные союзы · сегодня» … · voip
+    ├─ Разговор стола (conversation) — push · открывается: «Открыть чат стола», «Лесные союзы · сегодня» … · voip
+    └─ Саша Руденко (direct-sasha) — push · открывается: «Саша Руденко»
 ```
 <!-- @end -->
 
@@ -98,12 +99,18 @@
 | `cast` | «Назад» | `score` | — | возврат по IA |
 | `cast` | «Проверить сеть» | `cast` | `com.apple.developer.networking.wifi-info` | entitlement, без alert |
 | `cast` | «Экран у большого стола», «Проектор клуба» | `cast` | `NSLocalNetworkUsageDescription (+ NSBonjourServices: _googlecast._tcp)` | доступ разрешён |
-| `chats` | «Лесные союзы · сегодня», «Маршруты Севера» … | `conversation` | — | переход |
+| `chats` | «Лесные союзы · сегодня», «Маршруты Севера» | `conversation` | — | переход |
+| `chats` | «Саша Руденко» | `direct-sasha` | — | переход |
 | `conversation` | «Назад» | `chats` | — | возврат по IA |
 | `conversation` | «Лесные союзы», «19:30» | `table` | — | переход |
 | `conversation` | «Позвонить игрокам» | `conversation` | `NSMicrophoneUsageDescription + UIBackgroundModes: voip` | доступ разрешён |
 | `conversation` | «Добавить фото» | `conversation` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
 | `conversation` | «Записать голосовое» | `conversation` | `NSMicrophoneUsageDescription` | доступ разрешён |
+| `direct-sasha` | «Назад» | `chats` | — | возврат по IA |
+| `direct-sasha` | «Саша Руденко» | `profile` | — | переход |
+| `direct-sasha` | «Позвонить Саше» | `direct-sasha` | `NSMicrophoneUsageDescription + UIBackgroundModes: voip` | доступ разрешён |
+| `direct-sasha` | «Добавить фото» | `direct-sasha` | `NSPhotoLibraryUsageDescription` | доступ разрешён |
+| `direct-sasha` | «Записать голосовое» | `direct-sasha` | `NSMicrophoneUsageDescription` | доступ разрешён |
 | `settings` | «Назад» | `profile` | — | возврат по IA |
 | `settings` | «Саша Руденко» | `account` | — | переход |
 | `settings` | «Оповещения» | `settings` | `com.apple.developer.usernotifications.communication` | entitlement, без alert |

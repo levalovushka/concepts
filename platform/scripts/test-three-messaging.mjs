@@ -40,6 +40,12 @@ for (const slug of ["stol", "podacha", "shtrikh"]) {
     continue;
   }
   if (!/data-go="conversation"/.test(chats)) failures.push(`${slug}: inbox не открывает разговор`);
+  const directTargets = [...chats.matchAll(/data-chat-kind="direct"[^>]*data-go="([^"]+)"/g)].map((match) => match[1]);
+  if (!directTargets.length) failures.push(`${slug}: личные разговоры не размечены отдельно от групповых`);
+  for (const target of directTargets) {
+    if (target === "conversation") failures.push(`${slug}: личная строка открывает групповой разговор`);
+    if (!screens.has(target)) failures.push(`${slug}: личная строка ведёт на отсутствующий экран ${target}`);
+  }
   if (!/data-message-context/.test(conversation)) failures.push(`${slug}: разговор не показывает продуктовый контекст`);
   if (!/data-ask="mic\|conversation\|conversation"/.test(conversation)) failures.push(`${slug}: голосовое сообщение не запрашивает микрофон по жесту`);
   const topbar = conversation.match(/<header[^>]*chat-top[^>]*>([\s\S]*?)<\/header>/)?.[1] || "";

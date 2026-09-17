@@ -938,6 +938,28 @@
       }
     },
     {
+      "id": "direct-sasha",
+      "title": "Саша Руденко",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный разговор с игроком",
+      "ui": {
+        "pattern": "messaging",
+        "navigation": "push",
+        "purpose": "Договориться о следующей партии напрямую с игроком",
+        "primaryAction": "Отправить сообщение",
+        "hierarchy": { "primary": "История личной переписки с выбранным игроком", "secondary": "Композер, вложения, голосовые сообщения и звонок" },
+        "states": ["default", "empty", "error", "offline", "denied"],
+        "density": "medium",
+        "contentCases": [
+          { "kind": "typical", "example": "Договорённость о следующей партии" },
+          { "kind": "stress", "example": "Длинное личное сообщение" },
+          { "kind": "failure", "example": "Без микрофона доступен текст" }
+        ]
+      }
+    },
+    {
       "id": "settings",
       "title": "Настройки",
       "type": "push",
@@ -986,6 +1008,7 @@
         "tables",
         "chats",
         "conversation",
+        "direct-sasha",
         "profile",
         "compose",
         "post",

@@ -1492,6 +1492,50 @@
       }
     },
     {
+      "id": "direct-zhanna",
+      "title": "Жанна Ким",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный разговор с автором",
+      "ui": {
+        "pattern": "messaging",
+        "navigation": "push",
+        "purpose": "Уточнить рецепт напрямую у автора",
+        "primaryAction": "Отправить сообщение",
+        "hierarchy": { "primary": "История личной переписки с выбранным автором", "secondary": "Композер, фото блюда, голосовые сообщения и звонок" },
+        "states": ["default", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          { "kind": "typical", "example": "Вопрос автору об ингредиенте" },
+          { "kind": "stress", "example": "Длинный совет по приготовлению" },
+          { "kind": "failure", "example": "Сообщение ждёт подключения" }
+        ]
+      }
+    },
+    {
+      "id": "direct-timur",
+      "title": "Тимур Садыков",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный разговор с автором",
+      "ui": {
+        "pattern": "messaging",
+        "navigation": "push",
+        "purpose": "Обсудить присланный рецепт напрямую с автором",
+        "primaryAction": "Отправить сообщение",
+        "hierarchy": { "primary": "История личной переписки с выбранным автором", "secondary": "Композер, фото блюда, голосовые сообщения и звонок" },
+        "states": ["default", "loading", "error", "offline", "denied"],
+        "density": "high",
+        "contentCases": [
+          { "kind": "typical", "example": "Автор прислал карточку рецепта" },
+          { "kind": "stress", "example": "Несколько вложений подряд" },
+          { "kind": "failure", "example": "Сообщение ждёт подключения" }
+        ]
+      }
+    },
+    {
       "id": "settings",
       "title": "Настройки",
       "type": "push",
@@ -1621,6 +1665,8 @@
         "profile",
         "chats",
         "conversation",
+        "direct-zhanna",
+        "direct-timur",
         "following",
         "matches",
         "notif",

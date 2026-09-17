@@ -1043,6 +1043,36 @@
       }
     },
     {
+      "id": "direct-petr",
+      "title": "Пётр Ильин",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный разговор с художником",
+      "ui": {
+        "pattern": "messaging",
+        "navigation": "push",
+        "purpose": "Обсудить работу напрямую с художником",
+        "primaryAction": "Отправить сообщение",
+        "states": ["default", "loading", "error", "offline", "denied"]
+      }
+    },
+    {
+      "id": "direct-irina",
+      "title": "Ирина Тепляк",
+      "type": "push",
+      "light": true,
+      "parent": "chats",
+      "meta": "Личный разговор с художником",
+      "ui": {
+        "pattern": "messaging",
+        "navigation": "push",
+        "purpose": "Договориться о месте напрямую с художником",
+        "primaryAction": "Отправить сообщение",
+        "states": ["default", "loading", "error", "offline", "denied"]
+      }
+    },
+    {
       "id": "settings",
       "title": "Настройки",
       "type": "push",
@@ -1117,6 +1147,8 @@
         "profile",
         "chats",
         "conversation",
+        "direct-petr",
+        "direct-irina",
         "settings",
         "ads",
         "lock",
