@@ -70,14 +70,22 @@ try {
   for (const url of conceptUrls) {
     await page.goto(url);
     const slug = new URL(url).pathname.split('/').filter(Boolean).at(-2);
-    const phoneScreens = page.locator('[data-screen="phone"]');
+    /* data-screen встречается и у контролов навигации; проверяем только
+       реальные экраны, иначе лаунчер ложно считает кнопку экраном входа. */
+    const phoneScreens = page.locator('.screen[data-screen="phone"]');
     assert.equal(await phoneScreens.locator(':is(.auth-app-icon,.auth-brand-glyph,.cx-wordmark)').count(), await phoneScreens.count(), `${slug}: на входе нет логотипа или брендового знака`);
     if (slug === 'today') assert.equal(await phoneScreens.locator('.td-logo').count(), 0, 'today: старый wordmark дублирует логотип');
     await page.click('[data-tab="docs"]');
     assert.equal(await page.locator('.docs-links a[href$=".md"]').count(), 0, `${url}: ссылка на сырой Markdown`);
     assert.ok(await page.locator('[data-doc-view]').count(), `${url}: нет встроенного чтения документов`);
-    assert.ok(await page.locator('#app-store-assets').count(), `${url}: нет встроенной галереи App Store`);
-    assert.ok(await page.locator('#app-store-assets img').count(), `${url}: галерея App Store пустая`);
+    const hasAppStoreManifest = existsSync(join(conceptDir(slug), 'assets', 'app-store', 'manifest.json'));
+    const gallery = page.locator('#app-store-assets');
+    if (hasAppStoreManifest) {
+      assert.ok(await gallery.count(), `${url}: нет встроенной галереи App Store`);
+      assert.ok(await gallery.locator('img').count(), `${url}: галерея App Store пустая`);
+    } else {
+      assert.equal(await gallery.count(), 0, `${url}: несуществующая App Store-галерея не должна рендериться`);
+    }
   }
   await page.goto(pathToFileURL(launcherPath).href);
 

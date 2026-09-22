@@ -5,6 +5,10 @@ import { ROOT, readSpec } from "./lib.mjs";
 
 const slugs = process.argv.slice(2);
 const failures = [];
+const canvasToken = {
+  ryadom: "--r-bg: #f2f3f5",
+  uzel: "--u-bg: #f2f3f5",
+};
 
 if (!slugs.length) {
   console.error("укажите концепты: node scripts/test-vk-brand.mjs ryadom uzel");
@@ -27,6 +31,9 @@ for (const slug of slugs) {
   const styles = readFileSync(join(ROOT, "concepts", slug, "styles.css"), "utf8").toLowerCase();
   for (const stale of ["#b63e00", "#ff985c", "#7d2bd2", "#b88bff"]) {
     if (styles.includes(stale)) failures.push(`${slug}: в CSS остался небрандовый акцент ${stale}`);
+  }
+  if (canvasToken[slug] && !styles.includes(canvasToken[slug])) {
+    failures.push(`${slug}: основной фон должен быть холодным нейтральным #F2F3F5`);
   }
 
   const icon = readFileSync(join(ROOT, "concepts", slug, "assets", "app-icon.png"));
