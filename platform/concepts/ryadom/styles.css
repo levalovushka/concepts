@@ -1026,5 +1026,5 @@
 [data-screen="picker"] .home-grid > .ph { height: 58px; border-radius: 8px; }
 .post-author { min-width: 0; }
 
-/* Logo-aligned brand palette. */
-:root{--r-accent:#b63e00}
+/* VK brand palette shared by every interactive state. */
+:root{--r-accent:#0077ff}

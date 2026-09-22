@@ -3,7 +3,7 @@
   --u-surface: #fff;
   --u-text: #17202b;
   --u-muted: #647181;
-  --u-accent: #0057b8;
+  --u-accent: #0077ff;
   --u-accent-soft: #e5f0ff;
   --u-border: #d9e0e8;
   --u-success: #197243;
@@ -483,7 +483,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--u-space-3);
-  background: linear-gradient(180deg, #f1e7ff, #fff);
+  background: linear-gradient(180deg, #e5f0ff, #fff);
   color: var(--u-text);
 }
 .u-widget h1 {
@@ -496,9 +496,9 @@
   margin-top: auto;
 }
 .unified-auth.auth-uzel .unified-auth-link {
-  color: #7d2bd2 !important;
+  color: #0077ff !important;
 }
-.unified-auth.auth-uzel { --accent:#0057b8; --accent-fill:#0057b8; }
+.unified-auth.auth-uzel { --accent:#0077ff; --accent-fill:#0077ff; }
 .auth-uzel[data-screen="account"] .unified-auth-danger {
   color: #a81f1a;
 }
@@ -511,9 +511,9 @@
    tab bar always remains on the physical bottom edge of the device. */
 .u-screen {
   font: var(--u-body);
-  --accent-fill: #0057b8;
-  --u-accent: #0057b8;
-  --u-accent-soft: #e7f1ff;
+  --accent-fill: #0077ff;
+  --u-accent: #0077ff;
+  --u-accent-soft: #e5f0ff;
   --u-bg: #f2f3f5;
   --u-text: #1d2733;
   --u-muted: #566271;
@@ -801,7 +801,7 @@
   box-shadow:none;
 }
 .u-screen .tabbar>.tab{gap:2px;font:500 10px/12px var(--face)}
-.u-screen .tabbar>.tab.is-on{color:#0057b8}
+.u-screen .tabbar>.tab.is-on{color:#0077ff}
 .u-screen .tabbar .ico{width:27px;height:27px}
 .u-screen .tabbar .ico svg{width:24px;height:24px}
 .u-screen .home-ind {
@@ -1078,7 +1078,7 @@
   border: 4px solid #fff;
   border-radius: 50%;
   background: var(--u-accent);
-  box-shadow: 0 2px 7px #004b9c66;
+  box-shadow: 0 2px 7px #0068df66;
 }
 .u-live{height:100%;box-sizing:border-box;padding:calc(var(--safe-top) + 14px) 18px 22px;display:flex;flex-direction:column;gap:18px;background:#10233d;color:#fff}
 .u-live header{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding-bottom:16px;border-bottom:1px solid #ffffff24}
@@ -1096,20 +1096,19 @@
 .u-live .u-ok{margin-top:auto;background:#173d35;color:#a9ebc9}
 .u-live .u-btn{flex:none;background:#fff;color:#10233d}
 
-/* Accessible VK-blue interaction layer and readable metadata. */
-.u-screen{--u-accent:#0057b8;--u-muted:#566271}
-.u-btn{background:#0057b8!important;color:#fff!important}
-.u-soft,.u-inline,.u-follow,.u-edit,.u-status,.u-mark,.u-avatar{color:#0057b8}
-.u-live{--u-accent:#67a9ff;--u-muted:#c0cbda}
-.u-live-now{--u-accent:#0057b8;--u-muted:#566271}
+/* VK-blue interaction layer and readable metadata. */
+.u-screen{--u-accent:#0077ff;--u-muted:#566271}
+.u-btn{background:#0077ff!important;color:#fff!important}
+.u-soft,.u-inline,.u-follow,.u-edit,.u-status,.u-mark,.u-avatar{color:#0077ff}
+.u-live{--u-accent:#5aa7ff;--u-muted:#c0cbda}
+.u-live-now{--u-accent:#0077ff;--u-muted:#566271}
 .u-capture .u-back{color:#fff!important}
 
-/* Logo-aligned brand palette. */
-:root{--u-accent:#7d2bd2;--u-accent-soft:#f1e7ff}
-.unified-auth.auth-uzel{--accent:#7d2bd2;--accent-fill:#7d2bd2}
-.u-screen{--accent-fill:#7d2bd2;--u-accent:#7d2bd2;--u-accent-soft:#f1e7ff}
-.u-btn{background:#7d2bd2!important;color:#fff!important}
-.u-soft,.u-inline,.u-follow,.u-edit,.u-status,.u-mark,.u-avatar,.u-screen .tabbar>.tab.is-on{color:#7d2bd2}
-.u-live{--u-accent:#b88bff;--u-muted:#c0cbda}
-.u-live-now{--u-accent:#7d2bd2;--u-muted:#566271}
-.u-map-point{box-shadow:0 2px 7px #5b1aa066}
+/* Keep auth, product screens and dark surfaces on the same VK palette. */
+:root{--u-accent:#0077ff;--u-accent-soft:#e5f0ff}
+.unified-auth.auth-uzel{--accent:#0077ff;--accent-fill:#0077ff}
+.u-screen{--accent-fill:#0077ff;--u-accent:#0077ff;--u-accent-soft:#e5f0ff}
+.u-btn{background:#0077ff!important;color:#fff!important}
+.u-soft,.u-inline,.u-follow,.u-edit,.u-status,.u-mark,.u-avatar,.u-screen .tabbar>.tab.is-on{color:#0077ff}
+.u-live{--u-accent:#5aa7ff;--u-muted:#c0cbda}
+.u-live-now{--u-accent:#0077ff;--u-muted:#566271}

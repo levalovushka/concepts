@@ -11,6 +11,7 @@
     "test:auth-visual": "node scripts/test-auth-visual.mjs",
     "test:no-messenger": "node scripts/test-no-messenger.mjs",
     "test:vk-ui": "node scripts/test-vk-ui.mjs",
+    "test:vk-brand": "node scripts/test-vk-brand.mjs",
     "test:three-polish": "node scripts/test-three-concepts-polish.mjs",
     "test:three-messaging": "node scripts/test-three-messaging.mjs",
     "test:spec": "node scripts/test-ux-spec.mjs",
