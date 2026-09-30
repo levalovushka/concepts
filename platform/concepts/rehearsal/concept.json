@@ -1,25 +1,25 @@
 {
   "slug": "rehearsal",
   "name": "Репетиция",
-  "eyebrow": "Репетиция · Локальный тренер выступлений · iOS",
-  "targetSet": "vk-music",
+  "eyebrow": "Репетиция · Тренер выступлений на видео · iOS",
+  "targetSet": "vk-video",
   "domain": "rehearsal.app",
-  "heroTitle": "Репетиция — прогон до выступления",
-  "heroDeck": "Разложите выступление на тайминги, проверьте кадр и повторите только слабый момент.",
-  "tagline": "Тайминг, композиция кадра и локальные подсказки перед выступлением",
+  "heroTitle": "Репетиция — прогон на видео до выступления",
+  "heroDeck": "Запишите прогон на камеру, увидьте, какой блок затянулся, и повторите только его. Уроки от школ выступлений — в той же ленте.",
+  "tagline": "Видеопрогон, разбор по блокам и уроки выступлений",
   "insight": "повторять выступление целиком утомительно, а перетянутый момент трудно заметить без временной шкалы",
-  "deck": "Линейный инструмент: вход по номеру, настройка, кадр, таймер, временная шкала и повтор фрагмента. Без собственного API.",
+  "deck": "Видеоприложение в грамматике ВК Видео: лента уроков и своих прогонов, запись с камерой и звуком, разбор по таймкодам, AirPlay и фоновое прослушивание.",
   "qualityContractVersion": 1,
   "product": {
     "audience": "Люди, которые готовят доклад, питч или видеовыступление без личного тренера",
     "situation": "После прогона видно, что выступление не укладывается во время, но непонятно, где оно просело",
     "problem": "Повторять весь доклад утомительно, а по обычной записи трудно найти слабый момент",
     "promise": "Временная шкала покажет слабый фрагмент, и повторить можно только его",
-    "differentiator": "Не видеоредактор и не AI-автор речи, а локальный цикл прогон → находка → точечный повтор",
+    "differentiator": "Не видеоредактор и не лента роликов, а цикл «прогон на видео → находка → точечный повтор», а уроки подсказывают, что тренировать",
     "returnReasons": [
       "Новый прогон перед выступлением",
       "Повтор отмеченного слабого момента",
-      "Сравнение динамики нескольких сессий"
+      "Новый выпуск урока в подписках"
     ],
     "verticalSlice": {
       "entry": "phone",
@@ -33,112 +33,253 @@
     ],
     "nonGoals": [
       "Автоматическое написание речи",
-      "Публикация видео",
+      "Публикация прогонов в ленту",
       "Облачная командная работа"
     ]
   },
   "positioning": {
-    "mode": "differentiation",
-    "categoryFit": "Инструмент подготовки и повторения выступлений соответствует категории Productivity",
+    "mode": "mimicry",
+    "categoryFit": "Запись видео со звуком, разбор, просмотр уроков, AirPlay и экспорт в «Фото» — ядро Photo & Video, как у ВК Видео",
     "familiarPatterns": [
-      "Запись камерой",
-      "Таймлайн воспроизведения",
-      "Архив прогонов"
+      "Лента видеокарточек 16:9 с длительностью и прогрессом просмотра",
+      "Подписки на авторов уроков с отметкой новых выпусков",
+      "Плеер с автором, «Дальше», AirPlay и фоновым звуком"
     ],
     "distinctions": [
-      "Таймлайн размечает структуру речи",
-      "Повторяется только слабый фрагмент",
-      "Анализ остаётся локальным на устройстве"
+      "Главный контент — собственные прогоны, а не чужие ролики",
+      "Таймлайн размечен блоками выступления и метками, а не главами ролика",
+      "Главное действие — повторить слабый блок, а не досмотреть"
     ],
     "evidenceScreens": [
       "today",
       "recording",
       "analysis",
-      "moment"
+      "moment",
+      "setup"
+    ],
+    "referencePatterns": [
+      "video-feed",
+      "channels",
+      "immersive-player",
+      "capture-publish"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "video-feed",
+        "screen": "today",
+        "behavior": "Главная: ближайшее выступление, последний прогон как видеокарточка с прогрессом и лента уроков"
+      },
+      {
+        "pattern": "channels",
+        "screen": "subs",
+        "behavior": "Подписки: авторы уроков с точкой нового выпуска и лента новых выпусков"
+      },
+      {
+        "pattern": "immersive-player",
+        "screen": "lesson",
+        "behavior": "Плеер урока держит автора, «Попробовать в прогоне» и очередь «Дальше»"
+      },
+      {
+        "pattern": "capture-publish",
+        "screen": "setup",
+        "behavior": "Проверка кадра и звука, затем запись прогона камерой; публикации нет, только сохранение в «Фото»"
+      }
     ]
   },
   "brand": {
     "accent": "#0077FF",
     "accentDark": "#0077FF",
-    "fonts": "Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600"
+    "theme": "vk-dark",
+    "fonts": "Inter:wght@400;500;600;700"
   },
   "start": "phone",
-  "tabs": [],
+  "tabs": [
+    {
+      "id": "today",
+      "label": "Главная",
+      "role": "home"
+    },
+    {
+      "id": "subs",
+      "label": "Подписки",
+      "role": "subscriptions"
+    },
+    {
+      "id": "history",
+      "label": "Профиль",
+      "role": "profile"
+    }
+  ],
   "permissions": [
     {
+      "risk": "low",
+      "anchor": true,
+      "conditional": false,
       "key": "camera",
       "plist": "NSCameraUsageDescription",
       "alert": {
         "title": "«Репетиция» запрашивает доступ к камере",
-        "text": "Чтобы показать композицию кадра перед беззвучным видеопрогоном."
+        "text": "Камера записывает прогон, чтобы вы увидели жесты, взгляд и кадр в разборе."
       },
-      "feature": "Проверка кадра",
-      "gesture": "«Проверить кадр»",
+      "feature": "Видеозапись прогона",
+      "gesture": "«Проверить кадр и звук» в настройке прогона",
       "screen": "setup",
       "target": "frame",
-      "fallback": "Прогон по таймеру запускается без видео",
-      "snack": "Камера недоступна — остаётся таймер",
+      "fallback": "Прогон идёт по таймеру со звуком, без видео",
+      "snack": "Камера недоступна — запишем только звук",
+      "grounding": "AVCaptureSession + Vision для сетки кадра и горизонта"
+    },
+    {
       "risk": "low",
       "anchor": true,
       "conditional": false,
-      "grounding": "AVCaptureSession + Vision для сетки кадра; без записи звука"
+      "key": "mic",
+      "plist": "NSMicrophoneUsageDescription",
+      "alert": {
+        "title": "«Репетиция» запрашивает доступ к микрофону",
+        "text": "Микрофон записывает голос в прогоне: по нему считаются паузы, темп и границы блоков."
+      },
+      "feature": "Звук прогона: паузы, темп и уровень голоса",
+      "gesture": "«Проверить кадр и звук» — вместе с камерой",
+      "screen": "setup",
+      "target": "frame",
+      "fallback": "Прогон пишется без звука, паузы и темп не считаются",
+      "snack": "Микрофон выключен — видео без звука",
+      "grounding": "AVAudioSession, уровень и паузы считаются на устройстве"
     },
     {
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
       "key": "photo",
       "plist": "NSPhotoLibraryUsageDescription",
       "alert": {
         "title": "«Репетиция» запрашивает доступ к «Фото»",
-        "text": "Чтобы выбрать один ранее записанный видеопрогон для локального разбора."
+        "text": "Чтобы добавить прогон, который снял кто-то другой, и разобрать его по блокам."
       },
-      "feature": "Импорт одного прогона",
-      "gesture": "«Импортировать видео» в истории",
+      "feature": "Импорт прогона из «Фото»",
+      "gesture": "«Добавить прогон из Фото» в профиле",
       "screen": "history",
-      "target": "analysis",
-      "fallback": "Можно начать новый прогон или открыть локальную историю",
-      "snack": "Нет доступа к «Фото» — история остаётся доступна",
-      "risk": "low",
-      "anchor": true,
-      "conditional": false,
-      "grounding": "PHPicker отдаёт только выбранный файл; анализ идёт на устройстве"
+      "target": "import",
+      "fallback": "Новый прогон записывается с главной",
+      "snack": "Нет доступа к «Фото»",
+      "grounding": "PHPickerViewController; доступ к одному выбранному ролику"
     },
     {
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "key": "photoadd",
+      "plist": "NSPhotoLibraryAddUsageDescription",
+      "alert": {
+        "title": "«Репетиция» хочет добавить видео в «Фото»",
+        "text": "Чтобы сохранить фрагмент прогона и показать его тренеру или коллегам."
+      },
+      "feature": "Сохранить фрагмент прогона в «Фото»",
+      "gesture": "Кнопка сохранения на экране момента",
+      "screen": "moment",
+      "target": "moment",
+      "fallback": "Фрагмент остаётся в истории прогонов",
+      "snack": "Сохранение в «Фото» запрещено",
+      "grounding": "PHPhotoLibrary.performChanges только на добавление"
+    },
+    {
+      "risk": "low",
+      "anchor": false,
+      "conditional": false,
+      "key": "location",
+      "plist": "NSLocationWhenInUseUsageDescription",
+      "alert": {
+        "title": "Разрешить «Репетиции» использовать вашу геопозицию?",
+        "text": "Чтобы найти площадку выступления рядом и посчитать время в пути."
+      },
+      "feature": "Площадка выступления рядом с вами",
+      "gesture": "Строка «Площадка» в настройке прогона",
+      "screen": "setup",
+      "target": "place",
+      "fallback": "Площадка ищется по названию или адресу",
+      "snack": "Геопозиция выключена — ищите площадку по названию",
+      "grounding": "CLLocationManager + MKLocalSearch, координаты не сохраняются"
+    },
+    {
+      "risk": "medium",
+      "anchor": false,
+      "conditional": false,
+      "key": "localnet",
+      "plist": "NSLocalNetworkUsageDescription (+ NSBonjourServices)",
+      "alert": {
+        "title": "«Репетиция» запрашивает доступ к локальной сети",
+        "text": "Чтобы найти телевизор в переговорной и разобрать прогон на большом экране."
+      },
+      "feature": "Разбор прогона на телевизоре",
+      "gesture": "Кнопка AirPlay в разборе",
+      "screen": "analysis",
+      "target": "cast",
+      "fallback": "Разбор продолжается на iPhone",
+      "snack": "Телевизоры недоступны",
+      "grounding": "Bonjour discovery и системный route picker"
+    },
+    {
+      "risk": "high",
+      "anchor": false,
+      "conditional": true,
       "key": "audio",
       "plist": "UIBackgroundModes: audio",
       "alert": {
         "title": "Фоновое аудио",
-        "text": "Локальная дорожка прогона и голосовые подсказки продолжат звучать при блокировке."
+        "text": "Системного алерта нет: дорожка блока продолжает играть с погашенным экраном."
       },
-      "activate": true,
-      "feature": "Повтор фрагмента с погашенным экраном",
-      "gesture": "«Слушать с погашенным экраном»",
+      "feature": "Слушать блок с погашенным экраном",
+      "gesture": "«Слушать в фоне» на экране момента",
       "screen": "moment",
       "target": "session",
-      "fallback": "Дорожка и подсказки играют только пока приложение открыто",
-      "risk": "high",
-      "anchor": true,
-      "conditional": true,
-      "requires": "AVPlayer реально играет локальный файл; Now Playing и play/pause доступны на экране блокировки",
-      "grounding": "AVAudioSession .playback + MPNowPlayingInfoCenter; никакого стриминга"
+      "fallback": "Дорожка играет, пока приложение открыто",
+      "snack": "Фоновое аудио выключено",
+      "grounding": "AVAudioSession .playback + MPNowPlayingInfoCenter",
+      "activate": true,
+      "requires": "AVAudioSession .playback + Now Playing + remote commands"
     },
     {
-      "key": "push",
-      "plist": "aps-environment",
-      "alert": {
-        "title": "«Репетиция» запрашивает уведомления",
-        "text": "Чтобы напомнить о запланированном прогоне на этом устройстве."
-      },
-      "feature": "Напоминание о запланированном прогоне",
-      "gesture": "Свитч «Напомнить вечером»",
-      "screen": "settings",
-      "target": "settings",
-      "fallback": "План на сегодня остаётся на главном экране",
-      "snack": "Уведомления выключены — план виден в приложении",
-      "snackOnce": true,
       "risk": "low",
       "anchor": false,
       "conditional": true,
-      "requires": "Регистрация в APNs и запланированный push через панель провайдера",
-      "grounding": "APNs через SDK провайдера; собственного API нет"
+      "key": "push",
+      "plist": "aps-environment (Push Notifications capability)",
+      "alert": {
+        "title": "Разрешить «Репетиции» отправлять уведомления?",
+        "text": "Сообщим о новых выпусках уроков от авторов, на которых вы подписаны."
+      },
+      "feature": "Уведомление о новом выпуске урока",
+      "gesture": "Свитч «Новые выпуски» в подписках",
+      "screen": "subs",
+      "target": "subs",
+      "fallback": "Новые выпуски отмечены точкой у автора",
+      "snack": "Уведомления выключены — отметим новые выпуски точкой",
+      "snackOnce": true,
+      "requires": "Регистрация в APNs и подписка на темы авторов, отправка из панели провайдера",
+      "grounding": "FCM topics по авторам уроков, собственного сервера нет"
+    },
+    {
+      "risk": "medium",
+      "anchor": false,
+      "conditional": true,
+      "key": "tracking",
+      "plist": "NSUserTrackingUsageDescription",
+      "alert": {
+        "title": "Разрешить «Репетиции» отслеживать ваши действия в приложениях и на сайтах других компаний?",
+        "text": "Данные будут использоваться для показа релевантной рекламы.",
+        "deny": "Запретить отслеживание",
+        "grant": "Разрешить"
+      },
+      "feature": "Бесплатная версия с рекламой по интересам",
+      "gesture": "«Показывать по интересам» на экране «Реклама»",
+      "screen": "ads",
+      "target": "settings",
+      "fallback": "Показывается обычная реклама, прогоны и уроки доступны",
+      "snack": "Будем показывать обычную рекламу",
+      "snackOnce": true,
+      "requires": "ATT показывается после собственного экрана с выбором; IDFA передаётся только рекламному SDK",
+      "grounding": "Рекламный SDK с контекстной рекламой без IDFA при отказе"
     }
   ],
   "screens": [
@@ -173,11 +314,65 @@
     },
     {
       "id": "today",
-      "title": "Сегодня",
-      "type": "корневая рабочая поверхность",
+      "title": "Главная",
+      "type": "tab (root, start)",
       "light": false,
       "parent": "phone",
-      "meta": "Старт без запросов доступов",
+      "meta": "Ближайшее выступление, последний прогон, уроки",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "subs",
+      "title": "Подписки",
+      "type": "tab (root)",
+      "light": false,
+      "parent": "today",
+      "meta": "Авторы уроков и новые выпуски",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "history",
+      "title": "Профиль",
+      "type": "tab (root)",
+      "light": false,
+      "parent": "today",
+      "meta": "Мои прогоны и импорт из «Фото»",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "lesson",
+      "title": "Урок",
+      "type": "push",
+      "light": false,
+      "parent": "subs",
+      "meta": "Плеер урока и «Дальше»",
       "ui": {
         "states": [
           "default",
@@ -191,11 +386,29 @@
     },
     {
       "id": "setup",
-      "title": "Настройка",
+      "title": "Прогон",
       "type": "push",
       "light": false,
       "parent": "today",
-      "meta": "Цель и длительность",
+      "meta": "План, площадка, кадр и звук",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "place",
+      "title": "Площадка",
+      "type": "push",
+      "light": false,
+      "parent": "setup",
+      "meta": "Площадки рядом по геопозиции",
       "ui": {
         "states": [
           "default",
@@ -209,11 +422,11 @@
     },
     {
       "id": "frame",
-      "title": "Проверка кадра",
-      "type": "полноэкранная камера",
+      "title": "Кадр и звук",
+      "type": "fullscreen",
       "light": false,
       "parent": "setup",
-      "meta": "Camera · без фото",
+      "meta": "Камера, горизонт, свет и уровень голоса",
       "ui": {
         "states": [
           "default",
@@ -227,11 +440,11 @@
     },
     {
       "id": "recording",
-      "title": "Прогон",
-      "type": "рабочий таймер",
+      "title": "Идёт прогон",
+      "type": "fullscreen",
       "light": false,
       "parent": "setup",
-      "meta": "Беззвучный таймер и метки",
+      "meta": "Запись с камерой и микрофоном",
       "ui": {
         "states": [
           "default",
@@ -249,7 +462,7 @@
       "type": "состояние записи",
       "light": false,
       "parent": "recording",
-      "meta": "Продолжить или завершить",
+      "meta": "Остаток плана и метки",
       "ui": {
         "states": [
           "default",
@@ -264,10 +477,10 @@
     {
       "id": "analysis",
       "title": "Разбор",
-      "type": "временная шкала",
+      "type": "push",
       "light": false,
       "parent": "recording",
-      "meta": "Темп · паузы · структура",
+      "meta": "Видео прогона, блоки и находки",
       "ui": {
         "states": [
           "default",
@@ -282,10 +495,10 @@
     {
       "id": "moment",
       "title": "Момент выступления",
-      "type": "push фрагмента",
+      "type": "push",
       "light": false,
       "parent": "analysis",
-      "meta": "Повтор слабого места",
+      "meta": "Блок, повтор, фон и сохранение в «Фото»",
       "ui": {
         "states": [
           "default",
@@ -298,12 +511,12 @@
       }
     },
     {
-      "id": "history",
-      "title": "История",
-      "type": "push из navigation bar",
+      "id": "cast",
+      "title": "AirPlay",
+      "type": "system",
       "light": false,
-      "parent": "today",
-      "meta": "Локальные прогоны · Photo",
+      "parent": "analysis",
+      "meta": "Разбор на большом экране",
       "ui": {
         "states": [
           "default",
@@ -318,10 +531,28 @@
     {
       "id": "session",
       "title": "Экран блокировки",
-      "type": "системная поверхность",
+      "type": "system",
+      "light": false,
+      "parent": "moment",
+      "meta": "Дорожка блока в фоне",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "import",
+      "title": "Видео",
+      "type": "system picker",
       "light": false,
       "parent": "history",
-      "meta": "Now Playing · фоновая дорожка блока",
+      "meta": "Один прогон из «Фото»",
       "ui": {
         "states": [
           "default",
@@ -336,10 +567,28 @@
     {
       "id": "settings",
       "title": "Настройки",
-      "type": "sheet из navigation bar",
+      "type": "push",
       "light": false,
-      "parent": "today",
-      "meta": "Приватность и данные",
+      "parent": "history",
+      "meta": "Аккаунт, запись, реклама, хранилище",
+      "ui": {
+        "states": [
+          "default",
+          "loading",
+          "empty",
+          "error",
+          "offline",
+          "denied"
+        ]
+      }
+    },
+    {
+      "id": "ads",
+      "title": "Реклама",
+      "type": "push",
+      "light": false,
+      "parent": "settings",
+      "meta": "ATT после собственного экрана",
       "ui": {
         "states": [
           "default",
@@ -357,131 +606,120 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "11 экранов и 4 доступов",
+      "note": "17 экранов и 9 доступов",
       "start": "phone",
       "screens": [
         "phone",
         "today",
+        "subs",
+        "history",
+        "lesson",
         "setup",
+        "place",
         "frame",
         "recording",
         "paused",
         "analysis",
         "moment",
-        "history",
+        "cast",
         "session",
-        "settings"
+        "import",
+        "settings",
+        "ads"
       ],
       "stops": [],
       "authTarget": "today"
     },
     {
-      "id": "signin",
-      "label": "Регистрация по почте",
-      "note": "Создание аккаунта по почте и сразу переход в продукт",
-      "start": "phone",
-      "screens": [
-        "phone",
-        "today"
-      ],
-      "stops": [
-        "today"
-      ],
-      "authTarget": "today"
-    },
-    {
       "id": "run",
       "label": "Новый прогон",
-      "note": "Настройка → кадр → таймер → разбор",
+      "note": "Настройка → кадр и звук → запись → разбор",
       "start": "setup",
       "screens": [
         "setup",
+        "place",
         "frame",
         "recording",
         "paused",
-        "analysis",
-        "moment"
+        "analysis"
       ],
       "stops": [
-        "moment"
+        "analysis"
       ]
     },
     {
       "id": "review",
       "label": "Разбор момента",
-      "note": "Временная шкала и точечный повтор",
+      "note": "Таймлайн, AirPlay, точечный повтор и фон",
       "start": "analysis",
       "screens": [
         "analysis",
         "moment",
+        "cast",
+        "session",
         "setup",
-        "frame",
-        "recording",
-        "session"
+        "recording"
       ],
       "stops": [
+        "setup",
         "recording"
       ]
     },
     {
-      "id": "archive",
-      "label": "История и импорт",
-      "note": "Локальные прогоны и один файл из «Фото»",
+      "id": "lessons",
+      "label": "Уроки",
+      "note": "Подписки, выпуск и переход в прогон",
+      "start": "subs",
+      "screens": [
+        "subs",
+        "lesson",
+        "setup"
+      ],
+      "stops": [
+        "setup"
+      ]
+    },
+    {
+      "id": "profile",
+      "label": "Профиль и реклама",
+      "note": "История, импорт из «Фото», настройки и ATT",
       "start": "history",
       "screens": [
         "history",
-        "session",
+        "import",
         "analysis",
-        "moment",
-        "setup",
-        "frame",
-        "recording"
-      ],
-      "stops": [
-        "moment",
-        "recording"
-      ]
-    },
-    {
-      "id": "privacy",
-      "label": "Настройки",
-      "note": "Локальное хранение и внешние возможности",
-      "start": "settings",
-      "screens": [
         "settings",
-        "setup",
-        "frame",
-        "recording"
+        "ads"
       ],
       "stops": [
-        "recording"
+        "analysis"
       ]
     }
   ],
   "backendless": [
     {
-      "needs": "Учёт прогонов",
+      "needs": "Учёт прогонов и меток",
       "solution": "SwiftData на устройстве"
     },
     {
-      "needs": "Аудио и видео",
-      "solution": "Локальные файлы в Application Support; никакого стриминга"
+      "needs": "Видео и звук прогонов",
+      "solution": "Локальные файлы в Application Support; в сеть не уходят"
     },
     {
-      "needs": "Разбор прогона",
-      "solution": "Vision и метки по таймкодам на устройстве"
+      "needs": "Разбор по блокам",
+      "solution": "Паузы и уровень голоса на устройстве, метки по таймкодам"
     },
     {
-      "needs": "Напоминания",
-      "solution": "SDK push-провайдера без своего API"
+      "needs": "Уроки",
+      "solution": "Статичные HLS-файлы в Storage провайдера, каталог — JSON в том же хранилище"
     },
     {
-      "needs": "Регистрация по почте и сессия",
-      "solution": "SDK провайдера аутентификации по почте, токен в Keychain общей группы"
+      "needs": "Уведомления о выпусках",
+      "solution": "FCM topics по авторам, отправка из панели провайдера"
     },
     {
-      "needs": "Перенос данных",
-      "solution": "Явный экспорт одного архива через Share Sheet"
+      "needs": "Реклама",
+      "solution": "Рекламный SDK; без согласия ATT — контекстная"
     }
   ],
   "docs": [
@@ -511,37 +749,54 @@
     }
   ],
   "appStore": {
-    "name": "Репетиция: тренер речи",
-    "subtitle": "Найдите слабое место",
-    "promo": "Запишите выступление, увидьте темп и паузы, а затем повторите только слабый фрагмент. Всё остаётся на устройстве.",
-    "keywords": "оратор,презентация,дикция,темп,пауза,голос,запись",
+    "name": "Репетиция: прогон на видео",
+    "subtitle": "Запись, разбор и уроки",
+    "promo": "Запишите прогон на камеру, увидьте, какой блок затянулся, и повторите только его. Уроки от школ выступлений — в подписках.",
+    "keywords": "выступление,презентация,питч,доклад,оратор,тайминг,урок,речь,камера",
     "category": {
-      "primary": "Productivity",
+      "primary": "Photo & Video",
       "secondary": "Education"
     },
     "ageRating": "13+",
-    "price": "Бесплатно, без встроенных покупок",
-    "encryption": "ITSAppUsesNonExemptEncryption = NO — только системные APNs и HTTPS для статики",
+    "price": "Бесплатно, с рекламой",
+    "encryption": "ITSAppUsesNonExemptEncryption = NO — только HTTPS и системные APNs",
     "urls": {
       "support": "страница поддержки в App Store",
       "marketing": "не используется",
       "privacy": "политика в App Store"
     },
     "description": [
-      "«Репетиция» помогает уложить структуру выступления во время и увидеть композицию кадра.",
-      "Прогон по плану\nЗадайте целевую длительность и пройдите одну попытку по таймеру.",
-      "Разбор по моментам\nВременная шкала покажет, где блок затянулся и где нужен повтор.",
-      "Приватно по умолчанию\nПланы, видео и метки хранятся на вашем iPhone."
+      "«Репетиция» записывает прогон выступления на видео и показывает, где он просел.",
+      "Прогон по плану\nРазбейте выступление на блоки, проверьте кадр и звук и запишите попытку.",
+      "Разбор по блокам\nТаймлайн покажет, какой блок затянулся, а метки — где вы сбились.",
+      "Точечный повтор\nПовторите только слабый блок, послушайте его с погашенным экраном или покажите на телевизоре.",
+      "Уроки\nПодпишитесь на школы выступлений и получайте новые выпуски."
     ],
-    "whatsNew": "Первая версия: запись, локальный разбор, история и импорт одного видео.",
+    "whatsNew": "Видеопрогон со звуком, уроки и подписки, AirPlay, сохранение фрагмента в «Фото».",
     "privacy": [
       {
-        "type": "Электронная почта",
-        "apple": "Contact Info → Email Address",
-        "purpose": "Работа приложения",
-        "linked": true,
+        "type": "Геопозиция",
+        "apple": "Location → Coarse Location",
+        "purpose": "Функциональность",
+        "linked": false,
         "tracking": false,
-        "why": "Регистрация и восстановление доступа через SDK провайдера аутентификации"
+        "why": "Площадка выступления рядом; координаты не сохраняются"
+      },
+      {
+        "type": "Идентификатор устройства",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Реклама",
+        "linked": false,
+        "tracking": true,
+        "why": "Передаётся рекламному SDK только после согласия в ATT"
+      },
+      {
+        "type": "Токен push-уведомлений",
+        "apple": "Identifiers → Device ID",
+        "purpose": "Работа приложения",
+        "linked": false,
+        "tracking": false,
+        "why": "Подписка на темы авторов уроков через FCM"
       }
     ],
     "reviewAccount": {

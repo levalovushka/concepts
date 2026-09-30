@@ -8,7 +8,8 @@
     "iphone-6.9",
     "iphone-6.5",
     "iphone-6.3",
-    "iphone-6.1"
+    "iphone-6.1",
+    "ipad-13-landscape"
   ],
   "screens": [
     {
@@ -70,6 +71,14 @@
       "source": "phone",
       "orientation": "portrait",
       "required": false
+    },
+    "ipad-13-landscape": {
+      "label": "iPad 13″",
+      "width": 2752,
+      "height": 2064,
+      "source": "ipad",
+      "orientation": "landscape",
+      "required": true
     }
   }
 }

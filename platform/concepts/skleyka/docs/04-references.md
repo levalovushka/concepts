@@ -7,6 +7,6 @@
 - [PhotoKit](https://developer.apple.com/documentation/photokit) и [document picker](https://developer.apple.com/documentation/uikit/view_controllers/providing_access_to_directories): пользователь явно выбирает локальные источники; приложение не сканирует удалённую библиотеку.
 - [AVFoundation](https://developer.apple.com/av-foundation/) и [Vision](https://developer.apple.com/documentation/vision): длительность, тайминг, ориентация и визуальное сравнение доступны on-device.
 
-Из VK Видео взяты крупный первый видеокадр, плотные метаданные, immersive player, Cast, capture/import и timeline. Не взяты публичная лента, каналы, подписки, реакции, аккаунт и удалённый каталог.
+Режим — мимикрия ВК Видео. Из него взяты тёмная оболочка и токены VKUI `vkontakteIOSDark`, шапка с логотипом и аватаром, чипсы-фильтры, видеокарточка 16:9 с длительностью и прогрессом, страница как у канала, плеер с Cast и «Дальше», таб-бар «Главная · Фильмы · Профиль». Не взяты публичная лента, подписки на авторов, реакции и удалённый каталог.
 
 Справки CapCut подтверждают композицию preview над горизонтальным timeline и отдельное намерение export. «Склейка» оставляет только порядок и удаление.

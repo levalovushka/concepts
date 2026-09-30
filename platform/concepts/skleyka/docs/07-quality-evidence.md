@@ -8,7 +8,8 @@ Apple system sharing не даёт приложению статус доста�
 
 1. «Приглашение» могло маскировать облачный проект — заменено на карточку без получателей и ответов; evidence: invite, share.
 2. Автосборка могла скрывать серверный монтаж — UI показывает local files, metadata, Vision и FileManager; evidence: project, processing, draft.
-3. Библиотека могла требовать аккаунт — root содержит документы и экспорты этого iPhone; evidence: projects, archive, settings.
+3. Библиотека могла требовать аккаунт — вход опционален, root содержит документы и экспорты этого iPhone; evidence: projects, archive, settings.
+4. Реклама могла включать трекинг молча — экран «Реклама» объясняет выбор до ATT, по умолчанию обычная; evidence: ads.
 
 ## Data provenance по каждому экрану
 
@@ -16,7 +17,8 @@ Apple system sharing не даёт приложению статус доста�
 |---|---|
 | `projects` | Core Data с локальными описаниями проектов + превью и размеры из FileManager. |
 | `archive` | Локальные export-файлы в контейнере приложения; список строится из FileManager. |
-| `settings` | Размеры директорий FileManager и локальные флаги настроек; аккаунтного профиля нет. |
+| `settings` | Размеры директорий FileManager, локальные флаги, номер из SDK входа, если аккаунт создан; подписка на FCM topic шаблонов. |
+| `ads` | Выбор пользователя хранится локально; IDFA читается рекламным SDK только после ATT. |
 | `create` | Ввод пользователя; обложка bundled; после сохранения — новая Core Data запись. |
 | `place` | Одноразовый результат Core Location или ручная строка, сохраняемая только в проект. |
 | `project` | Core Data + локальные video URLs, Photos asset identifiers и security-scoped Files bookmarks. |

@@ -3,7 +3,7 @@
   "slug": "skleyka",
   "locale": "ru-RU",
   "template": "studio",
-  "tone": "light",
+  "tone": "dark",
   "devices": [
     "iphone-6.9",
     "iphone-6.5",

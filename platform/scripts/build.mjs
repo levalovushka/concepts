@@ -172,7 +172,8 @@ const dvorAccountAuthScreens = (spec, target) => {
 };
 
 const accountAuthScreens = (spec, target, light = true, sourceClasses = "") => {
-  const surface = light ? " ios-surface" : "";
+  const surface =
+    spec.brand?.theme === "vk-dark" ? " vkd" : light ? " ios-surface" : "";
   const inherited = sourceClasses
     .split(/\s+/)
     .filter((name) => name && !["screen", "is-on"].includes(name))
@@ -610,7 +611,8 @@ export function prepareEmailRegistration(sourceSpec, sourceMarkup) {
     "shellac",
     "strochka",
   ]);
-  const authLight = darkAuth.has(spec.slug)
+  const vkDark = spec.brand?.theme === "vk-dark";
+  const authLight = darkAuth.has(spec.slug) || vkDark
     ? false
     : (sourcePhone?.light ?? true);
   const sourceAuthClasses =

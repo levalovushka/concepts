@@ -7,7 +7,8 @@
   "brand": {
     "accent": "#0077FF",
     "accentDark": "#0077FF",
-    "fonts": "Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500"
+    "theme": "vk-dark",
+    "fonts": "Inter:wght@400;500;600;700"
   },
   "deck": "Дыхательные сессии, в которых музыка задаёт ритм без лишних инструкций. Пять системных интеграций включаются только в контексте функции.",
   "eyebrow": "Дыхание · Lifestyle · iOS",
@@ -20,33 +21,32 @@
   "tabs": [
     {
       "id": "home",
-      "label": "Главная"
+      "label": "Главная",
+      "role": "home"
     },
     {
       "id": "discover",
-      "label": "Обзор"
+      "label": "Обзор",
+      "role": "search"
     },
     {
       "id": "library",
-      "label": "Моё"
-    },
-    {
-      "id": "profile",
-      "label": "Профиль"
+      "label": "Любимое",
+      "role": "library"
     }
   ],
   "positioning": {
-    "mode": "differentiation",
-    "categoryFit": "Музыкальная сессия — бытовой ритуал без медицинских обещаний, поэтому основная категория Lifestyle, а грамматика близка VK Музыке",
+    "mode": "mimicry",
+    "categoryFit": "Музыкальная сессия с дыхательным рисунком: слушают как альбом в ВК Музыке, поэтому Music стоит второй категорией рядом с Lifestyle",
     "familiarPatterns": [
-      "полноэкранный аудиоплеер",
-      "сохранённая библиотека",
-      "персональная витрина и поиск по настроению"
+      "Главная с героем «слушать сейчас», плитками-входами и лентой «Продолжить»",
+      "Мини-плеер над таб-баром и полноэкранный плеер с обложкой",
+      "Карточка релиза: обложка, «Слушать», треклист и похожие"
     ],
     "distinctions": [
-      "Главная сущность — законченная дыхательная сессия, а не отдельный трек или плейлист",
-      "Музыкальный рисунок заменяет постоянные голосовые подсказки",
-      "Нет оценок, серий и соревновательных метрик"
+      "Главная сущность — законченная дыхательная сессия с фазами, а не трек или плейлист",
+      "Музыкальный сигнал вдоха и выдоха заменяет голосовые подсказки",
+      "Нет оценок, серий и соревновательных метрик — только время и ритм"
     ],
     "evidenceScreens": [
       "home",
@@ -56,10 +56,38 @@
       "background"
     ],
     "referencePatterns": [
-      "guided-session",
-      "generative-audio",
+      "release-detail",
+      "audio-player",
       "background-playback",
-      "ambient-capture"
+      "audio-library",
+      "search-discovery"
+    ],
+    "referenceEvidence": [
+      {
+        "pattern": "release-detail",
+        "screen": "detail",
+        "behavior": "Обложка по центру, кнопка «Слушать», фазы сессии вместо треклиста и лента похожих"
+      },
+      {
+        "pattern": "audio-player",
+        "screen": "player",
+        "behavior": "Полноэкранный плеер: обложка с дыхательным кругом, прогресс, ±15 секунд, сохранить в «Любимое»"
+      },
+      {
+        "pattern": "background-playback",
+        "screen": "background",
+        "behavior": "Сессия продолжается на локскрине с Now Playing и текущей фазой дыхания"
+      },
+      {
+        "pattern": "audio-library",
+        "screen": "library",
+        "behavior": "«Любимое»: последняя сессия, сохранённые со статусом скачивания и история прослушиваний"
+      },
+      {
+        "pattern": "search-discovery",
+        "screen": "discover",
+        "behavior": "Обзор: поиск по состоянию, чипсы настроений, выбор редакции и сетка обложек"
+      }
     ]
   },
   "product": {
@@ -153,7 +181,7 @@
         "text": "Только выбранные новинки и напоминания."
       },
       "feature": "Персональные новинки",
-      "gesture": "Свитч «Новое для меня»",
+      "gesture": "Свитч «Напоминания» в профиле",
       "screen": "profile",
       "target": "profile",
       "fallback": "Новинки видны в главной витрине",
@@ -215,7 +243,7 @@
     },
     {
       "id": "home",
-      "title": "Сейчас",
+      "title": "Главная",
       "type": "tab (root, start)",
       "light": false,
       "meta": "Персональная витрина",
@@ -241,7 +269,7 @@
     },
     {
       "id": "discover",
-      "title": "Поиск",
+      "title": "Обзор",
       "type": "tab (root)",
       "light": false,
       "meta": "Категории и поиск",
@@ -276,7 +304,7 @@
       "ui": {
         "pattern": "detail",
         "purpose": "Понять контекст и начать",
-        "primaryAction": "Начать сессию",
+        "primaryAction": "Слушать",
         "states": [
           "default",
           "loading",
@@ -349,10 +377,10 @@
     },
     {
       "id": "library",
-      "title": "Моё",
+      "title": "Любимое",
       "type": "tab (root)",
       "light": false,
-      "meta": "Сохранённые сессии и история",
+      "meta": "Сохранённые, скачанные и история",
       "parent": "home",
       "ui": {
         "pattern": "collection",
@@ -432,7 +460,7 @@
       "id": "pick",
       "title": "Фото",
       "type": "system picker",
-      "light": true,
+      "light": false,
       "meta": "Photo Library",
       "parent": "studio",
       "ui": {
@@ -465,7 +493,7 @@
       "ui": {
         "pattern": "state",
         "purpose": "Спокойно завершить сессию без оценок и серий",
-        "primaryAction": "Сохранить в «Моё»",
+        "primaryAction": "Сохранить в «Любимое»",
         "states": [
           "default",
           "loading",
@@ -485,7 +513,7 @@
     {
       "id": "profile",
       "title": "Профиль",
-      "type": "tab (root)",
+      "type": "push",
       "light": false,
       "meta": "Push, links, audio",
       "parent": "home",
@@ -506,7 +534,8 @@
           "основной сценарий",
           "длинный контент",
           "нет сети или доступ запрещён"
-        ]
+        ],
+        "navigation": "push"
       }
     },
     {
