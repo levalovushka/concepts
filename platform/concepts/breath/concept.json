@@ -10,7 +10,7 @@
     "theme": "vk-dark",
     "fonts": "Inter:wght@400;500;600;700"
   },
-  "deck": "Дыхательные сессии, в которых музыка задаёт ритм без лишних инструкций. Пять системных интеграций включаются только в контексте функции.",
+  "deck": "Дыхательные сессии, в которых музыка задаёт ритм без лишних инструкций. Четыре системные интеграции включаются только в контексте функции.",
   "eyebrow": "Дыхание · Lifestyle · iOS",
   "heroTitle": "Дыхание",
   "heroDeck": "Выбрать состояние, включить музыкальную сессию и дышать в её ритме",
@@ -191,24 +191,6 @@
       "conditional": true,
       "requires": "Реальная регистрация APNs",
       "grounding": "APNs через SDK провайдера"
-    },
-    {
-      "key": "domains",
-      "plist": "com.apple.developer.associated-domains",
-      "alert": {
-        "title": "Universal Links",
-        "text": "Ссылки breath.space открываются в приложении."
-      },
-      "activate": true,
-      "feature": "Прямая ссылка на контент",
-      "gesture": "«Проверить ссылку» в профиле",
-      "screen": "profile",
-      "target": "deeplink",
-      "fallback": "Та же страница откроется в Safari",
-      "risk": "high",
-      "anchor": true,
-      "conditional": false,
-      "grounding": "Статический AASA на breath.space; только applinks"
     }
   ],
   "screens": [
@@ -549,62 +531,6 @@
       }
     },
     {
-      "id": "deeplink",
-      "title": "Открыто по ссылке",
-      "type": "modal",
-      "light": false,
-      "meta": "Universal Link",
-      "parent": "profile",
-      "ui": {
-        "pattern": "detail",
-        "purpose": "Открыть прямую ссылку",
-        "primaryAction": null,
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "medium",
-        "contentCases": [
-          "основной сценарий",
-          "длинный контент",
-          "нет сети или доступ запрещён"
-        ],
-        "navigation": "modal"
-      }
-    },
-    {
-      "id": "denied",
-      "title": "Нужен доступ",
-      "type": "state",
-      "light": false,
-      "meta": "Permission fallback",
-      "parent": "studio",
-      "ui": {
-        "pattern": "state",
-        "purpose": "Восстановиться после отказа",
-        "primaryAction": "Открыть Настройки",
-        "states": [
-          "default",
-          "loading",
-          "empty",
-          "error",
-          "offline",
-          "denied"
-        ],
-        "density": "low",
-        "contentCases": [
-          "основной сценарий",
-          "длинный контент",
-          "нет сети или доступ запрещён"
-        ],
-        "navigation": "push"
-      }
-    },
-    {
       "id": "search",
       "title": "Результаты",
       "type": "push",
@@ -638,7 +564,7 @@
       "id": "all",
       "hero": true,
       "label": "Весь продукт",
-      "note": "15 экранов и 5 доступов",
+      "note": "13 экранов и 4 доступа",
       "start": "phone",
       "screens": [
         "phone",
@@ -653,8 +579,6 @@
         "pick",
         "result",
         "profile",
-        "deeplink",
-        "denied",
         "search"
       ],
       "stops": [],
@@ -688,7 +612,6 @@
       "start": "studio",
       "screens": [
         "studio",
-        "denied",
         "capture",
         "pick",
         "home",
@@ -708,14 +631,11 @@
         "profile",
         "studio",
         "background",
-        "deeplink",
-        "denied",
         "capture",
         "pick"
       ],
       "stops": [
-        "studio",
-        "deeplink"
+        "studio"
       ]
     }
   ],
@@ -735,10 +655,6 @@
     {
       "needs": "Push",
       "solution": "APNs через дашборд провайдера"
-    },
-    {
-      "needs": "Universal Links",
-      "solution": "Статический AASA на breath.space"
     }
   ],
   "appStore": {

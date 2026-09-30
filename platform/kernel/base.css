@@ -1015,7 +1015,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 :where(.vkd) button { font:inherit; color:inherit; border:0; background:none; padding:0; text-align:inherit; -webkit-tap-highlight-color:transparent; }
 :where(.vkd) :is(h1,h2,h3,p) { margin:0; }
 :where(.vkd) svg { width:24px; height:24px; flex:none; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
-.vkd .vkd-fill-ico { fill:currentColor; stroke:none; }
+/* Залитые знаки со скруглёнными углами: заливка + круглая обводка */
+.vkd .vkd-fill-ico { fill:currentColor; stroke:currentColor; stroke-width:2; stroke-linejoin:round; }
 .vkd-sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 /* Строка с отдельным действием: основная часть — своя кнопка */
 .vkd-row-main { flex:1; min-width:0; display:flex; align-items:center; gap:12px; min-height:56px; }
@@ -1074,12 +1075,12 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 
 /* Круглый play: белый круг, чёрный знак */
 .vkd-play { width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:#fff; color:#000; }
-.vkd-play svg { width:24px; height:24px; fill:currentColor; stroke:none; margin-left:3px; }
+.vkd-play svg { width:22px; height:22px; fill:currentColor; stroke:currentColor; stroke-width:2.4; stroke-linejoin:round; margin-left:3px; }
 .vkd-play.is-pause svg { margin-left:0; }
 .vkd-play.is-xl { width:88px; height:88px; }
-.vkd-play.is-xl svg { width:36px; height:36px; }
+.vkd-play.is-xl svg { width:32px; height:32px; margin-left:4px; }
 .vkd-play.is-sm { width:44px; height:44px; }
-.vkd-play.is-sm svg { width:20px; height:20px; }
+.vkd-play.is-sm svg { width:18px; height:18px; }
 
 /* Секция: заголовок title1 и круглая стрелка «ещё» */
 .vkd-sec { margin-top:28px; }
