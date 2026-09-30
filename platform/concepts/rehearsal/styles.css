@@ -26,7 +26,7 @@
 .re-plan-legend { display:flex; justify-content:space-between; gap:8px; margin-top:8px; font:400 12px/14px var(--vkd-face); color:var(--vkd-text-2); font-variant-numeric:tabular-nums; }
 .re-next-actions { padding:0; margin-top:16px; gap:8px; }
 .re-next-actions > .vkd-btn:first-child { flex:2; }
-.re-ad { display:flex; align-items:center; gap:12px; width:calc(100% - 32px); margin:0 16px; padding:12px; border-radius:12px; background:var(--vkd-card); }
+.re-ad { display:flex; align-items:center; gap:12px; width:calc(100% - 32px); margin:0 16px; padding:8px; border-radius:16px; background:var(--vkd-card); }
 .re-ad-art { width:72px; height:48px; flex:none; border-radius:8px; }
 .re-date { width:56px; height:56px; flex:none; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:8px; background:var(--vkd-card); font:400 12px/14px var(--vkd-face); color:var(--vkd-text-2); }
 .re-date b { font:600 20px/24px var(--vkd-face); color:var(--vkd-text); }
@@ -57,7 +57,7 @@
 /* Настройка прогона */
 .re-setup-head { display:flex; flex-direction:column; gap:4px; padding:4px 16px 16px; }
 .re-num { width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:8px; background:var(--vkd-card); font:600 17px/22px var(--vkd-face); color:var(--vkd-text-2); }
-.re-num.is-over { color:var(--vkd-blue); }
+.re-num.is-over { color:var(--vkd-link); }
 .re-mark-t { font-size:14px; font-weight:500; }
 .re-bottom { margin-top:24px; }
 .re-bottom-sm { margin-top:12px; padding:0; }
@@ -98,7 +98,7 @@
 .re-rec-block span { font:400 16px/20px var(--vkd-face); color:rgba(255,255,255,.8); }
 .re-rec-next { margin-top:2px; font:400 14px/18px var(--vkd-face); color:rgba(255,255,255,.72); }
 .re-marks { display:flex; gap:10px; margin-top:14px; padding:10px 12px; border-radius:10px; background:rgba(25,25,26,.86); font:400 14px/18px var(--vkd-face); color:#fff; }
-.re-marks span { color:var(--vkd-blue); font-weight:500; }
+.re-marks span { color:var(--vkd-link); font-weight:500; }
 .re-rec-actions { padding:0; margin-top:14px; gap:12px; align-items:center; }
 .re-rec-actions > .vkd-play { flex:none; }
 
@@ -116,7 +116,7 @@
 .re-flag { position:absolute; top:-4px; bottom:-4px; width:2px; border-radius:1px; background:#fff; }
 .re-f1 { left:18%; } .re-f2 { left:46%; } .re-f3 { left:71%; }
 .re-analysis-head { display:flex; flex-direction:column; gap:4px; padding:16px 16px 0; }
-.re-delta { font-size:17px; color:var(--vkd-blue); }
+.re-delta { font-size:17px; color:var(--vkd-link); }
 .re-listen { margin-top:16px; }
 
 /* Системные листы */

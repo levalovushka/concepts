@@ -16,11 +16,10 @@
 .sk-wordmark { flex:1; display:flex; align-items:center; gap:8px; font:600 24px/28px var(--vkd-face); letter-spacing:-.01em; }
 .sk-logo { width:32px; height:32px; display:grid; place-items:center; border-radius:9px; background:var(--vkd-blue); color:#fff; }
 .sk-logo svg { width:18px; height:18px; stroke-width:2.2; }
-.sk-chips { margin-bottom:12px; }
 .sk-first { margin-top:4px; }
 .sk-place-ava { width:36px; height:36px; }
 .sk-place-ava svg { width:18px; height:18px; color:var(--vkd-text-2); }
-.sk-ad { display:flex; align-items:center; gap:12px; width:calc(100% - 32px); margin:0 16px; padding:12px; border-radius:12px; background:var(--vkd-card); }
+.sk-ad { display:flex; align-items:center; gap:12px; width:calc(100% - 32px); margin:0 16px; padding:8px; border-radius:16px; background:var(--vkd-card); }
 .sk-ad-art { width:72px; height:48px; flex:none; border-radius:8px; }
 
 /* Фильмы и профиль */
