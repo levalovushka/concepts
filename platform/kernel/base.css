@@ -1028,7 +1028,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 
 /* Типографика VKUI iOS: large 34 · title1 24 · title2 20 · title3 17 · text 16 · subhead 14 · footnote 13 · caption2 11 */
 .vkd-display { font:700 34px/41px var(--vkd-face); letter-spacing:-.02em; }
-.vkd-title { font:600 24px/28px var(--vkd-face); letter-spacing:-.01em; }
+.vkd-title { font:600 20px/26px var(--vkd-face); letter-spacing:-.01em; }
 .vkd-sub { font:400 14px/18px var(--vkd-face); color:var(--vkd-text-2); }
 .vkd-foot { font:400 13px/16px var(--vkd-face); color:var(--vkd-text-2); }
 .vkd-num { font-variant-numeric:tabular-nums; }
@@ -1043,7 +1043,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-avatar { width:36px; height:36px; flex:none; display:grid; place-items:center; border-radius:50%; background:var(--vkd-ph); color:var(--vkd-text); font:600 15px/1 var(--vkd-face); }
 .vkd-avatar.is-large { width:72px; height:72px; font-size:28px; }
 .vkd-large { display:flex; align-items:center; justify-content:space-between; min-height:56px; padding:6px 8px 6px 16px; margin-bottom:8px; }
-.vkd-large > h1 { font:700 34px/41px var(--vkd-face); letter-spacing:-.02em; }
+.vkd-large > h1 { font:600 24px/30px var(--vkd-face); letter-spacing:-.01em; }
 
 /* Навбар вложенного экрана: 44 · заголовок · 44 */
 .vkd-nav { position:relative; z-index:5; flex:none; display:grid; grid-template-columns:minmax(64px,auto) 1fr minmax(64px,auto); align-items:center; min-height:calc(var(--safe-top) + 44px); padding:var(--safe-top) 8px 0; }
@@ -1085,7 +1085,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 /* Секция: заголовок title1 и круглая стрелка «ещё» */
 .vkd-sec { margin-top:28px; }
 .vkd-sec-head { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding:0 8px 0 16px; margin-bottom:4px; }
-.vkd-sec-head > h2 { font:600 24px/28px var(--vkd-face); letter-spacing:-.01em; }
+.vkd-sec-head > h2 { font:600 18px/24px var(--vkd-face); letter-spacing:-.01em; }
 .vkd-sec-head > .vkd-foot { padding-right:8px; }
 
 /* Строка трека/видео: обложка 56 · две строки · действие */
