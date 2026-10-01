@@ -45,9 +45,6 @@
 .re-audio > svg { width:24px; height:24px; }
 
 /* Плеер урока и разбора */
-.re-player { position:relative; aspect-ratio:16/9; margin:0 16px; border-radius:12px; }
-.re-player-play { position:absolute; inset:0; display:grid; place-items:center; z-index:1; }
-.re-player .vkd-duration { right:8px; bottom:8px; }
 .re-lesson-copy { display:flex; flex-direction:column; gap:4px; padding:16px 16px 12px; }
 .re-author { display:flex; align-items:center; gap:12px; padding:4px 16px; }
 .re-lesson-actions, .re-moment-actions { margin-top:16px; gap:8px; }
@@ -157,3 +154,11 @@
 .re-now-controls .vkd-icon-btn svg { width:28px; height:28px; }
 .re-now-pause svg { width:34px!important; height:34px!important; }
 .re-open-app { position:absolute; left:0; right:0; bottom:calc(var(--safe-bottom) + 16px); min-height:44px; font:500 15px/20px var(--vkd-face); color:rgba(255,255,255,.8); text-align:center; }
+
+/* Кадры прогонов и уроков — нарисованы кодом (media.mjs): сцена, слайд, спикер */
+.re-fr1 { background-image:url(assets/media/frame-1.svg); background-size:cover; background-position:center; }
+.re-fr2 { background-image:url(assets/media/frame-2.svg); background-size:cover; background-position:center; }
+.re-fr3 { background-image:url(assets/media/frame-3.svg); background-size:cover; background-position:center; }
+.re-fr4 { background-image:url(assets/media/frame-4.svg); background-size:cover; background-position:center; }
+.re-fr5 { background-image:url(assets/media/frame-5.svg); background-size:cover; background-position:center; }
+.re-fr6 { background-image:url(assets/media/frame-6.svg); background-size:cover; background-position:center; }

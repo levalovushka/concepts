@@ -50,6 +50,8 @@ export const ICONS = [
   'banknote', 'log-in', 'log-out', 'user-check', 'circle-check',
   // тёмная мимикрия ВК: плеер, видео, запись, реклама
   'calendar-days', 'apple', 'skip-back', 'skip-forward', 'heart-plus', 'list-plus', 'shuffle', 'history', 'sliders-horizontal', 'film', 'clapperboard', 'folder', 'upload', 'smartphone', 'monitor', 'type', 'scissors', 'square-play', 'presentation', 'timer-reset', 'flag',
+  // плеер ВК Видео
+  'maximize', 'settings-2',
 ];
 
 /** Иконки берём из локального lucide-static: сборка не ходит в сеть. */

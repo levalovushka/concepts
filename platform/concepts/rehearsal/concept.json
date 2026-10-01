@@ -689,10 +689,12 @@
       "screens": [
         "subs",
         "lesson",
-        "setup"
+        "setup",
+        "session"
       ],
       "stops": [
-        "setup"
+        "setup",
+        "session"
       ]
     },
     {
@@ -705,10 +707,12 @@
         "import",
         "analysis",
         "settings",
-        "ads"
+        "ads",
+        "account"
       ],
       "stops": [
-        "analysis"
+        "analysis",
+        "account"
       ]
     }
   ],

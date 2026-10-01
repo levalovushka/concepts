@@ -1240,3 +1240,36 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd .ph.on-dark, .vkd .ph { background-color:var(--vkd-ph); color:var(--vkd-text-3); }
 .vkd.unified-auth [data-primary] { min-height:44px; border-radius:10px!important; font:500 16px/20px var(--vkd-face); }
 .vkd.unified-auth .auth-app-icon { border-radius:14px; }
+
+/* ── Плеер ВК Видео: кадр 16:9 на всю ширину, управление поверх ──
+   Управление показано, как после касания: затемнение сверху и снизу,
+   play по центру, шкала глав и таймкоды внизу. */
+.vkd-player { position:relative; flex:none; display:flex; flex-direction:column; justify-content:space-between; width:100%; aspect-ratio:16/9; overflow:hidden; background-color:#000; background-size:cover; background-position:center; color:#fff; }
+.vkd-player::before { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.08) 34%, rgba(0,0,0,.08) 62%, rgba(0,0,0,.62)); pointer-events:none; }
+.vkd-player > * { position:relative; z-index:1; }
+.vkd-player .vkd-icon-btn { color:#fff; }
+.vkd-player-top { display:flex; align-items:center; padding:4px 4px 0; }
+.vkd-player-gap { flex:1; }
+.vkd-player-mid { position:absolute; left:0; right:0; top:50%; transform:translateY(-50%); display:flex; align-items:center; justify-content:center; gap:28px; }
+.vkd-player-mid .vkd-play { background:rgba(0,0,0,.45); color:#fff; box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.vkd-player-mid .vkd-play.is-xl { width:64px; height:64px; }
+.vkd-player-mid .vkd-play.is-xl svg { width:26px; height:26px; }
+.vkd-player-mid .vkd-icon-btn svg { width:28px; height:28px; }
+.vkd-player-bottom { padding:0 12px 2px; }
+.vkd-player-scrub { display:flex; gap:3px; height:4px; margin:0 4px 2px; }
+.vkd-player-ch { position:relative; flex:1; border-radius:2px; background:rgba(255,255,255,.32); overflow:hidden; }
+.vkd-player-ch.is-done { background:var(--vkd-blue); }
+.vkd-player-ch > i { position:absolute; left:0; top:0; bottom:0; background:var(--vkd-blue); }
+.vkd-player-ch.is-w1 { flex:1; } .vkd-player-ch.is-w2 { flex:2; } .vkd-player-ch.is-w3 { flex:3; } .vkd-player-ch.is-w4 { flex:4; } .vkd-player-ch.is-w5 { flex:5; }
+.vkd-player-ch.is-w6 { flex:6; } .vkd-player-ch.is-w7 { flex:7; } .vkd-player-ch.is-w8 { flex:8; } .vkd-player-ch.is-w9 { flex:9; }
+.vkd-player-row { display:flex; align-items:center; gap:0; min-height:44px; }
+.vkd-player-row .vkd-icon-btn { width:44px; height:44px; }
+.vkd-player-row .vkd-icon-btn svg { width:22px; height:22px; }
+.vkd-player-time { padding-left:4px; font:600 13px/16px var(--vkd-face); font-variant-numeric:tabular-nums; }
+.vkd-player-chapter { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; padding-left:8px; font:400 13px/16px var(--vkd-face); color:rgba(255,255,255,.8); }
+/* Плеер первым на экране — под статус-баром, как в ВК Видео */
+.vkd-player.is-root { margin-top:var(--safe-top); }
+/* Значки поверх кадра читаются на любом фоне, даже на белом слайде */
+.vkd-player-mid .vkd-icon-btn svg, .vkd-player-row .vkd-icon-btn svg, .vkd-player-time, .vkd-player-chapter { filter:drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
+.vkd-player-mid .vkd-icon-btn { border-radius:50%; background:rgba(0,0,0,.32); }
+.vkd-player-mid .vkd-play { width:64px; height:64px; } .vkd-player-mid .vkd-play svg { width:26px; height:26px; }

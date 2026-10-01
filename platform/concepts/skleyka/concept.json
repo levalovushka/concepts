@@ -1299,14 +1299,16 @@
         "import",
         "cast",
         "place",
-        "ads"
+        "ads",
+        "account"
       ],
       "stops": [
         "archive",
         "camera",
         "import",
         "cast",
-        "place"
+        "place",
+        "account"
       ]
     }
   ],

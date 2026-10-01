@@ -129,15 +129,7 @@
 .sk-edit-actions > button:last-child { color:#ff5c5c; }
 
 /* Плеер */
-.sk-viewer { overflow:hidden; }
-.sk-viewer-frame { position:absolute; left:0; right:0; top:0; height:420px; background-size:auto 200%; }
-.sk-viewer-frame::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.44), transparent 24%, transparent 60%, var(--vkd-bg)); }
-.sk-glass-play { position:relative; z-index:1; background:rgba(255,255,255,.9); }
-.sk-viewer-head { position:relative; z-index:2; display:flex; align-items:center; padding:var(--safe-top) 8px 0; }
-.sk-grow { flex:1; }
-.sk-viewer-body { position:relative; z-index:1; flex:1; min-height:0; overflow-y:auto; scrollbar-width:none; margin-top:292px; padding:0 0 24px; }
-.sk-viewer-body::-webkit-scrollbar { display:none; }
-.sk-viewer-body > .vkd-progress, .sk-viewer-body > .vkd-times, .sk-viewer-body > .vkd-title, .sk-viewer-body > .vkd-sub { margin-left:16px; margin-right:16px; }
+.sk-viewer-body > .vkd-title, .sk-viewer-body > .vkd-sub { margin-left:16px; margin-right:16px; }
 .sk-viewer-title { margin-top:12px; }
 .sk-viewer-actions { margin-top:16px; gap:8px; }
 .sk-viewer-actions > .vkd-btn:first-child { flex:1.4; }
