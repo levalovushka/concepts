@@ -245,7 +245,7 @@ for (const slug of slugs) {
   const file = join(DIST, slug, 'index.html');
   if (!existsSync(file)) { console.log(`\n=== ${slug} ===\n  не собран — сначала npm run build -- ${slug}`); continue; }
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 }, deviceScaleFactor: 1 });
-  await page.goto('file://' + file);
+  await page.goto('file://' + file + (process.env.AUDIT_THEME === 'light' ? '?theme=light' : ''));
   await page.waitForTimeout(300);
   const screens = await page.evaluate(() =>
     [...document.querySelector('.device').querySelectorAll('[data-screen]')].map((e) => e.dataset.screen));

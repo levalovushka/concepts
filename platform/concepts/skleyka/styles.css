@@ -53,7 +53,7 @@
 .sk-map-pin svg { width:22px; height:22px; }
 .sk-map-credit { position:absolute; right:8px; top:470px; font:400 11px/14px var(--vkd-face); color:rgba(255,255,255,.6); }
 .sk-map-head { position:relative; z-index:2; display:flex; align-items:center; gap:4px; padding:var(--safe-top) 16px 0 8px; }
-.sk-map-search { flex:1; width:auto; margin:0; background:rgba(28,29,30,.86); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+.sk-map-search { flex:1; width:auto; margin:0; background:var(--vkd-glass); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
 .sk-sheet-body { display:flex; flex-direction:column; gap:4px; padding:0 16px 16px; }
 .sk-sheet-actions { margin-top:16px; }
 
@@ -95,7 +95,7 @@
 .sk-camera-spacer { width:48px; }
 
 /* Системный выбор видео */
-.sk-picker { background:#000!important; }
+.sk-picker { background:var(--vkd-bg)!important; }
 .sk-picker-meta { padding:0 16px 12px; }
 .sk-picker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
 .sk-picker-grid > button { position:relative; aspect-ratio:1; min-height:44px; }
@@ -122,11 +122,11 @@
 .sk-timeline > button:nth-child(4) { flex:2.2; }
 .sk-timeline > button > span { position:absolute; left:4px; bottom:4px; font:600 11px/14px var(--vkd-face); color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.8); }
 .sk-timeline > .is-on { box-shadow:0 0 0 2px var(--vkd-blue), 0 0 0 4px var(--vkd-bg); z-index:1; }
-.sk-playhead { position:absolute; left:39%; top:-6px; bottom:-6px; z-index:2; width:2px; border-radius:1px; background:#fff; }
+.sk-playhead { position:absolute; left:39%; top:-6px; bottom:-6px; z-index:2; width:2px; border-radius:1px; background:var(--vkd-strong); }
 .sk-clip { margin-top:12px; }
 .sk-edit-actions { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:4px 16px 0; }
 .sk-edit-actions > button { display:flex; flex-direction:column; align-items:center; gap:4px; min-height:64px; justify-content:center; border-radius:12px; background:var(--vkd-card); font:500 13px/16px var(--vkd-face); }
-.sk-edit-actions > button:last-child { color:#ff5c5c; }
+.sk-edit-actions > button:last-child { color:var(--vkd-danger); }
 
 /* Плеер */
 .sk-viewer-body > .vkd-title, .sk-viewer-body > .vkd-sub { margin-left:16px; margin-right:16px; }
@@ -136,7 +136,7 @@
 
 /* Итог экспорта */
 .sk-saved { padding-top:8px; }
-.sk-saved-check { width:64px; height:64px; display:grid; place-items:center; border-radius:50%; background:rgba(255,255,255,.92); color:#000; }
+.sk-saved-check { width:64px; height:64px; display:grid; place-items:center; border-radius:50%; background:var(--vkd-on); color:var(--vkd-on-ink); }
 .sk-saved-check svg { width:30px; height:30px; stroke-width:2.4; }
 .sk-saved-copy { display:flex; flex-direction:column; gap:4px; padding:20px 16px 0; text-align:center; }
 
@@ -166,3 +166,13 @@
 .is-58 { width:58%; }
 .is-38 { width:38%; }
 .vkd-row-text > strong.sk-wrap { white-space:normal; }
+
+/* Фирменный красный ВК Видео — плашки и прогресс просмотра; действия остаются синими */
+.screen.vkd { --vkd-brand:#ff3347; --vkd-brand-text:#ff5c6b; --vkd-brand-soft:rgba(255,51,71,.18); --vkd-brand-fill:#e01e33; }
+:root[data-app-theme="light"] .vkd { --vkd-brand:#ff3347; --vkd-brand-text:#d4142a; --vkd-brand-soft:rgba(255,51,71,.1); }
+:root[data-app-theme="light"] .vkd.vkd-night { --vkd-brand:#ff3347; --vkd-brand-fill:#e01e33; --vkd-brand-text:#ff5c6b; --vkd-brand-soft:rgba(255,51,71,.18); }
+
+/* Карта в светлой теме — исходные светлые тайлы без инверсии */
+:root[data-app-theme="light"] .sk-map { background:#eef0f2; }
+:root[data-app-theme="light"] .sk-map-tiles { filter:none; }
+:root[data-app-theme="light"] .sk-map-credit { color:rgba(0,0,0,.55); }

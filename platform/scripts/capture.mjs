@@ -1,6 +1,7 @@
 /* Скриншоты всех экранов концепта → concepts/<slug>/assets/screenshots.
    node scripts/capture.mjs petlya                     — все экраны
-   node scripts/capture.mjs petlya scan yarn           — только указанные */
+   node scripts/capture.mjs petlya scan yarn           — только указанные
+   node scripts/capture.mjs breath --light             — светлая тема мимикрии → screenshots-light */
 import { chromium } from 'playwright';
 import { mkdir, readFile, readdir, unlink } from 'fs/promises';
 import { join } from 'path';
@@ -9,7 +10,8 @@ import { build, prepareEmailRegistration } from './build.mjs';
 
 const [slug, ...args] = process.argv.slice(2);
 const sheet = args.includes('--sheet');
-const only = args.filter((arg) => arg !== '--sheet');
+const lightTheme = args.includes('--light');
+const only = args.filter((arg) => !arg.startsWith('--'));
 if (!slug) { console.error('нужен slug: node scripts/capture.mjs petlya'); process.exit(1); }
 
 /* PNG должны соответствовать текущим исходникам, а не случайно оставшейся
@@ -23,7 +25,7 @@ const hero = (concept.prototypes || []).find((p) => p.hero) || (concept.prototyp
 const H = `#pr-${hero.id}`;
 const ids = concept.screens.map((s) => s.id).filter((id) => !only.length || only.includes(id));
 
-const outDir = join(ROOT, 'concepts', slug, 'assets', 'screenshots');
+const outDir = join(ROOT, 'concepts', slug, 'assets', lightTheme ? 'screenshots-light' : 'screenshots');
 const html = join(ROOT, 'dist', slug, 'index.html');
 
 await mkdir(outDir, { recursive: true });
@@ -40,7 +42,7 @@ if (!only.length) {
 }
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1100, height: 1100 } });
-await page.goto('file://' + html, { waitUntil: 'networkidle' });
+await page.goto('file://' + html + (lightTheme ? '?theme=light' : ''), { waitUntil: 'networkidle' });
 
 const device = page.locator(H);
 await device.waitFor({ state: 'visible' });

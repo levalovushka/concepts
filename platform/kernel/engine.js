@@ -52,6 +52,38 @@
     apply(initial, false);
   }
 
+  /* Тема приложения — тоже инструмент витрины: тёмная мимикрия Музыки и Видео
+     показывается и в светлой теме ВК. Атрибут на <html>, а не класс на экранах:
+     так тему подхватывают и клоны экранов во вкладке «Экраны». Ссылка ?theme=light. */
+  function initTheme() {
+    var toggle = document.querySelector('[data-theme-switch]');
+    if (!toggle) return;
+    var key = 'camo:theme:' + C.slug;
+    var params = new URLSearchParams(location.search);
+    var stored = null;
+    try { stored = localStorage.getItem(key); } catch (e) {}
+    var initial = params.get('theme') === 'light' || (!params.get('theme') && stored === 'light') ? 'light' : 'dark';
+    function apply(theme, syncUrl) {
+      if (theme === 'light') document.documentElement.setAttribute('data-app-theme', 'light');
+      else document.documentElement.removeAttribute('data-app-theme');
+      toggle.querySelectorAll('[data-app-theme]').forEach(function (button) {
+        button.setAttribute('aria-pressed', String(button.dataset.appTheme === theme));
+      });
+      try { localStorage.setItem(key, theme); } catch (e) {}
+      if (syncUrl) {
+        var next = new URL(location.href);
+        if (theme === 'light') next.searchParams.set('theme', 'light');
+        else next.searchParams.delete('theme');
+        history.replaceState(null, '', next.pathname + next.search + next.hash);
+      }
+    }
+    toggle.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-app-theme]');
+      if (button) apply(button.dataset.appTheme, true);
+    });
+    apply(initial, false);
+  }
+
   function permByKey(key) {
     for (var i = 0; i < PERMS.length; i++) if (PERMS[i][0] === key) return PERMS[i];
     return null;
@@ -602,6 +634,7 @@
     protos[root.dataset.proto] = mount(root);
   });
   initViewport();
+  initTheme();
 
   /* —— вкладки документа —— */
   var nav = document.querySelector('.topnav');

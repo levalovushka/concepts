@@ -110,7 +110,7 @@
 .re-timeline { display:flex; gap:3px; height:28px; margin:12px 16px 0; }
 .re-seg { position:relative; border-radius:6px; background:var(--vkd-card-2); }
 .re-seg.is-over { background:color-mix(in srgb, var(--vkd-blue) 34%, var(--vkd-card-2)); box-shadow:inset 0 0 0 1px var(--vkd-blue); }
-.re-flag { position:absolute; top:-4px; bottom:-4px; width:2px; border-radius:1px; background:#fff; }
+.re-flag { position:absolute; top:-4px; bottom:-4px; width:2px; border-radius:1px; background:var(--vkd-strong); }
 .re-f1 { left:18%; } .re-f2 { left:46%; } .re-f3 { left:71%; }
 .re-analysis-head { display:flex; flex-direction:column; gap:4px; padding:16px 16px 0; }
 .re-delta { font-size:17px; color:var(--vkd-link); }
@@ -120,10 +120,10 @@
 .re-cast-bg { position:absolute; inset:0; }
 .re-sheet-body { display:flex; flex-direction:column; gap:4px; padding:0 16px 16px; }
 .re-sheet-actions { margin-top:16px; }
-.re-picker { background:#000!important; }
+.re-picker { background:var(--vkd-bg)!important; }
 .re-picker-meta { padding:0 16px 12px; }
 .re-picker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
-.re-picker-grid > button { aspect-ratio:1; min-height:44px; }
+.re-picker-grid > button { position:relative; min-width:0; overflow:hidden; aspect-ratio:1; min-height:44px; }
 .re-picker-grid .vkd-duration { right:4px; bottom:4px; background:none; padding:0; text-shadow:0 1px 3px rgba(0,0,0,.8); }
 .re-picker-grid .is-picked { box-shadow:inset 0 0 0 3px var(--vkd-blue); }
 .re-picker-grid i { position:absolute; right:6px; top:6px; width:24px; height:24px; display:grid; place-items:center; border-radius:50%; background:var(--vkd-blue); box-shadow:0 0 0 2px #fff; color:#fff; font-style:normal; z-index:1; }
@@ -162,3 +162,8 @@
 .re-fr4 { background-image:url(assets/media/frame-4.svg); background-size:cover; background-position:center; }
 .re-fr5 { background-image:url(assets/media/frame-5.svg); background-size:cover; background-position:center; }
 .re-fr6 { background-image:url(assets/media/frame-6.svg); background-size:cover; background-position:center; }
+
+/* Фирменный красный ВК Видео — плашки и прогресс просмотра; действия остаются синими */
+.screen.vkd { --vkd-brand:#ff3347; --vkd-brand-text:#ff5c6b; --vkd-brand-soft:rgba(255,51,71,.18); --vkd-brand-fill:#e01e33; }
+:root[data-app-theme="light"] .vkd { --vkd-brand:#ff3347; --vkd-brand-text:#d4142a; --vkd-brand-soft:rgba(255,51,71,.1); }
+:root[data-app-theme="light"] .vkd.vkd-night { --vkd-brand:#ff3347; --vkd-brand-fill:#e01e33; --vkd-brand-text:#ff5c6b; --vkd-brand-soft:rgba(255,51,71,.18); }

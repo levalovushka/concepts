@@ -1003,11 +1003,29 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
    #0077FF, им красятся только действия и прогресс. Вторичный текст взят
    из text_subhead, а не text_secondary: #76787a на #0a0a0a не держит 4.5:1.
    Экран подключает слой классом `.vkd` на `.screen`. */
-.vkd {
+/* Тёмный набор — тема по умолчанию; `.vkd-night` держит его и в светлой теме:
+   камера, локскрин и другие экраны поверх кадра тёмные всегда, как в iOS.
+   Акцент действий один — синий ВК. `--vkd-brand` — фирменный цвет сервиса
+   для плашек и прогресса просмотра (розовый Музыки, красный Видео); концепт
+   задаёт его в своём styles.css, по умолчанию он тоже синий. */
+.vkd, :root[data-app-theme="light"] .vkd.vkd-night {
   --vkd-bg:#0a0a0a; --vkd-card:#19191a; --vkd-card-2:#232324; --vkd-modal:#1c1d1e; --vkd-ph:#2a2b2c;
   --vkd-fill:rgba(255,255,255,.1); --vkd-fill-2:rgba(255,255,255,.16); --vkd-line:rgba(255,255,255,.12);
-  --vkd-text:#e1e3e6; --vkd-text-2:#969a9f; --vkd-text-3:#76787a;
-  --vkd-blue:#0077ff; --vkd-link:#529ef4;
+  --vkd-text:#e1e3e6; --vkd-text-2:#969a9f; --vkd-text-3:#76787a; --vkd-strong:#fff;
+  --vkd-blue:#0077ff; --vkd-link:#529ef4; --vkd-danger:#ff5c5c;
+  --vkd-on:#fff; --vkd-on-ink:#000; --vkd-shadow:rgba(0,0,0,.45); --vkd-glass:rgba(28,29,30,.86);
+  --vkd-brand:#0077ff; --vkd-brand-text:#529ef4; --vkd-brand-soft:rgba(82,158,244,.18); --vkd-brand-fill:#0067db;
+}
+/* Светлый набор — нейтрали VKUI vkontakteIOS; вторичный текст #5f6b78 держит 4.5:1 и на #f2f3f5 */
+:root[data-app-theme="light"] .vkd {
+  --vkd-bg:#fff; --vkd-card:#f2f3f5; --vkd-card-2:#ebedf0; --vkd-modal:#fff; --vkd-ph:#e1e3e6;
+  --vkd-fill:rgba(0,28,61,.06); --vkd-fill-2:rgba(0,28,61,.1); --vkd-line:rgba(0,0,0,.12);
+  --vkd-text:#000; --vkd-text-2:#5f6b78; --vkd-text-3:#818c99; --vkd-strong:#000;
+  --vkd-blue:#0077ff; --vkd-link:#0067db; --vkd-danger:#d42f2f;
+  --vkd-on:#2c2d2e; --vkd-on-ink:#fff; --vkd-shadow:rgba(0,16,61,.16); --vkd-glass:rgba(255,255,255,.88);
+  --vkd-brand:#0077ff; --vkd-brand-text:#0067db; --vkd-brand-soft:rgba(0,119,255,.1);
+}
+.vkd {
   --vkd-face:-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif;
   background:var(--vkd-bg)!important; color:var(--vkd-text); font-family:var(--vkd-face);
 }
@@ -1074,7 +1092,9 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-actions.is-row > * { flex:1; }
 
 /* Круглый play: белый круг, чёрный знак */
-.vkd-play { width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:#fff; color:#000; }
+.vkd-play { width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:var(--vkd-on); color:var(--vkd-on-ink); }
+/* Поверх кадра play всегда белый */
+.vkd-hero .vkd-play, .vkd-card-art .vkd-play, .vkd-video-art .vkd-play { background:#fff; color:#000; }
 .vkd-play svg { width:22px; height:22px; fill:currentColor; stroke:currentColor; stroke-width:2.4; stroke-linejoin:round; margin-left:3px; }
 .vkd-play.is-pause svg { margin-left:0; }
 .vkd-play.is-xl { width:88px; height:88px; }
@@ -1102,7 +1122,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-row-end svg { width:22px; height:22px; }
 .vkd-row-end > .vkd-badge { margin-right:12px; }
 .vkd-row > .vkd-play { margin-left:4px; }
-.vkd-row.is-now .vkd-row-text > strong { color:var(--vkd-link); }
+.vkd-row.is-now .vkd-row-text > strong { color:var(--vkd-brand-text); }
 .vkd-duration { position:absolute; right:4px; bottom:4px; padding:1px 4px; border-radius:4px; background:rgba(0,0,0,.66); color:#fff; font:600 11px/14px var(--vkd-face); font-variant-numeric:tabular-nums; }
 
 /* Видеокарточка ВК Видео: кадр 16:9, длительность, прогресс просмотра, подпись */
@@ -1110,7 +1130,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-video-art { position:relative; width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background-color:var(--vkd-ph); }
 .vkd-video-art .vkd-duration { right:8px; bottom:8px; }
 .vkd-video-bar { position:absolute; left:0; right:0; bottom:0; height:3px; background:rgba(255,255,255,.28); }
-.vkd-video-bar > i { display:block; height:100%; background:var(--vkd-blue); }
+.vkd-video-bar > i { display:block; height:100%; background:var(--vkd-brand); }
 .vkd-video-meta { display:flex; align-items:flex-start; gap:12px; }
 .vkd-video-text { flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
 .vkd-video-text > strong { font:500 16px/20px var(--vkd-face); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
@@ -1122,7 +1142,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-tile { position:relative; display:flex; flex-direction:column; justify-content:center; gap:2px; min-height:88px; padding:12px 56px 12px 16px; border-radius:12px; background:var(--vkd-card); overflow:hidden; }
 .vkd-tile > strong { font:400 16px/20px var(--vkd-face); }
 .vkd-tile > span { font:400 14px/18px var(--vkd-face); color:var(--vkd-text-2); }
-.vkd-tile-art { position:absolute; right:-8px; top:50%; width:56px; height:56px; margin-top:-28px; border-radius:8px; transform:rotate(8deg); box-shadow:-6px 4px 16px rgba(0,0,0,.45); }
+.vkd-tile-art { position:absolute; right:-8px; top:50%; width:56px; height:56px; margin-top:-28px; border-radius:8px; transform:rotate(8deg); box-shadow:-6px 4px 16px var(--vkd-shadow); }
 
 /* Горизонтальная лента карточек */
 .vkd-shelf { display:flex; gap:12px; overflow-x:auto; scrollbar-width:none; padding:0 16px; }
@@ -1143,7 +1163,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 /* Видимая пилюля 36 — внутренний span, зона касания кнопки 44 */
 .vkd-chip { flex:none; display:flex; align-items:center; min-height:44px; }
 .vkd-chip > span { padding:9px 14px; border-radius:18px; background:var(--vkd-fill-2); font:500 14px/18px var(--vkd-face); }
-.vkd-chip.is-on > span { background:#fff; color:#000; }
+.vkd-chip.is-on > span { background:var(--vkd-on); color:var(--vkd-on-ink); }
 
 /* Поиск */
 .vkd-search { display:flex; align-items:center; gap:8px; min-height:44px; margin:0 16px; padding:0 12px; border-radius:10px; background:var(--vkd-card-2); color:var(--vkd-text-2); font:400 16px/20px var(--vkd-face); width:calc(100% - 32px); }
@@ -1169,8 +1189,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 
 /* Прогресс */
 .vkd-progress { position:relative; height:3px; border-radius:2px; background:var(--vkd-fill-2); overflow:hidden; }
-.vkd-progress > i { position:absolute; left:0; top:0; bottom:0; border-radius:inherit; background:var(--vkd-blue); }
-.vkd-progress.is-white > i { background:#fff; }
+.vkd-progress > i { position:absolute; left:0; top:0; bottom:0; border-radius:inherit; background:var(--vkd-brand); }
+.vkd-progress.is-white > i { background:var(--vkd-strong); }
 .vkd-times { display:flex; justify-content:space-between; margin-top:6px; font:400 13px/16px var(--vkd-face); color:var(--vkd-text-2); font-variant-numeric:tabular-nums; }
 
 /* Статистика: число title2 и подпись footnote */
@@ -1183,6 +1203,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 /* Носит и `.tabbar`: так её видят проверки навигации; геометрию ядра гасим */
 .vkd-tabs { position:relative; z-index:20; flex:none; display:block; height:auto; padding:0 0 var(--safe-bottom); border-top:0; background:var(--vkd-bg); backdrop-filter:none; -webkit-backdrop-filter:none; color:inherit; }
 .vkd-mini { position:relative; display:flex; align-items:center; gap:12px; margin:0 8px 4px; min-height:64px; padding:8px 4px 8px 8px; border-radius:16px; background:var(--vkd-card-2); overflow:hidden; }
+:root[data-app-theme="light"] .vkd .vkd-mini { background:var(--vkd-bg); box-shadow:0 2px 16px var(--vkd-shadow), inset 0 0 0 .5px var(--vkd-line); }
+:root[data-app-theme="light"] .vkd .vkd-tabs { box-shadow:inset 0 .5px 0 var(--vkd-line); }
 .vkd-mini-main { flex:1; min-width:0; display:flex; align-items:center; gap:12px; min-height:48px; }
 .vkd-mini-face { width:48px; height:48px; flex:none; border-radius:8px; background-color:var(--vkd-ph); }
 .vkd-mini-text { flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -1191,22 +1213,32 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-mini .vkd-icon-btn svg { width:26px; height:26px; }
 .vkd-mini .vkd-icon-btn .vkd-fill-ico { width:24px; height:24px; }
 .vkd-mini-bar { position:absolute; left:12px; right:12px; bottom:0; height:2px; background:var(--vkd-fill-2); }
-.vkd-mini-bar > i { display:block; height:100%; background:var(--vkd-blue); }
+.vkd-mini-bar > i { display:block; height:100%; background:var(--vkd-brand); }
 .vkd-tabrow { display:flex; padding-top:6px; }
 .vkd-tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; min-height:49px; color:var(--vkd-text-2); font:500 11px/14px var(--vkd-face); text-align:center; }
 .vkd-tab svg { width:28px; height:28px; stroke-width:1.7; }
-.vkd-tab.is-on { color:#fff; font-weight:600; }
+.vkd-tab.is-on { color:var(--vkd-strong); font-weight:600; }
 
 /* Медиа-герой: картинка под статус-баром уходит в фон */
 .vkd-hero { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; text-align:center; background-size:cover; background-position:center; }
 .vkd-hero::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,10,10,.36) 0%, rgba(10,10,10,.08) 34%, rgba(10,10,10,.5) 70%, #0a0a0a 100%); pointer-events:none; }
+/* В светлой теме кадр не растворяется в белом — мутная серая полоса читается грязью.
+   Кадр заканчивается ровным краем, текст держит затемнение снизу */
+:root[data-app-theme="light"] .vkd .vkd-hero::after { background:linear-gradient(180deg, rgba(0,0,0,.3) 0%, rgba(0,0,0,.04) 30%, rgba(0,0,0,.32) 64%, rgba(0,0,0,.6) 100%); }
 .vkd-hero > * { position:relative; z-index:1; }
+/* Поверх кадра всё белое в любой теме */
+.vkd-hero, .vkd-hero .vkd-icon-btn { color:#fff; }
 
 /* Подпись отказа и тихие пометки */
 .vkd-note { display:flex; gap:10px; margin:12px 16px 0; padding:12px; border-radius:12px; background:var(--vkd-card); font:400 14px/18px var(--vkd-face); color:var(--vkd-text-2); }
 .vkd-note > svg { width:20px; height:20px; margin-top:0; color:var(--vkd-text-2); }
-.vkd-badge { display:inline-flex; align-items:center; min-height:20px; padding:0 6px; border-radius:6px; background:var(--vkd-fill-2); font:600 12px/16px var(--vkd-face); color:#fff; }
+.vkd-badge { display:inline-flex; align-items:center; min-height:20px; padding:0 6px; border-radius:6px; background:var(--vkd-fill-2); font:600 12px/16px var(--vkd-face); color:var(--vkd-strong); }
 .vkd-badge.is-blue { background:rgba(82,158,244,.18); color:var(--vkd-link); }
+/* Фирменная плашка сервиса: «Новое», «Готов», «Эфир» */
+.vkd-badge.is-brand { background:var(--vkd-brand-soft); color:var(--vkd-brand-text); }
+/* Плашка поверх обложки — сплошная: белый держит 4.5:1 на тёмном оттенке бренда */
+.vkd-badge.is-brand-fill { background:var(--vkd-brand-fill); color:#fff; }
+.vkd-card-art > .vkd-badge, .vkd-video-art > .vkd-badge { position:absolute; left:8px; top:8px; }
 
 /* Нижний лист */
 .vkd-sheet { position:absolute; left:0; right:0; bottom:0; z-index:10; padding:8px 0 calc(var(--safe-bottom) + 8px); border-radius:16px 16px 0 0; background:var(--vkd-modal); }
@@ -1230,8 +1262,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd.unified-auth .unified-account-card strong { font:400 16px/20px var(--vkd-face); }
 .vkd.unified-auth .unified-account-card > button,
 .vkd.unified-auth .unified-account-card > [data-primary] { min-height:48px!important; margin:0; padding:0 16px; border:0!important; box-shadow:inset 0 .5px 0 var(--vkd-line)!important; border-radius:0!important; background:none!important; font:400 16px/20px var(--vkd-face)!important; text-align:left; }
-.vkd.unified-auth .unified-account-card > [data-primary] { color:#ff5c5c!important; }
-.vkd.unified-auth .unified-delete-confirm[data-primary] { background:var(--vkd-card-2)!important; border-color:transparent!important; color:#ff5c5c!important; }
+.vkd.unified-auth .unified-account-card > [data-primary] { color:var(--vkd-danger)!important; }
+.vkd.unified-auth .unified-delete-confirm[data-primary] { background:var(--vkd-card-2)!important; border-color:transparent!important; color:var(--vkd-danger)!important; }
 .vkd.unified-auth .unified-auth-link { color:var(--vkd-link)!important; }
 .vkd.unified-auth .unified-auth-back > span { display:none; }
 .vkd.unified-auth .unified-auth-back .ios-back { width:12px; height:20px; }
@@ -1258,8 +1290,8 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-player-bottom { padding:0 12px 2px; }
 .vkd-player-scrub { display:flex; gap:3px; height:4px; margin:0 4px 2px; }
 .vkd-player-ch { position:relative; flex:1; border-radius:2px; background:rgba(255,255,255,.32); overflow:hidden; }
-.vkd-player-ch.is-done { background:var(--vkd-blue); }
-.vkd-player-ch > i { position:absolute; left:0; top:0; bottom:0; background:var(--vkd-blue); }
+.vkd-player-ch.is-done { background:var(--vkd-brand); }
+.vkd-player-ch > i { position:absolute; left:0; top:0; bottom:0; background:var(--vkd-brand); }
 .vkd-player-ch.is-w1 { flex:1; } .vkd-player-ch.is-w2 { flex:2; } .vkd-player-ch.is-w3 { flex:3; } .vkd-player-ch.is-w4 { flex:4; } .vkd-player-ch.is-w5 { flex:5; }
 .vkd-player-ch.is-w6 { flex:6; } .vkd-player-ch.is-w7 { flex:7; } .vkd-player-ch.is-w8 { flex:8; } .vkd-player-ch.is-w9 { flex:9; }
 .vkd-player-row { display:flex; align-items:center; gap:0; min-height:44px; }
@@ -1273,3 +1305,7 @@ body { margin:0; background:var(--page-bg); color:var(--page-ink); font:400 15px
 .vkd-player-mid .vkd-icon-btn svg, .vkd-player-row .vkd-icon-btn svg, .vkd-player-time, .vkd-player-chapter { filter:drop-shadow(0 1px 2px rgba(0,0,0,.7)); }
 .vkd-player-mid .vkd-icon-btn { border-radius:50%; background:rgba(0,0,0,.32); }
 .vkd-player-mid .vkd-play { width:64px; height:64px; } .vkd-player-mid .vkd-play svg { width:26px; height:26px; }
+
+/* Статус-бар следует теме: чёрный на светлом экране, белый поверх кадра и на ночных экранах */
+:root[data-app-theme="light"] .device:has(.screen.is-on.vkd:not(.vkd-night)) .status { color:#000; text-shadow:none; }
+:root[data-app-theme="light"] .device:has(.screen.is-on .vkd-hero) .status { color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.45); }

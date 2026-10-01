@@ -56,7 +56,7 @@
 /* Итог */
 .br-result-main { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 0 calc(var(--safe-bottom) + 12px); text-align:center; }
 .br-result-art { position:relative; width:160px; height:160px; margin:24px 0 20px; border-radius:12px; display:grid; place-items:center; }
-.br-result-check { width:56px; height:56px; display:grid; place-items:center; border-radius:50%; background:rgba(255,255,255,.92); color:#000; }
+.br-result-check { width:56px; height:56px; display:grid; place-items:center; border-radius:50%; background:var(--vkd-on); color:var(--vkd-on-ink); }
 .br-result-check svg { width:28px; height:28px; stroke-width:2.4; }
 .br-result-main .vkd-stats { width:100%; margin-top:24px; text-align:left; }
 .br-result-actions { width:100%; margin-top:auto; }
@@ -89,7 +89,7 @@
 .br-capture-foot { position:absolute; left:16px; right:16px; bottom:calc(var(--safe-bottom) + 12px); z-index:1; }
 
 /* Системный пикер фото — тёмная тема iOS */
-.br-pick { background:#000!important; }
+.br-pick { background:var(--vkd-bg)!important; }
 .br-pick .vkd-nav { margin-bottom:8px; }
 .br-photo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; overflow:hidden; }
 .br-photo-grid > button { position:relative; width:100%; aspect-ratio:1; min-height:44px; }
@@ -119,3 +119,15 @@
 /* «Любимое»: текущая сессия карточкой над разделами */
 .br-now-row { display:flex; align-items:center; gap:12px; margin:4px 16px 0; padding:8px; border-radius:16px; background:var(--vkd-card); }
 .br-now-row .vkd-thumb { width:56px; height:56px; }
+
+/* Фирменный розовый ВК Музыки — плашки и прогресс прослушивания; действия остаются синими */
+.screen.vkd { --vkd-brand:#ff3985; --vkd-brand-text:#ff5c9d; --vkd-brand-soft:rgba(255,57,133,.18); --vkd-brand-fill:#e0186a; }
+:root[data-app-theme="light"] .vkd { --vkd-brand:#ff3985; --vkd-brand-text:#d1135c; --vkd-brand-soft:rgba(255,57,133,.12); }
+:root[data-app-theme="light"] .vkd.vkd-night { --vkd-brand:#ff3985; --vkd-brand-fill:#e0186a; --vkd-brand-text:#ff5c9d; --vkd-brand-soft:rgba(255,57,133,.18); }
+
+/* Скачанная сессия отмечена розовым, как в Музыке */
+.vkd .dl.is-ready { color:var(--vkd-brand-text); }
+
+/* Размытое свечение обложки работает только на тёмном: на белом оно серое пятно */
+:root[data-app-theme="light"] .br-detail-bg, :root[data-app-theme="light"] .br-player-bg { display:none; }
+:root[data-app-theme="light"] .br-album-art, :root[data-app-theme="light"] .br-player-art { box-shadow:0 12px 32px var(--vkd-shadow); }
