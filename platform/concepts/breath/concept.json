@@ -1,5 +1,6 @@
 {
   "slug": "breath",
+  "exportKit": true,
   "name": "Дыхание",
   "targetSet": "vk-music",
   "qualityContractVersion": 1,

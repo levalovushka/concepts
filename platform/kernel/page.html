@@ -28,7 +28,7 @@
   </nav>
   <div class="topbar-actions">
     {{VIEW_TOGGLE}}
-    <a class="topbar-dl" href="docs/{{SLUG}}-docs.zip" download>Скачать файлы</a>
+    {{DOWNLOAD_LINK}}
   </div>
 </header>
 
@@ -76,7 +76,7 @@
   <!-- ══ ЭКРАНЫ ══ -->
   <section class="tabview" id="tab-screens">
     <p class="tab-lead">Все экраны концепта, включая состояния отказа и ошибок. Нажмите — откроется в прототипе на Overview.</p>
-    <div class="shot-grid" id="shot-grid"><!-- заполняется скриптом --></div>
+    <div class="shot-grid" id="shot-grid" {{THEMED_SCREENSHOTS}}><!-- заполняется скриптом --></div>
   </section>
 
   <!-- ══ ДОКУМЕНТЫ ══ -->
