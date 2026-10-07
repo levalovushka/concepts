@@ -1155,11 +1155,10 @@ function packDocs(slug, dir) {
       { cwd: docs },
     );
     const assets = join(dir, "assets");
-    if (existsSync(join(assets, "screenshots"))) {
-      execFileSync("zip", ["-r", "-q", join(docs, zip), "screenshots"], {
-        cwd: assets,
-      });
-    }
+    const screenshotFolders = ["screenshots", "screenshots-light"]
+      .filter((folder) => existsSync(join(assets, folder)));
+    if (screenshotFolders.length)
+      execFileSync("zip", ["-r", "-q", join(docs, zip), ...screenshotFolders], { cwd: assets });
   } catch {
     console.warn(`внимание: не удалось пересобрать ${zip} — нужен CLI zip`);
   }
@@ -1494,6 +1493,16 @@ export function build(slug, { outDir } = {}) {
   const hero = protos.find((p) => p.hero) || protos[0];
   if (!hero) throw new Error(`${slug}: в спеке нет ни одного прототипа`);
 
+  const themedScreenshots = existsSync(join(dir, "assets", "screenshots-light"));
+  if (spec.exportKit) {
+    for (const folder of ["screenshots", "screenshots-light"]) {
+      const location = join(dir, "assets", folder);
+      const missing = spec.screens.map((screen) => screen.id)
+        .filter((id) => !existsSync(join(location, `${id}.png`)));
+      if (missing.length) throw new Error(`${slug}: ${folder} не содержит экраны: ${missing.join(", ")}`);
+    }
+  }
+
   /* Сценарный прототип обязан быть замкнут: переход в отсутствующий экран —
      это тупик, который в собранном файле уже не виден. */
   for (const p of protos) {
@@ -1595,6 +1604,10 @@ export function build(slug, { outDir } = {}) {
   const html = fill(read(join(KERNEL, "page.html")), {
     NAME: esc(spec.name),
     SLUG: spec.slug,
+    DOWNLOAD_LINK: spec.exportKit
+      ? `<a class="topbar-dl" href="${spec.slug}-files.zip" download>Скачать все файлы</a>`
+      : `<a class="topbar-dl" href="docs/${spec.slug}-docs.zip" download>Скачать файлы</a>`,
+    THEMED_SCREENSHOTS: themedScreenshots ? "data-theme-shots" : "",
     APP_ICON_HEAD:
       hasAppIcon && !useIconPlaceholder
         ? `<link rel="icon" type="image/png" href="assets/app-icon.png?v=${appIconVersion}">`
@@ -1656,6 +1669,13 @@ export function build(slug, { outDir } = {}) {
   for (const sub of ["assets", "docs"]) {
     if (existsSync(join(dir, sub)))
       cpSync(join(dir, sub), join(out, sub), { recursive: true });
+  }
+  if (spec.exportKit) {
+    const archive = join(out, `${slug}-files.zip`);
+    execFileSync("zip", ["-r", "-q", archive, "index.html", "assets", "docs"], { cwd: out });
+    const sources = ["concept.json", "screens", "styles.css", "sections.html", "media.mjs"]
+      .filter((name) => existsSync(join(dir, name)));
+    execFileSync("zip", ["-r", "-q", archive, ...sources], { cwd: dir });
   }
   return { spec, out, bytes: html.length };
 }

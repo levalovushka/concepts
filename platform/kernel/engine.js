@@ -66,6 +66,10 @@
     function apply(theme, syncUrl) {
       if (theme === 'light') document.documentElement.setAttribute('data-app-theme', 'light');
       else document.documentElement.removeAttribute('data-app-theme');
+      var themedGallery = document.querySelector('#shot-grid[data-theme-shots]');
+      if (themedGallery) themedGallery.querySelectorAll('img[data-screen-shot]').forEach(function (image) {
+        image.src = './assets/' + (theme === 'light' ? 'screenshots-light/' : 'screenshots/') + image.dataset.screenShot + '.png';
+      });
       toggle.querySelectorAll('[data-app-theme]').forEach(function (button) {
         button.setAttribute('aria-pressed', String(button.dataset.appTheme === theme));
       });
@@ -716,6 +720,8 @@
   /* —— галерея экранов —— */
   var gallery = document.getElementById('shot-grid');
   if (gallery) {
+    var shotFolder = gallery.hasAttribute('data-theme-shots') && document.documentElement.hasAttribute('data-app-theme')
+      ? 'screenshots-light/' : 'screenshots/';
     MAP.forEach(function (m) {
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -723,7 +729,7 @@
       btn.setAttribute('data-shot-go', m[0]);
       btn.innerHTML =
         '<div class="shot-phone">' +
-          '<img src="./assets/screenshots/' + m[0] + '.png" alt="' + m[1] + '" loading="lazy" width="375" height="812">' +
+          '<img src="./assets/' + shotFolder + m[0] + '.png" data-screen-shot="' + m[0] + '" alt="' + m[1] + '" loading="lazy" width="375" height="812">' +
         '</div>' +
         '<div class="shot-label">' + m[1] + '</div>' +
         '<div class="shot-meta">' + m[2] + '</div>';
